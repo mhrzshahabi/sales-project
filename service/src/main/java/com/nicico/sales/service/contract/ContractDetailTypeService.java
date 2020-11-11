@@ -2,22 +2,15 @@ package com.nicico.sales.service.contract;
 
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.CDTPDynamicTableDTO;
-import com.nicico.sales.dto.contract.ContractDetailTypeDTO;
-import com.nicico.sales.dto.contract.ContractDetailTypeParamDTO;
-import com.nicico.sales.dto.contract.ContractDetailTypeTemplateDTO;
+import com.nicico.sales.dto.contract.*;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.ICDTPDynamicTableService;
-import com.nicico.sales.iservice.contract.IContractDetailTypeParamService;
-import com.nicico.sales.iservice.contract.IContractDetailTypeService;
-import com.nicico.sales.iservice.contract.IContractDetailTypeTemplateService;
-import com.nicico.sales.model.entities.contract.CDTPDynamicTable;
-import com.nicico.sales.model.entities.contract.ContractDetailType;
-import com.nicico.sales.model.entities.contract.ContractDetailTypeParam;
-import com.nicico.sales.model.entities.contract.ContractDetailTypeTemplate;
+import com.nicico.sales.iservice.contract.*;
+import com.nicico.sales.model.entities.contract.*;
 import com.nicico.sales.model.enumeration.DataType;
 import com.nicico.sales.repository.contract.CDTPDynamicTableDAO;
 import com.nicico.sales.repository.contract.ContractDetailTypeDAO;
@@ -46,6 +39,8 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
     private final ICDTPDynamicTableService cdtpDynamicTableService;
     private final ContractDetailTypeDAO contractDetailTypeDAO;
     private final CDTPDynamicTableDAO cdtpDynamicTableDAO;
+    private final IContractDetailService contractDetailService;
+    private final IContractService contractService;
 
     @Override
     @Transactional
@@ -184,7 +179,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
 
         final Set<Long> oldCdtpdtIds = request.getContractDetailTypeParams()
                 .stream().filter(c -> DataType.DynamicTable.equals(c.getType()))
-                .map(c->cdtpDynamicTableDAO.getIdsByCtpId(c.getId()))
+                .map(c -> cdtpDynamicTableDAO.getIdsByCtpId(c.getId()))
                 .flatMap(Collection::stream).collect(Collectors.toSet());
         final Set<Long> cdtpidsForKeeping = request.getContractDetailTypeParams()
                 .stream().filter(c -> DataType.DynamicTable.equals(c.getType())).map(c -> c.getDynamicTables().stream()
@@ -193,7 +188,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                         .collect(Collectors.toSet())
                 ).flatMap(Collection::stream).collect(Collectors.toSet());
         oldCdtpdtIds.removeAll(cdtpidsForKeeping);
-        if (oldCdtpdtIds.size()>0) cdtpDynamicTableDAO.deleteAllByIdIn(oldCdtpdtIds);
+        if (oldCdtpdtIds.size() > 0) cdtpDynamicTableDAO.deleteAllByIdIn(oldCdtpdtIds);
 
 
         updateUtil.fill(
@@ -213,11 +208,11 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
             for (ContractDetailTypeParamDTO.Info cdtp : cdtpInserted) {
                 final Set<CDTPDynamicTableDTO.InfoWithoutCDTP> dynamicTables = cdtp.getDynamicTables();
                 List<CDTPDynamicTableDTO.Create> map = new ArrayList<>();
-                if (cdtp.getDynamicTables()!=null && cdtp.getDynamicTables().size()>0)
-                    map= modelMapper.map(
-                        dynamicTables
-                        , new TypeToken<List<CDTPDynamicTableDTO.Create>>() {
-                        }.getType());
+                if (cdtp.getDynamicTables() != null && cdtp.getDynamicTables().size() > 0)
+                    map = modelMapper.map(
+                            dynamicTables
+                            , new TypeToken<List<CDTPDynamicTableDTO.Create>>() {
+                            }.getType());
                 if (!map.isEmpty()) {
                     map.forEach(cdtpdt -> cdtpdt.setCdtpId(cdtp.getId()));
                     final boolean b = cDTPDynamicTable4Insert.addAll(map);
@@ -277,4 +272,23 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
         }
         return validation;
     }
+
+    @Override
+    @Transactional
+    @Action(value = ActionType.DeActivate)
+    public ContractDetailTypeDTO.Info deactivate(Long id) {
+        List<ContractDetailDTO.Info> details = contractDetailService.findByContractDetailTypeId(id);
+        Set<String> contractNoList = new HashSet<>();
+        if (!details.isEmpty()) {
+            for (ContractDetailDTO.Info detailDTO : details) {
+                ContractDTO.Info info = contractService.get(detailDTO.getContractId());
+                if (info != null)
+                    contractNoList.add(info.getNo());
+            }
+            Locale locale = LocaleContextHolder.getLocale();
+            throw new SalesException2(ErrorType.NotEditable, "", messageSource.getMessage("contract-detail-type.exception.cant.deactivate.has.contract", new Object[]{contractNoList}, locale));
+        }
+        return super.deactivate(id);
+    }
+
 }
