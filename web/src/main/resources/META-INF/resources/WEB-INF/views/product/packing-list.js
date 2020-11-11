@@ -6,21 +6,37 @@ packingListTab.variable.packingListUrl = "${contextPath}" + "/api/packing-list/"
 packingListTab.variable.packingContainerUrl = "${contextPath}" + "/api/packing-container/";
 packingListTab.variable.billOfLandingUrl = "${contextPath}" + "/api/bill-of-landing/";
 packingListTab.variable.shipmentUrl = "${contextPath}" + "/api/shipment/";
-// shipmentCostInvoiceTab.variable.contactUrl = "${contextPath}" + "/api/contact/";
-// shipmentCostInvoiceTab.variable.billOfLandingUrl = "${contextPath}" + "/api/bill-of-landing/";
 
 //***************************************************** RESTDATASOURCE *************************************************
 
 packingListTab.restDataSource.packingListRest = isc.MyRestDataSource.create({
     fields: [
         {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-        {name: "billOfLanding", type: "date", showHover: true, title: "<spring:message code ='packing-list.billOfLanding'/>"},
-        {name: "billOfLanding.documentNo", type: "date", showHover: true, title: "<spring:message code ='packing-list.billOfLanding.documentNo'/>"},
-        {name: "billOfLanding.shipperExporter.name", showHover: true, title: "<spring:message code ='packing-list.billOfLanding.shipperExporter'/>"},
+        {name: "billOfLanding", showHover: true, title: "<spring:message code ='packing-list.billOfLanding'/>"},
+        {
+            name: "billOfLanding.documentNo",
+            showHover: true,
+            title: "<spring:message code ='packing-list.billOfLanding.documentNo'/>"
+        },
+        {
+            name: "billOfLanding.shipperExporter.name",
+            showHover: true,
+            title: "<spring:message code ='packing-list.billOfLanding.shipperExporter'/>"
+        },
         {name: "shipment", showHover: true, title: "<spring:message code ='packing-list.shipment'/>"},
-        {name: "shipment.sendDate", type: "date", showHover: true, title: "<spring:message code ='packing-list.shipment.sendDate'/>"},
+        {
+            name: "shipment.sendDate",
+            type: "date",
+            showHover: true,
+            title: "<spring:message code ='packing-list.shipment.sendDate'/>"
+        },
         {name: "bookingNo", type: 'text', showHover: true, title: "<spring:message code='packing-list.bookingNo'/>"},
-        {name: "description", type: 'text', showHover: true, title: "<spring:message code='packing-list.description'/>"},
+        {
+            name: "description",
+            type: 'text',
+            showHover: true,
+            title: "<spring:message code='packing-list.description'/>"
+        },
     ],
     fetchDataURL: packingListTab.variable.packingListUrl + "spec-list"
 });
@@ -31,7 +47,11 @@ packingListTab.restDataSource.packingContainer = isc.MyRestDataSource.create({
         {name: "sealNo", showHover: true, title: "<spring:message code ='packing-container.sealNo'/>"},
         {name: "ladingDate", showHover: true, title: "<spring:message code ='packing-container.ladingDate'/>"},
         {name: "packageCount", showHover: true, title: "<spring:message code ='packing-container.packageCount'/>"},
-        {name: "subpackageCount", type: "date", showHover: true, title: "<spring:message code ='packing-container.subpackageCount'/>"},
+        {
+            name: "subpackageCount",
+            showHover: true,
+            title: "<spring:message code ='packing-container.subpackageCount'/>"
+        },
         {name: "strapWeight", showHover: true, title: "<spring:message code='packing-container.strapWeight'/>"},
         {name: "palletCount", showHover: true, title: "<spring:message code='packing-container.palletCount'/>"},
         {name: "palletWeight", showHover: true, title: "<spring:message code='packing-container.palletWeight'/>"},
@@ -60,18 +80,6 @@ packingListTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
     ],
     fetchDataURL: packingListTab.variable.shipmentUrl + "spec-list"
 });
-// shipmentCostInvoiceTab.restDataSource.shipmentCostDutyRest = isc.MyRestDataSource.create({
-//     fields: [
-//         {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-//         {
-//             name: "name",
-//             title: "<spring:message code='shipmentCostInvoiceDetail.serviceName'/>",
-//             type: 'text'
-//         },
-//         {name: "code", title: "<spring:message code='shipmentCostInvoiceDetail.serviceCode'/>", type: 'text'}
-//     ],
-//     fetchDataURL: shipmentCostInvoiceTab.variable.shipmentCostDuty + "spec-list"
-// });
 
 //***************************************************** MAINWINDOW *************************************************
 
@@ -375,7 +383,7 @@ packingListTab.window.packingList.cancelCallBack = function () {
 
 
 packingListTab.window.packingContainer.populateData = function (bodyWidget) {
-debugger
+
     let record = packingListTab.listGrid.main.getSelectedRecord();
     let data = packingListTab.dynamicForm.packingContainer.getValues();
     data.packingListId = record.id;
@@ -440,7 +448,7 @@ packingListTab.listGrid.fields = BaseFormItems.concat([
     },
 ]);
 
-// ShipmentCost Section
+// Packing-List ListGrid
 nicico.BasicFormUtil.createListGrid = function () {
 
     packingListTab.listGrid.main = isc.ListGrid.nicico.getDefault(packingListTab.listGrid.fields,
@@ -497,7 +505,7 @@ nicico.BasicFormUtil.createListGrid = function () {
     );
 };
 
-// ShipmentCostDetail Section
+// Packing-Container ListGrid
 packingListTab.listGrid.packingContainerListGrid = isc.ListGrid.create(
     {
         showFilterEditor: true,
@@ -507,7 +515,9 @@ packingListTab.listGrid.packingContainerListGrid = isc.ListGrid.create(
         height: 180,
         dataSource: packingListTab.restDataSource.packingContainer,
         autoFetchData: false,
+        showRecordComponents: true,
         setAutoFitExtraRecords: true,
+        showRecordComponentsByCell: true,
         fields: [
             {
                 name: "id",
@@ -516,25 +526,52 @@ packingListTab.listGrid.packingContainerListGrid = isc.ListGrid.create(
             },
             {
                 name: "containerNo",
-                // title: "<spring:message code ='packing-container.containerNo'/>",
                 width: "10%",
             },
             {
                 name: "sealNo",
-                // title: "<spring:message code ='packing-container.sealNo'/>",
+                width: "10%"
+            },
+            {
+                name: "ladingDate",
                 width: "10%"
             },
             {
                 name: "packageCount",
-                // title: "<spring:message code ='packing-container.packageCount'/>",
                 width: "10%",
             },
             {
-                name: "palletCount",
-                // title: "<spring:message code ='packing-container.palletCount'/>",
+                name: "strapWeight",
                 width: "10%",
             },
-            /*{
+            {
+                name: "palletWeight",
+                width: "10%",
+            },
+            {
+                name: "strapWeight",
+                width: "10%",
+            },
+            {
+                name: "woodWeight",
+                width: "10%",
+            },
+            {
+                name: "barrelWeight",
+                width: "10%",
+            },
+            {
+                name: "woodWeight",
+                width: "10%",
+            }, {
+                name: "containerWeight",
+                width: "10%",
+            },
+            {
+                name: "contentWeight",
+                width: "10%",
+            },
+            {
                 name: "editIcon",
                 width: "4%",
                 align: "center",
@@ -545,8 +582,88 @@ packingListTab.listGrid.packingContainerListGrid = isc.ListGrid.create(
                 width: "4%",
                 align: "center",
                 showTitle: false
-            }*/
-        ]
+            }
+        ],
+        createRecordComponent: function (record, colNum) {
+            var fieldName = this.getFieldName(colNum);
+            if (fieldName === "removeIcon") {
+                let removeImg = isc.ImgButton.create({
+                    showDown: false,
+                    showRollOver: false,
+                    layoutAlign: "center",
+                    src: "pieces/16/icon_delete.png",
+                    height: 16,
+                    width: 16,
+                    grid: this,
+                    click: function () {
+
+                        let record = this.grid.getSelectedRecord();
+                        if (record == null || record.id == null)
+                            packingListTab.dialog.notSelected();
+                        else if (record.editable === false)
+                            packingListTab.dialog.notEditable();
+                        else {
+
+                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+
+                                    actionURL: packingListTab.variable.packingContainerUrl + record.id,
+                                    httpMethod: "DELETE",
+                                    callback: function (resp) {
+
+                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                            isc.say("<spring:message code='global.form.request.successful'/>");
+                                            packingListTab.method.refreshData();
+                                        } else
+                                            isc.say(resp.data);
+                                    }
+                                })
+                            );
+                        }
+                    }
+                });
+                return removeImg;
+            } else if (fieldName === "editIcon") {
+                let editImg = isc.ImgButton.create({
+                    showDown: false,
+                    showRollOver: false,
+                    layoutAlign: "center",
+                    src: "pieces/16/icon_edit.png",
+                    height: 16,
+                    width: 16,
+                    grid: this,
+                    click: function () {
+
+                        let record = this.grid.getSelectedRecord();
+                        if (record == null || record.id == null)
+                            packingListTab.dialog.notSelected();
+                        else if (record.editable === false)
+                            packingListTab.dialog.notEditable();
+                        else {
+
+                            // isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                            //
+                            //         actionURL: packingListTab.variable.packingContainerUrl,
+                            //         httpMethod: "PUT",
+                            //         data: JSON.stringify(record),
+                            //         callback: function (resp) {
+                            //
+                            //             if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                            //                 isc.say("<spring:message code='global.form.request.successful'/>");
+                            //                 packingListTab.method.refreshData();
+                            //             } else
+                            //                 isc.say(resp.data);
+                            //         }
+                            //     })
+                            // );
+                        }
+                    }
+                });
+                return editImg;
+            }
+            else {
+                return null;
+            }
+        }
     });
 
 nicico.BasicFormUtil.getDefaultBasicForm(packingListTab, "api/packing-list/");

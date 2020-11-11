@@ -48,6 +48,14 @@ public class PackingListController {
     }
 
     @Loggable
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+
+        service.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Loggable
     @DeleteMapping
     public ResponseEntity<HttpStatus> delete(@RequestBody PackingListDTO.Delete request) {
         service.deleteAll(request);
