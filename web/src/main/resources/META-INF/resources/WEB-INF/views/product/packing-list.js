@@ -9,41 +9,39 @@ packingListTab.variable.shipmentUrl = "${contextPath}" + "/api/shipment/";
 // shipmentCostInvoiceTab.variable.contactUrl = "${contextPath}" + "/api/contact/";
 // shipmentCostInvoiceTab.variable.billOfLandingUrl = "${contextPath}" + "/api/bill-of-landing/";
 
-
-
 //***************************************************** RESTDATASOURCE *************************************************
 
 packingListTab.restDataSource.packingListRest = isc.MyRestDataSource.create({
     fields: [
         {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-        {name: "billOfLanding", type: "date", showHover: true, title: "<spring:message code ='global.sendDate'/>"},
-        {name: "billOfLanding.documentNo", type: "date", showHover: true, title: "<spring:message code ='global.sendDate'/>"},
-        {name: "billOfLanding.shipperExporter.name", showHover: true, title: "<spring:message code ='global.sendDate'/>"},
-        {name: "shipment", title: "<spring:message code ='shipment.bookingCat'/>", showHover: true},
-        {name: "shipment.sendDate", type: "date", title: "<spring:message code ='shipment.bookingCat'/>", showHover: true},
-        {name: "bookingNo", type: 'text', showHover: true, title: "<spring:message code='material.descEN'/>"},
-        {name: "description", type: 'text', showHover: true, title: "<spring:message code='material.descEN'/>"},
+        {name: "billOfLanding", type: "date", showHover: true, title: "<spring:message code ='packing-list.billOfLanding'/>"},
+        {name: "billOfLanding.documentNo", type: "date", showHover: true, title: "<spring:message code ='packing-list.billOfLanding.documentNo'/>"},
+        {name: "billOfLanding.shipperExporter.name", showHover: true, title: "<spring:message code ='packing-list.billOfLanding.shipperExporter'/>"},
+        {name: "shipment", showHover: true, title: "<spring:message code ='packing-list.shipment'/>"},
+        {name: "shipment.sendDate", type: "date", showHover: true, title: "<spring:message code ='packing-list.shipment.sendDate'/>"},
+        {name: "bookingNo", type: 'text', showHover: true, title: "<spring:message code='packing-list.bookingNo'/>"},
+        {name: "description", type: 'text', showHover: true, title: "<spring:message code='packing-list.description'/>"},
     ],
     fetchDataURL: packingListTab.variable.packingListUrl + "spec-list"
 });
 packingListTab.restDataSource.packingContainer = isc.MyRestDataSource.create({
     fields: [
         {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-        {name: "containerNo", showHover: true, title: "<spring:message code ='global.sendDate'/>"},
-        {name: "sealNo", showHover: true, title: "<spring:message code ='global.sendDate'/>"},
-        {name: "ladingDate", showHover: true, title: "<spring:message code ='global.sendDate'/>"},
-        {name: "packageCount", title: "<spring:message code ='shipment.bookingCat'/>", showHover: true},
-        {name: "subpackageCount", type: "date", title: "<spring:message code ='shipment.bookingCat'/>", showHover: true},
-        {name: "strapWeight", showHover: true, title: "<spring:message code='material.descEN'/>"},
-        {name: "palletCount", showHover: true, title: "<spring:message code='material.descEN'/>"},
-        {name: "palletWeight", showHover: true, title: "<spring:message code='material.descEN'/>"},
-        {name: "woodWeight", showHover: true, title: "<spring:message code='material.descEN'/>"},
-        {name: "barrelWeight", showHover: true, title: "<spring:message code='material.descEN'/>"},
-        {name: "containerWeight", showHover: true, title: "<spring:message code='material.descEN'/>"},
-        {name: "contentWeight", showHover: true, title: "<spring:message code='material.descEN'/>"},
-        {name: "vgmWeight", showHover: true, title: "<spring:message code='material.descEN'/>"},
-        {name: "netWeight", showHover: true, title: "<spring:message code='material.descEN'/>"},
-        {name: "description", showHover: true, title: "<spring:message code='material.descEN'/>"},
+        {name: "containerNo", showHover: true, title: "<spring:message code ='packing-container.containerNo'/>"},
+        {name: "sealNo", showHover: true, title: "<spring:message code ='packing-container.sealNo'/>"},
+        {name: "ladingDate", showHover: true, title: "<spring:message code ='packing-container.ladingDate'/>"},
+        {name: "packageCount", showHover: true, title: "<spring:message code ='packing-container.packageCount'/>"},
+        {name: "subpackageCount", type: "date", showHover: true, title: "<spring:message code ='packing-container.subpackageCount'/>"},
+        {name: "strapWeight", showHover: true, title: "<spring:message code='packing-container.strapWeight'/>"},
+        {name: "palletCount", showHover: true, title: "<spring:message code='packing-container.palletCount'/>"},
+        {name: "palletWeight", showHover: true, title: "<spring:message code='packing-container.palletWeight'/>"},
+        {name: "woodWeight", showHover: true, title: "<spring:message code='packing-container.woodWeight'/>"},
+        {name: "barrelWeight", showHover: true, title: "<spring:message code='packing-container.barrelWeight'/>"},
+        {name: "containerWeight", showHover: true, title: "<spring:message code='packing-container.containerWeight'/>"},
+        {name: "contentWeight", showHover: true, title: "<spring:message code='packing-container.contentWeight'/>"},
+        {name: "vgmWeight", showHover: true, title: "<spring:message code='packing-container.vgmWeight'/>"},
+        {name: "netWeight", showHover: true, title: "<spring:message code='packing-container.netWeight'/>"},
+        {name: "description", showHover: true, title: "<spring:message code='packing-container.description'/>"},
     ],
     fetchDataURL: packingListTab.variable.packingContainerUrl + "spec-list"
 });
@@ -84,7 +82,7 @@ packingListTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         name: "billOfLandingId",
-        title: "<spring:message code='shipmentCostInvoice.invoiceType'/>",
+        title: "<spring:message code='packing-list.billOfLanding'/>",
         required: true,
         wrapTitle: false,
         editorType: "SelectItem",
@@ -129,7 +127,7 @@ packingListTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         name: "shipmentId",
-        title: "<spring:message code='Shipment.title'/>",
+        title: "<spring:message code='packing-list.shipment'/>",
         type: 'long',
         required: true,
         wrapTitle: false,
@@ -162,7 +160,7 @@ packingListTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         name: "bookingNo",
-        title: "<spring:message code='shipmentCostInvoice.invoiceNoPaper'/>",
+        title: "<spring:message code='packing-list.bookingNo'/>",
         required: true,
         type: 'text',
         wrapTitle: false,
@@ -174,7 +172,7 @@ packingListTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         name: "description",
-        title: "<spring:message code='shipmentCostInvoice.description'/>",
+        title: "<spring:message code='packing-list.description'/>",
         width: "100%",
         colSpan: 4,
         type: "textArea",
@@ -199,84 +197,103 @@ packingListTab.dynamicForm.packingContainerFields = BaseFormItems.concat([
         hidden: true
     },
     {
+        name: "packingListId",
+        required: true,
+        hidden: true
+    },
+    {
         name: "containerNo",
+        title: "<spring:message code='packing-container.containerNo'/>",
         required: true,
         wrapTitle: false
     },
     {
         name: "sealNo",
+        title: "<spring:message code='packing-container.sealNo'/>",
         required: true,
         wrapTitle: false
     },
     {
         name: "ladingDate",
+        title: "<spring:message code='packing-container.ladingDate'/>",
         required: true,
         wrapTitle: false
     },
     {
         name: "packageCount",
+        title: "<spring:message code='packing-container.packageCount'/>",
         required: true,
         wrapTitle: false
     },
     {
         name: "subpackageCount",
+        title: "<spring:message code='packing-container.subpackageCount'/>",
         required: true,
         wrapTitle: false
     },
     {
         name: "strapWeight",
+        title: "<spring:message code='packing-container.strapWeight'/>",
         required: true,
         wrapTitle: false
     },
     {
         name: "palletCount",
+        title: "<spring:message code='packing-container.palletCount'/>",
         required: true,
         wrapTitle: false
     },
     {
         name: "palletWeight",
+        title: "<spring:message code='packing-container.palletWeight'/>",
         required: true,
         wrapTitle: false
     },
     {
         name: "woodWeight",
+        title: "<spring:message code='packing-container.woodWeight'/>",
         required: true,
         wrapTitle: false
     },
     {
         name: "barrelWeight",
+        title: "<spring:message code='packing-container.barrelWeight'/>",
         required: true,
         wrapTitle: false
     },
     {
         name: "containerWeight",
+        title: "<spring:message code='packing-container.containerWeight'/>",
         required: true,
         wrapTitle: false
     },
     {
         name: "contentWeight",
+        title: "<spring:message code='packing-container.contentWeight'/>",
         required: true,
         wrapTitle: false
     },
     {
         name: "vgmWeight",
+        title: "<spring:message code='packing-container.vgmWeight'/>",
         required: true,
         wrapTitle: false
     },
     {
         name: "netWeight",
+        title: "<spring:message code='packing-container.netWeight'/>",
         required: true,
         wrapTitle: false
     },
     {
         name: "description",
+        title: "<spring:message code='packing-container.description'/>",
         width: "100%",
         colSpan: 4,
         type: "textArea",
         wrapTitle: false
     }
 ]);
-
 packingListTab.dynamicForm.packingContainer = isc.DynamicForm.create({
     align: "center",
     numCols: 4,
@@ -297,7 +314,6 @@ packingListTab.toolStrip.packingContainer = isc.ToolStripButton.create({
         packingListTab.window.packingContainer.justShowForm();
     }
 });
-
 packingListTab.hLayout.packingContainer = isc.HLayout.create({
     width: "100%",
     align: nicico.CommonUtil.getAlignByLang(),
@@ -359,8 +375,11 @@ packingListTab.window.packingList.cancelCallBack = function () {
 
 
 packingListTab.window.packingContainer.populateData = function (bodyWidget) {
-
-    return packingListTab.dynamicForm.packingList.getValues();
+debugger
+    let record = packingListTab.listGrid.main.getSelectedRecord();
+    let data = packingListTab.dynamicForm.packingContainer.getValues();
+    data.packingListId = record.id;
+    return data;
 };
 // packingListTab.window.packingContainer.validate = function (data) {
 // };
@@ -497,18 +516,22 @@ packingListTab.listGrid.packingContainerListGrid = isc.ListGrid.create(
             },
             {
                 name: "containerNo",
+                // title: "<spring:message code ='packing-container.containerNo'/>",
                 width: "10%",
             },
             {
                 name: "sealNo",
+                // title: "<spring:message code ='packing-container.sealNo'/>",
                 width: "10%"
             },
             {
                 name: "packageCount",
+                // title: "<spring:message code ='packing-container.packageCount'/>",
                 width: "10%",
             },
             {
                 name: "palletCount",
+                // title: "<spring:message code ='packing-container.palletCount'/>",
                 width: "10%",
             },
             /*{
