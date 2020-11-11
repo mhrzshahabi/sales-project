@@ -15,6 +15,10 @@ var nicico;
                 return "left";
             };
             // @ts-ignore
+            this.getAlignByLangReverse = function () {
+                return "right";
+            };
+            // @ts-ignore
             this.getLang = function () {
                 return "fa";
             };

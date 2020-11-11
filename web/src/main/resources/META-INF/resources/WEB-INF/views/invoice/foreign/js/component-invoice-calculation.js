@@ -17,6 +17,13 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
 
         let This = this;
 
+        this.addMember(isc.Label.create({
+            margin: 10,
+            height: 5,
+            align: nicico.CommonUtil.getAlignByLang(),
+            contents: "<spring:message code='foreign-invoice.form.calculation.label'/>"
+        }));
+
         let assayValues = this.invoiceBaseAssayComponent.getValues();
         let priceValues = this.invoiceBasePriceComponent.getValues();
 
@@ -53,7 +60,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
             unitCategory: This.currency.categoryUnit,
-            fieldValueTitle: "<spring:message code='foreign-invoice.form.tab.subtotal'/>"
+            fieldValueTitle: "<spring:message code='foreign-invoice.form.tab.subtotal.price'/>"
         }));
         this.getMembers().last().setUnitId(this.currency.id);
 
@@ -70,7 +77,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
                     width: "100",
                     height: "25",
                     autoFit: false,
-                    title: "<spring:message code='global.ok'/>",
+                    title: "<spring:message code='global.form.save'/>",
                     click: function () {
 
                         if (!This.validate())
@@ -116,7 +123,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
     validate: function () {
 
         let isValid = true;
-        this.getMembers().slice(0, this.invoiceBaseAssayComponent.getValues().length).forEach(q => isValid &= q.validate());
+        this.getMembers().filter(q => q.role === "calculationRow").forEach(q => isValid &= q.validate());
         return isValid;
     },
     getValues: function () {
