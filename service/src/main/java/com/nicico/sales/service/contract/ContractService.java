@@ -180,7 +180,6 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         return savedContract;
     }
 
-
     private Long createContractShipment(ContractDetailValueDTO.Create x, Long id) {
         ContractShipmentDTO.Create contractShipmentDTO = gson.fromJson(x.getReferenceJsonValue(), ContractShipmentDTO.Create.class);
         contractShipmentDTO.setContractId(id);
