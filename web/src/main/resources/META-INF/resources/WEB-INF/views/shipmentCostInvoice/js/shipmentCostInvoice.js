@@ -1508,7 +1508,7 @@ shipmentCostInvoiceTab.window.shipmentCost.populateData = function (bodyWidget) 
 };
 
 shipmentCostInvoiceTab.window.shipmentCost.validate = function (data) {
-  
+
     shipmentCostInvoiceTab.dynamicForm.shipmentCost.validate();
     if (shipmentCostInvoiceTab.dynamicForm.shipmentCost.hasErrors())
         return false;
