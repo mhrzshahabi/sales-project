@@ -18,6 +18,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PackingContainerDTO {
+
     private Long id;
     private Long packingListId;
     private String containerNo;

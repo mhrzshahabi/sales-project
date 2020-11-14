@@ -2,6 +2,8 @@ package com.nicico.sales.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nicico.sales.model.entities.contract.BillOfLanding;
+import com.nicico.sales.model.entities.warehouse.PackingContainer;
+import com.nicico.sales.model.entities.warehouse.PackingList;
 import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +23,7 @@ public class PackingListFormController {
     @GetMapping(value = "/show-form")
     public String showHomePage(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
 
-        SecurityChecker.addEntityPermissionToRequest(request, BillOfLanding.class);
+        SecurityChecker.addEntityPermissionToRequest(request, PackingList.class, PackingContainer.class);
 
         return "product/packing-list";
     }
