@@ -7,5 +7,6 @@ import com.nicico.sales.model.entities.report.ReportGroup;
 
 public interface IReportGroupService extends IGenericService<ReportGroup, Long, ReportGroupDTO.Create, ReportGroupDTO.Info, ReportGroupDTO.Update, ReportGroupDTO.Delete> {
 
+    List<Long> getChilds(Long rootId);
 
 }

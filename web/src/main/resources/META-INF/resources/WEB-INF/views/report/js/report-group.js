@@ -65,16 +65,9 @@ reportGroupTab.listGrid.fields = BaseFormItems.concat([{
     type: 'text',
     title: "<spring:message code='global.name'/>"
 }, {
-    name: "parentId",
-    type: 'integer',
-    title: "<spring:message code='report.group.parent-name'/>",
-    formatCellValue: function (value, record, rowNum, colNum) {
-
-        if (!record) return "";
-        if (!record.parent) return "";
-
-        return record.parent.name;
-    }
+    name: "parent.name",
+    type: 'text',
+    title: "<spring:message code='report.group.parent-name'/>"
 }]);
 nicico.BasicFormUtil.getDefaultBasicForm(reportGroupTab, "api/report-group/");
 nicico.BasicFormUtil.removeExtraGridMenuActions(reportGroupTab);
@@ -85,9 +78,24 @@ reportGroupTab.method.beforeShowNewActionHook = function () {
 };
 reportGroupTab.method.beforeShowEditActionHook = function (record) {
 
-    reportGroupTab.dynamicForm.main.getField("parentId").setOptionCriteria({
-        fieldName: "id",
-        operator: "notEqual",
-        value: record.id
-    });
+
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+        actionURL: "${contextPath}/api/report-group/childs",
+        httpMethod: "GET",
+        params: {
+            rootId: record.id
+        },
+        useSimpleHttp: true,
+        contentType: "application/json; charset=utf-8",
+        serverOutputAsString: false,
+        callback: function (RpcResponse_o) {
+
+            reportGroupTab.dynamicForm.main.getField("parentId").setOptionCriteria({
+                fieldName: "id",
+                operator: "notEqual",
+                value: JSON.parse(RpcResponse_o.data)
+            });
+        }
+    }));
+
 };

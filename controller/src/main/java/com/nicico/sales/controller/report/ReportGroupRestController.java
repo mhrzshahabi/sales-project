@@ -37,6 +37,12 @@ public class ReportGroupRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/childs")
+    public ResponseEntity<List<Long>> getChilds(@RequestParam Long rootId) {
+        return new ResponseEntity<>(reportGroupService.getChilds(rootId), HttpStatus.OK);
+    }
+
+    @Loggable
     @PostMapping
     public ResponseEntity<ReportGroupDTO.Info> create(@Validated @RequestBody ReportGroupDTO.Create request) {
         return new ResponseEntity<>(reportGroupService.create(request), HttpStatus.CREATED);
