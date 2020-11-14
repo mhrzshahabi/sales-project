@@ -7,5 +7,7 @@
         <dropNotNullConstraint columnName="F_SWITCH_PORT_AS_DISCHARGE" tableName="TBL_CNTR_BILL_OF_LANDING"/>
         <dropNotNullConstraint columnName="F_SWITCH_PORT_AS_LOADING" tableName="TBL_CNTR_BILL_OF_LANDING"/>
     </changeSet>
-
+    <changeSet author="abiz" id="123-001">
+        <dropNotNullConstraint columnName="D_WEIGHT" tableName="TBL_CNTR_CONTAINER_TO_BILL_OF_LANDING"/>
+    </changeSet>
 </databaseChangeLog>
