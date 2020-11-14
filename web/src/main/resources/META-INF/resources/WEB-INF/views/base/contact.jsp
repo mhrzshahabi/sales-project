@@ -2003,7 +2003,12 @@ code='contact.role'/></p>",
                     members: [hLayoutViewLoader]
                 });
                 return layoutContact;
+            },
+           <sec:authorize access="hasAuthority('U_CONTACT')">
+            doubleClick: function () {
+               ListGrid_Contact_edit();
             }
+            </sec:authorize>
         });
 
     isc.VLayout.create({
