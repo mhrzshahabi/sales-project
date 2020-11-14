@@ -1565,7 +1565,6 @@ shipmentCostInvoiceTab.method.editForm = function () {
 
     shipmentCostInvoiceTab.variable.method = "PUT";
     shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(0).members.get(2).members.get(0).hide();
-
     let record = shipmentCostInvoiceTab.listGrid.main.getSelectedRecord();
     if (record == null || record.id == null)
         shipmentCostInvoiceTab.dialog.notSelected();
@@ -1594,7 +1593,7 @@ shipmentCostInvoiceTab.method.editForm = function () {
 
         shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("rialPrice").setValue(record.rialPrice);
         shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("buyerShare").setValue(record.buyerShare);
-        shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setData(record.shipmentCostInvoiceDetails);
+        shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setData([...record.shipmentCostInvoiceDetails]);
 
         shipmentCostInvoiceTab.dynamicForm.shipmentCost.getField("toFinanceUnitId").changed(
             shipmentCostInvoiceTab.dynamicForm.shipmentCost,
