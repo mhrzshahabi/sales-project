@@ -26,18 +26,7 @@ public class PackingList extends BaseEntity {
     @SequenceGenerator(name = "SEQ_PACKING_LIST", sequenceName = "SEQ_PACKING_LIST", allocationSize = 1, initialValue = 100000)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Setter(AccessLevel.NONE)
-    @JoinColumn(
-            name = "F_BILL_OF_LADING",
-            foreignKey = @ForeignKey(name = "FK_PACKING_LIST_TO_BILL_OF_LANDING_TO_BL"),
-            insertable = false,
-            updatable = false
-    )
-    private BillOfLanding billOfLanding;
 
-    @Column(name = "F_BILL_OF_LADING")
-    private Long billOfLandingId;
 
    @ManyToOne(fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)

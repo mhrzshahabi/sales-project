@@ -94,6 +94,14 @@
                 newDataType="FLOAT(24)"
                 tableName="TBL_PACKING_CONTAINER"/>
     </changeSet>
+    <changeSet author="saeb (generated)" id="1605333827496-293">
+        <addColumn tableName="TBL_PACKING_CONTAINER">
+            <column name="F_BILL_OF_LADING" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
 
+    <changeSet author="saeb (generated)" id="1605333827496-296">
+        <addForeignKeyConstraint baseColumnNames="F_BILL_OF_LADING" baseTableName="TBL_PACKING_CONTAINER" constraintName="FK_PACKING_CONTAINER_TO_B_LADING" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_BILL_OF_LANDING" validate="true"/>
+    </changeSet>
 
 </databaseChangeLog>
