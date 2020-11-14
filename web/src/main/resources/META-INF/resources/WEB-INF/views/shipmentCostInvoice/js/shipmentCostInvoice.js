@@ -39,7 +39,6 @@ shipmentCostInvoiceTab.restDataSource.shipmentRest = isc.MyRestDataSource.create
     ],
     fetchDataURL: shipmentCostInvoiceTab.variable.shipmentUrl + "spec-list"
 });
-
 shipmentCostInvoiceTab.restDataSource.shipmentCostDutyRest = isc.MyRestDataSource.create({
     fields: [
         {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -52,7 +51,6 @@ shipmentCostInvoiceTab.restDataSource.shipmentCostDutyRest = isc.MyRestDataSourc
     ],
     fetchDataURL: shipmentCostInvoiceTab.variable.shipmentCostDuty + "spec-list"
 });
-
 shipmentCostInvoiceTab.restDataSource.contactRest = isc.MyRestDataSource.create({
     fields: [
         {name: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -69,7 +67,6 @@ shipmentCostInvoiceTab.restDataSource.contactRest = isc.MyRestDataSource.create(
     fetchDataURL: shipmentCostInvoiceTab.variable.contactUrl + "spec-list"
 
 });
-
 shipmentCostInvoiceTab.restDataSource.unitRest = isc.MyRestDataSource.create({
     fields: [
         {
@@ -86,7 +83,6 @@ shipmentCostInvoiceTab.restDataSource.unitRest = isc.MyRestDataSource.create({
     fetchDataURL: shipmentCostInvoiceTab.variable.unitUrl + "spec-list"
 
 });
-
 shipmentCostInvoiceTab.restDataSource.conversionRefRest = isc.MyRestDataSource.create({
     fields: [
         {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
@@ -100,7 +96,6 @@ shipmentCostInvoiceTab.restDataSource.conversionRefRest = isc.MyRestDataSource.c
     ],
     fetchDataURL: shipmentCostInvoiceTab.variable.conversionRefUrl + "spec-list"
 });
-
 shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice = isc.MyRestDataSource.create({
 
     fields: [
@@ -212,7 +207,6 @@ shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice = isc.MyRestDataSource
     fetchDataURL: shipmentCostInvoiceTab.variable.shipmentCostInvoice + "spec-list"
 
 });
-
 shipmentCostInvoiceTab.restDataSource.shipmentCostInvoiceDetail = isc.MyRestDataSource.create({
 
     fields: [
@@ -340,7 +334,6 @@ shipmentCostInvoiceTab.restDataSource.shipmentCostInvoiceDetail = isc.MyRestData
     fetchDataURL: shipmentCostInvoiceTab.variable.shipmentCostInvoiceDetail + "spec-list"
 
 });
-
 shipmentCostInvoiceTab.restDataSource.percentPerYearRest = isc.MyRestDataSource.create({
     fields: [
         {
@@ -414,25 +407,9 @@ shipmentCostInvoiceTab.method.setVATs = function (year) {
     });
 
 };
-
 shipmentCostInvoiceTab.method.toLocalLetters = function (nbmr) {
-    return (languageForm.getValue("languageName") == 'en') ? numberToEnglish(nbmr) : String(nbmr).toPersianLetter();
+    return (languageForm.getValue("languageName") === 'en') ? numberToEnglish(nbmr) : String(nbmr).toPersianLetter();
 };
-
-// shipmentCostInvoiceTab.method.updateFinanceUnit = function () {
-//
-//     shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("conversionRefId").canEdit = true;
-//     if (!shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getValue("financeUnitId")) return;
-//
-//     console.log("here1 ", shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getValue("financeUnitId"));
-//     console.log("here2 ", shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getValue("toFinanceUnitId"));
-//     if (shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getValue("financeUnitId") === shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getValue("toFinanceUnitId")) {
-//         shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionRate", 1);
-//         shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("conversionRefId").canEdit = false;
-//         shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(0).members.get(2).members.get(0).click();
-//     }
-// };
-
 shipmentCostInvoiceTab.method.clearListGrid = function () {
 
     shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setData([]);
@@ -1401,6 +1378,7 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
                         icon: "pieces/16/save.png",
                         title: "<spring:message code='global.form.save'/>",
                         click: function () {
+
                             shipmentCostInvoiceTab.listGrid.shipmentCostDetail.saveAllEdits();
 
                             shipmentCostInvoiceTab.variable.summaryRowData = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).getData()[0];
@@ -1426,7 +1404,6 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
 });
 
 shipmentCostInvoiceTab.window.shipmentCost = new nicico.FormUtil();
-
 shipmentCostInvoiceTab.window.shipmentCost.init(null, '<spring:message code="shipmentCostInvoice.title"/>', isc.VLayout.create({
     width: "100%",
     height: "750",
@@ -1462,7 +1439,6 @@ shipmentCostInvoiceTab.window.shipmentCost.init(null, '<spring:message code="shi
         shipmentCostInvoiceTab.dynamicForm.shipmentPrice
     ]
 }), "1200", "60%");
-
 shipmentCostInvoiceTab.window.shipmentCost.populateData = function (bodyWidget) {
     //////////////// DynamicForm ///////////////
     var shipmentCostObj = Object.assign(bodyWidget.members.get(2).getValues(), bodyWidget.members.get(6).getValues());
@@ -1496,7 +1472,6 @@ shipmentCostInvoiceTab.window.shipmentCost.populateData = function (bodyWidget) 
 
     return shipmentCostObj;
 };
-
 shipmentCostInvoiceTab.window.shipmentCost.validate = function (data) {
 
     shipmentCostInvoiceTab.dynamicForm.shipmentCost.validate();
@@ -1518,7 +1493,6 @@ shipmentCostInvoiceTab.window.shipmentCost.validate = function (data) {
 
     return true;
 };
-
 shipmentCostInvoiceTab.window.shipmentCost.okCallBack = function (shipmentCostObj) {
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/shipmentCostInvoice",
@@ -1536,7 +1510,6 @@ shipmentCostInvoiceTab.window.shipmentCost.okCallBack = function (shipmentCostOb
     );
 
 };
-
 shipmentCostInvoiceTab.window.shipmentCost.cancelCallBack = function () {
 
     shipmentCostInvoiceTab.dynamicForm.shipmentCost.clearValues();
@@ -1547,7 +1520,6 @@ shipmentCostInvoiceTab.window.shipmentCost.cancelCallBack = function () {
 shipmentCostInvoiceTab.method.refreshData = function () {
     shipmentCostInvoiceTab.listGrid.main.invalidateCache();
 };
-
 shipmentCostInvoiceTab.method.newForm = function () {
 
     shipmentCostInvoiceTab.variable.financeUnitName = 0;
@@ -1560,11 +1532,11 @@ shipmentCostInvoiceTab.method.newForm = function () {
     shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(0).members.get(2).members.get(0).hide();
 
 };
-
 shipmentCostInvoiceTab.method.editForm = function () {
 
     shipmentCostInvoiceTab.variable.method = "PUT";
     shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(0).members.get(2).members.get(0).hide();
+
     let record = shipmentCostInvoiceTab.listGrid.main.getSelectedRecord();
     if (record == null || record.id == null)
         shipmentCostInvoiceTab.dialog.notSelected();
@@ -1577,7 +1549,6 @@ shipmentCostInvoiceTab.method.editForm = function () {
     else {
 
         shipmentCostInvoiceTab.window.shipmentCost.justShowForm();
-
         shipmentCostInvoiceTab.dynamicForm.shipmentCost.fields.forEach(field => shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue(field.name, record[field.name]));
 
         shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("invoiceDate", new Date(record.invoiceDate));
@@ -1593,7 +1564,8 @@ shipmentCostInvoiceTab.method.editForm = function () {
 
         shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("rialPrice").setValue(record.rialPrice);
         shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("buyerShare").setValue(record.buyerShare);
-        shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setData([...record.shipmentCostInvoiceDetails]);
+        shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("conversionRate").setValue(record.conversionRate);
+        shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setData(record.shipmentCostInvoiceDetails);
 
         shipmentCostInvoiceTab.dynamicForm.shipmentCost.getField("toFinanceUnitId").changed(
             shipmentCostInvoiceTab.dynamicForm.shipmentCost,
@@ -1602,14 +1574,6 @@ shipmentCostInvoiceTab.method.editForm = function () {
 
         if (record.conversionRef != null)
             shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("conversionRefId").setValue(record.conversionRefId);
-
-        // Set Unit for ListGrid
-        /*        let totalRows = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getTotalRows();
-                let financeUnitIdIndex = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.indexOf(shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.filter(q => q.name === "financeUnitId").first());
-                for (let i = 0; i < totalRows; i++) {
-                    shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setEditValue(i, financeUnitIdIndex, record.financeUnit.nameFA);
-                }
-                shipmentCostInvoiceTab.listGrid.shipmentCostDetail.invalidateCache();*/
 
         shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(0).members.get(2).members.get(0).click();
     }

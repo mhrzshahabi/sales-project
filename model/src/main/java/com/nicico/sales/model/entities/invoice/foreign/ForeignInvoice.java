@@ -42,32 +42,32 @@ public class ForeignInvoice extends BaseEntity {
     private Date date;
 
     @NotNull
-    @Column(name = "N_UNIT_PRICE", nullable = false, scale = 2, precision = 10)
+    @Column(name = "N_UNIT_PRICE", nullable = false)
     private BigDecimal unitPrice;
 
     @NotNull
-    @Column(name = "N_UNIT_COST", nullable = false, scale = 2, precision = 10)
+    @Column(name = "N_UNIT_COST", nullable = false)
     private BigDecimal unitCost;
 
     @NotNull
-    @Column(name = "N_SUM_FI_PRICE", nullable = false, scale = 2, precision = 14)
+    @Column(name = "N_SUM_FI_PRICE", nullable = false)
     private BigDecimal sumFIPrice;
 
     @NotNull
-    @Column(name = "N_SUM_PI_PRICE", nullable = false, scale = 2, precision = 14)
+    @Column(name = "N_SUM_PI_PRICE", nullable = false)
     private BigDecimal sumPIPrice;
 
     @NotNull
-    @Column(name = "N_SUM_PRICE", nullable = false, scale = 2, precision = 14)
+    @Column(name = "N_SUM_PRICE", nullable = false)
     private BigDecimal sumPrice;
 
     @Column(name = "D_CONVERSION_DATE")
     private Date conversionDate;
 
-    @Column(name = "N_CONVERSION_RATE", scale = 5, precision = 12)
+    @Column(name = "N_CONVERSION_RATE")
     private BigDecimal conversionRate;
 
-    @Column(name = "N_CONVERSION_SUM_PRICE", scale = 2, precision = 19)
+    @Column(name = "N_CONVERSION_SUM_PRICE")
     private BigDecimal conversionSumPrice;
 
     @Column(name = "C_CONVERSION_SUM_PRICE_TEXT")

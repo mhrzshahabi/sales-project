@@ -33,33 +33,33 @@ public class ForeignInvoiceItemDetail extends BaseEntity {
 
     // Final assay - Calculated in UI
     @NotNull
-    @Column(name = "N_ASSAY", nullable = false, scale = 5, precision = 12)
+    @Column(name = "N_ASSAY", nullable = false)
     private BigDecimal assay;
 
     // Element base prices
     @NotNull
-    @Column(name = "N_BASE_PRICE", nullable = false, scale = 2, precision = 10)
+    @Column(name = "N_BASE_PRICE", nullable = false)
     private BigDecimal basePrice;
 
-    @Column(name = "N_RC_PRICE", scale = 2, precision = 10)
+    @Column(name = "N_RC_PRICE")
     private BigDecimal rcPrice;
 
-    @Column(name = "N_RC_BASE_PRICE", scale = 2, precision = 10)
+    @Column(name = "N_RC_BASE_PRICE")
     private BigDecimal rcBasePrice;
 
-    @Column(name = "N_RC_UNIT_CONVERSION_RATE", scale = 5, precision = 12)
+    @Column(name = "N_RC_UNIT_CONVERSION_RATE")
     private BigDecimal rcUnitConversionRate;
 
     @Column(name = "N_DEDUCTION_TYPE")
     private DeductionType deductionType;
 
-    @Column(name = "N_DEDUCTION_VALUE", scale = 5, precision = 12)
+    @Column(name = "N_DEDUCTION_VALUE")
     private BigDecimal deductionValue;
 
-    @Column(name = "N_DEDUCTION_UNIT_CONVERSION_RATE", scale = 5, precision = 12)
+    @Column(name = "N_DEDUCTION_UNIT_CONVERSION_RATE")
     private BigDecimal deductionUnitConversionRate;
 
-    @Column(name = "N_DEDUCTION_PRICE", scale = 2, precision = 10)
+    @Column(name = "N_DEDUCTION_PRICE")
     private BigDecimal deductionPrice;
 
     // *****************************************************************************************************************
