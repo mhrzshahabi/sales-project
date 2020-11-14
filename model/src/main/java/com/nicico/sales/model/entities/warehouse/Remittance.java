@@ -74,4 +74,17 @@ public class Remittance extends BaseEntity {
             "where ROWNUM =1 and r.ID=id )")
     private TozinTable tozinTable;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Setter(AccessLevel.NONE)
+    @JoinColumn(
+            name = "F_PACKING_CONTAINER_id",
+            foreignKey = @ForeignKey(name = "FK_remittance_to_packing_container"),
+            insertable = false,
+            updatable = false
+    )
+    private PackingContainer packingContainer;
+    @Column(name = "F_PACKING_CONTAINER_id")
+    private Long packingContainerId;
+
+
 }

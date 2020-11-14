@@ -8,7 +8,7 @@ spring:
       connection-test-query: SELECT 1 FROM DUAL
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
@@ -26,7 +26,7 @@ spring:
     database-change-log-table: Z_LIQ_CHANGELOG
     database-change-log-lock-table: Z_LIQ_CHANGELOG_LOCK
     change-log: classpath:db/changelog/liquibase-master.xml
-    enabled: true
+    enabled: false
     contexts: ${spring.profiles.active}
   main:
     allow-bean-definition-overriding: true

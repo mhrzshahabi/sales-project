@@ -28,6 +28,7 @@ public class RemittanceDTO {
     private String description;
     @IgnoreReportField
     private Long shipmentId;
+    private Long packingContainerId;
 
     @Getter
     @Setter
