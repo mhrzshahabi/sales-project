@@ -88,6 +88,12 @@
                 newDataType="FLOAT(24)"
                 tableName="TBL_PACKING_CONTAINER"/>
     </changeSet>
+ <changeSet author="saeb" id="saeb20170407151802-1N_wodod_fWEIGHT">
+        <modifyDataType
+                columnName="N_BARREL_WEIGHT"
+                newDataType="FLOAT(24)"
+                tableName="TBL_PACKING_CONTAINER"/>
+    </changeSet>
 
 
 </databaseChangeLog>
