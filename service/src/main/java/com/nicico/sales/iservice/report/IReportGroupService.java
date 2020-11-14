@@ -12,5 +12,6 @@ import java.util.List;
 
 public interface IReportGroupService extends IGenericService<ReportGroup, Long, ReportGroupDTO.Create, ReportGroupDTO.Info, ReportGroupDTO.Update, ReportGroupDTO.Delete> {
 
+    List<Long> getChilds(Long rootId);
 
 }

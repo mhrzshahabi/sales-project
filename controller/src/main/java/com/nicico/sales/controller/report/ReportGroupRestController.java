@@ -23,8 +23,8 @@ import java.util.List;
 public class ReportGroupRestController {
 
     private final IReportGroupService reportGroupService;
-    
-     @Loggable
+
+    @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<ReportGroupDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(reportGroupService.get(id), HttpStatus.OK);
@@ -34,6 +34,12 @@ public class ReportGroupRestController {
     @GetMapping(value = "/list")
     public ResponseEntity<List<ReportGroupDTO.Info>> list() {
         return new ResponseEntity<>(reportGroupService.list(), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/childs")
+    public ResponseEntity<List<Long>> getChilds(@RequestParam Long rootId) {
+        return new ResponseEntity<>(reportGroupService.getChilds(rootId), HttpStatus.OK);
     }
 
     @Loggable

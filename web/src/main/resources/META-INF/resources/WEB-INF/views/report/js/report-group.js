@@ -78,9 +78,24 @@ reportGroupTab.method.beforeShowNewActionHook = function () {
 };
 reportGroupTab.method.beforeShowEditActionHook = function (record) {
 
-    reportGroupTab.dynamicForm.main.getField("parentId").setOptionCriteria({
-        fieldName: "id",
-        operator: "notEqual",
-        value: record.id
-    });
+
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+        actionURL: "${contextPath}/api/report-group/childs",
+        httpMethod: "GET",
+        params: {
+            rootId: record.id
+        },
+        useSimpleHttp: true,
+        contentType: "application/json; charset=utf-8",
+        serverOutputAsString: false,
+        callback: function (RpcResponse_o) {
+
+            reportGroupTab.dynamicForm.main.getField("parentId").setOptionCriteria({
+                fieldName: "id",
+                operator: "notEqual",
+                value: JSON.parse(RpcResponse_o.data)
+            });
+        }
+    }));
+
 };
