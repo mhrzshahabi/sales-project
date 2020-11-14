@@ -37,4 +37,5 @@ public interface IContractDetailService {
     TotalResponse<ContractDetailDTO.Info> search(NICICOCriteria request);
 
     SearchDTO.SearchRs<ContractDetailDTO.Info> search(SearchDTO.SearchRq request);
+
 }

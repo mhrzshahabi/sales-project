@@ -2,22 +2,15 @@ package com.nicico.sales.service.contract;
 
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.CDTPDynamicTableDTO;
-import com.nicico.sales.dto.contract.ContractDetailTypeDTO;
-import com.nicico.sales.dto.contract.ContractDetailTypeParamDTO;
-import com.nicico.sales.dto.contract.ContractDetailTypeTemplateDTO;
+import com.nicico.sales.dto.contract.*;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.ICDTPDynamicTableService;
-import com.nicico.sales.iservice.contract.IContractDetailTypeParamService;
-import com.nicico.sales.iservice.contract.IContractDetailTypeService;
-import com.nicico.sales.iservice.contract.IContractDetailTypeTemplateService;
-import com.nicico.sales.model.entities.contract.CDTPDynamicTable;
-import com.nicico.sales.model.entities.contract.ContractDetailType;
-import com.nicico.sales.model.entities.contract.ContractDetailTypeParam;
-import com.nicico.sales.model.entities.contract.ContractDetailTypeTemplate;
+import com.nicico.sales.iservice.contract.*;
+import com.nicico.sales.model.entities.contract.*;
 import com.nicico.sales.model.enumeration.DataType;
 import com.nicico.sales.repository.contract.CDTPDynamicTableDAO;
 import com.nicico.sales.repository.contract.ContractDetailTypeDAO;
@@ -46,6 +39,8 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
     private final ICDTPDynamicTableService cdtpDynamicTableService;
     private final ContractDetailTypeDAO contractDetailTypeDAO;
     private final CDTPDynamicTableDAO cdtpDynamicTableDAO;
+    private final IContractDetailService contractDetailService;
+    private final IContractService contractService;
 
     @Override
     @Transactional
@@ -275,6 +270,16 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                                 new Object[]{eContractDetailTypeCode.name()}, LocaleContextHolder.getLocale()));
             }
         }
+
+        if (actionType == ActionType.DeActivate) {
+            List<ContractDTO.Info> contracts = contractService.findAllByContractDetailTypeId(entity.getId());
+            if (!contracts.isEmpty()) {
+                Locale locale = LocaleContextHolder.getLocale();
+                Set<String> contractNoList = contracts.stream().map(ContractDTO.Info::getNo).collect(Collectors.toSet());
+                throw new SalesException2(ErrorType.NotEditable, "", messageSource.getMessage("contract-detail-type.exception.cant.deactivate.has.contract", new Object[]{contractNoList}, locale));
+            }
+        }
         return validation;
     }
+
 }

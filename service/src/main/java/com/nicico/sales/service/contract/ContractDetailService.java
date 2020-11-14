@@ -15,7 +15,9 @@ import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,9 +26,9 @@ public class ContractDetailService extends GenericService<ContractDetail, Long, 
     @Override
     @Transactional
     @Action(ActionType.Get)
-    public ContractDetailDTO.Info getContractDetailByContractDetailTypeCode(Long contractId,Long materialId, EContractDetailTypeCode typeCode) {
+    public ContractDetailDTO.Info getContractDetailByContractDetailTypeCode(Long contractId, Long materialId, EContractDetailTypeCode typeCode) {
 
-        final Optional<ContractDetail> entityById = ((ContractDetailDAO) repository).findByContractDetailType(contractId,materialId,typeCode.getId());
+        final Optional<ContractDetail> entityById = ((ContractDetailDAO) repository).findByContractDetailType(contractId, materialId, typeCode.getId());
         final ContractDetail entity = entityById.orElseThrow(() -> new NotFoundException(ContractDetail.class));
 
         ContractDetailDTO.Info result = modelMapper.map(entity, ContractDetailDTO.Info.class);
@@ -62,4 +64,5 @@ public class ContractDetailService extends GenericService<ContractDetail, Long, 
         validation(updating, request);
         return modelMapper.map(repository.save(updating), ContractDetailDTO.Info.class);
     }
+
 }

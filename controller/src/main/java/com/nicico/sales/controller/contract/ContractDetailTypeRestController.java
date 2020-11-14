@@ -74,4 +74,18 @@ public class ContractDetailTypeRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractDetailTypeService.search(nicicoCriteria), HttpStatus.OK);
     }
+
+    @Loggable
+    @PostMapping(value = "/activate/{id}")
+    public ResponseEntity<ContractDetailTypeDTO.Info> activate(@PathVariable Long id) {
+        return new ResponseEntity<>(contractDetailTypeService.activate(id), HttpStatus.OK);
+    }
+
+    @Loggable
+    @PostMapping(value = "/deactivate/{id}")
+    public ResponseEntity<ContractDetailTypeDTO.Info> deactivate(@PathVariable Long id) {
+        return new ResponseEntity<>(contractDetailTypeService.deactivate(id), HttpStatus.OK);
+    }
+
+
 }

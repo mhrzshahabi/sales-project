@@ -34,4 +34,9 @@ public interface IContractDetailTypeService {
     TotalResponse<ContractDetailTypeDTO.Info> search(NICICOCriteria request);
 
     SearchDTO.SearchRs<ContractDetailTypeDTO.Info> search(SearchDTO.SearchRq request);
+
+    ContractDetailTypeDTO.Info activate(Long id);
+
+    ContractDetailTypeDTO.Info deactivate(Long id);
+
 }

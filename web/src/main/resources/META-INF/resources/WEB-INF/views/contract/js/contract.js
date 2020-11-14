@@ -103,6 +103,10 @@ function contractTabDynamicFormFields() {
                         fieldName: 'materialId',
                         operator: 'equals',
                         value: value
+                    }, {
+                        fieldName: 'estatus',
+                        operator: 'notEqual',
+                        value: Enums.eStatus2.DeActive
                     }]
                 });
                 contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
@@ -184,6 +188,10 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
             fieldName: 'materialId',
             operator: 'equals',
             value: null
+        },{
+            fieldName: 'estatus',
+            operator: 'notEqual',
+            value: Enums.eStatus2.DeActive
         }]
     }, {
         width: "40%",
@@ -579,6 +587,10 @@ contractTab.method.editForm = function () {
                             fieldName: 'materialId',
                             operator: 'equals',
                             value: contractTab.dynamicForm.main.getValue('materialId')
+                        },{
+                            fieldName: 'estatus',
+                            operator: 'notEqual',
+                            value: Enums.eStatus2.DeActive
                         }]
                     });
                     contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
