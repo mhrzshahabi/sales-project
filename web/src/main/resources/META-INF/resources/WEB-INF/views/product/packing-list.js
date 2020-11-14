@@ -696,7 +696,7 @@ packingListTab.dynamicForm.fields = BaseFormItems.concat([
         wrapTitle: false,
         editorType: "SelectItem",
         valueField: "id",
-        displayField: "sendDate",
+        displayField: "automationLetterNo",
         pickListWidth: 500,
         pickListHeight: 300,
         optionDataSource: packingListTab.restDataSource.shipmentRest,
@@ -705,8 +705,38 @@ packingListTab.dynamicForm.fields = BaseFormItems.concat([
         },
         pickListFields: [
             {name: "id", primaryKey: true, hidden: true},
-            {name: "sendDate", width: 100, type: "date"},
-            {name: "bookingCat"},
+            {
+                name: "automationLetterDate",canFilter:false,
+                title: "<spring:message code='shipment.bDate'/>",
+                ID: "automationLetterDateId",
+                formatCellValue(value, record, rowNum, colNum) {return new persianDate(value).format('YYYYMMDD')},
+                icons: [{
+                    src: "pieces/pcal.png",
+                    click: function () {
+                        displayDatePicker('automationLetterDateId', this, 'ymd', '/');
+                    }
+                }],
+// defaultValue: "1399/01/01",
+                required: true,
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }],
+            },
+            {
+                name: "automationLetterNo",
+                title: "<spring:message code='shipment.loadingLetter'/>",
+                type: 'text',
+                required: true,
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
+            },
+            {name: "sendDate",  type: "date",hidden:true},
+            {name: "bookingCat",hidden:true,},
             {name: "contractShipment.contract.no"},
             {name: "material.descEN"}
         ],
