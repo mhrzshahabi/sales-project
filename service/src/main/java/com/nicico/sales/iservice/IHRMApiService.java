@@ -4,5 +4,5 @@ import com.nicico.sales.dto.HRMDTO;
 
 public interface IHRMApiService {
 
-	HRMDTO.BusinessDaysInfo getBusinessDays(HRMDTO.BusinessDaysRq request);
+    HRMDTO.BusinessDaysInfo getBusinessDays(HRMDTO.BusinessDaysRq request);
 }

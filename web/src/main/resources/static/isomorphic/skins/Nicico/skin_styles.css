@@ -6839,13 +6839,13 @@ some LG header-titles to be vertically offset from other headers */
 .specialColSelected,
 .specialColSelectedOver,
 .specialColDisabled {
-  background-color: white;
-  font-size: 12px;
-  font-family: IRANSansNum, IRANSans;
-  color: #000000;
-  padding-left: 3px;
-  border: none;
-  text-overflow: ellipsis;
+    background-color: white;
+    font-size: 12px;
+    font-family: IRANSansNum, IRANSans;
+    color: #000000;
+    padding-left: 3px;
+    border: none;
+    text-overflow: ellipsis;
 }
 
 .specialCol,
@@ -6853,15 +6853,15 @@ some LG header-titles to be vertically offset from other headers */
 .specialColSelected,
 .specialColSelectedOver,
 .specialColDisabled {
-  background-color: #ffffff;
-  color: #000000;
-  line-height: 22px;
+    background-color: #ffffff;
+    color: #000000;
+    line-height: 22px;
 }
 
 .cellDark,
 .recordSummaryCell,
 .recordSummaryCellDark {
-  background-color: #ffffff;
+    background-color: #ffffff;
 }
 
 .gridSummaryCell,
@@ -6879,12 +6879,12 @@ some LG header-titles to be vertically offset from other headers */
 .specialColOver,
 .recordSummaryCellOver,
 .recordSummaryCellOverDark {
-  background-color: #ffd7a7;
-  color: #000000;
+    background-color: #ffd7a7;
+    color: #000000;
 }
 
 .tallCellDark {
-  background-color: #ffffff;
+    background-color: #ffffff;
 }
 
 .tallCellOver,
@@ -7023,12 +7023,12 @@ some LG header-titles to be vertically offset from other headers */
 .cellDeselectedOverDarkAltCol,
 .cellDisabledAltCol,
 .cellDisabledDarkAltCol {
-  font-size: 12px;
-  font-family: IRANSansNum, IRANSans;
-  color: #000000;
-  padding-left: 3px;
-  text-overflow: ellipsis;
-  border: none;
+    font-size: 12px;
+    font-family: IRANSansNum, IRANSans;
+    color: #000000;
+    padding-left: 3px;
+    text-overflow: ellipsis;
+    border: none;
 }
 
 .cellDisabledAltCol,
@@ -7039,11 +7039,11 @@ some LG header-titles to be vertically offset from other headers */
 }
 
 .cellAltCol {
-  background-color: #ffffff;
+    background-color: #ffffff;
 }
 
 .cellDarkAltCol {
-  background-color: #ffffff;
+    background-color: #ffffff;
 }
 
 .cellOverAltCol {
@@ -7172,7 +7172,7 @@ some LG header-titles to be vertically offset from other headers */
 
 .treeCellDark,
 .treeTallCellDark {
-  background-color: #ffffff;
+    background-color: #ffffff;
 }
 
 .treeCellOver,

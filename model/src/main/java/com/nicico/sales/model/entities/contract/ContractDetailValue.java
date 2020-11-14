@@ -71,6 +71,6 @@ public class ContractDetailValue extends BaseEntity {
     @Column(name = "F_CONTRACT_DETAIL_ID", nullable = false)
     private Long contractDetailId;
 
-    @OneToOne(mappedBy = "contractDetailValue",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "contractDetailValue", fetch = FetchType.LAZY)
     private CDTPDynamicTableValue cdtpDynamicTableValue;
 }

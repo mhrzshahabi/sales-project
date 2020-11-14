@@ -23,7 +23,6 @@ import com.nicico.sales.iservice.*;
 import com.nicico.sales.iservice.contract.*;
 import com.nicico.sales.model.entities.base.ContractShipment;
 import com.nicico.sales.model.entities.base.Shipment;
-import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.contract.*;
 import com.nicico.sales.model.enumeration.CommercialRole;
 import com.nicico.sales.model.enumeration.DataType;
@@ -35,7 +34,6 @@ import com.nicico.sales.repository.contract.ContractDAO;
 import com.nicico.sales.repository.contract.ContractDetailValueDAO;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.EntityRelationChecker;
-import com.nicico.sales.utility.StringFormatUtil;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -181,7 +179,6 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 
         return savedContract;
     }
-
 
     private Long createContractShipment(ContractDetailValueDTO.Create x, Long id) {
         ContractShipmentDTO.Create contractShipmentDTO = gson.fromJson(x.getReferenceJsonValue(), ContractShipmentDTO.Create.class);
@@ -662,6 +659,11 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         final Map<String, List<Object>> map = contractDetailValueService2.get(contractId, eContractDetailTypeCode, eContractDetailValueKeyOptional, true);
         if (map.size() == 0) return new ArrayList<>();
         return map.get(eContractDetailValueKeyOptional.name());
+    }
+
+    @Override
+    public List<ContractDTO.Info> findAllByContractDetailTypeId(Long typeId) {
+        return contractDAO2.findAllByContractDetailTypeId(typeId).stream().map(contract -> modelMapper.map(contract,ContractDTO.Info.class)).collect(Collectors.toList());
     }
 
     private Set<ContractShipment> getContractShipmentsWithShipment(ContractDTO.Create request) {

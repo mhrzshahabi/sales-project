@@ -22,7 +22,10 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -100,7 +103,7 @@ public class RemittanceDetailService extends GenericService<RemittanceDetail, Lo
         }
     }
 
-      @Override
+    @Override
     @Action(value = ActionType.Search)
     @Transactional(readOnly = true)
     public TotalResponse<RemittanceDetailDTO.ReportInfo> reportSearch(NICICOCriteria request) {

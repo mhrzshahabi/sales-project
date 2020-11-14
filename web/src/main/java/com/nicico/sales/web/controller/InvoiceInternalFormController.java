@@ -5,7 +5,6 @@ import com.nicico.copper.common.util.date.DateUtil;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.iservice.IInvoiceInternalService;
 import com.nicico.sales.model.entities.base.ViewInternalInvoiceDocument;
-import com.nicico.sales.model.entities.contract.IncotermAspect;
 import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.JRException;

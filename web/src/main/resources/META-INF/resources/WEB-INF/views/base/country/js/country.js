@@ -30,15 +30,15 @@ countryTab.dynamicForm.fields = [
         colSpan: 1,
         required: true,
         titleColSpan: 1,
-        keyPressFilter : "[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F| ]",
+        keyPressFilter: "[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F| ]",
         validators: [
             {
-                type:"required",
+                type: "required",
                 validateOnChange: true
             },
             {
                 type: "regexp",
-                expression:"^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F][\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F| ]*$",
+                expression: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F][\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F| ]*$",
                 validateOnChange: true
             }]
     },
@@ -52,12 +52,12 @@ countryTab.dynamicForm.fields = [
         keyPressFilter: "[a-z|A-Z| ]",
         validators: [
             {
-                type:"required",
+                type: "required",
                 validateOnChange: true
             },
             {
                 type: "regexp",
-                expression:"^[a-zA-Z][a-zA-Z| ]*$",
+                expression: "^[a-zA-Z][a-zA-Z| ]*$",
                 validateOnChange: true
             }
         ]

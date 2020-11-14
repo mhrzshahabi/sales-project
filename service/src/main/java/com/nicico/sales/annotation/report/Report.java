@@ -8,7 +8,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Report {
-     String nameKey();
-     Class<?> returnType();
-     boolean returnTypeIsList() default true;
+    String nameKey();
+
+    Class<?> returnType();
+
+    boolean returnTypeIsList() default true;
 }

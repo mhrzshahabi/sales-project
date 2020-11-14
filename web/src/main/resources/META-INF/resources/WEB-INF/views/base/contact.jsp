@@ -21,10 +21,10 @@
                 {
                     name: "code",
                     title: "<spring:message code='goods.code'/> "
-                },
-                {
-                    name: "nameEN",
-                    title: "<spring:message code='global.country'/> "
+},
+{
+name: "nameEN",
+title: "<spring:message code='global.country'/> "
                 }],
             fetchDataURL: "${contextPath}/api/country/spec-list"
         });
@@ -675,26 +675,26 @@ code='contact.role'/></p>",
                 required: true,
                 name: "countryId",
                 title: "<spring:message code='global.country'/>",
-                type: 'long',
-                width: 500,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Country_IN_CONTACT,
-                displayField: "name",
-                valueField: "id",
-                pickListWidth: 500,
-                pickListHeight: "500",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "id", width: 480, align: "center", hidden: true},
-                    {name: "nameEN", width: 480, align: "center"},
-                ],
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
-            },
-            {name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
+type: 'long',
+width: 500,
+editorType: "SelectItem",
+optionDataSource: RestDataSource_Country_IN_CONTACT,
+displayField: "name",
+valueField: "id",
+pickListWidth: 500,
+pickListHeight: "500",
+pickListProperties: {showFilterEditor: true},
+pickListFields: [
+{name: "id", width: 480, align: "center", hidden: true},
+{name: "nameEN", width: 480, align: "center"},
+],
+validators: [
+{
+type: "required",
+validateOnChange: true
+}]
+},
+{name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
             {
                 name: "webSite",
                 title: "<spring:message code='contact.webSite'/>",

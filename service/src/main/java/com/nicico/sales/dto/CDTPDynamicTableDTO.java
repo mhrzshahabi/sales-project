@@ -37,7 +37,7 @@ public class CDTPDynamicTableDTO {
     @Accessors(chain = true)
     @ApiModel("CDTPDynamicTableInfo")
     public static class InfoWithoutCDTP extends CDTPDynamicTableDTO {
-            private Long id;
+        private Long id;
 //        private ContractDetailTypeParamDTO.Info cdtp;
 
     }
@@ -50,8 +50,6 @@ public class CDTPDynamicTableDTO {
         private ContractDetailTypeParamDTO.Info cdtp;
 
     }
-
-
 
 
     @Getter

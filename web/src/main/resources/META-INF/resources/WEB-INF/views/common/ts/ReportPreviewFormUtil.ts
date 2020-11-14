@@ -337,13 +337,13 @@ namespace nicico {
             let layout = BasicFormUtil.getDefaultBasicForm(creator, 'report-data/' + report.id);
 
             if (report.reportType === "OneRecord")
-            // @ts-ignore
+                // @ts-ignore
                 creator.listGrid.main.setSelectionType("single");
             if (report.reportType === "SelectedRecords")
-            // @ts-ignore
+                // @ts-ignore
                 creator.listGrid.main.setSelectionType("simple");
             if (report.reportType === "All")
-            // @ts-ignore
+                // @ts-ignore
                 creator.listGrid.main.setSelectionType("none");
 
             return layout;

@@ -55,7 +55,7 @@ public class TozinTable extends BaseEntity {
     @Column(name = "WAZN", nullable = false)
     private Long vazn;
     @NotNull
-    @Pattern(regexp = "^[0-9]{8}$",message = "{global.emailTo}")
+    @Pattern(regexp = "^[0-9]{8}$", message = "{global.emailTo}")
     @Column(name = "DAT", nullable = false)
     private String date;
     @Column(name = "CTRL_DESC_OUT", length = 1000)

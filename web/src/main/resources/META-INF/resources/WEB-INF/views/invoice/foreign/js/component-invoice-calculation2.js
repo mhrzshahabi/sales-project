@@ -106,8 +106,7 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                 if (newValue === 100) {
                     let weightND = This.weightND.filter(q => q.lotNo === record.lotNo).first().weightND;
                     grid.setEditValue(rowNum, 2, weightND);
-                }
-                else
+                } else
                     grid.setEditValue(rowNum, 2, (newValue * record.weightND) / 100);
 
                 grid.saveAllEdits();

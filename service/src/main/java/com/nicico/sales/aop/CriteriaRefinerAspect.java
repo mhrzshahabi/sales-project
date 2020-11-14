@@ -75,7 +75,7 @@ public class CriteriaRefinerAspect {
     private Class<?> getFieldType(Field field) {
 
         if (field.getType().isAssignableFrom(List.class) || field.getType().isAssignableFrom(Set.class))
-            return (Class)((ParameterizedType)field.getGenericType()).getActualTypeArguments()[0];
+            return (Class) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
 
         return field.getType();
     }

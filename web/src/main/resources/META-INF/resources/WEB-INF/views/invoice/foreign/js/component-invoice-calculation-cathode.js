@@ -155,7 +155,7 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
                 weightGW: current.weightGW,
                 weightND: current.weightND,
                 assayMilestone: null,
-                weightMilestone:current.mileStone,
+                weightMilestone: current.mileStone,
                 deductionUnitConversionRate: null,
                 remittanceDetailId: remittanceDetailId,
                 foreignInvoiceItemDetails: null

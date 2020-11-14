@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/api/packing-list")
-public class PackingListController {
+public class PackingListRestController {
 
     private final IPackingListService service;
 
@@ -45,6 +45,14 @@ public class PackingListController {
     public ResponseEntity<PackingListDTO.Info> create(@RequestBody PackingListDTO.Create request) {
 
         return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
+    }
+
+    @Loggable
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+
+        service.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Loggable

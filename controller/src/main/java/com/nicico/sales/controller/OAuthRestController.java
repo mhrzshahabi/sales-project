@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/oauth")
 public class OAuthRestController {
 
-	private final IOAuthApiService oAuthApiService;
+    private final IOAuthApiService oAuthApiService;
 
-	// ------------------------------
+    // ------------------------------
 
-	@PostMapping(value = "/permissions")
-	public ResponseEntity<OAPermissionDTO.Info> createPermission(@RequestBody OAPermissionDTO.Create request) {
-		return new ResponseEntity<>(oAuthApiService.createPermission(request), HttpStatus.OK);
-	}
+    @PostMapping(value = "/permissions")
+    public ResponseEntity<OAPermissionDTO.Info> createPermission(@RequestBody OAPermissionDTO.Create request) {
+        return new ResponseEntity<>(oAuthApiService.createPermission(request), HttpStatus.OK);
+    }
 }

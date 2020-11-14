@@ -4,7 +4,6 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.PriceBaseDTO;
 import com.nicico.sales.dto.invoice.foreign.ContractDetailDataDTO;
-import com.nicico.sales.model.enumeration.PriceBaseReference;
 
 import java.util.Date;
 import java.util.List;

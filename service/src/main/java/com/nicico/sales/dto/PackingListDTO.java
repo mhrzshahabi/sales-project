@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.dto.contract.BillOfLandingDTO;
 import com.nicico.sales.model.entities.base.Shipment;
 import com.nicico.sales.model.entities.contract.BillOfLanding;
+import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -19,16 +20,11 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PackingListDTO {
+
     private Long id;
-
-
     private Long billOfLandingId;
-
-
     private Long shipmentId;
-
     private String bookingNo;
-
     private String description;
 
 
@@ -46,7 +42,15 @@ public class PackingListDTO {
         private String name;
         private Integer version;
         private ShipmentDTO.Info shipment;
-        private BillOfLandingDTO.Info billOfLanding;
+//        private BillOfLandingDTO.Info billOfLanding;
+
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
+
+
+
 
     }
     @Getter

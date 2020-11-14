@@ -82,7 +82,6 @@ inspectionReportTab.restDataSource.inspecReportRest = isc.MyRestDataSource.creat
     ],
     fetchDataURL: "${contextPath}/api/inspectionReport/spec-list"
 });
-
 inspectionReportTab.restDataSource.weightInspecRest = isc.MyRestDataSource.create({
     fields: [
         {
@@ -117,7 +116,6 @@ inspectionReportTab.restDataSource.weightInspecRest = isc.MyRestDataSource.creat
     ],
     fetchDataURL: "${contextPath}/api/weightInspection/spec-list"
 });
-
 inspectionReportTab.restDataSource.assayInspecRest = isc.MyRestDataSource.create({
     fields: [
         {
@@ -153,7 +151,6 @@ inspectionReportTab.restDataSource.assayInspecRest = isc.MyRestDataSource.create
     ],
     fetchDataURL: "${contextPath}/api/assayInspection/spec-list"
 });
-
 inspectionReportTab.restDataSource.assayInspecTotalValuesRest = isc.MyRestDataSource.create({
     fields: [
         {
@@ -177,7 +174,6 @@ inspectionReportTab.restDataSource.assayInspecTotalValuesRest = isc.MyRestDataSo
     ],
     fetchDataURL: "${contextPath}/api/assayInspectionTotalValues/spec-list"
 });
-
 inspectionReportTab.restDataSource.contactRest = {
     fields: [
         {
@@ -204,7 +200,6 @@ inspectionReportTab.restDataSource.contactRest = {
     ],
     fetchDataURL: "${contextPath}/api/contact/spec-list"
 };
-
 inspectionReportTab.restDataSource.contactRest1 = {
     fields: [
         {
@@ -231,7 +226,6 @@ inspectionReportTab.restDataSource.contactRest1 = {
     ],
     fetchDataURL: "${contextPath}/api/contact/spec-list1"
 };
-
 inspectionReportTab.restDataSource.contactRest2 = {
     fields: [
         {
@@ -258,7 +252,6 @@ inspectionReportTab.restDataSource.contactRest2 = {
     ],
     fetchDataURL: "${contextPath}/api/contact/spec-list2"
 };
-
 inspectionReportTab.restDataSource.inventoryRest = isc.MyRestDataSource.create({
     fields: [
         {
@@ -282,7 +275,6 @@ inspectionReportTab.restDataSource.inventoryRest = isc.MyRestDataSource.create({
     ],
     fetchDataURL: "${contextPath}/api/inventory/spec-list"
 });
-
 inspectionReportTab.restDataSource.materialRest = isc.MyRestDataSource.create({
     fields: [
         {
@@ -302,7 +294,6 @@ inspectionReportTab.restDataSource.materialRest = isc.MyRestDataSource.create({
     ],
     fetchDataURL: "${contextPath}/api/material/spec-list"
 });
-
 inspectionReportTab.restDataSource.materialElementRest = isc.MyRestDataSource.create({
     fields: [
         {
@@ -338,7 +329,6 @@ inspectionReportTab.restDataSource.materialElementRest = isc.MyRestDataSource.cr
     ],
     fetchDataURL: "${contextPath}/api/materialElement/spec-list"
 });
-
 inspectionReportTab.restDataSource.unitRest = isc.MyRestDataSource.create({
     fields: [
         {
@@ -358,7 +348,6 @@ inspectionReportTab.restDataSource.unitRest = isc.MyRestDataSource.create({
     ],
     fetchDataURL: "${contextPath}/api/unit/spec-list"
 });
-
 inspectionReportTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
     fields: [
         {
@@ -411,7 +400,6 @@ inspectionReportTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
     ],
     fetchDataURL: "${contextPath}/api/shipment/spec-list"
 });
-
 inspectionReportTab.restDataSource.contractRest = isc.MyRestDataSource.create({
     fields: [
         {
@@ -444,7 +432,6 @@ inspectionReportTab.restDataSource.contractRest = isc.MyRestDataSource.create({
     ],
     fetchDataURL: "${contextPath}/api/g-contract/spec-list"
 });
-
 inspectionReportTab.restDataSource.remittanceDetailRest = isc.MyRestDataSource.create({
     fields: [
         {
@@ -780,9 +767,9 @@ inspectionReportTab.method.materialChange = function () {
     inspectionReportTab.method.setShipmentAndInventoryCriteria(inspectionReportTab.variable.materialId);
 
     if (inspectionReportTab.variable.materialId === ImportantIDs.material.COPPER_CATHOD) {
-            inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(false);
-            inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(false);
-            inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.disable();
+        inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(false);
+        inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(false);
+        inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.disable();
     }
     inspectionReportTab.listGrid.weightElement.unitId = -1;
     let unitName = StorageUtil.get('parameters').unit.filter(q => q.id === inspectionReportTab.listGrid.weightElement.unitId).first().name;
@@ -1413,7 +1400,7 @@ inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
     dataChanged: function (operationType) {
 
         inspectionReportTab.method.setWeightElementSum();
-        let inventoryIds = inspectionReportTab.listGrid.weightElement.data.map(q=>q.inventoryId);
+        let inventoryIds = inspectionReportTab.listGrid.weightElement.data.map(q => q.inventoryId);
         let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
         inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.weightUnitSum, inventories);
         this.Super("dataChanged", arguments);
@@ -1644,7 +1631,7 @@ inspectionReportTab.listGrid.assayElement = isc.ListGrid.create({
     dataChanged: function (operationType) {
 
         inspectionReportTab.method.setAssayElementSum();
-        let inventoryIds = inspectionReportTab.listGrid.assayElement.data.map(q=>q.inventoryId);
+        let inventoryIds = inspectionReportTab.listGrid.assayElement.data.map(q => q.inventoryId);
         let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
         inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.assayUnitSum, inventories);
         this.Super("dataChanged", arguments);
@@ -1828,11 +1815,15 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
     let weightInspections = [];
     let assayInspectionRecord = [];
     let assayInspectionTotalValuesList = [];
+    inspectionReportTab.listGrid.assayElement.saveAllEdits();
+    inspectionReportTab.listGrid.weightElement.saveAllEdits();
     inspectionReportTab.listGrid.assayElement.endEditing();
     inspectionReportTab.listGrid.weightElement.endEditing();
 
     //------------- Save Inspection Data in Object -----------
     let inspectionReportObj = bodyWidget.members[0].members[1].getValues();
+    if (inspectionReportObj.shipmentId === undefined || inspectionReportObj.shipmentId.length === 0)
+        inspectionReportObj.shipmentId = null;
 
     //---------------- Save Weight Data in Object ------------
     bodyWidget.members[1].members[0].tabs[0].pane.members[0].selectAllRecords();
@@ -1854,7 +1845,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
         weightInspectionObj.weighingType = weightRecord.weighingType;
         weightInspectionObj.weightND = weightRecord.weightND;
         weightInspectionObj.weightGW = weightRecord.weightGW;
-        weightInspectionObj.shipmentId = (inspectionReportObj.shipmentId !== undefined && inspectionReportObj.shipmentId.length) ? inspectionReportObj.shipmentId : null;
+        weightInspectionObj.shipmentId = inspectionReportObj.shipmentId !== null ? inspectionReportObj.shipmentId : null;
         weightInspectionObj.inventoryId = weightRecord.inventoryId;
         weightInspectionObj.unitId = bodyWidget.members[1].members[0].tabs[0].pane.members[0].unitId;
         weightInspectionObj.mileStone = inspectionReportObj.mileStone;
@@ -1887,7 +1878,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
             assayInspectionObj.version = bodyWidget.members[1].members[0].tabs[1].pane.members[1].getField(i).versions[index];
             assayInspectionObj.value = NumberUtil.parseInt(bodyWidget.members[1].members[0].tabs[1].pane.members[1].getCellValue(assayRecord, index, i));
             assayInspectionObj.materialElementId = bodyWidget.members[1].members[0].tabs[1].pane.members[1].fields.get(i).meId;
-            assayInspectionObj.shipmentId = (inspectionReportObj.shipmentId !== undefined && inspectionReportObj.shipmentId.length) ? inspectionReportObj.shipmentId : null;
+            assayInspectionObj.shipmentId = inspectionReportObj.shipmentId !== null ? inspectionReportObj.shipmentId : null;
             assayInspectionObj.inventoryId = assayRecord.inventoryId;
             assayInspectionObj.mileStone = inspectionReportObj.mileStone;
 
@@ -1918,11 +1909,6 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
     console.log("inspectionReportObj ", inspectionReportObj);
     return inspectionReportObj;
 };
-
-inspectionReportTab.method.refreshData = function () {
-    inspectionReportTab.listGrid.main.invalidateCache();
-};
-
 inspectionReportTab.window.inspecReport.validate = function (data) {
 
     inspectionReportTab.dynamicForm.material.validate();
@@ -1963,7 +1949,6 @@ inspectionReportTab.window.inspecReport.validate = function (data) {
 
     return isValid;
 };
-
 inspectionReportTab.window.inspecReport.okCallBack = function (inspectionReportObj) {
 
     inspectionReportTab.method.jsonRPCManagerRequest({
@@ -1976,9 +1961,12 @@ inspectionReportTab.window.inspecReport.okCallBack = function (inspectionReportO
         }
     });
 };
-
 inspectionReportTab.window.inspecReport.cancelCallBack = function () {
     inspectionReportTab.method.clearForm();
+};
+
+inspectionReportTab.method.refreshData = function () {
+    inspectionReportTab.listGrid.main.invalidateCache();
 };
 
 inspectionReportTab.method.newForm = function () {
@@ -2154,13 +2142,11 @@ inspectionReportTab.window.formUtil.populateData = function (bodyWidget) {
 
     inspectionReportTab.variable.addShipmentShipmentId = bodyWidget.members[0].getValue("shipmentId");
 };
-
 inspectionReportTab.window.formUtil.validate = function (data) {
 
     inspectionReportTab.dynamicForm.addShipmentDynamicForm.validate();
     return !inspectionReportTab.dynamicForm.addShipmentDynamicForm.hasErrors();
 };
-
 inspectionReportTab.window.formUtil.okCallBack = function (data) {
 
     let inventoryCriteria = {
@@ -2215,7 +2201,7 @@ inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
     let unitArray = [];
     let amountArray = [];
     tab_.setMembers([]);
-    if(!inventories)
+    if (!inventories)
         return;
     let remittanceDetails = inventories.map(q => q.remittanceDetails);
     remittanceDetails.forEach(rds => {
@@ -2237,19 +2223,19 @@ inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
         });
     });
     unitArray.forEach((current, index) => {
-            let unitMember = isc.Unit.create({
-                disabledUnitField: true,
-                disabledValueField: true,
-                showUnitFieldTitle: false,
-                showValueFieldTitle: false,
-                align: "left",
-                width: "25%"
-            });
-            unitMember.setValue(amountArray[index]);
-            unitMember.setUnitId(current);
-            tab_.addMember(unitMember);
+        let unitMember = isc.Unit.create({
+            disabledUnitField: true,
+            disabledValueField: true,
+            showUnitFieldTitle: false,
+            showValueFieldTitle: false,
+            align: "left",
+            width: "25%"
+        });
+        unitMember.setValue(amountArray[index]);
+        unitMember.setUnitId(current);
+        tab_.addMember(unitMember);
     });
-}
+};
 
 //***************************************************** MAINLISTGRID *************************************************
 
@@ -2303,7 +2289,6 @@ inspectionReportTab.listGrid.fields = BaseFormItems.concat([
     }
 ]);
 inspectionReportTab.listGrid.fields.filter(q => q.name === "estatus").first().hidden = false;
-
 
 nicico.BasicFormUtil.getDefaultBasicForm(inspectionReportTab, "api/inspectionReport/");
 nicico.BasicFormUtil.showAllToolStripActions(inspectionReportTab);

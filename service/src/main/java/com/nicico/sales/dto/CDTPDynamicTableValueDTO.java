@@ -1,7 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.dto.contract.ContractDetailValueDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -34,7 +33,7 @@ public class CDTPDynamicTableValueDTO {
 
         @Override
         public int compareTo(Info info) {
-            if (info==null)return this.getRowNum();
+            if (info == null) return this.getRowNum();
             return this.getRowNum() - info.getRowNum();
         }
 

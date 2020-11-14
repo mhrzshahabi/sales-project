@@ -62,9 +62,8 @@
     </changeSet>
 
 
-
     <changeSet author="saeb" id="1799887saeb766554-065">
-        <addColumn tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE" >
+        <addColumn tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE">
             <column name="C_HEADER_Key" type="VARCHAR2(255 CHAR)"/>
         </addColumn>
     </changeSet>

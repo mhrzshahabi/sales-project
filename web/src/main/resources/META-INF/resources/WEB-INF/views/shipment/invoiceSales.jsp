@@ -1147,7 +1147,7 @@
                 membersMargin: 20,
                 members: [
                     <sec:authorize access="hasAuthority('C_INVOICE_SALES_ITEM')">
-                    ToolStripButton_InvoiceSalesItem_Add ,
+                        ToolStripButton_InvoiceSalesItem_Add ,
                     </sec:authorize>
                     //TODO ADD authorize !important
                     ToolStripButton_InvoiceSales_Pdf
@@ -1289,36 +1289,36 @@
                     ListGrid_InvoiceSalesItem_refresh();
                 }
             },
-            <sec:authorize access="hasAuthority('C_INVOICE_SALES_ITEM')">
-            {
-                title: "<spring:message code='global.form.new'/>",
-                icon: "pieces/16/icon_add.png",
-                click: function () {
-                    DynamicForm_InvoiceSalesItem.clearValues();
-                    Window_InvoiceSalesItem.show();
-                }
-            },
-            </sec:authorize>
+<sec:authorize access="hasAuthority('C_INVOICE_SALES_ITEM')">
+    {
+    title: "<spring:message code='global.form.new'/>",
+    icon: "pieces/16/icon_add.png",
+    click: function () {
+    DynamicForm_InvoiceSalesItem.clearValues();
+    Window_InvoiceSalesItem.show();
+    }
+    },
+</sec:authorize>
 
-            <sec:authorize access="hasAuthority('U_INVOICE_SALES_ITEM')">
-            {
-                title: "<spring:message code='global.form.edit'/>",
-                icon: "pieces/16/icon_edit.png",
-                click: function () {
-                    ListGrid_InvoiceSalesItem_edit();
-                }
-            },
-            </sec:authorize>
+<sec:authorize access="hasAuthority('U_INVOICE_SALES_ITEM')">
+    {
+    title: "<spring:message code='global.form.edit'/>",
+    icon: "pieces/16/icon_edit.png",
+    click: function () {
+    ListGrid_InvoiceSalesItem_edit();
+    }
+    },
+</sec:authorize>
 
-            <sec:authorize access="hasAuthority('D_INVOICE_SALES_ITEM')">
-            {
-                title: "<spring:message code='global.form.remove'/>",
-                icon: "pieces/16/icon_delete.png",
-                click: function () {
-                    ListGrid_InvoiceSalesItem_remove();
-                }
-            }
-            </sec:authorize>
+<sec:authorize access="hasAuthority('D_INVOICE_SALES_ITEM')">
+    {
+    title: "<spring:message code='global.form.remove'/>",
+    icon: "pieces/16/icon_delete.png",
+    click: function () {
+    ListGrid_InvoiceSalesItem_remove();
+    }
+    }
+</sec:authorize>
         ]
     });
 
@@ -1532,17 +1532,17 @@
         }
     });
 
-    <sec:authorize access="hasAuthority('C_INVOICE_SALES_ITEM')">
+<sec:authorize access="hasAuthority('C_INVOICE_SALES_ITEM')">
     var ToolStripButton_InvoiceSalesItem_Add = isc.ToolStripButtonAddLarge.create({
-        title: "<spring:message code='global.form.new.subInvoice'/>",
-        click: function () {
-            var record = ListGrid_invoiceSales.getSelectedRecord();
+    title: "<spring:message code='global.form.new.subInvoice'/>",
+    click: function () {
+    var record = ListGrid_invoiceSales.getSelectedRecord();
 
-            if (record == null || record.id == null) {
-                isc.Dialog.create({
-                    message: "<spring:message code='global.grid.record.not.selected'/>",
-                    icon: "[SKIN]ask.png",
-                    title: "<spring:message code='global.message'/>",
+    if (record == null || record.id == null) {
+    isc.Dialog.create({
+    message: "<spring:message code='global.grid.record.not.selected'/>",
+    icon: "[SKIN]ask.png",
+    title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                     buttonClick: function () {
                         this.hide();
@@ -1557,24 +1557,24 @@
     });
     </sec:authorize>
 
-    <sec:authorize access="hasAuthority('U_INVOICE_SALES_ITEM')">
+<sec:authorize access="hasAuthority('U_INVOICE_SALES_ITEM')">
     var ToolStripButton_InvoiceSalesItem_Edit = isc.ToolStripButtonEdit.create({
-        title: "<spring:message code='global.form.edit'/>",
-        click: function () {
-            DynamicForm_InvoiceSalesItem.clearValues();
-            ListGrid_InvoiceSalesItem_edit();
-        }
+    title: "<spring:message code='global.form.edit'/>",
+    click: function () {
+    DynamicForm_InvoiceSalesItem.clearValues();
+    ListGrid_InvoiceSalesItem_edit();
+    }
     });
-    </sec:authorize>
+</sec:authorize>
 
-    <sec:authorize access="hasAuthority('D_INVOICE_SALES_ITEM')">
+<sec:authorize access="hasAuthority('D_INVOICE_SALES_ITEM')">
     var ToolStripButton_InvoiceSalesItem_Remove = isc.ToolStripButtonRemove.create({
-        title: "<spring:message code='global.form.remove'/>",
-        click: function () {
-            ListGrid_InvoiceSalesItem_remove();
-        }
+    title: "<spring:message code='global.form.remove'/>",
+    click: function () {
+    ListGrid_InvoiceSalesItem_remove();
+    }
     });
-    </sec:authorize>
+</sec:authorize>
 
 
     function ToolStripButton_InvoiceSales_Pdf_F() {
@@ -1601,17 +1601,17 @@
         width: "100%",
         members:
             [
-                <sec:authorize access="hasAuthority('C_INVOICE_SALES_ITEM')">
-                ToolStripButton_InvoiceSalesItem_Add,
-                </sec:authorize>
+<sec:authorize access="hasAuthority('C_INVOICE_SALES_ITEM')">
+    ToolStripButton_InvoiceSalesItem_Add,
+</sec:authorize>
 
-                <sec:authorize access="hasAuthority('U_INVOICE_SALES_ITEM')">
-                ToolStripButton_InvoiceSalesItem_Edit,
-                </sec:authorize>
+<sec:authorize access="hasAuthority('U_INVOICE_SALES_ITEM')">
+    ToolStripButton_InvoiceSalesItem_Edit,
+</sec:authorize>
 
-                <sec:authorize access="hasAuthority('D_INVOICE_SALES_ITEM')">
-                ToolStripButton_InvoiceSalesItem_Remove,
-                </sec:authorize>
+<sec:authorize access="hasAuthority('D_INVOICE_SALES_ITEM')">
+    ToolStripButton_InvoiceSalesItem_Remove,
+</sec:authorize>
                 ToolStripButton_InvoiceSales_Pdf,
 
                 isc.ToolStrip.create({

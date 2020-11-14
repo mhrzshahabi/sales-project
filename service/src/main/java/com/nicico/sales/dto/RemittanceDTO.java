@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.annotation.report.IgnoreReportField;
 import com.nicico.sales.annotation.report.ReportField;
 import com.nicico.sales.annotation.report.ReportModel;
-import com.nicico.sales.model.entities.warehouse.TozinTable;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

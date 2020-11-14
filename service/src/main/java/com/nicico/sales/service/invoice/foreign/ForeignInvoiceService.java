@@ -23,7 +23,6 @@ import com.nicico.sales.iservice.contract.IContractDetailService;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
 import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.entities.contract.Contract;
-import com.nicico.sales.model.entities.contract.ContractDiscount;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceBillOfLading;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
@@ -144,8 +143,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
                 rcData.add(objectMapper.convertValue(rcItem, ContractDetailDataDTO.RCData.class));
             });
             contractDetailData.setRc(rcData);
-        }
-        else if (materialId == 3)
+        } else if (materialId == 3)
             throw new SalesException2(ErrorType.NotFound, "rc", "Contract RC Article Not Found");
         else
             contractDetailData.setRc(null);

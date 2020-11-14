@@ -1,10 +1,7 @@
 package com.nicico.sales.dto.report;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.report.Report;
-import com.nicico.sales.model.entities.report.ReportGroup;
 import com.nicico.sales.model.enumeration.EStatus;
-import com.nicico.sales.model.enumeration.ReportType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

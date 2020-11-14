@@ -1,15 +1,9 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.annotation.report.Report;
 import com.nicico.sales.annotation.report.ReportField;
 import com.nicico.sales.annotation.report.ReportModel;
 import com.nicico.sales.dto.*;
-import com.nicico.sales.model.entities.base.Contact;
-import com.nicico.sales.model.entities.base.Port;
-import com.nicico.sales.model.entities.base.Vessel;
-import com.nicico.sales.model.entities.contract.ContainerToBillOfLanding;
-import com.nicico.sales.model.entities.contract.RemittanceToBillOfLanding;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -107,7 +101,7 @@ public class BillOfLandingDTO {
         private PortDTO.Info switchPortOfLoading;
 
         @ReportField(titleMessageKey = "shipment.Bol.tblPortByDischarge")
-        @ReportModel(type = PortDTO.Info.class , jumpTo = true)
+        @ReportModel(type = PortDTO.Info.class, jumpTo = true)
         private PortDTO.Info portOfDischarge;
 
         private PortDTO.Info switchPortOfDischarge;

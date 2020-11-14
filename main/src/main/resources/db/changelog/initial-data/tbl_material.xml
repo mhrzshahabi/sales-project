@@ -30,7 +30,7 @@
         </sql>
     </changeSet>
     <changeSet id="555-4" author="abiz">
-       <dropColumn tableName="TBL_MATERIAL" columnName="C_DESCP"/>
-       <dropColumn tableName="TBL_MATERIAL" columnName="C_DESCL"/>
+        <dropColumn tableName="TBL_MATERIAL" columnName="C_DESCP"/>
+        <dropColumn tableName="TBL_MATERIAL" columnName="C_DESCL"/>
     </changeSet>
 </databaseChangeLog>

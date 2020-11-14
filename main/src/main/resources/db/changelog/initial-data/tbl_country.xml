@@ -115,7 +115,7 @@
             C_NAME_FA)
             VALUES (22, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'Qatar', 'قطر');
 
-            INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
             VALUES (23, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'Russian', 'روسیه');

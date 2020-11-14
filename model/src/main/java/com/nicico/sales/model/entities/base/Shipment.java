@@ -165,7 +165,7 @@ public class Shipment extends BaseEntity {
             "from TBL_CNTR_BILL_OF_LANDING where TBL_CNTR_BILL_OF_LANDING.F_SHIPMENT_ID = id) from dual)")
     private Long remainedBLs;
 
-    @OneToMany(mappedBy = "shipmentId",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "shipmentId", fetch = FetchType.LAZY)
     private Set<BillOfLanding> bls;
     @Column(name = "N_NO_CONTAINER")
     private Long noContainer;

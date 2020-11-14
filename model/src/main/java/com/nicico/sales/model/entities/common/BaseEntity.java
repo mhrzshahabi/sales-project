@@ -29,14 +29,14 @@ public class BaseEntity extends Auditable {
     @Column(name = "B_EDITABLE", nullable = false, columnDefinition = "number default 1")
     private Boolean editable = true;
 
-//    @NotAudited
-@NotNull
-@Builder.Default
-@Column(name = "N_E_STATUS", nullable = false, columnDefinition = "number default 1")
-@SuppressWarnings("JpaAttributeTypeInspection")
-private List<EStatus> eStatus = new ArrayList<EStatus>() {{
-    add(EStatus.Active);
-}};
+    //    @NotAudited
+    @NotNull
+    @Builder.Default
+    @Column(name = "N_E_STATUS", nullable = false, columnDefinition = "number default 1")
+    @SuppressWarnings("JpaAttributeTypeInspection")
+    private List<EStatus> eStatus = new ArrayList<EStatus>() {{
+        add(EStatus.Active);
+    }};
 
     @NotNull
     @Builder.Default

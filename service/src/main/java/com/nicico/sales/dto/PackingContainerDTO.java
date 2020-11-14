@@ -3,6 +3,7 @@ package com.nicico.sales.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.dto.contract.BillOfLandingDTO;
 import com.nicico.sales.model.entities.warehouse.PackingList;
+import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PackingContainerDTO {
-    private Long id;
+
     private Long packingListId;
     private String containerNo;
     private String sealNo;
@@ -26,16 +27,16 @@ public class PackingContainerDTO {
     private Long ladingDate;
     private Long packageCount;
     private Long subpackageCount;
-    private Long strapWeight;
+    private Double strapWeight;
 
     private Long palletCount;
-    private Long palletWeight;
-    private Long woodWeight;
-    private Long barrelWeight;
+    private Double palletWeight;
+    private Double woodWeight;
+    private Double barrelWeight;
     private Long containerWeight;
     private Long contentWeight;
     private Long vgmWeight;
-    private Long netWeight;
+    private Double netWeight;
     private String description;
 
 
@@ -53,6 +54,12 @@ public class PackingContainerDTO {
         private String name;
         private Integer version;
         private PackingListDTO.Info packingList;
+
+
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
 
     }
     @Getter

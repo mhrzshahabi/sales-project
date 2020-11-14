@@ -62,8 +62,7 @@ public class ContainerToBillOfLanding extends BaseEntity {
     @Column(name = "F_QUANTITY_NO", nullable = false)
     private String quantityType;
 
-    @NotNull
-    @Column(name = "D_WEIGHT", nullable = false)
+    @Column(name = "D_WEIGHT")
     private Long weight;
 
     @ManyToOne(fetch = FetchType.LAZY)

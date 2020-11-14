@@ -20,7 +20,7 @@ public class ShipmentDCCService extends GenericService<DCC, Long, DCCDTO.Create,
 
     @Override
     @Transactional
-    @Action(value = ActionType.Get ,authority = "hasAuthority('C_SHIPMENT_DCC')")
+    @Action(value = ActionType.Get, authority = "hasAuthority('C_SHIPMENT_DCC')")
     public DCC getByFileNewName(String fileNewName) {
         return ((DCCDAO) repository).getByFileNewName(fileNewName);
     }

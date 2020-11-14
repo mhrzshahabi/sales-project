@@ -846,7 +846,31 @@ contractDetailTypeTab.method.deleteRecord = function () {
                 }));
             });
 };
+contractDetailTypeTab.method.activate_deactivate = function (activate) {
+    contractDetailTypeTab.variable.method = "POST";
+    let record = contractDetailTypeTab.listGrid.detailType.getSelectedRecord();
+    if (record == null || record.id == null)
+        contractDetailTypeTab.dialog.notSelected();
+    if (!activate && record.estatus.contains(Enums.eStatus2.DeActive))
+        contractDetailTypeTab.dialog.inactiveRecord();
+    if (activate && record.estatus.contains(Enums.eStatus2.Active))
+        contractDetailTypeTab.dialog.activeRecord();
 
+    else {
+        contractDetailTypeTab.method.jsonRPCManagerRequest({
+            httpMethod: "POST",
+            actionURL: contractDetailTypeTab.variable.url + (activate === true ? "" : "de") + "activate/" + record.id,
+            callback: function (resp) {
+                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                    contractDetailTypeTab.method.refreshData();
+                    contractDetailTypeTab.dialog.ok();
+                } else {
+                    contractDetailTypeTab.dialog.error(resp);
+                }
+            }
+        });
+    }
+};
 //*************************************************** layout ***********************************************************
 
 contractDetailTypeTab.toolStrip.actions = isc.ToolStrip.create({
@@ -881,6 +905,26 @@ contractDetailTypeTab.toolStrip.remove = isc.ToolStripButtonRemove.create({
     }
 });
 contractDetailTypeTab.toolStrip.actions.addMember(contractDetailTypeTab.toolStrip.remove);
+// </sec:authorize>
+// <sec:authorize access="hasAuthority('A_CONTRACT_DETAIL_TYPE')">
+contractDetailTypeTab.toolStrip.activate = isc.ToolStripButton.create({
+    icon: "[SKIN]/actions/configure.png",
+    title: "<spring:message code='global.active'/>",
+    click: function () {
+        contractDetailTypeTab.method.activate_deactivate(true);
+    }
+}),
+    contractDetailTypeTab.toolStrip.actions.addMember(contractDetailTypeTab.toolStrip.activate);
+// </sec:authorize>
+// <sec:authorize access="hasAuthority('I_CONTRACT_DETAIL_TYPE')">
+contractDetailTypeTab.toolStrip.deactivate = isc.ToolStripButton.create({
+    icon: "[SKIN]/actions/exclamation.png",
+    title: "<spring:message code='global.inactive'/>",
+    click: function () {
+        contractDetailTypeTab.method.activate_deactivate(false);
+    }
+}),
+    contractDetailTypeTab.toolStrip.actions.addMember(contractDetailTypeTab.toolStrip.deactivate);
 // </sec:authorize>
 contractDetailTypeTab.toolStrip.refresh = isc.ToolStripButtonRefresh.create({
     title: "<spring:message code='global.form.refresh'/>",

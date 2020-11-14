@@ -84,7 +84,7 @@ namespace nicico {
                     creator.window.main.close();
                     // @ts-ignore
                     if (creator.variable.owner != null)
-                    // @ts-ignore
+                        // @ts-ignore
                         creator.variable.owner.show();
 
                     This.cancelCallBack();
@@ -102,7 +102,7 @@ namespace nicico {
                     creator.window.main.close();
                     // @ts-ignore
                     if (creator.variable.owner != null)
-                    // @ts-ignore
+                        // @ts-ignore
                         creator.variable.owner.show();
 
                     // @ts-ignore

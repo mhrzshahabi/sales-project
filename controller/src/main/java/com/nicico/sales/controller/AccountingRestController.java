@@ -21,11 +21,11 @@ import java.util.List;
 @RequestMapping(value = "/api/accounting")
 public class AccountingRestController {
 
-	private final IAccountingApiService accountingApiService;
-	private final IInternalInvoiceService internalInvoiceService;
-	private final ICostInvoiceService costInvoiceService;
+    private final IAccountingApiService accountingApiService;
+    private final IInternalInvoiceService internalInvoiceService;
+    private final ICostInvoiceService costInvoiceService;
 
-	// ------------------------------
+    // ------------------------------
 
 	/*@GetMapping(value = "/documents/{invoiceId}")
 	public ResponseEntity<String> getDocumentInfo(@PathVariable String invoiceId) {

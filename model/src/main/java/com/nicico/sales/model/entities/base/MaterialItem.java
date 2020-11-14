@@ -1,8 +1,8 @@
 package com.nicico.sales.model.entities.base;
 
+import com.nicico.sales.model.annotation.I18n;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.warehouse.Inventory;
-import com.nicico.sales.model.annotation.I18n;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -42,7 +42,7 @@ public class MaterialItem extends BaseEntity {
     private String gdsName;
 
 
-     @Column(name = "c_short_name")
+    @Column(name = "c_short_name")
     private String shortName;
 
     @Column(name = "C_GDSNAME_EN")

@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +31,6 @@ public class ContractDetailValueDTO {
 
     private Long unitId;
     private Long contractDetailId;
-
 
 
     @Getter

@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/api/warehouse")
-public class WarehouseController {
+public class WarehouseRestController {
 
     private final IWarehouseService service;
 

@@ -60,7 +60,7 @@
         <sql>
             update TBL_Shipment_Method set C_SHIP_METHOD_FA = SHIP_METHOD ;
             update tbl_shipment_method set C_SHIP_METHOD_EN='LAND TRANSPORT' where id = 1;
-            update tbl_shipment_method set C_SHIP_METHOD_EN='AIR TRANSPORT'  where id = 2;
+            update tbl_shipment_method set C_SHIP_METHOD_EN='AIR TRANSPORT' where id = 2;
             update tbl_shipment_method set C_SHIP_METHOD_EN='SHIP TRANSPORT' where id = 3;
             update tbl_shipment_method set C_SHIP_METHOD_EN='RAIL TRANSPORT' where id = 4;
         </sql>

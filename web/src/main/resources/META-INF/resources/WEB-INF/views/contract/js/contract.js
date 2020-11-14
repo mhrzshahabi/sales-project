@@ -103,6 +103,10 @@ function contractTabDynamicFormFields() {
                         fieldName: 'materialId',
                         operator: 'equals',
                         value: value
+                    }, {
+                        fieldName: 'estatus',
+                        operator: 'notEqual',
+                        value: Enums.eStatus2.DeActive
                     }]
                 });
                 contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
@@ -184,6 +188,10 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
             fieldName: 'materialId',
             operator: 'equals',
             value: null
+        },{
+            fieldName: 'estatus',
+            operator: 'notEqual',
+            value: Enums.eStatus2.DeActive
         }]
     }, {
         width: "40%",
@@ -237,13 +245,20 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
         }
     });
 contractTab.sectionStack.contract = isc.SectionStack.create({
-    visibilityMode: "multiple",
-    margin: 10,
+    margin: 5,
     width: "100%",
-    //overflow: "auto",
     canReorderSections: true,
+    visibilityMode: "multiple",
+    overflow: ["scroll", "clip-h"],
     sections: []
 });
+contractTab.vLayout.sectionStack = isc.VLayout.create({
+
+    width: "100%",
+    height: "100%",
+    overflow: "scroll",
+    members: [contractTab.sectionStack.contract]
+})
 contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
     height: "5%",
     width: "100%",
@@ -391,7 +406,7 @@ contractTab.hLayout.contractDetailHlayout = isc.HLayout.create({
     membersMargin: 10,
     members: [
         contractTab.listGrid.contractDetailType,
-        contractTab.sectionStack.contract
+        contractTab.vLayout.sectionStack
     ]
 });
 
@@ -572,6 +587,10 @@ contractTab.method.editForm = function () {
                             fieldName: 'materialId',
                             operator: 'equals',
                             value: contractTab.dynamicForm.main.getValue('materialId')
+                        },{
+                            fieldName: 'estatus',
+                            operator: 'notEqual',
+                            value: Enums.eStatus2.DeActive
                         }]
                     });
                     contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
@@ -671,7 +690,7 @@ contractTab.method.addSectionByContract = function (record) {
         });
         let contractDetailDynamicForm = isc.DynamicForm.create({
             visibility: "hidden",
-            width: "90%",
+            width: "85%",
             align: "center",
             wrapItemTitles: false,
             numCols: 4,
@@ -845,7 +864,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
 
         visibility: "hidden",
         wrapItemTitles: false,
-        width: "90%",
+        width: "85%",
         align: "center",
         numCols: 4,
         styleName: 'contract-section',
@@ -924,8 +943,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         function setval([_key, formName]) {
             try {
                 contractDetailDynamicForm.setValue(_key, formName)
-            }
-            catch (e) {
+            } catch (e) {
                 //dbg(false,e)
             }
         }
@@ -950,8 +968,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
             setval([_enum.AGENT_SELLER_PHONE, AGENT_SELLER.phone])
             setval([_enum.AGENT_SELLER_FAX, AGENT_SELLER.fax])
             setval([_enum.AGENT_SELLER_MOBILE, AGENT_SELLER.mobile])
-        }
-        catch (e) {
+        } catch (e) {
             //dbg(false,e);
         }
 
@@ -963,8 +980,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
             setval([_enum.AGENT_BUYER_PHONE, AGENT_BUYER.phone])
             setval([_enum.AGENT_BUYER_FAX, AGENT_BUYER.fax])
             setval([_enum.AGENT_BUYER_MOBILE, AGENT_BUYER.mobile])
-        }
-        catch (e) {
+        } catch (e) {
             //dbg(false,e);
         }
 
@@ -1068,6 +1084,7 @@ function changeHeaderAndFooterTemplate(template) {
 
     return template;
 }
+
 contractTab.listGrid.main.addProperties({
-    sortField:'no',
+    sortField: 'no',
 })

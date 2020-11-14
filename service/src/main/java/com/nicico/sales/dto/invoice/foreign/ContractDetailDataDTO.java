@@ -5,7 +5,6 @@ import com.nicico.sales.dto.MaterialElementDTO;
 import com.nicico.sales.dto.UnitDTO;
 import com.nicico.sales.dto.contract.ContractDiscountDTO;
 import com.nicico.sales.dto.contract.IncotermDTO;
-import com.nicico.sales.model.entities.contract.ContractDiscount;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;

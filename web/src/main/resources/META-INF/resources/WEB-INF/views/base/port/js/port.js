@@ -85,15 +85,15 @@ portTab.dynamicForm.fields = BaseFormItems.concat([
         valueField: "id",
         pickListWidth: 450,
         pickListheight: 450,
-        pickListProperties: { showFilterEditor: true },
+        pickListProperties: {showFilterEditor: true},
         optionDataSource: isc.MyRestDataSource.create({
-            fields: BaseFormItems.concat([{ name: "id" }, { name: "nameFA" }, { name: "nameEN" }]),
+            fields: BaseFormItems.concat([{name: "id"}, {name: "nameFA"}, {name: "nameEN"}]),
             fetchDataURL: "${contextPath}" + "/api/country/spec-list",
         }),
         pickListFields: [
-            { name: "id", title: "<spring:message code='global.id'/>" },
-            { name: "nameFA", title: "<spring:message code='currency.name.fa'/>" },
-            { name: "nameEN", title: "<spring:message code='currency.name.en'/>" },
+            {name: "id", title: "<spring:message code='global.id'/>"},
+            {name: "nameFA", title: "<spring:message code='currency.name.fa'/>"},
+            {name: "nameEN", title: "<spring:message code='currency.name.en'/>"},
         ],
     },
 ]);

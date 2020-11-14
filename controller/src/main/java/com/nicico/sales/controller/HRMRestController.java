@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/hrm")
 public class HRMRestController {
 
-	private final IHRMApiService hrmApiService;
+    private final IHRMApiService hrmApiService;
 
-	@PostMapping(value = "/business-days")
-	public ResponseEntity<HRMDTO.BusinessDaysInfo> getBusinessDays(@RequestBody HRMDTO.BusinessDaysRq request) {
-		return new ResponseEntity<>(hrmApiService.getBusinessDays(request), HttpStatus.OK);
-	}
+    @PostMapping(value = "/business-days")
+    public ResponseEntity<HRMDTO.BusinessDaysInfo> getBusinessDays(@RequestBody HRMDTO.BusinessDaysRq request) {
+        return new ResponseEntity<>(hrmApiService.getBusinessDays(request), HttpStatus.OK);
+    }
 }

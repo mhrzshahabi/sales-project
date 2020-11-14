@@ -14,29 +14,29 @@ import java.util.Collections;
 @Component
 public class AuthenticationUtil {
 
-	public HttpHeaders getApplicationJSONHttpHeaders() {
-		final OAuth2AuthenticationDetails oAuth2AuthenticationDetails = getOAuth2AuthenticationDetails();
+    public HttpHeaders getApplicationJSONHttpHeaders() {
+        final OAuth2AuthenticationDetails oAuth2AuthenticationDetails = getOAuth2AuthenticationDetails();
 
-		final HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setBearerAuth(oAuth2AuthenticationDetails.getTokenValue());
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-		httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        final HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setBearerAuth(oAuth2AuthenticationDetails.getTokenValue());
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-		return httpHeaders;
-	}
+        return httpHeaders;
+    }
 
-	public HttpHeaders getApplicationFormURLEncodedHttpHeaders() {
-		final OAuth2AuthenticationDetails oAuth2AuthenticationDetails = getOAuth2AuthenticationDetails();
+    public HttpHeaders getApplicationFormURLEncodedHttpHeaders() {
+        final OAuth2AuthenticationDetails oAuth2AuthenticationDetails = getOAuth2AuthenticationDetails();
 
-		final HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setBearerAuth(oAuth2AuthenticationDetails.getTokenValue());
-		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        final HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setBearerAuth(oAuth2AuthenticationDetails.getTokenValue());
+        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-		return httpHeaders;
-	}
+        return httpHeaders;
+    }
 
-	private OAuth2AuthenticationDetails getOAuth2AuthenticationDetails() {
-		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		return (OAuth2AuthenticationDetails) authentication.getDetails();
-	}
+    private OAuth2AuthenticationDetails getOAuth2AuthenticationDetails() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (OAuth2AuthenticationDetails) authentication.getDetails();
+    }
 }

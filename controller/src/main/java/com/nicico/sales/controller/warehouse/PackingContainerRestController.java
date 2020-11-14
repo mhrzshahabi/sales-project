@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/api/packing-container")
-public class PackingContainerController {
+public class PackingContainerRestController {
 
     private final IPackingContainerService service;
 
@@ -45,6 +45,21 @@ public class PackingContainerController {
     public ResponseEntity<PackingContainerDTO.Info> create(@RequestBody PackingContainerDTO.Create request) {
 
         return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
+    }
+     @Loggable
+    @PostMapping("/batch")
+    public ResponseEntity<List<PackingContainerDTO.Info>> batch(@RequestBody List<PackingContainerDTO.Create> containers) {
+
+         final List<PackingContainerDTO.Info> all = service.createAll(containers);
+         return new ResponseEntity<>(all, HttpStatus.CREATED);
+    }
+
+    @Loggable
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+
+        service.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Loggable

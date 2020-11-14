@@ -442,9 +442,13 @@ namespace nicico {
             This.method.beforeShowNewActionHook = function () {};
             This.method.afterShowNewActionHook = function (window: FormUtil) {};
             This.method.beforeShowEditActionHook = function (record: any) {};
-            This.method.afterShowEditActionHook = function (window: FormUtil, record: any) {};
-            This.method.validateDeleteActionHook = function (record: any) { return record; };
-            This.method.beforeDeleteActionHook = function (record: any) {};
+            This.method.afterShowEditActionHook = function (window: FormUtil, record: any) {
+            };
+            This.method.validateDeleteActionHook = function (record: any) {
+                return record;
+            };
+            This.method.beforeDeleteActionHook = function (record: any) {
+            };
             This.method.afterDeleteActionHook = function (response: isc.RPCResponse, record: any) {};
             This.method.afterDeleteErrorActionHook = function (response: isc.RPCResponse, record: any) {};
             This.method.beforeActivateActionHook = function (record: any) {};

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.core.service.minio.EFileAccessLevel;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
-import com.nicico.sales.model.entities.base.Port;
 import com.nicico.sales.model.entities.report.Report;
 import com.nicico.sales.model.enumeration.FileStatus;
 import com.nicico.sales.model.enumeration.ReportSource;
@@ -64,7 +63,8 @@ public class ReportFormController {
                 type.put(value.name(), messageSource.getMessage("report.reportType.one", null, locale));
             else if (value == ReportType.SelectedRecords)
                 type.put(value.name(), messageSource.getMessage("report.reportType.selected", null, locale));
-            else throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نگاشت حالت های چاپ گزارش تعریف نشده است");
+            else
+                throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نگاشت حالت های چاپ گزارش تعریف نشده است");
 
         return type;
     }
@@ -78,7 +78,8 @@ public class ReportFormController {
                 source.put(value.name(), messageSource.getMessage("report.api", null, locale));
             else if (value == ReportSource.View)
                 source.put(value.name(), messageSource.getMessage("report.data-base", null, locale));
-            else throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نگاشت نوع منبع گزارش تعریف نشده است");
+            else
+                throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نگاشت نوع منبع گزارش تعریف نشده است");
 
         return source;
     }
@@ -108,7 +109,8 @@ public class ReportFormController {
             else if (value == EFileAccessLevel.PUBLIC)
                 accessLevel.put(value.name(), messageSource.getMessage("file.access-level.public", null, locale));
 
-            else throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نگاشت نوع دسترسی به فایل تعریف نشده است");
+            else
+                throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نگاشت نوع دسترسی به فایل تعریف نشده است");
 
         return accessLevel;
     }

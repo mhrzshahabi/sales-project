@@ -10,7 +10,6 @@ import com.nicico.sales.iservice.IShipmentService;
 import com.nicico.sales.model.entities.base.Shipment;
 import com.nicico.sales.repository.ShipmentDAO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

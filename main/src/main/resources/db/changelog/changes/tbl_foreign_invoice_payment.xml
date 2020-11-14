@@ -1,22 +1,22 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-	<changeSet author="MShahabi" id="1799887766554-073">
-		<addColumn tableName="TBL_FOREIGN_INVOICE_PAYMENT">
-			<column name="F_SHIPMENT_COST_INVOICE_ID" type="NUMBER(19, 0)"/>
-		</addColumn>
-	</changeSet>
+    <changeSet author="MShahabi" id="1799887766554-073">
+        <addColumn tableName="TBL_FOREIGN_INVOICE_PAYMENT">
+            <column name="F_SHIPMENT_COST_INVOICE_ID" type="NUMBER(19, 0)"/>
+        </addColumn>
+    </changeSet>
 
-	<changeSet author="MShahabi" id="1799887766554-074">
-		<addForeignKeyConstraint baseColumnNames="F_SHIPMENT_COST_INVOICE_ID"
-								 baseTableName="TBL_FOREIGN_INVOICE_PAYMENT"
-								 constraintName="fk_foreignInvoicePayment2shipmentCostInvoiceByShipmentCostInvoiceId"
-								 deferrable="false"
-								 initiallyDeferred="false"
-								 referencedColumnNames="id"
-								 referencedTableName="TBL_SHIPMENT_COST_INVOICE"
-								 validate="true"/>
-	</changeSet>
+    <changeSet author="MShahabi" id="1799887766554-074">
+        <addForeignKeyConstraint baseColumnNames="F_SHIPMENT_COST_INVOICE_ID"
+                                 baseTableName="TBL_FOREIGN_INVOICE_PAYMENT"
+                                 constraintName="fk_foreignInvoicePayment2shipmentCostInvoiceByShipmentCostInvoiceId"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 referencedColumnNames="id"
+                                 referencedTableName="TBL_SHIPMENT_COST_INVOICE"
+                                 validate="true"/>
+    </changeSet>
 </databaseChangeLog>

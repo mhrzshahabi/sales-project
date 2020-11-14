@@ -6,7 +6,6 @@ import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.contract.IBillOfLandingService;
-import com.nicico.sales.model.entities.base.ShipmentCostDuty;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.contract.BillOfLanding;
 import com.nicico.sales.service.GenericService;
@@ -51,7 +50,7 @@ public class BillOfLandingService extends GenericService<BillOfLanding, Long,
                         .map(Class::getSimpleName)
                         .map(s -> messageSource.getMessage("entity." + StringFormatUtil.makeMessageKey(s, "-"), null, locale))
                         .collect(Collectors.toList());
-                message = messageSource.getMessage("global.grid.record.is.used.warn",  new Object[]{collect}, locale);
+                message = messageSource.getMessage("global.grid.record.is.used.warn", new Object[]{collect}, locale);
                 throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage(message, null, locale));
             }
         }

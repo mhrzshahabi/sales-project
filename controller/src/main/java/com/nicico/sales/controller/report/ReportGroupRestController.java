@@ -23,8 +23,8 @@ import java.util.List;
 public class ReportGroupRestController {
 
     private final IReportGroupService reportGroupService;
-    
-     @Loggable
+
+    @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<ReportGroupDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(reportGroupService.get(id), HttpStatus.OK);

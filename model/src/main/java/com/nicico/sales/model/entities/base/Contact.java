@@ -1,7 +1,7 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.annotation.I18n;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
@@ -22,11 +22,11 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CONTACT",
-		uniqueConstraints = {
-				@UniqueConstraint(columnNames = {"C_PHONE ", "b_SELLER", "b_BUYER", "b_TRANSPORTER", "b_SHIPPER", "b_INSPECTOR", "b_INSURANCER", "b_AGENT_BUYER", "b_AGENT_SELLER", "COUNTRY_ID"}, name = Contact.UNIQUE_List_Person),
-				@UniqueConstraint(columnNames = {"C_ECONOMICAL_CODE"}, name = Contact.UNIQUE_C_ECONOMICAL_CODE),
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"C_PHONE ", "b_SELLER", "b_BUYER", "b_TRANSPORTER", "b_SHIPPER", "b_INSPECTOR", "b_INSURANCER", "b_AGENT_BUYER", "b_AGENT_SELLER", "COUNTRY_ID"}, name = Contact.UNIQUE_List_Person),
+                @UniqueConstraint(columnNames = {"C_ECONOMICAL_CODE"}, name = Contact.UNIQUE_C_ECONOMICAL_CODE),
 
-		})
+        })
 @Audited
 @AuditOverride(forClass = BaseEntity.class)
 public class Contact extends BaseEntity {

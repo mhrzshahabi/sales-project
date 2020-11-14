@@ -6,10 +6,10 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum FileStatus {
-	NORMAL("NORMAL"),
-	DELETED("DELETED");
+    NORMAL("NORMAL"),
+    DELETED("DELETED");
 
-	// ---------------
+    // ---------------
 
-	private final String value;
+    private final String value;
 }

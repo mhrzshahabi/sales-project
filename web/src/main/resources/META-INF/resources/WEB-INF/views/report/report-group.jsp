@@ -5,6 +5,6 @@
 
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
-<%@include file="../common/ts/BasicFormUtil.js"%>
-<%@include file="js/report-group.js"%>
+<%@include file="../common/ts/BasicFormUtil.js" %>
+<%@include file="js/report-group.js" %>
 

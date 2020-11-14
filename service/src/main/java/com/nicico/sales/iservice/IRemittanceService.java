@@ -15,6 +15,7 @@ public interface IRemittanceService extends IGenericService<Remittance, Long, Re
     JsonDataSource print(MultiValueMap criteria) throws JsonProcessingException, JRException;
      List<String> getLotsByShipmentId(Long id);
     TotalResponse<RemittanceDTO.InfoWithoutRemittanceDetail> searchLite(NICICOCriteria nicicoCriteria);
+
     TotalResponse<RemittanceDTO.ReportInfo> reportSearch(NICICOCriteria nicicoCriteria);
 
 }

@@ -12,7 +12,7 @@
 <%@include file="js/component-invoice-base-weight.js"%>
 <%@include file="js/component-invoice-base-values.js"%>
 <%@include file="js/component-invoice-calculation.js"%>
-<%@include file="js/component-invoice-calculation-cathode.js"%>
+<%@include file="js/component-invoice-calculation-cathode.js" %>
 <%@include file="js/component-invoice-calculation2.js"%>
 <%@include file="js/component-invoice-calculation-row.js"%>
 <%@include file="js/component-invoice-t(r)c.js"%>

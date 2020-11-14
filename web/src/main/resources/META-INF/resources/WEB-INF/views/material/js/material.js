@@ -134,11 +134,11 @@ var ListGrid_Material = isc.ListGrid.create({
     loaded: false,
     sortField: 2,
     fields: [
-        { name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true },
-        { name: "code", title: "<spring:message code='material.code'/>", align: "center", showIf: "false" },
-        { name: "descEN", title: "<spring:message code='material.descEN'/>", align: "center" },
-        { name: "descFA", title: "<spring:message code='material.descFA'/>", align: "center" },
-        { name: "abbreviation", title: "<spring:message code='material.abbreviation'/>", align: "center" },
+        {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+        {name: "code", title: "<spring:message code='material.code'/>", align: "center", showIf: "false"},
+        {name: "descEN", title: "<spring:message code='material.descEN'/>", align: "center"},
+        {name: "descFA", title: "<spring:message code='material.descFA'/>", align: "center"},
+        {name: "abbreviation", title: "<spring:message code='material.abbreviation'/>", align: "center"},
         {
             name: "unit.nameFA",
             title: "<spring:message code='MaterialFeature.unit.FA'/>",

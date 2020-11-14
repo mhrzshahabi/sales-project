@@ -41,15 +41,24 @@
     </changeSet>
 
     <changeSet author="saeb (generated)" id="1602651986361-236">
-        <addUniqueConstraint columnNames="D_ROW_NUM, F_CDTPDYNAMICTABLE_ID" constraintName="UC_C_D_ROW_NUM_F_CDTPDYNAMICTABLE_ID" tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+        <addUniqueConstraint columnNames="D_ROW_NUM, F_CDTPDYNAMICTABLE_ID"
+                             constraintName="UC_C_D_ROW_NUM_F_CDTPDYNAMICTABLE_ID"
+                             tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
     </changeSet>
     <changeSet author="saeb (generated)" id="1602651986361-237">
-        <addForeignKeyConstraint baseColumnNames="F_CONTRACTDETAILVALUE_ID" baseTableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE" constraintName="FK_DYNAMIC_TABLE_VALUE2CCONTRACTDETAILVALUE" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT_DETAIL_VALUE" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_CONTRACTDETAILVALUE_ID"
+                                 baseTableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"
+                                 constraintName="FK_DYNAMIC_TABLE_VALUE2CCONTRACTDETAILVALUE" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="TBL_CNTR_CONTRACT_DETAIL_VALUE" validate="true"/>
     </changeSet>
     <changeSet author="saeb (generated)" id="1602651986361-238">
-        <addForeignKeyConstraint baseColumnNames="F_CDTPDYNAMICTABLE_ID" baseTableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE" constraintName="FK_DYNAMIC_TABLE_VALUE2CDTPDYNAMICTABLE" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CDTP_DYNAMIC_TABLE" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_CDTPDYNAMICTABLE_ID"
+                                 baseTableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"
+                                 constraintName="FK_DYNAMIC_TABLE_VALUE2CDTPDYNAMICTABLE" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="TBL_CNTR_CDTP_DYNAMIC_TABLE" validate="true"/>
     </changeSet>
-
 
 
     <changeSet id="sfsfsfsdwrf-4" author="saeb">
@@ -62,7 +71,7 @@
             update TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE set C_FIELD_NAME='bagher' where C_FIELD_NAME is null
         </sql>
     </changeSet>
-       <changeSet id="sfsfsfddsdsdsdsdsdwrf-4" author="saeb">
+    <changeSet id="sfsfsfddsdsdsdsdsdwrf-4" author="saeb">
         <addNotNullConstraint tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE" columnName="C_FIELD_NAME"/>
     </changeSet>
     <changeSet id="saeb1-2-3-hala-bikhial-gho3" author="saeb">

@@ -1,10 +1,12 @@
 package com.nicico.sales.model.entities.warehouse;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.contract.BillOfLanding;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 //بارنامه
 @Getter
@@ -35,10 +37,23 @@ public class PackingContainer extends BaseEntity {
             updatable = false
     )
     private PackingList packingList;
-
+    @NotNull
     @Column(name = "F_PACKAGING_LIST",nullable = false)
     private Long packingListId;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Setter(AccessLevel.NONE)
+    @JoinColumn(
+            name = "F_BILL_OF_LADING",
+            foreignKey = @ForeignKey(name = "FK_PACKING_CONTAINER_TO_B_LADING"),
+            insertable = false,
+            updatable = false
+    )
+    private BillOfLanding billOfLanding;
+
+    @Column(name = "F_BILL_OF_LADING")
+    private Long billOfLandingId;
 
    @Column(name="C_CONTAINER_No",nullable = false)
     private String containerNo;
@@ -57,20 +72,19 @@ public class PackingContainer extends BaseEntity {
 
 
      @Column(name="N_STRAP_WEIGHT")// وزن تسمه
-    private Long strapWeight;
+    private Double strapWeight;
 
      @Column(name="N_PALLET_Count")// tedad pllet
     private Long palletCount;
 
      @Column(name="N_PALLET_WEIGHT")// وزن pallet
-    private Long palletWeight;
+    private Double palletWeight;
 
      @Column(name="N_wood_WEIGHT")// وزن wood cathod falle
-    private Long woodWeight;
+    private Double woodWeight;
 
   @Column(name="N_BARREL_WEIGHT")// وزن boshkeh
-    private Long barrelWeight;
-
+    private Double barrelWeight;
 
  @Column(name="N_CONTAINER_WEIGHT")// وزن boshkeh
     private Long containerWeight;
@@ -84,7 +98,7 @@ public class PackingContainer extends BaseEntity {
 
 
 @Column(name="N_NET_WEIGHT",nullable = false)// vazn mohteva, hamoon vaznie ke baskool mige. mishe vazne kolli bar bedoon container
-    private Long netWeight;
+    private Double netWeight;
 
 @Column(name="C_DESCRIPTION",length = 2000)
     private String description;

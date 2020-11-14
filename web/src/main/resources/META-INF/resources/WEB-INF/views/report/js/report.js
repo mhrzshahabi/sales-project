@@ -354,16 +354,7 @@ reportGeneratorTab.listGrid.reportFields = isc.ListGrid.nicico.getDefault(BaseFo
     //     this.checkedRecords = this.getSelectedRecords();
     //     return this.Super("recordDoubleClick", arguments);
     // },
-    // rowEditorExit: function (editCompletionEvent, record, newValues, rowNum) {
-    //
-    //     if (editCompletionEvent !== "escape")
-    //         this.setEditValues(rowNum, newValues);
-    //
-    //     this.getOriginalData().forEach(q => {
-    //         if (this.checkedRecords.filter(p => p.name === q.name).length !== 0)
-    //             this.selectRecord(q);
-    //     });
-    // }
+
 });
 
 reportGeneratorTab.window.report = new nicico.FormUtil();
@@ -447,12 +438,12 @@ reportGeneratorTab.window.report.validate = function (formDaata) {
         if (!rowNum || rowNum < 0)
             continue;
 
-        reportGeneratorTab.listGrid.reportFields.startEditing(rowNum);
+        reportGeneratorTab.listGrid.reportFields.startEditing(rowNum, 3);
+        reportGeneratorTab.listGrid.reportFields.startEditing(rowNum, 4);
         reportGeneratorTab.listGrid.reportFields.endEditing();
         reportGeneratorTab.listGrid.reportFields.selectRecord(rowNum);
-
-        if (!reportGeneratorTab.listGrid.reportFields.validateRow(rowNum)) {
-
+        let record = reportGeneratorTab.listGrid.reportFields.getRecord(rowNum);
+        if (!record.titleFA || !record.titleEN) {
             reportGeneratorTab.dialog.say('<spring:message code="report.filed-data-is-invalid"/>');
             return false;
         }

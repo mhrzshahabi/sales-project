@@ -1,7 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.annotation.report.Report;
 import com.nicico.sales.annotation.report.ReportField;
 import com.nicico.sales.annotation.report.ReportModel;
 import com.nicico.sales.model.enumeration.EStatus;
@@ -44,7 +43,7 @@ public class PortDTO {
     public static class Info extends PortDTO {
         private Long id;
         @ReportField(titleMessageKey = "global.country")
-        @ReportModel(type = CountryDTO.Info.class , jumpTo = true)
+        @ReportModel(type = CountryDTO.Info.class, jumpTo = true)
         private CountryDTO.Info country;
         private Date createdDate;
         private String createdBy;

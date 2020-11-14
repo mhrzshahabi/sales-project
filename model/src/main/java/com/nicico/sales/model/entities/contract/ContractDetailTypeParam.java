@@ -9,7 +9,6 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -67,6 +66,6 @@ public class ContractDetailTypeParam extends BaseEntity {
     private Long contractDetailTypeId;
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "cdtp")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cdtp")
     private Set<CDTPDynamicTable> dynamicTables;
 }

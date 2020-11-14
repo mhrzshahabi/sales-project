@@ -16,7 +16,6 @@ import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceItemService;
 import com.nicico.sales.model.entities.base.AssayInspection;
 import com.nicico.sales.model.entities.base.PriceBase;
 import com.nicico.sales.model.entities.base.WeightInspection;
-import com.nicico.sales.model.entities.contract.ContractDiscount;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import com.nicico.sales.service.GenericService;
