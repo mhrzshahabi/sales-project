@@ -132,7 +132,8 @@ isc.loadSkin = function (theWindow) {
             baseStyle: "buttonCancel",
             title: actions_btn.cancel,
             showFocusedAsOver: false,
-            showFocusOutline: false
+            showFocusOutline: false,
+            icon: "pieces/16/icon_delete.png"
         });
         isc.ClassFactory.defineClass("IButtonClose", "Button").addProperties({
             baseStyle: "buttonClose",
