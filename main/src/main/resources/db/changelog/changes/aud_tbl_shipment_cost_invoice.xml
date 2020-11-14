@@ -2,53 +2,48 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-	<changeSet author="ARezaieZR (generated)" id="1601358578544-224">
-		<addColumn tableName="TBL_SHIPMENT_COST_INVOICE">
-			<column name="C_DOCUMENT_ID" type="varchar2(255 CHAR)"/>
-		</addColumn>
-	</changeSet>
 
-	<changeSet author="MShahabi" id="1799887766554-078">
+	<changeSet author="MShahabi" id="1799887766554-079">
 		<modifyDataType
 				columnName="N_T_VAT"
 				newDataType="NUMBER"
-				tableName="TBL_SHIPMENT_COST_INVOICE"/>
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE"/>
 		<modifyDataType
 				columnName="N_C_VAT"
 				newDataType="NUMBER"
-				tableName="TBL_SHIPMENT_COST_INVOICE"/>
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE"/>
 		<modifyDataType
 				columnName="N_SUM_PRICE"
 				newDataType="NUMBER"
-				tableName="TBL_SHIPMENT_COST_INVOICE"/>
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE"/>
 		<modifyDataType
 				columnName="N_SUM_PRICE_WITH_DISCOUNT"
 				newDataType="NUMBER"
-				tableName="TBL_SHIPMENT_COST_INVOICE"/>
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE"/>
 		<modifyDataType
 				columnName="N_SUM_PRICE_WITH_VAT"
 				newDataType="NUMBER"
-				tableName="TBL_SHIPMENT_COST_INVOICE"/>
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE"/>
 		<modifyDataType
 				columnName="N_RIAL_PRICE"
 				newDataType="NUMBER"
-				tableName="TBL_SHIPMENT_COST_INVOICE"/>
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE"/>
 		<modifyDataType
 				columnName="N_CONVERSION_RATE"
 				newDataType="NUMBER"
-				tableName="TBL_SHIPMENT_COST_INVOICE"/>
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE"/>
 		<modifyDataType
 				columnName="N_CONVERSION_SUM_PRICE"
 				newDataType="NUMBER"
-				tableName="TBL_SHIPMENT_COST_INVOICE"/>
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE"/>
 		<modifyDataType
 				columnName="N_CONVERSION_SUM_PRICE_BUYER_SHARE"
 				newDataType="NUMBER"
-				tableName="TBL_SHIPMENT_COST_INVOICE"/>
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE"/>
 		<modifyDataType
 				columnName="N_CONVERSION_SUM_PRICE_SELLER_SHARE"
 				newDataType="NUMBER"
-				tableName="TBL_SHIPMENT_COST_INVOICE"/>
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE"/>
 	</changeSet>
 
 </databaseChangeLog>

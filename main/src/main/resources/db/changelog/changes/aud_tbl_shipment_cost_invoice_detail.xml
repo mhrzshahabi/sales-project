@@ -1,0 +1,45 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+	<changeSet author="MShahabi" id="1799887766554-080">
+		<modifyDataType
+				columnName="N_QUANTITY"
+				newDataType="NUMBER"
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE_DETAIL"/>
+		<modifyDataType
+				columnName="N_UNIT_PRICE"
+				newDataType="NUMBER"
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE_DETAIL"/>
+		<modifyDataType
+				columnName="N_SUM_PRICE"
+				newDataType="NUMBER"
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE_DETAIL"/>
+		<modifyDataType
+				columnName="N_DISCOUNT_PRICE"
+				newDataType="NUMBER"
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE_DETAIL"/>
+		<modifyDataType
+				columnName="N_SUM_PRICE_WITH_DISCOUNT"
+				newDataType="NUMBER"
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE_DETAIL"/>
+		<modifyDataType
+				columnName="N_T_VAT_PRICE"
+				newDataType="NUMBER"
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE_DETAIL"/>
+		<modifyDataType
+				columnName="N_C_VAT_PRICE"
+				newDataType="NUMBER"
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE_DETAIL"/>
+		<modifyDataType
+				columnName="N_SUM_VAT_PRICE"
+				newDataType="NUMBER"
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE_DETAIL"/>
+		<modifyDataType
+				columnName="N_SUM_PRICE_WITH_VAT"
+				newDataType="NUMBER"
+				tableName="AUD_TBL_SHIPMENT_COST_INVOICE_DETAIL"/>
+	</changeSet>
+
+</databaseChangeLog>

@@ -19,4 +19,24 @@
                                  referencedTableName="TBL_SHIPMENT_COST_INVOICE"
                                  validate="true"/>
     </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-081">
+        <modifyDataType
+                columnName="N_DOC_SUM_VALUE"
+                newDataType="NUMBER"
+                tableName="TBL_FOREIGN_INVOICE_PAYMENT"/>
+        <modifyDataType
+                columnName="N_DOC_CONVERSION_RATE"
+                newDataType="NUMBER"
+                tableName="TBL_FOREIGN_INVOICE_PAYMENT"/>
+        <modifyDataType
+                columnName="N_DOC_CONVERSION_PRICE"
+                newDataType="NUMBER"
+                tableName="TBL_FOREIGN_INVOICE_PAYMENT"/>
+        <modifyDataType
+                columnName="N_PORTION"
+                newDataType="NUMBER"
+                tableName="TBL_FOREIGN_INVOICE_PAYMENT"/>
+    </changeSet>
+
 </databaseChangeLog>

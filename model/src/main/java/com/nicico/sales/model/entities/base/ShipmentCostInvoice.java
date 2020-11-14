@@ -46,37 +46,37 @@ public class ShipmentCostInvoice extends BaseEntity {
     private String invoiceNo;
 
     @NotNull
-    @Column(name = "N_T_VAT", nullable = false, scale = 5, precision = 10)
+    @Column(name = "N_T_VAT", nullable = false)
     private BigDecimal tVat;
 
     @NotNull
-    @Column(name = "N_C_VAT", nullable = false, scale = 5, precision = 10)
+    @Column(name = "N_C_VAT", nullable = false)
     private BigDecimal cVat;
 
     @NotNull
-    @Column(name = "N_SUM_PRICE", nullable = false, scale = 6, precision = 18)
+    @Column(name = "N_SUM_PRICE", nullable = false)
     private BigDecimal sumPrice;
 
     @NotNull
-    @Column(name = "N_SUM_PRICE_WITH_DISCOUNT", nullable = false, scale = 6, precision = 18)
+    @Column(name = "N_SUM_PRICE_WITH_DISCOUNT", nullable = false)
     private BigDecimal sumPriceWithDiscount;
 
     @NotNull
-    @Column(name = "N_SUM_PRICE_WITH_VAT", nullable = false, scale = 6, precision = 18)
+    @Column(name = "N_SUM_PRICE_WITH_VAT", nullable = false)
     private BigDecimal sumPriceWithVat;
 
-    @Column(name = "N_RIAL_PRICE", scale = 6, precision = 18)
+    @Column(name = "N_RIAL_PRICE")
     private BigDecimal rialPrice;
 
     @Column(name = "D_CONVERSION_DATE")
     private Date conversionDate;
 
     @NotNull
-    @Column(name = "N_CONVERSION_RATE", nullable = false, scale = 5, precision = 10)
+    @Column(name = "N_CONVERSION_RATE", nullable = false)
     private BigDecimal conversionRate;
 
     @NotNull
-    @Column(name = "N_CONVERSION_SUM_PRICE", nullable = false, scale = 6, precision = 18)
+    @Column(name = "N_CONVERSION_SUM_PRICE", nullable = false)
     private BigDecimal conversionSumPrice;
 
     @NotNull
@@ -88,11 +88,11 @@ public class ShipmentCostInvoice extends BaseEntity {
     private Double buyerShare;
 
     @NotNull
-    @Column(name = "N_CONVERSION_SUM_PRICE_BUYER_SHARE", nullable = false, scale = 6, precision = 18)
+    @Column(name = "N_CONVERSION_SUM_PRICE_BUYER_SHARE", nullable = false)
     private BigDecimal conversionSumPriceBuyerShare;
 
     @NotNull
-    @Column(name = "N_CONVERSION_SUM_PRICE_SELLER_SHARE", nullable = false, scale = 6, precision = 18)
+    @Column(name = "N_CONVERSION_SUM_PRICE_SELLER_SHARE", nullable = false)
     private BigDecimal conversionSumPriceSellerShare;
 
     @Column(name = "C_DESCRIPTION", length = 4000)

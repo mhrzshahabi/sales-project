@@ -568,25 +568,20 @@ packingListTab.Methods.PasteTextToPackingContainerGrid=function (paste){
 packingListTab.restDataSource.packingListRest = isc.MyRestDataSource.create({
     fields: [
         {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-        {name: "billOfLanding", showHover: true, title: "<spring:message code ='packing-list.billOfLanding'/>"},
-        {
-            name: "billOfLanding.documentNo",
-            showHover: true,
-            title: "<spring:message code ='packing-list.billOfLanding.documentNo'/>"
-        },
-        {
-            name: "billOfLanding.shipperExporter.name",
-            showHover: true,
-            title: "<spring:message code ='packing-list.billOfLanding.shipperExporter'/>"
-        },
-        {name: "shipment", showHover: true, title: "<spring:message code ='packing-list.shipment'/>"},
-        {
-            name: "shipment.sendDate",
-            type: "date",
-            showHover: true,
-            title: "<spring:message code ='packing-list.shipment.sendDate'/>"
-        },
         {name: "bookingNo", type: 'text', showHover: true, title: "<spring:message code='packing-list.bookingNo'/>"},
+        {
+            name: "shipment.automationLetterDate",canFilter:false,
+            title: "<spring:message code='shipment.bDate'/>",
+            formatCellValue(value, record, rowNum, colNum) {
+                return new persianDate(value).format('YYYYMMDD')},
+        },
+        {
+            name: "shipment.automationLetterNo",
+            title: "<spring:message code='shipment.loadingLetter'/>",
+            type: 'text',
+        },
+        {name: "shipment.contractShipment.contract.no",title:"<spring:message code='contact.no'/>"},
+        {name: "shipment.material.descFA",title:"<spring:message code='goods.title'/>"},
         {
             name: "description",
             type: 'text',
@@ -623,16 +618,19 @@ packingListTab.restDataSource.packingContainer = isc.MyRestDataSource.create({
 });
 packingListTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
     fields: [
-        {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-        {name: "sendDate", type: "date", showHover: true, title: "<spring:message code ='global.sendDate'/>"},
-        {name: "bookingCat", title: "<spring:message code ='shipment.bookingCat'/>", showHover: true},
+        {name: "id", primaryKey: true, hidden: true},
         {
-            name: "contractShipment.contract.no",
-            type: 'text',
-            showHover: true,
-            title: "<spring:message code='contract.contractNo'/>"
+            name: "automationLetterDate",canFilter:false,
+            title: "<spring:message code='shipment.bDate'/>",
+            formatCellValue(value, record, rowNum, colNum) {return new persianDate(value).format('YYYYMMDD')},
         },
-        {name: "material.descEN", type: 'text', showHover: true, title: "<spring:message code='material.descEN'/>"}
+        {
+            name: "automationLetterNo",
+            title: "<spring:message code='shipment.loadingLetter'/>",
+            type: 'text',
+        },
+        {name: "contractShipment.contract.no"},
+        {name: "material.descFA"}
     ],
     fetchDataURL: packingListTab.variable.shipmentUrl + "spec-list"
 });
@@ -645,59 +643,15 @@ packingListTab.dynamicForm.fields = BaseFormItems.concat([
         hidden: true
     },
     {
-        name: "billOfLandingId",
-        title: "<spring:message code='packing-list.billOfLanding'/>",
-        wrapTitle: false,
-        editorType: "SelectItem",
-        valueField: "id",
-        displayField: "documentNo",
-        pickListWidth: "500",
-        pickListHeight: "300",
-        optionDataSource: isc.MyRestDataSource.create({
-            fields: [
-                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "documentNo", title: "<spring:message code='global.description'/>"},
-                {name: "notifyParty", title: "<spring:message code='global.description'/>"},
-                {name: "notifyPartyId", title: "<spring:message code='global.description'/>"},
-                {name: "consignee", title: "<spring:message code='global.description'/>"},
-                {name: "consigneeId", title: "<spring:message code='global.description'/>"},
-            ],
-            fetchDataURL: packingListTab.variable.billOfLandingUrl + "spec-list"
-        }),
-        pickListProperties:
-            {
-                showFilterEditor: true
-            },
-        pickListFields: [
-            {
-                name: "documentNo",
-                align: "center"
-            },
-            {
-                name: "notifyParty.name",
-                align: "center"
-            },
-            {
-                name: "consignee.name",
-                align: "center"
-            },
-        ],
-        validators: [
-            {
-                type: "required",
-                validateOnChange: true
-            }]
-    },
-    {
         name: "shipmentId",
-        title: "<spring:message code='packing-list.shipment'/>",
+        title: "<spring:message code='shipment.loadingLetter'/>",
         type: 'long',
         required: true,
         wrapTitle: false,
         editorType: "SelectItem",
         valueField: "id",
         displayField: "automationLetterNo",
-        pickListWidth: 500,
+        pickListWidth: 600,
         pickListHeight: 300,
         optionDataSource: packingListTab.restDataSource.shipmentRest,
         pickListProperties: {
@@ -708,48 +662,16 @@ packingListTab.dynamicForm.fields = BaseFormItems.concat([
             {
                 name: "automationLetterDate",canFilter:false,
                 title: "<spring:message code='shipment.bDate'/>",
-                ID: "automationLetterDateId",
-                formatCellValue(value, record, rowNum, colNum) {return new persianDate(value).format('YYYYMMDD')},
-                icons: [{
-                    src: "pieces/pcal.png",
-                    click: function () {
-                        displayDatePicker('automationLetterDateId', this, 'ymd', '/');
-                    }
-                }],
-// defaultValue: "1399/01/01",
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
+                formatCellValue(value, record, rowNum, colNum) { if(!value)return null;return new persianDate(value).format('YYYYMMDD')},
             },
             {
                 name: "automationLetterNo",
                 title: "<spring:message code='shipment.loadingLetter'/>",
                 type: 'text',
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
-            {name: "sendDate",  type: "date",hidden:true},
-            {name: "bookingCat",hidden:true,},
-            {name: "contractShipment.contract.no"},
-            {name: "material.descEN"}
+            {name: "contractShipment.contract.no",title:"<spring:message code='contact.no'/>"},
+            {name: "material.descFA",title:"<spring:message code='goods.title'/>"}
         ],
-        validators: [
-            {
-                type: "required",
-                validateOnChange: true
-            }],
-        mapValueToDisplay: function (value) {
-            let selectedRecord = this.getSelectedRecord();
-            if (!selectedRecord) return '';
-            return DateUtil.format(new Date(selectedRecord.sendDate), "YYYY/MM/dd");
-        }
     },
     {
         name: "bookingNo",
@@ -776,6 +698,7 @@ packingListTab.dynamicForm.fields = BaseFormItems.concat([
 packingListTab.dynamicForm.packingList = isc.DynamicForm.create({
     align: "center",
     numCols: 4,
+    height:"100%",
     canSubmit: true,
     showErrorText: true,
     showErrorStyle: true,
@@ -798,12 +721,12 @@ packingListTab.dynamicForm.packingContainerFields = BaseFormItems.concat([
         name: "containerNo",
         title: "<spring:message code='packing-container.containerNo'/>",
         required: true,
+        hint:'<spring:message code="packing-container.write.ship.name.is.bulk"/>',
         wrapTitle: false
     },
     {
         name: "sealNo",
         title: "<spring:message code='packing-container.sealNo'/>",
-        required: true,
         wrapTitle: false
     },
     {
@@ -815,49 +738,42 @@ packingListTab.dynamicForm.packingContainerFields = BaseFormItems.concat([
     {
         name: "packageCount",
         title: "<spring:message code='packing-container.packageCount'/>",
-        required: true,
+        defaultValue:1,
         wrapTitle: false
     },
     {
         name: "subpackageCount",
         title: "<spring:message code='packing-container.subpackageCount'/>",
-        required: true,
         wrapTitle: false
     },
     {
         name: "strapWeight",
         title: "<spring:message code='packing-container.strapWeight'/>",
-        required: true,
         wrapTitle: false
     },
     {
         name: "palletCount",
         title: "<spring:message code='packing-container.palletCount'/>",
-        required: true,
         wrapTitle: false
     },
     {
         name: "palletWeight",
         title: "<spring:message code='packing-container.palletWeight'/>",
-        required: true,
         wrapTitle: false
     },
     {
         name: "woodWeight",
         title: "<spring:message code='packing-container.woodWeight'/>",
-        required: true,
         wrapTitle: false
     },
     {
         name: "barrelWeight",
         title: "<spring:message code='packing-container.barrelWeight'/>",
-        required: true,
         wrapTitle: false
     },
     {
         name: "containerWeight",
         title: "<spring:message code='packing-container.containerWeight'/>",
-        required: true,
         wrapTitle: false
     },
     {
@@ -869,7 +785,6 @@ packingListTab.dynamicForm.packingContainerFields = BaseFormItems.concat([
     {
         name: "vgmWeight",
         title: "<spring:message code='packing-container.vgmWeight'/>",
-        required: true,
         wrapTitle: false
     },
     {
@@ -1018,22 +933,22 @@ packingListTab.method.newForm = function () {
 
 packingListTab.listGrid.fields = BaseFormItems.concat([
     {
-        name: "billOfLanding.documentNo",
-        width: "10%"
+        name: "bookingNo",title: "<spring:message code='shipment.bookingCat'/>",
     },
     {
-        name: "billOfLanding.shipperExporter.name",
-        width: "10%"
+        name: "shipment.automationLetterDate",canFilter:false,
+        title: "<spring:message code='shipment.bDate'/>",
+        formatCellValue(value, record, rowNum, colNum) {              if(!value)return null;
+             return new persianDate(value).format('YYYYMMDD')},
     },
     {
-        name: "shipment.sendDate",
-        width: "10%",
-        type: "date"
+        name: "shipment.automationLetterNo",
+        title: "<spring:message code='shipment.loadingLetter'/>",
+        type: 'text',
     },
-    {
-        name: "bookingNo",
-        width: "10%"
-    },
+    {name: "shipment.contractShipment.contract.no",title:"<spring:message code='contact.no'/>"},
+    {name: "shipment.material.descFA",title:"<spring:message code='goods.title'/>"},
+    {name:"description",title:"<spring:message code='shipment.description'/>"}
 ]);
 
 // Packing-List ListGrid
@@ -1103,7 +1018,7 @@ packingListTab.listGrid.packingContainerListGrid = isc.ListGrid.create(
         canAutoFitFields: true,
         width: "100%",
         styleName: "listgrid-child",
-        height: 180,
+        height: 280,
         dataSource: packingListTab.restDataSource.packingContainer,
         autoFetchData: false,
         showRecordComponents: true,
@@ -1137,26 +1052,37 @@ packingListTab.listGrid.packingContainerListGrid = isc.ListGrid.create(
             {
                 name: "strapWeight",
                 width: "10%",
+                hidden:true,
             },
             {
                 name: "palletWeight",
                 width: "10%",
+                hidden:true,
+
             },
             {
                 name: "strapWeight",
                 width: "10%",
+                hidden:true,
+
             },
             {
                 name: "woodWeight",
                 width: "10%",
+                hidden:true,
+
             },
             {
                 name: "barrelWeight",
                 width: "10%",
+                hidden:true,
+
             },
             {
                 name: "woodWeight",
                 width: "10%",
+                hidden:true,
+
             }, {
                 name: "containerWeight",
                 width: "10%",
@@ -1165,6 +1091,7 @@ packingListTab.listGrid.packingContainerListGrid = isc.ListGrid.create(
                 name: "contentWeight",
                 width: "10%",
             },
+            {name: "description", showHover: true, title: "<spring:message code='packing-container.description'/>"},
             {
                 name: "editIcon",
                 width: "4%",
@@ -1191,7 +1118,7 @@ packingListTab.listGrid.packingContainerListGrid = isc.ListGrid.create(
                     grid: this,
                     click: function () {
 
-                        let record = this.grid.getSelectedRecord();
+                        // let record = this.grid.getSelectedRecord();
                         if (record == null || record.id == null)
                             packingListTab.dialog.notSelected();
                         else if (record.editable === false)
@@ -1227,13 +1154,16 @@ packingListTab.listGrid.packingContainerListGrid = isc.ListGrid.create(
                     grid: this,
                     click: function () {
 
-                        let record = this.grid.getSelectedRecord();
-                        if (record == null || record.id == null)
+                        // let record = this.grid.getSelectedRecord();
+                        if (!record|| !record.id)
                             packingListTab.dialog.notSelected();
                         else if (record.editable === false)
                             packingListTab.dialog.notEditable();
                         else {
-
+                            packingListTab.variable.method = 'PUT';
+                            packingListTab.dynamicForm.packingContainer.clearValues();
+                            packingListTab.dynamicForm.packingContainer.setValues(record);
+                            packingListTab.window.packingContainer.justShowForm();
                             // isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             //
                             //         actionURL: packingListTab.variable.packingContainerUrl,
@@ -1286,12 +1216,10 @@ packingListTab.sectionStack.mainSection = isc.SectionStack.create(
         overflow: "hidden"
     });
 
-
-
 /***@type {ToolStrip} packingListTab.toolStrip.main**/
 packingListTab.toolStrip.main.addMember(isc.ToolStripButtonAdd.create(
     {
-        title:"<spring:message code='copy.from.excel'/>",
+        title:"<spring:message code='packing-container.paste.excel'/>",
         icon: "[SKIN]/actions/excel.png",
         click(){
             if (!packingListTab.listGrid.main.getSelectedRecord())

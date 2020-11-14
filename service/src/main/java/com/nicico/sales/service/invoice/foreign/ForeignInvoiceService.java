@@ -27,6 +27,7 @@ import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceBillOfLading;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
+import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.repository.UnitDAO;
 import com.nicico.sales.repository.contract.ContractDAO;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceBillOfLadingDAO;
@@ -97,91 +98,104 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
     public ContractDetailDataDTO.Info getContractDetailData(Long contractId) {
 
         ContractDetailDataDTO.Info contractDetailData = new ContractDetailDataDTO.Info();
-
         Contract contract = contractDAO.findById(contractId).orElseThrow(() -> new NotFoundException(Contract.class));
-        Long materialId = contract.getMaterialId();
+        Locale locale = LocaleContextHolder.getLocale();
 
-        // MOAS
-        Map<String, List<Object>> operationalDataOfMOASArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
-        if (operationalDataOfMOASArticle.size() != 0) {
-            List<Map<String, Object>> moas = (List<Map<String, Object>>) operationalDataOfMOASArticle.get(EContractDetailValueKey.MOAS.getId()).get(0);
-            List<ContractDetailDataDTO.MOASData> moasData = new ArrayList<>();
-            if (moas != null) moas.stream().forEach(moasItem -> {
-                Long materialElementId = Long.valueOf(moasItem.get("materialElement").toString());
-                MaterialElement materialElement = materialElementDAO.findById(materialElementId).orElseThrow(() -> new NotFoundException(MaterialElement.class));
-                moasItem.put("materialElement", modelMapper.map(materialElement, MaterialElementDTO.Info.class));
-                moasData.add(objectMapper.convertValue(moasItem, ContractDetailDataDTO.MOASData.class));
-            });
-            contractDetailData.setMOAS(moasData);
-        } else
-            throw new SalesException2(ErrorType.NotFound, "MOAS", "Contract QuotationalPeriod Article Not Found");
+        if (!contract.getEStatus().contains(EStatus.Final)) {
 
-        // TC
-        Map<String, List<Object>> tcs = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.TC, true);
-        if (tcs != null && tcs.size() != 0)
-            contractDetailData.setTc(new BigDecimal(tcs.get(EContractDetailValueKey.TC.name()).get(0).toString()));
-        else if (materialId == 3)
-            throw new SalesException2(ErrorType.NotFound, "rc", "Contract TC Article Not Found");
-        else
-            contractDetailData.setTc(null);
+            String message = messageSource.getMessage("foreign-invoice.contract.article.not.final", null, locale);
+            throw new SalesException2(ErrorType.BadRequest, "contract", message);
+        } else {
 
-        // RC
-        Map<String, List<Object>> operationalDataOfRCArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.RC, true);
-        if (operationalDataOfRCArticle.size() != 0) {
-            List<Map<String, Object>> rcs = (List<Map<String, Object>>) operationalDataOfRCArticle.get(EContractDetailValueKey.RC.getId()).get(0);
-            List<ContractDetailDataDTO.RCData> rcData = new ArrayList<>();
-            if (rcs != null) rcs.stream().forEach(rcItem -> {
-                Long financeUnitId = Long.valueOf(rcItem.get("financeUnit").toString());
-                Long weightUnitId = Long.valueOf(rcItem.get("weightUnit").toString());
-                Long materialElementId = Long.valueOf(rcItem.get("materialElement").toString());
-                Unit financeUnit = unitDAO.findById(financeUnitId).orElseThrow(() -> new NotFoundException(UnitDTO.class));
-                Unit weightUnit = unitDAO.findById(weightUnitId).orElseThrow(() -> new NotFoundException(UnitDTO.class));
-                MaterialElement materialElement = materialElementDAO.findById(materialElementId).orElseThrow(() -> new NotFoundException(MaterialElement.class));
-                rcItem.put("financeUnit", modelMapper.map(financeUnit, UnitDTO.Info.class));
-                rcItem.put("weightUnit", modelMapper.map(weightUnit, UnitDTO.Info.class));
-                rcItem.put("materialElement", modelMapper.map(materialElement, MaterialElementDTO.Info.class));
-                rcData.add(objectMapper.convertValue(rcItem, ContractDetailDataDTO.RCData.class));
-            });
-            contractDetailData.setRc(rcData);
-        } else if (materialId == 3)
-            throw new SalesException2(ErrorType.NotFound, "rc", "Contract RC Article Not Found");
-        else
-            contractDetailData.setRc(null);
-
-        // INCOTERM
-        Map<String, List<Object>> deliveryTerms = contractDetailValueService2.get(contractId, EContractDetailTypeCode.DeliveryTerms, EContractDetailValueKey.INCOTERM, true);
-        if (deliveryTerms != null && deliveryTerms.size() != 0)
-            contractDetailData.setIncoterm(modelMapper.map(deliveryTerms.get(EContractDetailValueKey.INCOTERM.getId()).get(0), IncotermDTO.Info.class));
-        else
-            throw new SalesException2(ErrorType.NotFound, "deliveryTerm", "Contract DeliveryTerms Article Not Found");
-
-        // Discounts
-        Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
-        List<Object> discounts = operationalDataOfDiscountArticle.get(EContractDetailValueKey.DISCOUNT.getId());
-        List<ContractDiscountDTO.Info> discountData = new ArrayList<>();
-        if (discounts != null && discounts.size() != 0) {
-            discounts.forEach(discount -> discountData.add(modelMapper.map(discount, ContractDiscountDTO.Info.class)));
-            contractDetailData.setDiscount(discountData);
-        } else
-            contractDetailData.setDiscount(null);
-
-
-        // Price Article Content
-        if (materialId != 2) {
-            ContractDetailDTO.Info priceDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.Price);
-            if (priceDetail != null) {
-                contractDetailData.setPriceContent(priceDetail.getContent());
+            Long materialId = contract.getMaterialId();
+            // MOAS
+            Map<String, List<Object>> operationalDataOfMOASArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
+            if (operationalDataOfMOASArticle.size() != 0) {
+                List<Map<String, Object>> moas = (List<Map<String, Object>>) operationalDataOfMOASArticle.get(EContractDetailValueKey.MOAS.getId()).get(0);
+                List<ContractDetailDataDTO.MOASData> moasData = new ArrayList<>();
+                if (moas != null) moas.stream().forEach(moasItem -> {
+                    Long materialElementId = Long.valueOf(moasItem.get("materialElement").toString());
+                    MaterialElement materialElement = materialElementDAO.findById(materialElementId).orElseThrow(() -> new NotFoundException(MaterialElement.class));
+                    moasItem.put("materialElement", modelMapper.map(materialElement, MaterialElementDTO.Info.class));
+                    moasData.add(objectMapper.convertValue(moasItem, ContractDetailDataDTO.MOASData.class));
+                });
+                contractDetailData.setMOAS(moasData);
+            } else {
+//                Locale locale = LocaleContextHolder.getLocale();
+                String message = messageSource.getMessage("foreign-invoice.contract.article.qp.not.found", null, locale);
+                throw new SalesException2(ErrorType.NotFound, "MOAS", message);
             }
-        } else
-            contractDetailData.setPriceContent(null);
 
-        // QuotationalPeriod Article Content
-        ContractDetailDTO.Info quotationalPeriodDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.QuotationalPeriod);
-        if (quotationalPeriodDetail != null) {
-            contractDetailData.setQuotationalPeriodContent(quotationalPeriodDetail.getContent());
+            // TC
+            Map<String, List<Object>> tcs = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.TC, true);
+            if (tcs != null && tcs.size() != 0)
+                contractDetailData.setTc(new BigDecimal(tcs.get(EContractDetailValueKey.TC.name()).get(0).toString()));
+            else if (materialId == 3) {
+//                Locale locale = LocaleContextHolder.getLocale();
+                String message = messageSource.getMessage("foreign-invoice.contract.article.tc.not.found", null, locale);
+                throw new SalesException2(ErrorType.NotFound, "tc", message);
+            } else contractDetailData.setTc(null);
+
+            // RC
+            Map<String, List<Object>> operationalDataOfRCArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.RC, true);
+            if (operationalDataOfRCArticle.size() != 0) {
+                List<Map<String, Object>> rcs = (List<Map<String, Object>>) operationalDataOfRCArticle.get(EContractDetailValueKey.RC.getId()).get(0);
+                List<ContractDetailDataDTO.RCData> rcData = new ArrayList<>();
+                if (rcs != null) rcs.stream().forEach(rcItem -> {
+                    Long financeUnitId = Long.valueOf(rcItem.get("financeUnit").toString());
+                    Long weightUnitId = Long.valueOf(rcItem.get("weightUnit").toString());
+                    Long materialElementId = Long.valueOf(rcItem.get("materialElement").toString());
+                    Unit financeUnit = unitDAO.findById(financeUnitId).orElseThrow(() -> new NotFoundException(UnitDTO.class));
+                    Unit weightUnit = unitDAO.findById(weightUnitId).orElseThrow(() -> new NotFoundException(UnitDTO.class));
+                    MaterialElement materialElement = materialElementDAO.findById(materialElementId).orElseThrow(() -> new NotFoundException(MaterialElement.class));
+                    rcItem.put("financeUnit", modelMapper.map(financeUnit, UnitDTO.Info.class));
+                    rcItem.put("weightUnit", modelMapper.map(weightUnit, UnitDTO.Info.class));
+                    rcItem.put("materialElement", modelMapper.map(materialElement, MaterialElementDTO.Info.class));
+                    rcData.add(objectMapper.convertValue(rcItem, ContractDetailDataDTO.RCData.class));
+                });
+                contractDetailData.setRc(rcData);
+            } else if (materialId == 3) {
+//                Locale locale = LocaleContextHolder.getLocale();
+                String message = messageSource.getMessage("foreign-invoice.contract.article.rc.not.found", null, locale);
+                throw new SalesException2(ErrorType.NotFound, "rc", message);
+            } else contractDetailData.setRc(null);
+
+            // INCOTERM
+            Map<String, List<Object>> deliveryTerms = contractDetailValueService2.get(contractId, EContractDetailTypeCode.DeliveryTerms, EContractDetailValueKey.INCOTERM, true);
+            if (deliveryTerms != null && deliveryTerms.size() != 0)
+                contractDetailData.setIncoterm(modelMapper.map(deliveryTerms.get(EContractDetailValueKey.INCOTERM.getId()).get(0), IncotermDTO.Info.class));
+            else {
+//                Locale locale = LocaleContextHolder.getLocale();
+                String message = messageSource.getMessage("foreign-invoice.contract.article.delTerms.not.found", null, locale);
+                throw new SalesException2(ErrorType.NotFound, "deliveryTerm", message);
+            }
+
+            // Discounts
+            Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
+            List<Object> discounts = operationalDataOfDiscountArticle.get(EContractDetailValueKey.DISCOUNT.getId());
+            List<ContractDiscountDTO.Info> discountData = new ArrayList<>();
+            if (discounts != null && discounts.size() != 0) {
+                discounts.forEach(discount -> discountData.add(modelMapper.map(discount, ContractDiscountDTO.Info.class)));
+                contractDetailData.setDiscount(discountData);
+            } else contractDetailData.setDiscount(null);
+
+
+            // Price Article Content
+            if (materialId != 2) {
+                ContractDetailDTO.Info priceDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.Price);
+                if (priceDetail != null) {
+                    contractDetailData.setPriceContent(priceDetail.getContent());
+                }
+            } else contractDetailData.setPriceContent(null);
+
+            // QuotationalPeriod Article Content
+            ContractDetailDTO.Info quotationalPeriodDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.QuotationalPeriod);
+            if (quotationalPeriodDetail != null) {
+                contractDetailData.setQuotationalPeriodContent(quotationalPeriodDetail.getContent());
+            }
+
+            return contractDetailData;
         }
-
-        return contractDetailData;
     }
 
     @Override
