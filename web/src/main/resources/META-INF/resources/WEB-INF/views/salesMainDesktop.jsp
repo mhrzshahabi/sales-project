@@ -649,6 +649,7 @@
                 baseTab = isc.ToolStripMenuButton.create({
                     title: "&nbsp; <spring:message code='main.baseInfo'/>",
                     menu: isc.Menu.create({
+                        cellPadding:11,
                         placement: "none",
                         data: [
                             <sec:authorize access="hasAuthority('R_CONTACT') or hasAuthority('R_PERSON')">
@@ -802,6 +803,7 @@
                 foreignSalesTab = isc.ToolStripMenuButton.create({
                     title: "&nbsp; <spring:message code='main.foreign.sales'/>",
                     menu: isc.Menu.create({
+                        cellPadding:11,
                         placement: "none",
                         data: [
                             <sec:authorize access="hasAuthority('R_CONTRACT') or hasAuthority('R_CONTRACT_TYPE')
@@ -990,6 +992,7 @@
                 warehousesTab = isc.ToolStripMenuButton.create({
                     title: "&nbsp; <spring:message code='main.warehouses'/>",
                     menu: isc.Menu.create({
+                        cellPadding:11,
                         placement: "none",
                         data: [
                             <sec:authorize access="hasAuthority('R_TOZIN_LITE') or hasAuthority('R_TOZIN') or hasAuthority('R_REMITTANCE')">
@@ -1077,6 +1080,7 @@
                 reportTab = isc.ToolStripMenuButton.create({
                     title: "&nbsp; <spring:message code='main.reportTab'/>",
                     menu: isc.Menu.create({
+                        cellPadding:11,
                         placement: "none",
                         data: [
                             <sec:authorize access="hasAuthority('R_REPORT_GROUP')">
@@ -1150,7 +1154,7 @@
 
                 saleToolStrip = isc.ToolStrip.create({
                     align: nicico.CommonUtil.getAlignByLang() === "right" ? "left" : "right",
-                    membersMargin: 20,
+                    membersMargin: 50,
                     members: []
                 });
                 <sec:authorize
