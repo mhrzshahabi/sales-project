@@ -65,16 +65,9 @@ reportGroupTab.listGrid.fields = BaseFormItems.concat([{
     type: 'text',
     title: "<spring:message code='global.name'/>"
 }, {
-    name: "parentId",
-    type: 'integer',
-    title: "<spring:message code='report.group.parent-name'/>",
-    formatCellValue: function (value, record, rowNum, colNum) {
-
-        if (!record) return "";
-        if (!record.parent) return "";
-
-        return record.parent.name;
-    }
+    name: "parent.name",
+    type: 'text',
+    title: "<spring:message code='report.group.parent-name'/>"
 }]);
 nicico.BasicFormUtil.getDefaultBasicForm(reportGroupTab, "api/report-group/");
 nicico.BasicFormUtil.removeExtraGridMenuActions(reportGroupTab);
