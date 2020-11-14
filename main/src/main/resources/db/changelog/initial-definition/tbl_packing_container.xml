@@ -57,4 +57,37 @@
             <column name="N_wood_WEIGHT" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
+    <changeSet author="saeb" id="saeb20170407151802-f1">
+        <modifyDataType
+                columnName="N_STRAP_WEIGHT"
+                newDataType="FLOAT(24)"
+                tableName="TBL_PACKING_CONTAINER"/>
+    </changeSet>
+     <changeSet author="saeb" id="saeb20170407151802-1N_BARREL_WEIGHfT">
+        <modifyDataType
+                columnName="N_BARREL_WEIGHT"
+                newDataType="FLOAT(24)"
+                tableName="TBL_PACKING_CONTAINER"/>
+    </changeSet>
+     <changeSet author="saeb" id="saeb20170407151802-1N_NET_WEIfGHT">
+        <modifyDataType
+                columnName="N_NET_WEIGHT"
+                newDataType="FLOAT(24)"
+                tableName="TBL_PACKING_CONTAINER"/>
+    </changeSet>
+     <changeSet author="saeb" id="saeb20170407151802-1N_PALLET_WEfIGHT">
+        <modifyDataType
+                columnName="N_PALLET_WEIGHT"
+                newDataType="FLOAT(24)"
+                tableName="TBL_PACKING_CONTAINER"/>
+    </changeSet>
+
+     <changeSet author="saeb" id="saeb20170407151802-1N_wood_fWEIGHT">
+        <modifyDataType
+                columnName="N_wood_WEIGHT"
+                newDataType="FLOAT(24)"
+                tableName="TBL_PACKING_CONTAINER"/>
+    </changeSet>
+
+
 </databaseChangeLog>

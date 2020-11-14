@@ -57,20 +57,19 @@ public class PackingContainer extends BaseEntity {
 
 
      @Column(name="N_STRAP_WEIGHT")// وزن تسمه
-    private Long strapWeight;
+    private Double strapWeight;
 
      @Column(name="N_PALLET_Count")// tedad pllet
     private Long palletCount;
 
      @Column(name="N_PALLET_WEIGHT")// وزن pallet
-    private Long palletWeight;
+    private Double palletWeight;
 
      @Column(name="N_wood_WEIGHT")// وزن wood cathod falle
-    private Long woodWeight;
+    private Double woodWeight;
 
   @Column(name="N_BARREL_WEIGHT")// وزن boshkeh
-    private Long barrelWeight;
-
+    private Double barrelWeight;
 
  @Column(name="N_CONTAINER_WEIGHT")// وزن boshkeh
     private Long containerWeight;
@@ -84,7 +83,7 @@ public class PackingContainer extends BaseEntity {
 
 
 @Column(name="N_NET_WEIGHT",nullable = false)// vazn mohteva, hamoon vaznie ke baskool mige. mishe vazne kolli bar bedoon container
-    private Long netWeight;
+    private Double netWeight;
 
 @Column(name="C_DESCRIPTION",length = 2000)
     private String description;
