@@ -1,0 +1,37 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="MShahabi" id="1799887766554-084">
+        <modifyDataType
+                columnName="N_UNIT_PRICE"
+                newDataType="NUMBER"
+                tableName="TBL_FOREIGN_INVOICE"/>
+        <modifyDataType
+                columnName="N_UNIT_COST"
+                newDataType="NUMBER"
+                tableName="TBL_FOREIGN_INVOICE"/>
+        <modifyDataType
+                columnName="N_SUM_FI_PRICE"
+                newDataType="NUMBER"
+                tableName="TBL_FOREIGN_INVOICE"/>
+        <modifyDataType
+                columnName="N_SUM_PI_PRICE"
+                newDataType="NUMBER"
+                tableName="TBL_FOREIGN_INVOICE"/>
+        <modifyDataType
+                columnName="N_SUM_PRICE"
+                newDataType="NUMBER"
+                tableName="TBL_FOREIGN_INVOICE"/>
+        <modifyDataType
+                columnName="N_CONVERSION_RATE"
+                newDataType="NUMBER"
+                tableName="TBL_FOREIGN_INVOICE"/>
+        <modifyDataType
+                columnName="N_CONVERSION_SUM_PRICE"
+                newDataType="NUMBER"
+                tableName="TBL_FOREIGN_INVOICE"/>
+    </changeSet>
+
+</databaseChangeLog>

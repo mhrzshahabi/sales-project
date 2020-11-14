@@ -3,29 +3,23 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet author="admin (generated)" id="1601886402203-229">
-        <addColumn tableName="TBL_FOREIGN_INVOICE_ITEM">
-            <column name="N_DEDUCTION_UNIT_CONVERSION_RATE" type="number(12, 5)"/>
-        </addColumn>
-    </changeSet>
-
-    <changeSet author="MShahabi" id="1799887766554-083">
+    <changeSet author="MShahabi" id="1799887766554-086">
         <modifyDataType
                 columnName="N_WEIGHT_GW"
                 newDataType="NUMBER"
-                tableName="TBL_FOREIGN_INVOICE_ITEM"/>
+                tableName="AUD_TBL_FOREIGN_INVOICE_ITEM"/>
        <modifyDataType
                 columnName="N_WEIGHT_ND"
                 newDataType="NUMBER"
-                tableName="TBL_FOREIGN_INVOICE_ITEM"/>
+                tableName="AUD_TBL_FOREIGN_INVOICE_ITEM"/>
        <modifyDataType
                 columnName="N_TC"
                 newDataType="NUMBER"
-                tableName="TBL_FOREIGN_INVOICE_ITEM"/>
+                tableName="AUD_TBL_FOREIGN_INVOICE_ITEM"/>
        <modifyDataType
                 columnName="N_DEDUCTION_UNIT_CONVERSION_RATE"
                 newDataType="NUMBER"
-                tableName="TBL_FOREIGN_INVOICE_ITEM"/>
+                tableName="AUD_TBL_FOREIGN_INVOICE_ITEM"/>
     </changeSet>
 
 </databaseChangeLog>

@@ -31,14 +31,14 @@ public class ForeignInvoiceItem extends BaseEntity {
     private Long id;
 
     @NotNull
-    @Column(name = "N_WEIGHT_GW", nullable = false, scale = 5, precision = 12)
+    @Column(name = "N_WEIGHT_GW", nullable = false)
     private BigDecimal weightGW;
 
     @NotNull
-    @Column(name = "N_WEIGHT_ND", nullable = false, scale = 5, precision = 12)
+    @Column(name = "N_WEIGHT_ND", nullable = false)
     private BigDecimal weightND;
 
-    @Column(name = "N_TC", scale = 2, precision = 10)
+    @Column(name = "N_TC")
     private BigDecimal treatCost;
 
     @Column(name = "N_ASSAY_MILESTONE")
@@ -47,7 +47,7 @@ public class ForeignInvoiceItem extends BaseEntity {
     @Column(name = "N_WEIGHT_MILESTONE")
     private InspectionReportMilestone weightMilestone;
 
-    @Column(name = "N_DEDUCTION_UNIT_CONVERSION_RATE", scale = 5, precision = 12)
+    @Column(name = "N_DEDUCTION_UNIT_CONVERSION_RATE")
     private BigDecimal deductionUnitConversionRate;
 
     // *****************************************************************************************************************

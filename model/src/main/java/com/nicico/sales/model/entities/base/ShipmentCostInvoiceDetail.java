@@ -28,39 +28,39 @@ public class ShipmentCostInvoiceDetail extends BaseEntity {
     private Long id;
 
     @NotNull
-    @Column(name = "N_QUANTITY", nullable = false, scale = 5, precision = 10)
+    @Column(name = "N_QUANTITY", nullable = false)
     private BigDecimal quantity;
 
     @NotNull
-    @Column(name = "N_UNIT_PRICE", nullable = false, scale = 6, precision = 18)
+    @Column(name = "N_UNIT_PRICE", nullable = false)
     private BigDecimal unitPrice;
 
     @NotNull
-    @Column(name = "N_SUM_PRICE", nullable = false, scale = 6, precision = 18)
+    @Column(name = "N_SUM_PRICE", nullable = false)
     private BigDecimal sumPrice;
 
     @NotNull
-    @Column(name = "N_DISCOUNT_PRICE", nullable = false, scale = 6, precision = 18)
+    @Column(name = "N_DISCOUNT_PRICE", nullable = false)
     private BigDecimal discountPrice;
 
     @NotNull
-    @Column(name = "N_SUM_PRICE_WITH_DISCOUNT", nullable = false, scale = 6, precision = 18)
+    @Column(name = "N_SUM_PRICE_WITH_DISCOUNT", nullable = false)
     private BigDecimal sumPriceWithDiscount;
 
     @NotNull
-    @Column(name = "N_T_VAT_PRICE", nullable = false, scale = 6, precision = 18)
+    @Column(name = "N_T_VAT_PRICE", nullable = false)
     private BigDecimal tVatPrice;
 
     @NotNull
-    @Column(name = "N_C_VAT_PRICE", nullable = false, scale = 6, precision = 18)
+    @Column(name = "N_C_VAT_PRICE", nullable = false)
     private BigDecimal cVatPrice;
 
     @NotNull
-    @Column(name = "N_SUM_VAT_PRICE", nullable = false, scale = 6, precision = 18)
+    @Column(name = "N_SUM_VAT_PRICE", nullable = false)
     private BigDecimal sumVatPrice;
 
     @NotNull
-    @Column(name = "N_SUM_PRICE_WITH_VAT", nullable = false, scale = 6, precision = 18)
+    @Column(name = "N_SUM_PRICE_WITH_VAT", nullable = false)
     private BigDecimal sumPriceWithVat;
 
     ////// References //////

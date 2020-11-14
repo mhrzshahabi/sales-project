@@ -40,19 +40,19 @@ public class ForeignInvoicePayment extends BaseEntity {
     private Date docDate;
 
     @NotNull
-    @Column(name = "N_DOC_SUM_VALUE", nullable = false, scale = 2, precision = 14)
+    @Column(name = "N_DOC_SUM_VALUE", nullable = false)
     private BigDecimal docSumValue;
 
     @Column(name = "D_DOC_CONVERSION_DATE")
     private Date docConversionDate;
 
-    @Column(name = "N_DOC_CONVERSION_RATE", scale = 2, precision = 14)
+    @Column(name = "N_DOC_CONVERSION_RATE")
     private BigDecimal docConversionRate;
 
-    @Column(name = "N_DOC_CONVERSION_PRICE", scale = 2, precision = 14)
+    @Column(name = "N_DOC_CONVERSION_PRICE")
     private BigDecimal docConversionPrice;
 
-    @Column(name = "N_PORTION", scale = 2, precision = 5)
+    @Column(name = "N_PORTION")
     private BigDecimal portion;
 
     @Column(name = "C_DESCRIPTION", length = 4000)
