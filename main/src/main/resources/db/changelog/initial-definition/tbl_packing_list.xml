@@ -35,4 +35,8 @@
             <column name="F_SHIPMENT" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
+    <changeSet author="saeb (generated)" id="1605333827496-311">
+        <dropColumn columnName="F_BILL_OF_LADING" tableName="TBL_PACKING_LIST"/>
+    </changeSet>
+
 </databaseChangeLog>

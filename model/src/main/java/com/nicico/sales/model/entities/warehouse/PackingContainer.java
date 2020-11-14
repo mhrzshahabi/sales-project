@@ -1,10 +1,12 @@
 package com.nicico.sales.model.entities.warehouse;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.contract.BillOfLanding;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 //بارنامه
 @Getter
@@ -35,10 +37,23 @@ public class PackingContainer extends BaseEntity {
             updatable = false
     )
     private PackingList packingList;
-
+    @NotNull
     @Column(name = "F_PACKAGING_LIST",nullable = false)
     private Long packingListId;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Setter(AccessLevel.NONE)
+    @JoinColumn(
+            name = "F_BILL_OF_LADING",
+            foreignKey = @ForeignKey(name = "FK_PACKING_CONTAINER_TO_B_LADING"),
+            insertable = false,
+            updatable = false
+    )
+    private BillOfLanding billOfLanding;
+
+    @Column(name = "F_BILL_OF_LADING")
+    private Long billOfLandingId;
 
    @Column(name="C_CONTAINER_No",nullable = false)
     private String containerNo;
