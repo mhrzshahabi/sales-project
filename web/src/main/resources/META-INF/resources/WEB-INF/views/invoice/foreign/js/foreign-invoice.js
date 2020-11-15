@@ -959,12 +959,15 @@ foreignInvoiceTab.variable.selectBillLadingForm.okCallBack = function (selectedR
 
     foreignInvoiceTab.dynamicForm.valuesManager.setValue("billLadings", selectedRecords);
     foreignInvoiceTab.label.selectedBillLading.setContents(selectedRecords.map(q => q.documentNo).join(', '));
+    foreignInvoiceTab.label.selectedBillLading.setBorder("1px solid black");
+
 };
 
 foreignInvoiceTab.label.selectedBillLading = isc.Label.create({
     contents: '',
+    border: "0px solid black",
+    align: "center",
     width: "100%",
-    align: nicico.CommonUtil.getAlignByLang()
 });
 foreignInvoiceTab.button.selectBillLading = isc.IButtonSave.create({
     width: 200,
@@ -1251,13 +1254,15 @@ foreignInvoiceTab.variable.selectBillLadingCompletionForm.okCallBack = function 
 
     foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager.setValue("billLadings", selectedRecords);
     foreignInvoiceTab.label.selectBillLadingCompletion.setContents(selectedRecords.map(q => q.documentNo).join(', '));
+    foreignInvoiceTab.label.selectBillLadingCompletion.setBorder("1px solid black");
 };
 
 foreignInvoiceTab.window.invoiceCompletionForm = new nicico.FormUtil();
 foreignInvoiceTab.label.selectBillLadingCompletion = isc.Label.create({
     contents: '',
+    border: "0px solid black",
+    align: "center",
     width: "100%",
-    align: nicico.CommonUtil.getAlignByLang()
 });
 foreignInvoiceTab.button.selectBillLadingCompletion = isc.IButtonSave.create({
     width: 200,
@@ -1358,6 +1363,7 @@ nicico.BasicFormUtil.removeExtraGridMenuActions(foreignInvoiceTab);
 foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     visibility: "visible",
     icon: "[SKIN]/actions/configure.png",
+    name: "Invoice Completion",
     title: "<spring:message code='global.completion.foreign.invoice'/>",
     click: function () {
 
@@ -1386,6 +1392,8 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
             foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.clearValues();
             foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager.clearValues();
             foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager.clearErrors();
+            foreignInvoiceTab.label.selectBillLadingCompletion.setContents('');
+            foreignInvoiceTab.label.selectBillLadingCompletion.setBorder("0px solid black");
             console.log("record ", record);
             foreignInvoiceTab.method.jsonRPCManagerRequest({
                 httpMethod: "GET",
@@ -1415,7 +1423,7 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
 foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     visibility: "visible",
     icon: "pieces/16/icon_view.png",
-    name: "Invoice Completion",
+    name: "Related Invoice",
     title: "<spring:message code='global.form.related.invoice'/>",
     click: function () {
 
@@ -1472,6 +1480,8 @@ foreignInvoiceTab.method.newForm = function () {
     foreignInvoiceTab.variable.completionInvoice = false;
     foreignInvoiceTab.dynamicForm.valuesManager.clearValues();
     foreignInvoiceTab.dynamicForm.valuesManager.clearErrors();
+    foreignInvoiceTab.label.selectedBillLading.setContents('');
+    foreignInvoiceTab.label.selectedBillLading.setBorder("0px solid black");
     foreignInvoiceTab.dynamicForm.baseData.getField("inspectionAssayId").show();
     foreignInvoiceTab.dynamicForm.baseData.getField("inspectionAssayId").setRequired(true);
     foreignInvoiceTab.dynamicForm.baseData.getFields().forEach(field => {
@@ -3317,6 +3327,7 @@ foreignInvoiceTab.method.editForm = function () {
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("date", new Date(record.date));
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("billLadings", billOfLadingValues.map(q => q.billOfLanding));
                                         foreignInvoiceTab.label.selectedBillLading.setContents(billOfLadingValues.map(q => q.billOfLanding.documentNo).join(', '));
+                                        foreignInvoiceTab.label.selectedBillLading.setBorder("1px solid black");
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("toCurrencyId", record.conversionRef ? record.conversionRef.unitToId : null);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("contractId", record.shipment.contractShipment.contractId);
 
@@ -3419,6 +3430,7 @@ foreignInvoiceTab.listGrid.main.rowClick = function (record, recordNum, fieldNum
     foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.FINALIZE).first().show();
     foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DISAPPROVE).first().show();
     foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "Invoice Completion").first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "Related Invoice").first().show();
 
     if (record.parentId) {
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.EDIT).first().hide();
@@ -3427,6 +3439,7 @@ foreignInvoiceTab.listGrid.main.rowClick = function (record, recordNum, fieldNum
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.FINALIZE).first().hide();
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DISAPPROVE).first().hide();
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "Invoice Completion").first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "Related Invoice").first().show();
     } else
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DELETE).first().hide();
 
