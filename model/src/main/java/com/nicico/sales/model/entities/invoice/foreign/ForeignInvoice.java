@@ -87,6 +87,9 @@ public class ForeignInvoice extends BaseEntity {
     @Column(name = "N_ACCOUNTING_ID")
     private Long accountingId;
 
+    @Column(name = "C_DOCUMENT_ID")
+    private String documentId;
+
     // *****************************************************************************************************************
 
     @Setter(AccessLevel.NONE)

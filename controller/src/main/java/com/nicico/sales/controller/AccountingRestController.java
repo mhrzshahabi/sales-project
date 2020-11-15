@@ -2,9 +2,10 @@ package com.nicico.sales.controller;
 
 import com.nicico.copper.common.dto.grid.GridResponse;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.ICostInvoiceService;
 import com.nicico.sales.dto.AccountingDTO;
 import com.nicico.sales.iservice.IAccountingApiService;
+import com.nicico.sales.iservice.ICostInvoiceService;
+import com.nicico.sales.iservice.IForeignInvoiceDocService;
 import com.nicico.sales.iservice.IInternalInvoiceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +22,12 @@ import java.util.List;
 @RequestMapping(value = "/api/accounting")
 public class AccountingRestController {
 
-    private final IAccountingApiService accountingApiService;
-    private final IInternalInvoiceService internalInvoiceService;
-    private final ICostInvoiceService costInvoiceService;
+	private final IAccountingApiService accountingApiService;
+	private final IInternalInvoiceService internalInvoiceService;
+	private final ICostInvoiceService costInvoiceService;
+	private final IForeignInvoiceDocService foreignInvoiceDocService;
 
-    // ------------------------------
+	// ------------------------------
 
 	/*@GetMapping(value = "/documents/{invoiceId}")
 	public ResponseEntity<String> getDocumentInfo(@PathVariable String invoiceId) {
@@ -72,5 +74,10 @@ public class AccountingRestController {
 	@PostMapping(value = "/documents/cost/{invoiceId}")
 	public ResponseEntity<String> sendCostInvoice(@PathVariable Long invoiceId, @RequestBody AccountingDTO.DocumentCreateRq request) {
 		return new ResponseEntity<>(costInvoiceService.sendInvoice(invoiceId, request), HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/documents/foreign/{invoiceId}")
+	public ResponseEntity<String> sendForeignInvoice(@PathVariable Long invoiceId, @RequestBody AccountingDTO.DocumentCreateRq request) {
+		return new ResponseEntity<>(foreignInvoiceDocService.sendInvoice(invoiceId, request), HttpStatus.OK);
 	}
 }

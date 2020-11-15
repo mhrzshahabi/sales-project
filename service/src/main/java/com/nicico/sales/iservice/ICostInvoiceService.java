@@ -1,4 +1,4 @@
-package com.nicico.sales;
+package com.nicico.sales.iservice;
 
 import com.nicico.sales.dto.AccountingDTO;
 
