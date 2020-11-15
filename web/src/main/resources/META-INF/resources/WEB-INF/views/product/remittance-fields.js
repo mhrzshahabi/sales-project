@@ -657,6 +657,10 @@ function getRemittanceFields(objTab) {
                     return '<div style="color: red;  unicode-bidi: bidi-override;direction: ltr">' + value + '</div>'
                 },
             },
+            {name:"remittance.hasRemainedInventory",type:"boolean",
+                title: "<spring:message code='remittance.has.remained.inventory'/>",
+                hidden:true
+            },
             ...objTab.Fields.RemittanceDetail(),
 
         ];
@@ -1109,9 +1113,11 @@ function getRemittanceFields(objTab) {
                 },
                 pickListFields: objTab.Fields.PackingContainer(),
 
+            },
+            {name:"hasRemainedInventory",type:"boolean",
+                title: "<spring:message code='remittance.has.remained.inventory'/>",
+                hidden:true
             }
-
-
         ];
     }
     objTab.Fields.RemittanceFull = function () {
@@ -1338,7 +1344,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                 defaultValue:materialItemId,
                 valueMap: objTab.Fields.Inventory().find(i => i.name === "materialItemId").valueMap,
             },
-            ...objTab.Fields.Remittance().filter(_ => _.name.toLowerCase() !== 'date').map(_ => {
+            ...objTab.Fields.Remittance().filter(_ => !["date","hasRemainedInventory".toLowerCase()].includes(_.name.toLowerCase())).map(_ => {
                 if (['shipmentId'.toLowerCase(),"packingContainerId".toLowerCase()].includes(_.name.toLowerCase()))
                 {
                     _.hidden = false;
