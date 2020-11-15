@@ -1691,6 +1691,7 @@ nicico.BasicFormUtil.createListGrid = function () {
         shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice, null, {
             showFilterEditor: true,
             canAutoFitFields: true,
+            canResizeFields: false,
             width: "100%",
             height: "100%",
             autoFetchData: true,
@@ -1722,11 +1723,11 @@ nicico.BasicFormUtil.createListGrid = function () {
                 };
 
                 shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                    if (data.length == 0) {
-                        // shipmentCostInvoiceTab.label.recordNotFound.show();
+                    if (data.length === 0) {
+
                         shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.hide()
                     } else {
-                        // shipmentCostInvoiceTab.label.recordNotFound.hide();
+
                         shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.setData(data);
                         shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.setAutoFitMaxRecords(1);
                         shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.show();
@@ -1739,7 +1740,6 @@ nicico.BasicFormUtil.createListGrid = function () {
                     membersMargin: 10,
                     members: [
                         shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain,
-                        // shipmentCostInvoiceTab.label.recordNotFound,
                     ]
                 });
 
