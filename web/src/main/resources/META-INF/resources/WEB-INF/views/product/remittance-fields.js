@@ -767,7 +767,7 @@ function getRemittanceFields(objTab) {
                     {name: "contractShipmentId", hidden: true, type: 'long'},
                     {name: "contactId", type: 'long', hidden: true},
                     {
-                        name: "contact.nameFA",
+                        name: "contact.name"+languageForm.getValue('languageName').toUpperCase(),
                         title: "<spring:message code='contact.name'/>",
                         type: 'text',
                         width: "10%",
@@ -806,8 +806,8 @@ function getRemittanceFields(objTab) {
                         showHover: true
                     },
                     {
-                        name: "material.descl",
-                        title: "<spring:message code='material.descl'/>",
+                        name: "material.desc"+languageForm.getValue('languageName').toUpperCase(),
+                        title: "<spring:message code='material.title'/>",
                         type: 'text',
                         width: "10%",
                         align: "center",
@@ -825,8 +825,8 @@ function getRemittanceFields(objTab) {
                         showHover: true
                     },
                     {
-                        name: "shipmentType.shipmentType",
-                        title: "<spring:message code='shipment.shipmentType'/>",
+                        name: "dischargePort.country.name"+languageForm.getValue('languageName').toUpperCase(),
+                        title: "<spring:message code='global.country'/>",
                         type: 'text',
                         width: "10%",
                         showHover: true,
@@ -892,7 +892,7 @@ function getRemittanceFields(objTab) {
                         },
                     },
                     {
-                        name: "contactAgent.nameFA",
+                        name: "contactAgent.name"+languageForm.getValue('languageName').toUpperCase(),
                         title: "<spring:message code='shipment.agent'/>",
                         type: 'text',
                         width: "10%",
@@ -1582,8 +1582,6 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
         editEvent: "doubleClick",
         autoSaveEdits: false,
         fields: [
-            {name: "remittance.code", title: "<spring:message code='remittance.code'/>", canEdit: false},
-            {name: "remittance.description", title: "<spring:message code='remittance.description'/>", canEdit: false},
             ...objTab.Fields.RemittanceDetailFullFields().map(f => {
                 const showFields = {
                     "remittance.code": {},
@@ -1591,7 +1589,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                     "inventory.label": {},
                     "description": {},
                     "weight": {},
-                    "ampunt": {},
+                    "amount": {},
                     "unitId": {},
                     "depotId": {},
                 };

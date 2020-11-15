@@ -919,9 +919,19 @@ remittanceTab.Grids.Remittance = {
                 //         })
                 //     ]
                 // }),
-                isc.ListGrid.create({
-                    ...remittanceTab.Grids.RemittanceDetail(),
-                    data: record['remittanceDetails']
+                // isc.ListGrid.create({
+                //     ...remittanceTab.Grids.RemittanceDetail(),
+                //     // fetchDataUrl:'api/remittance-detail/spec-list',
+                //     initialCriteria:{operator:"and",criteria:{fieldName:"remittanceId",operator:"equals",value:record.id}},
+                //     dataSource:isc.MyRestDataSource.create({...remittanceTab.RestDataSources.RemittanceDetail()}),
+                //     autoFetchData: true,
+                //
+                // }),
+                remittanceTab.Grids.RemittanceDetailObj = isc.ListGrid.create({
+                    ...Object.assign({},remittanceTab.Grids.RemittanceDetail()),
+                    initialCriteria:{operator:"and",criteria:[{fieldName:"remittanceId",operator:"equals",value:record.id}]},
+                    autoFetchData:true,
+                    dataSource: isc.MyRestDataSource.create(remittanceTab.RestDataSources.RemittanceDetail()),
                 })
             ]
         })
@@ -1083,6 +1093,7 @@ isc.VLayout.create({
         }),
         remittanceTab.Grids.Remittance.obj = isc.ListGrid.create({
             ...remittanceTab.Grids.Remittance,
+            // autoFetchData:false,
             dataSource: isc.MyRestDataSource.create(remittanceTab.Grids.Remittance.dataSource),
         })
     ]

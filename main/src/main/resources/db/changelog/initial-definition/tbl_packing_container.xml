@@ -103,5 +103,14 @@
     <changeSet author="saeb (generated)" id="1605333827496-296">
         <addForeignKeyConstraint baseColumnNames="F_BILL_OF_LADING" baseTableName="TBL_PACKING_CONTAINER" constraintName="FK_PACKING_CONTAINER_TO_B_LADING" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_BILL_OF_LANDING" validate="true"/>
     </changeSet>
-
+    <changeSet author="saeb (generated)" id="1605358134745-295">
+        <addForeignKeyConstraint baseColumnNames="F_PACKAGING_LIST"
+                                 baseTableName="TBL_PACKING_CONTAINER"
+                                 constraintName="FK_PACKAGIN_CONTAINER2PACKING_LIST"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 referencedColumnNames="id"
+                                 referencedTableName="TBL_PACKING_LIST"
+                                 validate="true"/>
+    </changeSet>
 </databaseChangeLog>

@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 //بارنامه
 @Getter
@@ -26,7 +27,8 @@ public class PackingList extends BaseEntity {
     @SequenceGenerator(name = "SEQ_PACKING_LIST", sequenceName = "SEQ_PACKING_LIST", allocationSize = 1, initialValue = 100000)
     private Long id;
 
-
+    @OneToMany(mappedBy = "packingList",orphanRemoval = true,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<PackingContainer> containers;
 
    @ManyToOne(fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
