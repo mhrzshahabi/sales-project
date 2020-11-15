@@ -26,11 +26,11 @@ foreignInvoiceTab.variable.invoiceTypeCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "or",
     criteria: [
-        {fieldName: "id", operator: "equals", value: ImportantIDs.invoiceType.PERFORMA},
-        {fieldName: "id", operator: "equals", value: ImportantIDs.invoiceType.PROVISIONAL},
         {fieldName: "id", operator: "equals", value: ImportantIDs.invoiceType.FINAL},
-        {fieldName: "id", operator: "equals", value: ImportantIDs.invoiceType.PI_TRUSTY},
-        {fieldName: "id", operator: "equals", value: ImportantIDs.invoiceType.FI_TRUSTY}
+        // {fieldName: "id", operator: "equals", value: ImportantIDs.invoiceType.PERFORMA},
+        // {fieldName: "id", operator: "equals", value: ImportantIDs.invoiceType.PROVISIONAL},
+        // {fieldName: "id", operator: "equals", value: ImportantIDs.invoiceType.PI_TRUSTY},
+        // {fieldName: "id", operator: "equals", value: ImportantIDs.invoiceType.FI_TRUSTY}
     ]
 };
 
@@ -138,6 +138,8 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         width: "100%",
         valueField: "id",
         displayField: "title",
+        autoFetchData: false,
+        defaultValue: ImportantIDs.invoiceType.FINAL,
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
