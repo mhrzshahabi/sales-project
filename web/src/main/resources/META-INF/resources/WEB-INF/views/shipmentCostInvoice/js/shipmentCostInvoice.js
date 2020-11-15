@@ -896,7 +896,12 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
         pickListFields: [
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
             {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
-            {name: "currencyDate", type: "date", title: "<spring:message code='global.date'/>", dateFormatter: "toJapanShortDate"},
+            {
+                name: "currencyDate",
+                type: "date",
+                title: "<spring:message code='global.date'/>",
+                dateFormatter: "toJapanShortDate"
+            },
             {name: "unitFrom.name", title: "<spring:message code='global.from'/>"},
             {name: "unitTo.name", title: "<spring:message code='global.to'/>"},
             {name: "currencyRateValue", title: "<spring:message code='rate.title'/>"}
@@ -1313,6 +1318,11 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
             // value: 0
         },
     ]),
+    removeRecordClick: function (rowNum) {
+
+        this.Super("removeRecordClick", arguments);
+        shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(0).members.get(2).members.get(0).click();
+    },
     rowEditorExit: function (editCompletionEvent, record, newValues, rowNum) {
 
         if (editCompletionEvent !== "escape") {

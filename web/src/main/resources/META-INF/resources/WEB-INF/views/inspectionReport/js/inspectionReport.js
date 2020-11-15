@@ -5,8 +5,6 @@ var inspectionReportTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable()
 inspectionReportTab.variable.data = [];
 inspectionReportTab.variable.allCols = 0;
 inspectionReportTab.variable.materialId = 0;
-inspectionReportTab.variable.isWeightExist = true;
-inspectionReportTab.variable.isAssayExist = true;
 inspectionReportTab.variable.removeAllAssay = false;
 inspectionReportTab.variable.removeAllWeight = false;
 inspectionReportTab.variable.selectedInventories = [];
@@ -356,47 +354,15 @@ inspectionReportTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
             canEdit: false,
             hidden: true
         },
+        {name: "sendDate", type: "date", showHover: true, title: "<spring:message code ='global.sendDate'/>"},
+        {name: "bookingCat", title: "<spring:message code ='shipment.bookingCat'/>", showHover: true},
         {
-            name: "bookingCat",
-            title: "<spring:message code ='shipment.bookingCat'/>",
-            showHover: true
-        },
-        {
-            name: "material.descEN",
-            title: "<spring:message code ='material.descEN'/>",
-            showHover: true
-        },
-        {
-            name: "contact.name",
-            title: "<spring:message code ='contact.nameFa'/>",
-            showHover: true
-        },
-        {
-            name: "sendDate",
-            title: "<spring:message code ='global.sendDate'/>",
+            name: "contractShipment.contract.no",
+            type: 'text',
             showHover: true,
-            type: "date"
+            title: "<spring:message code='contract.contractNo'/>"
         },
-        {
-            name: "shipmentType.shipmentType",
-            title: "<spring:message code ='shipment.shipmentType'/>",
-            showHover: true
-        },
-        {
-            name: "shipmentMethod.shipmentMethod",
-            title: "<spring:message code ='shipment.shipmentMethod'/>",
-            showHover: true
-        },
-        {
-            name: "vessel.name",
-            title: "<spring:message code ='shipment.vesselName'/>",
-            showHover: true
-        },
-        {
-            name: "contractShipment",
-            title: "<spring:message code ='shipment.contractShipment'/>",
-            showHover: true
-        },
+        {name: "material.descEN", type: 'text', showHover: true, title: "<spring:message code='material.descEN'/>"}
     ],
     fetchDataURL: "${contextPath}/api/shipment/spec-list"
 });
@@ -681,7 +647,6 @@ inspectionReportTab.method.setAssayElementSum = function () {
 inspectionReportTab.method.createWeightListGrid = function () {
 
     let selectedInventories = inspectionReportTab.dynamicForm.inspecReport.getValue("inventoryId");
-    inspectionReportTab.variable.isWeightExist = true;
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 
         httpMethod: "GET",
@@ -695,13 +660,6 @@ inspectionReportTab.method.createWeightListGrid = function () {
             inspectionReportTab.listGrid.weightElement.setData([]);
 
             let inventoryIds = JSON.parse(resp.httpResponseText);
-            if (!inventoryIds || !inventoryIds.length) {
-                inspectionReportTab.variable.isWeightExist = false;
-                return;
-            }
-
-            let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
-
             if (inspectionReportTab.variable.method === "PUT") {
 
                 let preInventories = selectedInventories.filter(q => !inventoryIds.includes(q));
@@ -710,7 +668,9 @@ inspectionReportTab.method.createWeightListGrid = function () {
                 inspectionReportTab.method.setSavedWeightData(weightInspectionArray);
             }
 
+            let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
             inspectionReportTab.method.setWeightElementListRows(inventoryIds);
+
             inspectionReportTab.method.setWeightElementSum();
             inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.weightUnitSum, inventories);
         }
@@ -720,7 +680,6 @@ inspectionReportTab.method.createWeightListGrid = function () {
 inspectionReportTab.method.createAssayListGrid = function () {
 
     let selectedInventories = inspectionReportTab.dynamicForm.inspecReport.getValue("inventoryId");
-    inspectionReportTab.variable.isAssayExist = true;
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 
         httpMethod: "GET",
@@ -734,15 +693,6 @@ inspectionReportTab.method.createAssayListGrid = function () {
             inspectionReportTab.listGrid.assayElement.setData([]);
 
             let inventoryIds = JSON.parse(resp.httpResponseText);
-            if (!inventoryIds || !inventoryIds.length) {
-                inspectionReportTab.variable.isAssayExist = false;
-                if (!inspectionReportTab.variable.isWeightExist && !inspectionReportTab.variable.isAssayExist)
-                    inspectionReportTab.dialog.say("<spring:message code='global.message.selected.inventories.have.inspection'/>");
-                return;
-            }
-
-            let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
-
             if (inspectionReportTab.variable.method === "PUT") {
 
                 let preInventories = selectedInventories.filter(q => !inventoryIds.includes(q));
@@ -751,7 +701,9 @@ inspectionReportTab.method.createAssayListGrid = function () {
                 inspectionReportTab.method.setSavedAssayData(assayInspectionArray, preInventories);
             }
 
+            let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
             inspectionReportTab.method.setAssayElementListRows(inventoryIds);
+
             inspectionReportTab.method.setAssayElementSum();
             inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.assayUnitSum, inventories);
         }
@@ -885,27 +837,11 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 showFilterEditor: true
             },
         pickListFields: [
-            {
-                name: "bookingCat"
-            },
-            {
-                name: "material.descEN",
-            },
-            {
-                name: "contact.name",
-            },
-            {
-                name: "sendDate",
-                type: "date",
-                dateFormatter: "toJapanShortDate",
-
-            },
-            {
-                name: "shipmentType.shipmentType",
-            },
-            {
-                name: "shipmentMethod.shipmentMethod",
-            },
+            {name: "id", primaryKey: true, hidden: true},
+            {name: "sendDate", width: 100, type: "date", dateFormatter: "toJapanShortDate"},
+            {name: "bookingCat"},
+            {name: "contractShipment.contract.no"},
+            {name: "material.descEN"}
         ],
         changed: function (form, item, value) {
 
@@ -2073,6 +2009,15 @@ inspectionReportTab.method.editForm = function () {
         if (shipmentId) {
             inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").disable();
             inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").disable();
+            inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
+                _constructor: "AdvancedCriteria",
+                operator: "and",
+                criteria: [{
+                    fieldName: "remittanceDetails.remittance.shipmentId",
+                    operator: "equals",
+                    value: shipmentId
+                }]
+            });
         }
         inspectionReportTab.method.getAssayElementFields(inspectionReportTab.variable.materialId, () => {
             inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.assayUnitSum, inventories);
@@ -2099,26 +2044,11 @@ inspectionReportTab.dynamicForm.addShipmentDynamicForm = isc.DynamicForm.nicico.
             showFilterEditor: true
         },
     pickListFields: [
-        {
-            name: "bookingCat"
-        },
-        {
-            name: "material.descEN",
-        },
-        {
-            name: "contact.nameFA",
-        },
-        {
-            name: "sendDate",
-            type: "date",
-            dateFormatter: "toJapanShortDate",
-        },
-        {
-            name: "shipmentType.shipmentType",
-        },
-        {
-            name: "shipmentMethod.shipmentMethod",
-        },
+        {name: "id", primaryKey: true, hidden: true},
+        {name: "sendDate", width: 100, type: "date", dateFormatter: "toJapanShortDate"},
+        {name: "bookingCat"},
+        {name: "contractShipment.contract.no"},
+        {name: "material.descEN"}
     ],
     mapValueToDisplay: function (value) {
         let selectedRecord = this.getSelectedRecord();
@@ -2129,14 +2059,14 @@ inspectionReportTab.dynamicForm.addShipmentDynamicForm = isc.DynamicForm.nicico.
 }]);
 
 inspectionReportTab.window.formUtil = new nicico.FormUtil();
-inspectionReportTab.window.formUtil.init(null, '<spring:message code="Shipment.title"/>', isc.HLayout.create({
+inspectionReportTab.window.formUtil.init(null, '<spring:message code="global.add.shipment"/>', isc.HLayout.create({
     width: "100%",
     height: "100",
     align: "center",
     members: [
         inspectionReportTab.dynamicForm.addShipmentDynamicForm
     ]
-}), "500", "20%");
+}), "500", "15%");
 
 inspectionReportTab.window.formUtil.populateData = function (bodyWidget) {
 
