@@ -16,6 +16,7 @@
 		<link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
 		<link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
 		<link rel="stylesheet" href='<spring:url value="/static/css/commonStyle.css"/>'/>
+		<link rel="stylesheet" href='<spring:url value="/static/css/OAManagementUsers.css"/>'/>
 
 		<script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
 		<script src="<spring:url value='/static/script/js/jalali-moment.browser.js'/>"></script>
@@ -1122,6 +1123,15 @@
                         ]
                     })
                 });
+
+				/*----------------------securityTab------------------------*/
+				securityTab = isc.ToolStripButton.create({
+					border: "0",
+					title: "&nbsp; <spring:message code='main.securityTab'/>",
+					click: function () {
+						createTab("<spring:message code='main.securityTab'/>", "web/oauth/landing/show-form", false);
+					}
+				});
                 //---------------------------------------
                 var mainTabSet = isc.TabSet.create({
                     tabBarPosition: "top",
@@ -1177,6 +1187,9 @@
                 <sec:authorize access="hasAuthority('R_REMITTANCE')">
                 saleToolStrip.addMember(reportTab);
                 </sec:authorize>
+				<sec:authorize access="hasAuthority('UI_USER_MANAGEMENT_SHOW_BUTTON')">
+				saleToolStrip.addMember(securityTab);
+				</sec:authorize>
 
                 var MainDesktopMenuH = isc.HLayout.create({
                     width: "100%",
