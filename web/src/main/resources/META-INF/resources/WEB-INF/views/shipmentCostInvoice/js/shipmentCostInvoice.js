@@ -915,7 +915,7 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
                 type: "date",
                 title: "<spring:message code='global.date'/>",
                 dateFormatter: "toJapanShortDate",
-                width:100
+                width: 100
             },
             {name: "unitFrom.name", title: "<spring:message code='global.from'/>"},
             {name: "unitTo.name", title: "<spring:message code='global.to'/>"},
@@ -1782,6 +1782,8 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain = isc.ListGrid.create(
             {
                 name: "unitPrice",
                 width: "10%",
+                type: "float",
+                format: "0.##",
                 formatCellValue: function (value, record, rowNum, colNum) {
                     if (!value)
                         return value;
@@ -1792,6 +1794,8 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain = isc.ListGrid.create(
             {
                 name: "sumPrice",
                 width: "10%",
+                type: "float",
+                format: "0.##",
                 formatCellValue: function (value, record, rowNum, colNum) {
                     if (!value)
                         return value;
@@ -1802,6 +1806,8 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain = isc.ListGrid.create(
             {
                 name: "sumPriceWithVat",
                 width: "10%",
+                type: "float",
+                format: "0.##",
                 formatCellValue: function (value, record, rowNum, colNum) {
                     if (!value)
                         return value;
