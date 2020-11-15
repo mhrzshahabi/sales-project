@@ -4,6 +4,7 @@ import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.contract.BillOfLandingDTO;
+import com.nicico.sales.dto.contract.ContractContactDTO;
 import com.nicico.sales.iservice.contract.IBillOfLandingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,13 @@ import java.util.List;
 public class BillOfLandingController {
 
     private final IBillOfLandingService service;
+
+
+    @Loggable
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<BillOfLandingDTO.Info> get(@PathVariable Long id) {
+        return new ResponseEntity<>(service.get(id), HttpStatus.OK);
+    }
 
 
     @Loggable
