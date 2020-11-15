@@ -6,6 +6,8 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 //بارنامه
@@ -61,6 +63,8 @@ public class PackingContainer extends BaseEntity {
    @Column(name="C_SEAL_No") //shomare polopmp
     private String sealNo;
 
+   @Min(13900000)
+   @Max(15000000)
    @Column(name="N_LADING_DATE",nullable = false)
     private Long ladingDate;
 

@@ -73,7 +73,7 @@ function getRemittanceFields(objTab) {
         {name: "vgmWeight", hidden: true,summaryFunction:"sum", editorProperties:{validateOnExit:true,}, type:"number", showHover: true, title: "<spring:message code='packing-container.vgmWeight'/>"},
         {name: "netWeight",hidden: true, summaryFunction:"sum", editorProperties:{validateOnExit:true,}, type:"float",required:true, showHover: true, title: "<spring:message code='packing-container.netWeight'/>"},
         {name: "description",hidden: true, editorProperties:{validateOnExit:true,},type:"text", showHover: true, title: "<spring:message code='packing-container.description'/>"},
-    ];}
+    ].map(_=>Object.assign({},_));}
     objTab.Fields.TozinBase = function () {
         return [
             {
@@ -118,7 +118,11 @@ function getRemittanceFields(objTab) {
                     } catch (e) {
                         return value
                     }
-                }
+                },
+                validators:[{
+                    type:"regexp",
+                    expression:"(^[1-9][0-9]{3}((0[1-9])|(1[1-2]))(0[1-9]|[1-2][0-9]|30|31)$)|(^[1-9][0-9]{3}\\/[0-1][0-9]\\/[0-3][0-9]$)"
+                }]
             },
             {
                 name: "tozinId",
@@ -226,7 +230,7 @@ function getRemittanceFields(objTab) {
                 align: "center",
                 defaultValue: StorageUtil.get('out_remittance_defaultTargetId')
             },
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.TozinTable = function () {
         return [
@@ -241,7 +245,7 @@ function getRemittanceFields(objTab) {
             {name: 'cardId', hidden: true},
             {name: 'ctrlDescOut', title: "<spring:message code='global.description'/>"},
             {name: 'version', hidden: true},
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.TozinLite = function () {
         return [
@@ -291,7 +295,7 @@ function getRemittanceFields(objTab) {
                 align: "center"
             },
             {name: "isRail", type: "boolean", title: "<spring:message code='warehouseCad.with.rail'/>"}
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.TozinFull = function () {
         return [
@@ -441,7 +445,7 @@ function getRemittanceFields(objTab) {
             },
 
 
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.RemittanceDetail = function () {
         return [
@@ -529,7 +533,7 @@ function getRemittanceFields(objTab) {
 
 
             },
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.RemittanceDetailFullFields = function () {
         return [
@@ -663,7 +667,7 @@ function getRemittanceFields(objTab) {
             },
             ...objTab.Fields.RemittanceDetail(),
 
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.Remittance = function () {
         return [
@@ -1118,7 +1122,7 @@ function getRemittanceFields(objTab) {
                 title: "<spring:message code='remittance.has.remained.inventory'/>",
                 hidden:true
             }
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.RemittanceFull = function () {
         return [
@@ -1249,7 +1253,7 @@ function getRemittanceFields(objTab) {
 
                 },
             },
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.Inventory = function () {
         return [
@@ -1267,14 +1271,14 @@ function getRemittanceFields(objTab) {
             },
             {name: 'label', title: '<spring:message code="warehouseCadItem.inventory.Serial"/>'},
             {name: 'id', title: '<spring:message code="global.id"/>', hidden: true,},
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.Depot = function () {
         return [
             {name: "store.warehouse.name", title: "<spring:message code='dailyReportTransport.warehouseNo'/>"},
             {name: "store.name", title: "<spring:message code='warehouseCad.store'/>"},
             {name: "name", title: "<spring:message code='warehouseCad.yard'/>"}
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.Shipment = function () {
         return [
@@ -1305,9 +1309,9 @@ function getRemittanceFields(objTab) {
             {name: "bookingCat", title: "<spring:message code='shipment.bookingCat'/>", align: "center"}
 
 
-        ];
+        ].map(_=>Object.assign({},_));
     }
-    return objTab;
+    return Object.assign({},objTab);
 }
 if(!newOutRemittance)
 function newOutRemittance(objTab,selectedData,materialItemId) {
@@ -1658,7 +1662,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
     objTab.Methods.OutRemittanceSave = async function () {
         if (!objTab.DynamicForms.Forms.OutRemittance.validate()) return;
         const remittanceDetails = objTab.Grids.RemittanceDetailOutRemittance.getData();
-        const __remittanceDetails = Object.assign({},remittanceDetails)
+        const __remittanceDetails = JSON.parse(JSON.stringify(remittanceDetails))
         const remittance = objTab.DynamicForms.Forms.OutRemittance.getValues();
         const remittanceDetailsWithoutTozin = remittanceDetails.filter(rd => {
                 if (rd.outTozin) return false;
