@@ -154,9 +154,9 @@ public class ForeignInvoiceFormController {
         BigDecimal agDedRate = ag_detial.getDeductionUnitConversionRate();
         BigDecimal auDedRate = au_detial.getDeductionUnitConversionRate();
 
-        wordUtil.replacePOI(doc, "CU_PRICE_RATE", (cuDedRate != null && !cuDedRate.equals(0) && !cuDedRate.equals(1) ? "x   " + cuDedRate.toString() : ""));
-        wordUtil.replacePOI(doc, "AG_PRICE_RATE", (agDedRate != null && !agDedRate.equals(0) && !agDedRate.equals(1) ? "x   " + agDedRate.toString() : ""));
-        wordUtil.replacePOI(doc, "AU_PRICE_RATE", (auDedRate != null && !auDedRate.equals(0) && !auDedRate.equals(1) ? "x   " + auDedRate.toString() : ""));
+        wordUtil.replacePOI(doc, "CU_PRICE_RATE", (cuDedRate != null && !cuDedRate.equals(BigDecimal.valueOf(0)) && !cuDedRate.equals(BigDecimal.valueOf(1)) ? "x   " + cuDedRate.toString() : ""));
+        wordUtil.replacePOI(doc, "AG_PRICE_RATE", (agDedRate != null && !agDedRate.equals(BigDecimal.valueOf(0)) && !agDedRate.equals(BigDecimal.valueOf(1)) ? "x   " + agDedRate.toString() : ""));
+        wordUtil.replacePOI(doc, "AU_PRICE_RATE", (auDedRate != null && !auDedRate.equals(BigDecimal.valueOf(0)) && !auDedRate.equals(BigDecimal.valueOf(1)) ? "x   " + auDedRate.toString() : ""));
 
         wordUtil.replacePOI(doc, "CU_PRICE_BASE", String.valueOf(cu_detial.getBasePrice()));
         wordUtil.replacePOI(doc, "AG_PRICE_BASE", String.valueOf(ag_detial.getBasePrice()));
@@ -206,9 +206,9 @@ public class ForeignInvoiceFormController {
         BigDecimal agRcUnitRate = ag_detial.getRcUnitConversionRate();
         BigDecimal auRcUnitRate = au_detial.getRcUnitConversionRate();
 
-        wordUtil.replacePOI(doc, "CU_RC_RATE", (cuRcUnitRate != null && !cuRcUnitRate.equals(0) && !cuRcUnitRate.equals(1) ? "x   " + cuRcUnitRate.toString() : ""));
-        wordUtil.replacePOI(doc, "AG_RC_RATE", (agRcUnitRate != null && !agRcUnitRate.equals(0) && !agRcUnitRate.equals(1) ? "x   " + agRcUnitRate.toString() : ""));
-        wordUtil.replacePOI(doc, "AU_RC_RATE", (auRcUnitRate != null && !auRcUnitRate.equals(0) && !auRcUnitRate.equals(1) ? "x   " + auRcUnitRate.toString() : ""));
+        wordUtil.replacePOI(doc, "CU_RC_RATE", (cuRcUnitRate != null && !cuRcUnitRate.equals(BigDecimal.valueOf(0)) && !cuRcUnitRate.equals(BigDecimal.valueOf(1)) ? "x   " + cuRcUnitRate.toString() : ""));
+        wordUtil.replacePOI(doc, "AG_RC_RATE", (agRcUnitRate != null && !agRcUnitRate.equals(BigDecimal.valueOf(0)) && !agRcUnitRate.equals(BigDecimal.valueOf(1)) ? "x   " + agRcUnitRate.toString() : ""));
+        wordUtil.replacePOI(doc, "AU_RC_RATE", (auRcUnitRate != null && !auRcUnitRate.equals(BigDecimal.valueOf(0)) && !auRcUnitRate.equals(BigDecimal.valueOf(1)) ? "x   " + auRcUnitRate.toString() : ""));
 
         wordUtil.replacePOI(doc, "CU_RC_PRICE", cu_detial.getRcBasePrice().toString());
         wordUtil.replacePOI(doc, "AG_RC_PRICE", ag_detial.getRcBasePrice().toString());

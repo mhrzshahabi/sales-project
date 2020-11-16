@@ -1,15 +1,20 @@
 package com.nicico.sales.service;
 
 import com.nicico.copper.common.domain.i18n.CaptionFactory;
-import com.nicico.sales.iservice.ICostInvoiceService;
 import com.nicico.sales.dto.AccountingDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IAccountingApiService;
+import com.nicico.sales.iservice.ICostInvoiceService;
+import com.nicico.sales.iservice.IForeignInvoiceDocService;
 import com.nicico.sales.model.entities.base.ShipmentCostInvoice;
 import com.nicico.sales.model.entities.base.ViewCostInvoiceDocument;
+import com.nicico.sales.model.entities.base.ViewForeignInvoiceDocument;
+import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
 import com.nicico.sales.repository.CostInvoiceDAO;
+import com.nicico.sales.repository.ForeignInvoiceDocDAO;
 import com.nicico.sales.repository.ShipmentCostInvoiceDAO;
+import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -25,11 +30,11 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class CostInvoiceService implements ICostInvoiceService {
+public class ForeignInvoiceDocService implements IForeignInvoiceDocService {
 
 	private final ResourceBundleMessageSource messageSource;
-	private final CostInvoiceDAO costInvoiceDAO;
-	private final ShipmentCostInvoiceDAO shipmentCostInvoiceDAO;
+	private final ForeignInvoiceDocDAO foreignInvoiceDocDAO;
+	private final ForeignInvoiceDAO foreignInvoiceDAO;
 
 	private final IAccountingApiService accountingApiService;
 
@@ -38,21 +43,21 @@ public class CostInvoiceService implements ICostInvoiceService {
 	@Override
 	@Transactional
 	public String sendInvoice(Long invoiceId, AccountingDTO.DocumentCreateRq request) {
-		final List<ViewCostInvoiceDocument> costInvoiceDocuments = costInvoiceDAO.findAllByIdShciId(invoiceId);
+		final List<ViewForeignInvoiceDocument> foreignInvoiceDocuments = foreignInvoiceDocDAO.findAllByIdFiId(invoiceId);
 
-		final List<Object> objects = new ArrayList<>(costInvoiceDocuments);
+		final List<Object> objects = new ArrayList<>(foreignInvoiceDocuments);
 
-		final Map<String, Object> result = accountingApiService.sendInvoice("sales cost invoice", request, objects);
+		final Map<String, Object> result = accountingApiService.sendInvoice("sales foreign invoice", request, objects);
 
 		if (result.containsKey("docId")) {
-			final Optional<ShipmentCostInvoice> shipmentCostInvoiceOpt = shipmentCostInvoiceDAO.findById(invoiceId);
+			final Optional<ForeignInvoice> foreignInvoiceOpt = foreignInvoiceDAO.findById(invoiceId);
 
-			/*if (shipmentCostInvoiceOpt.isPresent()) {
-				final ShipmentCostInvoice update = new ShipmentCostInvoice();
-				modelMapper.map(shipmentCostInvoiceOpt.get(), update);
+			/*if (foreignInvoiceOpt.isPresent()) {
+				final ForeignInvoice update = new ForeignInvoice();
+				modelMapper.map(foreignInvoiceOpt.get(), update);
 				update.setDocumentId(String.valueOf(result.get("docId")));
 
-				shipmentCostInvoiceDAO.saveAndFlush(update);
+				foreignInvoiceDAO.saveAndFlush(update);
 			}*/
 
 			String message = messageSource.getMessage("accounting.create.document.number",
@@ -60,7 +65,7 @@ public class CostInvoiceService implements ICostInvoiceService {
 
 			return message + "@" + result.get("docId");
 		} else {
-			log.error("CostInvoiceService.sendInvoice: invoiceId [{}]", invoiceId);
+			log.error("ForeignInvoiceDocService.sendInvoice: invoiceId [{}]", invoiceId);
 			new SalesException2(ErrorType.NotFound, "id", CaptionFactory.getLabel("global.error"));
 		}
 
@@ -73,11 +78,11 @@ public class CostInvoiceService implements ICostInvoiceService {
 		final Map<String, String> result = accountingApiService.getInvoiceStatus(systemName, request.getDocumentIds());
 
 		/*request.getDocumentIds().forEach(invoiceId -> {
-			final Optional<ShipmentCostInvoice> shipmentCostInvoiceOpt = shipmentCostInvoiceDAO.findById(Long.valueOf(invoiceId));
-			if (shipmentCostInvoiceOpt.isPresent()) {
-				shipmentCostInvoiceOpt.get().setDocumentId(result.getOrDefault(invoiceId, null));
+			final Optional<ForeignInvoice> foreignInvoiceOpt = foreignInvoiceDAO.findById(Long.valueOf(invoiceId));
+			if (foreignInvoiceOpt.isPresent()) {
+				foreignInvoiceOpt.get().setDocumentId(result.getOrDefault(invoiceId, null));
 
-				shipmentCostInvoiceDAO.saveAndFlush(shipmentCostInvoiceOpt.get());
+				foreignInvoiceDAO.saveAndFlush(foreignInvoiceOpt.get());
 			}
 		});*/
 	}
