@@ -684,21 +684,7 @@
                         return false;
 
                     return values.filterType === "custom";
-                },
-                 blur :function(form,item) {
-
-                    if(item.getValue() > form.getItem("fromDate").getValue()){
-                        isc.say("<spring:message code='validator.field.date'/>");
-                        return null;
-                    }
-                },
-                <%--changed :function(form, item, value) {--%>
-                <%--      debugger--%>
-                <%--      if(item.getValue() > form.getItem("fromDate").getValue()){--%>
-                <%--        isc.say("<spring:message code='validator.field.date'/>");--%>
-                <%--        return null;--%>
-                <%--    }--%>
-                <%--}--%>
+                }
             },
             {
                 name: "filter",
@@ -932,6 +918,10 @@
 
                     let firstDate = this.form.getValue("fromDate");
                     let lastDate = this.form.getValue("toDate");
+                    if(firstDate > lastDate){
+                        isc.say("<spring:message code='validator.field.date'/>");
+                        return false;
+                    }
                     let criteria = {
                         operator: 'and',
                         _constructor: "AdvancedCriteria",
@@ -1142,6 +1132,10 @@
 
                     let firstDate = this.form.getValue("fromDate");
                     let lastDate = this.form.getValue("toDate");
+                    if(firstDate > lastDate){
+                        isc.say("<spring:message code='validator.field.date'/>");
+                        return false;
+                    }
                     let criteria = {
                         operator: 'and',
                         _constructor: "AdvancedCriteria",
