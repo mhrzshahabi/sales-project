@@ -59,14 +59,10 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
     validate: function () {
 
         let isValid = true;
-        if (this.getMembers().length < 1)
-            isValid = false;
-        else {
-            this.getMembers().forEach(current => {
-                if (current.getValues().value === null)
-                    isValid = false;
-            });
-        }
+        this.getMembers().forEach(current => {
+            if (current.getValues().value === null)
+                isValid = false;
+        });
         return isValid;
     }
 });

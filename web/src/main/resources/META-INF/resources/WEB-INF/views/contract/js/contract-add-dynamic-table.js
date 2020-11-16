@@ -309,58 +309,64 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record,
                 paramName: cdtpdt.name,
                 paramTitle: cdtpdt.title,
                 paramKey: cdtpdt.key,
-
-                gridComponents: ["filterEditor", "header",
-                    "body", "summaryRow",
-                    isc.ToolStrip.create({
-                        members: [
-                            isc.ToolStripButtonAdd.create({
-                                title: "<spring:message code='global.col'/> <spring:message code='global.new'/> ",
-                                click() {
-                                    const maxRows = {
-                                        required: false,
-                                        maxRows: 0
-                                    }
-                                    columns.forEach(column => {
-                                        if (column.maxRows > maxRows.maxRows) {
-                                            if (column.required && !maxRows.required) {
-                                                maxRows.required = column.required ? column.required : false;
-                                                maxRows.maxRows = column.maxRows
-                                            }
-                                            if (!column.required && !maxRows.required) {
-                                                maxRows.required = column.required ? column.required : false;
-                                                maxRows.maxRows = column.maxRows
-                                            }
-                                        }
-                                        if (column.maxRows > 0 && column.maxRows < maxRows.maxRows && column.required && !maxRows.required) {
+                gridComponents: ["header", "body", isc.ToolStrip.create({
+                    width: "100%",
+                    height: 24,
+                    members: [
+                        isc.ToolStripButton.create({
+                            icon: "pieces/16/icon_add.png",
+                            title: "<spring:message code='global.add'/>",
+                            click: function () {
+                                const maxRows = {
+                                    required: false,
+                                    maxRows: 0
+                                };
+                                columns.forEach(column => {
+                                    if (column.maxRows > maxRows.maxRows) {
+                                        if (column.required && !maxRows.required) {
                                             maxRows.required = column.required ? column.required : false;
                                             maxRows.maxRows = column.maxRows
                                         }
-
-                                    })
-                                    // dbg(maxRows)
-                                    if (maxRows.maxRows > 0 && listGrid.getTotalRows() >= maxRows.maxRows)
-                                        return isc.warn("<spring:message code='global.max.rows.exceed'/>")
-                                    listGrid.startEditingNew()
-                                }
-                            }),
-                            isc.ToolStripButtonAdd.create({
-                                title: "<spring:message code='global.form.save'/>",
-                                icon: "[SKIN]/actions/save.png",
-                                click() {
-                                    for (let i = 0; i < listGrid.getTotalRows(); i++) {
-                                        if (!listGrid.validateRow(i)) return;
+                                        if (!column.required && !maxRows.required) {
+                                            maxRows.required = column.required ? column.required : false;
+                                            maxRows.maxRows = column.maxRows
+                                        }
                                     }
-                                    listGrid.saveAllEdits();
-                                    contractTab.Methods.ConvertDynamicTableListGridDataToModel(listGrid, columns)
-                                    // const _data = contractDetailTypeTab.listGrid.dynamicTable.getData();
-                                    // contractDetailTypeTab.listGrid.param.getSelectedRecord()['dynamicTables']=_data;
-                                    // contractDetailTypeTab.window.DynamicTable.destroy()
-                                }
-                            }),
-                        ]
-                    })
-                ],
+                                    if (column.maxRows > 0 && column.maxRows < maxRows.maxRows && column.required && !maxRows.required) {
+                                        maxRows.required = column.required ? column.required : false;
+                                        maxRows.maxRows = column.maxRows
+                                    }
+
+                                });
+                                // dbg(maxRows)
+                                if (maxRows.maxRows > 0 && listGrid.getTotalRows() >= maxRows.maxRows)
+                                    return isc.warn("<spring:message code='global.max.rows.exceed'/>");
+                                listGrid.startEditingNew()
+                            }
+                        }),
+                        isc.ToolStrip.create({
+                            width: "100%",
+                            height: 24,
+                            align: 'left',
+                            border: 0,
+                            members: [
+                                isc.ToolStripButton.create({
+                                    icon: "pieces/16/save.png",
+                                    title: "<spring:message code='global.form.save.temporary'/>",
+                                    click: function () {
+                                        for (let i = 0; i < listGrid.getTotalRows(); i++) {
+                                            if (!listGrid.validateRow(i)) return;
+                                        }
+                                        listGrid.saveAllEdits();
+                                        contractTab.Methods.ConvertDynamicTableListGridDataToModel(listGrid, columns)
+                                        // const _data = contractDetailTypeTab.listGrid.dynamicTable.getData();
+                                        // contractDetailTypeTab.listGrid.param.getSelectedRecord()['dynamicTables']=_data;
+                                        // contractDetailTypeTab.window.DynamicTable.destroy()
+                                    }
+                                })]
+                        })
+                    ]
+                })]
             });
             _sectionStackSectionObj.items.push(listGrid)
             contractTab.sectionStack.contract.collapseSection(_sectionStackSectionObj.name.toString())
