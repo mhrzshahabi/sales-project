@@ -2254,8 +2254,8 @@ BlTab.Grids.BillOfLanding = {
                                 ...BlTab.Vars.DefaultWindowConfig,
                                 membersMargin: 9,
                                 title: "<spring:message code='shipment.inquiry.container'/>",
-                                width: "23%",
-                                height: "40%",
+                                width: "46%",
+                                height: "30%",
                                 overflow: "visible",
                                 ID: winId,
                                 members: [
@@ -2269,6 +2269,7 @@ BlTab.Grids.BillOfLanding = {
                                                 errorOrientation: "bottom",
                                                 cellPadding: "11",
                                                 wrapItemTitles: false,
+                                                numCols:4,
                                                 itemChanged: function (_item, _newValue) {
                                                 },
                                                 fields: BlTab.Fields.ContainerToBillOfLanding(),
@@ -2428,6 +2429,8 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
     BlTab.DynamicForms.Forms.BillOfLandingMain = isc.DynamicForm.create({
         numCols: 6,
         cellPadding: "7",
+        wrapItemTitles: false,
+        errorOrientation: "bottom",
         valuesManager: BlTab.Vars.BillOfLanding,
         fields: BlTab.Fields.BillOfLandingWithoutSwitch().map(_ => {
             if (_.name === 'description')
@@ -2527,6 +2530,7 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
                         pane: isc.DynamicForm.create({
                             numCols: 6,
                             cellPadding: "7",
+                            wrapItemTitles: false,
                             valuesManager: BlTab.Vars.BillOfLanding,
                             fields: BlTab.Fields.BillOfLandingSwitch()
                         })
