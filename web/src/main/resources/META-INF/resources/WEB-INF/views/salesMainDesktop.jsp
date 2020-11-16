@@ -297,12 +297,14 @@
                     let locale = languageForm.getValue("languageName");
                     return locale === "fa" ? "left" : "right";
                 };
+
                 function userAgent() {
+
                     let userAgent = window.navigator.userAgent;
                     if(!userAgent.includes("Firefox"))
                     	return false;
 					else
-					 return  true;
+					    return  true;
                 }
 
                 nicico.CommonUtil.getAlignByLangReverse = function () {
