@@ -66,6 +66,7 @@
                 align = function () {
                     return mylocale == 'fa' ? "right" : "left";
                 }
+
                 isc.Class.create.prototype.create = function () {
                     const argzz = this.Super('create', arguments)
                     this.argzz = arguments
@@ -296,6 +297,14 @@
                     let locale = languageForm.getValue("languageName");
                     return locale === "fa" ? "left" : "right";
                 };
+                function userAgent() {
+                    let userAgent = window.navigator.userAgent;
+                    if(!userAgent.includes("Firefox"))
+                    	return false;
+					else
+					 return  true;
+                }
+
                 nicico.CommonUtil.getAlignByLangReverse = function () {
 
                     let locale = languageForm.getValue("languageName");
@@ -512,6 +521,7 @@
                             })
                         );
                 }
+
 
                 var label_Username = isc.Label.create({
                     width: 200,
@@ -1178,9 +1188,18 @@
                 saleToolStrip.addMember(reportTab);
                 </sec:authorize>
 
+				if(!userAgent()){
+					 var userAgentLayout = isc.HLayout.create({
+						width: 500,
+						height: "100%",
+						contents: "<span style='width: 100%; color:white; margin-top:0px; font-weight: bold; font-size:18px; background-color:red; text-align: " + nicico.CommonUtil.getAlignByLang() + ";'>" + '<spring:message code='global.browser.user-agent'/>'+"</span>"
+					});
+					userAgentLayout.setTop(0);
+					saleToolStrip.addMember(userAgentLayout);
+				}
+
                 var MainDesktopMenuH = isc.HLayout.create({
                     width: "100%",
-                    height: 10,
                     styleName: "main-menu",
                     animateStateChanges: true,
                     align: "center",
