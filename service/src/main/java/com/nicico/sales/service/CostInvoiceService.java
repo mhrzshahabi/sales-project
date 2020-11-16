@@ -12,6 +12,7 @@ import com.nicico.sales.repository.CostInvoiceDAO;
 import com.nicico.sales.repository.ShipmentCostInvoiceDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import java.util.Optional;
 @Service
 public class CostInvoiceService implements ICostInvoiceService {
 
+	private final ModelMapper modelMapper;
 	private final ResourceBundleMessageSource messageSource;
 	private final CostInvoiceDAO costInvoiceDAO;
 	private final ShipmentCostInvoiceDAO shipmentCostInvoiceDAO;
@@ -47,13 +49,13 @@ public class CostInvoiceService implements ICostInvoiceService {
 		if (result.containsKey("docId")) {
 			final Optional<ShipmentCostInvoice> shipmentCostInvoiceOpt = shipmentCostInvoiceDAO.findById(invoiceId);
 
-			/*if (shipmentCostInvoiceOpt.isPresent()) {
+			if (shipmentCostInvoiceOpt.isPresent()) {
 				final ShipmentCostInvoice update = new ShipmentCostInvoice();
 				modelMapper.map(shipmentCostInvoiceOpt.get(), update);
 				update.setDocumentId(String.valueOf(result.get("docId")));
 
 				shipmentCostInvoiceDAO.saveAndFlush(update);
-			}*/
+			}
 
 			String message = messageSource.getMessage("accounting.create.document.number",
 					new Object[]{String.valueOf(result.get("docId"))}, LocaleContextHolder.getLocale());
@@ -72,13 +74,13 @@ public class CostInvoiceService implements ICostInvoiceService {
 	public void updateInvoiceIdsStatus(String systemName, AccountingDTO.DocumentStatusRq request) {
 		final Map<String, String> result = accountingApiService.getInvoiceStatus(systemName, request.getDocumentIds());
 
-		/*request.getDocumentIds().forEach(invoiceId -> {
+		request.getDocumentIds().forEach(invoiceId -> {
 			final Optional<ShipmentCostInvoice> shipmentCostInvoiceOpt = shipmentCostInvoiceDAO.findById(Long.valueOf(invoiceId));
 			if (shipmentCostInvoiceOpt.isPresent()) {
-				shipmentCostInvoiceOpt.get().setDocumentId(result.getOrDefault(invoiceId, null));
+				shipmentCostInvoiceOpt.get().setDocumentId(result.getOrDefault(invoiceId, "-2"));
 
 				shipmentCostInvoiceDAO.saveAndFlush(shipmentCostInvoiceOpt.get());
 			}
-		});*/
+		});
 	}
 }
