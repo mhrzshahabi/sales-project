@@ -352,6 +352,23 @@ shipmentCostInvoiceTab.restDataSource.percentPerYearRest = isc.MyRestDataSource.
     fetchDataURL: shipmentCostInvoiceTab.variable.percentPerYearRest + "spec-list"
 
 });
+shipmentCostInvoiceTab.restDataSource.contractRest = isc.MyRestDataSource.create({
+    fields: [
+        {
+            name: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        },
+        {
+            name: "contractContacts",
+            title: "<spring:message code ='global.sendDate'/>",
+            showHover: true,
+            type: "date"
+        }
+    ],
+    fetchDataURL: "${contextPath}/api/g-contract/spec-list"
+});
 
 shipmentCostInvoiceTab.variable.sellerCriteria = {
     _constructor: "AdvancedCriteria",
@@ -591,6 +608,30 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             let selectedRecord = this.getSelectedRecord();
             if (!selectedRecord) return '';
             return DateUtil.format(new Date(selectedRecord.sendDate), "YYYY/MM/dd");
+        },
+        changed: function (form, item, value) {
+            let contractId = this.getSelectedRecord().contractShipment.contractId;
+            let criteria = {
+                _constructor: "AdvancedCriteria",
+                operator: "and",
+                criteria: [{
+                    fieldName: "id",
+                    operator: "equals",
+                    value: contractId
+                }]
+            };
+            shipmentCostInvoiceTab.restDataSource.contractRest.fetchData(criteria, function (conDsResponse, conData, conDsRequest) {
+                if (conData.length) {
+                    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("sellerContactId").setValue([]);
+                    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("buyerContactId").setValue([]);
+                    let buyerId = conData[0].contractContacts.filter(q => q.commercialRole === "Buyer").first().contactId;
+                    let sellerId = conData[0].contractContacts.filter(q => q.commercialRole === "Seller").first().contactId;
+                    shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("buyerContactId", buyerId);
+                    shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("sellerContactId", sellerId);
+                    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("buyerContactId").disable();
+                    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("sellerContactId").disable();
+                }
+            });
         }
     },
     {
@@ -1566,12 +1607,15 @@ shipmentCostInvoiceTab.method.newForm = function () {
     shipmentCostInvoiceTab.window.shipmentCost.justShowForm();
     shipmentCostInvoiceTab.method.setVATs(shipmentCostInvoiceTab.variable.year)
     shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(0).members.get(2).members.get(0).hide();
-
+    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("buyerContactId").enable();
+    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("sellerContactId").enable();
 };
 shipmentCostInvoiceTab.method.editForm = function () {
 
     shipmentCostInvoiceTab.variable.method = "PUT";
     shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(0).members.get(2).members.get(0).hide();
+    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("buyerContactId").disable();
+    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("sellerContactId").disable();
 
     let record = shipmentCostInvoiceTab.listGrid.main.getSelectedRecord();
     if (record == null || record.id == null)
