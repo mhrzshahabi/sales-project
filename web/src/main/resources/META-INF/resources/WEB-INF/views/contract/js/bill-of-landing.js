@@ -2001,6 +2001,20 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
                 ],
             fetchDataURL: "api/unit/spec-list"
         }),
+        optionCriteria: {
+            _constructor: "AdvancedCriteria", operator: "or",
+            criteria: [{
+                fieldName: "categoryUnit",
+                operator: "equals",
+                value: JSON.parse('${Enum_CategoryUnit}').Weight
+            },
+                {
+                    fieldName: "categoryUnit",
+                    operator: "equals",
+                    value: JSON.parse('${Enum_CategoryUnit}').Class
+                }
+            ]
+        },
         pickListFields: [
             {name: "nameFA", title: "<spring:message code='unit.nameFa'/> "},
             {name: "nameEN", title: "<spring:message code='unit.nameEN'/> "},
@@ -2240,8 +2254,8 @@ BlTab.Grids.BillOfLanding = {
                                 ...BlTab.Vars.DefaultWindowConfig,
                                 membersMargin: 9,
                                 title: "<spring:message code='shipment.inquiry.container'/>",
-                                width: "23%",
-                                height: "40%",
+                                width: "46%",
+                                height: "30%",
                                 overflow: "visible",
                                 ID: winId,
                                 members: [
@@ -2254,7 +2268,10 @@ BlTab.Grids.BillOfLanding = {
                                             BlTab.DynamicForms.Forms.ContainerToBillOfLanding = isc.DynamicForm.create({
                                                 errorOrientation: "bottom",
                                                 cellPadding: "11",
-                                                itemChanged: function (_item, _newValue) {},
+                                                wrapItemTitles: false,
+                                                numCols:4,
+                                                itemChanged: function (_item, _newValue) {
+                                                },
                                                 fields: BlTab.Fields.ContainerToBillOfLanding(),
                                                 //  height:"40%",
                                             }),
@@ -2412,6 +2429,8 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
     BlTab.DynamicForms.Forms.BillOfLandingMain = isc.DynamicForm.create({
         numCols: 6,
         cellPadding: "7",
+        wrapItemTitles: false,
+        errorOrientation: "bottom",
         valuesManager: BlTab.Vars.BillOfLanding,
         fields: BlTab.Fields.BillOfLandingWithoutSwitch().map(_ => {
             if (_.name === 'description')
@@ -2511,6 +2530,7 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
                         pane: isc.DynamicForm.create({
                             numCols: 6,
                             cellPadding: "7",
+                            wrapItemTitles: false,
                             valuesManager: BlTab.Vars.BillOfLanding,
                             fields: BlTab.Fields.BillOfLandingSwitch()
                         })
