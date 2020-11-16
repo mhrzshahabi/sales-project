@@ -17,6 +17,7 @@ import com.nicico.sales.repository.ShipmentCostInvoiceDAO;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,7 @@ import java.util.Optional;
 @Service
 public class ForeignInvoiceDocService implements IForeignInvoiceDocService {
 
+	private final ModelMapper modelMapper;
 	private final ResourceBundleMessageSource messageSource;
 	private final ForeignInvoiceDocDAO foreignInvoiceDocDAO;
 	private final ForeignInvoiceDAO foreignInvoiceDAO;
@@ -52,13 +54,13 @@ public class ForeignInvoiceDocService implements IForeignInvoiceDocService {
 		if (result.containsKey("docId")) {
 			final Optional<ForeignInvoice> foreignInvoiceOpt = foreignInvoiceDAO.findById(invoiceId);
 
-			/*if (foreignInvoiceOpt.isPresent()) {
+			if (foreignInvoiceOpt.isPresent()) {
 				final ForeignInvoice update = new ForeignInvoice();
 				modelMapper.map(foreignInvoiceOpt.get(), update);
 				update.setDocumentId(String.valueOf(result.get("docId")));
 
 				foreignInvoiceDAO.saveAndFlush(update);
-			}*/
+			}
 
 			String message = messageSource.getMessage("accounting.create.document.number",
 					new Object[]{String.valueOf(result.get("docId"))}, LocaleContextHolder.getLocale());
@@ -77,13 +79,13 @@ public class ForeignInvoiceDocService implements IForeignInvoiceDocService {
 	public void updateInvoiceIdsStatus(String systemName, AccountingDTO.DocumentStatusRq request) {
 		final Map<String, String> result = accountingApiService.getInvoiceStatus(systemName, request.getDocumentIds());
 
-		/*request.getDocumentIds().forEach(invoiceId -> {
+		request.getDocumentIds().forEach(invoiceId -> {
 			final Optional<ForeignInvoice> foreignInvoiceOpt = foreignInvoiceDAO.findById(Long.valueOf(invoiceId));
 			if (foreignInvoiceOpt.isPresent()) {
-				foreignInvoiceOpt.get().setDocumentId(result.getOrDefault(invoiceId, null));
+				foreignInvoiceOpt.get().setDocumentId(result.getOrDefault(invoiceId, "-2"));
 
 				foreignInvoiceDAO.saveAndFlush(foreignInvoiceOpt.get());
 			}
-		});*/
+		});
 	}
 }
