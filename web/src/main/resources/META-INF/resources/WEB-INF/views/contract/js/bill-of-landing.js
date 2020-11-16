@@ -2001,6 +2001,20 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
                 ],
             fetchDataURL: "api/unit/spec-list"
         }),
+        optionCriteria: {
+            _constructor: "AdvancedCriteria", operator: "or",
+            criteria: [{
+                fieldName: "categoryUnit",
+                operator: "equals",
+                value: JSON.parse('${Enum_CategoryUnit}').Weight
+            },
+                {
+                    fieldName: "categoryUnit",
+                    operator: "equals",
+                    value: JSON.parse('${Enum_CategoryUnit}').Class
+                }
+            ]
+        },
         pickListFields: [
             {name: "nameFA", title: "<spring:message code='unit.nameFa'/> "},
             {name: "nameEN", title: "<spring:message code='unit.nameEN'/> "},
@@ -2254,7 +2268,9 @@ BlTab.Grids.BillOfLanding = {
                                             BlTab.DynamicForms.Forms.ContainerToBillOfLanding = isc.DynamicForm.create({
                                                 errorOrientation: "bottom",
                                                 cellPadding: "11",
-                                                itemChanged: function (_item, _newValue) {},
+                                                wrapItemTitles: false,
+                                                itemChanged: function (_item, _newValue) {
+                                                },
                                                 fields: BlTab.Fields.ContainerToBillOfLanding(),
                                                 //  height:"40%",
                                             }),
