@@ -28,6 +28,7 @@ public class RemittanceDTO {
     private String description;
     @IgnoreReportField
     private Long shipmentId;
+    private Long packingContainerId;
 
     @Getter
     @Setter
@@ -36,6 +37,7 @@ public class RemittanceDTO {
     public static class InfoWithoutRemittanceDetail extends RemittanceDTO {
 
         private Long id;
+        private Boolean hasRemainedInventory;
         private MaterialItemDTO.Info materialItem;
         private ShipmentDTO.Info shipment;
         private String date;

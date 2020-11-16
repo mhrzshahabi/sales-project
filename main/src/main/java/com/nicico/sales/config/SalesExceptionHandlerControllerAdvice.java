@@ -18,6 +18,8 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.util.*;
@@ -128,6 +130,15 @@ ConstraintViolationImpl{
             ErrorResponse errorResponse = ((ErrorResponseException) throwable).errorResponse();
             final String message = errorResponse.message();
             return new ResponseEntity<>(createErrorResponseDTO(new SalesException2(ErrorType.InternalServerError, null, message)), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (exception instanceof RestClientException) {
+            final Locale locale = LocaleContextHolder.getLocale();
+            String message = messageSource.getMessage("exception.other.system.call.unauthorized", null, locale);
+            if (exception instanceof HttpClientErrorException.Unauthorized)
+                return new ResponseEntity<>(createErrorResponseDTO(new SalesException2(ErrorType.Unknown, null, message)), HttpStatus.NOT_FOUND);
+            message = messageSource.getMessage("exception.other.system.call.notfound", null, locale);
+            if (exception instanceof HttpClientErrorException.NotFound)
+                return new ResponseEntity<>(createErrorResponseDTO(new SalesException2(ErrorType.Unknown, null, message)), HttpStatus.NOT_FOUND);
         }
         final Locale locale = LocaleContextHolder.getLocale();
         String message = messageSource.getMessage("exception.un-managed", null, locale);

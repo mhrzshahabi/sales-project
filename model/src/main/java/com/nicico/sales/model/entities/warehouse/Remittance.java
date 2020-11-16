@@ -14,6 +14,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -63,6 +65,17 @@ public class Remittance extends BaseEntity {
             "where rd.F_REMITTANCE_ID=id and ROWNUM=1 )")
     private String date;
 
+
+    @NotAudited
+    @Formula("(select  nvl2( max(vrd.F_REMITTANCE_ID),1,0) from TBL_WARH_REMITTANCE_DETAIL vrd \n" +
+            "    left join VIEW_WARH_INVENTORY vi on vrd.F_INVENTORY_ID=vi.ID \n" +
+            "    where vrd.F_REMITTANCE_ID=id and vi.WEIGHT>0 and vrd.F_REMITTANCE_ID in \n" +
+            "        (select vrd.F_REMITTANCE_ID from TBL_WARH_REMITTANCE_DETAIL vrd \n" +
+            "            left join VIEW_WARH_INVENTORY vi on vrd.F_INVENTORY_ID=vi.ID \n" +
+            "            where vrd.F_REMITTANCE_ID=id and vi.WEIGHT=0))")
+
+    private Boolean hasRemainedInventory;
+
     @NotAudited
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinFormula("(select tt.id " +
@@ -73,5 +86,18 @@ public class Remittance extends BaseEntity {
             "         join TBL_WARH_TOZIN tt on nvl(rds.F_DESTINATION_TOZINE_ID,rdd.F_SOURCE_TOZINE_ID) = tt.id " +
             "where ROWNUM =1 and r.ID=id )")
     private TozinTable tozinTable;
+    @Audited(targetAuditMode = NOT_AUDITED)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Setter(AccessLevel.NONE)
+    @JoinColumn(
+            name = "F_PACKING_CONTAINER_id",
+            foreignKey = @ForeignKey(name = "FK_remittance_to_packing_container"),
+            insertable = false,
+            updatable = false
+    )
+    private PackingContainer packingContainer;
+    @Column(name = "F_PACKING_CONTAINER_id")
+    private Long packingContainerId;
+
 
 }

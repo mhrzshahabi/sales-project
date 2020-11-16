@@ -1,6 +1,7 @@
 spring:
   application:
     name: Sales
+    version: "1.0.3"
   profiles:
     active: Local
   datasource:

@@ -16,6 +16,7 @@
 		<link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
 		<link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
 		<link rel="stylesheet" href='<spring:url value="/static/css/commonStyle.css"/>'/>
+		<link rel="stylesheet" href='<spring:url value="/static/css/OAManagementUsers.css"/>'/>
 
 		<script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
 		<script src="<spring:url value='/static/script/js/jalali-moment.browser.js'/>"></script>
@@ -60,6 +61,7 @@
 			</form>
 
 			<spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
+			<spring:eval var="version" expression="@environment.getProperty('spring.application.version')"/>
 
 			<script type="application/javascript">
                 const mylocale = '${pageContext.response.locale}';
@@ -309,8 +311,6 @@
                 };
 
                 var salesPersianDateUtil = new nicico.PersianDateUtil();
-
-                <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
                 isc.DynamicForm.addProperties({
                     requiredTitleSuffix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>"+":",
@@ -632,7 +632,7 @@
                     width: 350,
                     height: "100%",
                     styleName: "header-logo",
-                    contents: "<div class='header-title-right'><div class='header-title-top'><h3><spring:message code='main.salesCompany'/></h3><h4><spring:message code='main.salesName'/></h4></div><div class='header-title-version'><h4><spring:message code='main.salesVersion'/></h4></div><img width='50' height='50' src='static/img/logo-white.svg'/></div>"
+                    contents: "<div class='header-title-right'><div class='header-title-top'><h3><spring:message code='main.salesCompany'/></h3><h4><spring:message code='main.salesName'/></h4></div><div class='header-title-version'><h4><spring:message code='main.salesVersion'/>&nbsp;${version}</h4></div><img width='50' height='50' src='static/img/logo-white.svg'/></div>"
                 });
 
                 var headerLayout = isc.HLayout.create({
@@ -1122,6 +1122,15 @@
                         ]
                     })
                 });
+
+				/*----------------------securityTab------------------------*/
+				securityTab = isc.ToolStripButton.create({
+					border: "0",
+					title: "<spring:message code='main.securityTab'/>",
+					click: function () {
+						createTab("<spring:message code='main.securityTab'/>", "web/oauth/landing/show-form", false);
+					}
+				});
                 //---------------------------------------
                 var mainTabSet = isc.TabSet.create({
                     tabBarPosition: "top",
@@ -1177,6 +1186,9 @@
                 <sec:authorize access="hasAuthority('R_REMITTANCE')">
                 saleToolStrip.addMember(reportTab);
                 </sec:authorize>
+				<sec:authorize access="hasAuthority('UI_USER_MANAGEMENT_SHOW_BUTTON')">
+				saleToolStrip.addMember(securityTab);
+				</sec:authorize>
 
                 var MainDesktopMenuH = isc.HLayout.create({
                     width: "100%",

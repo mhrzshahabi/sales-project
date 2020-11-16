@@ -22,4 +22,16 @@
             <column name="N_PERCENT" type="double precision"/>
         </addColumn>
     </changeSet>
+
+     <changeSet author="saeb" id="1603691ssss530580-295">
+        <addColumn tableName="TBL_WARH_REMITTANCE">
+            <column name="F_PACKING_CONTAINER_id" type="number(19, 0)"/>
+        </addColumn>
+         <addColumn tableName="AUD_TBL_WARH_REMITTANCE">
+            <column name="F_PACKING_CONTAINER_id" type="number(19, 0)"/>
+        </addColumn>
+
+    </changeSet>
+
+
 </databaseChangeLog>

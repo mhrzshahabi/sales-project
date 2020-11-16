@@ -1,0 +1,80 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+	<changeSet author="SALES" id="6591169442182-1">
+		<createView viewName="VIEW_FOREIGN_INVOICE_DOCUMENT" replaceIfExists="true">
+			<![CDATA[
+                SELECT
+                    FI.ID AS FI_ID,
+                    FI.C_CONVERSION_SUM_PRICE_TEXT AS FI_C_CONVERSION_SUM_PRICE_TEXT,
+                    FI.C_DESCRIPTION AS FI_C_DESCRIPTION,
+                    FI.C_NO AS FI_C_NO,
+                    FI.D_CONVERSION_DATE AS FI_D_CONVERSION_DATE,
+                    FI.D_DATE AS FI_D_DATE,
+                    FI.N_CONVERSION_RATE AS FI_N_CONVERSION_RATE,
+                    FI.N_CONVERSION_SUM_PRICE AS FI_N_CONVERSION_SUM_PRICE,
+                    FI.N_PERCENT AS FI_N_PERCENT,
+                    FI.N_SUM_FI_PRICE AS FI_N_SUM_FI_PRICE,
+                    FI.N_SUM_PI_PRICE AS FI_N_SUM_PI_PRICE,
+                    FI.N_SUM_PRICE AS FI_N_SUM_PRICE,
+                    FI.N_UNIT_COST AS FI_N_UNIT_COST,
+                    FI.N_UNIT_PRICE AS FI_N_UNIT_PRICE,
+
+                    FII.ID AS FII_ID,
+                    FII.N_TC AS FII_N_TC,
+                    FII.N_WEIGHT_GW AS FII_N_WEIGHT_GW,
+                    FII.N_WEIGHT_ND AS FII_N_WEIGHT_ND,
+
+                    WRD.ID AS WRD_ID,
+                    WRD.N_AMOUNT AS WRD_N_AMOUNT,
+                    WRD.N_WEIGHT AS WRD_N_WEIGHT,
+
+                    WI.ID AS WI_ID,
+                    WI.C_LABEL AS WI_C_LABEL,
+
+                    CR.ID AS CR_ID,
+                    CR.D_CURRENCY_DATE AS CR_D_CURRENCY_DATE,
+                    CR.N_CURRENCY_RATE_VALUE AS CR_N_CURRENCY_RATE_VALUE,
+                    CR.N_CURRENCY_TYPE_FROM AS CR_N_CURRENCY_TYPE_FROM,
+                    CR.N_CURRENCY_TYPE_TO AS CR_N_CURRENCY_TYPE_TO,
+                    CR.N_REFERENCE AS CR_N_REFERENCE,
+
+                    U.ID AS U_ID,
+                    U.C_NAME_EN AS U_C_NAME_EN,
+                    U.C_NAME_FA AS U_C_NAME_FA,
+                    U.N_CATEGORY_UNIT AS U_N_CATEGORY_UNIT,
+                    U.N_SYMBOL_UNIT AS U_N_SYMBOL_UNIT,
+
+                    BC.ID AS BC_ID,
+                    BC.C_COMMERCIAL_REGISTRATION AS BC_C_COMMERCIAL_REGISTRATION,
+                    BC.C_COMMERCIAL_ROLE AS BC_C_COMMERCIAL_ROLE,
+                    BC.C_ECONOMICAL_CODE AS BC_C_ECONOMICAL_CODE,
+                    BC.C_FULLNAME_EN AS BC_C_FULLNAME_EN,
+                    BC.C_FULLNAME_FA AS BC_C_FULLNAME_FA,
+                    BC.C_NATIONAL_CODE AS BC_C_NATIONAL_CODE,
+                    BC.C_REGISTER_NUMBER AS BC_C_REGISTER_NUMBER,
+                    BC.C_TRADE_MARK AS BC_C_TRADE_MARK,
+                    BC.C_TYPE AS BC_C_TYPE,
+
+                    IT.ID AS IT_ID,
+                    IT.TITLE AS IT_TITLE,
+
+                    C.ID AS C_ID,
+                    C.C_NO AS C_C_NO
+                FROM
+                    TBL_FOREIGN_INVOICE FI
+                    LEFT JOIN TBL_FOREIGN_INVOICE_ITEM FII ON FI.ID = FII.F_FOREIGN_INVOICE_ID
+                    LEFT JOIN TBL_WARH_REMITTANCE_DETAIL WRD ON FII.F_REMITTANCE_DETAIL_ID = WRD.ID
+                    LEFT JOIN TBL_WARH_INVENTORY WI ON WRD.F_INVENTORY_ID = WI.ID
+                    LEFT JOIN TBL_CURRENCY_RATE CR ON FI.F_CONVERSION_REF_ID = CR.ID
+                    LEFT JOIN TBL_UNIT U ON FI.F_CURRENCY_ID = U.ID
+                    LEFT JOIN TBL_CONTACT BC ON FI.F_BUYER_ID = BC.ID
+                    LEFT JOIN TBL_INVOICE_TYPE IT ON FI.F_INVOICE_TYPE_ID = IT.ID
+                    LEFT JOIN TBL_SHIPMENT SH ON FI.F_SHIPMENT_ID = SH.ID
+                    LEFT JOIN TBL_CONTRACT_SHIPMENT CSH ON SH.F_CONTRACT_SHIPMENT_ID = CSH.ID
+                    LEFT JOIN TBL_CNTR_CONTRACT C ON CSH.CONTRACT_ID = C.ID
+			]]>
+		</createView>
+	</changeSet>
+</databaseChangeLog>

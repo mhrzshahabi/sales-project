@@ -28,7 +28,7 @@ public class PackingContainer extends BaseEntity {
     @SequenceGenerator(name = "SEQ_PACKING_CONTAINER", sequenceName = "SEQ_PACKING_CONTAINER", allocationSize = 1, initialValue = 100000)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @Setter(AccessLevel.NONE)
     @JoinColumn(
             name = "F_PACKAGING_LIST",

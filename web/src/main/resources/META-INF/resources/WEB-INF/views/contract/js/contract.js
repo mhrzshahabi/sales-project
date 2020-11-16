@@ -1,8 +1,8 @@
 var contractTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
-contractTab.variable.contractUrl = "${contextPath}" + "/api/g-contract/"
-contractTab.variable.contractDetailUrl = "${contextPath}" + "/api/contract-detail/"
-contractTab.variable.contractDetailTypeUrl = "${contextPath}" + "/api/contract-detail-type/"
-contractTab.variable.contractDetailTypeTemplateUrl = "${contextPath}" + "/api/contract-detail-type-template/"
+contractTab.variable.contractUrl = "${contextPath}" + "/api/g-contract/";
+contractTab.variable.contractDetailUrl = "${contextPath}" + "/api/contract-detail/";
+contractTab.variable.contractDetailTypeUrl = "${contextPath}" + "/api/contract-detail-type/";
+contractTab.variable.contractDetailTypeTemplateUrl = "${contextPath}" + "/api/contract-detail-type-template/";
 
 contractTab.window.formUtil = new nicico.FormUtil();
 
@@ -258,7 +258,7 @@ contractTab.vLayout.sectionStack = isc.VLayout.create({
     height: "100%",
     overflow: "scroll",
     members: [contractTab.sectionStack.contract]
-})
+});
 contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
     height: "5%",
     width: "100%",
@@ -342,7 +342,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                                 if (listGridKey.startsWith("_"))
                                     delete x[listGridKey];
                             });
-                            dbg(listGrid)
+                            dbg(listGrid);
                             contractDetailObj.contractDetailValues.push({
                                 id: x.contractDetailValueId,
                                 name: listGrid.paramName,
@@ -554,6 +554,7 @@ contractTab.method.newForm = function () {
             value: null
         }]
     });
+    contractTab.window.main.setTitle("<spring:message code='contract.window.title.new'/>");
     contractTab.window.main.show();
 };
 contractTab.method.editForm = function () {
@@ -640,7 +641,7 @@ contractTab.method.addSectionByContract = function (record) {
             ],
             items: []
         };
-        contractTab.Methods.DynamicTableGridCreatorForContract(record, sectionStackSectionObj, q)
+        contractTab.Methods.DynamicTableGridCreatorForContract(record, sectionStackSectionObj, q);
         // DynamicForm
         let dynamicFormFields = [];
         q.contractDetailValues.filter(x => x.type !== 'ListOfReference'
@@ -753,7 +754,7 @@ contractTab.method.addSectionByContract = function (record) {
                                 // <c:if test = "${SecurityUtil.hasAuthority('R_CONTRACT_DETAIL_VALUE')}">
                                 isc.ToolStripButton.create({
                                     icon: "pieces/16/save.png",
-                                    title: "<spring:message code='global.form.save'/>",
+                                    title: "<spring:message code='global.form.save.temporary'/>",
                                     click: function () {
                                         contractDetailListGrid.saveAllEdits();
                                     }
@@ -806,7 +807,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         })],
         items: []
     };
-    contractTab.Methods.DynamicTableGridCreator(record, sectionStackSectionObj)
+    contractTab.Methods.DynamicTableGridCreator(record, sectionStackSectionObj);
 
     let dynamicFormField = [];
     record.contractDetailTypeParams.filter(param => param.type !== "ListOfReference"
@@ -923,7 +924,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
                         members: [
                             isc.ToolStripButton.create({
                                 icon: "pieces/16/save.png",
-                                title: "<spring:message code='global.form.save'/>",
+                                title: "<spring:message code='global.form.save.temporary'/>",
                                 click: function () {
                                     contractDetailListGrid.saveAllEdits();
                                 }
@@ -931,7 +932,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
                     })
                 ]
             })]
-        })
+        });
         sectionStackSectionObj.items.push(contractDetailListGrid);
     });
     contractTab.sectionStack.contract.addSection(sectionStackSectionObj, parseInt(record.position));
@@ -948,25 +949,25 @@ contractTab.method.addSectionByContractDetailType = function (record) {
             }
         }
 
-        setval([_enum.BUYER_NAME, BUYER.nameEN])
-        setval([_enum.BUYER_ADDRESS, BUYER.address])
-        setval([_enum.BUYER_PHONE, BUYER.phone])
-        setval([_enum.BUYER_FAX, BUYER.fax])
-        setval([_enum.BUYER_MOBILE, BUYER.mobile])
+        setval([_enum.BUYER_NAME, BUYER.nameEN]);
+        setval([_enum.BUYER_ADDRESS, BUYER.address]);
+        setval([_enum.BUYER_PHONE, BUYER.phone]);
+        setval([_enum.BUYER_FAX, BUYER.fax]);
+        setval([_enum.BUYER_MOBILE, BUYER.mobile]);
 
-        setval([_enum.SELLER_NAME, SELLER.nameEN])
-        setval([_enum.SELLER_ADDRESS, SELLER.address])
-        setval([_enum.SELLER_PHONE, SELLER.phone])
-        setval([_enum.SELLER_FAX, SELLER.fax])
-        setval([_enum.SELLER_MOBILE, SELLER.mobile])
+        setval([_enum.SELLER_NAME, SELLER.nameEN]);
+        setval([_enum.SELLER_ADDRESS, SELLER.address]);
+        setval([_enum.SELLER_PHONE, SELLER.phone]);
+        setval([_enum.SELLER_FAX, SELLER.fax]);
+        setval([_enum.SELLER_MOBILE, SELLER.mobile]);
 
         try {
             const AGENT_SELLER = contractTab.dynamicForm.main.getField('agentSellerId').getSelectedRecord();
 
-            setval([_enum.AGENT_SELLER_NAME, AGENT_SELLER.nameEN])
-            setval([_enum.AGENT_SELLER_ADDRESS, AGENT_SELLER.address])
-            setval([_enum.AGENT_SELLER_PHONE, AGENT_SELLER.phone])
-            setval([_enum.AGENT_SELLER_FAX, AGENT_SELLER.fax])
+            setval([_enum.AGENT_SELLER_NAME, AGENT_SELLER.nameEN]);
+            setval([_enum.AGENT_SELLER_ADDRESS, AGENT_SELLER.address]);
+            setval([_enum.AGENT_SELLER_PHONE, AGENT_SELLER.phone]);
+            setval([_enum.AGENT_SELLER_FAX, AGENT_SELLER.fax]);
             setval([_enum.AGENT_SELLER_MOBILE, AGENT_SELLER.mobile])
         } catch (e) {
             //dbg(false,e);
@@ -975,10 +976,10 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         try {
             const AGENT_BUYER = contractTab.dynamicForm.main.getField('agentBuyerId').getSelectedRecord();
 
-            setval([_enum.AGENT_BUYER_NAME, AGENT_BUYER.nameEN])
-            setval([_enum.AGENT_BUYER_ADDRESS, AGENT_BUYER.address])
-            setval([_enum.AGENT_BUYER_PHONE, AGENT_BUYER.phone])
-            setval([_enum.AGENT_BUYER_FAX, AGENT_BUYER.fax])
+            setval([_enum.AGENT_BUYER_NAME, AGENT_BUYER.nameEN]);
+            setval([_enum.AGENT_BUYER_ADDRESS, AGENT_BUYER.address]);
+            setval([_enum.AGENT_BUYER_PHONE, AGENT_BUYER.phone]);
+            setval([_enum.AGENT_BUYER_FAX, AGENT_BUYER.fax]);
             setval([_enum.AGENT_BUYER_MOBILE, AGENT_BUYER.mobile])
         } catch (e) {
             //dbg(false,e);
@@ -1087,4 +1088,4 @@ function changeHeaderAndFooterTemplate(template) {
 
 contractTab.listGrid.main.addProperties({
     sortField: 'no',
-})
+});

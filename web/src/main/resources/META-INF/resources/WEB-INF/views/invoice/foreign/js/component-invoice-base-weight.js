@@ -167,7 +167,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             isValid = false;
 
         if (this.getMembers().last().getField("percent").getValue() > this.remainingPercent) {
-            isc.warn("<spring:message code='foreign-invoice.form.percent.not.valid'/>");
+            // isc.warn("<spring:message code='foreign-invoice.form.percent.not.valid'/>");
             isValid = false;
         }
 
