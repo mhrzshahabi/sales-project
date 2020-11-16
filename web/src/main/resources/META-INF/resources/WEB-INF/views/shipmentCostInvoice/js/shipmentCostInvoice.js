@@ -202,6 +202,9 @@ shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice = isc.MyRestDataSource
         },
         {
             name: "financeUnit.name", title: "<spring:message code='shipmentCostInvoice.shipment'/>"
+        },
+        {
+            name: "documentId", title: "<spring:message code='foreign-invoice.form.accounting-id'/>"
         }
     ],
     fetchDataURL: shipmentCostInvoiceTab.variable.shipmentCostInvoice + "spec-list"
@@ -1865,3 +1868,4 @@ shipmentCostInvoiceTab.sectionStack.mainSection = isc.SectionStack.create(
         width: "100%",
         overflow: "hidden"
     });
+
