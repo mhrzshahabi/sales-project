@@ -276,7 +276,7 @@ const BlTab = {
         Required: function () {
             return !BlTab.Vars.debug
         },
-        CrudDynamicForm: async function (props) {
+        CrudDynamicForm: async function (props ,callBack) {
             BlTab.Logs.add(['props:', props]);
             if (typeof (props) === "undefined") return;
             let url = BlTab.Vars.Url;
@@ -284,7 +284,6 @@ const BlTab = {
             let httpHeaders = SalesConfigs.httpHeaders;
             let params = "";
             let data = "";
-            let callBack = "";
             let defaultResponse = async function (response) {
                 if (response.status === 400 || response.status == 500) {
                     const error = await response.json()
@@ -305,6 +304,7 @@ const BlTab = {
                 if (response.status === 200 || response.status === 201) {
                     // await response.text()
                     BlTab.Dialog.Success();
+                    if(callBack) callBack();
                    // BlTab.Grids.BillOfLanding.obj.invalidateCache();
                 } else {
                     const error = await response.text();
@@ -338,9 +338,6 @@ const BlTab = {
                 if (Object.keys(props).contains("response")) {
                     defaultResponse = props.response;
                 }
-                if (Object.keys(props).contains("callBack")) {
-                    callBack = props.callBack;
-                }
 
             }
             BlTab.Logs.add(['data to send rpc', data]);
@@ -367,7 +364,7 @@ const BlTab = {
                 data: data,
                 url: url,
                 callBack: callBack,
-            })
+            }, callBack)
         },
         Edit: function (grid, windowOfForm, form, inputFunc) {
             try {
@@ -399,7 +396,7 @@ const BlTab = {
                 }
             }
         },
-        Delete: function (grid, deleteUrl, func) {
+        Delete: function (grid, deleteUrl,callBack) {
             try {
                 grid = window[grid.ID];
                 const params = {ids: grid.getSelectedRecords().map(record => record.id)};
@@ -422,7 +419,7 @@ const BlTab = {
                                     url: deleteUrl,
                                     method: "DELETE",
                                     params: params,
-                                });
+                                }, callBack);
                             } else {
 
                             }
@@ -455,7 +452,7 @@ const BlTab = {
                 });
             let respjson = await resp.json();
             listGrid.invalidateCache();
-            listGrid.setData(respjson.conrtainers);
+            listGrid.setData(respjson.containers);
             listGrid.redraw();
 
         },
@@ -2004,6 +2001,20 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
                 ],
             fetchDataURL: "api/unit/spec-list"
         }),
+        optionCriteria: {
+            _constructor: "AdvancedCriteria", operator: "or",
+            criteria: [{
+                fieldName: "categoryUnit",
+                operator: "equals",
+                value: JSON.parse('${Enum_CategoryUnit}').Weight
+            },
+                {
+                    fieldName: "categoryUnit",
+                    operator: "equals",
+                    value: JSON.parse('${Enum_CategoryUnit}').Class
+                }
+            ]
+        },
         pickListFields: [
             {name: "nameFA", title: "<spring:message code='unit.nameFa'/> "},
             {name: "nameEN", title: "<spring:message code='unit.nameEN'/> "},
@@ -2223,6 +2234,14 @@ BlTab.Grids.BillOfLanding = {
             height: 300,
             data: record.containers,
             showGridSummary: true,
+            doubleClick() {
+                const selectedRecord = BlTab.Grids.ContainerToBillOfLanding.getSelectedRecord();
+                if (!selectedRecord) return BlTab.Dialog.NotSelected();
+                BlTab.Layouts.ToolStripButtons.NewContainerToBillOfLanding.click();
+                BlTab.Vars.Method = "PUT";
+                BlTab.DynamicForms.Forms.ContainerToBillOfLanding.setValues(selectedRecord);
+
+                },
             gridComponents: [isc.ToolStrip.create({
                 members: [
                     // <sec:authorize access="hasAuthority('C_CONTAINER_TO_BILL_OF_LANDING')">
@@ -2235,8 +2254,8 @@ BlTab.Grids.BillOfLanding = {
                                 ...BlTab.Vars.DefaultWindowConfig,
                                 membersMargin: 9,
                                 title: "<spring:message code='shipment.inquiry.container'/>",
-                                width: "23%",
-                                height: "40%",
+                                width: "46%",
+                                height: "30%",
                                 overflow: "visible",
                                 ID: winId,
                                 members: [
@@ -2249,7 +2268,10 @@ BlTab.Grids.BillOfLanding = {
                                             BlTab.DynamicForms.Forms.ContainerToBillOfLanding = isc.DynamicForm.create({
                                                 errorOrientation: "bottom",
                                                 cellPadding: "11",
-                                                itemChanged: function (_item, _newValue) {},
+                                                wrapItemTitles: false,
+                                                numCols:4,
+                                                itemChanged: function (_item, _newValue) {
+                                                },
                                                 fields: BlTab.Fields.ContainerToBillOfLanding(),
                                                 //  height:"40%",
                                             }),
@@ -2295,11 +2317,9 @@ BlTab.Grids.BillOfLanding = {
                     isc.ToolStripButton.create({
                         click() {
                             //BlTab.Grids.BillOfLanding.obj.invalidateCache()
-                            BlTab.Grids.ContainerToBillOfLanding.invalidateCache();
-                            BlTab.Methods.RefreshContainerData(BlTab.Grids.BillOfLanding.obj.getSelectedRecord().id ,BlTab.Grids.ContainerToBillOfLanding);
-
-                            /*BlTab.Methods.Delete(BlTab.Grids.ContainerToBillOfLanding,
-                                SalesConfigs.Urls.completeUrl + '/api/container-to-bill-of-landing')*/
+                            BlTab.Methods.Delete(BlTab.Grids.ContainerToBillOfLanding,
+                                SalesConfigs.Urls.completeUrl + '/api/container-to-bill-of-landing',
+                                    _ => BlTab.Methods.RefreshContainerData(BlTab.Grids.BillOfLanding.obj.getSelectedRecord().id ,BlTab.Grids.ContainerToBillOfLanding))
                         },
                         title: '<spring:message code="billOfLanding.container.remove"/>',
                         icon: "[SKIN]/headerIcons/trash_Over.png",
@@ -2378,7 +2398,8 @@ BlTab.Layouts.ToolStripButtons.RefreshBillOfLanding = {
 BlTab.Layouts.ToolStripButtons.RemoveBillOfLanding = {
     ...BlTab.Layouts.ToolStripButtons.remove,
     click() {
-        BlTab.Methods.Delete(BlTab.Grids.BillOfLanding.obj, SalesConfigs.Urls.completeUrl + '/api/bill-of-landing/')
+        BlTab.Methods.Delete(BlTab.Grids.BillOfLanding.obj, SalesConfigs.Urls.completeUrl + '/api/bill-of-landing/',
+                _=> BlTab.Grids.BillOfLanding.obj.invalidateCache())
     }
 }
 BlTab.Layouts.ToolStripButtons.NewRemittanceBillOfLanding = {...BlTab.Layouts.ToolStripButtons.new}
@@ -2408,6 +2429,8 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
     BlTab.DynamicForms.Forms.BillOfLandingMain = isc.DynamicForm.create({
         numCols: 6,
         cellPadding: "7",
+        wrapItemTitles: false,
+        errorOrientation: "bottom",
         valuesManager: BlTab.Vars.BillOfLanding,
         fields: BlTab.Fields.BillOfLandingWithoutSwitch().map(_ => {
             if (_.name === 'description')
@@ -2431,7 +2454,9 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
                                         _ => _.json().then(j => dbg(false, 'BL Fetch saved data', j)).catch(err => dbg(false, 'BL Fetch saved ERROR data', err))
                                     )
                                     */
-        BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 'api/bill-of-landing').then(function () {
+        BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 'api/bill-of-landing',
+            _=> BlTab.Grids.BillOfLanding.obj.invalidateCache()
+        ).then(function () {
 
             /*dbg(false, `BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(),
                         'api/bill-of-landing').then(function () {`, arguments)
@@ -2505,6 +2530,7 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
                         pane: isc.DynamicForm.create({
                             numCols: 6,
                             cellPadding: "7",
+                            wrapItemTitles: false,
                             valuesManager: BlTab.Vars.BillOfLanding,
                             fields: BlTab.Fields.BillOfLandingSwitch()
                         })

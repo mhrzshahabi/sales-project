@@ -1507,6 +1507,12 @@ inspectionReportTab.vLayout.weightPane = isc.VLayout.create({
         inspectionReportTab.listGrid.weightElement,
         inspectionReportTab.listGrid.weightElementSum,
         inspectionReportTab.toolStrip.weightRemoveAll,
+        isc.Label.create({
+            margin: 10,
+            height: 5,
+            align: "left",
+            contents: "<spring:message code='inspectionReport.unit.sum.label'/>"
+        }),
         inspectionReportTab.hStack.weightUnitSum
     ]
 });
@@ -1681,6 +1687,12 @@ inspectionReportTab.vLayout.assayPane = isc.VLayout.create({
         inspectionReportTab.listGrid.assayElement,
         inspectionReportTab.listGrid.assayElementSum,
         inspectionReportTab.toolStrip.assayRemoveAll,
+        isc.Label.create({
+            margin: 10,
+            height: 5,
+            align: "left",
+            contents: "<spring:message code='inspectionReport.unit.sum.label'/>"
+        }),
         inspectionReportTab.hStack.assayUnitSum
     ]
 });
@@ -2133,9 +2145,10 @@ inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
     tab_.setMembers([]);
     if (!inventories)
         return;
+
     let remittanceDetails = inventories.map(q => q.remittanceDetails);
     remittanceDetails.forEach(rds => {
-        rds.forEach(r => {
+        rds.filter(q => q.inputRemittance === false).forEach(r => {
             unitArray.push(r.unitId);
         });
     });
@@ -2145,7 +2158,7 @@ inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
             amountArray[index] = 0;
         }
         remittanceDetails.forEach(rds => {
-            rds.forEach((r, i) => {
+            rds.filter(q => q.inputRemittance === false).forEach((r, i) => {
                 if (r.unitId === u && r.amount !== 0) {
                     amountArray[index] = amountArray[index] + r.amount;
                 }
