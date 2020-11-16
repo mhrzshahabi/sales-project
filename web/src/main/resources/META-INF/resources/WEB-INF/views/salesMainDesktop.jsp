@@ -1191,12 +1191,10 @@
                 </sec:authorize>
 
 				if(!userAgent()){
-					 var userAgentLayout = isc.HLayout.create({
-						width: 500,
-						height: "100%",
-						contents: "<span style='width: 100%; color:white; margin-top:0px; font-weight: bold; font-size:18px; background-color:red; text-align: " + nicico.CommonUtil.getAlignByLang() + ";'>" + '<spring:message code='global.browser.user-agent'/>'+"</span>"
+					 var userAgentLayout = isc.Label.create({
+					 	width:"100%",
+						contents: "<span style='width: 100%; color:white; margin:0px; padding:3px; height:100%; font-weight: bold; font-size:18px; background-color:red; text-align: " + nicico.CommonUtil.getAlignByLang() + ";'>" + '<spring:message code='global.browser.user-agent'/>'+"</span>"
 					});
-					userAgentLayout.setTop(0);
 					saleToolStrip.addMember(userAgentLayout);
 				}
 
