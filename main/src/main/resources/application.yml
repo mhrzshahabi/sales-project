@@ -1,9 +1,9 @@
 spring:
   application:
     name: Sales
-    version: "1.0.3"
+    version: "1.0.4"
   profiles:
-    active: Local
+    active: Development
   datasource:
     hikari:
       connection-test-query: SELECT 1 FROM DUAL

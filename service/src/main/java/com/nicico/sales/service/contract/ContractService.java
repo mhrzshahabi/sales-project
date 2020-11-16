@@ -73,7 +73,6 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     private final CDTPDynamicTableValueDAO cdtpDynamicTableValueDAO;
     private final EntityRelationChecker relationChecker;
 
-
     @Override
     @Transactional
     @Action(ActionType.Create)
