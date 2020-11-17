@@ -702,6 +702,12 @@
 
                     let firstDate = this.form.getValue("fromDate");
                     let lastDate = this.form.getValue("toDate");
+
+                     if(firstDate > lastDate){
+                        isc.say("<spring:message code='validator.field.date'/>");
+                        return false;
+                    }
+
                     let criteria = {
                         operator: 'and',
                         _constructor: "AdvancedCriteria",
@@ -912,6 +918,10 @@
 
                     let firstDate = this.form.getValue("fromDate");
                     let lastDate = this.form.getValue("toDate");
+                    if(firstDate > lastDate){
+                        isc.say("<spring:message code='validator.field.date'/>");
+                        return false;
+                    }
                     let criteria = {
                         operator: 'and',
                         _constructor: "AdvancedCriteria",
@@ -1122,6 +1132,10 @@
 
                     let firstDate = this.form.getValue("fromDate");
                     let lastDate = this.form.getValue("toDate");
+                    if(firstDate > lastDate){
+                        isc.say("<spring:message code='validator.field.date'/>");
+                        return false;
+                    }
                     let criteria = {
                         operator: 'and',
                         _constructor: "AdvancedCriteria",
