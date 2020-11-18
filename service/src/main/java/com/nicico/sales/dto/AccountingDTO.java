@@ -51,6 +51,6 @@ public class AccountingDTO {
 	@Accessors(chain = true)
 	@ApiModel("DocumentStatusRq")
 	public static class DocumentStatusRq {
-		private List<String> documentIds;
+		private List<String> invoiceIds;
 	}
 }
