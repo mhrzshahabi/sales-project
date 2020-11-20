@@ -72,9 +72,9 @@ public class CostInvoiceService implements ICostInvoiceService {
 	@Override
 	@Transactional
 	public void updateInvoiceIdsStatus(String systemName, AccountingDTO.DocumentStatusRq request) {
-		final Map<String, String> result = accountingApiService.getInvoiceStatus(systemName, request.getDocumentIds());
+		final Map<String, String> result = accountingApiService.getInvoiceStatus(systemName, request.getInvoiceIds());
 
-		request.getDocumentIds().forEach(invoiceId -> {
+		request.getInvoiceIds().forEach(invoiceId -> {
 			final Optional<ShipmentCostInvoice> shipmentCostInvoiceOpt = shipmentCostInvoiceDAO.findById(Long.valueOf(invoiceId));
 			if (shipmentCostInvoiceOpt.isPresent()) {
 				shipmentCostInvoiceOpt.get().setDocumentId(result.getOrDefault(invoiceId, "-2"));
