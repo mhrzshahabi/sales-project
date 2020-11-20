@@ -668,7 +668,7 @@ inspectionReportTab.method.createWeightListGrid = function () {
                 inspectionReportTab.method.setSavedWeightData(weightInspectionArray);
             }
 
-            let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
+            let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => (inventoryIds.contains(q.id) || selectedInventories.contains(q.id)));
             inspectionReportTab.method.setWeightElementListRows(inventoryIds);
 
             inspectionReportTab.method.setWeightElementSum();
@@ -701,7 +701,7 @@ inspectionReportTab.method.createAssayListGrid = function () {
                 inspectionReportTab.method.setSavedAssayData(assayInspectionArray, preInventories);
             }
 
-            let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
+            let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => (inventoryIds.contains(q.id) || selectedInventories.contains(q.id)));
             inspectionReportTab.method.setAssayElementListRows(inventoryIds);
 
             inspectionReportTab.method.setAssayElementSum();
@@ -2032,8 +2032,8 @@ inspectionReportTab.method.editForm = function () {
             });
         }
         inspectionReportTab.method.getAssayElementFields(inspectionReportTab.variable.materialId, () => {
-            inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.assayUnitSum, inventories);
-            inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.weightUnitSum, inventories);
+            inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.assayUnitSum, assayInspectionArray.map(q => q.inventory));
+            inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.weightUnitSum, weightInspectionArray.map(q => q.inventory));
         });
 
     }
