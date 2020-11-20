@@ -2188,7 +2188,7 @@ nicico.BasicFormUtil.removeExtraGridMenuActions(shipmentCostInvoiceTab);
 shipmentCostInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     visibility: "visible",
     icon: "pieces/receipt.png",
-    title: "<spring:message code='invoice.Send2Accounting'/>",
+    title: "<spring:message code='accounting.document.create'/>",
     click: function () {
         shipmentCostInvoiceTab.method.sendToAccounting();
     }
