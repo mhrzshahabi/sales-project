@@ -1496,7 +1496,7 @@ foreignInvoiceTab.dynamicForm.sentToAccountingDocumentForm = isc.DynamicForm.cre
     ]
 });
 foreignInvoiceTab.window.sentToAccounting = new nicico.FormUtil();
-foreignInvoiceTab.window.sentToAccounting.init(null, '<spring:message code="foreign-invoice.form.send.to.accounting"/>', isc.HLayout.create({
+foreignInvoiceTab.window.sentToAccounting.init(null, '<spring:message code="accounting.document.create"/>', isc.HLayout.create({
     width: "100%",
     height: "450",
     align: "center",
@@ -1671,7 +1671,7 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     visibility: "visible",
     icon: "pieces/receipt.png",
     name: "SentToAccounting",
-    title: "<spring:message code='foreign-invoice.form.send.to.accounting'/>",
+    title: "<spring:message code='accounting.document.create'/>",
     click: function () {
 
         let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();

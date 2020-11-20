@@ -71,7 +71,7 @@ public class InvoiceInternalService extends GenericService<ViewInternalInvoiceDo
     public void updateDeletedDocument(List<InternalInvoiceDTO.Info> data) {
 
         AccountingDTO.DocumentStatusRq request = new AccountingDTO.DocumentStatusRq();
-        request.setDocumentIds(data.stream().map(InternalInvoiceDTO::getDocumentId).collect(Collectors.toList()));
+        request.setInvoiceIds(data.stream().map(InternalInvoiceDTO::getId).collect(Collectors.toList()));
         internalInvoiceService.updateInvoiceIdsStatus("sales internal invoice", request);
     }
 
