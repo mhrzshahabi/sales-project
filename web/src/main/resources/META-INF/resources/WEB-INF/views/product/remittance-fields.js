@@ -1315,6 +1315,24 @@ function getRemittanceFields(objTab) {
 }
 if(!newOutRemittance)
 function newOutRemittance(objTab,selectedData,materialItemId) {
+    async function remittanceCodeSet() {
+        const __material = SalesBaseParameters.getSavedMaterialItemParameter().filter(_=>_id===materialItemId)
+        let remittanceCode = "o-" + __material.shortName?__material.shortName:__material.id.toString();
+        const __sourceId = objTab.DynamicForms.Forms.TozinTable.getValue('sourceId');
+        if(__sourceId){
+            const __source = SalesBaseParameters.getSavedWarehouseParameter().find(_=>_.id===__sourceId) ;
+            if(__source)
+                remittanceCode+=__material.shortName?__material.shortName:__material.id.toString();
+        }
+
+        remittanceCode+="ship";
+        remittanceCode+=  new Date().toLocaleString('fa',{numberingSystem:'latn',month:"2-digit",day:'2-digit',year:'numeric'})
+            .replaceAll("/","");
+        const res = await fetch('api/remittance/spec-list?_startRow=0&_endRow=1&_sortBy=-id',{headers:SalesConfigs.httpHeaders});
+        const _json = await res.json();
+        remittanceCode+=(++_json.response.data.pop().id).toString();
+        objTab.DynamicForms.Forms.OutRemittance.setValue('code',remittanceCode);
+    }
     objTab.DynamicForms.Forms.OutRemittance = isc.DynamicForm.create({
         selectOnFocus : true,
         shouldSaveValue : true,
@@ -1339,7 +1357,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                         objTab.Layouts.ToolStripButtons.OutRemittanceAdd.enable();
                         objTab.DynamicForms.Forms.TozinTable.setValue('codeKala', value);
                         objTab.Methods.setShipmentCriteria();
-
+                        try{remittanceCodeSet()}catch (e) {console.warn(e)}
                     }
                 },
                 editorType: "ComboBoxItem",
@@ -1385,6 +1403,12 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                 _item.disable();
                 if(a.name === "sourceId"){
                     StorageUtil.save("out_remittance_defaultSourceId",value)
+                    try {
+                        remittanceCodeSet();
+                    }
+                    catch (e) {
+                        console.warn(e);
+                    }
                 }
             };
             if (a.name === 'codeKala') a.hidden = true;
@@ -1479,6 +1503,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                         autoFetchData: true,
                         allowAdvancedCriteria: true,
                         showFilterEditor: true,
+                        showRowNumbers:true,
                         dataSource:isc.MyRestDataSource.create(Object.assign({},objTab.RestDataSources.RemittanceDetail())) ,
 
                     }),],
@@ -1528,6 +1553,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                 },
                 showHoverComponents: false,
                 height: "100%",
+                showRowNumbers:true,
                 selectionType: "single",
                 autoFetchData: true,
                 allowAdvancedCriteria: true,
@@ -1571,7 +1597,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                 }
             });
             objTab.Grids.RemittanceDetailOutRemittance.redraw();
-            objTab.Methods.setRemittanceCode()
+            // objTab.Methods.setRemittanceCode()
 
         }
     });
@@ -1581,6 +1607,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
         canEdit: true,
         editEvent: "doubleClick",
         autoSaveEdits: false,
+        showRowNumbers:true,
         fields: [
             ...objTab.Fields.RemittanceDetailFullFields().map(f => {
                 const showFields = {
@@ -1748,11 +1775,13 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
         objTab.Layouts.ToolStripButtons.OutRemittanceAdd.enable();
         objTab.Methods.setShipmentCriteria();
     }
+    dbg(remittanceCodeSet);
     if(materialItemId) {
         const ___form = objTab.DynamicForms.Forms.OutRemittance;
         const ___item = objTab.DynamicForms.Forms.OutRemittance.getField("materialItemId");
         const ___value = materialItemId;
-        ___item.changed(___form,___item,___value)
+        ___item.changed(___form,___item,___value);
+        remittanceCodeSet()
     };
 
 }
