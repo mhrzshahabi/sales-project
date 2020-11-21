@@ -3,9 +3,14 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.annotation.report.Report;
+import com.nicico.sales.dto.DailyReportBandarAbasDTO;
+import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.dto.TozinDTO;
+import com.nicico.sales.iservice.IDailyReportBandarAbasService;
 import com.nicico.sales.iservice.ITozinLiteService;
 import com.nicico.sales.iservice.ITozinService;
+import com.nicico.sales.model.entities.base.DailyReportBandarAbas;
 import com.nicico.sales.model.entities.base.TozinLite;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +31,7 @@ public class TozinRestController {
 
     private final ITozinService tozinService;
     private final ITozinLiteService tozinLiteService;
+    private final IDailyReportBandarAbasService dailyReportBandarAbasService;
 //    private final ObjectMapper mapper;
 
     @Loggable
@@ -52,5 +58,16 @@ public class TozinRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(tozinLiteService.search(nicicoCriteria), HttpStatus.OK);
     }
+
+     @Loggable
+     @Report(nameKey = "dailyreport2555", returnType = DailyReportBandarAbasDTO.class)
+     @GetMapping(value = {"/daily-report-2555/spec-list"})
+    public ResponseEntity<TotalResponse<DailyReportBandarAbasDTO>> searchDailyReport2555Lite(@RequestParam MultiValueMap<String, String> criteria) {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(dailyReportBandarAbasService.search(nicicoCriteria), HttpStatus.OK);
+    }
+
+
+
 
 }

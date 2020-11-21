@@ -1112,7 +1112,7 @@ isc.VLayout.create({
         }),
         rdTab.Grids.RemittanceDetailObj = isc.ListGrid.create({
             ...Object.assign({},rdTab.Grids.RemittanceDetail()),
-            autoFetchData:true,
+            // autoFetchData:false,
             dataSource: isc.MyRestDataSource.create(rdTab.RestDataSources.RemittanceDetail()),
         })
     ]

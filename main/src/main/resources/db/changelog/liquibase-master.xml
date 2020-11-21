@@ -82,6 +82,7 @@
     <include file="classpath:/db/changelog/views/view_warh_remittance_detail.xml"/>
     <include file="classpath:/db/changelog/views/view_internal_invoice_document.xml"/>
     <include file="classpath:/db/changelog/views/view_cost_invoice_document.xml"/>
+    <include file="classpath:db/changelog/views/view_remittance_pkg.xml"/>
     <!-- VIEWS -->
 
     <!-- INITIALIZE AUDIT -->
