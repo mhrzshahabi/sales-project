@@ -21,7 +21,7 @@ public class DailyReportBandarAbasDTO {
     private Long source;
     
     @ReportField(titleMessageKey="Daily-report.material")
-    private Long materia;
+    private Long material;
     
     @ReportField(titleMessageKey="Daily-report.source.name")
     private String sourceName;
@@ -91,17 +91,13 @@ public class DailyReportBandarAbasDTO {
     
    @ReportField(titleMessageKey="Daily-report.REMAINED.WEIGHT")
    private Long remainedWeight;
-    
+    @ReportField(titleMessageKey="Daily-report.OWP.tadil")
+    private Long tadil;
    @ReportField(titleMessageKey="Daily-report.OWP.WEIGHT")
-   private Long tadil;
-    
-   @ReportField(titleMessageKey="Daily-report.OWP.PKG")
    private Long owpWeight;
-    
-   @ReportField(titleMessageKey="Daily-report.OWP.TOZIN")
+   @ReportField(titleMessageKey="Daily-report.OWP.PKG")
    private Long owpPkg;
-    
-   
+   @ReportField(titleMessageKey="Daily-report.OWP.TOZIN")
     private Long owpTozin;
 
     @Getter
