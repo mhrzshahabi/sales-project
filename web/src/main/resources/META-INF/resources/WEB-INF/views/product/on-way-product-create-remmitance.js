@@ -549,7 +549,9 @@ function onWayProductCreateRemittance() {
                 win.hide();
             }
         }
-        const grid = isc.ListGrid.create({...extraGridConfigs, ...gridConfigs});
+        const grid = isc.ListGrid.create({...extraGridConfigs, ...gridConfigs,
+            showRowNumbers:true,
+});
         const win = isc.Window.create({
             title: "<spring:message code='contact.title'/>",
             width: .7 * innerWidth,
@@ -584,7 +586,8 @@ function onWayProductCreateRemittance() {
         const grid_source = isc.ListGrid.create({
             ...windowDestinationTozinList['gc'],
             ...{
-                alternateRecordStyles: true,
+                alternateRecordStyles: true,                        showRowNumbers:true,
+
                 expansionFieldImageShowSelected: true,
                 canExpandRecords: true,
                 canExpandMultipleRecords: false,
@@ -609,7 +612,7 @@ function onWayProductCreateRemittance() {
                         width: .8 * innerWidth,
                         // height: 500,
                         modalEditing: true,
-                        showRowNumbers: false,
+                        showRowNumbers: true,
                         canEdit: true,
                         editEvent: "click",
                         editByCell: true,

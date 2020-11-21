@@ -1,0 +1,707 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="saebm" id="reasdasdasdza_0sssss05">
+        <createView viewName="view_remittanceDetails2555" replaceIfExists="true">
+            <![CDATA[
+                 select rdetail.id                            as rd,
+       inventory.F_MATERIAL_ITEM_ID          as material,
+       inventory.id                          as inventory,
+       nvl(dtozin.SOURCEID, stozin.SOURCEID) as source,
+       nvl(dtozin.TARGETID, stozin.TARGETID) as target,
+       nvl(dtozin.WAZN, stozin.WAZN)         as wazn,
+       nvl(dtozin.DAT, stozin.DAT)           as dat,
+       nvl(dtozin.id, stozin.id)             as tznid,
+       nvl(dtozin.TOZINE_ID, stozin.TOZINE_ID)             as TOZINE_ID,
+       dtozin.TOZINE_ID as dtozin,
+       stozin.TOZINE_ID as stozin,
+       rdetail.N_AMOUNT                      as amount
+from TBL_WARH_REMITTANCE_DETAIL rdetail
+         left join TBL_WARH_TOZIN dtozin on dtozin.ID = rdetail.F_DESTINATION_TOZINE_ID
+         left join TBL_WARH_TOZIN stozin on rdetail.F_SOURCE_TOZINE_ID = stozin.ID
+         left join TBL_WARH_INVENTORY inventory on rdetail.F_INVENTORY_ID = inventory.ID
+where nvl(dtozin.SOURCEID, stozin.SOURCEID) in (2320, 2340, 2555)
+   or nvl(dtozin.TARGETID, stozin.TARGETID) in (2320, 2340, 2555)
+order by dat
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reasdasdasdza_0sss05">
+        <createView viewName="view_remittance_pkg" replaceIfExists="true">
+            <![CDATA[
+                  select rows_.dat,
+                         rows_.source,
+                         rows_.material,
+                         sum(case
+                                 when rows_.source = vrD2555.SOURCE and rows_.dat = vrD2555.DAT then 1
+                                 else 0 end) as in_pkg_day,
+                         sum(case
+                                 when vrD2555.SOURCE = rows_.source and vrD2555.DAT<=rows_.dat
+                                     and substr(vrD2555.DAT,0,6)=substr(rows_.DAT,0,6)
+                                     then 1
+                                 else 0 end) as in_pkg_month,
+                         sum(case
+                                 when vrD2555.SOURCE = rows_.source and vrD2555.DAT<=rows_.dat
+                                     and substr(vrD2555.DAT,0,4)=substr(rows_.DAT,0,4)
+                                     then 1
+                                 else 0 end) as in_pkg_year,
+
+                         sum(case
+                                 when rows_.source = vrD2555.SOURCE and rows_.dat = vrD2555.DAT then vrD2555.AMOUNT
+                                 else 0 end) as in_amount_day,
+                         sum(case
+                                 when rows_.source = vrD2555.SOURCE and vrD2555.DAT<=rows_.dat
+                                     and substr(vrD2555.DAT,0,6)=substr(rows_.DAT,0,6) then vrD2555.AMOUNT
+                                 else 0 end) as in_amount_month,
+                         sum(case
+                                 when rows_.source = vrD2555.SOURCE and vrD2555.DAT<=rows_.dat
+                                     and substr(vrD2555.DAT,0,4)=substr(rows_.DAT,0,4) then vrD2555.AMOUNT
+                                 else 0 end) as in_amount_year,
+
+                         sum(case
+                                 when vrD2555.source in (2320,2340,2555)and rows_.dat = vrD2555.DAT then 1
+                                 else 0 end) as out_pkg_day,
+                         sum(case
+                                 when vrD2555.SOURCE = rows_.source and vrD2555.DAT<=rows_.dat
+                                     and substr(vrD2555.DAT,0,6)=substr(rows_.DAT,0,6)
+                                     then 1
+                                 else 0 end) as out_pkg_month,
+                         sum(case
+                                 when vrD2555.SOURCE = rows_.source and vrD2555.DAT<=rows_.dat
+                                     and substr(vrD2555.DAT,0,4)=substr(rows_.DAT,0,4)
+                                     then 1
+                                 else 0 end) as out_pkg_year,
+
+                         sum(case
+                                 when vrD2555.source in (2320,2340,2555)and rows_.dat = vrD2555.DAT then vrD2555.AMOUNT
+                                 else 0 end) as out_amount_day,
+                         sum(case
+                                 when vrD2555.source in (2320,2340,2555)and vrD2555.DAT<=rows_.dat
+                                     and substr(vrD2555.DAT,0,6)=substr(rows_.DAT,0,6) then vrD2555.AMOUNT
+                                 else 0 end) as out_amount_month,
+                         sum(case
+                                 when vrD2555.source in (2320,2340,2555)and vrD2555.DAT<=rows_.dat
+                                     and substr(vrD2555.DAT,0,4)=substr(rows_.DAT,0,4) then vrD2555.AMOUNT
+                                 else 0 end) as out_amount_year,
+                         sum(case
+                                 when rows_.source = vrD2555.SOURCE then 1
+                                 else -1 end) as remained_pkg,
+                         sum(case
+                                 when rows_.source = vrD2555.SOURCE then vrD2555.AMOUNT
+                                 else -vrD2555.AMOUNT end) as remained_amount
+                  from (
+                           select dd.date__ as dat, ms.source as source, ms.material as material
+                           from (
+                                    select TO_CHAR((select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                                                    from TBL_WARH_TOZIN t) + LEVEL - 1, 'yyyymmdd',
+                                                   'nls_calendar=persian') as date__
+                                    from dual
+                                    connect by (select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                                                from TBL_WARH_TOZIN t) +
+                                               LEVEL - 1 < CURRENT_DATE) dd,
+                                (select material, source
+                                 from view_remittanceDetails2555
+                                 where source not in (2320, 2340, 2555)
+                                 group by material, source) ms
+                           order by dd.date__ asc, ms.source, ms.material) rows_
+                           left join view_remittanceDetails2555 vrD2555
+                                     on rows_.material = vrD2555.material and   vrD2555.dat <=rows_.dat
+                                         and (
+                                                (rows_.source = vrD2555.source and vrD2555.target in (2320, 2340, 2555))
+                                                or
+                                                (vrD2555.source in (2320, 2340, 2555) and vrD2555.inventory in (
+                                                    select vrD25552.inventory
+                                                    from view_remittanceDetails2555 vrD25552
+                                                    where vrD25552.source = rows_.source
+                                                      and vrD25552.dat <= rows_.dat
+                                                      and vrD25552.material = rows_.material
+                                                ))
+                                            )
+                  group by rows_.dat, rows_.source, rows_.material
+                  order by rows_.dat desc, rows_.source, rows_.material
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reasdasdasdsza_0sssss05">
+        <createView viewName="view_remittance_weight" replaceIfExists="true">
+            <![CDATA[
+                                   select dat,
+                         source,
+                         material,
+                         sum(income_weight_day)   as income_weight_day,
+                         sum(income_weight_month) as income_weight_month,
+                         sum(income_weight_year)  as income_weight_year,
+                         sum(out_weight_day)      as out_weight_day,
+                         sum(out_weight_month)    as out_weight_month,
+                         sum(out_weight_year)     as out_weight_year,
+                         sum(remained_weight)     as remained_weight
+                  from (
+                           select rows_.dat,
+                                  rows_.source,
+                                  rows_.material,
+                                  vrD2555.TZNID,
+                                  sum(case
+                                          when vrD2555.SOURCE = rows_.source and vrD2555.dat = rows_.dat
+                                              then vrD2555.WAZN
+                                          else 0 end)
+                                      / case
+                                            when sum(case
+                                                         when vrD2555.SOURCE = rows_.source and vrD2555.dat = rows_.dat
+                                                             then 1
+                                                         else 0 end) > 0
+                                                then sum(case
+                                                             when vrD2555.SOURCE = rows_.source and vrD2555.dat = rows_.dat
+                                                                 then 1
+                                                             else 0 end)
+                                            else 1 end as income_weight_day,
+
+
+                                  sum(case
+                                          when vrD2555.SOURCE = rows_.source and vrD2555.dat <= rows_.dat and
+                                               substr(vrD2555.dat, 0, 6) = substr(rows_.dat, 0, 6) then vrD2555.WAZN
+                                          else 0 end)
+                                      / case
+                                            when sum(case
+                                                         when vrD2555.SOURCE = rows_.source and
+                                                              vrD2555.dat <= rows_.dat and
+                                                              substr(vrD2555.dat, 0, 6) = substr(rows_.dat, 0, 6) then 1
+                                                         else 0 end) > 0
+                                                then sum(case
+                                                             when vrD2555.SOURCE = rows_.source and
+                                                                  vrD2555.dat <= rows_.dat and
+                                                                  substr(vrD2555.dat, 0, 6) = substr(rows_.dat, 0, 6)
+                                                                 then 1
+                                                             else 0 end)
+                                            else 1 end as income_weight_month,
+
+                                  sum(case
+                                          when vrD2555.SOURCE = rows_.source and vrD2555.dat <= rows_.dat and
+                                               substr(vrD2555.dat, 0, 4) = substr(rows_.dat, 0, 4) then vrD2555.WAZN
+                                          else 0 end)
+                                      / case
+                                            when sum(case
+                                                         when vrD2555.SOURCE = rows_.source and
+                                                              vrD2555.dat <= rows_.dat and
+                                                              substr(vrD2555.dat, 0, 4) = substr(rows_.dat, 0, 4) then 1
+                                                         else 0 end) > 0
+                                                then sum(case
+                                                             when vrD2555.SOURCE = rows_.source and
+                                                                  vrD2555.dat <= rows_.dat and
+                                                                  substr(vrD2555.dat, 0, 4) = substr(rows_.dat, 0, 4)
+                                                                 then 1
+                                                             else 0 end)
+                                            else 1 end as income_weight_year,
+
+                                  sum(case
+                                          when vrD2555.SOURCE in (2320, 2340, 2555) and vrD2555.dat = rows_.dat
+                                              then vrD2555.WAZN
+                                          else 0 end)
+                                      / case
+                                            when sum(case
+                                                         when vrD2555.SOURCE in (2320, 2340, 2555) and vrD2555.dat = rows_.dat
+                                                             then 1
+                                                         else 0 end) > 0
+                                                then sum(case
+                                                             when vrD2555.SOURCE in (2320, 2340, 2555) and vrD2555.dat = rows_.dat
+                                                                 then 1
+                                                             else 0 end)
+                                            else 1 end as out_weight_day,
+                                  sum(case
+                                          when vrD2555.SOURCE in (2320, 2340, 2555) and vrD2555.dat <= rows_.dat and
+                                               substr(vrD2555.dat, 0, 6) = substr(rows_.dat, 0, 6) then vrD2555.WAZN
+                                          else 0 end)
+                                      / case
+                                            when sum(case
+                                                         when vrD2555.SOURCE in (2320, 2340, 2555) and
+                                                              vrD2555.dat <= rows_.dat and
+                                                              substr(vrD2555.dat, 0, 6) = substr(rows_.dat, 0, 6) then 1
+                                                         else 0 end) > 0
+                                                then sum(case
+                                                             when vrD2555.SOURCE in (2320, 2340, 2555) and
+                                                                  vrD2555.dat <= rows_.dat and
+                                                                  substr(vrD2555.dat, 0, 6) = substr(rows_.dat, 0, 6)
+                                                                 then 1
+                                                             else 0 end)
+                                            else 1 end as out_weight_month,
+
+                                  sum(case
+                                          when vrD2555.SOURCE in (2320, 2340, 2555) and vrD2555.dat <= rows_.dat and
+                                               substr(vrD2555.dat, 0, 4) = substr(rows_.dat, 0, 4) then vrD2555.WAZN
+                                          else 0 end)
+                                      / case
+                                            when sum(case
+                                                         when vrD2555.SOURCE in (2320, 2340, 2555) and
+                                                              vrD2555.dat <= rows_.dat and
+                                                              substr(vrD2555.dat, 0, 4) = substr(rows_.dat, 0, 4) then 1
+                                                         else 0 end) > 0
+                                                then sum(case
+                                                             when vrD2555.SOURCE in (2320, 2340, 2555) and
+                                                                  vrD2555.dat <= rows_.dat and
+                                                                  substr(vrD2555.dat, 0, 4) = substr(rows_.dat, 0, 4)
+                                                                 then 1
+                                                             else 0 end)
+                                            else 1 end as out_weight_year,
+--                        sum (case when vrD2555.SOURCE=rows_.source then )
+
+
+                                  sum(case
+                                          when vrD2555.SOURCE = rows_.source and vrD2555.dat <= rows_.dat
+                                              then vrD2555.WAZN
+                                          else 0 end)
+                                      / case
+                                            when sum(case
+                                                         when vrD2555.SOURCE = rows_.source and vrD2555.dat <= rows_.dat
+                                                             then 1
+                                                         else 0 end) > 0
+                                                then sum(case
+                                                             when vrD2555.SOURCE = rows_.source and
+                                                                  vrD2555.dat <= rows_.dat then 1
+                                                             else 0 end)
+                                            else 1 end -
+                                  sum(case
+                                          when vrD2555.SOURCE in (2320, 2340, 2555) and vrD2555.dat <= rows_.dat
+                                              then vrD2555.WAZN
+                                          else 0 end)
+                                      / case
+                                            when sum(case
+                                                         when vrD2555.SOURCE in (2320, 2340, 2555) and vrD2555.dat <= rows_.dat
+                                                             then 1
+                                                         else 0 end) > 0
+                                                then sum(case
+                                                             when vrD2555.SOURCE in (2320, 2340, 2555) and
+                                                                  vrD2555.dat <= rows_.dat then 1
+                                                             else 0 end)
+                                            else 1 end as remained_weight
+
+                           from (
+                                    select dd.date__ as dat, ms.source as source, ms.material as material
+                                    from (
+                                             select TO_CHAR(
+                                                                    (select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                                                                     from TBL_WARH_TOZIN t) + LEVEL - 1, 'yyyymmdd',
+                                                                    'nls_calendar=persian') as date__
+                                             from dual
+                                             connect by (select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                                                         from TBL_WARH_TOZIN t) +
+                                                        LEVEL - 1 < CURRENT_DATE) dd,
+                                         (select material, source
+                                          from view_remittanceDetails2555
+                                          where source not in (2320, 2340, 2555)
+                                          group by material, source) ms
+                                    order by dd.date__ asc, ms.source, ms.material) rows_
+                                    left join view_remittanceDetails2555 vrD2555
+                                              on rows_.material = vrD2555.material and vrD2555.dat <= rows_.dat
+                                                  and (
+                                                         (rows_.source = vrD2555.source and vrD2555.target in (2320, 2340, 2555))
+                                                         or
+                                                         (vrD2555.source in (2320, 2340, 2555) and
+                                                          vrD2555.inventory in (
+                                                              select vrD25552.inventory
+                                                              from view_remittanceDetails2555 vrD25552
+                                                              where vrD25552.source = rows_.source
+                                                                and vrD25552.dat <= rows_.dat
+                                                                and vrD25552.material = rows_.material
+                                                          ))
+                                                     )
+--                 where rows_.dat=13981112 and rows_.MATERIAL=8
+                           group by rows_.dat, rows_.source, rows_.material, vrD2555.TZNID
+                           order by rows_.dat desc, rows_.source, rows_.material
+                       )
+-- where material=8 and (income_weight_day>0 or out_weight_day>0)
+                  group by dat, source, material
+                  order by dat desc, source, material
+
+
+
+
+
+
+
+
+
+
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reaswwwdsssssasdasytrdsza_0ssjjjsss05">
+        <createView viewName="view_remittance_weight" replaceIfExists="true">
+            <![CDATA[
+
+with vw0 as (select vw.dat,
+                    vw.source,
+                    vw.material,
+                    case when sum(vrp.REMAINED_PKG) = 0 then sum(0 - vw.remained_weight) else 0 end as tadil,
+                    sum(vw.income_weight_day)                                                       as income_weight_day,
+                    sum(vw.income_weight_month)                                                     as income_weight_month,
+                    sum(vw.income_weight_year)                                                      as income_weight_year,
+                    sum(vw.out_weight_day)                                                          as out_weight_day,
+                    sum(vw.out_weight_month)                                                        as out_weight_month,
+                    sum(vw.out_weight_year)                                                         as out_weight_year,
+                    sum(vw.remained_weight)                                                         as remained_weight
+             from (
+                      select rows_.dat,
+                             rows_.source,
+                             rows_.material,
+                             vrD2555.TZNID,
+                             sum(case
+                                     when vrD2555.SOURCE = rows_.source and vrD2555.dat = rows_.dat
+                                         then vrD2555.WAZN
+                                     else 0 end)
+                                 / case
+                                       when sum(case
+                                                    when vrD2555.SOURCE = rows_.source and vrD2555.dat = rows_.dat
+                                                        then 1
+                                                    else 0 end) > 0
+                                           then sum(case
+                                                        when vrD2555.SOURCE = rows_.source and vrD2555.dat = rows_.dat
+                                                            then 1
+                                                        else 0 end)
+                                       else 1 end as income_weight_day,
+
+
+                             sum(case
+                                     when vrD2555.SOURCE = rows_.source and vrD2555.dat <= rows_.dat and
+                                          substr(vrD2555.dat, 0, 6) = substr(rows_.dat, 0, 6) then vrD2555.WAZN
+                                     else 0 end)
+                                 / case
+                                       when sum(case
+                                                    when vrD2555.SOURCE = rows_.source and
+                                                         vrD2555.dat <= rows_.dat and
+                                                         substr(vrD2555.dat, 0, 6) = substr(rows_.dat, 0, 6) then 1
+                                                    else 0 end) > 0
+                                           then sum(case
+                                                        when vrD2555.SOURCE = rows_.source and
+                                                             vrD2555.dat <= rows_.dat and
+                                                             substr(vrD2555.dat, 0, 6) = substr(rows_.dat, 0, 6)
+                                                            then 1
+                                                        else 0 end)
+                                       else 1 end as income_weight_month,
+
+                             sum(case
+                                     when vrD2555.SOURCE = rows_.source and vrD2555.dat <= rows_.dat and
+                                          substr(vrD2555.dat, 0, 4) = substr(rows_.dat, 0, 4) then vrD2555.WAZN
+                                     else 0 end)
+                                 / case
+                                       when sum(case
+                                                    when vrD2555.SOURCE = rows_.source and
+                                                         vrD2555.dat <= rows_.dat and
+                                                         substr(vrD2555.dat, 0, 4) = substr(rows_.dat, 0, 4) then 1
+                                                    else 0 end) > 0
+                                           then sum(case
+                                                        when vrD2555.SOURCE = rows_.source and
+                                                             vrD2555.dat <= rows_.dat and
+                                                             substr(vrD2555.dat, 0, 4) = substr(rows_.dat, 0, 4)
+                                                            then 1
+                                                        else 0 end)
+                                       else 1 end as income_weight_year,
+
+                             sum(case
+                                     when vrD2555.SOURCE in (2320, 2340, 2555) and vrD2555.dat = rows_.dat
+                                         then vrD2555.WAZN
+                                     else 0 end)
+                                 / case
+                                       when sum(case
+                                                    when vrD2555.SOURCE in (2320, 2340, 2555) and vrD2555.dat = rows_.dat
+                                                        then 1
+                                                    else 0 end) > 0
+                                           then sum(case
+                                                        when vrD2555.SOURCE in (2320, 2340, 2555) and vrD2555.dat = rows_.dat
+                                                            then 1
+                                                        else 0 end)
+                                       else 1 end as out_weight_day,
+                             sum(case
+                                     when vrD2555.SOURCE in (2320, 2340, 2555) and vrD2555.dat <= rows_.dat and
+                                          substr(vrD2555.dat, 0, 6) = substr(rows_.dat, 0, 6) then vrD2555.WAZN
+                                     else 0 end)
+                                 / case
+                                       when sum(case
+                                                    when vrD2555.SOURCE in (2320, 2340, 2555) and
+                                                         vrD2555.dat <= rows_.dat and
+                                                         substr(vrD2555.dat, 0, 6) = substr(rows_.dat, 0, 6) then 1
+                                                    else 0 end) > 0
+                                           then sum(case
+                                                        when vrD2555.SOURCE in (2320, 2340, 2555) and
+                                                             vrD2555.dat <= rows_.dat and
+                                                             substr(vrD2555.dat, 0, 6) = substr(rows_.dat, 0, 6)
+                                                            then 1
+                                                        else 0 end)
+                                       else 1 end as out_weight_month,
+
+                             sum(case
+                                     when vrD2555.SOURCE in (2320, 2340, 2555) and vrD2555.dat <= rows_.dat and
+                                          substr(vrD2555.dat, 0, 4) = substr(rows_.dat, 0, 4) then vrD2555.WAZN
+                                     else 0 end)
+                                 / case
+                                       when sum(case
+                                                    when vrD2555.SOURCE in (2320, 2340, 2555) and
+                                                         vrD2555.dat <= rows_.dat and
+                                                         substr(vrD2555.dat, 0, 4) = substr(rows_.dat, 0, 4) then 1
+                                                    else 0 end) > 0
+                                           then sum(case
+                                                        when vrD2555.SOURCE in (2320, 2340, 2555) and
+                                                             vrD2555.dat <= rows_.dat and
+                                                             substr(vrD2555.dat, 0, 4) = substr(rows_.dat, 0, 4)
+                                                            then 1
+                                                        else 0 end)
+                                       else 1 end as out_weight_year,
+--                        sum (case when vrD2555.SOURCE=rows_.source then )
+
+
+                             sum(case
+                                     when vrD2555.SOURCE = rows_.source and vrD2555.dat <= rows_.dat
+                                         then vrD2555.WAZN
+                                     else 0 end)
+                                 / case
+                                       when sum(case
+                                                    when vrD2555.SOURCE = rows_.source and vrD2555.dat <= rows_.dat
+                                                        then 1
+                                                    else 0 end) > 0
+                                           then sum(case
+                                                        when vrD2555.SOURCE = rows_.source and
+                                                             vrD2555.dat <= rows_.dat then 1
+                                                        else 0 end)
+                                       else 1 end -
+                             sum(case
+                                     when vrD2555.SOURCE in (2320, 2340, 2555) and vrD2555.dat <= rows_.dat
+                                         then vrD2555.WAZN
+                                     else 0 end)
+                                 / case
+                                       when sum(case
+                                                    when vrD2555.SOURCE in (2320, 2340, 2555) and vrD2555.dat <= rows_.dat
+                                                        then 1
+                                                    else 0 end) > 0
+                                           then sum(case
+                                                        when vrD2555.SOURCE in (2320, 2340, 2555) and
+                                                             vrD2555.dat <= rows_.dat then 1
+                                                        else 0 end)
+                                       else 1 end as remained_weight
+
+                      from (
+                               select dd.date__ as dat, ms.source as source, ms.material as material
+                               from (
+                                        select TO_CHAR(
+                                                               (select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                                                                from TBL_WARH_TOZIN t) + LEVEL - 1, 'yyyymmdd',
+                                                               'nls_calendar=persian') as date__
+                                        from dual
+                                        connect by (select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                                                    from TBL_WARH_TOZIN t) +
+                                                   LEVEL - 1 < CURRENT_DATE) dd,
+                                    (select material, source
+                                     from view_remittanceDetails2555
+                                     where source not in (2320, 2340, 2555)
+                                     group by material, source) ms
+                               order by dd.date__ asc, ms.source, ms.material) rows_
+                               left join view_remittanceDetails2555 vrD2555
+                                         on rows_.material = vrD2555.material and vrD2555.dat <= rows_.dat
+                                             and (
+                                                    (rows_.source = vrD2555.source and vrD2555.target in (2320, 2340, 2555))
+                                                    or
+                                                    (vrD2555.source in (2320, 2340, 2555) and
+                                                     vrD2555.inventory in (
+                                                         select vrD25552.inventory
+                                                         from view_remittanceDetails2555 vrD25552
+                                                         where vrD25552.source = rows_.source
+                                                           and vrD25552.dat <= rows_.dat
+                                                           and vrD25552.material = rows_.material
+                                                     ))
+                                                )
+--                 where rows_.dat=13981112 and rows_.MATERIAL=8
+                      group by rows_.dat, rows_.source, rows_.material, vrD2555.TZNID
+                      order by rows_.dat desc, rows_.source, rows_.material
+                  ) vw
+                      left join VIEW_REMITTANCE_PKG vrp
+                                on vw.dat = vrp.DAT and vw.material = vrp.MATERIAL and vw.source = vrp.SOURCE
+-- where material=8 and (income_weight_day>0 or out_weight_day>0)
+             group by vw.dat, vw.source, vw.material
+             order by vw.dat desc, vw.source, vw.material)
+select vw01.dat,
+       vw01.source,
+       vw01.material,
+       vw01.tadil,
+       vw01.income_weight_day,
+       vw01.income_weight_month,
+       vw01.income_weight_year,
+       vw01.out_weight_day,
+       vw01.out_weight_month,
+       vw01.out_weight_year,
+       vw01.remained_weight + sum(vw02.tadil) as remained_weight
+
+from vw0 vw01
+
+         inner join vw0 vw02
+                    on vw01.material = vw02.material and vw01.source = vw02.source and vw01.dat > vw02.dat
+group by vw01.dat,
+         vw01.source,
+         vw01.material,
+         vw01.tadil,
+         vw01.income_weight_day,
+         vw01.income_weight_month,
+         vw01.income_weight_year,
+         vw01.out_weight_day,
+         vw01.out_weight_month,
+         vw01.out_weight_year,
+         vw01.remained_weight
+order by  vw01.dat desc ,
+          vw01.source,
+          vw01.material
+
+
+
+
+
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reaswwwdasdasdsza_0sssss05">
+        <createView viewName="view_on_way_product" replaceIfExists="true">
+            <![CDATA[
+                                   select rows_.*,sum(owp.wazn) as owp_weight,sum(owp.tedad) as owp_pkg, count(owp.tozine_id) as owp_tozin
+from (
+         select dd.date__ as dat, ms.source as source, ms.material as material
+         from (
+                  select TO_CHAR(
+                                         (select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                                          from TBL_WARH_TOZIN t) + LEVEL - 1, 'yyyymmdd',
+                                         'nls_calendar=persian') as date__
+                  from dual
+                  connect by (select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                              from TBL_WARH_TOZIN t) +
+                             LEVEL - 1 < CURRENT_DATE) dd,
+              (select material, source
+               from view_remittanceDetails2555
+               where source not in (2320, 2340, 2555)
+               group by material, source) ms
+         order by dd.date__ asc, ms.source, ms.material) rows_
+
+         left join (select
+                           replace(sal_date2, '/', '') as sale_date,
+                           gdscode,
+                           tozine_id,
+                           sourceid,
+                           tedad,
+                           wazn
+                    from V_TOZINE_CONTENT_M
+                    where sal_date2 is not null
+                      and tozine_id not like '3-%'
+                      and targetid in (2320, 2340, 2555)
+                      and tozine_id not in (select TOZINE_ID from TBL_WARH_TOZIN)
+                      and replace(sal_date2, '/', '') > (select min(dat) from TBL_WARH_TOZIN)
+
+             ) owp
+                   on rows_.dat = owp.sale_date and rows_.material = owp.gdscode and
+                      rows_.source = owp.sourceid
+group by rows_.dat,rows_.source,rows_.material
+order by rows_.dat desc,rows_.source,rows_.material
+
+
+
+
+
+
+
+
+
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reaswwwdasdasdsza_0ssjjjsss05">
+    <createView viewName="view_daily_report2555" replaceIfExists="true">
+            <![CDATA[
+
+
+select
+rows_.dat, rows_.source, rows_.material,wh.C_NAME as source_name,mi.GDSNAME as material_name,
+       IN_PKG_DAY, IN_PKG_MONTH, IN_PKG_YEAR, IN_AMOUNT_DAY, IN_AMOUNT_MONTH, IN_AMOUNT_YEAR, OUT_PKG_DAY, OUT_PKG_MONTH, OUT_PKG_YEAR, OUT_AMOUNT_DAY, OUT_AMOUNT_MONTH, OUT_AMOUNT_YEAR, REMAINED_PKG, REMAINED_AMOUNT,
+       INCOME_WEIGHT_DAY, INCOME_WEIGHT_MONTH, INCOME_WEIGHT_YEAR, OUT_WEIGHT_DAY, OUT_WEIGHT_MONTH, OUT_WEIGHT_YEAR, REMAINED_WEIGHT,
+        OWP_WEIGHT, OWP_PKG, OWP_TOZIN
+from (
+         select dd.date__ as dat, ms.source as source, ms.material as material
+         from (
+                  select TO_CHAR(
+                                         (select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                                          from TBL_WARH_TOZIN t) + LEVEL - 1, 'yyyymmdd',
+                                         'nls_calendar=persian') as date__
+                  from dual
+                  connect by (select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                              from TBL_WARH_TOZIN t) +
+                             LEVEL - 1 < CURRENT_DATE) dd,
+              (select material, source
+               from view_remittanceDetails2555
+               where source not in (2320, 2340, 2555)
+               group by material, source) ms
+         order by dd.date__ asc, ms.source, ms.material) rows_
+
+         left join VIEW_REMITTANCE_PKG vrp
+on
+    rows_.material=vrp.MATERIAL and rows_.source=vrp.SOURCE and rows_.dat=vrp.DAT
+left join VIEW_ON_WAY_PRODUCT VOWP on
+rows_.dat=VOWP.DAT and rows_.source=VOWP.SOURCE and rows_.material=VOWP.MATERIAL
+left join VIEW_REMITTANCE_WEIGHT vrw on
+rows_.dat=vrw.DAT and rows_.source=vrw.SOURCE and rows_.material=vrw.MATERIAL
+left join TBL_WARH_WAREHOUSE wh on rows_.source=wh.id
+left join TBL_MATERIAL_ITEM mi on rows_.material=mi.ID
+order by rows_.dat desc,rows_.source,rows_.material
+
+
+
+
+
+
+
+
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reaswwwdasdasdssssssza_0ssjjjsss05">
+        <createView viewName="view_daily_report2555" replaceIfExists="true">
+            <![CDATA[
+
+
+select
+rows_.dat, rows_.source, rows_.material,wh.C_NAME as source_name,mi.GDSNAME as material_name,
+       IN_PKG_DAY, IN_PKG_MONTH, IN_PKG_YEAR, IN_AMOUNT_DAY, IN_AMOUNT_MONTH, IN_AMOUNT_YEAR, OUT_PKG_DAY, OUT_PKG_MONTH, OUT_PKG_YEAR, OUT_AMOUNT_DAY, OUT_AMOUNT_MONTH, OUT_AMOUNT_YEAR, REMAINED_PKG, REMAINED_AMOUNT,
+       INCOME_WEIGHT_DAY, INCOME_WEIGHT_MONTH, INCOME_WEIGHT_YEAR, OUT_WEIGHT_DAY, OUT_WEIGHT_MONTH, OUT_WEIGHT_YEAR, REMAINED_WEIGHT,
+       vrw.tadil, OWP_WEIGHT, OWP_PKG, OWP_TOZIN
+from (
+         select dd.date__ as dat, ms.source as source, ms.material as material
+         from (
+                  select TO_CHAR(
+                                         (select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                                          from TBL_WARH_TOZIN t) + LEVEL - 1, 'yyyymmdd',
+                                         'nls_calendar=persian') as date__
+                  from dual
+                  connect by (select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                              from TBL_WARH_TOZIN t) +
+                             LEVEL - 1 < CURRENT_DATE) dd,
+              (select material, source
+               from view_remittanceDetails2555
+               where source not in (2320, 2340, 2555)
+               group by material, source) ms
+         order by dd.date__ asc, ms.source, ms.material) rows_
+
+         left join VIEW_REMITTANCE_PKG vrp
+on
+    rows_.material=vrp.MATERIAL and rows_.source=vrp.SOURCE and rows_.dat=vrp.DAT
+left join VIEW_ON_WAY_PRODUCT VOWP on
+rows_.dat=VOWP.DAT and rows_.source=VOWP.SOURCE and rows_.material=VOWP.MATERIAL
+left join VIEW_REMITTANCE_WEIGHT vrw on
+rows_.dat=vrw.DAT and rows_.source=vrw.SOURCE and rows_.material=vrw.MATERIAL
+left join TBL_WARH_WAREHOUSE wh on rows_.source=wh.id
+left join TBL_MATERIAL_ITEM mi on rows_.material=mi.ID
+order by rows_.dat desc,rows_.source,rows_.material
+
+
+
+
+
+
+
+
+			]]>
+        </createView>
+    </changeSet>
+
+
+</databaseChangeLog>

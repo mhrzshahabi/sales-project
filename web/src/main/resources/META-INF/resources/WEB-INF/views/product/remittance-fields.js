@@ -73,7 +73,7 @@ function getRemittanceFields(objTab) {
         {name: "vgmWeight", hidden: true,summaryFunction:"sum", editorProperties:{validateOnExit:true,}, type:"number", showHover: true, title: "<spring:message code='packing-container.vgmWeight'/>"},
         {name: "netWeight",hidden: true, summaryFunction:"sum", editorProperties:{validateOnExit:true,}, type:"float",required:true, showHover: true, title: "<spring:message code='packing-container.netWeight'/>"},
         {name: "description",hidden: true, editorProperties:{validateOnExit:true,},type:"text", showHover: true, title: "<spring:message code='packing-container.description'/>"},
-    ];}
+    ].map(_=>Object.assign({},_));}
     objTab.Fields.TozinBase = function () {
         return [
             {
@@ -118,7 +118,11 @@ function getRemittanceFields(objTab) {
                     } catch (e) {
                         return value
                     }
-                }
+                },
+                validators:[{
+                    type:"regexp",
+                    expression:"(^[1-9][0-9]{3}((0[1-9])|(1[1-2]))(0[1-9]|[1-2][0-9]|30|31)$)|(^[1-9][0-9]{3}\\/[0-1][0-9]\\/[0-3][0-9]$)"
+                }]
             },
             {
                 name: "tozinId",
@@ -226,7 +230,7 @@ function getRemittanceFields(objTab) {
                 align: "center",
                 defaultValue: StorageUtil.get('out_remittance_defaultTargetId')
             },
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.TozinTable = function () {
         return [
@@ -241,7 +245,7 @@ function getRemittanceFields(objTab) {
             {name: 'cardId', hidden: true},
             {name: 'ctrlDescOut', title: "<spring:message code='global.description'/>"},
             {name: 'version', hidden: true},
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.TozinLite = function () {
         return [
@@ -291,7 +295,7 @@ function getRemittanceFields(objTab) {
                 align: "center"
             },
             {name: "isRail", type: "boolean", title: "<spring:message code='warehouseCad.with.rail'/>"}
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.TozinFull = function () {
         return [
@@ -441,7 +445,7 @@ function getRemittanceFields(objTab) {
             },
 
 
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.RemittanceDetail = function () {
         return [
@@ -529,7 +533,7 @@ function getRemittanceFields(objTab) {
 
 
             },
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.RemittanceDetailFullFields = function () {
         return [
@@ -663,7 +667,7 @@ function getRemittanceFields(objTab) {
             },
             ...objTab.Fields.RemittanceDetail(),
 
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.Remittance = function () {
         return [
@@ -763,7 +767,7 @@ function getRemittanceFields(objTab) {
                     {name: "contractShipmentId", hidden: true, type: 'long'},
                     {name: "contactId", type: 'long', hidden: true},
                     {
-                        name: "contact.nameFA",
+                        name: "contact.name"+languageForm.getValue('languageName').toUpperCase(),
                         title: "<spring:message code='contact.name'/>",
                         type: 'text',
                         width: "10%",
@@ -802,8 +806,8 @@ function getRemittanceFields(objTab) {
                         showHover: true
                     },
                     {
-                        name: "material.descl",
-                        title: "<spring:message code='material.descl'/>",
+                        name: "material.desc"+languageForm.getValue('languageName').toUpperCase(),
+                        title: "<spring:message code='material.title'/>",
                         type: 'text',
                         width: "10%",
                         align: "center",
@@ -821,8 +825,8 @@ function getRemittanceFields(objTab) {
                         showHover: true
                     },
                     {
-                        name: "shipmentType.shipmentType",
-                        title: "<spring:message code='shipment.shipmentType'/>",
+                        name: "dischargePort.country.name"+languageForm.getValue('languageName').toUpperCase(),
+                        title: "<spring:message code='global.country'/>",
                         type: 'text',
                         width: "10%",
                         showHover: true,
@@ -888,7 +892,7 @@ function getRemittanceFields(objTab) {
                         },
                     },
                     {
-                        name: "contactAgent.nameFA",
+                        name: "contactAgent.name"+languageForm.getValue('languageName').toUpperCase(),
                         title: "<spring:message code='shipment.agent'/>",
                         type: 'text',
                         width: "10%",
@@ -1118,7 +1122,7 @@ function getRemittanceFields(objTab) {
                 title: "<spring:message code='remittance.has.remained.inventory'/>",
                 hidden:true
             }
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.RemittanceFull = function () {
         return [
@@ -1249,7 +1253,7 @@ function getRemittanceFields(objTab) {
 
                 },
             },
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.Inventory = function () {
         return [
@@ -1267,14 +1271,14 @@ function getRemittanceFields(objTab) {
             },
             {name: 'label', title: '<spring:message code="warehouseCadItem.inventory.Serial"/>'},
             {name: 'id', title: '<spring:message code="global.id"/>', hidden: true,},
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.Depot = function () {
         return [
             {name: "store.warehouse.name", title: "<spring:message code='dailyReportTransport.warehouseNo'/>"},
             {name: "store.name", title: "<spring:message code='warehouseCad.store'/>"},
             {name: "name", title: "<spring:message code='warehouseCad.yard'/>"}
-        ];
+        ].map(_=>Object.assign({},_));
     }
     objTab.Fields.Shipment = function () {
         return [
@@ -1305,12 +1309,30 @@ function getRemittanceFields(objTab) {
             {name: "bookingCat", title: "<spring:message code='shipment.bookingCat'/>", align: "center"}
 
 
-        ];
+        ].map(_=>Object.assign({},_));
     }
-    return objTab;
+    return Object.assign({},objTab);
 }
 if(!newOutRemittance)
 function newOutRemittance(objTab,selectedData,materialItemId) {
+    async function remittanceCodeSet() {
+        const __material = SalesBaseParameters.getSavedMaterialItemParameter().filter(_=>_id===materialItemId)
+        let remittanceCode = "o-" + __material.shortName?__material.shortName:__material.id.toString();
+        const __sourceId = objTab.DynamicForms.Forms.TozinTable.getValue('sourceId');
+        if(__sourceId){
+            const __source = SalesBaseParameters.getSavedWarehouseParameter().find(_=>_.id===__sourceId) ;
+            if(__source)
+                remittanceCode+=__material.shortName?__material.shortName:__material.id.toString();
+        }
+
+        remittanceCode+="ship";
+        remittanceCode+=  new Date().toLocaleString('fa',{numberingSystem:'latn',month:"2-digit",day:'2-digit',year:'numeric'})
+            .replaceAll("/","");
+        const res = await fetch('api/remittance/spec-list?_startRow=0&_endRow=1&_sortBy=-id',{headers:SalesConfigs.httpHeaders});
+        const _json = await res.json();
+        remittanceCode+=(++_json.response.data.pop().id).toString();
+        objTab.DynamicForms.Forms.OutRemittance.setValue('code',remittanceCode);
+    }
     objTab.DynamicForms.Forms.OutRemittance = isc.DynamicForm.create({
         selectOnFocus : true,
         shouldSaveValue : true,
@@ -1335,7 +1357,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                         objTab.Layouts.ToolStripButtons.OutRemittanceAdd.enable();
                         objTab.DynamicForms.Forms.TozinTable.setValue('codeKala', value);
                         objTab.Methods.setShipmentCriteria();
-
+                        try{remittanceCodeSet()}catch (e) {console.warn(e)}
                     }
                 },
                 editorType: "ComboBoxItem",
@@ -1381,6 +1403,12 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                 _item.disable();
                 if(a.name === "sourceId"){
                     StorageUtil.save("out_remittance_defaultSourceId",value)
+                    try {
+                        remittanceCodeSet();
+                    }
+                    catch (e) {
+                        console.warn(e);
+                    }
                 }
             };
             if (a.name === 'codeKala') a.hidden = true;
@@ -1475,6 +1503,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                         autoFetchData: true,
                         allowAdvancedCriteria: true,
                         showFilterEditor: true,
+                        showRowNumbers:true,
                         dataSource:isc.MyRestDataSource.create(Object.assign({},objTab.RestDataSources.RemittanceDetail())) ,
 
                     }),],
@@ -1524,6 +1553,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                 },
                 showHoverComponents: false,
                 height: "100%",
+                showRowNumbers:true,
                 selectionType: "single",
                 autoFetchData: true,
                 allowAdvancedCriteria: true,
@@ -1567,7 +1597,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                 }
             });
             objTab.Grids.RemittanceDetailOutRemittance.redraw();
-            objTab.Methods.setRemittanceCode()
+            // objTab.Methods.setRemittanceCode()
 
         }
     });
@@ -1577,9 +1607,8 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
         canEdit: true,
         editEvent: "doubleClick",
         autoSaveEdits: false,
+        showRowNumbers:true,
         fields: [
-            {name: "remittance.code", title: "<spring:message code='remittance.code'/>", canEdit: false},
-            {name: "remittance.description", title: "<spring:message code='remittance.description'/>", canEdit: false},
             ...objTab.Fields.RemittanceDetailFullFields().map(f => {
                 const showFields = {
                     "remittance.code": {},
@@ -1587,7 +1616,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                     "inventory.label": {},
                     "description": {},
                     "weight": {},
-                    "ampunt": {},
+                    "amount": {},
                     "unitId": {},
                     "depotId": {},
                 };
@@ -1658,7 +1687,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
     objTab.Methods.OutRemittanceSave = async function () {
         if (!objTab.DynamicForms.Forms.OutRemittance.validate()) return;
         const remittanceDetails = objTab.Grids.RemittanceDetailOutRemittance.getData();
-        const __remittanceDetails = Object.assign({},remittanceDetails)
+        const __remittanceDetails = JSON.parse(JSON.stringify(remittanceDetails))
         const remittance = objTab.DynamicForms.Forms.OutRemittance.getValues();
         const remittanceDetailsWithoutTozin = remittanceDetails.filter(rd => {
                 if (rd.outTozin) return false;
@@ -1746,11 +1775,13 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
         objTab.Layouts.ToolStripButtons.OutRemittanceAdd.enable();
         objTab.Methods.setShipmentCriteria();
     }
+    dbg(remittanceCodeSet);
     if(materialItemId) {
         const ___form = objTab.DynamicForms.Forms.OutRemittance;
         const ___item = objTab.DynamicForms.Forms.OutRemittance.getField("materialItemId");
         const ___value = materialItemId;
-        ___item.changed(___form,___item,___value)
+        ___item.changed(___form,___item,___value);
+        remittanceCodeSet()
     };
 
 }
