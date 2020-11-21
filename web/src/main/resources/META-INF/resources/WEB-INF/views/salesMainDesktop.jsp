@@ -481,17 +481,33 @@
                     showDownIcon: false,
                     showSelectedIcon: false,
                     showRollOverIcon: false,
-                    showMenuOnRollOver: true,
-                    disabledCursor: "not-allowed",
-                    border: "1px solid lightblue"
-                });
+                    border: "1px solid lightblue",
+					disabledIconCursor: "not-allowed"
+				});
 
                 isc.ToolStripMenuButton.addProperties({
-                    showDownIcon: false,
-                    showSelectedIcon: false,
-                    showRollOverIcon: false,
+					showDownIcon: false,
+					showSelectedIcon: false,
+					showRollOverIcon: false,
                     showMenuOnRollOver: true,
+					rollOverMenuHideDelay: 400,
+					menuAnimationEffect: "slide",
                     disabledCursor: "not-allowed",
+					click: function() {
+						return false;
+					}
+                });
+
+                isc.Menu.addProperties({
+					canHover: true,
+					rowHover: function (record, rowNum, colNum) {
+
+						this.hideSubmenu();
+						if (record && record.submenu)
+							this.showSubmenu(record);
+
+						return false;
+					},
                 });
 
                 function createTab(title, url) {
