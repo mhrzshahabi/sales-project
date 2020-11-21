@@ -271,7 +271,7 @@ public class AccountingApiService implements IAccountingApiService {
 		if (httpResponse != null && httpResponse.getStatusCode().equals(HttpStatus.OK)) {
 			if (!StringUtils.isEmpty(httpResponse.getBody())) {
 				try {
-					return objectMapper.readValue(httpResponse.getBody(), new TypeReference<Map<String, Object>>() {
+					return objectMapper.readValue(httpResponse.getBody(), new TypeReference<Map<String, String>>() {
 					});
 				} catch (IOException e) {
 					final String message = "AccountingApiService.GetInvoiceStatus Error: [" + Arrays.toString(e.getStackTrace()) + "]";

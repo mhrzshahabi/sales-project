@@ -77,9 +77,9 @@ public class ForeignInvoiceDocService implements IForeignInvoiceDocService {
 	@Override
 	@Transactional
 	public void updateInvoiceIdsStatus(String systemName, AccountingDTO.DocumentStatusRq request) {
-		final Map<String, String> result = accountingApiService.getInvoiceStatus(systemName, request.getDocumentIds());
+		final Map<String, String> result = accountingApiService.getInvoiceStatus(systemName, request.getInvoiceIds());
 
-		request.getDocumentIds().forEach(invoiceId -> {
+		request.getInvoiceIds().forEach(invoiceId -> {
 			final Optional<ForeignInvoice> foreignInvoiceOpt = foreignInvoiceDAO.findById(Long.valueOf(invoiceId));
 			if (foreignInvoiceOpt.isPresent()) {
 				foreignInvoiceOpt.get().setDocumentId(result.getOrDefault(invoiceId, "-2"));
