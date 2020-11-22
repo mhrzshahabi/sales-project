@@ -1125,6 +1125,8 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
                     assay: q.value,
                     materialElementId: q.materialElementId,
                     basePrice: invoiceBasePriceComponent.getValues().filter(bp => bp.elementId === q.materialElement.elementId).first().value,
+                    // basePriceWeightUnit: invoiceBasePriceComponent.getValues().filter(bp => bp.elementId === q.materialElement.elementId).first().weightUnit,
+                    // basePriceFinanceUnit: invoiceBasePriceComponent.getValues().filter(bp => bp.elementId === q.materialElement.elementId).first().financeUnit,
                     deductionType: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.materialElement.elementId).first().deductionType,
                     deductionValue: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.materialElement.elementId).first().deductionValue,
                     deductionPrice: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.materialElement.elementId).first().deductionPrice,
