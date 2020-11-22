@@ -445,10 +445,10 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
             // <sec:authorize access="hasAnyAuthority('C_CONTRACT_DETAIL_TYPE_PARAM') || hasAnyAuthority('U_CONTRACT_DETAIL_TYPE_PARAM') || hasAnyAuthority('D_CONTRACT_DETAIL_TYPE_PARAM')">
             isc.ToolStrip.create({
 
-                width: "100%",
-                height: 24,
-                align: 'left',
                 border: 0,
+                height: 24,
+                width: "100%",
+                align: nicico.CommonUtil.getAlignByLang(),
                 members: [
                     isc.ToolStripButton.create({
 
@@ -581,10 +581,7 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
                     contractDetailTypeTab.listGrid.param.saveAllEdits();
                     if (!contractDetailTypeTab.listGrid.param.validateAllData()) {
 
-                        contractDetailTypeTab.dialog.say(
-                            "<spring:message code='contract-detail-type.window.validation.param'/>",
-                            "<spring:message code='global.error'/>");
-
+                        contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.validation.param'/>");
                         return;
                     }
 
@@ -597,7 +594,7 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
 
                 width: "100%",
                 height: 24,
-                align: 'left',
+                align: nicico.CommonUtil.getAlignByLang(),
                 border: 0,
                 members: [
                     isc.ToolStripButton.create({
@@ -643,6 +640,7 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
         return result;
     },
     getEditorProperties: function (editField, editedRecord, rowNum) {
+
         if (editField.name === contractDetailTypeTab.dynamicForm.templateFields.content.name)
             return {
 
@@ -684,6 +682,7 @@ contractDetailTypeTab.dynamicForm.detailType = isc.DynamicForm.create({
     align: "center",
     numCols: 8,
     margin: 10,
+    wrapItemTitles: false,
     canSubmit: true,
     showErrorText: true,
     showErrorStyle: true,
@@ -728,10 +727,8 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
 
                 for (let i = 0; i < allParams.length; i++) {
                     allParams[i][contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeId.name] = data.id;
-                    if (allParams[i].type == "Reference" && allParams[i].reference == null) {
-                        contractDetailTypeTab.dialog.say(
-                            "<spring:message code='contract-detail-type.window.param-reference-empty'/>",
-                            "<spring:message code='global.warning'/>");
+                    if ((allParams[i].type === "Reference" || allParams[i].type === "ListOfReference") && allParams[i].reference == null) {
+                        contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.param-reference-empty'/>");
                         return;
                     }
                 }
@@ -808,9 +805,9 @@ contractDetailTypeTab.method.editData = function () {
         contractDetailTypeTab.dialog.finalRecord();
     else {
         contractDetailTypeTab.variable.method = "PUT";
-        contractDetailTypeTab.listGrid.param.setData(record.contractDetailTypeParams);
-        contractDetailTypeTab.listGrid.template.setData(record.contractDetailTypeTemplates);
-        contractDetailTypeTab.dynamicForm.detailType.editRecord(JSON.parse(JSON.stringify(record)))
+        contractDetailTypeTab.listGrid.param.setData(clone(record.contractDetailTypeParams));
+        contractDetailTypeTab.listGrid.template.setData(clone(record.contractDetailTypeTemplates));
+        contractDetailTypeTab.dynamicForm.detailType.editRecord(clone(record));
         contractDetailTypeTab.window.detailType.setTitle("<spring:message code='contract-detail-type.window.title.edit'/>");
         contractDetailTypeTab.window.detailType.show();
     }
@@ -847,6 +844,7 @@ contractDetailTypeTab.method.deleteRecord = function () {
             });
 };
 contractDetailTypeTab.method.activate_deactivate = function (activate) {
+
     contractDetailTypeTab.variable.method = "POST";
     let record = contractDetailTypeTab.listGrid.detailType.getSelectedRecord();
     if (record == null || record.id == null)
@@ -855,7 +853,6 @@ contractDetailTypeTab.method.activate_deactivate = function (activate) {
         contractDetailTypeTab.dialog.inactiveRecord();
     if (activate && record.estatus.contains(Enums.eStatus2.Active))
         contractDetailTypeTab.dialog.activeRecord();
-
     else {
         contractDetailTypeTab.method.jsonRPCManagerRequest({
             httpMethod: "POST",
@@ -871,6 +868,7 @@ contractDetailTypeTab.method.activate_deactivate = function (activate) {
         });
     }
 };
+
 //*************************************************** layout ***********************************************************
 
 contractDetailTypeTab.toolStrip.actions = isc.ToolStrip.create({
