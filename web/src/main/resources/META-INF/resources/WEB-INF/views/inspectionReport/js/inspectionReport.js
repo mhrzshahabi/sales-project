@@ -664,8 +664,9 @@ inspectionReportTab.method.createWeightListGrid = function () {
 
                 let preInventories = selectedInventories.filter(q => !inventoryIds.includes(q));
                 let weightInspectionArray = inspectionReportTab.listGrid.main.getSelectedRecord().weightInspections;
+                let preWeightInspection = weightInspectionArray.filter(q => preInventories.includes(q.inventoryId));
                 inspectionReportTab.method.setWeightElementListRows(preInventories);
-                inspectionReportTab.method.setSavedWeightData(weightInspectionArray);
+                inspectionReportTab.method.setSavedWeightData(preWeightInspection);
             }
 
             let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => (inventoryIds.contains(q.id) || selectedInventories.contains(q.id)));
@@ -697,8 +698,9 @@ inspectionReportTab.method.createAssayListGrid = function () {
 
                 let preInventories = selectedInventories.filter(q => !inventoryIds.includes(q));
                 let assayInspectionArray = inspectionReportTab.listGrid.main.getSelectedRecord().assayInspections;
+                let preAssayInspection = assayInspectionArray.filter(q => preInventories.includes(q.inventoryId));
                 inspectionReportTab.method.setAssayElementListRows(preInventories);
-                inspectionReportTab.method.setSavedAssayData(assayInspectionArray, preInventories);
+                inspectionReportTab.method.setSavedAssayData(preAssayInspection, preInventories);
             }
 
             let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => (inventoryIds.contains(q.id) || selectedInventories.contains(q.id)));
@@ -1260,7 +1262,7 @@ inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
     saveLocally: true,
     showRecordComponents: true,
     showRecordComponentsByCell: true,
-    canRemoveRecords: true,
+    // canRemoveRecords: true,
     fields: BaseFormItems.concat([
         {
             name: "id",
@@ -1569,7 +1571,7 @@ inspectionReportTab.listGrid.assayElement = isc.ListGrid.create({
     saveLocally: true,
     showRecordComponents: true,
     showRecordComponentsByCell: true,
-    canRemoveRecords: true,
+    // canRemoveRecords: true,
     dataChanged: function (operationType) {
 
         inspectionReportTab.method.setAssayElementSum();
@@ -1911,6 +1913,7 @@ inspectionReportTab.window.inspecReport.okCallBack = function (inspectionReportO
 };
 inspectionReportTab.window.inspecReport.cancelCallBack = function () {
     inspectionReportTab.method.clearForm();
+    inspectionReportTab.method.refreshData();
 };
 
 inspectionReportTab.method.refreshData = function () {
