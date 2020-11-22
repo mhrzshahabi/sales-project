@@ -414,7 +414,7 @@
                         isc.say("<spring:message code='dcc.upload.success.message'/>");
                         ListGrid_Shipment_Dcc_refresh();
                         shipmentDccCreateWindow.close();
-                    } else if (request.status == 400) {
+                    } else {
                         isc.warn(JSON.parse(request.response).errors.map(re => re.message).reduce((a, b) => (a + "\n" + b)));
                     }
                 }
