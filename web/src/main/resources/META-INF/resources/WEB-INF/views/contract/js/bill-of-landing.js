@@ -2007,13 +2007,7 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
                 fieldName: "categoryUnit",
                 operator: "equals",
                 value: JSON.parse('${Enum_CategoryUnit}').Weight
-            },
-                {
-                    fieldName: "categoryUnit",
-                    operator: "equals",
-                    value: JSON.parse('${Enum_CategoryUnit}').Class
-                }
-            ]
+            }]
         },
         pickListFields: [
             {name: "nameFA", title: "<spring:message code='unit.nameFa'/> "},
