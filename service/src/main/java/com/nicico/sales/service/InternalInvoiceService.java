@@ -8,6 +8,7 @@ import com.nicico.sales.iservice.IAccountingApiService;
 import com.nicico.sales.iservice.IInternalInvoiceService;
 import com.nicico.sales.model.entities.base.InternalInvoiceDocument;
 import com.nicico.sales.model.entities.base.ViewInternalInvoiceDocument;
+import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.repository.InternalInvoiceDAO;
 import com.nicico.sales.repository.InternalInvoiceDocumentDAO;
 import lombok.RequiredArgsConstructor;
@@ -50,13 +51,16 @@ public class InternalInvoiceService implements IInternalInvoiceService {
 			if (internalInvoiceDocumentOpt.isPresent()) {
 				final InternalInvoiceDocument update = new InternalInvoiceDocument();
 				modelMapper.map(internalInvoiceDocumentOpt.get(), update);
-				update.setDocumentId(String.valueOf(result.get("docId")));
+				update.setDocumentId(String.valueOf(result.get("docId")))
+						.setEStatus(Collections.singletonList(EStatus.SendToAcc));
 
 				internalInvoiceDocumentDAO.saveAndFlush(update);
 			} else {
 				final InternalInvoiceDocument save = new InternalInvoiceDocument()
 						.setInvoiceId(invoiceId)
 						.setDocumentId(String.valueOf(result.get("docId")));
+
+				save.setEStatus(Collections.singletonList(EStatus.SendToAcc));
 
 				internalInvoiceDocumentDAO.saveAndFlush(save);
 			}
@@ -81,7 +85,12 @@ public class InternalInvoiceService implements IInternalInvoiceService {
 		request.getInvoiceIds().forEach(invoiceId -> {
 			final Optional<InternalInvoiceDocument> internalInvoiceDocumentOpt = internalInvoiceDocumentDAO.findById(invoiceId);
 			if (internalInvoiceDocumentOpt.isPresent()) {
-				internalInvoiceDocumentOpt.get().setDocumentId(result.getOrDefault(invoiceId, "-2"));
+				if (result.containsKey(invoiceId)) {
+					internalInvoiceDocumentOpt.get().setDocumentId(result.get(invoiceId));
+				} else {
+					internalInvoiceDocumentOpt.get().setDocumentId(null)
+							.setEStatus(Collections.singletonList(EStatus.RemoveFromAcc));
+				}
 
 				internalInvoiceDocumentDAO.saveAndFlush(internalInvoiceDocumentOpt.get());
 			}

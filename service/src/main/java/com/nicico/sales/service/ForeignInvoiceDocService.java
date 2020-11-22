@@ -5,15 +5,11 @@ import com.nicico.sales.dto.AccountingDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IAccountingApiService;
-import com.nicico.sales.iservice.ICostInvoiceService;
 import com.nicico.sales.iservice.IForeignInvoiceDocService;
-import com.nicico.sales.model.entities.base.ShipmentCostInvoice;
-import com.nicico.sales.model.entities.base.ViewCostInvoiceDocument;
 import com.nicico.sales.model.entities.base.ViewForeignInvoiceDocument;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
-import com.nicico.sales.repository.CostInvoiceDAO;
+import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.repository.ForeignInvoiceDocDAO;
-import com.nicico.sales.repository.ShipmentCostInvoiceDAO;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +18,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,22 +42,28 @@ public class ForeignInvoiceDocService implements IForeignInvoiceDocService {
 	@Override
 	@Transactional
 	public String sendInvoice(Long invoiceId, AccountingDTO.DocumentCreateRq request) {
-		final List<ViewForeignInvoiceDocument> foreignInvoiceDocuments = foreignInvoiceDocDAO.findAllByIdFiId(invoiceId);
+		final ForeignInvoice foreignInvoice = foreignInvoiceDAO.findById(invoiceId)
+				.orElseThrow(() -> new SalesException2(ErrorType.NotFound, "id", "شناسه موجودیت یافت نشد."));
 
+		if (!foreignInvoice.getEStatus().contains(EStatus.Final))
+			throw new SalesException2(ErrorType.FinalRecord, "id", "موجودیت تایید نهایی نشده است!");
+
+		final List<ViewForeignInvoiceDocument> foreignInvoiceDocuments = foreignInvoiceDocDAO.findAllByIdFiId(invoiceId);
 		final List<Object> objects = new ArrayList<>(foreignInvoiceDocuments);
 
 		final Map<String, Object> result = accountingApiService.sendInvoice("sales foreign invoice", request, objects);
 
 		if (result.containsKey("docId")) {
-			final Optional<ForeignInvoice> foreignInvoiceOpt = foreignInvoiceDAO.findById(invoiceId);
+			final ForeignInvoice update = new ForeignInvoice();
+			modelMapper.map(foreignInvoice, update);
+			update.setDocumentId(String.valueOf(result.get("docId")));
 
-			if (foreignInvoiceOpt.isPresent()) {
-				final ForeignInvoice update = new ForeignInvoice();
-				modelMapper.map(foreignInvoiceOpt.get(), update);
-				update.setDocumentId(String.valueOf(result.get("docId")));
+			final List<EStatus> eStatus = foreignInvoice.getEStatus();
+			eStatus.remove(EStatus.RemoveFromAcc);
+			eStatus.add(EStatus.SendToAcc);
+			update.setEStatus(eStatus);
 
-				foreignInvoiceDAO.saveAndFlush(update);
-			}
+			foreignInvoiceDAO.saveAndFlush(update);
 
 			String message = messageSource.getMessage("accounting.create.document.number",
 					new Object[]{String.valueOf(result.get("docId"))}, LocaleContextHolder.getLocale());
@@ -82,7 +85,16 @@ public class ForeignInvoiceDocService implements IForeignInvoiceDocService {
 		request.getInvoiceIds().forEach(invoiceId -> {
 			final Optional<ForeignInvoice> foreignInvoiceOpt = foreignInvoiceDAO.findById(Long.valueOf(invoiceId));
 			if (foreignInvoiceOpt.isPresent()) {
-				foreignInvoiceOpt.get().setDocumentId(result.getOrDefault(invoiceId, "-2"));
+				if (result.containsKey(invoiceId)) {
+					foreignInvoiceOpt.get().setDocumentId(result.get(invoiceId));
+				} else if(!StringUtils.isEmpty(foreignInvoiceOpt.get().getDocumentId())) {
+					foreignInvoiceOpt.get().setDocumentId(null);
+
+					final List<EStatus> eStatus = foreignInvoiceOpt.get().getEStatus();
+					eStatus.remove(EStatus.SendToAcc);
+					eStatus.add(EStatus.RemoveFromAcc);
+					foreignInvoiceOpt.get().setEStatus(eStatus);
+				}
 
 				foreignInvoiceDAO.saveAndFlush(foreignInvoiceOpt.get());
 			}

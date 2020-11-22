@@ -103,4 +103,8 @@
     <include file="classpath:/db/changelog/views/view_foreign_invoice_document.xml"/>
     <!-- VIEWS -->
 
+    <!-- CHANGES - VIEW -->
+    <include file="classpath:/db/changelog/changes/view/view_internal_invoice_document-estatus.xml"/>
+    <!-- CHANGES - VIEW -->
+
 </databaseChangeLog>
