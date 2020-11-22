@@ -38,6 +38,7 @@
     <include file="classpath:/db/changelog/changes/aud_tbl_foreign_invoice_item.xml"/>
     <include file="classpath:/db/changelog/changes/aud_tbl_foreign_invoice_payment.xml"/>
     <include file="classpath:/db/changelog/changes/aud_tbl_foreign_invoice_item_detail.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_unit.xml"/>
     <!-- CHANGES -->
 
     <!-- INITIALIZE DATA -->

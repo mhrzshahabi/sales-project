@@ -1,0 +1,18 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="1799887766554-089" author="MShahabi">
+        <sql>
+
+            INSERT INTO TBL_UNIT
+            (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, N_CATEGORY_UNIT,
+            N_SYMBOL_UNIT, C_NAME_FA)
+            values (23,'liquibase',current_timestamp, 2, 1, 1, 'TROY OUNCE', 3, 512, 'تروی اونس');
+
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog>
