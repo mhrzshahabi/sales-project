@@ -286,6 +286,8 @@ namespace nicico {
 
                             width: "100%",
                             height: height,
+                            layoutMargin: 5,
+                            membersMargin: 5,
                             members: items
                         })
                     ]

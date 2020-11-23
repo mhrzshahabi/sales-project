@@ -226,6 +226,20 @@ namespace nicico {
                 // @ts-ignore
                 c.dynamicForm.main = null;
             };
+            BasicFormUtil.createListGrid = function (c) {
+                // @ts-ignore
+                creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria, {
+                    canHover: true,
+                    showHover: true,
+                    autoFitMaxWidth: "15%",
+                    autoFitWidthApproach: "both",
+                    dataArrived: function (startRow: number, endRow: number): void {
+
+                        this.autoFitFields();
+                        this.Super("dataArrived", arguments);
+                    }
+                });
+            };
             BasicFormUtil.createListGridMenu = function (c) {
                 // @ts-ignore
                 c.menu.main = isc.Menu.create({
