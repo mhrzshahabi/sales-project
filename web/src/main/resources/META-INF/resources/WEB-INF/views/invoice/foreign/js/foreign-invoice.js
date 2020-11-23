@@ -974,6 +974,12 @@ foreignInvoiceTab.variable.selectBillLadingForm.okCallBack = function (selectedR
 
 };
 
+foreignInvoiceTab.label.billLadingTitle = isc.Label.create({
+    contents: "<spring:message code='foreign-invoice.form.label.bill-lading'/>",
+    border: "0px solid black",
+    align: "center",
+    width: "100%",
+});
 foreignInvoiceTab.label.selectedBillLading = isc.Label.create({
     contents: '',
     border: "0px solid black",
@@ -1024,7 +1030,7 @@ foreignInvoiceTab.window.main = isc.Window.nicico.getDefault('<spring:message co
                 border: '0px',
                 margin: 0,
                 padding: 0,
-                members: [foreignInvoiceTab.label.selectedBillLading, foreignInvoiceTab.button.selectBillLading]
+                members: [foreignInvoiceTab.label.billLadingTitle, foreignInvoiceTab.label.selectedBillLading, foreignInvoiceTab.button.selectBillLading]
             })
         ]
     })
@@ -1268,6 +1274,12 @@ foreignInvoiceTab.variable.selectBillLadingCompletionForm.okCallBack = function 
     foreignInvoiceTab.label.selectBillLadingCompletion.setBorder("1px solid black");
 };
 
+foreignInvoiceTab.label.billLadingCompletionTitle = isc.Label.create({
+    contents: "<spring:message code='foreign-invoice.form.label.bill-lading'/>",
+    border: "0px solid black",
+    align: "center",
+    width: "100%",
+});
 foreignInvoiceTab.label.selectBillLadingCompletion = isc.Label.create({
     contents: '',
     border: "0px solid black",
@@ -1321,12 +1333,12 @@ foreignInvoiceTab.window.invoiceCompletionForm.init(null, '<spring:message code=
                     border: '0px',
                     margin: 0,
                     padding: 0,
-                    members: [foreignInvoiceTab.label.selectBillLadingCompletion, foreignInvoiceTab.button.selectBillLadingCompletion]
+                    members: [foreignInvoiceTab.label.billLadingCompletionTitle, foreignInvoiceTab.label.selectBillLadingCompletion, foreignInvoiceTab.button.selectBillLadingCompletion]
                 })
             ]
         })
     ]
-}), "500", "10%");
+}), "600", "10%");
 foreignInvoiceTab.window.invoiceCompletionForm.validate = function (data) {
 
     let isValid = true;
