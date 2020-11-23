@@ -14,5 +14,16 @@
         </sql>
     </changeSet>
 
+    <changeSet id="1799887766554-090" author="MShahabi">
+        <sql>
+
+            INSERT INTO TBL_UNIT
+            (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, N_CATEGORY_UNIT,
+            N_SYMBOL_UNIT, C_NAME_FA)
+            values (24,'liquibase',current_timestamp, 2, 1, 1, 'POUND', 3, 256, 'پوند');
+
+        </sql>
+    </changeSet>
+
 
 </databaseChangeLog>

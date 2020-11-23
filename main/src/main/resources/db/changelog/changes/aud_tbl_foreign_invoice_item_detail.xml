@@ -38,4 +38,15 @@
                 tableName="AUD_TBL_FOREIGN_INVOICE_ITEM_DETAIL"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-093">
+        <addColumn tableName="AUD_TBL_FOREIGN_INVOICE_ITEM_DETAIL">
+            <column name="F_BASE_PRICE_FINANCE_UNIT_ID" type="NUMBER(19, 0)" defaultValueNumeric="-32">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_BASE_PRICE_WEIGHT_UNIT_ID" type="NUMBER(19, 0)" defaultValueNumeric="-1">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

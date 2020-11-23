@@ -56,8 +56,16 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                         members.last().setUnitId(priceBase.financeUnit.id);
 
                         if (This.basePriceData) {
-                            let elementId = members.last().elementId;
-                            members.last().setValue(This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePrice);
+
+                            members.forEach(m => {
+
+                                let elementId = m.elementId;
+                                m.setValue(This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePrice);
+                                m.setUnitId(This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePriceFinanceUnit.id);
+                                m.unitHint = "PER " + This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePriceWeightUnit.nameEN;
+                                m.weightUnit = This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePriceWeightUnit;
+                                m.financeUnit = This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePriceFinanceUnit;
+                            });
                         }
                     });
                 } else {
@@ -91,6 +99,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
             data.add({
                 name: current.name,
                 value: values.value,
+                weightUnitId: current.weightUnit.id,
                 financeUnitId: values.unitId,
                 elementId: current.elementId,
                 weightUnit: current.weightUnit,

@@ -1131,8 +1131,8 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
                     assay: q.value,
                     materialElementId: q.materialElementId,
                     basePrice: invoiceBasePriceComponent.getValues().filter(bp => bp.elementId === q.materialElement.elementId).first().value,
-                    // basePriceWeightUnit: invoiceBasePriceComponent.getValues().filter(bp => bp.elementId === q.materialElement.elementId).first().weightUnit,
-                    // basePriceFinanceUnit: invoiceBasePriceComponent.getValues().filter(bp => bp.elementId === q.materialElement.elementId).first().financeUnit,
+                    basePriceWeightUnitId: invoiceBasePriceComponent.getValues().filter(bp => bp.elementId === q.materialElement.elementId).first().weightUnitId,
+                    basePriceFinanceUnitId: invoiceBasePriceComponent.getValues().filter(bp => bp.elementId === q.materialElement.elementId).first().financeUnitId,
                     deductionType: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.materialElement.elementId).first().deductionType,
                     deductionValue: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.materialElement.elementId).first().deductionValue,
                     deductionPrice: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.materialElement.elementId).first().deductionPrice,
@@ -3605,7 +3605,9 @@ foreignInvoiceTab.method.editForm = function () {
                                                 });
                                                 basePriceData.add({
                                                     materialElement: detail.materialElement,
-                                                    basePrice: detail.basePrice
+                                                    basePrice: detail.basePrice,
+                                                    basePriceFinanceUnit: detail.basePriceFinanceUnit,
+                                                    basePriceWeightUnit: detail.basePriceWeightUnit
                                                 });
                                                 calculationRowData.add({
                                                     foreignInvoiceItemId: detail.foreignInvoiceItemId,
@@ -3626,7 +3628,9 @@ foreignInvoiceTab.method.editForm = function () {
                                                 itemDetailValues.forEach(detail => {
                                                     basePrices.add({
                                                         materialElement: detail.materialElement,
-                                                        basePrice: detail.basePrice
+                                                        basePrice: detail.basePrice,
+                                                        basePriceFinanceUnit: detail.basePriceFinanceUnit,
+                                                        basePriceWeightUnit: detail.basePriceWeightUnit
                                                     });
                                                 });
                                                 return basePrices;
