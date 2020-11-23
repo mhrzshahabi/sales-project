@@ -36,6 +36,11 @@ public class DailyReportBandarAbas {
     private String sourceName;
     @Column(name = "material_name")
     private String materialName;
+     @Column(name = "unit")
+    private String unit;
+      @Column(name = "tadil_year_percent")
+    private Double tadilYearPrecent;
+
      @Column(name = "materialpname")
     private String materialPName;
     @Column(name = "IN_PKG_DAY")
