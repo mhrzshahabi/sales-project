@@ -1085,6 +1085,75 @@ order by rows_.dat desc,rows_.source,rows_.material
 			]]>
         </createView>
     </changeSet>
+    <changeSet author="saebm" id="reaswwwdasdasdssssssaza_0ssjjjsss05">
+        <createView viewName="view_daily_report2555" replaceIfExists="true">
+            <![CDATA[
+
+
+select
+    rows_.dat, rows_.source, rows_.material,wh.C_NAME as source_name,mi.GDSNAME as material_name,
+    IN_PKG_DAY, IN_PKG_MONTH, IN_PKG_YEAR, IN_AMOUNT_DAY, IN_AMOUNT_MONTH, IN_AMOUNT_YEAR, OUT_PKG_DAY, OUT_PKG_MONTH, OUT_PKG_YEAR, OUT_AMOUNT_DAY, OUT_AMOUNT_MONTH, OUT_AMOUNT_YEAR, REMAINED_PKG, REMAINED_AMOUNT,
+    INCOME_WEIGHT_DAY, INCOME_WEIGHT_MONTH, INCOME_WEIGHT_YEAR, OUT_WEIGHT_DAY, OUT_WEIGHT_MONTH, OUT_WEIGHT_YEAR, REMAINED_WEIGHT,
+    vrw.tadil, OWP_WEIGHT, OWP_PKG, OWP_TOZIN,tm.ID as materialp,tm.C_DESC_FA as materialpname
+from VIEW_DAT_SOURCE_MATERIAL rows_
+        left join TBL_MATERIAL_ITEM tmi on rows_.MATERIAL=tmi.ID
+        left join TBL_MATERIAL tm on tmi.MATERIAL_ID = tm.ID
+         left join VIEW_REMITTANCE_PKG vrp
+                   on
+                               rows_.material=vrp.MATERIAL and rows_.source=vrp.SOURCE and rows_.dat=vrp.DAT
+         left join VIEW_ON_WAY_PRODUCT VOWP on
+            rows_.dat=VOWP.DAT and rows_.source=VOWP.SOURCE and rows_.material=VOWP.MATERIAL
+         left join VIEW_REMITTANCE_WEIGHT vrw on
+            rows_.dat=vrw.DAT and rows_.source=vrw.SOURCE and rows_.material=vrw.MATERIAL
+         left join TBL_WARH_WAREHOUSE wh on rows_.source=wh.id
+         left join TBL_MATERIAL_ITEM mi on rows_.material=mi.ID
+order by rows_.dat desc,rows_.source,rows_.material
+
+
+
+
+
+
+
+
+
+
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reaswwwdasdasdsstadilza_0ssjjjsss05">
+        <createView viewName="view_daily_report2555" replaceIfExists="true">
+            <![CDATA[
+
+select
+    rows_.dat, rows_.source, rows_.material,wh.C_NAME as source_name,mi.GDSNAME as material_name,
+    IN_PKG_DAY, IN_PKG_MONTH, IN_PKG_YEAR, IN_AMOUNT_DAY, IN_AMOUNT_MONTH, IN_AMOUNT_YEAR, OUT_PKG_DAY, OUT_PKG_MONTH, OUT_PKG_YEAR, OUT_AMOUNT_DAY, OUT_AMOUNT_MONTH, OUT_AMOUNT_YEAR, REMAINED_PKG, REMAINED_AMOUNT,
+    INCOME_WEIGHT_DAY, INCOME_WEIGHT_MONTH, INCOME_WEIGHT_YEAR, OUT_WEIGHT_DAY, OUT_WEIGHT_MONTH, OUT_WEIGHT_YEAR, REMAINED_WEIGHT,
+    vrw.tadil, OWP_WEIGHT, OWP_PKG, OWP_TOZIN,tm.ID as materialp,tm.C_DESC_FA as materialpname,TADIL_MONTH,TADIL_YEAR
+from VIEW_DAT_SOURCE_MATERIAL rows_
+        left join TBL_MATERIAL_ITEM tmi on rows_.MATERIAL=tmi.ID
+        left join TBL_MATERIAL tm on tmi.MATERIAL_ID = tm.ID
+         left join VIEW_REMITTANCE_PKG vrp
+                   on
+                               rows_.material=vrp.MATERIAL and rows_.source=vrp.SOURCE and rows_.dat=vrp.DAT
+         left join VIEW_ON_WAY_PRODUCT VOWP on
+            rows_.dat=VOWP.DAT and rows_.source=VOWP.SOURCE and rows_.material=VOWP.MATERIAL
+         left join VIEW_REMITTANCE_WEIGHT vrw on
+            rows_.dat=vrw.DAT and rows_.source=vrw.SOURCE and rows_.material=vrw.MATERIAL
+         left join TBL_WARH_WAREHOUSE wh on rows_.source=wh.id
+         left join TBL_MATERIAL_ITEM mi on rows_.material=mi.ID
+order by rows_.dat desc,rows_.source,rows_.material
+
+
+
+
+
+
+
+
+			]]>
+        </createView>
+    </changeSet>
 
 
 </databaseChangeLog>
