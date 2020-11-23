@@ -7,4 +7,10 @@
             <column name="b_is_rail" type="number"/>
         </addColumn>
     </changeSet>
+     <changeSet author="saeb (generated)" id="160256sss6sss212921-231">
+        <addColumn tableName="aud_tbl_warh_tozin">
+            <column name="b_is_rail" type="number"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
