@@ -181,6 +181,39 @@ function onWayProductCreateRemittance() {
                 width: 90,
             },
             {
+                type: "staticText",
+                name:"s_driver",
+                title: "<b><spring:message code='Tozin.driver'/></b>",
+                wrapTitle: false,
+                width: 90,
+                defaultValue: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().driverName
+            },
+            {
+                type: "staticText",
+                name:"d_driver",
+                title: "<b><spring:message code='Tozin.driver'/></b>",
+                wrapTitle: false,
+                width: 90,
+            },
+    {
+                    type: "staticText",
+                    name:"s_plak",
+                    title: "<b><spring:message code='Tozin.plak.container'/></b>",
+                    wrapTitle: false,
+                    width: 90,
+                    defaultValue: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().plak
+                },
+
+    {
+                    type: "staticText",
+                    name:"d_plak",
+                    title: "<b><spring:message code='Tozin.plak.container'/></b>",
+                    wrapTitle: false,
+                    width: 90,
+                },
+
+
+            {
                 name: "sourceBundleSum",
                 title: "<spring:message code='Tozin.tedad.packages'/>",
                 colSpan: 1,
@@ -897,17 +930,24 @@ function onWayProductCreateRemittance() {
                             src: "pieces/16/icon_add.png",
                             click() {
                                 window[windowDestinationTozinList['w']].show()
+                                if (grid_source.getSelectedRecord().plak)
+                                window[windowDestinationTozinList['g']].setFilterEditorCriteria({
+                                    fieldName:'plak',
+                                    operator:"contains",
+                                    value:grid_source.getSelectedRecord().plak
+                                })
                             }
                         }]
                     },
                     editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
                         if(!newValue)return true;
-                        dbg(arguments);
                         const grid_available_tozins_string = windowDestinationTozinList['g'];
                         const grid_available_tozins = window[grid_available_tozins_string];
                         const destTozin = grid_available_tozins.getData().find(g => g['tozinId'] === newValue);
                         if (newValue !== undefined && newValue !== null && newValue !== '' && destTozin) {
                             record['destTozin'] = destTozin;
+                            DynamicForm_warehouseCAD.setValue("d_plak",destTozin.plak);
+                            DynamicForm_warehouseCAD.setValue("d_d_driver",destTozin.driverName);
                             // //console.log('updated destination Id', record, grid);
                             record['destTozinId'] = newValue;
                             return true
