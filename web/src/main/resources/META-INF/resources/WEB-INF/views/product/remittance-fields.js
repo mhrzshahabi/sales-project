@@ -1,7 +1,7 @@
 //<%@ page contentType="text/html;charset=UTF-8" %>
 //  <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 // <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-if(!getRemittanceFields)
+// if(!getRemittanceFields)
 function getRemittanceFields(objTab) {
     objTab.Methods.setPackingContainerCriteria=function(){
         const shipmentId = objTab.DynamicForms.Forms.OutRemittance.getValue("shipmentId");
@@ -143,6 +143,15 @@ function getRemittanceFields(objTab) {
                 name: "codeKala",
                 type: "number",
                 // filterEditorProperties: {editorType: "comboBox"},
+                filterEditorProperties: {
+                    editorType: "selectItem",
+                    multiple: true,
+                    type: "number",
+                    click() {
+                    },
+                    // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
+                },
+                filterOperator: "inSet",
                 valueMap: {
                     11: '<spring:message code="Tozin.export.cathode"/>',
                     8: '<spring:message code="Tozin.copper.concentrate"/>',
@@ -575,9 +584,14 @@ function getRemittanceFields(objTab) {
                     editorType: "ComboBoxItem",
                     textMatchStyle: "substring",
                     addUnknownValues: false,
-                    textMatchStyle: "substring",
-                    addUnknownValues: false,
+                    editorType: "selectItem",
+                    multiple: true,
+                    type: "number",
+                    click() {
+                    },
+
                 },
+                filterOperator: "inSet",
                 valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
                 type: "number",
                 title: "<spring:message code='goods.title'/>",
@@ -596,6 +610,20 @@ function getRemittanceFields(objTab) {
                     textMatchStyle: "substring",
                     addUnknownValues: false,
                 },
+
+                filterEditorProperties: {
+                    editorType: "ComboBoxItem",
+                    textMatchStyle: "substring",
+                    addUnknownValues: false,
+                    editorType: "selectItem",
+                    multiple: true,
+                    type: "number",
+                    click() {
+                    },
+
+                },
+                filterOperator: "inSet",
+
                 title: "<spring:message code='Tozin.source'/>",
                 recordDoubleClick: objTab.Methods.RecordDoubleClickRD,
                 // hidden: true,
@@ -1313,7 +1341,7 @@ function getRemittanceFields(objTab) {
     }
     return Object.assign({},objTab);
 }
-if(!newOutRemittance)
+// if(!newOutRemittance)
 function newOutRemittance(objTab,selectedData,materialItemId) {
     async function remittanceCodeSet() {
         const __material = SalesBaseParameters.getSavedMaterialItemParameter().filter(_=>_id===materialItemId)
@@ -1420,7 +1448,10 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
         title: "<spring:message code='global.add'/> <spring:message code='bijack'/> <spring:message code='global.vorodi'/>",
         disabled: true,
         click() {
+            /**@type{isc.ListGrid|null} selectRd**/
             let selectRd;
+            const gridFields= objTab.Fields.RemittanceDetailFullFields().map(field=>{field.recordDoubleClick=null;return field});
+            // dbg(gridFields)
             const win = isc.Window.create({
                 ...objTab.Vars.defaultWindowConfig,
                 members: [
@@ -1451,7 +1482,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                     }),
                     selectRd = isc.ListGrid.create({
                         ...Object.assign({},objTab.Grids.RemittanceDetail()),
-                        fields:objTab.Grids.RemittanceDetail().fields.map(field=>{delete field.recordDoubleClick;return field}),
+                        fields:gridFields,
                         // fields: [
                         //     {name: "remittance.code", title: "<spring:message code='global.number'/> <spring:message code='bijack'/>"},
                         //     {name: "remittance.description", title: "<spring:message code='remittance.description'/>"},
@@ -1508,6 +1539,8 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
 
                     }),],
             })
+            selectRd.showField('id');
+            selectRd.hideField('id');
         }
     });
     objTab.Layouts.ToolStripButtons.OutRemittanceAddTozin = isc.ToolStripButtonAdd.create({
@@ -1668,6 +1701,12 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                         members: [
                             objTab.Layouts.ToolStripButtons.OutRemittanceAdd,
                             objTab.Layouts.ToolStripButtons.AddTozinToRemittanceDetails,
+                            objTab.Layouts.ToolStripButtons.SelectAllInRemittanceDetailGrid = isc.ToolStripButtonAdd.create({
+                                title:"<spring:message code='global.select.all'/>",
+                                click(){
+                                    objTab.Grids.RemittanceDetailOutRemittance.selectAllRecords();
+                                }
+                            }),
 
                             // objTab.Layouts.ToolStripButtons.OutRemittanceAddTozin,
                         ]

@@ -8,6 +8,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Formula;
 
+import javax.persistence.Column;
+
 @Getter
 @Setter
 @Accessors(chain = true)
@@ -28,7 +30,10 @@ public class DailyReportBandarAbasDTO {
     
     @ReportField(titleMessageKey="Daily-report.material.name")
     private String materialName;
-    
+    @Column(name = "materialp")
+    private Long materialp;
+    @Column(name = "materialpname")
+    private String materialPName;
     @ReportField(titleMessageKey="Daily-report.IN.PKG.DAY")
     private Long inPkgDay;
     
@@ -91,8 +96,13 @@ public class DailyReportBandarAbasDTO {
     
    @ReportField(titleMessageKey="Daily-report.REMAINED.WEIGHT")
    private Long remainedWeight;
+    @ReportField(titleMessageKey="Daily-report.OWP.tadil-month")
+    private Long tadilYear;
+    @ReportField(titleMessageKey="Daily-report.OWP.tadil-year")
+    private Long tadilMonth;
     @ReportField(titleMessageKey="Daily-report.OWP.tadil")
     private Long tadil;
+
    @ReportField(titleMessageKey="Daily-report.OWP.WEIGHT")
    private Long owpWeight;
    @ReportField(titleMessageKey="Daily-report.OWP.PKG")
