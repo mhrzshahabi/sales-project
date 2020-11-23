@@ -140,6 +140,75 @@ var nicico;
                         value: selectedIds
                     });
                 var selectReportForm = new nicico.FormUtil();
+                selectReportForm.getButtonLayout = function () {
+                    var ThisForm = selectReportForm;
+                    // @ts-ignore
+                    var cancel = isc.IButtonCancel.create({
+                        // @ts-ignore
+                        click: function () {
+                            // @ts-ignore
+                            ThisForm.windowWidget.getObject().close();
+                            // @ts-ignore
+                            if (ThisForm.owner.getObject() != null)
+                                // @ts-ignore
+                                ThisForm.owner.getObject().show();
+                            ThisForm.cancelCallBack();
+                        },
+                        icon: "pieces/16/icon_delete.png",
+                        title: '<spring:message code="global.close" />'
+                    });
+                    // @ts-ignore
+                    var ok = isc.IButtonSave.create({
+                        // @ts-ignore
+                        click: function () {
+                            // @ts-ignore
+                            var data = ThisForm.populateData(ThisForm.bodyWidget.getObject());
+                            if (!ThisForm.validate(data))
+                                return;
+                            // @ts-ignore
+                            ThisForm.windowWidget.getObject().close();
+                            // @ts-ignore
+                            if (ThisForm.owner.getObject() != null)
+                                // @ts-ignore
+                                ThisForm.owner.getObject().show();
+                            ThisForm.okCallBack(data);
+                        },
+                        icon: "pieces/16/save.png",
+                        title: '<spring:message code="global.ok" />'
+                    });
+                    // @ts-ignore
+                    var slider = isc.Slider.create({
+                        vertical: false,
+                        minValue: 1,
+                        maxValue: 2,
+                        numValues: 1,
+                        minValueLabel: "pdf",
+                        maxValueLabel: "excel",
+                        width: 200,
+                        title: "",
+                        valueChanged: function (value) {
+                            // @ts-ignore
+                            if (!window.vSlider)
+                                return;
+                            // @ts-ignore
+                            if (vSlider.getValue() != value)
+                                vSlider.setValue(value);
+                        }
+                    });
+                    return isc.HLayout.create({
+                        width: "100%",
+                        padding: 10,
+                        layoutMargin: 10,
+                        membersMargin: 10,
+                        edgeImage: "",
+                        showEdges: false,
+                        members: [ok, cancel, isc.HLayout.create({
+                                width: "100%",
+                                align: nicico.CommonUtil.getAlignByLang(),
+                                members: [slider]
+                            })]
+                    });
+                };
                 selectReportForm.populateData = function (bodyWidget) {
                     // @ts-ignore
                     var data = bodyWidget.getSelectedValue();

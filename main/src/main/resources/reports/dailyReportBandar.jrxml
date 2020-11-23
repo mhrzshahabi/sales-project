@@ -5,6 +5,33 @@
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="250"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="743"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#1D2228">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#E1E2E2">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
 	<subDataset name="Dataset1" uuid="2e35cc09-aa6e-437f-b240-0661c7d28941">
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 		<queryString>
@@ -36,25 +63,22 @@ C_REGISTER_NUMBER as registerNumber
 		<queryString language="SQL">
 			<![CDATA[]]>
 		</queryString>
-		<field name="code" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="BIJACK_NO"/>
-		</field>
-		<field name="depot" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="WAREHOUSE_NO"/>
-		</field>
-		<field name="from" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="PLANT"/>
-		</field>
-		<field name="isWithRail" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="MOVEMENT_TYPE"/>
-		</field>
-		<field name="sourceDate" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="SOURCE_LOAD_DATE"/>
-		</field>
-		<field name="destinationDate" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="DESTINATION_UNLOAD_DATE"/>
-		</field>
-		<field name="materialItemName" class="java.lang.String"/>
+		<field name="materia" class="java.lang.String"/>
+		<field name="sourceName" class="java.lang.String"/>
+		<field name="incomeWeightDay" class="java.lang.String"/>
+		<field name="incomeWeightMonth" class="java.lang.String"/>
+		<field name="incomeWeightYear" class="java.lang.String"/>
+		<field name="outWeightDay" class="java.lang.String"/>
+		<field name="outWeightMonth" class="java.lang.String"/>
+		<field name="outWeightYear" class="java.lang.String"/>
+		<field name="Field_9" class="java.lang.String"/>
+		<field name="Field_10" class="java.lang.String"/>
+		<field name="Field_11" class="java.lang.String"/>
+		<field name="Field_12" class="java.lang.String"/>
+		<field name="Field_13" class="java.lang.String"/>
+		<field name="Field_14" class="java.lang.String"/>
+		<field name="Field_15" class="java.lang.String"/>
+		<field name="Field_16" class="java.lang.String"/>
 	</subDataset>
 	<parameter name="ID" class="java.lang.String"/>
 	<parameter name="logo_nicico" class="java.lang.Object"/>
@@ -101,7 +125,7 @@ WHERE
 				<imageExpression><![CDATA[$P{logo_nicico}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="283" y="-15" width="224" height="56" uuid="f46f9468-5239-4011-864b-efc9a1b5ec7d"/>
+				<reportElement stretchType="RelativeToTallestObject" x="283" y="-14" width="224" height="56" uuid="f46f9468-5239-4011-864b-efc9a1b5ec7d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Karnik" size="14" isBold="true"/>
 					<paragraph lineSpacing="Single"/>
@@ -113,10 +137,10 @@ WHERE
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="102" splitType="Stretch">
+		<band height="244" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout"/>
 			<componentElement>
-				<reportElement isPrintRepeatedValues="false" x="3" y="0" width="789" height="78" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" forecolor="#F0F0F0" uuid="dce139d0-1fdb-47c1-b6fa-f1d88abf7674">
+				<reportElement isPrintRepeatedValues="false" x="3" y="0" width="797" height="209" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" forecolor="#F0F0F0" uuid="dce139d0-1fdb-47c1-b6fa-f1d88abf7674">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
@@ -129,441 +153,784 @@ WHERE
 					<datasetRun subDataset="content" uuid="19b45b39-5103-46c3-94cb-24707cde6eb9">
 						<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JsonDataSource)$P{REPORT_DATA_SOURCE}).subDataSource("content")]]></dataSourceExpression>
 					</datasetRun>
-					<jr:columnGroup width="789" uuid="6f328e60-c46f-4f5b-b775-f1e79cc71c2a">
+					<jr:columnGroup width="797" uuid="6f328e60-c46f-4f5b-b775-f1e79cc71c2a">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [16]"/>
-						<jr:tableHeader style="Table_TH" height="30" rowSpan="1"/>
-						<jr:column width="79" uuid="d7660a76-c05f-49bd-8d53-c8347875ecfa">
+						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="797" height="30" forecolor="#000000" backcolor="#9C9C9C" uuid="95789365-0bae-4804-889c-dcd6af36d4ed"/>
+								<box>
+									<pen lineColor="#696969"/>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#696969"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#696969"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#696969"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#696969"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Shabnam-FD" size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ گزارش روزانه اداره هماهنگی فروش و امورگمرکی بندرعباس - واحد وزن : تن]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:column width="37" uuid="c0660fea-0da1-46e0-8118-58e08f025bcb">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
-							<jr:columnHeader height="20" rowSpan="1">
-								<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-									<pen lineColor="#FFFFFF"/>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
+							<jr:columnHeader style="Table_TD" height="50" rowSpan="2">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="37" height="50" forecolor="#000000" backcolor="#9C9C9C" uuid="8862b3dc-2565-43f1-bfe2-8160d71b7ac9"/>
+									<box>
+										<pen lineColor="#696969"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Shabnam-FD" size="10" isBold="true"/>
+									</textElement>
+									<text><![CDATA["درصد تعدیل سال
+(نسبت به خروجی)"]]></text>
+								</staticText>
 							</jr:columnHeader>
-							<jr:detailCell style="Table_TD" height="30">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-								</box>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="32" uuid="da11d15f-22e4-42ff-bb0c-dbd1792aad1f">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
-							<jr:columnHeader height="20">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
-							</jr:columnHeader>
-							<jr:detailCell style="Table_TD" height="30">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-								</box>
+							<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
 								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="32" height="30" uuid="80df6c8f-425d-4f0c-8339-56307d22876f"/>
+									<reportElement x="0" y="0" width="37" height="30" uuid="de766847-358b-4d21-92eb-8306873a1986"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
 										<font fontName="Shabnam-FD" size="7"/>
 									</textElement>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[""]]></textFieldExpression>
 								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="37" uuid="eafdd812-ea8a-4576-a505-950212b6c00e">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
-							<jr:columnHeader height="20">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
-							</jr:columnHeader>
-							<jr:detailCell style="Table_TD" height="30">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-								</box>
+							</jr:columnFooter>
+							<jr:detailCell style="Table_TD" height="70">
 								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="37" height="30" uuid="696374c7-573b-4337-9341-d9be3566dcd9"/>
+									<reportElement x="0" y="0" width="37" height="35" uuid="68d2df26-3bd1-4302-9097-d0614499a8cf"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
 										<font fontName="Shabnam-FD" size="7"/>
 									</textElement>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
 								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="39" uuid="32a86a1e-b7e8-4b0d-b049-932750aeb8bb">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
-							<jr:columnHeader height="20">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
-							</jr:columnHeader>
-							<jr:detailCell style="Table_TD" height="30">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-								</box>
 								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="39" height="30" uuid="3bc29dbe-a2be-4c15-a0a3-1ddde60401e7"/>
+									<reportElement x="0" y="35" width="37" height="35" uuid="7aaf9f55-eeca-475a-9838-37dfd0b9924b"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
 										<font fontName="Shabnam-FD" size="7"/>
 									</textElement>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="38" uuid="2b6821ff-3bd3-427c-a851-869d3620f331">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
-							<jr:columnHeader height="20">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
-							</jr:columnHeader>
-							<jr:detailCell style="Table_TD" height="30">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-								</box>
-								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="38" height="30" uuid="507dcaa8-eb59-4307-910d-e1699fff7a59"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
-										<font fontName="Shabnam-FD" size="7"/>
+						<jr:columnGroup width="186" uuid="1c94febb-66f5-4ddc-b17b-acb01928a5ab">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [4]"/>
+							<jr:columnHeader style="Table_TD" height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="186" height="30" forecolor="#000000" backcolor="#9C9C9C" uuid="edc8fd9f-9ff0-40b3-a7c8-5deb09e9b880"/>
+									<box>
+										<pen lineColor="#696969"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Shabnam-FD" size="10" isBold="true"/>
 									</textElement>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="36" uuid="0db0cf99-e571-49a8-ae35-bbff5099957d">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
-							<jr:columnHeader height="20">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
+									<text><![CDATA[از اول سال	]]></text>
+								</staticText>
 							</jr:columnHeader>
-							<jr:detailCell style="Table_TD" height="30">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-								</box>
-								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="36" height="30" uuid="74732929-4c84-4b91-be8e-3d344562312d"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
-										<font fontName="Shabnam-FD" size="7"/>
-									</textElement>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="34" uuid="60e3d0d8-f2d6-4fbb-aacb-c6e518dd4701">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
-							<jr:columnHeader height="20">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
-							</jr:columnHeader>
-							<jr:detailCell style="Table_TD" height="30">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-								</box>
-								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="34" height="30" uuid="5c445b20-fc85-4a7c-8ab7-a65a4147c4f5"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
-										<font fontName="Shabnam-FD" size="7"/>
-									</textElement>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="31" uuid="e9412ac7-7518-48f4-be57-756d70b75ab9">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
-							<jr:columnHeader height="20">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
-							</jr:columnHeader>
-							<jr:detailCell style="Table_TD" height="30">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-								</box>
-								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="31" height="30" uuid="34e38691-3b41-4be7-80a5-cad121ce9184"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
-										<font fontName="Shabnam-FD" size="7"/>
-									</textElement>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="27" uuid="962abe56-acc6-447e-9198-d625b7c1418a">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
-							<jr:columnHeader height="20">
-								<box>
-									<pen lineColor="#FFFFFF"/>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
-							</jr:columnHeader>
-							<jr:detailCell style="Table_TD" height="30">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-								</box>
-								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="27" height="30" uuid="85b7f979-af6c-4f06-bc05-0b0fb275a1ce"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
-										<font fontName="Shabnam-FD" size="7"/>
-									</textElement>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="27" uuid="6879c7c3-b0b1-45bf-b844-b99e571f9b12">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
-							<jr:columnHeader height="20">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
-							</jr:columnHeader>
-							<jr:detailCell style="Table_TD" height="30">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-								</box>
-								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="27" height="30" uuid="f8edc544-4d90-43e4-a3da-e132677604f4"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
-										<font fontName="Shabnam-FD" size="7"/>
-									</textElement>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="69" uuid="0de6e6d4-c3e4-4215-9b30-0f36d26dda4b">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
-							<jr:columnHeader height="20" rowSpan="1">
-								<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-									<pen lineColor="#FFFFFF"/>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
-							</jr:columnHeader>
-							<jr:detailCell style="Table_TD" height="30">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-								</box>
-								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="69" height="30" uuid="5d17bfa2-996f-4593-b024-51d1490f0517"/>
+							<jr:column width="40" uuid="076a4218-ffda-4bdb-a804-be9401ee92a6">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+								<jr:columnHeader style="Table_TD" height="20" rowSpan="1">
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="40" height="20" forecolor="#000000" backcolor="#9C9C9C" uuid="d1f37d23-a275-462f-9614-7a1bcf3da377"/>
+										<box>
+											<pen lineColor="#696969"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Shabnam-FD" size="10" isBold="true"/>
+										</textElement>
+										<text><![CDATA[تعدیل]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="40" height="30" uuid="fabbfd21-3fbf-407f-a3c0-4b695c0070fe"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[""]]></textFieldExpression>
+									</textField>
+								</jr:columnFooter>
+								<jr:detailCell style="Table_TD" height="70">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="40" height="35" uuid="e89a6434-556f-4451-ba9d-7092b8daf514"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="35" width="40" height="35" uuid="760450a8-2bf3-4707-823a-c81c387a08ca"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="39" uuid="0256bbd0-a8b6-465c-8f06-c201d69b5d83">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+								<jr:columnHeader style="Table_TD" height="20" rowSpan="1">
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="39" height="20" forecolor="#000000" backcolor="#9C9C9C" uuid="b067c4e0-ac5a-4abc-8d04-3d39b1e461b9"/>
+										<box>
+											<pen lineColor="#696969"/>
+											<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+											<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+											<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+											<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Shabnam-FD" size="10" isBold="true"/>
+										</textElement>
+										<text><![CDATA[خروجي]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="39" height="30" uuid="2235a7e1-3bf6-4e2c-9cf6-c396c7f5a59e"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[""]]></textFieldExpression>
+									</textField>
+								</jr:columnFooter>
+								<jr:detailCell style="Table_TD" height="70">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="39" height="35" uuid="651092f7-406c-4c5c-9271-27bbf0c4dab5"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="35" width="39" height="35" uuid="e23826d0-8306-4cf3-81dc-f0be440543d9"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="37" uuid="83cfd25e-2050-4665-995c-c4a8fdda4ba9">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+								<jr:columnHeader style="Table_TD" height="20" rowSpan="1">
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="37" height="20" forecolor="#000000" backcolor="#9C9C9C" uuid="466cb394-dc95-40a9-8dab-2bde402bca53"/>
+										<box>
+											<pen lineColor="#696969"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Shabnam-FD" size="10" isBold="true"/>
+										</textElement>
+										<text><![CDATA[ورودي]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="37" height="30" uuid="a52b6434-712d-4d4a-87cf-d59aad8b4133"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[""]]></textFieldExpression>
+									</textField>
+								</jr:columnFooter>
+								<jr:detailCell style="Table_TD" height="70">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="37" height="35" uuid="54d9c51a-c5a0-4512-84c3-79f4c593cb0e"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="35" width="37" height="35" uuid="66b840b7-b965-416c-ab07-ed67f02eb940"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="70" uuid="27e6a74d-e654-438e-9cab-8196c607d05b">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+								<jr:columnHeader style="Table_TD" height="20" rowSpan="1">
 									<box>
 										<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
-										<font fontName="Shabnam-FD" size="7"/>
-									</textElement>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="88" uuid="4fa34b5f-1dc0-45e4-a8da-0e04a98310a0">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column12"/>
-							<jr:columnHeader height="20" rowSpan="1">
-								<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-									<pen lineColor="#FFFFFF"/>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
-							</jr:columnHeader>
-							<jr:detailCell style="Table_TD" height="30">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-								</box>
-								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="88" height="30" uuid="96ab3eb7-9672-48fd-896e-94efef6a64bf"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
-										<font fontName="Shabnam-FD" size="7"/>
-									</textElement>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="59" uuid="2385235a-a50c-4337-beac-ab5dbbc430f5">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column13"/>
-							<jr:columnHeader height="20" rowSpan="1">
-								<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-									<pen lineColor="#FFFFFF"/>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
-							</jr:columnHeader>
-							<jr:detailCell style="Table_TD" height="30">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-								</box>
-								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="59" height="30" uuid="16e8f686-caa6-4da0-a43f-ee74e1291525"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
-										<font fontName="Shabnam-FD" size="7"/>
-									</textElement>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="63" uuid="afec1988-82f6-48cd-b706-318b22b3174a">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column14"/>
-							<jr:columnHeader height="20" rowSpan="1">
-								<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-									<pen lineColor="#FFFFFF"/>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
-							</jr:columnHeader>
-							<jr:detailCell style="Table_TD" height="30">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-								</box>
-								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="63" height="30" uuid="853c6993-d999-4fa7-aae6-596cc177f29e"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
-										<font fontName="Shabnam-FD" size="7"/>
-									</textElement>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="64" uuid="efbe1766-bde6-4176-bc12-5648e335f5e7">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column15"/>
-							<jr:columnHeader height="20" rowSpan="1">
-								<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-									<pen lineColor="#FFFFFF"/>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
-							</jr:columnHeader>
-							<jr:detailCell height="30">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-								</box>
-								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="64" height="30" uuid="90c058fd-397c-4b2a-a37f-963f1415ab47"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
-										<font fontName="Shabnam-FD" size="7"/>
-									</textElement>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="66" uuid="27e6a74d-e654-438e-9cab-8196c607d05b">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column16"/>
-							<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
-								<box>
-									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-								</box>
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="70" height="20" forecolor="#000000" backcolor="#9C9C9C" uuid="d0e87e51-9608-42ab-9329-cc1d012c9004"/>
+										<box>
+											<pen lineColor="#696969"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Shabnam-FD" size="10" isBold="true"/>
+										</textElement>
+										<text><![CDATA[موجودي اوليه]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="70" height="30" uuid="9dd8eaa5-63db-4753-a466-7fbc19a75fce"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[""]]></textFieldExpression>
+									</textField>
+								</jr:columnFooter>
+								<jr:detailCell style="Table_TD" height="70">
+									<box>
+										<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="70" height="35" uuid="7b66577d-c7ba-4a39-a10c-0acf1a299667"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="35" width="70" height="35" uuid="3c16ef13-54cb-4258-a77e-eae040f9fb7b"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+						</jr:columnGroup>
+						<jr:columnGroup width="263" uuid="21167460-daa1-4533-b5fe-ca34e9015e91">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [4]"/>
+							<jr:columnHeader style="Table_TD" height="30" rowSpan="1">
 								<staticText>
-									<reportElement mode="Opaque" x="0" y="0" width="66" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="00935f15-86a0-412b-a4b9-637d8b0af46c"/>
-									<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-										<pen lineColor="#FF0400"/>
+									<reportElement mode="Opaque" x="0" y="0" width="263" height="30" forecolor="#000000" backcolor="#9C9C9C" uuid="c81d2cfa-35d6-4da4-89a4-a80c10915c22"/>
+									<box>
+										<pen lineColor="#696969"/>
 									</box>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Shabnam-FD" size="8" isBold="true"/>
+										<font fontName="Shabnam-FD" size="10" isBold="true"/>
 									</textElement>
-									<text><![CDATA[شماره بیجک]]></text>
+									<text><![CDATA[از اول ماه			]]></text>
 								</staticText>
 							</jr:columnHeader>
-							<jr:detailCell style="Table_TD" height="30">
+							<jr:column width="102" uuid="d5c12ab0-78ba-4cdf-8b86-879a00532604">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+								<jr:columnHeader style="Table_TD" height="20" rowSpan="1">
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="102" height="20" forecolor="#000000" backcolor="#9C9C9C" uuid="714a531f-ef0a-4881-b383-c15f291a6252"/>
+										<box>
+											<pen lineColor="#696969"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Shabnam-FD" size="10" isBold="true"/>
+										</textElement>
+										<text><![CDATA[تعدیل]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="102" height="30" uuid="9fecddeb-efe9-4a48-b5c2-cb5c73b58521"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[""]]></textFieldExpression>
+									</textField>
+								</jr:columnFooter>
+								<jr:detailCell style="Table_TD" height="70">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="102" height="35" uuid="e6b24d01-63bd-4af1-af36-27980a45b86e"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="35" width="102" height="35" uuid="d4bd256e-1fe6-4559-9da1-e04e6b7e76bc"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="60" uuid="16c0a114-236a-4057-b1d4-ce4ad2f2c3c7">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+								<jr:columnHeader style="Table_TD" height="20" rowSpan="1">
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="60" height="20" forecolor="#000000" backcolor="#9C9C9C" uuid="aefba820-3917-46b0-9eaf-fdc236ab0fa6"/>
+										<box>
+											<pen lineColor="#696969"/>
+											<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+											<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+											<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+											<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Shabnam-FD" size="10" isBold="true"/>
+										</textElement>
+										<text><![CDATA[خروجي]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="60" height="30" uuid="2e3a912e-4f6f-4f72-bd88-c11f2b17e6fd"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[""]]></textFieldExpression>
+									</textField>
+								</jr:columnFooter>
+								<jr:detailCell style="Table_TD" height="70">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="60" height="35" uuid="b2ecabb4-18c3-44c6-a683-fa2df084ba31"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="35" width="60" height="35" uuid="41c9b276-d07a-4910-ab18-9e35986d4dfa"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="51" uuid="59b32b9f-9df9-48b6-b5b4-45736cc9ae10">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+								<jr:columnHeader style="Table_TD" height="20" rowSpan="1">
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="51" height="20" forecolor="#000000" backcolor="#9C9C9C" uuid="7299602b-dac7-44e6-ac29-ad5ac221e0da"/>
+										<box>
+											<pen lineColor="#696969"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Shabnam-FD" size="10" isBold="true"/>
+										</textElement>
+										<text><![CDATA[ورودي]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="51" height="30" uuid="78dbaf8b-44e6-49f6-8a38-f131c81445ab"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[""]]></textFieldExpression>
+									</textField>
+								</jr:columnFooter>
+								<jr:detailCell style="Table_TD" height="70">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="51" height="35" uuid="d165541f-933b-4bce-9102-01e7ab141419"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="35" width="51" height="35" uuid="b4e28923-0420-4f8f-a05f-e9afa269cb9b"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="50" uuid="72ebec93-5e4e-4aa9-bef1-ea57da779e97">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+								<jr:columnHeader style="Table_TD" height="20" rowSpan="1">
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="50" height="20" forecolor="#000000" backcolor="#9C9C9C" uuid="fd595a01-4b4a-445a-9b96-98973bfd1252"/>
+										<box>
+											<pen lineColor="#696969"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Shabnam-FD" size="10" isBold="true"/>
+										</textElement>
+										<text><![CDATA[موجودي اوليه]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="50" height="30" uuid="bc97603e-0257-495d-9d95-7cc49fce89ba"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[""]]></textFieldExpression>
+									</textField>
+								</jr:columnFooter>
+								<jr:detailCell style="Table_TD" height="70">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="50" height="35" uuid="f61e84bd-05a9-4eb0-9181-31d9a7120e83"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="35" width="50" height="35" uuid="9d1f0dbf-dd41-4a75-ae47-adde1967bb02"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+						</jr:columnGroup>
+						<jr:columnGroup width="202" uuid="6b43b3f9-544c-472b-8482-0eebfb13df33">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [4]"/>
+							<jr:columnHeader style="Table_TD" height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="202" height="30" forecolor="#000000" backcolor="#9C9C9C" uuid="ad072625-e9e6-4b92-852d-b3af3dbd5604"/>
+									<box>
+										<pen lineColor="#696969"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Shabnam-FD" size="10" isBold="true"/>
+									</textElement>
+									<text><![CDATA[روز]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:column width="60" uuid="22f48991-e1e4-4490-9fa9-aee23f998ac6">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+								<jr:columnHeader style="Table_TD" height="20" rowSpan="1">
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="60" height="20" forecolor="#000000" backcolor="#9C9C9C" uuid="310d19a5-968a-4789-9d58-01db32e17110"/>
+										<box>
+											<pen lineColor="#696969"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Shabnam-FD" size="10" isBold="true"/>
+										</textElement>
+										<text><![CDATA[تعدیل]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="60" height="30" uuid="e1f67a04-1a93-474f-ba42-dc6925f62a55"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[""]]></textFieldExpression>
+									</textField>
+								</jr:columnFooter>
+								<jr:detailCell style="Table_TD" height="70">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="60" height="35" uuid="2a27d789-300b-48c0-b0ce-5ff9ae43ba2a"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="35" width="60" height="35" uuid="1b223abb-f7c8-4280-ae52-03e984a40ec9"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="51" uuid="59d51874-4b3d-43b3-adbf-363566035de8">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
+								<jr:columnHeader style="Table_TD" height="20" rowSpan="1">
+									<box>
+										<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="51" height="20" forecolor="#000000" backcolor="#9C9C9C" uuid="af41987d-0964-42b3-8a4c-22fcbce67071"/>
+										<box>
+											<pen lineColor="#696969"/>
+											<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+											<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+											<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+											<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Shabnam-FD" size="10" isBold="true"/>
+										</textElement>
+										<text><![CDATA[خروجي]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="51" height="30" uuid="6e0d3d68-47fc-4cd5-ad9e-1291e8728ab4"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[""]]></textFieldExpression>
+									</textField>
+								</jr:columnFooter>
+								<jr:detailCell style="Table_TD" height="70">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="51" height="35" uuid="433e6f71-ee2c-421f-8d39-cc870fcbd572"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="35" width="51" height="35" uuid="3eddbaf1-8dc8-43a1-999c-7003868d7fa6"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="42" uuid="74c63028-6333-4d4e-afd3-38c8f5886599">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column12"/>
+								<jr:columnHeader style="Table_TD" height="20" rowSpan="1">
+									<box>
+										<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="42" height="20" forecolor="#000000" backcolor="#9C9C9C" uuid="d5e101aa-7a2a-4ca1-8822-49ca1a7f15c0"/>
+										<box>
+											<pen lineColor="#696969"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Shabnam-FD" size="10" isBold="true"/>
+										</textElement>
+										<text><![CDATA[ورودي]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="42" height="30" uuid="567b8126-5ac2-41f5-94d0-1a36919f8714"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[""]]></textFieldExpression>
+									</textField>
+								</jr:columnFooter>
+								<jr:detailCell style="Table_TD" height="70">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="42" height="35" uuid="8ab2b8f9-4cc6-4108-a4d5-e058cdf432ea"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="35" width="42" height="35" uuid="093c04bb-9755-4dbf-aa77-305e80510245"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="49" uuid="1de37992-ff3f-4bba-8b47-40dd925888da">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column13"/>
+								<jr:columnHeader style="Table_TD" height="20" rowSpan="1">
+									<box>
+										<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="49" height="20" forecolor="#000000" backcolor="#9C9C9C" uuid="b2ad4042-de50-4e83-b094-eb6309bb5f16"/>
+										<box>
+											<pen lineColor="#696969"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Shabnam-FD" size="10" isBold="true"/>
+										</textElement>
+										<text><![CDATA[موجودي اوليه]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="49" height="30" uuid="a5536b8f-a9c5-424d-9a81-2803a2441e46"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[""]]></textFieldExpression>
+									</textField>
+								</jr:columnFooter>
+								<jr:detailCell style="Table_TD" height="70">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="49" height="35" uuid="4fac5b20-67c5-4a24-b0ad-a1be353f938b"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="35" width="49" height="35" uuid="e1dff299-b4ae-413f-b464-29b19cf55904"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+						</jr:columnGroup>
+						<jr:column width="30" uuid="f6b1fdd7-d805-4346-94be-ada13848bb8e">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column14"/>
+							<jr:columnHeader style="Table_TD" height="50" rowSpan="2">
 								<box>
 									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 								</box>
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="30" height="50" forecolor="#000000" backcolor="#9C9C9C" uuid="b2beb151-9d1c-4fcd-890e-cebf39a90faf"/>
+									<box>
+										<pen lineColor="#696969"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Shabnam-FD" size="10" isBold="true"/>
+									</textElement>
+									<text><![CDATA[(پايان روز)]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
 								<textField isBlankWhenNull="true">
-									<reportElement x="0" y="0" width="66" height="30" uuid="e538c2b7-39a7-4574-b455-9f0e15163109"/>
+									<reportElement x="0" y="0" width="30" height="30" uuid="e722ea04-2d55-490e-bb5a-6e9998b09381"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
 										<font fontName="Shabnam-FD" size="7"/>
 									</textElement>
-									<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[""]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
+							<jr:detailCell style="Table_TD" height="70">
+								<textField isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="30" height="35" uuid="58ae1800-5a9b-46f5-a765-bf4266ab6e82"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+										<font fontName="Shabnam-FD" size="7"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+								</textField>
+								<textField isBlankWhenNull="true">
+									<reportElement x="0" y="35" width="30" height="35" uuid="9b74e1e2-dd92-423e-81d9-1dae79ca18f6"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+										<font fontName="Shabnam-FD" size="7"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
+						<jr:columnGroup width="79" uuid="03a2030f-6856-4b63-a33e-ca8e19e5eb60">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+							<jr:columnHeader style="Table_TD" height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="79" height="30" forecolor="#000000" backcolor="#9C9C9C" uuid="02d188b4-51e2-46f6-9b27-b5ab585890a8"/>
+									<box>
+										<pen lineColor="#696969"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Shabnam-FD" size="10" isBold="true"/>
+									</textElement>
+									<text><![CDATA[date]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:column width="40" uuid="93eb109c-fc9e-4da0-8875-791a5434ce64">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column15"/>
+								<jr:columnHeader style="Table_TD" height="20" rowSpan="1">
+									<box>
+										<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="40" height="20" forecolor="#000000" backcolor="#9C9C9C" uuid="19fcc2e9-3d28-4080-a4c6-9ff0fd9f603c"/>
+										<box>
+											<pen lineColor="#696969"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Shabnam-FD" size="10" isBold="true"/>
+										</textElement>
+										<text><![CDATA[نام مبدأ]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="40" height="30" uuid="39e80c43-742e-464f-8e92-8d089663fcc4"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA["مجموع"]]></textFieldExpression>
+									</textField>
+								</jr:columnFooter>
+								<jr:detailCell style="Table_TD" height="70">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="40" height="35" uuid="f467735a-ec2e-40a4-8884-981d997512e3"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="35" width="40" height="35" uuid="3a5a6d92-854b-4ba7-bf00-988e24fa3757"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="39" uuid="3bf8b71d-d4f2-4880-9ba6-4a130bf33d27">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column16"/>
+								<jr:columnHeader style="Table_TD" height="20" rowSpan="1">
+									<box>
+										<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="39" height="20" forecolor="#000000" backcolor="#9C9C9C" uuid="375009f1-a687-4230-82a9-e81b10e4aed3"/>
+										<box>
+											<pen lineColor="#696969"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Shabnam-FD" size="10" isBold="true"/>
+										</textElement>
+										<text><![CDATA[نام محصول]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:columnFooter style="Table_TD" height="30" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="39" height="30" uuid="e777e5f3-01f3-44c5-ad82-7a03838ba165"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[""]]></textFieldExpression>
+									</textField>
+								</jr:columnFooter>
+								<jr:detailCell style="Table_TD" height="70">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="39" height="70" uuid="3e4731c2-1ece-4844-be09-bd3c00cbc800"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+											<font fontName="Shabnam-FD" size="7"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+						</jr:columnGroup>
 					</jr:columnGroup>
 				</jr:table>
 			</componentElement>
