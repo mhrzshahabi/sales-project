@@ -355,7 +355,6 @@ function getRemittanceFields(objTab) {
                 align: "center",
                 defaultValue: StorageUtil.get('out_remittance_defaultTargetId')
             },
-            {name: "isRail", type: "boolean", title: "<spring:message code='warehouseCad.with.rail'/>"}
 
         ].map(_ => Object.assign({}, _));
     }
