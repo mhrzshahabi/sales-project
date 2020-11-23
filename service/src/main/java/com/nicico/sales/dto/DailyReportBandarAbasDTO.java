@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.Formula;
 
 import javax.persistence.Column;
 
@@ -110,6 +109,10 @@ public class DailyReportBandarAbasDTO {
    private Long owpPkg;
    @ReportField(titleMessageKey="Daily-report.OWP.TOZIN")
     private Long owpTozin;
+    private Double tadilYearPrecent;
+    @ReportField(titleMessageKey="global.unit")
+    private String unit;
+
 
     @Getter
     @Setter

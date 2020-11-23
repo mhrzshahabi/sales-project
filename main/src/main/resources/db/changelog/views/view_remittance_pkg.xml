@@ -88,6 +88,29 @@ order by dd.date__ asc, ms.source, ms.material
 			]]>
         </createView>
     </changeSet>
+    <changeSet author="saebm" id="reasdasdassamammdasddza_0sssss05">
+        <createView viewName="view_dat_source_material" replaceIfExists="true">
+            <![CDATA[
+ select dd.date__ as dat, ms.source as source, ms.material as material,ms.UNIT
+from (
+         select TO_CHAR(
+                                (select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                                 from TBL_WARH_TOZIN t) + LEVEL - 1, 'yyyymmdd',
+                                'nls_calendar=persian') as date__
+         from dual
+         connect by (select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                     from TBL_WARH_TOZIN t) +
+                    LEVEL - 1 < CURRENT_DATE) dd,
+     (select material, source,max(UNIT) as unit
+      from view_remittanceDetails2555
+      where source not in (2320, 2340, 2555)
+      group by material, source) ms
+order by dd.date__ asc, ms.source, ms.material
+
+
+			]]>
+        </createView>
+    </changeSet>
 
 
     <!--    view_remittance_pkg-->
@@ -1121,15 +1144,16 @@ order by rows_.dat desc,rows_.source,rows_.material
 			]]>
         </createView>
     </changeSet>
-    <changeSet author="saebm" id="reaswwwdasdasdsstadilza_0ssjjjsss05">
+    <changeSet author="saebm" id="reaswwwdasdasssssdsstadilza_0ssjjjsss05">
         <createView viewName="view_daily_report2555" replaceIfExists="true">
             <![CDATA[
 
 select
-    rows_.dat, rows_.source, rows_.material,wh.C_NAME as source_name,mi.GDSNAME as material_name,
+    rows_.dat,rows_.unit, rows_.source, rows_.material,wh.C_NAME as source_name,mi.GDSNAME as material_name,
     IN_PKG_DAY, IN_PKG_MONTH, IN_PKG_YEAR, IN_AMOUNT_DAY, IN_AMOUNT_MONTH, IN_AMOUNT_YEAR, OUT_PKG_DAY, OUT_PKG_MONTH, OUT_PKG_YEAR, OUT_AMOUNT_DAY, OUT_AMOUNT_MONTH, OUT_AMOUNT_YEAR, REMAINED_PKG, REMAINED_AMOUNT,
     INCOME_WEIGHT_DAY, INCOME_WEIGHT_MONTH, INCOME_WEIGHT_YEAR, OUT_WEIGHT_DAY, OUT_WEIGHT_MONTH, OUT_WEIGHT_YEAR, REMAINED_WEIGHT,
-    vrw.tadil, OWP_WEIGHT, OWP_PKG, OWP_TOZIN,tm.ID as materialp,tm.C_DESC_FA as materialpname,TADIL_MONTH,TADIL_YEAR
+    vrw.tadil, OWP_WEIGHT, OWP_PKG, OWP_TOZIN,tm.ID as materialp,tm.C_DESC_FA as materialpname,TADIL_MONTH,TADIL_YEAR,
+    TADIL_YEAR/case when OUT_WEIGHT_YEAR>0 then OUT_WEIGHT_YEAR else 1 end as tadil_year_percent
 from VIEW_DAT_SOURCE_MATERIAL rows_
         left join TBL_MATERIAL_ITEM tmi on rows_.MATERIAL=tmi.ID
         left join TBL_MATERIAL tm on tmi.MATERIAL_ID = tm.ID
