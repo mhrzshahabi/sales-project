@@ -11,6 +11,7 @@ import org.hibernate.annotations.Formula;
 @Getter
 @Setter
 @Accessors(chain = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 //@JsonInclude()
 public class DailyReportBandarAbasDTO {
     

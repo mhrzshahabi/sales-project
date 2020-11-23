@@ -202,17 +202,19 @@ namespace nicico {
                         minValue: 1,
                         maxValue: 2,
                         numValues: 1,
-                        minValueLabel: "pdf",
-                        maxValueLabel: "excel",
-                        width:200,
+                        minValueLabel: "PDF",
+                        maxValueLabel: "EXCEL",
+                        // @ts-ignore
+                        defaultValue: 2,
                         title: "",
+                        width: 200,
                         valueChanged: function (value) {
+                            this.Super('valueChanged', arguments);
                             // @ts-ignore
-                            if (!window.vSlider) return;
-                            // @ts-ignore
-                            if (vSlider.getValue() != value) vSlider.setValue(value)
+                            ThisForm.bodyWidget.getObject().slider = value;
                         }
                     });
+
                     return isc.HLayout.create({
 
                         width: "100%",
@@ -229,12 +231,22 @@ namespace nicico {
                     });
                 };
                 selectReportForm.populateData = function (bodyWidget: isc.Canvas | Array<isc.Canvas>) {
+debugger
+                    // @ts-ignore
+                    if (bodyWidget.slider === 1)
+                    // @ts-ignore
+                        bodyWidget.slider = "PDF";
+                    else
+                    // @ts-ignore
+                        bodyWidget.slider = "EXCEL";
 
                     // @ts-ignore
                     let data = bodyWidget.getSelectedValue();
                     return data ? {
                         fileId: data.id,
                         fileKey: data.fileKey,
+                        // @ts-ignore
+                        type: bodyWidget.slider,
                         // @ts-ignore
                         criteria: cr,
                     } : null;
@@ -250,7 +262,7 @@ namespace nicico {
                     // @ts-ignore
                     creator.dynamicForm.print.setValue("fileKey", data.fileKey);
                     // @ts-ignore
-                    creator.dynamicForm.print.setValue("type", "PDF");
+                    creator.dynamicForm.print.setValue("type", data.type);
                     // @ts-ignore
                     creator.dynamicForm.print.setValue("criteria", JSON.stringify(data.criteria));
                     // @ts-ignore
@@ -259,8 +271,7 @@ namespace nicico {
                     creator.dynamicForm.print.action = creator.variable.contextPath + "report-execute/print";
                     // @ts-ignore
                     creator.dynamicForm.print.submitForm();
-                    // @ts-ignore
-                    creator.window.main.close();
+
                 };
                 // @ts-ignore
                 selectReportForm.showForm(creator.window.main, "<spring:message code='global.form.print'/>" + " - " + report.title,

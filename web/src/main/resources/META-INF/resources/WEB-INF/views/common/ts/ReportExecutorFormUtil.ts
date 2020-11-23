@@ -149,7 +149,7 @@ namespace nicico {
                                                 ThisForm.windowWidget.getObject().close();
                                                 // @ts-ignore
                                                 if (ThisForm.owner.getObject() != null)
-                                                    // @ts-ignore
+                                                // @ts-ignore
                                                     ThisForm.owner.getObject().show();
 
                                                 ThisForm.cancelCallBack();
@@ -171,7 +171,7 @@ namespace nicico {
                                                 ThisForm.windowWidget.getObject().close();
                                                 // @ts-ignore
                                                 if (ThisForm.owner.getObject() != null)
-                                                    // @ts-ignore
+                                                // @ts-ignore
                                                     ThisForm.owner.getObject().show();
 
                                                 ThisForm.okCallBack(data);
@@ -194,6 +194,26 @@ namespace nicico {
                                             icon: "[SKIN]/actions/filter.png",
                                             title: '<spring:message code="global.form.filter" />'
                                         });
+
+                                        // @ts-ignore
+                                        let slider = isc.Slider.create({
+                                            vertical: false,
+                                            minValue: 1,
+                                            maxValue: 2,
+                                            numValues: 1,
+                                            minValueLabel: "PDF",
+                                            maxValueLabel: "EXCEL",
+                                            // @ts-ignore
+                                            defaultValue: 2,
+                                            animateThumb: false,
+                                            title: "",
+                                            width: 200,
+                                            valueChanged: function (value) {
+                                                this.Super('valueChanged', arguments);
+                                                // @ts-ignore
+                                                ThisForm.bodyWidget.getObject().slider = value;
+                                            }
+                                        });
                                         return isc.HLayout.create({
 
                                             width: "100%",
@@ -202,7 +222,7 @@ namespace nicico {
                                             membersMargin: 10,
                                             edgeImage: "",
                                             showEdges: false,
-                                            members: [ok, cancel, isc.HLayout.create({
+                                            members: [ok, cancel,slider, isc.HLayout.create({
                                                 width: "100%",
                                                 align: CommonUtil.getAlignByLang(),
                                                 members: [filter]
@@ -236,10 +256,10 @@ namespace nicico {
                                         // @ts-ignore
                                         creator.dynamicForm.print.setValue("type", "PDF");
                                         if (data.criteria && Object.keys(data.criteria).length)
-                                            // @ts-ignore
+                                        // @ts-ignore
                                             creator.dynamicForm.print.setValue("criteria", JSON.stringify(data.criteria));
                                         else
-                                            // @ts-ignore
+                                        // @ts-ignore
                                             creator.dynamicForm.print.setValue("criteria", JSON.stringify(null));
                                         // @ts-ignore
                                         creator.dynamicForm.print.method = "GET";
@@ -278,7 +298,7 @@ namespace nicico {
                                     creator.window.main.close();
                                     // @ts-ignore
                                     if (creator.variable.owner != null)
-                                        // @ts-ignore
+                                    // @ts-ignore
                                         creator.variable.owner.show();
 
                                     ReportExecutorFormUtil.cancelCallBack();

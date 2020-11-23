@@ -157,6 +157,25 @@ var nicico;
                                             icon: "[SKIN]/actions/filter.png",
                                             title: '<spring:message code="global.form.filter" />'
                                         });
+                                        // @ts-ignore
+                                        var slider = isc.Slider.create({
+                                            vertical: false,
+                                            minValue: 1,
+                                            maxValue: 2,
+                                            numValues: 1,
+                                            minValueLabel: "PDF",
+                                            maxValueLabel: "EXCEL",
+                                            // @ts-ignore
+                                            defaultValue: 2,
+                                            animateThumb: false,
+                                            title: "",
+                                            width: 200,
+                                            valueChanged: function (value) {
+                                                this.Super('valueChanged', arguments);
+                                                // @ts-ignore
+                                                ThisForm.bodyWidget.getObject().slider = value;
+                                            }
+                                        });
                                         return isc.HLayout.create({
                                             width: "100%",
                                             padding: 10,
@@ -164,7 +183,7 @@ var nicico;
                                             membersMargin: 10,
                                             edgeImage: "",
                                             showEdges: false,
-                                            members: [ok, cancel, isc.HLayout.create({
+                                            members: [ok, cancel, slider, isc.HLayout.create({
                                                     width: "100%",
                                                     align: nicico.CommonUtil.getAlignByLang(),
                                                     members: [filter]
