@@ -696,26 +696,20 @@ shipmentCostInvoiceTab.window.invoiceInfoWindow = isc.Window.create({
         this.Super("closeClick", arguments)
     },
     items: [
+        {type: "SpacerItem", height: "15"},
         isc.Label.create({
-            margin: 10,
             height: 5,
-            align: "right",
-            contents: "<h3 style='text-align: right;padding-right:20px'>"
-                + "<spring:message code='invoice.invoiceInfo'/>" +
-                "</h3>"
+            contents: "<h3 style='padding-left:20px;padding-right:20px;'><spring:message code='invoice.invoiceInfo'/></h3>"
         }),
         isc.HTMLFlow.create({
             width: "100%",
             contents: "<span style='width: 100%; display: block; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }),
         shipmentCostInvoiceTab.dynamicForm.mainInvoiceInfo,
+        {type: "SpacerItem", height: "20"},
         isc.Label.create({
-            margin: 10,
             height: 5,
-            align: "right",
-            contents: "<h3 style='text-align: right;padding-right:20px'>"
-                + "<spring:message code='invoice.documentInfo'/>" +
-                "</h3>"
+            contents: "<h3 style='padding-left:20px;padding-right:20px;'><spring:message code='invoice.documentInfo'/></h3>"
         }),
         isc.HTMLFlow.create({
             width: "100%",
@@ -1773,30 +1767,24 @@ shipmentCostInvoiceTab.window.shipmentCost.init(null, '<spring:message code="shi
     margin: 20,
     align: "center",
     members: [
+        {type: "SpacerItem", height: "15"},
         isc.Label.create({
-            margin: 10,
             height: 2,
-            align: "right",
-            contents: "<h3 style='text-align: right;padding-right:20px'>"
-                + "<spring:message code='invoice.invoiceInfo'/>" +
-                "</h3>"
+            contents: "<h3 style='padding-left:20px;padding-right:20px;'><spring:message code='invoice.invoiceInfo'/></h3>"
         }),
         isc.HTMLFlow.create({
             width: "100%",
-            contents: "<span style='width: 100%; display: block; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+            contents: "<span style='width: 100%; display: block; border-bottom: 1px solid rgba(0,0,0,0.3);margin-bottom: 6px'></span>"
         }),
         shipmentCostInvoiceTab.dynamicForm.shipmentCost,
+        {type: "SpacerItem", height: "20"},
         isc.Label.create({
-            margin: 10,
             height: 2,
-            align: "right",
-            contents: "<h3 style='text-align: right;padding-right:20px'>"
-                + "<spring:message code='invoice.items.invoiceInfo'/>" +
-                "</h3>"
+            contents: "<h3 style='padding-left:20px;padding-right:20px;'><spring:message code='invoice.items.invoiceInfo'/></h3>"
         }),
         isc.HTMLFlow.create({
             width: "100%",
-            contents: "<span style='width: 100%; display: block; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+            contents: "<span style='width: 100%; display: block; border-bottom: 1px solid rgba(0,0,0,0.3);margin-bottom: 6px'></span>"
         }),
         shipmentCostInvoiceTab.listGrid.shipmentCostDetail,
         shipmentCostInvoiceTab.dynamicForm.shipmentPrice
