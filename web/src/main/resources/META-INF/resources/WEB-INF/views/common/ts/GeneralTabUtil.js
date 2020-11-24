@@ -250,11 +250,16 @@ var nicico;
                     rpcRequest.willHandleError = false;
                 isc.RPCManager.sendRequest(rpcRequest);
             };
-            This.method.beforeRefreshActionHook = function () { };
-            This.method.afterRefreshActionHook = function () { };
-            This.method.beforeShowNewActionHook = function () { };
-            This.method.afterShowNewActionHook = function (window) { };
-            This.method.beforeShowEditActionHook = function (record) { };
+            This.method.beforeRefreshActionHook = function () {
+            };
+            This.method.afterRefreshActionHook = function () {
+            };
+            This.method.beforeShowNewActionHook = function () {
+            };
+            This.method.afterShowNewActionHook = function (window) {
+            };
+            This.method.beforeShowEditActionHook = function (record) {
+            };
             This.method.afterShowEditActionHook = function (window, record) {
             };
             This.method.validateDeleteActionHook = function (record) {
@@ -262,26 +267,43 @@ var nicico;
             };
             This.method.beforeDeleteActionHook = function (record) {
             };
-            This.method.afterDeleteActionHook = function (response, record) { };
-            This.method.afterDeleteErrorActionHook = function (response, record) { };
-            This.method.beforeActivateActionHook = function (record) { };
-            This.method.afterActivateActionHook = function (response, record) { };
-            This.method.afterActivateErrorActionHook = function (response, record) { };
-            This.method.beforeDeactivateActionHook = function (record) { };
-            This.method.afterDeactivateActionHook = function (response, record) { };
-            This.method.afterDeactivateErrorActionHook = function (response, record) { };
-            This.method.beforeFinalizeActionHook = function (record) { };
-            This.method.afterFinalizeActionHook = function (response, record) { };
-            This.method.afterFinalizeErrorActionHook = function (response, record) { };
-            This.method.beforeDisapproveActionHook = function (record) { };
-            This.method.afterDisapproveActionHook = function (response, record) { };
-            This.method.afterDisapproveErrorActionHook = function (response, record) { };
-            This.method.saveValidationActionHook = function (form) { };
+            This.method.afterDeleteActionHook = function (response, record) {
+            };
+            This.method.afterDeleteErrorActionHook = function (response, record) {
+            };
+            This.method.beforeActivateActionHook = function (record) {
+            };
+            This.method.afterActivateActionHook = function (response, record) {
+            };
+            This.method.afterActivateErrorActionHook = function (response, record) {
+            };
+            This.method.beforeDeactivateActionHook = function (record) {
+            };
+            This.method.afterDeactivateActionHook = function (response, record) {
+            };
+            This.method.afterDeactivateErrorActionHook = function (response, record) {
+            };
+            This.method.beforeFinalizeActionHook = function (record) {
+            };
+            This.method.afterFinalizeActionHook = function (response, record) {
+            };
+            This.method.afterFinalizeErrorActionHook = function (response, record) {
+            };
+            This.method.beforeDisapproveActionHook = function (record) {
+            };
+            This.method.afterDisapproveActionHook = function (response, record) {
+            };
+            This.method.afterDisapproveErrorActionHook = function (response, record) {
+            };
+            This.method.saveValidationActionHook = function (form) {
+            };
             This.method.saveGetDataActionHook = function (form, data) {
                 return data;
             };
-            This.method.saveActionHook = function (response) { };
-            This.method.saveErrorActionHook = function (response) { };
+            This.method.saveActionHook = function (response) {
+            };
+            This.method.saveErrorActionHook = function (response) {
+            };
             This.method.refresh = function (grid) {
                 This.method.beforeRefreshActionHook();
                 grid.invalidateCache();
@@ -318,6 +340,9 @@ var nicico;
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
                     This.dialog.recordIsInactive();
                 // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.SendToAcc))
+                    This.dialog.recordIsSentToAcc();
+                // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.Final))
                     This.dialog.finalRecord();
                 else {
@@ -353,6 +378,9 @@ var nicico;
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
                     This.dialog.recordIsInactive();
                 // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.SendToAcc))
+                    This.dialog.recordIsSentToAcc();
+                // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.Final))
                     This.dialog.finalRecord();
                 else {
@@ -387,6 +415,9 @@ var nicico;
                 else if (record.editable == false)
                     This.dialog.notEditable();
                 // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.SendToAcc))
+                    This.dialog.recordIsSentToAcc();
+                // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.Active))
                     This.dialog.activeRecord();
                 else {
@@ -418,6 +449,9 @@ var nicico;
                 // @ts-ignore
                 else if (record.editable == false)
                     This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.SendToAcc))
+                    This.dialog.recordIsSentToAcc();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
                     This.dialog.inactiveRecord();
@@ -489,6 +523,9 @@ var nicico;
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
                     This.dialog.recordIsInactive();
                 // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.SendToAcc))
+                    This.dialog.recordIsSentToAcc();
+                // @ts-ignore
                 else if (!record.estatus.contains(Enums.eStatus2.Final))
                     This.dialog.disapproveRecord();
                 else {
@@ -541,6 +578,7 @@ var nicico;
                 recordIsInactive: null,
                 finalRecord: null,
                 disapproveRecord: null,
+                recordIsSentToAcc: null,
                 notSelected: null,
                 moreSelected: null
             };
@@ -607,6 +645,18 @@ var nicico;
             This.dialog.disapproveRecord = function () {
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.can.not.disapprove'/>",
+                    icon: "[SKIN]say.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.recordIsSentToAcc = function () {
+                isc.Dialog.create({
+                    message: "<spring:message code='exception.send2acc.not-editable'/>",
                     icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],

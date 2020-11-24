@@ -45,6 +45,9 @@ public class ForeignInvoiceDocService implements IForeignInvoiceDocService {
 		final ForeignInvoice foreignInvoice = foreignInvoiceDAO.findById(invoiceId)
 				.orElseThrow(() -> new SalesException2(ErrorType.NotFound, "id", "شناسه موجودیت یافت نشد."));
 
+		if (foreignInvoice.getEStatus().contains(EStatus.DeActive))
+			throw new SalesException2(ErrorType.DeActiveRecord, "id", "موجودیت غیرفعال شده است!");
+
 		if (!foreignInvoice.getEStatus().contains(EStatus.Final))
 			throw new SalesException2(ErrorType.FinalRecord, "id", "موجودیت تایید نهایی نشده است!");
 
@@ -60,7 +63,8 @@ public class ForeignInvoiceDocService implements IForeignInvoiceDocService {
 
 			final List<EStatus> eStatus = foreignInvoice.getEStatus();
 			eStatus.remove(EStatus.RemoveFromAcc);
-			eStatus.add(EStatus.SendToAcc);
+			if (!eStatus.contains(EStatus.SendToAcc))
+				eStatus.add(EStatus.SendToAcc);
 			update.setEStatus(eStatus);
 
 			foreignInvoiceDAO.saveAndFlush(update);
@@ -92,7 +96,8 @@ public class ForeignInvoiceDocService implements IForeignInvoiceDocService {
 
 					final List<EStatus> eStatus = foreignInvoiceOpt.get().getEStatus();
 					eStatus.remove(EStatus.SendToAcc);
-					eStatus.add(EStatus.RemoveFromAcc);
+					if (!eStatus.contains(EStatus.RemoveFromAcc))
+						eStatus.add(EStatus.RemoveFromAcc);
 					foreignInvoiceOpt.get().setEStatus(eStatus);
 				}
 
