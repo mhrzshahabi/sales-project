@@ -1504,6 +1504,18 @@ BlTab.Methods.portOptionDataSource = _ => {
         pickListFields: BlTab.Fields.Port(),
     }
 }
+BlTab.Methods.validateEqualsFields = _ => {
+    if(_.shipperExporterId == _.consigneeId || _.shipperExporterId == _.notifyPartyId) {
+        isc.warn("<spring:message code='billOfLanding.shipper.exporter.warn'/>");
+        return false;
+    }
+
+    if(_.portOfDischargeId == _.portOfLoadingId) {
+        isc.warn("<spring:message code='billOfLanding.port.of.landing.equal.discharge.warn'/>");
+        return false;
+    }
+    return true;
+}
 BlTab.Fields.BillOfLandingSwitch = function () {
     return [
         {
@@ -1766,6 +1778,18 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
             ]
         },
         {
+            name: 'shipmentId',
+            ...shipmentOptionDataSource(),
+            title: "<spring:message code='Shipment.title'/>",
+            formatCellValue: function (value, record, rowNum, colNum, grid) {
+                if (record.shipment && record.shipment.vessel)
+                    return record.shipment.contractShipment.contract.no + " " + record.shipment.vessel.name +
+                        " " +
+                        moment(record.shipment.sendDate).format('YYYY/MM/DD');
+                return value
+            }
+        },
+        {
             name: 'shipperExporter',
             hidden: true,
             title: "<spring:message code='billOfLanding.shipper.exporter'/>",
@@ -1817,18 +1841,6 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
             required: true,
             ...BlTab.Methods.portOptionDataSource(),
             title: "<spring:message code='billOfLanding.port.of.discharge'/>",
-        },
-        {
-            name: 'shipmentId',
-            ...shipmentOptionDataSource(),
-            title: "<spring:message code='Shipment.title'/>",
-            formatCellValue: function (value, record, rowNum, colNum, grid) {
-                if (record.shipment && record.shipment.vessel)
-                    return record.shipment.contractShipment.contract.no + " " + record.shipment.vessel.name +
-                        " " +
-                        moment(record.shipment.sendDate).format('YYYY/MM/DD');
-                return value
-            }
         },
         {
             name: "shipmentTypeId",
@@ -2455,19 +2467,21 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
     const windID = BlTab.Vars.Prefix + "window_bill_of_landing" + Math.random().toString().substr(2, 4)
     BlTab.Layouts.ToolStrips.BillOfLandingForm = BlTab.Methods.HlayoutSaveOrExit(function () {
         if (!BlTab.Vars.BillOfLanding.validate()) {
-            if (BlTab.DynamicForms.Forms.BillOfLandingMain.hasErrors()) BlTab.Layouts.BillOfLandingFormTab.selectTab(0);
+                if (BlTab.DynamicForms.Forms.BillOfLandingMain.hasErrors()) BlTab.Layouts.BillOfLandingFormTab.selectTab(0);
             else BlTab.Layouts.BillOfLandingFormTab.selectTab(1);
             return;
         }
+        if(!BlTab.Methods.validateEqualsFields(BlTab.Vars.BillOfLanding.getValues()))
+            return;
         /*
-                                    fetch('api/bill-of-landing', {
-                                        headers: SalesConfigs.httpHeaders,
-                                        method: "POST",
-                                        body: JSON.stringify(BlTab.Vars.BillOfLanding.getValues())
-                                    }).then(
-                                        _ => _.json().then(j => dbg(false, 'BL Fetch saved data', j)).catch(err => dbg(false, 'BL Fetch saved ERROR data', err))
-                                    )
-                                    */
+                                     fetch('api/bill-of-landing', {
+                                         headers: SalesConfigs.httpHeaders,
+                                         method: "POST",
+                                         body: JSON.stringify(BlTab.Vars.BillOfLanding.getValues())
+                                     }).then(
+                                         _ => _.json().then(j => dbg(false, 'BL Fetch saved data', j)).catch(err => dbg(false, 'BL Fetch saved ERROR data', err))
+                                     )
+                                     */
         BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 'api/bill-of-landing',
             _ => BlTab.Grids.BillOfLanding.obj.invalidateCache()
         ).then(function () {

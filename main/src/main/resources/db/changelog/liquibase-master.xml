@@ -38,6 +38,7 @@
     <include file="classpath:/db/changelog/changes/aud_tbl_foreign_invoice_item.xml"/>
     <include file="classpath:/db/changelog/changes/aud_tbl_foreign_invoice_payment.xml"/>
     <include file="classpath:/db/changelog/changes/aud_tbl_foreign_invoice_item_detail.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_warh_tozin.xml"/>
     <!-- CHANGES -->
 
     <!-- INITIALIZE DATA -->
@@ -56,6 +57,7 @@
     <include file="classpath:/db/changelog/initial-data/tbl_sales_type.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_tozin_plant.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_shipment_type.xml"/>
+    <include file="classpath:/db/changelog/initial-data/tbl_shipment.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_shipment_method.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_cntr_incoterm.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_warh_element.xml"/>
