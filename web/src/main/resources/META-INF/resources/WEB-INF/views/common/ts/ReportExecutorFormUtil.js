@@ -250,8 +250,6 @@ var nicico;
                         width: "25",
                         // @ts-ignore
                         click: function () {
-                            // @ts-ignore
-                            var record = creator.listGrid.main.getSelectedRecord();
                             if (record == null) {
                                 creator.dialog.notSelected();
                                 return;
