@@ -6,7 +6,8 @@ import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.Formula;
+
+import javax.persistence.Column;
 
 @Getter
 @Setter
@@ -21,14 +22,17 @@ public class DailyReportBandarAbasDTO {
     private Long source;
     
     @ReportField(titleMessageKey="Daily-report.material")
-    private Long materia;
+    private Long material;
     
     @ReportField(titleMessageKey="Daily-report.source.name")
     private String sourceName;
     
     @ReportField(titleMessageKey="Daily-report.material.name")
     private String materialName;
-    
+    @Column(name = "materialp")
+    private Long materialp;
+    @Column(name = "materialpname")
+    private String materialPName;
     @ReportField(titleMessageKey="Daily-report.IN.PKG.DAY")
     private Long inPkgDay;
     
@@ -91,18 +95,23 @@ public class DailyReportBandarAbasDTO {
     
    @ReportField(titleMessageKey="Daily-report.REMAINED.WEIGHT")
    private Long remainedWeight;
-    
+    @ReportField(titleMessageKey="Daily-report.OWP.tadil-month")
+    private Long tadilYear;
+    @ReportField(titleMessageKey="Daily-report.OWP.tadil-year")
+    private Long tadilMonth;
+    @ReportField(titleMessageKey="Daily-report.OWP.tadil")
+    private Long tadil;
+
    @ReportField(titleMessageKey="Daily-report.OWP.WEIGHT")
-   private Long tadil;
-    
-   @ReportField(titleMessageKey="Daily-report.OWP.PKG")
    private Long owpWeight;
-    
-   @ReportField(titleMessageKey="Daily-report.OWP.TOZIN")
+   @ReportField(titleMessageKey="Daily-report.OWP.PKG")
    private Long owpPkg;
-    
-   
+   @ReportField(titleMessageKey="Daily-report.OWP.TOZIN")
     private Long owpTozin;
+    private Double tadilYearPrecent;
+    @ReportField(titleMessageKey="global.unit")
+    private String unit;
+
 
     @Getter
     @Setter
