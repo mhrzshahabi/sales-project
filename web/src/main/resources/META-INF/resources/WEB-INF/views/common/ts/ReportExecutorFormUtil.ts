@@ -298,8 +298,6 @@ namespace nicico {
                             // @ts-ignore
                             click: function () {
 
-                                // @ts-ignore
-                                let record = creator.listGrid.main.getSelectedRecord();
                                 if (record == null) {
 
                                     creator.dialog.notSelected();
