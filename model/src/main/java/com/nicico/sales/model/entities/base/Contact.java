@@ -74,6 +74,9 @@ public class Contact extends BaseEntity {
     @Column(name = "C_ECONOMICAL_CODE")
     private String economicalCode;
 
+    @Column(name = "C_CONTACT_CODE")
+    private String contactCode;
+
     @NotAudited
     @Setter(AccessLevel.NONE)
     @OneToMany(fetch = FetchType.LAZY)
