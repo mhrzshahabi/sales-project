@@ -52,6 +52,8 @@ public class TozinTable extends BaseEntity {
     private String cardId;
     @Column(name = "HAVCODE")
     private String haveCode;
+    @Column(name = "B_IS_RAIL")
+    private Boolean isRail;
     @Column(name = "WAZN", nullable = false)
     private Long vazn;
     @NotNull

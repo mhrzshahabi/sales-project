@@ -892,6 +892,7 @@ remittanceTab.RestDataSources.Depot = {
     fields: remittanceTab.Fields.Depot()
 };
 ////////////////////////////////////////////////////////LISTGRIDS///////////////////////////////////////////////////////
+/***@type {Partial<isc.ListGrid>} remittanceTab.Grids.Remittance**/
 remittanceTab.Grids.Remittance = {
     // ID: remittanceTab.Vars.Prefix + "remittance_detail_tab_list_grid",
     showFilterEditor: true,
@@ -942,8 +943,10 @@ remittanceTab.Grids.Remittance = {
     allowAdvancedCriteria: true,
     // groupByField: "remittance.code",
     dataSource: remittanceTab.RestDataSources.Remittance,
-    autoFetchData: true,
+    autoFetchData: false,
+    showGridSummary:true,
     sortField: "id",
+    filterOnKeypress:false,
     sortDirection: "descending",
     fields: remittanceTab.Fields.RemittanceFull(),
     getCellCSSText(record, rowNum, colNum) {

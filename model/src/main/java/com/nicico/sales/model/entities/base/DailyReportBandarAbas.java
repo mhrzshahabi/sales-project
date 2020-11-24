@@ -30,10 +30,19 @@ public class DailyReportBandarAbas {
     @Id
     @Column(name = "material")
     private Long material;
+    @Column(name = "materialp")
+    private Long materialp;
     @Column(name = "source_name")
     private String sourceName;
     @Column(name = "material_name")
     private String materialName;
+     @Column(name = "unit")
+    private String unit;
+      @Column(name = "tadil_year_percent")
+    private Double tadilYearPrecent;
+
+     @Column(name = "materialpname")
+    private String materialPName;
     @Column(name = "IN_PKG_DAY")
     private Long inPkgDay;
     @Column(name = "IN_PKG_MONTH")
@@ -78,6 +87,10 @@ public class DailyReportBandarAbas {
     private Long remainedWeight;
     @Column(name = "tadil")
     private Long tadil;
+    @Column(name = "TADIL_YEAR")
+    private Long tadilYear;
+    @Column(name = "TADIL_MONTH")
+    private Long tadilMonth;
     @Column(name = "OWP_WEIGHT")
     private Long owpWeight;
     @Column(name = "OWP_PKG")

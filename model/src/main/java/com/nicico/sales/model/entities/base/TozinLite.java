@@ -17,7 +17,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Entity
 @Immutable
-@Subselect("select * from V_TOZINE_CONTENT_M3 where sal_date2 is not null")
+@Subselect("select * from V_TOZINE_CONTENT_M3 where sal_date2 is not null or tozine_id like '3-%'")
 public class TozinLite {
     @Column(name = "PLAK")
     private String plak;

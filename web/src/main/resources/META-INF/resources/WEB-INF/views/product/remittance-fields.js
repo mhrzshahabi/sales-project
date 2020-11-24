@@ -1,79 +1,195 @@
 //<%@ page contentType="text/html;charset=UTF-8" %>
 //  <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 // <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-if(!getRemittanceFields)
+// if(!getRemittanceFields)
 function getRemittanceFields(objTab) {
-    objTab.Methods.setPackingContainerCriteria=function(){
+    objTab.Methods.setPackingContainerCriteria = function () {
         const shipmentId = objTab.DynamicForms.Forms.OutRemittance.getValue("shipmentId");
-        if(!shipmentId)return;
+        if (!shipmentId) return;
         const packingContainerField = objTab.DynamicForms.Forms.OutRemittance.getField('packingContainerId');
         packingContainerField.enable();
         packingContainerField.setOptionCriteria({
-            operator:"and",
-            criteria:[
-                {fieldName:"packingList.shipmentId",operator:"equals",value:shipmentId},
+            operator: "and",
+            criteria: [
+                {fieldName: "packingList.shipmentId", operator: "equals", value: shipmentId},
             ]
         })
     }
-    objTab.Fields.PackingContainer=function (){return [
-        {name: "id", editorProperties:{validateOnExit:true,}, type:"number", title: "id", primaryKey: true, canEdit: false, hidden: true},
-        {name: "containerNo", summaryFunction:"count", editorProperties:{validateOnExit:true,}, type:"text", showHover: true,
-            title: "<spring:message code ='warehouseCad.containerNo'/>"},
-        {
-            name: "packingList.bookingNo",title: "<spring:message code='shipment.bookingCat'/>",
-        },
-        {
-            name: "packingList.shipment.automationLetterDate",canFilter:false,
-            hidden:true,
-            title: "<spring:message code='shipment.bDate'/>",
-            formatCellValue(value, record, rowNum, colNum) {              if(!value)return null;
-                return new persianDate(value).format('YYYYMMDD')},
-        },
-        {
-            name: "packingList.shipment.automationLetterNo",
-            title: "<spring:message code='shipment.loadingLetter'/>",
-            type: 'text',
-        },
-        {name: "packingList.shipment.contractShipment.contract.no",title:"<spring:message code='contact.no'/>"},
-        {name: "packingList.shipment.material.descFA",title:"<spring:message code='goods.title'/>",
-            hidden:true,
-
-        },
-        {name:"description",title:"<spring:message code='shipment.description'/>"
-        ,            hidden:true,
-
-        },
-        {name: "sealNo", editorProperties:{validateOnExit:true,}
-            ,            hidden:true,
-
-        type:"text",            hidden:true,
-            showHover: true, title: "<spring:message code ='billOfLanding.seal.no'/>"},
-        {name: "ladingDate", editorProperties:{validateOnExit:true,}, type:"number", showHover: true,formatCellValue(value, record, rowNum, colNum) {
-                if(value) return value.toString();
-                return null
+    objTab.Fields.PackingContainer = function () {
+        return [
+            {
+                name: "id",
+                editorProperties: {validateOnExit: true,},
+                type: "number",
+                title: "id",
+                primaryKey: true,
+                canEdit: false,
+                hidden: true
             },
-            showFilterEditor:false,
-            title: "<spring:message code ='global.date'/> <spring:message code ='vesselAssignment.title'/>"},
-        {name: "packageCount", summaryFunction:"sum", editorProperties:{validateOnExit:true,}, type:"number", showHover: true,
-            title: "<spring:message code ='Tozin.tedad.packages'/>"},
-        {
-            name: "subpackageCount", type:"number",
+            {
+                name: "containerNo",
+                summaryFunction: "count",
+                editorProperties: {validateOnExit: true,},
+                type: "text",
+                showHover: true,
+                title: "<spring:message code ='warehouseCad.containerNo'/>"
+            },
+            {
+                name: "packingList.bookingNo", title: "<spring:message code='shipment.bookingCat'/>",
+            },
+            {
+                name: "packingList.shipment.automationLetterDate", canFilter: false,
+                hidden: true,
+                title: "<spring:message code='shipment.bDate'/>",
+                formatCellValue(value, record, rowNum, colNum) {
+                    if (!value) return null;
+                    return new persianDate(value).format('YYYYMMDD')
+                },
+            },
+            {
+                name: "packingList.shipment.automationLetterNo",
+                title: "<spring:message code='shipment.loadingLetter'/>",
+                type: 'text',
+            },
+            {name: "packingList.shipment.contractShipment.contract.no", title: "<spring:message code='contact.no'/>"},
+            {
+                name: "packingList.shipment.material.descFA", title: "<spring:message code='goods.title'/>",
+                hidden: true,
 
-            showHover: true,
-            editorProperties:{validateOnExit:true,},
-            title: "<spring:message code ='Tozin.tedad.packages'/>"
-        },
-        {name: "strapWeight", hidden: true,summaryFunction:"sum", editorProperties:{validateOnExit:true,}, type:"float", showHover: true, title: "<spring:message code='packing-container.strapWeight'/>"},
-        {name: "palletCount",hidden: true, summaryFunction:"sum", editorProperties:{validateOnExit:true,}, type:"number", showHover: true, title: "<spring:message code='packing-container.palletCount'/>"},
-        {name: "palletWeight",hidden: true, summaryFunction:"sum", editorProperties:{validateOnExit:true,}, type:"float", showHover: true, title: "<spring:message code='packing-container.palletWeight'/>"},
-        {name: "woodWeight", hidden: true,summaryFunction:"sum", editorProperties:{validateOnExit:true,}, type:"float", showHover: true, title: "<spring:message code='packing-container.woodWeight'/>"},
-        {name: "barrelWeight",hidden: true, summaryFunction:"sum", editorProperties:{validateOnExit:true,}, type:"float", showHover: true, title: "<spring:message code='packing-container.barrelWeight'/>"},
-        {name: "containerWeight",hidden: true, summaryFunction:"sum", editorProperties:{validateOnExit:true,}, type:"number",required:true, showHover: true, title: "<spring:message code='packing-container.containerWeight'/>"},
-        {name: "contentWeight",hidden: true, summaryFunction:"sum", editorProperties:{validateOnExit:true,}, type:"number",required:true, showHover: true, title: "<spring:message code='packing-container.contentWeight'/>"},
-        {name: "vgmWeight", hidden: true,summaryFunction:"sum", editorProperties:{validateOnExit:true,}, type:"number", showHover: true, title: "<spring:message code='packing-container.vgmWeight'/>"},
-        {name: "netWeight",hidden: true, summaryFunction:"sum", editorProperties:{validateOnExit:true,}, type:"float",required:true, showHover: true, title: "<spring:message code='packing-container.netWeight'/>"},
-        {name: "description",hidden: true, editorProperties:{validateOnExit:true,},type:"text", showHover: true, title: "<spring:message code='packing-container.description'/>"},
-    ].map(_=>Object.assign({},_));}
+            },
+            {
+                name: "description", title: "<spring:message code='shipment.description'/>"
+                , hidden: true,
+
+            },
+            {
+                name: "sealNo", editorProperties: {validateOnExit: true,}
+                , hidden: true,
+
+                type: "text", hidden: true,
+                showHover: true, title: "<spring:message code ='billOfLanding.seal.no'/>"
+            },
+            {
+                name: "ladingDate",
+                editorProperties: {validateOnExit: true,},
+                type: "number",
+                showHover: true,
+                formatCellValue(value, record, rowNum, colNum) {
+                    if (value) return value.toString();
+                    return null
+                },
+                showFilterEditor: false,
+                title: "<spring:message code ='global.date'/> <spring:message code ='vesselAssignment.title'/>"
+            },
+            {
+                name: "packageCount",
+                summaryFunction: "sum",
+                editorProperties: {validateOnExit: true,},
+                type: "number",
+                showHover: true,
+                title: "<spring:message code ='Tozin.tedad.packages'/>"
+            },
+            {
+                name: "subpackageCount", type: "number",
+
+                showHover: true,
+                editorProperties: {validateOnExit: true,},
+                title: "<spring:message code ='Tozin.tedad.packages'/>"
+            },
+            {
+                name: "strapWeight",
+                hidden: true,
+                summaryFunction: "sum",
+                editorProperties: {validateOnExit: true,},
+                type: "float",
+                showHover: true,
+                title: "<spring:message code='packing-container.strapWeight'/>"
+            },
+            {
+                name: "palletCount",
+                hidden: true,
+                summaryFunction: "sum",
+                editorProperties: {validateOnExit: true,},
+                type: "number",
+                showHover: true,
+                title: "<spring:message code='packing-container.palletCount'/>"
+            },
+            {
+                name: "palletWeight",
+                hidden: true,
+                summaryFunction: "sum",
+                editorProperties: {validateOnExit: true,},
+                type: "float",
+                showHover: true,
+                title: "<spring:message code='packing-container.palletWeight'/>"
+            },
+            {
+                name: "woodWeight",
+                hidden: true,
+                summaryFunction: "sum",
+                editorProperties: {validateOnExit: true,},
+                type: "float",
+                showHover: true,
+                title: "<spring:message code='packing-container.woodWeight'/>"
+            },
+            {
+                name: "barrelWeight",
+                hidden: true,
+                summaryFunction: "sum",
+                editorProperties: {validateOnExit: true,},
+                type: "float",
+                showHover: true,
+                title: "<spring:message code='packing-container.barrelWeight'/>"
+            },
+            {
+                name: "containerWeight",
+                hidden: true,
+                summaryFunction: "sum",
+                editorProperties: {validateOnExit: true,},
+                type: "number",
+                required: true,
+                showHover: true,
+                title: "<spring:message code='packing-container.containerWeight'/>"
+            },
+            {
+                name: "contentWeight",
+                hidden: true,
+                summaryFunction: "sum",
+                editorProperties: {validateOnExit: true,},
+                type: "number",
+                required: true,
+                showHover: true,
+                title: "<spring:message code='packing-container.contentWeight'/>"
+            },
+            {
+                name: "vgmWeight",
+                hidden: true,
+                summaryFunction: "sum",
+                editorProperties: {validateOnExit: true,},
+                type: "number",
+                showHover: true,
+                title: "<spring:message code='packing-container.vgmWeight'/>"
+            },
+            {
+                name: "netWeight",
+                hidden: true,
+                summaryFunction: "sum",
+                editorProperties: {validateOnExit: true,},
+                type: "float",
+                required: true,
+                showHover: true,
+                title: "<spring:message code='packing-container.netWeight'/>"
+            },
+            {
+                name: "description",
+                hidden: true,
+                editorProperties: {validateOnExit: true,},
+                type: "text",
+                showHover: true,
+                title: "<spring:message code='packing-container.description'/>"
+            },
+        ].map(_ => Object.assign({}, _));
+    }
     objTab.Fields.TozinBase = function () {
         return [
             {
@@ -119,9 +235,9 @@ function getRemittanceFields(objTab) {
                         return value
                     }
                 },
-                validators:[{
-                    type:"regexp",
-                    expression:"(^[1-9][0-9]{3}((0[1-9])|(1[1-2]))(0[1-9]|[1-2][0-9]|30|31)$)|(^[1-9][0-9]{3}\\/[0-1][0-9]\\/[0-3][0-9]$)"
+                validators: [{
+                    type: "regexp",
+                    expression: "(^[1-9][0-9]{3}((0[1-9])|(1[1-2]))(0[1-9]|[1-2][0-9]|30|31)$)|(^[1-9][0-9]{3}\\/[0-1][0-9]\\/[0-3][0-9]$)"
                 }]
             },
             {
@@ -143,6 +259,15 @@ function getRemittanceFields(objTab) {
                 name: "codeKala",
                 type: "number",
                 // filterEditorProperties: {editorType: "comboBox"},
+                filterEditorProperties: {
+                    editorType: "selectItem",
+                    multiple: true,
+                    type: "number",
+                    click() {
+                    },
+                    // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
+                },
+                filterOperator: "inSet",
                 valueMap: {
                     11: '<spring:message code="Tozin.export.cathode"/>',
                     8: '<spring:message code="Tozin.copper.concentrate"/>',
@@ -230,7 +355,8 @@ function getRemittanceFields(objTab) {
                 align: "center",
                 defaultValue: StorageUtil.get('out_remittance_defaultTargetId')
             },
-        ].map(_=>Object.assign({},_));
+
+        ].map(_ => Object.assign({}, _));
     }
     objTab.Fields.TozinTable = function () {
         return [
@@ -245,7 +371,7 @@ function getRemittanceFields(objTab) {
             {name: 'cardId', hidden: true},
             {name: 'ctrlDescOut', title: "<spring:message code='global.description'/>"},
             {name: 'version', hidden: true},
-        ].map(_=>Object.assign({},_));
+        ].map(_ => Object.assign({}, _));
     }
     objTab.Fields.TozinLite = function () {
         return [
@@ -295,7 +421,7 @@ function getRemittanceFields(objTab) {
                 align: "center"
             },
             {name: "isRail", type: "boolean", title: "<spring:message code='warehouseCad.with.rail'/>"}
-        ].map(_=>Object.assign({},_));
+        ].map(_ => Object.assign({}, _));
     }
     objTab.Fields.TozinFull = function () {
         return [
@@ -445,7 +571,7 @@ function getRemittanceFields(objTab) {
             },
 
 
-        ].map(_=>Object.assign({},_));
+        ].map(_ => Object.assign({}, _));
     }
     objTab.Fields.RemittanceDetail = function () {
         return [
@@ -533,11 +659,11 @@ function getRemittanceFields(objTab) {
 
 
             },
-        ].map(_=>Object.assign({},_));
+        ].map(_ => Object.assign({}, _));
     }
     objTab.Fields.RemittanceDetailFullFields = function () {
         return [
-            {name: "sourceTozin.driverName", title: "<spring:message code='Tozin.driver'/>"},
+            {name: "sourceTozin.driverName", title: "<spring:message code='Tozin.driver'/>", summaryFunction: "count"},
             {
                 name: "inventory.label",
                 title: "<spring:message code='warehouseCadItem.inventory.Serial'/>",
@@ -570,18 +696,36 @@ function getRemittanceFields(objTab) {
 
             },
             {
-                name: "inventory.materialItem.id",
+                name: "inventory.materialItemId",
                 filterEditorProperties: {
                     editorType: "ComboBoxItem",
                     textMatchStyle: "substring",
                     addUnknownValues: false,
-                    textMatchStyle: "substring",
-                    addUnknownValues: false,
+                    editorType: "selectItem",
+                    multiple: true,
+                    type: "number",
+                    click() {
+                    },
+
                 },
+                filterOperator: "inSet",
                 valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
                 type: "number",
                 title: "<spring:message code='goods.title'/>",
                 hidden: false,
+                valueMap: SalesBaseParameters.getSavedMaterialItemParameter().filter(m => m.shouldShowInFilter).getValueMap('id', 'gdsName'),
+                showGridSummary:false,
+                filterEditorProperties: {
+                    textMatchStyle: "substring",
+                    addUnknownValues: false,
+                    editorType: "selectItem",
+                    multiple: true,
+                    type: "number",
+                    filterOperator: "inSet",
+                    click() {
+                    },
+
+                },
                 recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
                     objTab.Methods.RecordDoubleClick('api/inventory', objTab.Fields.Inventory(), "inventory",
                         viewer, record, recordNum, field, fieldNum, value, rawValue)
@@ -592,18 +736,47 @@ function getRemittanceFields(objTab) {
                 type: "number",
                 valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
                 filterEditorProperties: {
-                    editorType: "ComboBoxItem",
                     textMatchStyle: "substring",
                     addUnknownValues: false,
+                    editorType: "selectItem",
+                    multiple: true,
+                    type: "number",
+                    click() {
+                    },
+
+                },
+                filterOperator: "inSet",
+                filterEditorProperties: {
+                    textMatchStyle: "substring",
+                    addUnknownValues: false,
+                    editorType: "selectItem",
+                    multiple: true,
+                    type: "number",
+                    filterOperator: "inSet",
+                    click() {
+                    },
+
+                },
+                type: "number",
+                valueMap: {
+                    2421: "<spring:message code='tabriz.train.station'/>",
+                    1540: "<spring:message code='shahrbabak-miduk.copper.complex'/>",
+                    1541: "<spring:message code='sungun.copper.complex'/>",
+                    1000: "<spring:message code='sarcheshme.copper.complex'/>",
+                    1021: "<spring:message code='khaton.abad-shahrbabak.copper.complex'/>",
+                    2509: "<spring:message code='non-governmental.companies.and.subsidiaries'/>",
+                    2555: "<spring:message code='shahid.rejaee.wharf'/>",
                 },
                 title: "<spring:message code='Tozin.source'/>",
                 recordDoubleClick: objTab.Methods.RecordDoubleClickRD,
+                showGridSummary: false,
                 // hidden: true,
 
 
             },
             {
                 name: "tozin.targetId",
+                showGridSummary: false,
                 type: "number",
                 editorType: "ComboBoxItem",
                 textMatchStyle: "substring",
@@ -617,6 +790,17 @@ function getRemittanceFields(objTab) {
                 title: "<spring:message code='shipment.Bol.tblPortByDischarge'/>",
                 // hidden: true,
                 recordDoubleClick: objTab.Methods.RecordDoubleClickRD,
+                filterEditorProperties: {
+                    textMatchStyle: "substring",
+                    addUnknownValues: false,
+                    editorType: "selectItem",
+                    multiple: true,
+                    type: "number",
+                    click() {
+                    },
+
+                },
+                filterOperator: "inSet",
 
 
             },
@@ -661,13 +845,18 @@ function getRemittanceFields(objTab) {
                     return '<div style="color: red;  unicode-bidi: bidi-override;direction: ltr">' + value + '</div>'
                 },
             },
-            {name:"remittance.hasRemainedInventory",type:"boolean",
+            {
+                name: "remittance.hasRemainedInventory", type: "boolean",
                 title: "<spring:message code='remittance.has.remained.inventory'/>",
-                hidden:true
+                hidden: true
             },
             ...objTab.Fields.RemittanceDetail(),
+            {name:"inventory.weight",title:"<spring:message code='Daily-report.REMAINED.WEIGHT'/>",hidden:true},
+            {name: "sourceTozin.isRail", type: "boolean", title: "<spring:message code='warehouseCad.with.rail'/>",hidden:true}
 
-        ].map(_=>Object.assign({},_));
+
+
+        ].map(_ => Object.assign({}, _));
     }
     objTab.Fields.Remittance = function () {
         return [
@@ -693,6 +882,7 @@ function getRemittanceFields(objTab) {
                         viewer, record, recordNum, field, fieldNum, value, rawValue)
                 },
                 required: true,
+                summaryFunction: "count",
             },
             {
                 name: 'date', title: "<spring:message code='global.date'/> <spring:message code='bijack'/>",
@@ -767,7 +957,7 @@ function getRemittanceFields(objTab) {
                     {name: "contractShipmentId", hidden: true, type: 'long'},
                     {name: "contactId", type: 'long', hidden: true},
                     {
-                        name: "contact.name"+languageForm.getValue('languageName').toUpperCase(),
+                        name: "contact.name" + languageForm.getValue('languageName').toUpperCase(),
                         title: "<spring:message code='contact.name'/>",
                         type: 'text',
                         width: "10%",
@@ -806,7 +996,7 @@ function getRemittanceFields(objTab) {
                         showHover: true
                     },
                     {
-                        name: "material.desc"+languageForm.getValue('languageName').toUpperCase(),
+                        name: "material.desc" + languageForm.getValue('languageName').toUpperCase(),
                         title: "<spring:message code='material.title'/>",
                         type: 'text',
                         width: "10%",
@@ -825,7 +1015,7 @@ function getRemittanceFields(objTab) {
                         showHover: true
                     },
                     {
-                        name: "dischargePort.country.name"+languageForm.getValue('languageName').toUpperCase(),
+                        name: "dischargePort.country.name" + languageForm.getValue('languageName').toUpperCase(),
                         title: "<spring:message code='global.country'/>",
                         type: 'text',
                         width: "10%",
@@ -892,7 +1082,7 @@ function getRemittanceFields(objTab) {
                         },
                     },
                     {
-                        name: "contactAgent.name"+languageForm.getValue('languageName').toUpperCase(),
+                        name: "contactAgent.name" + languageForm.getValue('languageName').toUpperCase(),
                         title: "<spring:message code='shipment.agent'/>",
                         type: 'text',
                         width: "10%",
@@ -920,7 +1110,9 @@ function getRemittanceFields(objTab) {
                     },
 
                 ],
-                changed(){ objTab.Methods.setPackingContainerCriteria()},
+                changed() {
+                    objTab.Methods.setPackingContainerCriteria()
+                },
                 optionDataSource: isc.MyRestDataSource.create({
                     fields: [
                         {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -1083,46 +1275,48 @@ function getRemittanceFields(objTab) {
                     fetchDataURL: 'api/shipment/spec-list'
                 })
             },
-            {name:"packingContainerId",
-                title:"<spring:message code='warehouseCad.containerNo'/>",
+            {
+                name: "packingContainerId",
+                title: "<spring:message code='warehouseCad.containerNo'/>",
                 hidden: true,
                 disabled: true,
                 displayField: "containerNo",
                 valueField: "id",
                 pickListWidth: .7 * outerWidth,
                 pickListHeight: 500,
-                autoFetchData:false,
+                autoFetchData: false,
                 optionDataSource: isc.MyRestDataSource.create({
-                fetchDataURL: 'api/packing-container/spec-list',
-                fields:objTab.Fields.PackingContainer(),
-            },
+                        fetchDataURL: 'api/packing-container/spec-list',
+                        fields: objTab.Fields.PackingContainer(),
+                    },
                 ),
-                pickListProperties:{
-                showFilterEditor: true,
-                    recordClick (viewer, record, recordNum, field, fieldNum, value, rawValue){
+                pickListProperties: {
+                    showFilterEditor: true,
+                    recordClick(viewer, record, recordNum, field, fieldNum, value, rawValue) {
                         const oldValuesTozinTable = objTab.DynamicForms.Forms.TozinTable.getValues();
                         objTab.DynamicForms.Forms.TozinTable.setValues({
-                            ...oldValuesTozinTable,
-                                tozinId:"3-"+record["packingList"]['bookingNo']+record['containerNo'],
-                                date:record['ladingDate'],
-                                driverName:record['containerNo'],
-                                plak:record['containerNo'],
-                                vazn:record['contentWeight'],
-                                isInView:false,
+                                ...oldValuesTozinTable,
+                                tozinId: "3-" + record["packingList"]['bookingNo'] + record['containerNo'],
+                                date: record['ladingDate'],
+                                driverName: record['containerNo'],
+                                plak: record['containerNo'],
+                                vazn: record['contentWeight'],
+                                isInView: false,
                             }
                         )
-                        return viewer.Super("recordClick",arguments)
+                        return viewer.Super("recordClick", arguments)
 
-                }
+                    }
                 },
                 pickListFields: objTab.Fields.PackingContainer(),
 
             },
-            {name:"hasRemainedInventory",type:"boolean",
+            {
+                name: "hasRemainedInventory", type: "boolean",
                 title: "<spring:message code='remittance.has.remained.inventory'/>",
-                hidden:true
+                hidden: true
             }
-        ].map(_=>Object.assign({},_));
+        ].map(_ => Object.assign({}, _));
     }
     objTab.Fields.RemittanceFull = function () {
         return [
@@ -1134,12 +1328,25 @@ function getRemittanceFields(objTab) {
             },
             {name: "tozinTable.tozinId", title: "<spring:message code='Tozin.target.tozin.id'/>"},
             {
-                name: "remittanceDetails.inventory.materialItem.id",
+                name: "tozinTable.codeKala",
                 valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
+                valueMap: SalesBaseParameters.getSavedMaterialItemParameter().filter(m => m.shouldShowInFilter).getValueMap('id', 'gdsName'),
+
                 filterEditorProperties: {
                     editorType: "ComboBoxItem",
                     textMatchStyle: "substring",
                     addUnknownValues: false,
+                },
+                filterEditorProperties: {
+                    textMatchStyle: "substring",
+                    addUnknownValues: false,
+                    editorType: "selectItem",
+                    multiple: true,
+                    type: "number",
+                    filterOperator: "inSet",
+                    click() {
+                    },
+
                 },
                 canSort: false,
                 type: "number",
@@ -1152,12 +1359,33 @@ function getRemittanceFields(objTab) {
                     textMatchStyle: "substring",
                     addUnknownValues: false,
                 },
+                filterEditorProperties: {
+                    textMatchStyle: "substring",
+                    addUnknownValues: false,
+                    editorType: "selectItem",
+                    multiple: true,
+                    type: "number",
+                    filterOperator: "inSet",
+                    click() {
+                    },
+
+                },
                 type: "number",
+                showGridSummary:false,
                 sortNormalizer(recordObject, fieldName, context) {
                     if (recordObject.tozinTable && recordObject.tozinTable.sourceId)
                         return recordObject.tozinTable.targetId
                 },
                 valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+                valueMap: {
+                    2421: "<spring:message code='tabriz.train.station'/>",
+                    1540: "<spring:message code='shahrbabak-miduk.copper.complex'/>",
+                    1541: "<spring:message code='sungun.copper.complex'/>",
+                    1000: "<spring:message code='sarcheshme.copper.complex'/>",
+                    1021: "<spring:message code='khaton.abad-shahrbabak.copper.complex'/>",
+                    2509: "<spring:message code='non-governmental.companies.and.subsidiaries'/>",
+                    2555: "<spring:message code='shahid.rejaee.wharf'/>",
+                },
                 title: "<spring:message code='Tozin.source'/>",
                 filterOperator: "equals",
                 sortByMappedValue: true,
@@ -1187,7 +1415,9 @@ function getRemittanceFields(objTab) {
 
             },
             // {name: "tozinTable.targetId",},
-            {name: "tozinTable.vazn", title: "<spring:message code='Tozin.vazn'/>"},
+            {
+                name: "tozinTable.vazn", title: "<spring:message code='Tozin.vazn'/>", summaryFunction: "sum",
+            },
             {name: "tozinTable.ctrlDescOut", title: "<spring:message code='invoiceSales.otherDescription'/>"},
             {name: "tozinTable.plak", title: "<spring:message code='Tozin.plak'/>"},
             {name: "tozinTable.driverName", title: "<spring:message code='Tozin.driver'/>"},
@@ -1203,7 +1433,11 @@ function getRemittanceFields(objTab) {
                 title: "<spring:message code='global.date'/> <spring:message code='warehouseCad.tozinOther'/>",
 
             },
-
+            {
+                name: "shipment.automationLetterNo",
+                hidden: true,
+                title: "<spring:message code='shipment.loadingLetter'/>"
+            },
             {
                 ...objTab.Fields.TozinBase().find(t => t.name === 'date'),
                 canSort: false,
@@ -1253,7 +1487,10 @@ function getRemittanceFields(objTab) {
 
                 },
             },
-        ].map(_=>Object.assign({},_));
+            {name:"remittanceDetails.inventory.weight",title:"<spring:message code='Daily-report.REMAINED.WEIGHT'/>",hidden:true},
+            {name: "tozinTable.isRail", type: "boolean", title: "<spring:message code='warehouseCad.with.rail'/>",hidden:true}
+
+        ].map(_ => Object.assign({}, _));
     }
     objTab.Fields.Inventory = function () {
         return [
@@ -1271,14 +1508,14 @@ function getRemittanceFields(objTab) {
             },
             {name: 'label', title: '<spring:message code="warehouseCadItem.inventory.Serial"/>'},
             {name: 'id', title: '<spring:message code="global.id"/>', hidden: true,},
-        ].map(_=>Object.assign({},_));
+        ].map(_ => Object.assign({}, _));
     }
     objTab.Fields.Depot = function () {
         return [
             {name: "store.warehouse.name", title: "<spring:message code='dailyReportTransport.warehouseNo'/>"},
             {name: "store.name", title: "<spring:message code='warehouseCad.store'/>"},
             {name: "name", title: "<spring:message code='warehouseCad.yard'/>"}
-        ].map(_=>Object.assign({},_));
+        ].map(_ => Object.assign({}, _));
     }
     objTab.Fields.Shipment = function () {
         return [
@@ -1309,44 +1546,52 @@ function getRemittanceFields(objTab) {
             {name: "bookingCat", title: "<spring:message code='shipment.bookingCat'/>", align: "center"}
 
 
-        ].map(_=>Object.assign({},_));
+        ].map(_ => Object.assign({}, _));
     }
-    return Object.assign({},objTab);
+    return Object.assign({}, objTab);
 }
-if(!newOutRemittance)
-function newOutRemittance(objTab,selectedData,materialItemId) {
+
+// if(!newOutRemittance)
+function newOutRemittance(objTab, selectedData, materialItemId) {
     async function remittanceCodeSet() {
-        const __material = SalesBaseParameters.getSavedMaterialItemParameter().filter(_=>_id===materialItemId)
-        let remittanceCode = "o-" + __material.shortName?__material.shortName:__material.id.toString();
+        const __material = SalesBaseParameters.getSavedMaterialItemParameter().find(_ => _.id === materialItemId)
+        dbg(__material)
+        let remittanceCode = "o-" + __material.shortName ? __material.shortName : __material.id.toString();
         const __sourceId = objTab.DynamicForms.Forms.TozinTable.getValue('sourceId');
-        if(__sourceId){
-            const __source = SalesBaseParameters.getSavedWarehouseParameter().find(_=>_.id===__sourceId) ;
-            if(__source)
-                remittanceCode+=__material.shortName?__material.shortName:__material.id.toString();
+        if (__sourceId) {
+            const __source = SalesBaseParameters.getSavedWarehouseParameter().find(_ => _.id === __sourceId);
+            if (__source)
+                remittanceCode += __source.shortName ? __source.shortName : __source.id.toString();
         }
 
-        remittanceCode+="ship";
-        remittanceCode+=  new Date().toLocaleString('fa',{numberingSystem:'latn',month:"2-digit",day:'2-digit',year:'numeric'})
-            .replaceAll("/","");
-        const res = await fetch('api/remittance/spec-list?_startRow=0&_endRow=1&_sortBy=-id',{headers:SalesConfigs.httpHeaders});
+        remittanceCode += "ship";
+        remittanceCode += new Date().toLocaleString('fa', {
+            numberingSystem: 'latn',
+            month: "2-digit",
+            day: '2-digit',
+            year: 'numeric'
+        })
+            .replaceAll("/", "");
+        const res = await fetch('api/remittance/spec-list?_startRow=0&_endRow=1&_sortBy=-id', {headers: SalesConfigs.httpHeaders});
         const _json = await res.json();
-        remittanceCode+=(++_json.response.data.pop().id).toString();
-        objTab.DynamicForms.Forms.OutRemittance.setValue('code',remittanceCode);
+        remittanceCode += (++_json.response.data.pop().id).toString();
+        objTab.DynamicForms.Forms.OutRemittance.setValue('code', remittanceCode);
     }
+
     objTab.DynamicForms.Forms.OutRemittance = isc.DynamicForm.create({
-        selectOnFocus : true,
-        shouldSaveValue : true,
-        stopOnError : true,
-        showErrorIcon : true,
-        showErrorText : true,
-        showErrorStyle : true,
-        validateOnExit : true,
-        errorOrientation : "bottom",
-        align : "right",
-        textAlign : "right",
-        titleAlign : "right",
+        selectOnFocus: true,
+        shouldSaveValue: true,
+        stopOnError: true,
+        showErrorIcon: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        validateOnExit: true,
+        errorOrientation: "bottom",
+        align: "right",
+        textAlign: "right",
+        titleAlign: "right",
         numCols: 6,
-        wrapItemTitles:false,
+        wrapItemTitles: false,
         fields: [
             {
                 name: "materialItemId",
@@ -1357,18 +1602,21 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                         objTab.Layouts.ToolStripButtons.OutRemittanceAdd.enable();
                         objTab.DynamicForms.Forms.TozinTable.setValue('codeKala', value);
                         objTab.Methods.setShipmentCriteria();
-                        try{remittanceCodeSet()}catch (e) {console.warn(e)}
+                        try {
+                            remittanceCodeSet()
+                        } catch (e) {
+                            console.warn(e)
+                        }
                     }
                 },
                 editorType: "ComboBoxItem",
-                textMatchStyle:"substring",
-                addUnknownValues:false,
-                defaultValue:materialItemId,
+                textMatchStyle: "substring",
+                addUnknownValues: false,
+                defaultValue: materialItemId,
                 valueMap: objTab.Fields.Inventory().find(i => i.name === "materialItemId").valueMap,
             },
-            ...objTab.Fields.Remittance().filter(_ => !["date","hasRemainedInventory".toLowerCase()].includes(_.name.toLowerCase())).map(_ => {
-                if (['shipmentId'.toLowerCase(),"packingContainerId".toLowerCase()].includes(_.name.toLowerCase()))
-                {
+            ...objTab.Fields.Remittance().filter(_ => !["date", "hasRemainedInventory".toLowerCase()].includes(_.name.toLowerCase())).map(_ => {
+                if (['shipmentId'.toLowerCase(), "packingContainerId".toLowerCase()].includes(_.name.toLowerCase())) {
                     _.hidden = false;
                     _.disabled = true;
                 }
@@ -1380,18 +1628,18 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
         ]
     });
     objTab.DynamicForms.Forms.TozinTable = isc.DynamicForm.create({
-        selectOnFocus : true,
-        shouldSaveValue : true,
-        stopOnError : true,
-        showErrorIcon : true,
-        showErrorText : true,
-        showErrorStyle : true,
-        validateOnExit : true,
-        errorOrientation : "bottom",
-        wrapItemTitles:false,
-        align : "right",
-        textAlign : "right",
-        titleAlign : "right",
+        selectOnFocus: true,
+        shouldSaveValue: true,
+        stopOnError: true,
+        showErrorIcon: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        validateOnExit: true,
+        errorOrientation: "bottom",
+        wrapItemTitles: false,
+        align: "right",
+        textAlign: "right",
+        titleAlign: "right",
 
         numCols: 6,
         fields: objTab.Fields.TozinTable().map(a => {
@@ -1401,12 +1649,11 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                 const _item = form.getItem('isInView');
                 _item.setValue(false);
                 _item.disable();
-                if(a.name === "sourceId"){
-                    StorageUtil.save("out_remittance_defaultSourceId",value)
+                if (a.name === "sourceId") {
+                    StorageUtil.save("out_remittance_defaultSourceId", value)
                     try {
                         remittanceCodeSet();
-                    }
-                    catch (e) {
+                    } catch (e) {
                         console.warn(e);
                     }
                 }
@@ -1420,7 +1667,13 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
         title: "<spring:message code='global.add'/> <spring:message code='bijack'/> <spring:message code='global.vorodi'/>",
         disabled: true,
         click() {
+            /**@type{isc.ListGrid|null} selectRd**/
             let selectRd;
+            const gridFields = objTab.Fields.RemittanceDetailFullFields().map(field => {
+                field.recordDoubleClick = null;
+                return field
+            });
+            // dbg(gridFields)
             const win = isc.Window.create({
                 ...objTab.Vars.defaultWindowConfig,
                 members: [
@@ -1450,8 +1703,8 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                         ]
                     }),
                     selectRd = isc.ListGrid.create({
-                        ...Object.assign({},objTab.Grids.RemittanceDetail()),
-                        fields:objTab.Grids.RemittanceDetail().fields.map(field=>{delete field.recordDoubleClick;return field}),
+                        ...Object.assign({}, objTab.Grids.RemittanceDetail()),
+                        fields: gridFields,
                         // fields: [
                         //     {name: "remittance.code", title: "<spring:message code='global.number'/> <spring:message code='bijack'/>"},
                         //     {name: "remittance.description", title: "<spring:message code='remittance.description'/>"},
@@ -1503,11 +1756,13 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                         autoFetchData: true,
                         allowAdvancedCriteria: true,
                         showFilterEditor: true,
-                        showRowNumbers:true,
-                        dataSource:isc.MyRestDataSource.create(Object.assign({},objTab.RestDataSources.RemittanceDetail())) ,
+                        showRowNumbers: true,
+                        dataSource: isc.MyRestDataSource.create(Object.assign({}, objTab.RestDataSources.RemittanceDetail())),
 
                     }),],
             })
+            selectRd.showField('id');
+            selectRd.hideField('id');
         }
     });
     objTab.Layouts.ToolStripButtons.OutRemittanceAddTozin = isc.ToolStripButtonAdd.create({
@@ -1553,7 +1808,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                 },
                 showHoverComponents: false,
                 height: "100%",
-                showRowNumbers:true,
+                showRowNumbers: true,
                 selectionType: "single",
                 autoFetchData: true,
                 allowAdvancedCriteria: true,
@@ -1607,7 +1862,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
         canEdit: true,
         editEvent: "doubleClick",
         autoSaveEdits: false,
-        showRowNumbers:true,
+        showRowNumbers: true,
         fields: [
             ...objTab.Fields.RemittanceDetailFullFields().map(f => {
                 const showFields = {
@@ -1647,7 +1902,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                     objTab.DynamicForms.Forms.OutRemittance,
                     isc.Label.create({
                         height: .06 * innerHeight,
-                        align:"right",
+                        align: "right",
                         contents: "<h3 style='text-align: right;padding-right:20px'>"
                             + "<spring:message code='remittance.dest.info'/>" +
                             "</h3>"
@@ -1668,13 +1923,19 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
                         members: [
                             objTab.Layouts.ToolStripButtons.OutRemittanceAdd,
                             objTab.Layouts.ToolStripButtons.AddTozinToRemittanceDetails,
+                            objTab.Layouts.ToolStripButtons.SelectAllInRemittanceDetailGrid = isc.ToolStripButtonAdd.create({
+                                title: "<spring:message code='global.select.all'/>",
+                                click() {
+                                    objTab.Grids.RemittanceDetailOutRemittance.selectAllRecords();
+                                }
+                            }),
 
                             // objTab.Layouts.ToolStripButtons.OutRemittanceAddTozin,
                         ]
                     }),
                     isc.Label.create({
                         height: .06 * innerHeight,
-                        align:"right",
+                        align: "right",
                         contents: "<h3 style='text-align: right;padding-right:20px'>"
                             + "پکیج‌ها" +
                             "</h3>"
@@ -1712,7 +1973,7 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
             delete rd['description'];
             delete rd['description'];
             rd['sourceTozin'] = Object.assign({}, rd['outTozin']);
-            rd['sourceTozin']['date']=rd['sourceTozin']['date'].toString().replaceAll("/","");
+            rd['sourceTozin']['date'] = rd['sourceTozin']['date'].toString().replaceAll("/", "");
             rd['description'] = rd['outDescription'];
             rd['inventoryId'] = rd['inventory']['id'];
             delete rd['inventory'];
@@ -1725,32 +1986,32 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
             remittance: remittance,
         };
         // objTab.Methods.Save(dataForSave, 'api/remittance-detail/out');
-        const pleaseWait = isc.Dialog.create({message:"<spring:message code='global.please.wait'/>"})
-        const __response =await fetch('api/remittance-detail/out',{
-            headers:SalesConfigs.httpHeaders,
-            method:"POST",
-            body:JSON.stringify(dataForSave)
+        const pleaseWait = isc.Dialog.create({message: "<spring:message code='global.please.wait'/>"})
+        const __response = await fetch('api/remittance-detail/out', {
+            headers: SalesConfigs.httpHeaders,
+            method: "POST",
+            body: JSON.stringify(dataForSave)
         })
         const response = await __response.text();
         pleaseWait.destroy();
-        if(!__response.ok){
+        if (!__response.ok) {
             objTab.Grids.RemittanceDetailOutRemittance.setData(__remittanceDetails);
-           return isc.warn('<spring:message code="global.form.response.error"/>\n'+response)
+            return isc.warn('<spring:message code="global.form.response.error"/>\n' + response)
         }
-        if(__response.ok){
-            isc.say('<spring:message code="global.form.request.successful"/>',_=>{
+        if (__response.ok) {
+            isc.say('<spring:message code="global.form.request.successful"/>', _ => {
 
-                objTab.DynamicForms.Forms.OutRemittance.setValue('code',null);
-                objTab.DynamicForms.Forms.OutRemittance.setValue('packingContainerId',null);
+                objTab.DynamicForms.Forms.OutRemittance.setValue('code', null);
+                objTab.DynamicForms.Forms.OutRemittance.setValue('packingContainerId', null);
                 const oldValuesTozinTable = objTab.DynamicForms.Forms.TozinTable.getValues();
                 objTab.DynamicForms.Forms.TozinTable.setValues({
                         ...oldValuesTozinTable,
-                        tozinId:null,
-                        date:null,
-                        driverName:null,
-                        plak:null,
-                        vazn:null,
-                        isInView:true,
+                        tozinId: null,
+                        date: null,
+                        driverName: null,
+                        plak: null,
+                        vazn: null,
+                        isInView: true,
                     }
                 );
                 objTab.Grids.RemittanceDetailOutRemittance.setData([]);
@@ -1775,13 +2036,13 @@ function newOutRemittance(objTab,selectedData,materialItemId) {
         objTab.Layouts.ToolStripButtons.OutRemittanceAdd.enable();
         objTab.Methods.setShipmentCriteria();
     }
-    dbg(remittanceCodeSet);
-    if(materialItemId) {
+    if (materialItemId) {
         const ___form = objTab.DynamicForms.Forms.OutRemittance;
         const ___item = objTab.DynamicForms.Forms.OutRemittance.getField("materialItemId");
         const ___value = materialItemId;
-        ___item.changed(___form,___item,___value);
+        ___item.changed(___form, ___item, ___value);
         remittanceCodeSet()
-    };
+    }
+
 
 }
