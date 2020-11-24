@@ -350,7 +350,7 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                     if (basePrice.materialElement.elementId === element.elementId) {
                         element.setValue(basePrice.basePrice);
                         element.setUnitId(basePrice.basePriceFinanceUnit.id);
-                        element.unitHint = "PER " + basePrice.basePriceWeightUnit.nameEN;
+                        element.setUnitHint("PER " + basePrice.basePriceWeightUnit.nameEN);
                         element.weightUnit = basePrice.basePriceWeightUnit;
                         element.financeUnit = basePrice.basePriceFinanceUnit;
                         element.valueFieldIcons[0].click();

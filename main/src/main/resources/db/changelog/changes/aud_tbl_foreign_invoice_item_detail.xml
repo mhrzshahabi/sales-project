@@ -49,4 +49,9 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-094">
+        <dropNotNullConstraint columnDataType="NUMBER(19, 0)" columnName="F_BASE_PRICE_FINANCE_UNIT_ID" tableName="AUD_TBL_FOREIGN_INVOICE_ITEM_DETAIL"/>
+        <dropNotNullConstraint columnDataType="NUMBER(19, 0)" columnName="F_BASE_PRICE_WEIGHT_UNIT_ID" tableName="AUD_TBL_FOREIGN_INVOICE_ITEM_DETAIL"/>
+    </changeSet>
+
 </databaseChangeLog>
