@@ -423,12 +423,15 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
             if (!(entity instanceof BaseEntity) ||
                     (((BaseEntity) entity).getEditable() &&
                             !((BaseEntity) entity).getEStatus().contains(EStatus.Final) &&
-                            !((BaseEntity) entity).getEStatus().contains(EStatus.DeActive)))
+                            !((BaseEntity) entity).getEStatus().contains(EStatus.DeActive) &&
+                            !((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc)))
                 return null;
             else if (((BaseEntity) entity).getEStatus().contains(EStatus.Final))
                 throw new FinalRecordException();
             else if (((BaseEntity) entity).getEStatus().contains(EStatus.DeActive))
                 throw new DeActiveRecordException();
+            else if (((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc))
+                throw new Send2AccRecordException();
 
             throw new NotEditableException();
         } else if (actionType == ActionType.Finalize) {
@@ -456,12 +459,15 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
                 if (!(entity instanceof BaseEntity) ||
                         (((BaseEntity) entity).getEditable() &&
                                 !((BaseEntity) entity).getEStatus().contains(EStatus.Final) &&
-                                !((BaseEntity) entity).getEStatus().contains(EStatus.DeActive)))
+                                !((BaseEntity) entity).getEStatus().contains(EStatus.DeActive) &&
+                                !((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc)))
                     return null;
                 else if (((BaseEntity) entity).getEStatus().contains(EStatus.Final))
                     throw new FinalRecordException();
                 else if (((BaseEntity) entity).getEStatus().contains(EStatus.DeActive))
                     throw new DeActiveRecordException();
+                else if (((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc))
+                    throw new Send2AccRecordException();
 
                 throw new NotEditableException();
             }
