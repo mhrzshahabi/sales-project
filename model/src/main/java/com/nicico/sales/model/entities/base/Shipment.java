@@ -26,9 +26,7 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_SHIPMENT", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"F_CONTRACT_SHIPMENT_ID"}, name = "UNIQUE_F_CONTRACT_SHIPMENT_ID")
-})
+@Table(name = "TBL_SHIPMENT")
 @Audited
 @AuditOverride(forClass = BaseEntity.class)
 public class Shipment extends BaseEntity {
