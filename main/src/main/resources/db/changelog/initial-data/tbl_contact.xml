@@ -596,5 +596,10 @@
     <changeSet id="AZAARE-004" author="abiz">
         <dropColumn tableName="TBL_CONTACT" columnName="C_DEFAULT_BANK_SWIFT"/>
     </changeSet>
+    <changeSet id="AZAARE-005" author="abiz">
+        <addColumn tableName="TBL_CONTACT">
+            <column name="C_CONTACT_CODE" type="VARCHAR2(100 CHAR)"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>
