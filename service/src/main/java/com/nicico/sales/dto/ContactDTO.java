@@ -47,6 +47,7 @@ public class ContactDTO {
     private Long countryId;
     private String postalCode;
     private String registerNumber;
+    private String contactCode;
 
     @Getter
     @Setter

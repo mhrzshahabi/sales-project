@@ -12,7 +12,7 @@
     var RestDataSource_Country_IN_CONTACT = isc.MyRestDataSource.create(
         {
             fields: [
-                {
+               {
                     name: "id",
                     title: "id",
                     primaryKey: true,
@@ -319,23 +319,31 @@ title: "<spring:message code='global.country'/> "
                     hidden: true
                 },
                 {
+                    name: "contactCode",
+                    title: "<spring:message code='contact.code'/>",
+                    width: 300,
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    wrapTitle: false,
+                },
+                   {
                     name: "contactAccounts",
                     hidden: true
                 },
-                {
+                   {
                     name: "bankAccount",
                     hidden: true
                 },
                 {
-                    name: "bankShaba",
-                    hidden: true
+                       name: "bankShaba",
+                       hidden: true
                 },
-                {
+                   {
                     name: "bankSwift",
                     hidden: true
                 },
-
-                {
+   
+                   {
                     name: "createdDate",
                     hidden: true
                 },
@@ -1823,6 +1831,7 @@ validateOnChange: true
             loadOnExpand: true,
             loaded: false,
             contextMenu: Menu_ListGrid_Contact,
+            sortField: "id",
             fields: [
                 {
                     name: "id",
@@ -1831,10 +1840,10 @@ validateOnChange: true
                     hidden: true, showIf: "false",
                 },
                 {
-                    name: "code",
+                    name: "contactCode",
                     title: "<spring:message code='contact.code'/>",
                     align: "center",
-                    width: 100, showIf: "false",
+                    width: 100,
 
                 },
                 {
