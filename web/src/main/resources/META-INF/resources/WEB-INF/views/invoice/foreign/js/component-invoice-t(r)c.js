@@ -26,9 +26,9 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
         }));
 
         this.addMember(isc.DynamicForm.create({
-            width: "50%",
+            width: "10%",
             fields: [{
-                width: "100%",
+                width: "10%",
                 height: "50",
                 name: "TC",
                 top: 5,
@@ -93,7 +93,7 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                     width: "100",
                     height: "25",
                     autoFit: false,
-                    title: "<spring:message code='global.form.save'/>",
+                    title: "<spring:message code='global.form.next.step'/>",
                     click: function () {
 
                         if (!This.validate())
@@ -112,12 +112,11 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                         align: "right",
                         border: '0px',
                         members: [
-                            // @ts-ignore
                             isc.ToolStripButton.create({
                                 width: "100",
                                 height: "25",
                                 autoFit: false,
-                                title: "<spring:message code='global.cancel'/>",
+                                title: "<spring:message code='global.form.previous.step'/>",
                                 click: function () {
 
                                     let tab = This.parentElement.parentElement;

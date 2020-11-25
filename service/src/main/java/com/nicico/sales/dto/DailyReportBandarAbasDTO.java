@@ -115,7 +115,6 @@ public class DailyReportBandarAbasDTO {
     private Long sumOwpTozin;
     private Double sumTadilYearPrecent;
 
-
     @ReportField(titleMessageKey = "Daily-report.IN.PKG.DAY")
     private Long inPkgDay;
 
@@ -192,6 +191,39 @@ public class DailyReportBandarAbasDTO {
     @ReportField(titleMessageKey = "Daily-report.OWP.TOZIN")
     private Long owpTozin;
     private Double tadilYearPrecent;
+    
+    private Long sumFirstRemainedWeightDay;
+    private Long sumFirstRemainedWeightMonth;
+    private Long sumFirstRemainedWeightYear;
+    private Long firstRemainedWeightDay;
+    private Long firstRemainedWeightMonth;
+    private Long firstRemainedWeightYear;
+
+    public Long getSumFirstRemainedWeightDay() {
+        return sumRemainedWeight + sumOutWeightDay - sumIncomeWeightDay;
+    }
+
+    public Long getSumFirstRemainedWeightMonth() {
+        return sumRemainedWeight + sumOutWeightMonth - sumIncomeWeightMonth;
+    }
+
+    public Long getSumFirstRemainedWeightYear() {
+        return sumRemainedWeight + sumOutWeightYear - sumIncomeWeightYear;
+    }
+    public Long getFirstRemainedWeightDay() {
+        return remainedWeight + outWeightDay - incomeWeightDay;
+    }
+
+    public Long getFirstRemainedWeightMonth() {
+        return remainedWeight + outWeightMonth - incomeWeightMonth;
+    }
+
+    public Long getFirstRemainedWeightYear() {
+        return remainedWeight + outWeightYear - incomeWeightYear;
+    }
+    
+    
+    
 
 
     @Getter

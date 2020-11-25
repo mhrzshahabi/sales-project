@@ -2,6 +2,7 @@ package com.nicico.sales.dto.invoice.foreign;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.dto.MaterialElementDTO;
+import com.nicico.sales.dto.UnitDTO;
 import com.nicico.sales.model.enumeration.DeductionType;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
@@ -21,7 +22,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ForeignInvoiceItemDetailDTO {
 
-    private BigDecimal assay;//
+    private BigDecimal assay;
     private BigDecimal basePrice;
     private BigDecimal rcPrice;
     private BigDecimal rcBasePrice;
@@ -29,9 +30,11 @@ public class ForeignInvoiceItemDetailDTO {
     private DeductionType deductionType;
     private BigDecimal deductionValue;
     private BigDecimal deductionUnitConversionRate;
-    private BigDecimal deductionPrice;//
+    private BigDecimal deductionPrice;
     private Long foreignInvoiceItemId;
     private Long materialElementId;
+    private Long basePriceFinanceUnitId;
+    private Long basePriceWeightUnitId;
 
     @Getter
     @Setter
@@ -42,6 +45,8 @@ public class ForeignInvoiceItemDetailDTO {
         private Long id;
         private MaterialElementDTO.Info materialElement;
         private ForeignInvoiceItemDTO.Info foreignInvoiceItem;
+        private UnitDTO.Info basePriceFinanceUnit;
+        private UnitDTO.Info basePriceWeightUnit;
 
         // Auditing
         private Date createdDate;

@@ -92,5 +92,8 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
     },
     setUnitId: function (unitId) {
         this.getItem("unitId").setValue(unitId);
+    },
+    setUnitHint: function (unitHint) {
+        this.getItem("unitId").setHint(unitHint);
     }
 });

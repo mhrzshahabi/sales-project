@@ -68,7 +68,8 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
                 calendar.setTime(item.getDate());
                 MaterialElement materialElement = validMaterialElements.stream().filter(q -> q.getId().longValue() == item.getMaterialElement().getId()).findFirst().get();
                 if (item.getMoasValue() != null)
-                    pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1 + item.getMoasValue(), materialElement.getElementId()));
+                    pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1 + item.getMoasValue(),
+                            materialElement.getElementId(), financeUnitId));
                 else if (item.getWorkingDayAfter() != null && item.getWorkingDayBefore() != null) {
 
 //                List<Date> workingDays = new ArrayList<>();
@@ -84,7 +85,7 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
                     dayInfos.addAll(businessDays.getBefore());
 
                     List<String> workingDays = dayInfos.stream().map(dayInfo -> new SimpleDateFormat("YYYY-MM-dd").format(dayInfo.getTimestamp())).collect(Collectors.toList());
-                    pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), workingDays, materialElement.getElementId()));
+                    pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), workingDays, materialElement.getElementId(), financeUnitId));
                 } else throw new SalesException2(ErrorType.InvalidData, "MOASValue", "Data is not Complete");
             });
             Set<Long> pricesByElementIds = pricesByElements.stream().map(PriceBase::getElementId).collect(Collectors.toSet());
@@ -99,13 +100,13 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
                 List<PriceBase> groupPriceBases = pricesByElementGroup.get(elementId);
                 Set<@NotNull Long> weightUnitIdSet = groupPriceBases.stream().map(PriceBase::getWeightUnitId).collect(Collectors.toSet());
                 if (weightUnitIdSet.size() > 1)
-                    throw new SalesException2(ErrorType.BadRequest, "WeightUnit", "Weight unit is multiple.");
-                Set<@NotNull Long> financeUnitIdSet = groupPriceBases.stream().map(PriceBase::getFinanceUnitId).collect(Collectors.toSet());
-                if (financeUnitIdSet.size() > 1)
-                    throw new SalesException2(ErrorType.BadRequest, "FinanceUnit", "Finance unit is multiple.");
+                    throw new SalesException2(ErrorType.BadRequest, "WeightUnit", "Weight unit is multiple for an Element");
+//                Set<@NotNull Long> financeUnitIdSet = groupPriceBases.stream().map(PriceBase::getFinanceUnitId).collect(Collectors.toSet());
+//                if (financeUnitIdSet.size() > 1)
+//                    throw new SalesException2(ErrorType.BadRequest, "FinanceUnit", "Finance unit is multiple.");
 
-                if (financeUnitId != groupPriceBases.get(0).getFinanceUnitId().longValue())
-                    throw new SalesException2(ErrorType.BadRequest, "FinanceUnit", "Finance unit is not match.");
+//                if (financeUnitId != groupPriceBases.get(0).getFinanceUnitId().longValue())
+//                    throw new SalesException2(ErrorType.BadRequest, "FinanceUnit", "Finance unit is not match.");
 
                 PriceBaseDTO.Info priceBase = modelMapper.map(groupPriceBases.get(0), PriceBaseDTO.Info.class);
                 BigDecimal groupAveragePrice = groupPriceBases.stream().map(PriceBase::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add).divide(BigDecimal.valueOf(groupPriceBases.size()), MathContext.DECIMAL32);
