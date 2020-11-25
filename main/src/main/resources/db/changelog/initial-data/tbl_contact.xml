@@ -601,5 +601,10 @@
             <column name="C_CONTACT_CODE" type="VARCHAR2(100 CHAR)"/>
         </addColumn>
     </changeSet>
+    <changeSet id="KARIMI-006" author="karimi">
+        <addColumn tableName="AUD_TBL_CONTACT">
+            <column name="C_CONTACT_CODE" type="VARCHAR2(100 CHAR)"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>
