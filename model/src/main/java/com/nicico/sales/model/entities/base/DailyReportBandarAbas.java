@@ -36,7 +36,7 @@ public class DailyReportBandarAbas {
     private String sourceName;
     @Column(name = "material_name")
     private String materialName;
-     @Column(name = "unit")
+    @Column(name = "unit")
     private String unit;
     @Column(name = "tadil_year_percent")
     private Double tadilYearPrecent;
@@ -155,17 +155,14 @@ public class DailyReportBandarAbas {
     private Long sumOwpTozin;
 
 
-
-
-
     @EqualsAndHashCode
     public static class DailyReportBandAbasId implements Serializable {
-       private String date;
+        private String date;
 
-       private Long source;
+        private Long source;
 
-       private Long material;
+        private Long material;
 
-   }
+    }
 
 }
