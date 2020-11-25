@@ -66,7 +66,7 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
                 valueMap: JSON.parse('${Enum_DeductionType}'),
                 changed: function (form, item, value) {
 
-                    This.getMembers().last().getMembers().filter(q => q.name === "finalAssay").first().setUnitId(This.assay.unitId);
+                    This.getMembers().filter(q => q.role === "priceMembers").first().getMembers().filter(q => q.name === "finalAssay").first().setUnitId(This.assay.unitId);
                     let deductionValue = form.getItem("deductionValue").getValue();
                     let discountValue;
                     switch (value) {
@@ -81,7 +81,7 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
                             break;
                     }
 
-                    This.getMembers().last().getMembers().filter(q => q.name === "finalAssay").first().setValue(discountValue);
+                    This.getMembers().filter(q => q.role === "priceMembers").first().getMembers().filter(q => q.name === "finalAssay").first().setValue(discountValue);
                     This.calculate();
                 }
             }]
@@ -170,15 +170,21 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
 
         this.addMember(isc.HLayout.create({
             width: "100%",
+            role: "priceMembers",
             members: priceMembers
+        }));
+
+        this.addMember(isc.HTMLFlow.create({
+            width: "100%",
+            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
 
     },
     calculate: function () {
 
-        let priceForm = this.getMembers().last().getMembers().filter(q => q.isBasePriceForm).first();
-        let assayForm = this.getMembers().last().getMembers().filter(q => q.name === "finalAssay").first();
-        let conversionForm = this.getMembers().last().getMembers().filter(q => q.isConversionForm).first();
+        let priceForm = this.getMembers().filter(q => q.role === "priceMembers").first().getMembers().filter(q => q.isBasePriceForm).first();
+        let assayForm = this.getMembers().filter(q => q.role === "priceMembers").first().getMembers().filter(q => q.name === "finalAssay").first();
+        let conversionForm = this.getMembers().filter(q => q.role === "priceMembers").first().getMembers().filter(q => q.isConversionForm).first();
         let deductionPriceValue = assayForm.getValues().value * priceForm.getValue("basePrice") * conversionForm.getValue("deductionUnitConversionRate");
         conversionForm.setValue("deductionPrice", deductionPriceValue);
 
@@ -186,7 +192,7 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
     },
     getFinalAssay: function () {
 
-        return this.getMembers().last().getMembers().filter(q => q.name === "finalAssay").first();
+        return this.getMembers().filter(q => q.role === "priceMembers").first().getMembers().filter(q => q.name === "finalAssay").first();
     },
     getDeductionType: function () {
 
@@ -198,15 +204,15 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
     },
     getDeductionPrice: function () {
 
-        return this.getMembers().last().getMembers().filter(q => q.isConversionForm).first().getValue("deductionPrice");
+        return this.getMembers().filter(q => q.role === "priceMembers").first().getMembers().filter(q => q.isConversionForm).first().getValue("deductionPrice");
     },
     getDeductionUnitConversionRate: function () {
 
-        return this.getMembers().last().getMembers().filter(q => q.isConversionForm).first().getValue("deductionUnitConversionRate");
+        return this.getMembers().filter(q => q.role === "priceMembers").first().getMembers().filter(q => q.isConversionForm).first().getValue("deductionUnitConversionRate");
     },
     getBasePrice: function () {
 
-        return this.getMembers().last().getMembers().filter(q => q.isBasePriceForm).first().getValue("basePrice");
+        return this.getMembers().filter(q => q.role === "priceMembers").first().getMembers().filter(q => q.isBasePriceForm).first().getValue("basePrice");
     },
     editRowCalculation: function () {
 
@@ -215,8 +221,8 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
             this.getMembers().filter(q => q.role === "deduction").first().setValue("deductionType", this.calculationRowData.deductionType);
             this.getMembers().filter(q => q.role === "deduction").first().getItem("deductionType").changed(this.getMembers().filter(q => q.role === "deduction").first(),
                 this.getMembers().filter(q => q.role === "deduction").first().getItem("deductionType"), this.getMembers().filter(q => q.role === "deduction").first().getItem("deductionType").getValue());
-            this.getMembers().last().getMembers().filter(q => q.isConversionForm).first().setValue("deductionUnitConversionRate", this.calculationRowData.deductionUnitConversionRate);
-            this.getMembers().last().getMembers().filter(q => q.isConversionForm).first().getItem("deductionUnitConversionRate").changed();
+            this.getMembers().filter(q => q.role === "priceMembers").first().getMembers().filter(q => q.isConversionForm).first().setValue("deductionUnitConversionRate", this.calculationRowData.deductionUnitConversionRate);
+            this.getMembers().filter(q => q.role === "priceMembers").first().getMembers().filter(q => q.isConversionForm).first().getItem("deductionUnitConversionRate").changed();
         }
     },
     validate: function () {
@@ -225,7 +231,7 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
         if (this.getMembers()[1].hasErrors())
             return false;
         else {
-            let conversionForm = this.getMembers().last().getMembers().filter(q => q.isConversionForm).first();
+            let conversionForm = this.getMembers().filter(q => q.role === "priceMembers").first().getMembers().filter(q => q.isConversionForm).first();
             conversionForm.validate();
             if (conversionForm.hasErrors())
                 return false;
