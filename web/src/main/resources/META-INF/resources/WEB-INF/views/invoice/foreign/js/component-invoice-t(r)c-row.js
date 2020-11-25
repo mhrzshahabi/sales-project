@@ -99,7 +99,7 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
     },
     calculate: function () {
 
-        let conversionForm = this.getMembers().last();
+        let conversionForm = this.getMembers().filter(q => q.isConversionForm).first();
         let rcPriceField = this.getMembers().filter(q => q.name === "rcPrice").first();
         let assayField = this.getMembers().filter(q => q.name === "finalAssay").first();
         let deductionPriceValue = assayField.getValues().value * rcPriceField.getValues().value * conversionForm.getValue("rcUnitConversionRate");
