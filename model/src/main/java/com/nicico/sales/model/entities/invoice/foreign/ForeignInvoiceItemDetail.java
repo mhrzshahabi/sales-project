@@ -1,5 +1,6 @@
 package com.nicico.sales.model.entities.invoice.foreign;
 
+import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import com.nicico.sales.model.enumeration.DeductionType;
@@ -82,4 +83,22 @@ public class ForeignInvoiceItemDetail extends BaseEntity {
     @NotNull
     @Column(name = "F_MATERIAL_ELEMENT_ID", nullable = false)
     private Long materialElementId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_BASE_PRICE_FINANCE_UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoiceItemDetail2UnitByBPFUnitId"))
+    private Unit basePriceFinanceUnit;
+
+    @NotNull
+    @Column(name = "F_BASE_PRICE_FINANCE_UNIT_ID", nullable = false)
+    private Long basePriceFinanceUnitId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_BASE_PRICE_WEIGHT_UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoiceItemDetail2UnitByBPWUnitId"))
+    private Unit basePriceWeightUnit;
+
+    @NotNull
+    @Column(name = "F_BASE_PRICE_WEIGHT_UNIT_ID", nullable = false)
+    private Long basePriceWeightUnitId;
 }

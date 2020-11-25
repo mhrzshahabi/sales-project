@@ -54,25 +54,25 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
 
                         members.last().setValue(priceBase.price);
                         members.last().setUnitId(priceBase.financeUnit.id);
-
-                        if (This.basePriceData) {
-                            let elementId = members.last().elementId;
-                            members.last().setValue(This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePrice);
-                        }
                     });
+
+                    if (This.basePriceData) {
+
+                        members.forEach(m => {
+
+                            let elementId = m.elementId;
+                            m.setValue(This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePrice);
+                            m.setUnitId(This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePriceFinanceUnit.id);
+                            m.setUnitHint("PER " + This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePriceWeightUnit.nameEN);
+                            m.weightUnit = This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePriceWeightUnit;
+                            m.financeUnit = This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePriceFinanceUnit;
+                        });
+                    }
+
                 } else {
 
                     isc.RPCManager.handleError(resp);
                 }
-
-                // let fieldsNames = members.map(q => q.name).join(", ");
-                // This.addMember(isc.Label.create({
-                //     width: "100%",
-                //     height: "50",
-                //     contents: "<b>" + "AVERAGE OF " + (month + MOASValue) +
-                //         "th MONTH OF " + year + " (MOAS" + (MOASValue === 0 ? "" : (MOASValue > 0 ? "+" : "-") + MOASValue) +
-                //         ") " + " FOR " + fieldsNames + "</b>"
-                // }));
 
                 if (members.length)
                     This.addMembers(members);
@@ -91,6 +91,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
             data.add({
                 name: current.name,
                 value: values.value,
+                weightUnitId: current.weightUnit.id,
                 financeUnitId: values.unitId,
                 elementId: current.elementId,
                 weightUnit: current.weightUnit,

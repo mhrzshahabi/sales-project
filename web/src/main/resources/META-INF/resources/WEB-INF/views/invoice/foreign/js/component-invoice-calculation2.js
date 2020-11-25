@@ -349,6 +349,10 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                 bPElement.getMembers().forEach(element => {
                     if (basePrice.materialElement.elementId === element.elementId) {
                         element.setValue(basePrice.basePrice);
+                        element.setUnitId(basePrice.basePriceFinanceUnit.id);
+                        element.setUnitHint("PER " + basePrice.basePriceWeightUnit.nameEN);
+                        element.weightUnit = basePrice.basePriceWeightUnit;
+                        element.financeUnit = basePrice.basePriceFinanceUnit;
                         element.valueFieldIcons[0].click();
                     }
                 });
@@ -426,6 +430,8 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                     assay: q.value,
                     materialElementId: q.materialElementId,
                     basePrice: This.getMember(1).getMembers().filter(pb => pb.elementId === q.materialElement.elementId).first().getValues().value,
+                    basePriceWeightUnitId: This.getMember(1).getMembers().filter(pb => pb.elementId === q.materialElement.elementId).first().weightUnit.id,
+                    basePriceFinanceUnitId: This.getMember(1).getMembers().filter(pb => pb.elementId === q.materialElement.elementId).first().getValues().unitId,
                     deductionType: JSON.parse('${Enum_DeductionType}').DiscountPercent,
                     deductionValue: gridRecord.discount,
                     deductionPrice: gridRecord.price * gridRecord.discount / 100,
