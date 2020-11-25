@@ -8,8 +8,7 @@
     <!-- INITIALIZE STRUCTURE -->
     <include file="classpath:/db/changelog/initial-definition/liquibase-init.xml"/>
     <include file="classpath:/db/changelog/initial-definition/liquibase-sequence.xml"/>
-    <include file="classpath:/db/changelog/initial-definition/tbl_packing_list.xml"/>
-    <include file="classpath:/db/changelog/initial-definition/tbl_packing_container.xml"/>
+
     <!-- INITIALIZE STRUCTURE -->
 
     <!-- SYNONYMS -->
@@ -38,6 +37,7 @@
     <include file="classpath:/db/changelog/changes/aud_tbl_foreign_invoice_item.xml"/>
     <include file="classpath:/db/changelog/changes/aud_tbl_foreign_invoice_payment.xml"/>
     <include file="classpath:/db/changelog/changes/aud_tbl_foreign_invoice_item_detail.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_warh_tozin.xml"/>
     <!-- CHANGES -->
 
     <!-- INITIALIZE DATA -->
@@ -56,6 +56,7 @@
     <include file="classpath:/db/changelog/initial-data/tbl_sales_type.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_tozin_plant.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_shipment_type.xml"/>
+    <include file="classpath:/db/changelog/initial-data/tbl_shipment.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_shipment_method.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_cntr_incoterm.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_warh_element.xml"/>
@@ -69,6 +70,8 @@
     <include file="classpath:/db/changelog/initial-data/tbl_cntr_cdtp_dynamic_table.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_cntr_cdtp_dynamic_table_value.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_bill_of_landing.xml"/>
+    <include file="classpath:/db/changelog/initial-definition/tbl_packing_list.xml"/>
+    <include file="classpath:/db/changelog/initial-definition/tbl_packing_container.xml"/>
     <!-- INITIALIZE DATA -->
 
     <!-- VIEWS -->
@@ -82,6 +85,7 @@
     <include file="classpath:/db/changelog/views/view_warh_remittance_detail.xml"/>
     <include file="classpath:/db/changelog/views/view_internal_invoice_document.xml"/>
     <include file="classpath:/db/changelog/views/view_cost_invoice_document.xml"/>
+    <include file="classpath:db/changelog/views/view_remittance_pkg.xml"/>
     <!-- VIEWS -->
 
     <!-- INITIALIZE AUDIT -->
@@ -101,5 +105,9 @@
     <!-- VIEWS -->
     <include file="classpath:/db/changelog/views/view_foreign_invoice_document.xml"/>
     <!-- VIEWS -->
+
+    <!-- CHANGES - VIEW -->
+    <include file="classpath:/db/changelog/changes/view/view_internal_invoice_document-estatus.xml"/>
+    <!-- CHANGES - VIEW -->
 
 </databaseChangeLog>

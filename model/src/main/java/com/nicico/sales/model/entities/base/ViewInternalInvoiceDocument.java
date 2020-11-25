@@ -1,5 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
+import com.nicico.sales.model.enumeration.EStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.Subselect;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.List;
 
 @Setter
 @Getter
@@ -181,4 +183,7 @@ public class ViewInternalInvoiceDocument {
 
 	@Column(name = "C_DOCUMENT_ID")
 	private String documentId;
+
+	@Column(name = "N_E_STATUS")
+	private List<EStatus> eStatus;
 }

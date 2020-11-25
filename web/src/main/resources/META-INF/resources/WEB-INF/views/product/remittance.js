@@ -892,6 +892,7 @@ remittanceTab.RestDataSources.Depot = {
     fields: remittanceTab.Fields.Depot()
 };
 ////////////////////////////////////////////////////////LISTGRIDS///////////////////////////////////////////////////////
+/***@type {Partial<isc.ListGrid>} remittanceTab.Grids.Remittance**/
 remittanceTab.Grids.Remittance = {
     // ID: remittanceTab.Vars.Prefix + "remittance_detail_tab_list_grid",
     showFilterEditor: true,
@@ -919,9 +920,19 @@ remittanceTab.Grids.Remittance = {
                 //         })
                 //     ]
                 // }),
-                isc.ListGrid.create({
-                    ...remittanceTab.Grids.RemittanceDetail(),
-                    data: record['remittanceDetails']
+                // isc.ListGrid.create({
+                //     ...remittanceTab.Grids.RemittanceDetail(),
+                //     // fetchDataUrl:'api/remittance-detail/spec-list',
+                //     initialCriteria:{operator:"and",criteria:{fieldName:"remittanceId",operator:"equals",value:record.id}},
+                //     dataSource:isc.MyRestDataSource.create({...remittanceTab.RestDataSources.RemittanceDetail()}),
+                //     autoFetchData: true,
+                //
+                // }),
+                remittanceTab.Grids.RemittanceDetailObj = isc.ListGrid.create({
+                    ...Object.assign({},remittanceTab.Grids.RemittanceDetail()),
+                    initialCriteria:{operator:"and",criteria:[{fieldName:"remittanceId",operator:"equals",value:record.id}]},
+                    autoFetchData:true,
+                    dataSource: isc.MyRestDataSource.create(remittanceTab.RestDataSources.RemittanceDetail()),
                 })
             ]
         })
@@ -932,8 +943,10 @@ remittanceTab.Grids.Remittance = {
     allowAdvancedCriteria: true,
     // groupByField: "remittance.code",
     dataSource: remittanceTab.RestDataSources.Remittance,
-    autoFetchData: true,
+    autoFetchData: false,
+    showGridSummary:true,
     sortField: "id",
+    filterOnKeypress:false,
     sortDirection: "descending",
     fields: remittanceTab.Fields.RemittanceFull(),
     getCellCSSText(record, rowNum, colNum) {
@@ -1083,6 +1096,7 @@ isc.VLayout.create({
         }),
         remittanceTab.Grids.Remittance.obj = isc.ListGrid.create({
             ...remittanceTab.Grids.Remittance,
+            // autoFetchData:false,
             dataSource: isc.MyRestDataSource.create(remittanceTab.Grids.Remittance.dataSource),
         })
     ]

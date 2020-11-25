@@ -88,6 +88,7 @@ namespace nicico {
             recordIsInactive(): void,
             finalRecord(): void,
             disapproveRecord(): void,
+            recordIsSentToAcc(): void,
             notSelected(): void,
             moreSelected(): void,
             ok(warn?: string): void,
@@ -201,6 +202,7 @@ namespace nicico {
             recordIsInactive(): void,
             finalRecord(): void,
             disapproveRecord(): void,
+            recordIsSentToAcc(): void,
             notSelected(): void,
             moreSelected(): void,
             ok(warn ?: string): void,
@@ -407,7 +409,7 @@ namespace nicico {
                 if (rpcRequest == null) return;
 
                 if (rpcRequest.callback == null) {
-                    
+
                     rpcRequest.willHandleError = true;
                     rpcRequest.callback = function (response) {
 
@@ -437,11 +439,16 @@ namespace nicico {
                 isc.RPCManager.sendRequest(rpcRequest);
             };
 
-            This.method.beforeRefreshActionHook = function () {};
-            This.method.afterRefreshActionHook = function () {};
-            This.method.beforeShowNewActionHook = function () {};
-            This.method.afterShowNewActionHook = function (window: FormUtil) {};
-            This.method.beforeShowEditActionHook = function (record: any) {};
+            This.method.beforeRefreshActionHook = function () {
+            };
+            This.method.afterRefreshActionHook = function () {
+            };
+            This.method.beforeShowNewActionHook = function () {
+            };
+            This.method.afterShowNewActionHook = function (window: FormUtil) {
+            };
+            This.method.beforeShowEditActionHook = function (record: any) {
+            };
             This.method.afterShowEditActionHook = function (window: FormUtil, record: any) {
             };
             This.method.validateDeleteActionHook = function (record: any) {
@@ -449,26 +456,43 @@ namespace nicico {
             };
             This.method.beforeDeleteActionHook = function (record: any) {
             };
-            This.method.afterDeleteActionHook = function (response: isc.RPCResponse, record: any) {};
-            This.method.afterDeleteErrorActionHook = function (response: isc.RPCResponse, record: any) {};
-            This.method.beforeActivateActionHook = function (record: any) {};
-            This.method.afterActivateActionHook = function (response: isc.RPCResponse, record: any) {};
-            This.method.afterActivateErrorActionHook = function (response: isc.RPCResponse, record: any) {};
-            This.method.beforeDeactivateActionHook = function (record: any) {};
-            This.method.afterDeactivateActionHook = function (response: isc.RPCResponse, record: any) {};
-            This.method.afterDeactivateErrorActionHook = function (response: isc.RPCResponse, record: any) {};
-            This.method.beforeFinalizeActionHook = function (record: any) {};
-            This.method.afterFinalizeActionHook = function (response: isc.RPCResponse, record: any) {};
-            This.method.afterFinalizeErrorActionHook = function (response: isc.RPCResponse, record: any) {};
-            This.method.beforeDisapproveActionHook = function (record: any) {};
-            This.method.afterDisapproveActionHook = function (response: isc.RPCResponse, record: any) {};
-            This.method.afterDisapproveErrorActionHook = function (response: isc.RPCResponse, record: any) {};
-            This.method.saveValidationActionHook = function (form: isc.DynamicForm) {};
+            This.method.afterDeleteActionHook = function (response: isc.RPCResponse, record: any) {
+            };
+            This.method.afterDeleteErrorActionHook = function (response: isc.RPCResponse, record: any) {
+            };
+            This.method.beforeActivateActionHook = function (record: any) {
+            };
+            This.method.afterActivateActionHook = function (response: isc.RPCResponse, record: any) {
+            };
+            This.method.afterActivateErrorActionHook = function (response: isc.RPCResponse, record: any) {
+            };
+            This.method.beforeDeactivateActionHook = function (record: any) {
+            };
+            This.method.afterDeactivateActionHook = function (response: isc.RPCResponse, record: any) {
+            };
+            This.method.afterDeactivateErrorActionHook = function (response: isc.RPCResponse, record: any) {
+            };
+            This.method.beforeFinalizeActionHook = function (record: any) {
+            };
+            This.method.afterFinalizeActionHook = function (response: isc.RPCResponse, record: any) {
+            };
+            This.method.afterFinalizeErrorActionHook = function (response: isc.RPCResponse, record: any) {
+            };
+            This.method.beforeDisapproveActionHook = function (record: any) {
+            };
+            This.method.afterDisapproveActionHook = function (response: isc.RPCResponse, record: any) {
+            };
+            This.method.afterDisapproveErrorActionHook = function (response: isc.RPCResponse, record: any) {
+            };
+            This.method.saveValidationActionHook = function (form: isc.DynamicForm) {
+            };
             This.method.saveGetDataActionHook = function (form: isc.DynamicForm, data: any): any {
                 return data;
             };
-            This.method.saveActionHook = function (response: isc.RPCResponse) {};
-            This.method.saveErrorActionHook = function (response: isc.RPCResponse) {};
+            This.method.saveActionHook = function (response: isc.RPCResponse) {
+            };
+            This.method.saveErrorActionHook = function (response: isc.RPCResponse) {
+            };
             This.method.refresh = function (grid: isc.ListGrid) {
 
                 This.method.beforeRefreshActionHook();
@@ -478,7 +502,7 @@ namespace nicico {
             This.method.newForm = function (title: string, grid: isc.ListGrid, form: isc.DynamicForm): void {
 
                 This.method.beforeShowNewActionHook();
-                
+
                 This.variable.method = "POST";
                 form.clearValues();
 
@@ -510,6 +534,9 @@ namespace nicico {
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
                     This.dialog.recordIsInactive();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.SendToAcc))
+                    This.dialog.recordIsSentToAcc();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.Final))
                     This.dialog.finalRecord();
@@ -551,6 +578,9 @@ namespace nicico {
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
                     This.dialog.recordIsInactive();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.SendToAcc))
+                    This.dialog.recordIsSentToAcc();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.Final))
                     This.dialog.finalRecord();
@@ -594,6 +624,9 @@ namespace nicico {
                 else if (record.editable == false)
                     This.dialog.notEditable();
                 // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.SendToAcc))
+                    This.dialog.recordIsSentToAcc();
+                // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.Active))
                     This.dialog.activeRecord();
                 else {
@@ -632,6 +665,9 @@ namespace nicico {
                 // @ts-ignore
                 else if (record.editable == false)
                     This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.SendToAcc))
+                    This.dialog.recordIsSentToAcc();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
                     This.dialog.inactiveRecord();
@@ -717,6 +753,9 @@ namespace nicico {
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
                     This.dialog.recordIsInactive();
                 // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.SendToAcc))
+                    This.dialog.recordIsSentToAcc();
+                // @ts-ignore
                 else if (!record.estatus.contains(Enums.eStatus2.Final))
                     This.dialog.disapproveRecord();
                 else {
@@ -780,6 +819,7 @@ namespace nicico {
                 recordIsInactive: null,
                 finalRecord: null,
                 disapproveRecord: null,
+                recordIsSentToAcc: null,
                 notSelected: null,
                 moreSelected: null
             };
@@ -852,6 +892,19 @@ namespace nicico {
 
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.can.not.disapprove'/>",
+                    icon: "[SKIN]say.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.recordIsSentToAcc = function () {
+
+                isc.Dialog.create({
+                    message: "<spring:message code='exception.send2acc.not-editable'/>",
                     icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],

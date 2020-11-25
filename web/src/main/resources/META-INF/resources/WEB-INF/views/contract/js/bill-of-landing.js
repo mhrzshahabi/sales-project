@@ -276,7 +276,7 @@ const BlTab = {
         Required: function () {
             return !BlTab.Vars.debug
         },
-        CrudDynamicForm: async function (props ,callBack) {
+        CrudDynamicForm: async function (props, callBack) {
             BlTab.Logs.add(['props:', props]);
             if (typeof (props) === "undefined") return;
             let url = BlTab.Vars.Url;
@@ -304,8 +304,8 @@ const BlTab = {
                 if (response.status === 200 || response.status === 201) {
                     // await response.text()
                     BlTab.Dialog.Success();
-                    if(callBack) callBack();
-                   // BlTab.Grids.BillOfLanding.obj.invalidateCache();
+                    if (callBack) callBack();
+                    // BlTab.Grids.BillOfLanding.obj.invalidateCache();
                 } else {
                     const error = await response.text();
                     BlTab.Logs.add(["fetch error:", error]);
@@ -396,7 +396,7 @@ const BlTab = {
                 }
             }
         },
-        Delete: function (grid, deleteUrl,callBack) {
+        Delete: function (grid, deleteUrl, callBack) {
             try {
                 grid = window[grid.ID];
                 const params = {ids: grid.getSelectedRecords().map(record => record.id)};
@@ -447,9 +447,9 @@ const BlTab = {
             }
         },
         RefreshContainerData: async function (id, listGrid) {
-                let resp = await fetch("api/bill-of-landing/" + id, {
-                    headers: SalesConfigs.httpHeaders,
-                });
+            let resp = await fetch("api/bill-of-landing/" + id, {
+                headers: SalesConfigs.httpHeaders,
+            });
             let respjson = await resp.json();
             listGrid.invalidateCache();
             listGrid.setData(respjson.containers);
@@ -1504,6 +1504,18 @@ BlTab.Methods.portOptionDataSource = _ => {
         pickListFields: BlTab.Fields.Port(),
     }
 }
+BlTab.Methods.validateEqualsFields = _ => {
+    if(_.shipperExporterId == _.consigneeId || _.shipperExporterId == _.notifyPartyId) {
+        isc.warn("<spring:message code='billOfLanding.shipper.exporter.warn'/>");
+        return false;
+    }
+
+    if(_.portOfDischargeId == _.portOfLoadingId) {
+        isc.warn("<spring:message code='billOfLanding.port.of.landing.equal.discharge.warn'/>");
+        return false;
+    }
+    return true;
+}
 BlTab.Fields.BillOfLandingSwitch = function () {
     return [
         {
@@ -1766,6 +1778,18 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
             ]
         },
         {
+            name: 'shipmentId',
+            ...shipmentOptionDataSource(),
+            title: "<spring:message code='Shipment.title'/>",
+            formatCellValue: function (value, record, rowNum, colNum, grid) {
+                if (record.shipment && record.shipment.vessel)
+                    return record.shipment.contractShipment.contract.no + " " + record.shipment.vessel.name +
+                        " " +
+                        moment(record.shipment.sendDate).format('YYYY/MM/DD');
+                return value
+            }
+        },
+        {
             name: 'shipperExporter',
             hidden: true,
             title: "<spring:message code='billOfLanding.shipper.exporter'/>",
@@ -1817,18 +1841,6 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
             required: true,
             ...BlTab.Methods.portOptionDataSource(),
             title: "<spring:message code='billOfLanding.port.of.discharge'/>",
-        },
-        {
-            name: 'shipmentId',
-            ...shipmentOptionDataSource(),
-            title: "<spring:message code='Shipment.title'/>",
-            formatCellValue: function (value, record, rowNum, colNum, grid) {
-                if (record.shipment && record.shipment.vessel)
-                    return record.shipment.contractShipment.contract.no + " " + record.shipment.vessel.name +
-                        " " +
-                        moment(record.shipment.sendDate).format('YYYY/MM/DD');
-                return value
-            }
         },
         {
             name: "shipmentTypeId",
@@ -1991,7 +2003,7 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
         displayField: 'nameEN',
         valueField: "id",
         title: "<spring:message code='global.unit'/>",
-        type:"long",
+        type: "long",
         optionDataSource: isc.MyRestDataSource.create({
             fields:
                 [
@@ -2007,13 +2019,7 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
                 fieldName: "categoryUnit",
                 operator: "equals",
                 value: JSON.parse('${Enum_CategoryUnit}').Weight
-            },
-                {
-                    fieldName: "categoryUnit",
-                    operator: "equals",
-                    value: JSON.parse('${Enum_CategoryUnit}').Class
-                }
-            ]
+            }]
         },
         pickListFields: [
             {name: "nameFA", title: "<spring:message code='unit.nameFa'/> "},
@@ -2148,6 +2154,71 @@ BlTab.Grids.Remittance = {
 
 
 }
+
+BlTab.Vars.IButton_Container_Save = isc.IButtonSave.create({
+    top: 260,
+    title: "<spring:message code='global.form.save'/>",
+    icon: "pieces/16/save.png",
+    click: function () {
+        debugger
+        if (!BlTab.DynamicForms.Forms.ContainerToBillOfLanding.validate()) return;
+        BlTab.Methods.Save({
+                ...BlTab.DynamicForms.Forms.ContainerToBillOfLanding.getValues(),
+                billOfLandingId: BlTab.Grids.BillOfLanding.obj.getSelectedRecord().id
+            },
+            'api/container-to-bill-of-landing',
+            _ => {
+                BlTab.Layouts.Window.ContainerToBillOfLanding.close();
+                BlTab.DynamicForms.Forms.ContainerToBillOfLanding.clearValues();
+                BlTab.Grids.ContainerToBillOfLanding.invalidateCache();
+                BlTab.Methods.RefreshContainerData(BlTab.Grids.BillOfLanding.obj.getSelectedRecord().id ,BlTab.Grids.ContainerToBillOfLanding);
+            }
+        )
+    }
+});
+
+BlTab.Layouts.Window.ContainerToBillOfLanding = isc.Window.create({
+    title: "<spring:message code='shipment.inquiry.container'/>",
+    autoSize: true,
+    autoCenter: true,
+    isModal: true,
+    showModalMask: true,
+    align: "center",
+    autoDraw: false,
+    dismissOnEscape: true,
+    items: [
+        BlTab.DynamicForms.Forms.ContainerToBillOfLanding = isc.DynamicForm.create({
+            margin: 25,
+            errorOrientation: "bottom",
+            cellPadding: "12",
+            wrapItemTitles: false,
+            numCols: 4,
+            itemChanged: function (_item, _newValue) {
+            },
+            fields: BlTab.Fields.ContainerToBillOfLanding(),
+        }),
+
+        isc.HLayout.create({
+            height: "100%",
+            layoutMargin: 10,
+            membersMargin: 5,
+            members: [
+                BlTab.Vars.IButton_Container_Save,
+                isc.IButtonCancel.create({
+                    top: 260,
+                    layoutMargin: 5,
+                    membersMargin: 5,
+                    width: 120,
+                    title: "<spring:message code='global.cancel'/>",
+                    icon: "pieces/16/icon_delete.png",
+                    click: function () {
+                        BlTab.Layouts.Window.ContainerToBillOfLanding.close();
+                    }
+                }) ]
+        })
+    ]
+})
+
 BlTab.Grids.BillOfLanding = {
     height: "100%",
     recordDoubleClick(viewer, record, recordNum, field, fieldNum, value, rawValue) {
@@ -2239,62 +2310,17 @@ BlTab.Grids.BillOfLanding = {
                 if (!selectedRecord) return BlTab.Dialog.NotSelected();
                 BlTab.Layouts.ToolStripButtons.NewContainerToBillOfLanding.click();
                 BlTab.Vars.Method = "PUT";
-                BlTab.DynamicForms.Forms.ContainerToBillOfLanding.setValues(selectedRecord);
-
-                },
+                BlTab.DynamicForms.Forms.ContainerToBillOfLanding.clearValues();
+                BlTab.DynamicForms.Forms.ContainerToBillOfLanding.editRecord(selectedRecord);
+            },
             gridComponents: [isc.ToolStrip.create({
                 members: [
                     // <sec:authorize access="hasAuthority('C_CONTAINER_TO_BILL_OF_LANDING')">
                     BlTab.Layouts.ToolStripButtons.NewContainerToBillOfLanding = isc.ToolStripButton.create({
                         click() {
-                            // dbg(false, 'window create container info', arguments);
                             BlTab.Vars.Method = "POST";
-                            const winId = BlTab.Vars.Prefix + "window_container" + Math.random().toString().substr(2, 4)
-                            BlTab.Layouts.Window.ContainerToBillOfLanding = isc.Window.create({
-                                ...BlTab.Vars.DefaultWindowConfig,
-                                membersMargin: 9,
-                                title: "<spring:message code='shipment.inquiry.container'/>",
-                                width: "46%",
-                                height: "30%",
-                                overflow: "visible",
-                                ID: winId,
-                                members: [
-                                    isc.VLayout.create({
-                                        layoutLeftMargin:25,
-                                        layoutRightMargin:25,
-                                        layoutTopMargin:15,
-                                        layoutBottomMargin:15,
-                                        members: [
-                                            BlTab.DynamicForms.Forms.ContainerToBillOfLanding = isc.DynamicForm.create({
-                                                errorOrientation: "bottom",
-                                                cellPadding: "11",
-                                                wrapItemTitles: false,
-                                                numCols:4,
-                                                itemChanged: function (_item, _newValue) {
-                                                },
-                                                fields: BlTab.Fields.ContainerToBillOfLanding(),
-                                                //  height:"40%",
-                                            }),
-
-                                            BlTab.Methods.HlayoutSaveOrExit(function () {
-                                                if (!BlTab.DynamicForms.Forms.ContainerToBillOfLanding.validate()) return;
-                                                BlTab.Methods.Save({
-                                                        ...BlTab.DynamicForms.Forms.ContainerToBillOfLanding.getValues(),
-                                                        billOfLandingId: record.id
-                                                    },
-                                                    'api/container-to-bill-of-landing').then(
-                                                    _ => {
-                                                        BlTab.Layouts.Window.ContainerToBillOfLanding.destroy();
-                                                        //BlTab.Grids.ContainerToBillOfLanding.invalidateCache();
-                                                        BlTab.Methods.RefreshContainerData(BlTab.Grids.BillOfLanding.obj.getSelectedRecord().id ,BlTab.Grids.ContainerToBillOfLanding);
-                                                    }
-                                                )
-                                            }, winId)
-                                        ]
-                                    })
-                                ]
-                            });
-                            BlTab.Layouts.Window.ContainerToBillOfLanding.show()
+                            BlTab.DynamicForms.Forms.ContainerToBillOfLanding.clearValues();
+                            BlTab.Layouts.Window.ContainerToBillOfLanding.show();
                         },
                         title: '<spring:message code="billOfLanding.container.add"/>',
                         icon: "[SKIN]/actions/plus.png",
@@ -2319,7 +2345,7 @@ BlTab.Grids.BillOfLanding = {
                             //BlTab.Grids.BillOfLanding.obj.invalidateCache()
                             BlTab.Methods.Delete(BlTab.Grids.ContainerToBillOfLanding,
                                 SalesConfigs.Urls.completeUrl + '/api/container-to-bill-of-landing',
-                                    _ => BlTab.Methods.RefreshContainerData(BlTab.Grids.BillOfLanding.obj.getSelectedRecord().id ,BlTab.Grids.ContainerToBillOfLanding))
+                                _ => BlTab.Methods.RefreshContainerData(BlTab.Grids.BillOfLanding.obj.getSelectedRecord().id, BlTab.Grids.ContainerToBillOfLanding))
                         },
                         title: '<spring:message code="billOfLanding.container.remove"/>',
                         icon: "[SKIN]/headerIcons/trash_Over.png",
@@ -2399,7 +2425,7 @@ BlTab.Layouts.ToolStripButtons.RemoveBillOfLanding = {
     ...BlTab.Layouts.ToolStripButtons.remove,
     click() {
         BlTab.Methods.Delete(BlTab.Grids.BillOfLanding.obj, SalesConfigs.Urls.completeUrl + '/api/bill-of-landing/',
-                _=> BlTab.Grids.BillOfLanding.obj.invalidateCache())
+            _ => BlTab.Grids.BillOfLanding.obj.invalidateCache())
     }
 }
 BlTab.Layouts.ToolStripButtons.NewRemittanceBillOfLanding = {...BlTab.Layouts.ToolStripButtons.new}
@@ -2434,28 +2460,30 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
         valuesManager: BlTab.Vars.BillOfLanding,
         fields: BlTab.Fields.BillOfLandingWithoutSwitch().map(_ => {
             if (_.name === 'description')
-                _.width = .642 * window.innerWidth;
+                _.width = .609 * window.innerWidth;
             return _;
         }),
     });
     const windID = BlTab.Vars.Prefix + "window_bill_of_landing" + Math.random().toString().substr(2, 4)
     BlTab.Layouts.ToolStrips.BillOfLandingForm = BlTab.Methods.HlayoutSaveOrExit(function () {
         if (!BlTab.Vars.BillOfLanding.validate()) {
-            if (BlTab.DynamicForms.Forms.BillOfLandingMain.hasErrors()) BlTab.Layouts.BillOfLandingFormTab.selectTab(0);
+                if (BlTab.DynamicForms.Forms.BillOfLandingMain.hasErrors()) BlTab.Layouts.BillOfLandingFormTab.selectTab(0);
             else BlTab.Layouts.BillOfLandingFormTab.selectTab(1);
             return;
         }
+        if(!BlTab.Methods.validateEqualsFields(BlTab.Vars.BillOfLanding.getValues()))
+            return;
         /*
-                                    fetch('api/bill-of-landing', {
-                                        headers: SalesConfigs.httpHeaders,
-                                        method: "POST",
-                                        body: JSON.stringify(BlTab.Vars.BillOfLanding.getValues())
-                                    }).then(
-                                        _ => _.json().then(j => dbg(false, 'BL Fetch saved data', j)).catch(err => dbg(false, 'BL Fetch saved ERROR data', err))
-                                    )
-                                    */
+                                     fetch('api/bill-of-landing', {
+                                         headers: SalesConfigs.httpHeaders,
+                                         method: "POST",
+                                         body: JSON.stringify(BlTab.Vars.BillOfLanding.getValues())
+                                     }).then(
+                                         _ => _.json().then(j => dbg(false, 'BL Fetch saved data', j)).catch(err => dbg(false, 'BL Fetch saved ERROR data', err))
+                                     )
+                                     */
         BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 'api/bill-of-landing',
-            _=> BlTab.Grids.BillOfLanding.obj.invalidateCache()
+            _ => BlTab.Grids.BillOfLanding.obj.invalidateCache()
         ).then(function () {
 
             /*dbg(false, `BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(),
@@ -2499,6 +2527,7 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
         //height: 0.1 * innerHeight,
         ID: windID,
         title: "<spring:message code='billOfLanding'/>",
+        padding: 14,
         members: [
             BlTab.Layouts.BillOfLandingFormTab = isc.TabSet.create({
                 /*

@@ -1910,6 +1910,8 @@ shipmentCostInvoiceTab.method.editForm = function () {
         shipmentCostInvoiceTab.dialog.notEditable();
     else if (record.estatus.contains(Enums.eStatus2.DeActive))
         shipmentCostInvoiceTab.dialog.inactiveRecord();
+    else if (record.estatus.contains(Enums.eStatus2.SendToAcc))
+        shipmentCostInvoiceTab.dialog.recordIsSentToAcc();
     else if (record.estatus.contains(Enums.eStatus2.Final))
         shipmentCostInvoiceTab.dialog.finalRecord();
     else {

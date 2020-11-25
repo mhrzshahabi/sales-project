@@ -981,6 +981,9 @@ rdTab.Grids.RemittanceDetail = _=>{return{
     allowAdvancedCriteria: true,
     // groupByField: "remittance.code",
     autoFetchData: false,
+    showGridSummary:true,
+    filterOnKeypress:false,
+
 }}
 ////////////////////////////////////////////////////////COMPONENT HOLDERS///////////////////////////////////////////////
 rdTab.DynamicForms.Forms.PDF = isc.DynamicForm.create({
@@ -1047,6 +1050,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
     ID: "new_bijak" + Math.random().toString().substr(3, 5),
     title: '<spring:message code="global.form.new"/> <spring:message code="bijack"/> <spring:message code="dailyReport.output"/>',
     async click() {
+        const dialog = isc.Dialog.create({message:'<spring:message code="global.server.contacting" />'})
         const remittanceDetailList = rdTab.Grids.RemittanceDetailObj.getSelectedRecords();
         const remittanceIdList = remittanceDetailList.map(_=>_.remittanceId);
         const remittanceList = [];
@@ -1085,6 +1089,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
         //  let grid;
         //  let _form;
         //let _addBtn;
+        dialog.destroy()
         newOutRemittance(rdTab,selectedData,materialItemId);
     }
 });
@@ -1112,7 +1117,7 @@ isc.VLayout.create({
         }),
         rdTab.Grids.RemittanceDetailObj = isc.ListGrid.create({
             ...Object.assign({},rdTab.Grids.RemittanceDetail()),
-            autoFetchData:true,
+            // autoFetchData:false,
             dataSource: isc.MyRestDataSource.create(rdTab.RestDataSources.RemittanceDetail()),
         })
     ]

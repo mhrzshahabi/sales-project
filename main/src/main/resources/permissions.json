@@ -2519,6 +2519,10 @@
     {
       "code": "UI_USER_MANAGEMENT_SHOW_BUTTON",
       "title": "مدیریت کاربران"
+    },
+    {
+      "code": "R_DAILY_REPORT_BANDAR_ABAS",
+      "title": "گزارش روزانه بندرعباس"
     }
   ]
 }
