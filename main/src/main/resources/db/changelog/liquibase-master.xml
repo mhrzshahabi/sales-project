@@ -8,8 +8,7 @@
     <!-- INITIALIZE STRUCTURE -->
     <include file="classpath:/db/changelog/initial-definition/liquibase-init.xml"/>
     <include file="classpath:/db/changelog/initial-definition/liquibase-sequence.xml"/>
-    <include file="classpath:/db/changelog/initial-definition/tbl_packing_list.xml"/>
-    <include file="classpath:/db/changelog/initial-definition/tbl_packing_container.xml"/>
+
     <!-- INITIALIZE STRUCTURE -->
 
     <!-- SYNONYMS -->
@@ -71,6 +70,8 @@
     <include file="classpath:/db/changelog/initial-data/tbl_cntr_cdtp_dynamic_table.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_cntr_cdtp_dynamic_table_value.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_bill_of_landing.xml"/>
+    <include file="classpath:/db/changelog/initial-definition/tbl_packing_list.xml"/>
+    <include file="classpath:/db/changelog/initial-definition/tbl_packing_container.xml"/>
     <!-- INITIALIZE DATA -->
 
     <!-- VIEWS -->
