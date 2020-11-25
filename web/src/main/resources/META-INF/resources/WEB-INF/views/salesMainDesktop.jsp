@@ -1540,6 +1540,9 @@
 					return result;
 				}
 
+				function keepItAlive(){setTimeout(_=>{fetch("http://127.0.0.1:8080/sales/api/materialItem/1", {"headers": SalesConfigs.httpHeaders,},).then(_=>{keepItAlive()})},20000)}
+				keepItAlive()
+
 			</script>
 		</body>
 </html>

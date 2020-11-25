@@ -38,10 +38,9 @@ public class DailyReportBandarAbas {
     private String materialName;
      @Column(name = "unit")
     private String unit;
-      @Column(name = "tadil_year_percent")
+    @Column(name = "tadil_year_percent")
     private Double tadilYearPrecent;
-
-     @Column(name = "materialpname")
+    @Column(name = "materialpname")
     private String materialPName;
     @Column(name = "IN_PKG_DAY")
     private Long inPkgDay;
@@ -98,7 +97,68 @@ public class DailyReportBandarAbas {
     @Column(name = "OWP_TOZIN")
     private Long owpTozin;
 
-   @EqualsAndHashCode
+    @Column(name = "sum_tadil_year_percent")
+    private Double sumTadilYearPrecent;
+    @Column(name = "sum_IN_PKG_DAY")
+    private Long sumInPkgDay;
+    @Column(name = "sum_IN_PKG_MONTH")
+    private Long sumInPkgMonth;
+    @Column(name = "sum_IN_PKG_YEAR")
+    private Long sumInPkgYear;
+    @Column(name = "sum_IN_AMOUNT_DAY")
+    private Long sumInAmountDay;
+    @Column(name = "sum_IN_AMOUNT_MONTH")
+    private Long sumInAmountMonth;
+    @Column(name = "sum_IN_AMOUNT_YEAR")
+    private Long sumInAmountYear;
+    @Column(name = "sum_OUT_PKG_DAY")
+    private Long sumOutPkgDay;
+    @Column(name = "sum_OUT_PKG_MONTH")
+    private Long sumOutPkgMonth;
+    @Column(name = "sum_OUT_PKG_YEAR")
+    private Long sumOutPkgYear;
+    @Column(name = "sum_OUT_AMOUNT_DAY")
+    private Long sumOutAmountDay;
+    @Column(name = "sum_OUT_AMOUNT_MONTH")
+    private Long sumOutAmountMonth;
+    @Column(name = "sum_OUT_AMOUNT_YEAR")
+    private Long sumOutAmountYear;
+    @Column(name = "sum_REMAINED_PKG")
+    private Long sumRemainedPkg;
+    @Column(name = "sum_REMAINED_AMOUNT")
+    private Long sumRemainedAmount;
+    @Column(name = "sum_INCOME_WEIGHT_DAY")
+    private Long sumIncomeWeightDay;
+    @Column(name = "sum_INCOME_WEIGHT_MONTH")
+    private Long sumIncomeWeightMonth;
+    @Column(name = "sum_INCOME_WEIGHT_YEAR")
+    private Long sumIncomeWeightYear;
+    @Column(name = "sum_OUT_WEIGHT_DAY")
+    private Long sumOutWeightDay;
+    @Column(name = "sum_OUT_WEIGHT_MONTH")
+    private Long sumOutWeightMonth;
+    @Column(name = "sum_OUT_WEIGHT_YEAR")
+    private Long sumOutWeightYear;
+    @Column(name = "sum_REMAINED_WEIGHT")
+    private Long sumRemainedWeight;
+    @Column(name = "sum_tadil")
+    private Long sumTadil;
+    @Column(name = "sum_TADIL_YEAR")
+    private Long sumTadilYear;
+    @Column(name = "sum_TADIL_MONTH")
+    private Long sumTadilMonth;
+    @Column(name = "sum_OWP_WEIGHT")
+    private Long sumOwpWeight;
+    @Column(name = "sum_OWP_PKG")
+    private Long sumOwpPkg;
+    @Column(name = "sum_OWP_TOZIN")
+    private Long sumOwpTozin;
+
+
+
+
+
+    @EqualsAndHashCode
     public static class DailyReportBandAbasId implements Serializable {
        private String date;
 
