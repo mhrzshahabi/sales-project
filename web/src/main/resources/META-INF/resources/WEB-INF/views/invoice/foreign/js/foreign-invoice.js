@@ -3519,6 +3519,8 @@ foreignInvoiceTab.method.editForm = function () {
         foreignInvoiceTab.dialog.notEditable();
     else if (record.estatus.contains(Enums.eStatus2.DeActive))
         foreignInvoiceTab.dialog.inactiveRecord();
+    else if (record.estatus.contains(Enums.eStatus2.SendToAcc))
+        foreignInvoiceTab.dialog.recordIsSentToAcc();
     else if (record.estatus.contains(Enums.eStatus2.Final))
         foreignInvoiceTab.dialog.finalRecord();
     else if (record.parentId)

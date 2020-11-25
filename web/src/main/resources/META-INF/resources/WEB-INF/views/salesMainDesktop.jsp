@@ -1425,7 +1425,9 @@
                                                     _item.addIcon({
                                                         name: "itemValueChanged",
                                                         inline: true,
-                                                        src: 'pieces/history.svg',
+														// inlineIconAlign: nicico.CommonUtil.getAlignByLangReverse(),
+														showRTL: nicico.CommonUtil.getAlignByLangReverse() === "right",
+														src: 'pieces/history.svg',
                                                         prompt: itemToShow,
                                                         click: _ => isc.say(itemToShow)
                                                     })
@@ -1438,6 +1440,8 @@
                             _item.addIcon({
                                 name: "itemValueChanged",
                                 inline: true,
+								// inlineIconAlign: nicico.CommonUtil.getAlignByLangReverse(),
+								showRTL: nicico.CommonUtil.getAlignByLangReverse() === "right",
                                 src: 'pieces/history.svg',
                                 prompt: itemToShow,
                                 click: _ => isc.say(itemToShow)

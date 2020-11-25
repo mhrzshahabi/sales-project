@@ -351,6 +351,8 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
             return null;
         if (((BaseEntity) entity).getEStatus().contains(EStatus.DeActive))
             throw new DeActiveRecordException();
+        if (((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc))
+            throw new Send2AccRecordException();
 
         List<EStatus> eStatus = ((BaseEntity) entity).getEStatus();
         eStatus.remove(EStatus.Final);
@@ -371,6 +373,8 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
 
         if (!(entity instanceof BaseEntity))
             return null;
+        if (((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc))
+            throw new Send2AccRecordException();
 
         List<EStatus> eStatus = ((BaseEntity) entity).getEStatus();
         if (!eStatus.contains(EStatus.Active))
@@ -392,6 +396,8 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
 
         if (!(entity instanceof BaseEntity))
             return null;
+        if (((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc))
+            throw new Send2AccRecordException();
 
         List<EStatus> eStatus = ((BaseEntity) entity).getEStatus();
         if (!eStatus.contains(EStatus.DeActive))
@@ -422,13 +428,16 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
 
             if (!(entity instanceof BaseEntity) ||
                     (((BaseEntity) entity).getEditable() &&
-                            !((BaseEntity) entity).getEStatus().contains(EStatus.Final) &&
-                            !((BaseEntity) entity).getEStatus().contains(EStatus.DeActive)))
+                            !((BaseEntity) entity).getEStatus().contains(EStatus.DeActive) &&
+                            !((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc) &&
+                            !((BaseEntity) entity).getEStatus().contains(EStatus.Final)))
                 return null;
-            else if (((BaseEntity) entity).getEStatus().contains(EStatus.Final))
-                throw new FinalRecordException();
             else if (((BaseEntity) entity).getEStatus().contains(EStatus.DeActive))
                 throw new DeActiveRecordException();
+            else if (((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc))
+                throw new Send2AccRecordException();
+            else if (((BaseEntity) entity).getEStatus().contains(EStatus.Final))
+                throw new FinalRecordException();
 
             throw new NotEditableException();
         } else if (actionType == ActionType.Finalize) {
@@ -437,6 +446,24 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
                 return null;
 
             throw new DeActiveRecordException();
+        } else if (actionType == ActionType.Disapprove) {
+
+            if (!(entity instanceof BaseEntity) ||
+                    (!((BaseEntity) entity).getEStatus().contains(EStatus.DeActive) &&
+                            !((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc)))
+                return null;
+            if (((BaseEntity) entity).getEStatus().contains(EStatus.DeActive))
+                throw new DeActiveRecordException();
+            if (((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc))
+                throw new Send2AccRecordException();
+
+            return null;
+        } else if (actionType == ActionType.Activate || actionType == ActionType.DeActivate) {
+
+            if (!(entity instanceof BaseEntity) || !((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc))
+                return null;
+
+            throw new Send2AccRecordException();
         } else {
 
             return null;
@@ -455,13 +482,16 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
 
                 if (!(entity instanceof BaseEntity) ||
                         (((BaseEntity) entity).getEditable() &&
-                                !((BaseEntity) entity).getEStatus().contains(EStatus.Final) &&
-                                !((BaseEntity) entity).getEStatus().contains(EStatus.DeActive)))
-                    return null;
-                else if (((BaseEntity) entity).getEStatus().contains(EStatus.Final))
-                    throw new FinalRecordException();
+                                !((BaseEntity) entity).getEStatus().contains(EStatus.DeActive) &&
+                                !((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc) &&
+                                !((BaseEntity) entity).getEStatus().contains(EStatus.Final)))
+                    continue;
                 else if (((BaseEntity) entity).getEStatus().contains(EStatus.DeActive))
                     throw new DeActiveRecordException();
+                else if (((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc))
+                    throw new Send2AccRecordException();
+                else if (((BaseEntity) entity).getEStatus().contains(EStatus.Final))
+                    throw new FinalRecordException();
 
                 throw new NotEditableException();
             }
@@ -472,9 +502,35 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
             for (Object entity : entities) {
 
                 if (!(entity instanceof BaseEntity) || !((BaseEntity) entity).getEStatus().contains(EStatus.DeActive))
-                    return null;
+                    continue;
 
                 throw new DeActiveRecordException();
+            }
+
+            return null;
+        } else if (actionType == ActionType.Disapprove) {
+
+            for (Object entity : entities) {
+
+                if (!(entity instanceof BaseEntity) ||
+                        (!((BaseEntity) entity).getEStatus().contains(EStatus.DeActive) &&
+                                !((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc)))
+                    continue;
+                if (((BaseEntity) entity).getEStatus().contains(EStatus.DeActive))
+                    throw new DeActiveRecordException();
+                if (((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc))
+                    throw new Send2AccRecordException();
+            }
+
+            return null;
+        } else if (actionType == ActionType.Activate || actionType == ActionType.DeActivate) {
+
+            for (Object entity : entities) {
+
+                if (!(entity instanceof BaseEntity) || !((BaseEntity) entity).getEStatus().contains(EStatus.SendToAcc))
+                    continue;
+
+                throw new Send2AccRecordException();
             }
 
             return null;

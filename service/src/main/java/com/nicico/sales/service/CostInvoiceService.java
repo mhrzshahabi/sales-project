@@ -45,6 +45,9 @@ public class CostInvoiceService implements ICostInvoiceService {
 		final ShipmentCostInvoice shipmentCostInvoice = shipmentCostInvoiceDAO.findById(invoiceId)
 				.orElseThrow(() -> new SalesException2(ErrorType.NotFound, "id", "شناسه موجودیت یافت نشد."));
 
+		if (shipmentCostInvoice.getEStatus().contains(EStatus.DeActive))
+			throw new SalesException2(ErrorType.DeActiveRecord, "id", "موجودیت غیرفعال شده است!");
+
 		if (!shipmentCostInvoice.getEStatus().contains(EStatus.Final))
 			throw new SalesException2(ErrorType.FinalRecord, "id", "موجودیت تایید نهایی نشده است!");
 
@@ -60,7 +63,8 @@ public class CostInvoiceService implements ICostInvoiceService {
 
 			final List<EStatus> eStatus = shipmentCostInvoice.getEStatus();
 			eStatus.remove(EStatus.RemoveFromAcc);
-			eStatus.add(EStatus.SendToAcc);
+			if (!eStatus.contains(EStatus.SendToAcc))
+				eStatus.add(EStatus.SendToAcc);
 			update.setEStatus(eStatus);
 
 			shipmentCostInvoiceDAO.saveAndFlush(update);
@@ -92,7 +96,8 @@ public class CostInvoiceService implements ICostInvoiceService {
 
 					final List<EStatus> eStatus = shipmentCostInvoiceOpt.get().getEStatus();
 					eStatus.remove(EStatus.SendToAcc);
-					eStatus.add(EStatus.RemoveFromAcc);
+					if (!eStatus.contains(EStatus.RemoveFromAcc))
+						eStatus.add(EStatus.RemoveFromAcc);
 					shipmentCostInvoiceOpt.get().setEStatus(eStatus);
 				}
 
