@@ -65,12 +65,12 @@ public class InvoiceInternalRestController {
         return new ResponseEntity<>(invoiceInternalService.search(nicicoCriteria), HttpStatus.OK);
     }
 
-    @Loggable
-    @PutMapping
-    @RequestMapping("/sendForm-2accounting/{id}")
-    public ResponseEntity<InternalInvoiceDTO.Info> sendForm2accounting(@PathVariable String id, @RequestBody String data) {
-        return new ResponseEntity<>(invoiceInternalService.sendInternalForm2accounting(id, data), HttpStatus.OK);
-    }
+//    @Loggable
+//    @PutMapping
+//    @RequestMapping("/sendForm-2accounting/{id}")
+//    public ResponseEntity<InternalInvoiceDTO.Info> sendForm2accounting(@PathVariable String id, @RequestBody String data) {
+//        return new ResponseEntity<>(invoiceInternalService.sendInternalForm2accounting(id, data), HttpStatus.OK);
+//    }
 
     @Loggable
     @GetMapping(value = "/print/{type}/{rowId}")
