@@ -121,22 +121,22 @@ function getReferenceFields(referenceType) {
         case 'Bank':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'bankName', title: "<spring:message code='bank.nameFa'/>"}
+                {name: 'name', title: "<spring:message code='bank.nameFa'/>"}
             ]
         case 'Contact':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'nameFA', title: "<spring:message code='contact.nameFa'/>"}
+                {name: 'name', title: "<spring:message code='contact.nameFa'/>"}
             ]
         case 'Country':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'nameFa', title: "<spring:message code='country.nameFa'/>"}
+                {name: 'name', title: "<spring:message code='country.nameFa'/>"}
             ]
         case 'Material':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'descFA', title: "<spring:message code='material.descFA'/>"}
+                {name: 'desc', title: "<spring:message code='material.descFA'/>"}
             ]
         case 'Port':
             return [
@@ -262,8 +262,10 @@ function getReferenceFields(referenceType) {
                 materialElementField
             ]
         case 'RateReference':
+        case 'Enum_RateReference':
             return '';
         case 'PriceBaseReference':
+        case 'Enum_PriceBaseReference':
             return '';
         default:
             return null;
@@ -323,6 +325,7 @@ function getReferenceDataSource(referenceType) {
 function getContactByType(contactType) {
     var contactCommons = {
         width: "100%",
+        filterOperator: 'equals',
         editorType: "SelectItem",
         optionCriteria: {
             operator: 'and',
@@ -374,6 +377,7 @@ function getContactByType(contactType) {
 }
 
 function getFieldProperties(fieldType, reference) {
+
     switch (fieldType) {
         case 'PersianDate':
             return {
@@ -392,14 +396,14 @@ function getFieldProperties(fieldType, reference) {
                 type: "boolean"
             };
         case 'BigDecimal':
-        case 'Float':
-        case 'Double':
+        // case 'Float':
+        // case 'Double':
             return {
                 type: "float",
                 keyPressFilter: "[0-9.+-]"
             };
         case 'Integer':
-        case 'Long':
+        // case 'Long':
             return {
                 type: "integer",
                 keyPressFilter: "[0-9+-]"
@@ -407,6 +411,10 @@ function getFieldProperties(fieldType, reference) {
         case 'String':
             return {
                 type: "text",
+            };
+        case 'TextArea':
+            return {
+                type: "TextArea",
             };
         case 'Reference':
             if (reference == 'Enum_RateReference') {
@@ -424,10 +432,7 @@ function getFieldProperties(fieldType, reference) {
                 optionDataSource: getReferenceDataSource(reference),
                 displayField: getReferenceFields(reference)[1].name
             };
-        case 'Column':
         default:
-            break;
+            return null;
     }
-
-    return null;
 }

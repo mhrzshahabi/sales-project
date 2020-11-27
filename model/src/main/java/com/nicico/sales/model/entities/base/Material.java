@@ -47,6 +47,4 @@ public class Material extends BaseEntity {
 
     @Column(name = "C_ABBREVIATION", nullable = false)
     private String abbreviation;
-
-
 }
