@@ -82,6 +82,9 @@ public class ForeignInvoice extends BaseEntity {
     @Column(name = "F_PARENT_ID")
     private Long parentId;
 
+    @Column(name = "N_DELAY_PENALTY")
+    private BigDecimal delayPenalty;
+
     // *****************************************************************************************************************
 
     @Column(name = "N_ACCOUNTING_ID")

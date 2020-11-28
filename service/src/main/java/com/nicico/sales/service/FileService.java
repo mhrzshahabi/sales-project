@@ -122,10 +122,21 @@ public class FileService implements IFileService {
 
         final Map<String, String> tags = this.minioClient.getObjectTags(GetObjectTagsArgs.builder().bucket(appId.toLowerCase()).object(key).build()).get();
         if (tags.containsKey("Permission") && !SecurityChecker.check(tags.get("Permission"))) {
-            throw new SalesException2(ErrorType.Forbidden, "fileKey", "شما دسترسی های لازم برای دریافت فیل مورد نظر را ندارید.");
+            throw new SalesException2(ErrorType.Forbidden, "fileKey", "شما دسترسی های لازم برای دریافت فایل مورد نظر را ندارید.");
         }
 
-        return modelMapper.map(minIOService.retrieve(key), FileDTO.Response.class);
+        MinIODTO.Response file;
+        try {
+            file = minIOService.retrieve(key);
+        } catch (Exception e) {
+
+            String mesaage = "امکان دانلود فایل وجود ندارد.";
+            if (tags.get("AccessLevel").equalsIgnoreCase("SELF"))
+                mesaage+=" فایل مورد نظر خصوصی می باشد و تنها کاربر ایجاد کننده امکان دانلود آن را دارد.";
+
+            throw new SalesException2(ErrorType.Forbidden, "fileKey", mesaage);
+        }
+        return modelMapper.map(file, FileDTO.Response.class);
     }
 
     @Override
