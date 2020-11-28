@@ -19,7 +19,7 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BillOfLandingDTO {
+public class BillOfLadingSwitchDTO {
     private String documentNo;
 
     private Long shipperExporterId;
@@ -32,43 +32,11 @@ public class BillOfLandingDTO {
 
     private Long portOfDischargeId;
 
-    private String placeOfDelivery;
-
-    private Long oceanVesselId;
-
-    private Integer numberOfBlCopies;
-
-    private Date dateOfIssue;
-
-    private String placeOfIssue;
-
-    private String description;
-
-    private String descriptionRemittance;
-
-    private String descriptionContainer;
-
-    private Integer totalNet;
-
-    private Integer totalGross;
-
-    private Integer totalBundles;
-
-    private Long shipmentId;
-
-    private Long shipmentTypeId;
-
-    private Long shipmentMethodId;
-
-    private Long billOfLadingSwitchId;
-
-
-
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("BillOfLandingInfoWithoutShipment")
-    public static class InfoWithoutShipment extends BillOfLandingDTO{
+    public static class Info extends BillOfLadingSwitchDTO {
 
         private Long id;
 
@@ -80,21 +48,7 @@ public class BillOfLandingDTO {
 
         private PortDTO.Info portOfLoading;
 
-        @ReportField(titleMessageKey = "shipment.Bol.tblPortByDischarge")
-        @ReportModel(type = PortDTO.Info.class, jumpTo = true)
         private PortDTO.Info portOfDischarge;
-
-        private VesselDTO.Info oceanVessel;
-
-        private BillOfLadingSwitchDTO.Info billOfLadingSwitch;
-
-//        private List<RemittanceToBillOfLandingDTO.Info> remittances;
-
-        private List<ContainerToBillOfLandingDTO.Info> containers;
-        //        private ShipmentDTO.Info shipment;
-        private ShipmentTypeDTO.Info shipmentType;
-        private ShipmentMethodDTO.Info shipmentMethod;
-
 
         // Auditing
         private Date createdDate;
@@ -111,23 +65,15 @@ public class BillOfLandingDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("BillOfLandingInfo")
-    public static class Info extends InfoWithoutShipment {
-        private ShipmentDTO.InfoWithoutBLs shipment;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
     @ApiModel("BillOfLandingCreateRq")
-    public static class Create extends BillOfLandingDTO {
+    public static class Create extends BillOfLadingSwitchDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("BillOfLandingUpdateRq")
-    public static class Update extends BillOfLandingDTO {
+    public static class Update extends BillOfLadingSwitchDTO {
 
         @NotNull
         @ApiModelProperty(required = true)
