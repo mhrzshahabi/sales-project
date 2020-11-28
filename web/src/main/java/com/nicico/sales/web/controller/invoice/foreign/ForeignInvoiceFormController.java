@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.sales.dto.AssayInspectionTotalValuesDTO;
 import com.nicico.sales.dto.CurrencyRateDTO;
 import com.nicico.sales.dto.InspectionReportDTO;
-import com.nicico.sales.dto.contract.BillOfLadingSwitchDTO;
 import com.nicico.sales.dto.contract.IncotermDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceBillOfLandingDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceDTO;
@@ -39,7 +38,10 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
