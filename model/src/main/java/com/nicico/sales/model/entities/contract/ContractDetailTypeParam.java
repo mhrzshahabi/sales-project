@@ -66,6 +66,6 @@ public class ContractDetailTypeParam extends BaseEntity {
     private Long contractDetailTypeId;
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cdtp")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "cdtp")
     private Set<CDTPDynamicTable> dynamicTables;
 }

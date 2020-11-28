@@ -338,23 +338,32 @@
                     fontControls: ["fontSizeSelector"]
                 });
 
-                isc.defineClass("MyRestDataSource", RestDataSource);
-
-                isc.MyRestDataSource.addProperties({
+                isc.RestDataSource.addProperties({
                     dataFormat: "json",
                     jsonSuffix: "",
                     jsonPrefix: "",
+					filterLocalData: false,
                     transformRequest: function (dsRequest) {
                         dsRequest.httpHeaders = {
                             "Authorization": "Bearer <%= accessToken %>"
                         };
                         return this.Super("transformRequest", arguments);
                     },
-
                     transformResponse: function (dsResponse, dsRequest, data) {
                         return this.Super("transformResponse", arguments);
-                    }
+                    },
+					// applyFilter: function (data, criteria, requestProperties, startPos, endPos) {
+					//
+					// 	if (criteria) {
+					//
+					// 		let This = this;
+					// 		this.filterData(criteria, resp => This.applyFilter(JSON.parse(resp.httpResponseText).response.data, null, requestProperties), requestProperties);
+					// 	}
+					//
+					// 	return data;
+					// }
                 });
+				isc.defineClass("MyRestDataSource", isc.RestDataSource);
 
                 isc.SelectItem.addProperties({
                     click: function () {
@@ -458,6 +467,7 @@
                     allowFilterExpressions: true,
                     allowAdvancedCriteria: true,
                     filterOnKeypress: true,
+					filterLocalData: false,
                     dateFormatter: "toJapanShortDate",
                     formatCellValue: formatCellValueNumber,
                     sortFieldAscendingText: '<spring:message code="global.grid.sortFieldAscendingText" />',

@@ -32,6 +32,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -58,19 +59,14 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
         final ContractDetailType contractDetailType = modelMapper.map(request, ContractDetailType.class);
         validation(contractDetailType, request);
 
-        contractDetailType.setContractDetailTypeParams(null);
-        contractDetailType.setContractDetailTypeTemplates(null);
-
         ContractDetailTypeDTO.Info savedContractDetailType = save(contractDetailType);
         if (request.getContractDetailTypeParams() != null && request.getContractDetailTypeParams().size() > 0) {
 
-            final List<ContractDetailTypeParamDTO.Create> contractDetailTypeParamRqs = modelMapper
-                    .map(request.getContractDetailTypeParams(),
-                            new TypeToken<List<ContractDetailTypeParamDTO.Create>>() {
-                            }.getType());
+            final List<ContractDetailTypeParamDTO.Create> contractDetailTypeParamRqs = modelMapper.map(
+                    request.getContractDetailTypeParams(), new TypeToken<List<ContractDetailTypeParamDTO.Create>>() {
+                    }.getType());
             contractDetailTypeParamRqs.forEach(q -> q.setContractDetailTypeId(savedContractDetailType.getId()));
-            List<ContractDetailTypeParamDTO.Info> savedContractDetailTypeParam = contractDetailTypeParamService
-                    .createAll(contractDetailTypeParamRqs);
+            List<ContractDetailTypeParamDTO.Info> savedContractDetailTypeParam = contractDetailTypeParamService.createAll(contractDetailTypeParamRqs);
 
             savedContractDetailType.setContractDetailTypeParams(savedContractDetailTypeParam);
 
@@ -83,11 +79,11 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                         filter(param -> param.getType().equals(DataType.DynamicTable)).
                         forEach(cdtp -> cdtpDynamicTableMap.get(cdtp.getKey()).
                                 forEach(cdtpdt -> cdtpdt.setCdtpId(cdtp.getId())));
-            cdtpDynamicTableService.createAll(modelMapper
-                    .map(cdtpDynamicTableMap.values().stream().flatMap(Collection::stream).collect(Collectors.toList()),
-                            new TypeToken<List<CDTPDynamicTableDTO.Create>>() {
-                            }.getType()
-                    ));
+            cdtpDynamicTableService.createAll(modelMapper.map(
+                    cdtpDynamicTableMap.values().stream().flatMap(Collection::stream).collect(Collectors.toList()),
+                    new TypeToken<List<CDTPDynamicTableDTO.Create>>() {
+                    }.getType()
+            ));
         }
 
         if (request.getContractDetailTypeTemplates() != null && request.getContractDetailTypeTemplates().size() > 0) {
@@ -122,37 +118,9 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
         ContractDetailType updating = new ContractDetailType();
         modelMapper.map(contractDetailType, updating);
         modelMapper.map(request, updating);
-        validation(updating, request);
-
-        updating.setContractDetailTypeParams(null);
-        updating.setContractDetailTypeTemplates(null);
 
         validation(updating, request);
         return save(updating);
-    }
-
-    @Override
-    @Transactional
-    @Action(ActionType.Delete)
-    public void delete(Long id) {
-
-        ContractDetailType contractDetailType = repository.findById(id).orElseThrow(() -> new NotFoundException(ContractDetailType.class));
-
-        List<ContractDetailTypeParam> contractDetailTypeParams = contractDetailType.getContractDetailTypeParams();
-        ContractDetailTypeParamDTO.Delete paramDeleteRq = new ContractDetailTypeParamDTO.Delete();
-        paramDeleteRq.setIds(contractDetailTypeParams.stream().map(ContractDetailTypeParam::getId).collect(Collectors.toList()));
-        if (!paramDeleteRq.getIds().isEmpty())
-            contractDetailTypeParamService.deleteAll(paramDeleteRq);
-
-        ContractDetailTypeTemplateDTO.Delete templateDeleteRq = new ContractDetailTypeTemplateDTO.Delete();
-        List<ContractDetailTypeTemplate> contractDetailTypeTemplates = contractDetailType.getContractDetailTypeTemplates();
-        templateDeleteRq.setIds(contractDetailTypeTemplates.stream().map(ContractDetailTypeTemplate::getId).collect(Collectors.toList()));
-        if (!templateDeleteRq.getIds().isEmpty())
-            contractDetailTypeTemplateService.deleteAll(templateDeleteRq);
-
-        validation(contractDetailType, id);
-
-        repository.delete(contractDetailType);
     }
 
     private void updateTemplates(ContractDetailTypeDTO.Update request, ContractDetailType contractDetailType) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
@@ -184,23 +152,6 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
         List<ContractDetailTypeParamDTO.Create> contractDetailTypeParams4Insert = new ArrayList<>();
         List<ContractDetailTypeParamDTO.Update> contractDetailTypeParams4Update = new ArrayList<>();
         ContractDetailTypeParamDTO.Delete contractDetailTypeParams4Delete = new ContractDetailTypeParamDTO.Delete();
-
-        List<CDTPDynamicTableDTO.Create> cDTPDynamicTable4Insert = new ArrayList<>();
-        List<CDTPDynamicTable> cDTPDynamicTable4Update = new ArrayList<>();
-
-        final Set<Long> oldCdtpdtIds = request.getContractDetailTypeParams()
-                .stream().filter(c -> DataType.DynamicTable.equals(c.getType()))
-                .map(c -> cdtpDynamicTableDAO.getIdsByCtpId(c.getId()))
-                .flatMap(Collection::stream).collect(Collectors.toSet());
-        final Set<Long> cdtpidsForKeeping = request.getContractDetailTypeParams()
-                .stream().filter(c -> DataType.DynamicTable.equals(c.getType())).map(c -> c.getDynamicTables().stream()
-                        .filter(cdtpdt -> cdtpdt.getId() != null)
-                        .map(cdtpdt -> cdtpdt.getId())
-                        .collect(Collectors.toSet())
-                ).flatMap(Collection::stream).collect(Collectors.toSet());
-        oldCdtpdtIds.removeAll(cdtpidsForKeeping);
-        if (oldCdtpdtIds.size() > 0) cdtpDynamicTableDAO.deleteAllByIdIn(oldCdtpdtIds);
-
         updateUtil.fill(
                 ContractDetailTypeParam.class,
                 contractDetailType.getContractDetailTypeParams(),
@@ -212,57 +163,55 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                 contractDetailTypeParams4Update,
                 contractDetailTypeParams4Delete);
 
-        if (!contractDetailTypeParams4Insert.isEmpty()) {
-            final List<ContractDetailTypeParamDTO.Info> cdtpInserted = contractDetailTypeParamService.createAll(contractDetailTypeParams4Insert);
-            for (ContractDetailTypeParamDTO.Info cdtp : cdtpInserted) {
-                final Set<CDTPDynamicTableDTO.InfoWithoutCDTP> dynamicTables = cdtp.getDynamicTables();
-                List<CDTPDynamicTableDTO.Create> map = new ArrayList<>();
-                if (cdtp.getDynamicTables() != null && cdtp.getDynamicTables().size() > 0)
-                    map = modelMapper.map(
-                            dynamicTables
-                            , new TypeToken<List<CDTPDynamicTableDTO.Create>>() {
-                            }.getType());
-                if (!map.isEmpty()) {
-                    map.forEach(cdtpdt -> cdtpdt.setCdtpId(cdtp.getId()));
-                    final boolean b = cDTPDynamicTable4Insert.addAll(map);
+        for (int i = 0; i < contractDetailTypeParams4Insert.size(); i++) {
+
+            ContractDetailTypeParamDTO.Create contractDetailTypeParam4Insert = contractDetailTypeParams4Insert.get(i);
+            ContractDetailTypeParamDTO.Info savedContractDetailTypeParam = contractDetailTypeParamService.create(contractDetailTypeParam4Insert);
+            Set<CDTPDynamicTableDTO.InfoWithoutCDTP> dynamicTables = contractDetailTypeParam4Insert.getDynamicTables();
+            if (dynamicTables != null)
+                for (CDTPDynamicTableDTO.InfoWithoutCDTP dynamicTable : dynamicTables) {
+
+                    dynamicTable.setCdtpId(savedContractDetailTypeParam.getId());
+                    cdtpDynamicTableService.create(modelMapper.map(dynamicTable, CDTPDynamicTableDTO.Create.class));
                 }
-            }
-
         }
-        if (!contractDetailTypeParams4Update.isEmpty()) {
-            contractDetailTypeParams4Update.stream().filter(cdtp -> cdtp.getType().equals(DataType.DynamicTable)).forEach(cdtp -> {
-                final Set<CDTPDynamicTableDTO.InfoWithoutCDTP> dynamicTables = cdtp.getDynamicTables().stream()
-                        .filter(cdtpdt -> cdtpdt.getId() != null).collect(Collectors.toSet());
-                cDTPDynamicTable4Insert.addAll(cdtp.getDynamicTables().stream().filter(cdtpdt -> cdtpdt.getId() == null)
-                        .map(cdtpdt -> {
-                            cdtpdt.setCdtpId(cdtp.getId());
-                            return modelMapper.map(cdtpdt, CDTPDynamicTableDTO.Create.class);
-                        }).collect(Collectors.toList()));
-                final Set<CDTPDynamicTable> map = modelMapper.map(dynamicTables
-                        , new TypeToken<Set<CDTPDynamicTable>>() {
-                        }.getType());
-                cDTPDynamicTable4Update.addAll(map);
-            });
-            if (!cDTPDynamicTable4Update.isEmpty()) {
-                cdtpDynamicTableDAO.saveAll(cDTPDynamicTable4Update.stream().map(
-                        cdtpDynamicTable -> {
-                            final CDTPDynamicTable one = cdtpDynamicTableDAO.getOne(cdtpDynamicTable.getId());
-                            modelMapper.map(cdtpDynamicTable, one);
-                            return one;
-                        }
-                ).collect(Collectors.toList()));
-                contractDetailTypeParams4Update.forEach(cdtp -> cdtp.setDynamicTables(null));
+        for (int i = 0; i < contractDetailTypeParams4Update.size(); i++) {
+
+            ContractDetailTypeParamDTO.Update contractDetailTypeParam4Update = contractDetailTypeParams4Update.get(i);
+            @NotNull Long contractDetailTypeParam4UpdateId = contractDetailTypeParam4Update.getId();
+            List<CDTPDynamicTable> savedDynamicTables = cdtpDynamicTableDAO.findAllByCdtpId(contractDetailTypeParam4UpdateId);
+
+            List<CDTPDynamicTableDTO.Create> dynamicTables4Insert = new ArrayList<>();
+            List<CDTPDynamicTableDTO.Update> dynamicTables4Update = new ArrayList<>();
+            CDTPDynamicTableDTO.Delete dynamicTables4Delete = new CDTPDynamicTableDTO.Delete();
+            updateUtil.fill(
+                    CDTPDynamicTable.class,
+                    savedDynamicTables,
+                    CDTPDynamicTableDTO.InfoWithoutCDTP.class,
+                    new ArrayList<>(contractDetailTypeParam4Update.getDynamicTables()),
+                    CDTPDynamicTableDTO.Create.class,
+                    dynamicTables4Insert,
+                    CDTPDynamicTableDTO.Update.class,
+                    dynamicTables4Update,
+                    dynamicTables4Delete);
+
+            if (!dynamicTables4Insert.isEmpty()) {
+
+                dynamicTables4Insert.forEach(item -> item.setCdtpId(contractDetailTypeParam4UpdateId));
+                cdtpDynamicTableService.createAll(dynamicTables4Insert);
             }
-            contractDetailTypeParamService.updateAll(contractDetailTypeParams4Update);
+            if (!dynamicTables4Update.isEmpty()) {
 
+                dynamicTables4Update.forEach(item -> item.setCdtpId(contractDetailTypeParam4UpdateId));
+                dynamicTables4Update.forEach(cdtpDynamicTableService::update);
+            }
+            if (!dynamicTables4Delete.getIds().isEmpty())
+                cdtpDynamicTableService.deleteAll(dynamicTables4Delete);
+
+            contractDetailTypeParamService.update(contractDetailTypeParam4Update);
         }
-        if (!cDTPDynamicTable4Insert.isEmpty()) cdtpDynamicTableDAO.saveAll(modelMapper.map(cDTPDynamicTable4Insert,
-                new TypeToken<List<CDTPDynamicTable>>() {
-                }.getType()));
-
         if (!contractDetailTypeParams4Delete.getIds().isEmpty())
-            cdtpDynamicTableDAO.deleteAllByCdtpIdIn(contractDetailTypeParams4Delete.getIds());
-        contractDetailTypeParamService.deleteAll(contractDetailTypeParams4Delete);
+            contractDetailTypeParamService.deleteAll(contractDetailTypeParams4Delete);
     }
 
     @Override
