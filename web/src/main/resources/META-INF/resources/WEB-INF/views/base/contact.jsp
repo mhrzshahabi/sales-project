@@ -52,7 +52,7 @@ title: "<spring:message code='global.country'/> "
                     title: "<spring:message code='contactAccount.nameFA'/>"
                 },
                 {
-                    name: "bank.bankName",
+                    name: "bank.nameFA",
                     title: "<spring:message code='contactAccount.nameFA'/>"
                 },
                 {
@@ -110,12 +110,12 @@ title: "<spring:message code='global.country'/> "
                     width: 200
                 },
                 {
-                    name: "bankName",
+                    name: "nameFA",
                     title: "<spring:message code='bank.nameFa'/>",
                     width: 200
                 },
                 {
-                    name: "enBankName",
+                    name: "nameEN",
                     title: "<spring:message code='bank.nameEn'/>",
                     width: 200
                 },
@@ -1047,7 +1047,7 @@ validateOnChange: true
                     width: "10%"
                 },
                 {
-                    name: "bank.bankName",
+                    name: "bank.nameFA",
                     title: "<spring:message code='contactAccount.nameFA'/>",
                     align: "center",
                     width: "10%"
@@ -1104,7 +1104,7 @@ validateOnChange: true
                         return "font-weight:bold; color:#0fed30;";
                     }
                 }
-                if (this.getFieldName(colNum) == "bank.bankName") {
+                if (this.getFieldName(colNum) == "bank.nameFA") {
                     if (record.isDefault == 1) {
                         return "font-weight:bold; color:#0fed30;";
                     }
@@ -1228,7 +1228,7 @@ validateOnChange: true
                 width: 300,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Bank_IN_CONTACT,
-                displayField: "bankName",
+                displayField: "nameFA",
                 valueField: "id",
                 pickListWidth: "300",
                 pickListHeight: "500",
@@ -1236,7 +1236,7 @@ validateOnChange: true
                     showFilterEditor: true
                 },
                 pickListFields: [{
-                    name: "bankName",
+                    name: "nameFA",
                     width: 295,
                     align: "center",
                 },
@@ -1364,7 +1364,7 @@ validateOnChange: true
                     width: 300,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Bank_IN_CONTACT,
-                    displayField: "bankName",
+                    displayField: "nameFA",
                     valueField: "id",
                     pickListWidth: 300,
                     pickListHeight: "500",
@@ -1374,7 +1374,7 @@ validateOnChange: true
                         },
                     pickListFields: [
                         {
-                            name: "bankName",
+                            name: "nameFA",
                             width: 295,
                             align: "center"
                         },

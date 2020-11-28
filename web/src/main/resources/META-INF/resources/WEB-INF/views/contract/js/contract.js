@@ -79,6 +79,7 @@ function contractTabDynamicFormFields() {
             useInGrid: true,
             name: "materialId",
             width: "100%",
+            filterOperator: 'equals',
             editorType: "SelectItem",
             optionDataSource: isc.MyRestDataSource.create({
                 fields: [
@@ -116,6 +117,7 @@ function contractTabDynamicFormFields() {
             useInGrid: true,
             name: "contractTypeId",
             width: "100%",
+            filterOperator: 'equals',
             editorType: "SelectItem",
             optionDataSource: isc.MyRestDataSource.create({
                 fields: [
@@ -188,7 +190,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
             fieldName: 'materialId',
             operator: 'equals',
             value: null
-        },{
+        }, {
             fieldName: 'estatus',
             operator: 'notEqual',
             value: Enums.eStatus2.DeActive
@@ -276,6 +278,26 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 contractTab.dynamicForm.main.validate();
                 if (contractTab.dynamicForm.main.hasErrors())
                     return;
+
+                if (!nicico.PersianDateUtil.compareDate(contractTab.dynamicForm.main.getValue("affectFrom").toShortDate(), contractTab.dynamicForm.main.getValue("affectUpTo").toShortDate())) {
+
+                    contractTab.dynamicForm.main.errors["affectUpTo"] = '<spring:message code="contract.date.validation"/>';
+                    contractTab.dynamicForm.main.redraw();
+                    return;
+                }
+                if (contractTab.dynamicForm.main.getValue("buyerId") === contractTab.dynamicForm.main.getValue("sellerId")) {
+
+                    contractTab.dynamicForm.main.errors["sellerId"] = '<spring:message code="contract.buyer-seller.validation"/>';
+                    contractTab.dynamicForm.main.redraw();
+                    return;
+                }
+                if (contractTab.dynamicForm.main.getValue("agentBuyerId") != null && contractTab.dynamicForm.main.getValue("agentBuyerId") === contractTab.dynamicForm.main.getValue("agentSellerId")) {
+
+                    contractTab.dynamicForm.main.errors["agentSellerId"] = '<spring:message code="contract.agent-buyer-agent-seller.validation"/>';
+                    contractTab.dynamicForm.main.redraw();
+                    return;
+                }
+
                 let data = contractTab.dynamicForm.main.getValues();
 
                 contractTab.sectionStack.contract.expandSection(contractTab.sectionStack.contract.sections);
@@ -588,7 +610,7 @@ contractTab.method.editForm = function () {
                             fieldName: 'materialId',
                             operator: 'equals',
                             value: contractTab.dynamicForm.main.getValue('materialId')
-                        },{
+                        }, {
                             fieldName: 'estatus',
                             operator: 'notEqual',
                             value: Enums.eStatus2.DeActive

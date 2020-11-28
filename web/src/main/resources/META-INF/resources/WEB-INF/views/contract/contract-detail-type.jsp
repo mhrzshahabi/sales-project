@@ -7,7 +7,7 @@
 
 //<script>
 const contractDetailTypeReferences = JSON.parse('<%=request.getAttribute("contractDetailTypeReferences")%>');
-const contractDetailTypeReferencesValues = {
+const contractDetailTypeEnumReferencesValues = {
 Enum_RateReference: JSON.parse('<%=request.getAttribute("Enum_RateReference")%>'),
 Enum_PriceBaseReference: JSON.parse('<%=request.getAttribute("Enum_PriceBaseReference")%>')
 };

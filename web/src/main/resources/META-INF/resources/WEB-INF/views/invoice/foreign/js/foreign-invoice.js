@@ -1919,9 +1919,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                     "isDefault": true,
     //                     "id": 10,
     //                     "bank": {
-    //                         "bankName": "ای سی ای",
+    //                         "nameFA": "ای سی ای",
     //                         "countryId": 15,
-    //                         "enBankName": "ECA",
+    //                         "nameEN": "ECA",
     //                         "address": "NY",
     //                         "coreBranch": "core"
     //                     },
@@ -1969,9 +1969,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                     "isDefault": true,
     //                     "id": 10,
     //                     "bank": {
-    //                         "bankName": "ای سی ای",
+    //                         "nameFA": "ای سی ای",
     //                         "countryId": 15,
-    //                         "enBankName": "ECA",
+    //                         "nameEN": "ECA",
     //                         "address": "NY",
     //                         "coreBranch": "core"
     //                     },
@@ -2497,9 +2497,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                     "isDefault": true,
     //                     "id": 9,
     //                     "bank": {
-    //                         "bankName": "بانک گذشته",
+    //                         "nameFA": "بانک گذشته",
     //                         "countryId": 1,
-    //                         "enBankName": "GOZASHTE",
+    //                         "nameEN": "GOZASHTE",
     //                         "address": "ونک",
     //                         "coreBranch": "branch"
     //                     },
@@ -2545,9 +2545,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                     "isDefault": true,
     //                     "id": 9,
     //                     "bank": {
-    //                         "bankName": "بانک گذشته",
+    //                         "nameFA": "بانک گذشته",
     //                         "countryId": 1,
-    //                         "enBankName": "GOZASHTE",
+    //                         "nameEN": "GOZASHTE",
     //                         "address": "ونک",
     //                         "coreBranch": "branch"
     //                     },
@@ -3100,9 +3100,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                     "isDefault": true,
     //                     "id": 10,
     //                     "bank": {
-    //                         "bankName": "ای سی ای",
+    //                         "nameFA": "ای سی ای",
     //                         "countryId": 15,
-    //                         "enBankName": "ECA",
+    //                         "nameEN": "ECA",
     //                         "address": "NY",
     //                         "coreBranch": "core"
     //                     },
@@ -3150,9 +3150,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                     "isDefault": true,
     //                     "id": 10,
     //                     "bank": {
-    //                         "bankName": "ای سی ای",
+    //                         "nameFA": "ای سی ای",
     //                         "countryId": 15,
-    //                         "enBankName": "ECA",
+    //                         "nameEN": "ECA",
     //                         "address": "NY",
     //                         "coreBranch": "core"
     //                     },

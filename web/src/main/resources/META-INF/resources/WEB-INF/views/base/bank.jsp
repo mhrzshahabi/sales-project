@@ -22,12 +22,12 @@
                     width: 200
                 },
                 {
-                    name: "bankName",
+                    name: "nameFA",
                     title: "<spring:message code='bank.nameFa'/>",
                     width: 200
                 },
                 {
-                    name: "enBankName",
+                    name: "nameEN",
                     title: "<spring:message code='bank.nameEn'/>",
                     width: 200
                 },
@@ -227,7 +227,7 @@ title: "<spring:message code='country.nameEn'/>",
                     type: "RowSpacerItem"
                 },
                 {
-                    name: "bankName",
+                    name: "nameFA",
                     title: "<spring:message code='bank.nameFa'/>",
                     width: 500,
                     colSpan: 1,
@@ -236,7 +236,7 @@ title: "<spring:message code='country.nameEn'/>",
                     keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9 ]",
                 },
                 {
-                    name: "enBankName",
+                    name: "nameEN",
                     title: "<spring:message code='bank.nameEn'/>",
                     width: 500,
                     colSpan: 1,
@@ -500,13 +500,13 @@ validateOnChange: true
                     align: "center", showIf: "false",
                 },
                 {
-                    name: "bankName",
+                    name: "nameFA",
                     title: "<spring:message code='bank.nameFa'/>",
                     width: "10%",
                     align: "center"
                 },
                 {
-                    name: "enBankName",
+                    name: "nameEN",
                     title: "<spring:message code='bank.nameEn'/>",
 width: "10%",
 align: "center"
