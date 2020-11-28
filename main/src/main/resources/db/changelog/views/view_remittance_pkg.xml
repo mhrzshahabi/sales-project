@@ -111,6 +111,46 @@ order by dd.date__ asc, ms.source, ms.material
 			]]>
         </createView>
     </changeSet>
+    <changeSet author="saebm" id="reas_0sssss05">
+        <createView viewName="view_dat_source_material" replaceIfExists="true">
+            <![CDATA[
+ select dd.date__ as dat, ms.source as source, ms.material as material,ms.UNIT
+from (
+         select TO_CHAR(
+                                (select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                                 from TBL_WARH_TOZIN t) + LEVEL - 1, 'yyyymmdd',
+                                'nls_calendar=persian') as date__
+         from dual
+         connect by (select min(TO_DATE(t.dat, 'yyyymmdd', 'nls_calendar=persian'))
+                     from TBL_WARH_TOZIN t) +
+                    LEVEL - 1 < CURRENT_DATE) dd,
+     (select material, source,max(UNIT) as unit
+      from view_remittanceDetails2555
+      where source not in (2320, 2340, 2555)
+      group by material, source) ms
+order by dd.date__ asc, ms.source, ms.material
+
+
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reas_kssss05">
+        <createView viewName="view_dat_source_material" replaceIfExists="true">
+            <![CDATA[
+ select dd.date__ as dat,vv.SOURCE,vv.MATERIAL,vv.unit from (
+           select to_char(to_date('13990101', 'yyyymmdd', 'nls_calendar=persian') + LEVEL - 1, 'yyyymmdd',
+                          'nls_calendar=persian') as date__
+           from dual
+           connect by to_date('13990101', 'yyyymmdd', 'nls_calendar=persian') + LEVEL <= current_date
+       ) dd,
+    (select MATERIAL,SOURCE,max(UNIT) as unit from VIEW_REMITTANCEDETAILS2555
+           where SOURCE not in (2320,2340,2555)
+           group by MATERIAL,SOURCE) vv
+
+
+			]]>
+        </createView>
+    </changeSet>
 
 
     <!--    view_remittance_pkg-->
@@ -1009,9 +1049,983 @@ order by rows_.dat desc,rows_.source,rows_.material
 			]]>
         </createView>
     </changeSet>
+    <changeSet author="saebm" id="reams05">
+        <createView replaceIfExists="true" viewName="view_on_way_product_road_rail">
+            <![CDATA[
+                                 select DAT,
+       MATERIAL,
+       SOURCE,
+       owp_day_arrived_tozin_rail,
+       owp_day_not_arrived_tozin_rail,
+       owp_day_arrived_weight_rail,
+       owp_day_not_arrived_weight_rail,
+       owp_day_arrived_tozin_road,
+       owp_day_not_arrived_tozin_road,
+       owp_day_arrived_weight_road,
+       owp_day_not_arrived_weight_road,
+       owp_total_not_arrived_weight_rail,
+       owp_total_not_arrived_tozin_rail,
+       owp_total_not_arrived_weight_road,
+       owp_total_not_arrived_tozin_road,
+       owp_month_arrived_tozin_rail,
+       owp_month_not_arrived_tozin_rail,
+       owp_month_arrived_weight_rail,
+       owp_month_not_arrived_weight_rail,
+       owp_month_arrived_tozin_road,
+       owp_month_not_arrived_tozin_road,
+       owp_month_arrived_weight_road,
+       owp_month_not_arrived_weight_road,
+       owp_year_arrived_tozin_rail,
+       owp_year_not_arrived_tozin_rail,
+       owp_year_arrived_weight_rail,
+       owp_year_not_arrived_weight_rail,
+       owp_year_arrived_tozin_road,
+       owp_year_not_arrived_tozin_road,
+       owp_year_arrived_weight_road,
+       owp_year_not_arrived_weight_road
+from (with tozin_daily as (
+    select rows_.DAT,
+           rows_.MATERIAL,
+           rows_.SOURCE,
+           sum(case
+                   when
+                           rows_.DAT = vtozin.dat and
+                           vtozin.is_Rail = 1 and
+                           vtozin.arrived_date is not null
+                           and rows_.dat >= vtozin.arrived_date
+                       then 1
+                   else 0 end) as owp_day_arrived_tozin_rail,
+           sum(case
+                   when
+                           rows_.DAT = vtozin.dat and
+                           vtozin.is_Rail = 1 and
+                           (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date) then 1
+                   else 0 end) as owp_day_not_arrived_tozin_rail,
+           sum(case
+                   when
+                           rows_.DAT = vtozin.dat and
+                           vtozin.is_Rail = 1 and
+                           vtozin.arrived_date is not null and rows_.dat >= vtozin.arrived_date
+                       then vtozin.arrived_weight
+                   else 0 end) as owp_day_arrived_weight_rail,
+           sum(case
+                   when rows_.DAT = vtozin.dat and
+                        vtozin.is_Rail = 1 and
+                        (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date)
+                       then vtozin.wazn
+                   else 0 end) as owp_day_not_arrived_weight_rail,
+           sum(case
+                   when
+                           rows_.DAT = vtozin.dat and
+                           vtozin.is_Rail = 0 and
+                           vtozin.arrived_date is not null
+                           and rows_.dat >= vtozin.arrived_date
+                       then 1
+                   else 0 end) as owp_day_arrived_tozin_road,
+           sum(case
+                   when
+                           rows_.DAT = vtozin.dat and
+                           vtozin.is_Rail = 0 and
+                           (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date) then 1
+                   else 0 end) as owp_day_not_arrived_tozin_road,
+           sum(case
+                   when
+                           rows_.DAT = vtozin.dat and
+                           vtozin.is_Rail = 0 and
+                           vtozin.arrived_date is not null and rows_.dat >= vtozin.arrived_date
+                       then vtozin.arrived_weight
+                   else 0 end) as owp_day_arrived_weight_road,
+           sum(case
+                   when rows_.DAT = vtozin.dat and
+                        vtozin.is_Rail = 0 and
+                        (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date)
+                       then vtozin.wazn
+                   else 0 end) as owp_day_not_arrived_weight_road,
+           sum(case
+                   when
+                           vtozin.is_Rail = 1 and
+                           (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date)
+                       then vtozin.wazn
+                   else 0 end) as owp_total_not_arrived_weight_rail,
+           sum(case
+                   when
+                           vtozin.is_Rail = 1 and
+                           (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date) then 1
+                   else 0 end) as owp_total_not_arrived_tozin_rail,
+           sum(case
+                   when
+                           vtozin.is_Rail = 0 and
+                           (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date)
+                       then vtozin.wazn
+                   else 0 end) as owp_total_not_arrived_weight_road,
+           sum(case
+                   when
+                           vtozin.is_Rail = 0 and
+                           (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date) then 1
+                   else 0 end) as owp_total_not_arrived_tozin_road
 
+
+    from view_dat_source_material rows_
+             left join (
+        select *
+        from (
+                 select replace(logistic.sal_date2, '/', '')                               as dat,
+                        case when regexp_like(logistic.carno3, '[0-9]+') then 0 else 1 end as is_Rail,
+                        logistic.gdscode                                                   as material,
+                        logistic.sourceid                                                  as source,
+                        logistic.targetid                                                  as target,
+                        logistic.tedad                                                     as pkg,
+                        logistic.wazn,
+                        tzn.d_date                                                         as arrived_date,
+                        tzn.d_wazn                                                         as arrived_weight
+                 from v_tozine_content_m logistic
+                          left join (select distinct stozin.ID        as s_id,
+                                                     dtozin.ID        as t_id,
+                                                     stozin.TOZINE_ID as s_tozine_id,
+                                                     dtozin.TOZINE_ID as d_tozine_id,
+                                                     stozin.dat       as s_date,
+                                                     dtozin.dat       as d_date,
+                                                     dtozin.WAZN      as d_wazn
+                                     from TBL_WARH_REMITTANCE_DETAIL rd
+                                              left join TBL_WARH_TOZIN dtozin on dtozin.ID = rd.F_DESTINATION_TOZINE_ID
+                                              left join TBL_WARH_TOZIN stozin on stozin.ID = rd.F_SOURCE_TOZINE_ID
+                                     where stozin.SOURCEID not in (2320, 2340, 2555)) tzn
+                                    on
+                                        logistic.tozine_id = tzn.s_tozine_id
+                 where logistic.sal_date2 is not null
+                   and replace(logistic.sal_date2, '/', '') > '13990000'
+                   and logistic.tozine_id not like '3-%'
+                   and logistic.targetid in (2320, 2340, 2555)
+                 order by logistic.sal_date2 desc
+             )) vtozin
+                       on rows_.SOURCE = vtozin.source and rows_.MATERIAL = vtozin.material and
+                          rows_.DAT >= vtozin.dat
+    group by rows_.DAT, rows_.MATERIAL, rows_.SOURCE
+    order by rows_.DAT desc, rows_.SOURCE, rows_.MATERIAL
+)
+      select tzn.DAT,
+             tzn.MATERIAL,
+             tzn.SOURCE,
+             tzn.owp_day_arrived_tozin_rail,
+             tzn.owp_day_not_arrived_tozin_rail,
+             tzn.owp_day_arrived_weight_rail,
+             tzn.owp_day_not_arrived_weight_rail,
+             tzn.owp_day_arrived_tozin_road,
+             tzn.owp_day_not_arrived_tozin_road,
+             tzn.owp_day_arrived_weight_road,
+             tzn.owp_day_not_arrived_weight_road,
+             tzn.owp_total_not_arrived_weight_rail,
+             tzn.owp_total_not_arrived_tozin_rail,
+             tzn.owp_total_not_arrived_weight_road,
+             tzn.owp_total_not_arrived_tozin_road,
+             sum(case
+                     when substr(tzn.dat, 0, 6) = substr(tzn_for_sum.dat, 0, 6)
+                         then tzn_for_sum.owp_day_arrived_tozin_rail
+                     else 0 end) as owp_month_arrived_tozin_rail,
+             sum(case
+                     when substr(tzn.dat, 0, 6) = substr(tzn_for_sum.dat, 0, 6)
+                         then tzn_for_sum.owp_day_not_arrived_tozin_rail
+                     else 0 end) as owp_month_not_arrived_tozin_rail,
+             sum(case
+                     when substr(tzn.dat, 0, 6) = substr(tzn_for_sum.dat, 0, 6)
+                         then tzn_for_sum.owp_day_arrived_weight_rail
+                     else 0 end) as owp_month_arrived_weight_rail,
+             sum(case
+                     when substr(tzn.dat, 0, 6) = substr(tzn_for_sum.dat, 0, 6)
+                         then tzn_for_sum.owp_day_not_arrived_weight_rail
+                     else 0 end) as owp_month_not_arrived_weight_rail,
+             sum(case
+                     when substr(tzn.dat, 0, 6) = substr(tzn_for_sum.dat, 0, 6)
+                         then tzn_for_sum.owp_day_arrived_tozin_road
+                     else 0 end) as owp_month_arrived_tozin_road,
+             sum(case
+                     when substr(tzn.dat, 0, 6) = substr(tzn_for_sum.dat, 0, 6)
+                         then tzn_for_sum.owp_day_not_arrived_tozin_road
+                     else 0 end) as owp_month_not_arrived_tozin_road,
+             sum(case
+                     when substr(tzn.dat, 0, 6) = substr(tzn_for_sum.dat, 0, 6)
+                         then tzn_for_sum.owp_day_arrived_weight_road
+                     else 0 end) as owp_month_arrived_weight_road,
+             sum(case
+                     when substr(tzn.dat, 0, 6) = substr(tzn_for_sum.dat, 0, 6)
+                         then tzn_for_sum.owp_day_not_arrived_weight_road
+                     else 0 end) as owp_month_not_arrived_weight_road,
+-- YEAR
+             sum(case
+                     when substr(tzn.dat, 0, 4) = substr(tzn_for_sum.dat, 0, 4)
+                         then tzn_for_sum.owp_day_arrived_tozin_rail
+                     else 0 end) as owp_year_arrived_tozin_rail,
+             sum(case
+                     when substr(tzn.dat, 0, 4) = substr(tzn_for_sum.dat, 0, 4)
+                         then tzn_for_sum.owp_day_not_arrived_tozin_rail
+                     else 0 end) as owp_year_not_arrived_tozin_rail,
+             sum(case
+                     when substr(tzn.dat, 0, 4) = substr(tzn_for_sum.dat, 0, 4)
+                         then tzn_for_sum.owp_day_arrived_weight_rail
+                     else 0 end) as owp_year_arrived_weight_rail,
+             sum(case
+                     when substr(tzn.dat, 0, 4) = substr(tzn_for_sum.dat, 0, 4)
+                         then tzn_for_sum.owp_day_not_arrived_weight_rail
+                     else 0 end) as owp_year_not_arrived_weight_rail,
+             sum(case
+                     when substr(tzn.dat, 0, 4) = substr(tzn_for_sum.dat, 0, 4)
+                         then tzn_for_sum.owp_day_arrived_tozin_road
+                     else 0 end) as owp_year_arrived_tozin_road,
+             sum(case
+                     when substr(tzn.dat, 0, 4) = substr(tzn_for_sum.dat, 0, 4)
+                         then tzn_for_sum.owp_day_not_arrived_tozin_road
+                     else 0 end) as owp_year_not_arrived_tozin_road,
+             sum(case
+                     when substr(tzn.dat, 0, 4) = substr(tzn_for_sum.dat, 0, 4)
+                         then tzn_for_sum.owp_day_arrived_weight_road
+                     else 0 end) as owp_year_arrived_weight_road,
+             sum(case
+                     when substr(tzn.dat, 0, 4) = substr(tzn_for_sum.dat, 0, 4)
+                         then tzn_for_sum.owp_day_not_arrived_weight_road
+                     else 0 end) as owp_year_not_arrived_weight_road
+
+      from tozin_daily tzn
+               left join tozin_daily tzn_for_sum
+                         on
+                                 tzn.SOURCE = tzn_for_sum.SOURCE and
+                                 tzn.MATERIAL = tzn_for_sum.MATERIAL and
+                                 tzn.dat >= tzn_for_sum.DAT
+      group by tzn.MATERIAL,
+               tzn.SOURCE,
+               tzn.DAT,
+               tzn.owp_day_arrived_tozin_rail,
+               tzn.owp_day_not_arrived_tozin_rail,
+               tzn.owp_day_arrived_weight_rail,
+               tzn.owp_day_not_arrived_weight_rail,
+               tzn.owp_day_arrived_tozin_road,
+               tzn.owp_day_not_arrived_tozin_road,
+               tzn.owp_day_arrived_weight_road,
+               tzn.owp_day_not_arrived_weight_road,
+               tzn.owp_total_not_arrived_weight_rail,
+               tzn.owp_total_not_arrived_tozin_rail,
+               tzn.owp_total_not_arrived_weight_road,
+               tzn.owp_total_not_arrived_tozin_road
+      order by tzn.DAT desc,
+               tzn.MATERIAL,
+               tzn.SOURCE
+     )
+
+
+
+
+
+
+
+
+
+
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reams0d5">
+        <sql>
+            <![CDATA[
+          CREATE OR REPLACE VIEW view_on_way_product_road_rail as                       select DAT,
+       MATERIAL,
+       SOURCE,
+       owp_day_arrived_tozin_rail,
+       owp_day_not_arrived_tozin_rail,
+       owp_day_arrived_weight_rail,
+       owp_day_not_arrived_weight_rail,
+       owp_day_arrived_tozin_road,
+       owp_day_not_arrived_tozin_road,
+       owp_day_arrived_weight_road,
+       owp_day_not_arrived_weight_road,
+       owp_total_not_arrived_weight_rail,
+       owp_total_not_arrived_tozin_rail,
+       owp_total_not_arrived_weight_road,
+       owp_total_not_arrived_tozin_road,
+       owp_month_arrived_tozin_rail,
+       owp_month_not_arrived_tozin_rail,
+       owp_month_arrived_weight_rail,
+       owp_month_not_arrived_weight_rail,
+       owp_month_arrived_tozin_road,
+       owp_month_not_arrived_tozin_road,
+       owp_month_arrived_weight_road,
+       owp_month_not_arrived_weight_road,
+       owp_year_arrived_tozin_rail,
+       owp_year_not_arrived_tozin_rail,
+       owp_year_arrived_weight_rail,
+       owp_year_not_arrived_weight_rail,
+       owp_year_arrived_tozin_road,
+       owp_year_not_arrived_tozin_road,
+       owp_year_arrived_weight_road,
+       owp_year_not_arrived_weight_road,
+       owp_day_arrived_tozin_rail_all_material,
+       owp_day_not_arrived_tozin_rail_all_material,
+       owp_day_arrived_weight_rail_all_material,
+       owp_day_not_arrived_weight_rail_all_material,
+       owp_total_not_arrived_weight_rail_all_material,
+       owp_total_not_arrived_tozin_rail_all_material,
+       owp_month_arrived_tozin_rail_all_material,
+       owp_month_not_arrived_tozin_rail_all_material,
+       owp_month_arrived_weight_rail_all_material,
+       owp_month_not_arrived_weight_rail_all_material,
+       owp_year_arrived_tozin_rail_all_material,
+       owp_year_not_arrived_tozin_rail_all_material,
+       owp_year_arrived_weight_rail_all_material,
+       owp_year_not_arrived_weight_rail_all_material,
+       owp_day_arrived_tozin_road_all_material,
+       owp_day_not_arrived_tozin_road_all_material,
+       owp_day_arrived_weight_road_all_material,
+       owp_day_not_arrived_weight_road_all_material,
+       owp_total_not_arrived_weight_road_all_material,
+       owp_total_not_arrived_tozin_road_all_material,
+       owp_month_arrived_tozin_road_all_material,
+       owp_month_not_arrived_tozin_road_all_material,
+       owp_month_arrived_weight_road_all_material,
+       owp_month_not_arrived_weight_road_all_material,
+       owp_year_arrived_tozin_road_all_material,
+       owp_year_not_arrived_tozin_road_all_material,
+       owp_year_arrived_weight_road_all_material,
+       owp_year_not_arrived_weight_road_all_material,
+       owp_day_arrived_tozin_all_material,
+       owp_day_not_arrived_tozin_all_material,
+       owp_day_arrived_weight_all_material,
+       owp_day_not_arrived_weight_all_material,
+       owp_total_not_arrived_weight_all_material,
+       owp_total_not_arrived_tozin_all_material,
+       owp_month_arrived_tozin_all_material,
+       owp_month_not_arrived_tozin_all_material,
+       owp_month_arrived_weight_all_material,
+       owp_month_not_arrived_weight_all_material,
+       owp_year_arrived_tozin_all_material,
+       owp_year_not_arrived_tozin_all_material,
+       owp_year_arrived_weight_all_material,
+       owp_year_not_arrived_weight_all_material,
+       owp_total_not_arrived_weight,
+       owp_total_not_arrived_tozin
+from (
+         with tozin_daily as (
+             select rows_.DAT,
+
+                    rows_.MATERIAL,
+
+                    rows_.SOURCE,
+
+                    sum(case
+                            when
+                                    rows_.DAT = vtozin.dat and
+                                    vtozin.is_Rail = 1 and
+                                    vtozin.arrived_date is not null
+                                    and rows_.dat >= vtozin.arrived_date
+                                then 1
+                            else 0 end) as owp_day_arrived_tozin_rail,
+
+                    sum(case
+                            when
+                                    rows_.DAT = vtozin.dat and
+                                    vtozin.is_Rail = 1 and
+                                    (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date) then 1
+                            else 0 end) as owp_day_not_arrived_tozin_rail,
+
+                    sum(case
+                            when
+                                    rows_.DAT = vtozin.dat and
+                                    vtozin.is_Rail = 1 and
+                                    vtozin.arrived_date is not null and rows_.dat >= vtozin.arrived_date
+                                then vtozin.arrived_weight
+                            else 0 end) as owp_day_arrived_weight_rail,
+
+                    sum(case
+                            when rows_.DAT = vtozin.dat and
+                                 vtozin.is_Rail = 1 and
+                                 (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date)
+                                then vtozin.wazn
+                            else 0 end) as owp_day_not_arrived_weight_rail,
+
+                    sum(case
+                            when
+                                    rows_.DAT = vtozin.dat and
+                                    vtozin.is_Rail = 0 and
+                                    vtozin.arrived_date is not null
+                                    and rows_.dat >= vtozin.arrived_date
+                                then 1
+                            else 0 end) as owp_day_arrived_tozin_road,
+
+                    sum(case
+                            when
+                                    rows_.DAT = vtozin.dat and
+                                    vtozin.is_Rail = 0 and
+                                    (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date) then 1
+                            else 0 end) as owp_day_not_arrived_tozin_road,
+
+                    sum(case
+                            when
+                                    rows_.DAT = vtozin.dat and
+                                    vtozin.is_Rail = 0 and
+                                    vtozin.arrived_date is not null and rows_.dat >= vtozin.arrived_date
+                                then vtozin.arrived_weight
+                            else 0 end) as owp_day_arrived_weight_road,
+
+                    sum(case
+                            when rows_.DAT = vtozin.dat and
+                                 vtozin.is_Rail = 0 and
+                                 (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date)
+                                then vtozin.wazn
+                            else 0 end) as owp_day_not_arrived_weight_road,
+
+                    sum(case
+                            when
+                                    vtozin.is_Rail = 1 and
+                                    (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date)
+                                then vtozin.wazn
+                            else 0 end) as owp_total_not_arrived_weight_rail,
+
+                    sum(case
+                            when
+                                    vtozin.is_Rail = 1 and
+                                    (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date) then 1
+                            else 0 end) as owp_total_not_arrived_tozin_rail,
+
+                    sum(case
+                            when
+                                    vtozin.is_Rail = 0 and
+                                    (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date)
+                                then vtozin.wazn
+                            else 0 end) as owp_total_not_arrived_weight_road,
+
+                    sum(case
+                            when
+                                    vtozin.is_Rail = 0 and
+                                    (vtozin.arrived_date is null or rows_.dat < vtozin.arrived_date) then 1
+                            else 0 end) as owp_total_not_arrived_tozin_road
+
+
+             from view_dat_source_material rows_
+                      left join (
+                 select *
+                 from (
+                          select replace(logistic.sal_date2,
+                                         '/',
+                                         '')       as dat,
+
+                                 case
+                                     when regexp_like(logistic.carno3,
+                                                      '[0-9]+') then 0
+                                     else 1 end    as is_Rail,
+
+                                 logistic.gdscode  as material,
+
+                                 logistic.sourceid as source,
+
+                                 logistic.targetid as target,
+
+                                 logistic.tedad    as pkg,
+
+                                 logistic.wazn,
+
+                                 tzn.d_date        as arrived_date,
+
+                                 tzn.d_wazn        as arrived_weight
+                          from v_tozine_content_m logistic
+                                   left join (select distinct stozin.ID        as s_id,
+
+                                                              dtozin.ID        as t_id,
+
+                                                              stozin.TOZINE_ID as s_tozine_id,
+
+                                                              dtozin.TOZINE_ID as d_tozine_id,
+
+                                                              stozin.dat       as s_date,
+
+                                                              dtozin.dat       as d_date,
+
+                                                              dtozin.WAZN      as d_wazn
+                                              from TBL_WARH_REMITTANCE_DETAIL rd
+                                                       left join TBL_WARH_TOZIN dtozin on dtozin.ID = rd.F_DESTINATION_TOZINE_ID
+                                                       left join TBL_WARH_TOZIN stozin on stozin.ID = rd.F_SOURCE_TOZINE_ID
+                                              where stozin.SOURCEID not in (2320,
+                                                                            2340,
+                                                                            2555)) tzn
+                                             on
+                                                 logistic.tozine_id = tzn.s_tozine_id
+                          where logistic.sal_date2 is not null
+                            and replace(logistic.sal_date2,
+                                        '/',
+                                        '') > '13990000'
+                            and logistic.tozine_id not like '3-%'
+                            and logistic.targetid in (2320,
+                                                      2340,
+                                                      2555)
+                          order by logistic.sal_date2 desc
+                      )) vtozin
+                                on rows_.SOURCE = vtozin.source and rows_.MATERIAL = vtozin.material and
+                                   rows_.DAT >= vtozin.dat
+             group by rows_.DAT,
+                      rows_.MATERIAL,
+                      rows_.SOURCE
+             order by rows_.DAT desc,
+                      rows_.SOURCE,
+                      rows_.MATERIAL
+         ),
+              tozin_year as (
+                  select tzn.DAT,
+
+                         tzn.MATERIAL,
+
+                         tzn.SOURCE,
+
+                         tzn.owp_day_arrived_tozin_rail,
+
+                         tzn.owp_day_not_arrived_tozin_rail,
+
+                         tzn.owp_day_arrived_weight_rail,
+
+                         tzn.owp_day_not_arrived_weight_rail,
+
+                         tzn.owp_day_arrived_tozin_road,
+
+                         tzn.owp_day_not_arrived_tozin_road,
+
+                         tzn.owp_day_arrived_weight_road,
+
+                         tzn.owp_day_not_arrived_weight_road,
+
+                         tzn.owp_total_not_arrived_weight_rail,
+
+                         tzn.owp_total_not_arrived_tozin_rail,
+
+                         tzn.owp_total_not_arrived_weight_road,
+
+                         tzn.owp_total_not_arrived_tozin_road,
+
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             6) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         6)
+                                     then tzn_for_sum.owp_day_arrived_tozin_rail
+                                 else 0 end) as owp_month_arrived_tozin_rail,
+
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             6) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         6)
+                                     then tzn_for_sum.owp_day_not_arrived_tozin_rail
+                                 else 0 end) as owp_month_not_arrived_tozin_rail,
+
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             6) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         6)
+                                     then tzn_for_sum.owp_day_arrived_weight_rail
+                                 else 0 end) as owp_month_arrived_weight_rail,
+
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             6) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         6)
+                                     then tzn_for_sum.owp_day_not_arrived_weight_rail
+                                 else 0 end) as owp_month_not_arrived_weight_rail,
+
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             6) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         6)
+                                     then tzn_for_sum.owp_day_arrived_tozin_road
+                                 else 0 end) as owp_month_arrived_tozin_road,
+
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             6) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         6)
+                                     then tzn_for_sum.owp_day_not_arrived_tozin_road
+                                 else 0 end) as owp_month_not_arrived_tozin_road,
+
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             6) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         6)
+                                     then tzn_for_sum.owp_day_arrived_weight_road
+                                 else 0 end) as owp_month_arrived_weight_road,
+
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             6) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         6)
+                                     then tzn_for_sum.owp_day_not_arrived_weight_road
+                                 else 0 end) as owp_month_not_arrived_weight_road,
+
+-- YEAR
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             4) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         4)
+                                     then tzn_for_sum.owp_day_arrived_tozin_rail
+                                 else 0 end) as owp_year_arrived_tozin_rail,
+
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             4) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         4)
+                                     then tzn_for_sum.owp_day_not_arrived_tozin_rail
+                                 else 0 end) as owp_year_not_arrived_tozin_rail,
+
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             4) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         4)
+                                     then tzn_for_sum.owp_day_arrived_weight_rail
+                                 else 0 end) as owp_year_arrived_weight_rail,
+
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             4) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         4)
+                                     then tzn_for_sum.owp_day_not_arrived_weight_rail
+                                 else 0 end) as owp_year_not_arrived_weight_rail,
+
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             4) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         4)
+                                     then tzn_for_sum.owp_day_arrived_tozin_road
+                                 else 0 end) as owp_year_arrived_tozin_road,
+
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             4) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         4)
+                                     then tzn_for_sum.owp_day_not_arrived_tozin_road
+                                 else 0 end) as owp_year_not_arrived_tozin_road,
+
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             4) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         4)
+                                     then tzn_for_sum.owp_day_arrived_weight_road
+                                 else 0 end) as owp_year_arrived_weight_road,
+
+                         sum(case
+                                 when substr(tzn.dat,
+                                             0,
+                                             4) = substr(tzn_for_sum.dat,
+                                                         0,
+                                                         4)
+                                     then tzn_for_sum.owp_day_not_arrived_weight_road
+                                 else 0 end) as owp_year_not_arrived_weight_road
+
+                  from tozin_daily tzn
+                           left join tozin_daily tzn_for_sum
+                                     on
+                                             tzn.SOURCE = tzn_for_sum.SOURCE and
+                                             tzn.MATERIAL = tzn_for_sum.MATERIAL and
+                                             tzn.dat >= tzn_for_sum.DAT
+                  group by tzn.MATERIAL,
+                           tzn.SOURCE,
+                           tzn.DAT,
+                           tzn.owp_day_arrived_tozin_rail,
+                           tzn.owp_day_not_arrived_tozin_rail,
+                           tzn.owp_day_arrived_weight_rail,
+                           tzn.owp_day_not_arrived_weight_rail,
+                           tzn.owp_day_arrived_tozin_road,
+                           tzn.owp_day_not_arrived_tozin_road,
+                           tzn.owp_day_arrived_weight_road,
+                           tzn.owp_day_not_arrived_weight_road,
+                           tzn.owp_total_not_arrived_weight_rail,
+                           tzn.owp_total_not_arrived_tozin_rail,
+                           tzn.owp_total_not_arrived_weight_road,
+                           tzn.owp_total_not_arrived_tozin_road
+                  order by tzn.DAT desc,
+                           tzn.MATERIAL,
+                           tzn.SOURCE
+              )
+         select tyear.DAT,
+                tyear.MATERIAL,
+                tyear.SOURCE,
+                tyear.owp_day_arrived_tozin_rail,
+                tyear.owp_day_not_arrived_tozin_rail,
+                tyear.owp_day_arrived_weight_rail,
+                tyear.owp_day_not_arrived_weight_rail,
+                tyear.owp_day_arrived_tozin_road,
+                tyear.owp_day_not_arrived_tozin_road,
+                tyear.owp_day_arrived_weight_road,
+                tyear.owp_day_not_arrived_weight_road,
+                tyear.owp_total_not_arrived_weight_rail,
+                tyear.owp_total_not_arrived_tozin_rail,
+                tyear.owp_total_not_arrived_weight_road,
+                tyear.owp_total_not_arrived_tozin_road,
+                tyear.owp_month_arrived_tozin_rail,
+                tyear.owp_month_not_arrived_tozin_rail,
+                tyear.owp_month_arrived_weight_rail,
+                tyear.owp_month_not_arrived_weight_rail,
+                tyear.owp_month_arrived_tozin_road,
+                tyear.owp_month_not_arrived_tozin_road,
+                tyear.owp_month_arrived_weight_road,
+                tyear.owp_month_not_arrived_weight_road,
+                tyear.owp_year_arrived_tozin_rail,
+                tyear.owp_year_not_arrived_tozin_rail,
+                tyear.owp_year_arrived_weight_rail,
+                tyear.owp_year_not_arrived_weight_rail,
+                tyear.owp_year_arrived_tozin_road,
+                tyear.owp_year_not_arrived_tozin_road,
+                tyear.owp_year_arrived_weight_road,
+                tyear.owp_year_not_arrived_weight_road,
+
+--        All INCOME RAIL
+                sum(tt.owp_day_arrived_tozin_rail)                                               as owp_day_arrived_tozin_rail_all_material,
+                sum(tt.owp_day_not_arrived_tozin_rail)                                           as owp_day_not_arrived_tozin_rail_all_material,
+                sum(tt.owp_day_arrived_weight_rail)                                              as owp_day_arrived_weight_rail_all_material,
+                sum(tt.owp_day_not_arrived_weight_rail)                                          as owp_day_not_arrived_weight_rail_all_material,
+                sum(tt.owp_total_not_arrived_weight_rail)                                        as owp_total_not_arrived_weight_rail_all_material,
+                sum(tt.owp_total_not_arrived_tozin_rail)                                         as owp_total_not_arrived_tozin_rail_all_material,
+                sum(tt.owp_month_arrived_tozin_rail)                                             as owp_month_arrived_tozin_rail_all_material,
+                sum(tt.owp_month_not_arrived_tozin_rail)                                         as owp_month_not_arrived_tozin_rail_all_material,
+                sum(tt.owp_month_arrived_weight_rail)                                            as owp_month_arrived_weight_rail_all_material,
+                sum(tt.owp_month_not_arrived_weight_rail)                                        as owp_month_not_arrived_weight_rail_all_material,
+                sum(tt.owp_year_arrived_tozin_rail)                                              as owp_year_arrived_tozin_rail_all_material,
+                sum(tt.owp_year_not_arrived_tozin_rail)                                          as owp_year_not_arrived_tozin_rail_all_material,
+                sum(tt.owp_year_arrived_weight_rail)                                             as owp_year_arrived_weight_rail_all_material,
+                sum(tt.owp_year_not_arrived_weight_rail)                                         as owp_year_not_arrived_weight_rail_all_material,
+
+                --ALL INCOME ROAD
+                sum(tt.owp_day_arrived_tozin_road)                                               as owp_day_arrived_tozin_road_all_material,
+                sum(tt.owp_day_not_arrived_tozin_road)                                           as owp_day_not_arrived_tozin_road_all_material,
+                sum(tt.owp_day_arrived_weight_road)                                              as owp_day_arrived_weight_road_all_material,
+                sum(tt.owp_day_not_arrived_weight_road)                                          as owp_day_not_arrived_weight_road_all_material,
+                sum(tt.owp_total_not_arrived_weight_road)                                        as owp_total_not_arrived_weight_road_all_material,
+                sum(tt.owp_total_not_arrived_tozin_road)                                         as owp_total_not_arrived_tozin_road_all_material,
+                sum(tt.owp_month_arrived_tozin_road)                                             as owp_month_arrived_tozin_road_all_material,
+                sum(tt.owp_month_not_arrived_tozin_road)                                         as owp_month_not_arrived_tozin_road_all_material,
+                sum(tt.owp_month_arrived_weight_road)                                            as owp_month_arrived_weight_road_all_material,
+                sum(tt.owp_month_not_arrived_weight_road)                                        as owp_month_not_arrived_weight_road_all_material,
+                sum(tt.owp_year_arrived_tozin_road)                                              as owp_year_arrived_tozin_road_all_material,
+                sum(tt.owp_year_not_arrived_tozin_road)                                          as owp_year_not_arrived_tozin_road_all_material,
+                sum(tt.owp_year_arrived_weight_road)                                             as owp_year_arrived_weight_road_all_material,
+                sum(tt.owp_year_not_arrived_weight_road)                                         as owp_year_not_arrived_weight_road_all_material,
+
+-- ALL INCOME RAIL AND ROAD
+                sum(tt.owp_day_arrived_tozin_road + tt.owp_day_arrived_tozin_road)               as owp_day_arrived_tozin_all_material,
+                sum(
+                        tt.owp_day_not_arrived_tozin_road + tt.owp_day_not_arrived_tozin_road)   as owp_day_not_arrived_tozin_all_material,
+                sum(tt.owp_day_arrived_weight_road + tt.owp_day_arrived_weight_road)             as owp_day_arrived_weight_all_material,
+                sum(
+                        tt.owp_day_not_arrived_weight_road + tt.owp_day_not_arrived_weight_road) as owp_day_not_arrived_weight_all_material,
+                sum(tt.owp_total_not_arrived_weight_road +
+                    tt.owp_total_not_arrived_weight_road)                                        as owp_total_not_arrived_weight_all_material,
+                sum(tt.owp_total_not_arrived_tozin_road +
+                    tt.owp_total_not_arrived_tozin_road)                                         as owp_total_not_arrived_tozin_all_material,
+                sum(
+                        tt.owp_month_arrived_tozin_road + tt.owp_month_arrived_tozin_road)       as owp_month_arrived_tozin_all_material,
+                sum(tt.owp_month_not_arrived_tozin_road +
+                    tt.owp_month_not_arrived_tozin_road)                                         as owp_month_not_arrived_tozin_all_material,
+                sum(
+                        tt.owp_month_arrived_weight_road + tt.owp_month_arrived_weight_road)     as owp_month_arrived_weight_all_material,
+                sum(tt.owp_month_not_arrived_weight_road +
+                    tt.owp_month_not_arrived_weight_road)                                        as owp_month_not_arrived_weight_all_material,
+                sum(tt.owp_year_arrived_tozin_road + tt.owp_year_arrived_tozin_road)             as owp_year_arrived_tozin_all_material,
+                sum(
+                        tt.owp_year_not_arrived_tozin_road + tt.owp_year_not_arrived_tozin_road) as owp_year_not_arrived_tozin_all_material,
+                sum(
+                        tt.owp_year_arrived_weight_road + tt.owp_year_arrived_weight_road)       as owp_year_arrived_weight_all_material,
+                sum(tt.owp_year_not_arrived_weight_road +
+                    tt.owp_year_not_arrived_weight_road)                                         as owp_year_not_arrived_weight_all_material,
+-- ALL On Way Product
+                sum(case
+                        when tyear.MATERIAL = tt.MATERIAL then tt.owp_total_not_arrived_weight_rail +
+                                                               tt.owp_total_not_arrived_weight_road
+                        else 0 end)                                                              as owp_total_not_arrived_weight,
+                sum(case
+                        when tyear.MATERIAL = tt.MATERIAL then tt.owp_total_not_arrived_tozin_rail +
+                                                               tt.owp_total_not_arrived_tozin_road
+                        else 0 end)                                                              as owp_total_not_arrived_tozin
+         from tozin_year tyear
+                  left join tozin_year tt
+                            on tyear.DAT = tt.DAT
+         group by tyear.DAT,
+                  tyear.MATERIAL,
+                  tyear.SOURCE,
+                  tyear.owp_day_arrived_tozin_rail,
+                  tyear.owp_day_not_arrived_tozin_rail,
+                  tyear.owp_day_arrived_weight_rail,
+                  tyear.owp_day_not_arrived_weight_rail,
+                  tyear.owp_day_arrived_tozin_road,
+                  tyear.owp_day_not_arrived_tozin_road,
+                  tyear.owp_day_arrived_weight_road,
+                  tyear.owp_day_not_arrived_weight_road,
+                  tyear.owp_total_not_arrived_weight_rail,
+                  tyear.owp_total_not_arrived_tozin_rail,
+                  tyear.owp_total_not_arrived_weight_road,
+                  tyear.owp_total_not_arrived_tozin_road,
+                  tyear.owp_month_arrived_tozin_rail,
+                  tyear.owp_month_not_arrived_tozin_rail,
+                  tyear.owp_month_arrived_weight_rail,
+                  tyear.owp_month_not_arrived_weight_rail,
+                  tyear.owp_month_arrived_tozin_road,
+                  tyear.owp_month_not_arrived_tozin_road,
+                  tyear.owp_month_arrived_weight_road,
+                  tyear.owp_month_not_arrived_weight_road,
+                  tyear.owp_year_arrived_tozin_rail,
+                  tyear.owp_year_not_arrived_tozin_rail,
+                  tyear.owp_year_arrived_weight_rail,
+                  tyear.owp_year_not_arrived_weight_rail,
+                  tyear.owp_year_arrived_tozin_road,
+                  tyear.owp_year_not_arrived_tozin_road,
+                  tyear.owp_year_arrived_weight_road,
+                  tyear.owp_year_not_arrived_weight_road
+     )
+order by DAT desc,
+         MATERIAL,
+         SOURCE
+
+
+
+
+
+
+
+
+			]]>
+        </sql>
+    </changeSet>
+
+
+    <!--    view_daily_report_sum_source-->
+    <changeSet author="saebm" id="reaswwwdkasdasadsza_0ssjjjsss05">
+        <createView viewName="view_daily_report_sum_source" replaceIfExists="true">
+            <![CDATA[
+
+
+
+
+select
+    rows_.dat, rows_.material,
+sum(IN_PKG_DAY) as sum_IN_PKG_DAY,
+sum( IN_PKG_MONTH) as sum_IN_PKG_MONTH,
+sum( IN_PKG_YEAR) as sum_IN_PKG_YEAR,
+sum( IN_AMOUNT_DAY) as sum_IN_AMOUNT_DAY,
+sum( IN_AMOUNT_MONTH) as sum_IN_AMOUNT_MONTH,
+sum( IN_AMOUNT_YEAR) as sum_IN_AMOUNT_YEAR,
+sum( OUT_PKG_DAY) as sum_OUT_PKG_DAY,
+sum( OUT_PKG_MONTH) as sum_OUT_PKG_MONTH,
+sum( OUT_PKG_YEAR) as sum_OUT_PKG_YEAR,
+sum( OUT_AMOUNT_DAY) as sum_OUT_AMOUNT_DAY,
+sum( OUT_AMOUNT_MONTH) as sum_OUT_AMOUNT_MONTH,
+sum( OUT_AMOUNT_YEAR) as sum_OUT_AMOUNT_YEAR,
+sum( REMAINED_PKG) as sum_REMAINED_PKG,
+sum( REMAINED_AMOUNT) as sum_REMAINED_AMOUNT,
+sum( INCOME_WEIGHT_DAY) as sum_INCOME_WEIGHT_DAY,
+sum( INCOME_WEIGHT_MONTH) as sum_INCOME_WEIGHT_MONTH,
+sum( INCOME_WEIGHT_YEAR) as sum_INCOME_WEIGHT_YEAR,
+sum( OUT_WEIGHT_DAY) as sum_OUT_WEIGHT_DAY,
+sum( OUT_WEIGHT_MONTH) as sum_OUT_WEIGHT_MONTH,
+sum( OUT_WEIGHT_YEAR) as sum_OUT_WEIGHT_YEAR,
+sum( REMAINED_WEIGHT) as sum_REMAINED_WEIGHT,
+sum( vrw.tadil) as sum_tadil,
+sum( OWP_WEIGHT) as sum_OWP_WEIGHT,
+sum( OWP_PKG) as sum_OWP_PKG,
+sum( OWP_TOZIN) as sum_OWP_TOZIN,
+sum(TADIL_MONTH) as sum_TADIL_MONTH,
+sum(TADIL_YEAR) as sum_TADIL_YEAR,
+sum(TADIL_YEAR)/case when sum(OUT_WEIGHT_YEAR)>0 then sum(OUT_WEIGHT_YEAR) else 1 end as sum_tadil_year_percent
+from VIEW_DAT_SOURCE_MATERIAL rows_
+         left join TBL_MATERIAL_ITEM tmi on rows_.MATERIAL=tmi.ID
+         left join TBL_MATERIAL tm on tmi.MATERIAL_ID = tm.ID
+         left join VIEW_REMITTANCE_PKG vrp
+                   on
+                               rows_.material=vrp.MATERIAL and rows_.source=vrp.SOURCE and rows_.dat=vrp.DAT
+         left join VIEW_ON_WAY_PRODUCT VOWP on
+            rows_.dat=VOWP.DAT and rows_.source=VOWP.SOURCE and rows_.material=VOWP.MATERIAL
+         left join VIEW_REMITTANCE_WEIGHT vrw on
+            rows_.dat=vrw.DAT and rows_.source=vrw.SOURCE and rows_.material=vrw.MATERIAL
+         left join TBL_WARH_WAREHOUSE wh on rows_.source=wh.id
+         left join TBL_MATERIAL_ITEM mi on rows_.material=mi.ID
+group by rows_.dat, rows_.material
+order by rows_.dat desc,rows_.material
+
+
+
+
+
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reaswjjjsss05">
+        <createView viewName="view_daily_report_sum_source" replaceIfExists="true">
+            <![CDATA[
+select
+    rows_.dat, rows_.material,
+    sum(IN_PKG_DAY) as sum_IN_PKG_DAY,
+    sum( IN_PKG_MONTH) as sum_IN_PKG_MONTH,
+    sum( IN_PKG_YEAR) as sum_IN_PKG_YEAR,
+    sum( IN_AMOUNT_DAY) as sum_IN_AMOUNT_DAY,
+    sum( IN_AMOUNT_MONTH) as sum_IN_AMOUNT_MONTH,
+    sum( IN_AMOUNT_YEAR) as sum_IN_AMOUNT_YEAR,
+    sum( OUT_PKG_DAY) as sum_OUT_PKG_DAY,
+    sum( OUT_PKG_MONTH) as sum_OUT_PKG_MONTH,
+    sum( OUT_PKG_YEAR) as sum_OUT_PKG_YEAR,
+    sum( OUT_AMOUNT_DAY) as sum_OUT_AMOUNT_DAY,
+    sum( OUT_AMOUNT_MONTH) as sum_OUT_AMOUNT_MONTH,
+    sum( OUT_AMOUNT_YEAR) as sum_OUT_AMOUNT_YEAR,
+    sum( REMAINED_PKG) as sum_REMAINED_PKG,
+    sum( REMAINED_AMOUNT) as sum_REMAINED_AMOUNT,
+    sum( INCOME_WEIGHT_DAY) as sum_INCOME_WEIGHT_DAY,
+    sum( INCOME_WEIGHT_MONTH) as sum_INCOME_WEIGHT_MONTH,
+    sum( INCOME_WEIGHT_YEAR) as sum_INCOME_WEIGHT_YEAR,
+    sum( OUT_WEIGHT_DAY) as sum_OUT_WEIGHT_DAY,
+    sum( OUT_WEIGHT_MONTH) as sum_OUT_WEIGHT_MONTH,
+    sum( OUT_WEIGHT_YEAR) as sum_OUT_WEIGHT_YEAR,
+    sum( REMAINED_WEIGHT) as sum_REMAINED_WEIGHT,
+    sum( vrw.tadil) as sum_tadil,
+    sum(TADIL_MONTH) as sum_TADIL_MONTH,
+    sum(TADIL_YEAR) as sum_TADIL_YEAR,
+    sum(TADIL_YEAR)/case when sum(OUT_WEIGHT_YEAR)>0 then sum(OUT_WEIGHT_YEAR) else 1 end as sum_tadil_year_percent
+from VIEW_DAT_SOURCE_MATERIAL rows_
+         left join TBL_MATERIAL_ITEM tmi on rows_.MATERIAL=tmi.ID
+         left join TBL_MATERIAL tm on tmi.MATERIAL_ID = tm.ID
+         left join VIEW_REMITTANCE_PKG vrp
+                   on
+                               rows_.material=vrp.MATERIAL and rows_.source=vrp.SOURCE and rows_.dat=vrp.DAT
+         left join VIEW_REMITTANCE_WEIGHT vrw on
+            rows_.dat=vrw.DAT and rows_.source=vrw.SOURCE and rows_.material=vrw.MATERIAL
+         left join TBL_WARH_WAREHOUSE wh on rows_.source=wh.id
+         left join TBL_MATERIAL_ITEM mi on rows_.material=mi.ID
+group by rows_.dat, rows_.material
+order by rows_.dat desc,rows_.material
+
+
+
+			]]>
+        </createView>
+    </changeSet>
 
     <!--    view_daily_report2555-->
+
     <changeSet author="saebm" id="reaswwwdasdasdsza_0ssjjjsss05">
         <createView viewName="view_daily_report2555" replaceIfExists="true">
             <![CDATA[
@@ -1172,6 +2186,307 @@ order by rows_.dat desc,rows_.source,rows_.material
 
 
 
+
+
+
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reaslsssdsstadilza_0ssjjjsss05">
+        <createView viewName="view_daily_report2555" replaceIfExists="true">
+            <![CDATA[
+select
+    rows_.dat, rows_.material,
+    sum(IN_PKG_DAY) as sum_IN_PKG_DAY,
+    sum( IN_PKG_MONTH) as sum_IN_PKG_MONTH,
+    sum( IN_PKG_YEAR) as sum_IN_PKG_YEAR,
+    sum( IN_AMOUNT_DAY) as sum_IN_AMOUNT_DAY,
+    sum( IN_AMOUNT_MONTH) as sum_IN_AMOUNT_MONTH,
+    sum( IN_AMOUNT_YEAR) as sum_IN_AMOUNT_YEAR,
+    sum( OUT_PKG_DAY) as sum_OUT_PKG_DAY,
+    sum( OUT_PKG_MONTH) as sum_OUT_PKG_MONTH,
+    sum( OUT_PKG_YEAR) as sum_OUT_PKG_YEAR,
+    sum( OUT_AMOUNT_DAY) as sum_OUT_AMOUNT_DAY,
+    sum( OUT_AMOUNT_MONTH) as sum_OUT_AMOUNT_MONTH,
+    sum( OUT_AMOUNT_YEAR) as sum_OUT_AMOUNT_YEAR,
+    sum( REMAINED_PKG) as sum_REMAINED_PKG,
+    sum( REMAINED_AMOUNT) as sum_REMAINED_AMOUNT,
+    sum( INCOME_WEIGHT_DAY) as sum_INCOME_WEIGHT_DAY,
+    sum( INCOME_WEIGHT_MONTH) as sum_INCOME_WEIGHT_MONTH,
+    sum( INCOME_WEIGHT_YEAR) as sum_INCOME_WEIGHT_YEAR,
+    sum( OUT_WEIGHT_DAY) as sum_OUT_WEIGHT_DAY,
+    sum( OUT_WEIGHT_MONTH) as sum_OUT_WEIGHT_MONTH,
+    sum( OUT_WEIGHT_YEAR) as sum_OUT_WEIGHT_YEAR,
+    sum( REMAINED_WEIGHT) as sum_REMAINED_WEIGHT,
+    sum( vrw.tadil) as sum_tadil,
+    sum( OWP_WEIGHT) as sum_OWP_WEIGHT,
+    sum( OWP_PKG) as sum_OWP_PKG,
+    sum( OWP_TOZIN) as sum_OWP_TOZIN,
+    sum(TADIL_MONTH) as sum_TADIL_MONTH,
+    sum(TADIL_YEAR) as sum_TADIL_YEAR,
+    sum(TADIL_YEAR)/case when sum(OUT_WEIGHT_YEAR)>0 then sum(OUT_WEIGHT_YEAR) else 1 end as sum_tadil_year_percent
+from VIEW_DAT_SOURCE_MATERIAL rows_
+         left join TBL_MATERIAL_ITEM tmi on rows_.MATERIAL=tmi.ID
+         left join TBL_MATERIAL tm on tmi.MATERIAL_ID = tm.ID
+         left join VIEW_REMITTANCE_PKG vrp
+                   on
+                               rows_.material=vrp.MATERIAL and rows_.source=vrp.SOURCE and rows_.dat=vrp.DAT
+         left join VIEW_ON_WAY_PRODUCT VOWP on
+            rows_.dat=VOWP.DAT and rows_.source=VOWP.SOURCE and rows_.material=VOWP.MATERIAL
+         left join VIEW_REMITTANCE_WEIGHT vrw on
+            rows_.dat=vrw.DAT and rows_.source=vrw.SOURCE and rows_.material=vrw.MATERIAL
+         left join TBL_WARH_WAREHOUSE wh on rows_.source=wh.id
+         left join TBL_MATERIAL_ITEM mi on rows_.material=mi.ID
+group by rows_.dat, rows_.material
+order by rows_.dat desc,rows_.material
+
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reasls9s05">
+        <createView viewName="view_daily_report2555" replaceIfExists="true">
+            <![CDATA[
+
+select
+    rows_.dat,
+rows_.unit,
+ rows_.source,
+ rows_.material,
+wh.C_NAME as source_name,
+mi.GDSNAME as material_name,
+
+    IN_PKG_DAY,
+ IN_PKG_MONTH,
+ IN_PKG_YEAR,
+ IN_AMOUNT_DAY,
+ IN_AMOUNT_MONTH,
+ IN_AMOUNT_YEAR,
+ OUT_PKG_DAY,
+ OUT_PKG_MONTH,
+ OUT_PKG_YEAR,
+ OUT_AMOUNT_DAY,
+ OUT_AMOUNT_MONTH,
+ OUT_AMOUNT_YEAR,
+ REMAINED_PKG,
+ REMAINED_AMOUNT,
+
+    INCOME_WEIGHT_DAY,
+ INCOME_WEIGHT_MONTH,
+ INCOME_WEIGHT_YEAR,
+ OUT_WEIGHT_DAY,
+ OUT_WEIGHT_MONTH,
+ OUT_WEIGHT_YEAR,
+ REMAINED_WEIGHT,
+
+    vrw.tadil,
+ OWP_WEIGHT,
+ OWP_PKG,
+ OWP_TOZIN,
+tm.ID as materialp,
+tm.C_DESC_FA as materialpname,
+TADIL_MONTH,
+TADIL_YEAR,
+    TADIL_YEAR/case when OUT_WEIGHT_YEAR>0 then OUT_WEIGHT_YEAR else 1 end as tadil_year_percent,
+    sum_.sum_IN_PKG_DAY,
+    sum_.sum_IN_PKG_MONTH,
+    sum_.sum_IN_PKG_YEAR,
+    sum_.sum_IN_AMOUNT_DAY,
+    sum_.sum_IN_AMOUNT_MONTH,
+    sum_.sum_IN_AMOUNT_YEAR,
+    sum_.sum_OUT_PKG_DAY,
+    sum_.sum_OUT_PKG_MONTH,
+    sum_.sum_OUT_PKG_YEAR,
+    sum_.sum_OUT_AMOUNT_DAY,
+    sum_.sum_OUT_AMOUNT_MONTH,
+    sum_.sum_OUT_AMOUNT_YEAR,
+    sum_.sum_REMAINED_PKG,
+    sum_.sum_REMAINED_AMOUNT,
+    sum_.sum_INCOME_WEIGHT_DAY,
+    sum_.sum_INCOME_WEIGHT_MONTH,
+    sum_.sum_INCOME_WEIGHT_YEAR,
+    sum_.sum_OUT_WEIGHT_DAY,
+    sum_.sum_OUT_WEIGHT_MONTH,
+    sum_.sum_OUT_WEIGHT_YEAR,
+    sum_.sum_REMAINED_WEIGHT,
+    sum_.sum_tadil,
+    sum_.sum_OWP_WEIGHT,
+    sum_.sum_OWP_PKG,
+    sum_.sum_OWP_TOZIN,
+    sum_.sum_TADIL_MONTH,
+    sum_.sum_TADIL_YEAR,
+    sum_.sum_tadil_year_percent
+from VIEW_DAT_SOURCE_MATERIAL rows_
+         left join TBL_MATERIAL_ITEM tmi on rows_.MATERIAL=tmi.ID
+         left join TBL_MATERIAL tm on tmi.MATERIAL_ID = tm.ID
+         left join VIEW_REMITTANCE_PKG vrp
+                   on
+                               rows_.material=vrp.MATERIAL and rows_.source=vrp.SOURCE and rows_.dat=vrp.DAT
+         left join VIEW_ON_WAY_PRODUCT VOWP on
+            rows_.dat=VOWP.DAT and rows_.source=VOWP.SOURCE and rows_.material=VOWP.MATERIAL
+         left join VIEW_REMITTANCE_WEIGHT vrw on
+            rows_.dat=vrw.DAT and rows_.source=vrw.SOURCE and rows_.material=vrw.MATERIAL
+         left join TBL_WARH_WAREHOUSE wh on rows_.source=wh.id
+         left join TBL_MATERIAL_ITEM mi on rows_.material=mi.ID
+         left join view_daily_report_sum_source sum_
+                   on rows_.dat = sum_.dat and rows_.material=sum_.material
+order by rows_.dat desc,rows_.source,rows_.material
+
+
+
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reassls9s05">
+        <createView viewName="view_daily_report2555" replaceIfExists="true">
+            <![CDATA[
+
+select
+    rows_.dat,
+    rows_.unit,
+    rows_.source,
+    rows_.material,
+    wh.C_NAME as source_name,
+    mi.GDSNAME as material_name,
+    owp_day_arrived_tozin_rail,
+    owp_day_not_arrived_tozin_rail,
+    owp_day_arrived_weight_rail,
+    owp_day_not_arrived_weight_rail,
+    owp_day_arrived_tozin_road,
+    owp_day_not_arrived_tozin_road,
+    owp_day_arrived_weight_road,
+    owp_day_not_arrived_weight_road,
+    owp_total_not_arrived_weight_rail,
+    owp_total_not_arrived_tozin_rail,
+    owp_total_not_arrived_weight_road,
+    owp_total_not_arrived_tozin_road,
+    owp_month_arrived_tozin_rail,
+    owp_month_not_arrived_tozin_rail,
+    owp_month_arrived_weight_rail,
+    owp_month_not_arrived_weight_rail,
+    owp_month_arrived_tozin_road,
+    owp_month_not_arrived_tozin_road,
+    owp_month_arrived_weight_road,
+    owp_month_not_arrived_weight_road,
+    owp_year_arrived_tozin_rail,
+    owp_year_not_arrived_tozin_rail,
+    owp_year_arrived_weight_rail,
+    owp_year_not_arrived_weight_rail,
+    owp_year_arrived_tozin_road,
+    owp_year_not_arrived_tozin_road,
+    owp_year_arrived_weight_road,
+    owp_year_not_arrived_weight_road,
+    owp_day_arrived_tozin_rail_all_material,
+    owp_day_not_arrived_tozin_rail_all_material,
+    owp_day_arrived_weight_rail_all_material,
+    owp_day_not_arrived_weight_rail_all_material,
+    owp_total_not_arrived_weight_rail_all_material,
+    owp_total_not_arrived_tozin_rail_all_material,
+    owp_month_arrived_tozin_rail_all_material,
+    owp_month_not_arrived_tozin_rail_all_material,
+    owp_month_arrived_weight_rail_all_material,
+    owp_month_not_arrived_weight_rail_all_material,
+    owp_year_arrived_tozin_rail_all_material,
+    owp_year_not_arrived_tozin_rail_all_material,
+    owp_year_arrived_weight_rail_all_material,
+    owp_year_not_arrived_weight_rail_all_material,
+    owp_day_arrived_tozin_road_all_material,
+    owp_day_not_arrived_tozin_road_all_material,
+    owp_day_arrived_weight_road_all_material,
+    owp_day_not_arrived_weight_road_all_material,
+    owp_total_not_arrived_weight_road_all_material,
+    owp_total_not_arrived_tozin_road_all_material,
+    owp_month_arrived_tozin_road_all_material,
+    owp_month_not_arrived_tozin_road_all_material,
+    owp_month_arrived_weight_road_all_material,
+    owp_month_not_arrived_weight_road_all_material,
+    owp_year_arrived_tozin_road_all_material,
+    owp_year_not_arrived_tozin_road_all_material,
+    owp_year_arrived_weight_road_all_material,
+    owp_year_not_arrived_weight_road_all_material,
+    owp_day_arrived_tozin_all_material,
+    owp_day_not_arrived_tozin_all_material,
+    owp_day_arrived_weight_all_material,
+    owp_day_not_arrived_weight_all_material,
+    owp_total_not_arrived_weight_all_material,
+    owp_total_not_arrived_tozin_all_material,
+    owp_month_arrived_tozin_all_material,
+    owp_month_not_arrived_tozin_all_material,
+    owp_month_arrived_weight_all_material,
+    owp_month_not_arrived_weight_all_material,
+    owp_year_arrived_tozin_all_material,
+    owp_year_not_arrived_tozin_all_material,
+    owp_year_arrived_weight_all_material,
+    owp_year_not_arrived_weight_all_material,
+    owp_total_not_arrived_weight,
+    owp_total_not_arrived_tozin,
+    IN_PKG_DAY,
+    IN_PKG_MONTH,
+    IN_PKG_YEAR,
+    IN_AMOUNT_DAY,
+    IN_AMOUNT_MONTH,
+    IN_AMOUNT_YEAR,
+    OUT_PKG_DAY,
+    OUT_PKG_MONTH,
+    OUT_PKG_YEAR,
+    OUT_AMOUNT_DAY,
+    OUT_AMOUNT_MONTH,
+    OUT_AMOUNT_YEAR,
+    REMAINED_PKG,
+    REMAINED_AMOUNT,
+    INCOME_WEIGHT_DAY,
+    INCOME_WEIGHT_MONTH,
+    INCOME_WEIGHT_YEAR,
+    OUT_WEIGHT_DAY,
+    OUT_WEIGHT_MONTH,
+    OUT_WEIGHT_YEAR,
+    REMAINED_WEIGHT,
+    vrw.tadil,
+    tm.ID as materialp,
+    tm.C_DESC_FA as materialpname,
+    TADIL_MONTH,
+    TADIL_YEAR,
+    TADIL_YEAR/case when OUT_WEIGHT_YEAR>0 then OUT_WEIGHT_YEAR else 1 end as tadil_year_percent,
+    sum_.sum_IN_PKG_DAY,
+    sum_.sum_IN_PKG_MONTH,
+    sum_.sum_IN_PKG_YEAR,
+    sum_.sum_IN_AMOUNT_DAY,
+    sum_.sum_IN_AMOUNT_MONTH,
+    sum_.sum_IN_AMOUNT_YEAR,
+    sum_.sum_OUT_PKG_DAY,
+    sum_.sum_OUT_PKG_MONTH,
+    sum_.sum_OUT_PKG_YEAR,
+    sum_.sum_OUT_AMOUNT_DAY,
+    sum_.sum_OUT_AMOUNT_MONTH,
+    sum_.sum_OUT_AMOUNT_YEAR,
+    sum_.sum_REMAINED_PKG,
+    sum_.sum_REMAINED_AMOUNT,
+    sum_.sum_INCOME_WEIGHT_DAY,
+    sum_.sum_INCOME_WEIGHT_MONTH,
+    sum_.sum_INCOME_WEIGHT_YEAR,
+    sum_.sum_OUT_WEIGHT_DAY,
+    sum_.sum_OUT_WEIGHT_MONTH,
+    sum_.sum_OUT_WEIGHT_YEAR,
+    sum_.sum_REMAINED_WEIGHT,
+    sum_.sum_tadil,
+    sum_.sum_TADIL_MONTH,
+    sum_.sum_TADIL_YEAR,
+    sum_.sum_tadil_year_percent
+from VIEW_DAT_SOURCE_MATERIAL rows_
+         left join TBL_MATERIAL_ITEM tmi on rows_.MATERIAL=tmi.ID
+         left join TBL_MATERIAL tm on tmi.MATERIAL_ID = tm.ID
+         left join VIEW_REMITTANCE_PKG vrp
+                   on
+                               rows_.material=vrp.MATERIAL and rows_.source=vrp.SOURCE and rows_.dat=vrp.DAT
+         left join VIEW_REMITTANCE_WEIGHT vrw on
+            rows_.dat=vrw.DAT and rows_.source=vrw.SOURCE and rows_.material=vrw.MATERIAL
+         left join TBL_WARH_WAREHOUSE wh on rows_.source=wh.id
+         left join TBL_MATERIAL_ITEM mi on rows_.material=mi.ID
+         left join view_daily_report_sum_source sum_
+                   on rows_.dat = sum_.dat and rows_.material=sum_.material
+        left join VIEW_ON_WAY_PRODUCT_ROAD_RAIL vowprr on rows_.MATERIAL=vowprr.MATERIAL
+                                                        and rows_.SOURCE=vowprr.SOURCE
+                                                        and rows_.DAT=vowprr.DAT
+order by rows_.dat desc,rows_.source,rows_.material
 
 
 
