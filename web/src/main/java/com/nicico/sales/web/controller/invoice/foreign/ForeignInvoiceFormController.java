@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.sales.dto.AssayInspectionTotalValuesDTO;
 import com.nicico.sales.dto.CurrencyRateDTO;
 import com.nicico.sales.dto.InspectionReportDTO;
+import com.nicico.sales.dto.contract.BillOfLadingSwitchDTO;
 import com.nicico.sales.dto.contract.IncotermDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceBillOfLandingDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceDTO;
@@ -38,10 +39,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Controller
@@ -123,7 +121,8 @@ public class ForeignInvoiceFormController {
 
         List<ForeignInvoiceBillOfLandingDTO.InfoWithoutForeignInvoice> billOfLanding = foreignInvoice.getBillLadings();
         billOfLanding.forEach(q -> {
-            wordUtil.replacePOI(doc, "SWITCH_DOC_NO", q.getBillOfLanding().getSwitchDocumentNo());
+            wordUtil.replacePOI(doc, "SWITCH_DOC_NO", q.getBillOfLanding().getBillOfLadingSwitch() == null ?
+                    null : q.getBillOfLanding().getBillOfLadingSwitch().getDocumentNo());
             wordUtil.replacePOI(doc, "NICICO_DOC_NO", q.getBillOfLanding().getDocumentNo());
             wordUtil.replacePOI(doc, "PORT_OF_LOADING", q.getBillOfLanding().getPortOfLoading().getPort());
             wordUtil.replacePOI(doc, "PORT_OF_DISCHARGE", q.getBillOfLanding().getPortOfDischarge().getPort());
