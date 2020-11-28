@@ -506,22 +506,17 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         },
         pickListFields: [
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-            {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
-            {
-                name: "currencyDate",
-                type: "date",
-                title: "<spring:message code='global.date'/>",
-                dateFormatter: "toJapanShortDate"
-            },
-            {name: "unitFrom.nameEN", title: "<spring:message code='global.from'/>"},
-            {name: "unitTo.nameEN", title: "<spring:message code='global.to'/>"},
-            {name: "currencyRateValue", title: "<spring:message code='rate.title'/>"}
+            {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>", width: "10%"},
+            {name: "currencyDate", title: "<spring:message code='global.date'/>", dateFormatter: "toJapanShortDate", width: "10%"},
+            {name: "unitFrom.nameEN", title: "<spring:message code='global.from'/>", width: "10%"},
+            {name: "unitTo.nameEN", title: "<spring:message code='global.to'/>", width: "10%"},
+            {name: "currencyRateValue", title: "<spring:message code='rate.title'/>", width: "10%"}
         ],
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
                 {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
-                {name: "currencyDate", title: "<spring:message code='global.date'/>"},
+                {name: "currencyDate", type: "date", title: "<spring:message code='global.date'/>"},
                 {name: "unitFrom", title: "<spring:message code='global.from'/>"},
                 {name: "unitFromId", title: "<spring:message code='global.from'/>"},
                 {name: "unitTo", title: "<spring:message code='global.to'/>"},
@@ -845,6 +840,8 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                             currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                             shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                             conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
+                            delayData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("delayData"),
+                            paymentValues: foreignInvoiceTab.dynamicForm.valuesManager.getValue("paymentValues"),
                             // shipmentCostInvoiceRate: selectedShipmentRemittanceDetailsCount / allShipmentRemittanceDetailsCount,
                             invoiceCalculation2Component: invoiceCalculation2Component,
                             invoiceBaseWeightComponent: {getValues: invoiceCalculation2Component.getBaseWeightValues},
@@ -902,6 +899,8 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                                     currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                                     shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                                     conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
+                                    delayData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("delayData"),
+                                    paymentValues: foreignInvoiceTab.dynamicForm.valuesManager.getValue("paymentValues"),
                                     invoiceDeductionComponent: invoiceDeductionComponent,
                                     invoiceCalculationComponent: invoiceCalculationComponent,
                                     invoiceBaseWeightComponent: invoiceBaseValuesComponent.invoiceBaseWeightComponent
@@ -931,6 +930,8 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                             currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                             shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                             conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
+                            delayData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("delayData"),
+                            paymentValues: foreignInvoiceTab.dynamicForm.valuesManager.getValue("paymentValues"),
                             invoiceCalculationCathodeComponent: invoiceCalculationCathodeComponent,
                             invoiceBaseWeightComponent: invoiceCalculationCathodeComponent.invoiceBaseWeightComponent,
                             invoiceDeductionComponent: {getDeductionSubTotal: invoiceCalculationCathodeComponent.getDeductionSubTotal},
@@ -1098,6 +1099,7 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     data.inspectionAssayReportId = inspectionAssayData ? inspectionAssayData.id : null;
     data.foreignInvoicePayments = paymentComponentValues.shipmentCostInvoices;
     data.parentId = paymentComponentValues.parentId;
+    data.delayPenalty = paymentComponentValues.delayPenalty.getValues().value;
 
     if (paymentComponentValues.parentId) {
 
@@ -1365,7 +1367,6 @@ foreignInvoiceTab.window.invoiceCompletionForm.okCallBack = function (data) {
 };
 
 // Send To Accounting
-
 foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager = isc.ValuesManager.create({});
 foreignInvoiceTab.dynamicForm.sentToAccountingInvoiceForm = isc.DynamicForm.create({
     margin: 10,
@@ -3656,6 +3657,8 @@ foreignInvoiceTab.method.editForm = function () {
                                         }
 
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("percent", record.percent);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("delayData", record.delayPenalty);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("paymentValues", paymentValues);
                                         foreignInvoiceTab.dynamicForm.baseData.setValue('inspectionWeightId', record.inspectionWeightReportId);
                                         foreignInvoiceTab.dynamicForm.baseData.setValue('inspectionAssayId', record.inspectionAssayReportId);
 
