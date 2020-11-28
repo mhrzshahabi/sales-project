@@ -40,6 +40,8 @@
     <include file="classpath:/db/changelog/changes/tbl_unit.xml"/>
     <include file="classpath:/db/changelog/changes/aud_tbl_contact.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_warh_tozin.xml"/>
+    <include file="classpath:/db/changelog/changes/aud_tbl_bill_of_landing.xml"/>
+    <include file="classpath:/db/changelog/changes/aud_tbl_bill_of_lading_switch.xml"/>
     <!-- CHANGES -->
 
     <!-- INITIALIZE DATA -->
