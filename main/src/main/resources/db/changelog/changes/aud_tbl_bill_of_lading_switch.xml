@@ -1,0 +1,25 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="AZAARE-220011" author="abiz">
+        <createTable tableName="AUD_TBL_BILL_OF_LADING_SWITCH">
+            <column name="ID" type="NUMBER(19, 0)"/>
+            <column name="REV" type="NUMBER(10)"/>
+            <column name="REVTYPE" type="NUMBER(3)"/>
+            <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_CREATED_DATE" type="TIMESTAMP"/>
+            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_last_modified_date" type="TIMESTAMP"/>
+            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER"/>
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
+            <column name="C_DOCUMENT_NO" type="VARCHAR2(255 CHAR)"/>
+            <column name="F_CONTACT_SHIPPER_EXPORTER" type="NUMBER(19, 0)"/>
+            <column name="F_CONTACT_NOTIFY_PARTY" type="NUMBER(19, 0)"/>
+            <column name="F_CONTACT_CONSIGNEE_EXPORTER" type="NUMBER(19, 0)"/>
+            <column name="F_PORT_AS_LOADING" type="NUMBER(19, 0)"/>
+            <column name="F_PORT_AS_DISCHARGE" type="NUMBER(19, 0)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

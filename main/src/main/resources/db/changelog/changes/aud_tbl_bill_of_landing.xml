@@ -1,0 +1,21 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="Abiz" id="AZAARE-991122">
+
+        <dropColumn tableName="AUD_TBL_CNTR_BILL_OF_LANDING" columnName="D_switch_DATE_OF_ISSUE"/>
+        <dropColumn tableName="AUD_TBL_CNTR_BILL_OF_LANDING" columnName="F_SWITCH_PORT_AS_DISCHARGE"/>
+        <dropColumn tableName="AUD_TBL_CNTR_BILL_OF_LANDING" columnName="F_CONTACT_SWITCH_CONSIGNEE_EXPORTER"/>
+        <dropColumn tableName="AUD_TBL_CNTR_BILL_OF_LANDING" columnName="F_CONTACT_SWITCH_NOTIFY_PARTY"/>
+        <dropColumn tableName="AUD_TBL_CNTR_BILL_OF_LANDING" columnName="C_SWITCH_DOCUMENT_NO"/>
+        <dropColumn tableName="AUD_TBL_CNTR_BILL_OF_LANDING" columnName="F_SWITCH_PORT_AS_LOADING"/>
+        <dropColumn tableName="AUD_TBL_CNTR_BILL_OF_LANDING" columnName="F_CONTACT_SWITCH_SHIPPER_EXPORTER"/>
+
+        <addColumn tableName="AUD_TBL_CNTR_BILL_OF_LANDING">
+            <column name="F_BILL_OF_LANDING_TO_SWITCH" type="Number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>
