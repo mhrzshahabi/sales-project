@@ -42,7 +42,7 @@ public class ContractDetailTypeParam extends BaseEntity {
     @Column(name = "C_REFERENCE")
     private String reference;
 
-    @Column(name = "C_DEFAULT_VALUE")
+    @Column(name = "C_DEFAULT_VALUE", length = 4000)
     private String defaultValue;
 
     @Column(name = "B_REQUIRED")

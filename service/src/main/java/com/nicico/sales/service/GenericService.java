@@ -422,6 +422,12 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     }
 
     @Override
+    public void flush() {
+
+        repository.flush();
+    }
+
+    @Override
     public Boolean validation(T entity, Object... request) {
 
         if (actionType == ActionType.Update || actionType == ActionType.Delete) {

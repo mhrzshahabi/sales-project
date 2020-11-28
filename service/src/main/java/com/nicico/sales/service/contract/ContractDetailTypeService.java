@@ -39,17 +39,17 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ContractDetailTypeService extends GenericService<ContractDetailType, Long, ContractDetailTypeDTO.Create,
-        ContractDetailTypeDTO.Info, ContractDetailTypeDTO.Update, ContractDetailTypeDTO.Delete> implements IContractDetailTypeService {
+public class ContractDetailTypeService extends GenericService<ContractDetailType, Long, ContractDetailTypeDTO.Create, ContractDetailTypeDTO.Info, ContractDetailTypeDTO.Update, ContractDetailTypeDTO.Delete> implements IContractDetailTypeService {
 
     private final UpdateUtil updateUtil;
     private final ResourceBundleMessageSource messageSource;
+
+    private final IContractService contractService;
+    private final ICDTPDynamicTableService cdtpDynamicTableService;
     private final IContractDetailTypeParamService contractDetailTypeParamService;
     private final IContractDetailTypeTemplateService contractDetailTypeTemplateService;
-    private final ICDTPDynamicTableService cdtpDynamicTableService;
-    private final ContractDetailTypeDAO contractDetailTypeDAO;
+
     private final CDTPDynamicTableDAO cdtpDynamicTableDAO;
-    private final IContractService contractService;
 
     @Override
     @Transactional
@@ -139,12 +139,13 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                 contractDetailTypeTemplates4Update,
                 contractDetailTypeTemplates4Delete);
 
+        if (!contractDetailTypeTemplates4Delete.getIds().isEmpty())
+            contractDetailTypeTemplateService.deleteAll(contractDetailTypeTemplates4Delete);
+        contractDetailTypeTemplateService.flush();
         if (!contractDetailTypeTemplates4Insert.isEmpty())
             contractDetailTypeTemplateService.createAll(contractDetailTypeTemplates4Insert);
         if (!contractDetailTypeTemplates4Update.isEmpty())
             contractDetailTypeTemplates4Update.forEach(contractDetailTypeTemplateService::update);
-        if (!contractDetailTypeTemplates4Delete.getIds().isEmpty())
-            contractDetailTypeTemplateService.deleteAll(contractDetailTypeTemplates4Delete);
     }
 
     private void updateParams(ContractDetailTypeDTO.Update request, ContractDetailType contractDetailType) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
@@ -163,6 +164,9 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                 contractDetailTypeParams4Update,
                 contractDetailTypeParams4Delete);
 
+        if (!contractDetailTypeParams4Delete.getIds().isEmpty())
+            contractDetailTypeParamService.deleteAll(contractDetailTypeParams4Delete);
+        contractDetailTypeParamService.flush();
         for (int i = 0; i < contractDetailTypeParams4Insert.size(); i++) {
 
             ContractDetailTypeParamDTO.Create contractDetailTypeParam4Insert = contractDetailTypeParams4Insert.get(i);
@@ -195,6 +199,9 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                     dynamicTables4Update,
                     dynamicTables4Delete);
 
+            if (!dynamicTables4Delete.getIds().isEmpty())
+                cdtpDynamicTableService.deleteAll(dynamicTables4Delete);
+            cdtpDynamicTableService.flush();
             if (!dynamicTables4Insert.isEmpty()) {
 
                 dynamicTables4Insert.forEach(item -> item.setCdtpId(contractDetailTypeParam4UpdateId));
@@ -205,13 +212,9 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                 dynamicTables4Update.forEach(item -> item.setCdtpId(contractDetailTypeParam4UpdateId));
                 dynamicTables4Update.forEach(cdtpDynamicTableService::update);
             }
-            if (!dynamicTables4Delete.getIds().isEmpty())
-                cdtpDynamicTableService.deleteAll(dynamicTables4Delete);
 
             contractDetailTypeParamService.update(contractDetailTypeParam4Update);
         }
-        if (!contractDetailTypeParams4Delete.getIds().isEmpty())
-            contractDetailTypeParamService.deleteAll(contractDetailTypeParams4Delete);
     }
 
     @Override
@@ -220,7 +223,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
         if (actionType == ActionType.Create) {
             if (entity.getCode().equals(EContractDetailTypeCode.Note.getId()))
                 return true;
-            if (contractDetailTypeDAO.findByMaterialIdAndCode(entity.getMaterialId(), entity.getCode()).size() >= 1) {
+            if (((ContractDetailTypeDAO) repository).findByMaterialIdAndCode(entity.getMaterialId(), entity.getCode()).size() >= 1) {
                 EContractDetailTypeCode eContractDetailTypeCode = Arrays.stream(EContractDetailTypeCode.values()).filter(q -> q.getId().equals(entity.getCode())).findFirst().get();
                 throw new SalesException2(ErrorType.BadRequest, "code",
                         messageSource.getMessage("contract-detail-type.code.unique.constraint.violation",

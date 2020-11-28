@@ -105,6 +105,7 @@
     <include file="classpath:/db/changelog/changes/liq-diff-13990805.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_warh_warehouse.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_foreign_invoice-document.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_cntr_contract_detail_type_param.xml"/>
     <!-- CHANGES -->
 
     <!-- VIEWS -->

@@ -414,7 +414,10 @@ function getFieldProperties(fieldType, reference) {
             };
         case 'TextArea':
             return {
+                width: "700",
+                height: "600",
                 type: "TextArea",
+
             };
         case 'Reference':
             if (reference == 'Enum_RateReference') {
