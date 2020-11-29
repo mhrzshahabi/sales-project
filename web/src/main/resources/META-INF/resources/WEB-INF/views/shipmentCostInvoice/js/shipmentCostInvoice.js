@@ -204,7 +204,7 @@ shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice = isc.MyRestDataSource
             name: "financeUnit.name", title: "<spring:message code='shipmentCostInvoice.shipment'/>"
         },
         {
-            name: "documentId", title: "<spring:message code='foreign-invoice.form.accounting-id'/>"
+            name: "documentId", title: "<spring:message code='foreign-invoice.form.documentId'/>"
         }
     ],
     fetchDataURL: shipmentCostInvoiceTab.variable.shipmentCostInvoice + "spec-list"
@@ -2003,7 +2003,7 @@ shipmentCostInvoiceTab.listGrid.fields = BaseFormItems.concat([
     },
     {
         name: "documentId",
-        title: "<spring:message code='foreign-invoice.form.accountingId'/>",
+        title: "<spring:message code='foreign-invoice.form.documentId'/>",
         filterOperator: "equals",
         formatCellValue: function (value, record, rowNum, colNum) {
             if (!value)

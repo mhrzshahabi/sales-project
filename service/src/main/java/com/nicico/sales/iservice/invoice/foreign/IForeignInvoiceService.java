@@ -12,4 +12,7 @@ public interface IForeignInvoiceService extends IGenericService<ForeignInvoice, 
     List<ForeignInvoiceDTO.Info> getByShipment(Long invoiceTypeId, Long shipmentId, Long currencyId);
 
     ContractDetailDataDTO.Info getContractDetailData(Long contractId);
+
+    void updateDeletedDocument(List<ForeignInvoiceDTO.Info> data);
+
 }
