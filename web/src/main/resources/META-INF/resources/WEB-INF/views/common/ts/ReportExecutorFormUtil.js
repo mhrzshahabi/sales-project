@@ -159,21 +159,22 @@ var nicico;
                                         });
                                         // @ts-ignore
                                         var slider = isc.Slider.create({
-                                            vertical: false,
+                                            title: "PDF",
+                                            width: 100,
+                                            height: 20,
+                                            labelHeight: 0,
                                             minValue: 1,
                                             maxValue: 2,
-                                            numValues: 1,
-                                            minValueLabel: "PDF",
-                                            maxValueLabel: "EXCEL",
-                                            // @ts-ignore
-                                            defaultValue: 2,
-                                            animateThumb: false,
-                                            title: "",
-                                            width: 200,
+                                            numValues: 2,
+                                            vertical: false,
+                                            minValueLabel: " ",
+                                            maxValueLabel: " ",
+                                            showValue: false,
                                             valueChanged: function (value) {
                                                 this.Super('valueChanged', arguments);
                                                 // @ts-ignore
                                                 ThisForm.bodyWidget.getObject().slider = value;
+                                                this.setTitle(value === 1 ? "PDF" : "EXCEL");
                                             }
                                         });
                                         return isc.HLayout.create({
@@ -183,8 +184,12 @@ var nicico;
                                             membersMargin: 10,
                                             edgeImage: "",
                                             showEdges: false,
-                                            members: [ok, cancel, slider, isc.HLayout.create({
+                                            members: [ok, cancel, isc.HLayout.create({
+                                                    height: 20,
                                                     width: "100%",
+                                                    align: nicico.CommonUtil.getAlignByLang(),
+                                                    members: [slider]
+                                                }), isc.HLayout.create({
                                                     align: nicico.CommonUtil.getAlignByLang(),
                                                     members: [filter]
                                                 })]
@@ -196,6 +201,8 @@ var nicico;
                                         return data ? {
                                             fileId: data.id,
                                             fileKey: data.fileKey,
+                                            // @ts-ignore
+                                            type: bodyWidget.slider === 2 ? "EXCEL" : "PDF",
                                             // @ts-ignore
                                             criteria: bodyWidget.criteria,
                                         } : null;
@@ -212,7 +219,7 @@ var nicico;
                                         // @ts-ignore
                                         creator.dynamicForm.print.setValue("fileKey", data.fileKey);
                                         // @ts-ignore
-                                        creator.dynamicForm.print.setValue("type", "PDF");
+                                        creator.dynamicForm.print.setValue("type", data.type);
                                         if (data.criteria && Object.keys(data.criteria).length)
                                             // @ts-ignore
                                             creator.dynamicForm.print.setValue("criteria", JSON.stringify(data.criteria));

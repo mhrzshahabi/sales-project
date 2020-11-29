@@ -178,20 +178,22 @@ var nicico;
                     });
                     // @ts-ignore
                     var slider = isc.Slider.create({
-                        vertical: false,
+                        title: "PDF",
+                        width: 100,
+                        height: 20,
+                        labelHeight: 0,
                         minValue: 1,
                         maxValue: 2,
-                        numValues: 1,
-                        minValueLabel: "PDF",
-                        maxValueLabel: "EXCEL",
-                        // @ts-ignore
-                        defaultValue: 2,
-                        title: "",
-                        width: 200,
+                        numValues: 2,
+                        vertical: false,
+                        minValueLabel: " ",
+                        maxValueLabel: " ",
+                        showValue: false,
                         valueChanged: function (value) {
                             this.Super('valueChanged', arguments);
                             // @ts-ignore
                             ThisForm.bodyWidget.getObject().slider = value;
+                            this.setTitle(value === 1 ? "PDF" : "EXCEL");
                         }
                     });
                     return isc.HLayout.create({
@@ -202,6 +204,7 @@ var nicico;
                         edgeImage: "",
                         showEdges: false,
                         members: [ok, cancel, isc.HLayout.create({
+                                height: 20,
                                 width: "100%",
                                 align: nicico.CommonUtil.getAlignByLang(),
                                 members: [slider]
@@ -209,21 +212,13 @@ var nicico;
                     });
                 };
                 selectReportForm.populateData = function (bodyWidget) {
-                    debugger;
-                    // @ts-ignore
-                    if (bodyWidget.slider === 1)
-                        // @ts-ignore
-                        bodyWidget.slider = "PDF";
-                    else
-                        // @ts-ignore
-                        bodyWidget.slider = "EXCEL";
                     // @ts-ignore
                     var data = bodyWidget.getSelectedValue();
                     return data ? {
                         fileId: data.id,
                         fileKey: data.fileKey,
                         // @ts-ignore
-                        type: bodyWidget.slider,
+                        type: bodyWidget.slider === 2 ? "EXCEL" : "PDF",
                         // @ts-ignore
                         criteria: cr,
                     } : null;
@@ -283,12 +278,17 @@ var nicico;
                 c.dynamicForm.main = null;
             };
             nicico.BasicFormUtil.createListGrid = function (c) {
+                var listGridFirstField = { name: null };
+                if (creator.listGrid.fields && creator.listGrid.fields.length)
+                    listGridFirstField = creator.listGrid.fields[0];
                 // @ts-ignore
                 creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria, {
                     canHover: true,
                     showHover: true,
                     autoFitMaxWidth: "15%",
                     autoFitWidthApproach: "both",
+                    autoFitFieldsFillViewport: true,
+                    autoFitExpandField: listGridFirstField.name,
                     dataArrived: function (startRow, endRow) {
                         this.autoFitFields();
                         this.Super("dataArrived", arguments);
