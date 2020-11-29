@@ -136,6 +136,7 @@ namespace nicico {
                         {
                             width: "100%",
                             border: '0px',
+                            name: "refresh",
                             align: CommonUtil.getAlignByLang(),
                             members: [
                                 // @ts-ignore
@@ -162,6 +163,26 @@ namespace nicico {
         static createListGrid(creator: JSPTabVariable): void {
             // @ts-ignore
             creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
+        }
+
+        static createTabSet(creator: JSPTabVariable): void {
+            // @ts-ignore
+            creator.tab.main = isc.TabSet.create({
+                width: "100%",
+                height: "100%",
+                tabBarPosition: nicico.CommonUtil.getAlignByLangReverse(),
+                // wrap: false,
+                showTabScroller: true,
+                border: "1px solid lightblue",
+                edgeMarginSize: 3,
+                tabBarThickness: 80,
+                tabs: [
+                    {
+                        title: "<spring:message code='global.tab'/>",
+                        pane: creator.listGrid.main
+                    },
+                ]
+            });
         }
 
         static createListGridMenu(creator: JSPTabVariable): void {
@@ -286,6 +307,16 @@ namespace nicico {
             });
         }
 
+        static createVLayoutWithTabSet(creator: JSPTabVariable): void {
+            // @ts-ignore
+            creator.vLayout.main = isc.VLayout.create({
+
+                width: "100%",
+                // @ts-ignore
+                members: [creator.toolStrip.main, creator.tab.main]
+            });
+        }
+
         static removeExtraGridMenuActions(creator: JSPTabVariable): void {
 
             // @ts-ignore
@@ -362,6 +393,34 @@ namespace nicico {
                 createWindowHook(creator);
 
             this.createVLayout(creator);
+
+            // @ts-ignore
+            return creator.vLayout.main;
+        }
+
+        static getDefaultBasicFormWithTabSet(creator: JSPTabVariable, restControllerUrl: string, createWindowHook: any = null): isc.VLayout {
+
+            // @ts-ignore
+            creator.variable.url += restControllerUrl.replaceAll(new RegExp("^/|/$"), '') + '/';
+
+            this.createDynamicForm(creator);
+            this.createRestDataSource(creator);
+            this.createListGrid(creator);
+            this.createListGridMenu(creator);
+            this.createToolStrip(creator);
+            this.createTabSet(creator);
+            // <c:if test = "${u_entity}">
+            // @ts-ignore
+            creator.listGrid.main.recordDoubleClick = function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                // @ts-ignore
+                creator.method.editForm('<spring:message code="global.form.edit"/>', creator.listGrid.main, creator.dynamicForm.main)
+            }
+            // </c:if>
+
+            if (createWindowHook && createWindowHook instanceof Function)
+                createWindowHook(creator);
+
+            this.createVLayoutWithTabSet(creator);
 
             // @ts-ignore
             return creator.vLayout.main;
