@@ -149,7 +149,7 @@ namespace nicico {
                                                 ThisForm.windowWidget.getObject().close();
                                                 // @ts-ignore
                                                 if (ThisForm.owner.getObject() != null)
-                                                    // @ts-ignore
+                                                // @ts-ignore
                                                     ThisForm.owner.getObject().show();
 
                                                 ThisForm.cancelCallBack();
@@ -171,7 +171,7 @@ namespace nicico {
                                                 ThisForm.windowWidget.getObject().close();
                                                 // @ts-ignore
                                                 if (ThisForm.owner.getObject() != null)
-                                                    // @ts-ignore
+                                                // @ts-ignore
                                                     ThisForm.owner.getObject().show();
 
                                                 ThisForm.okCallBack(data);
@@ -194,6 +194,28 @@ namespace nicico {
                                             icon: "[SKIN]/actions/filter.png",
                                             title: '<spring:message code="global.form.filter" />'
                                         });
+
+                                        // @ts-ignore
+                                        let slider = isc.Slider.create({
+                                            title: "PDF",
+                                            width: 100,
+                                            height: 20,
+                                            labelHeight: 0,
+                                            minValue: 1,
+                                            maxValue: 2,
+                                            numValues: 2,
+                                            vertical: false,
+                                            minValueLabel: " ",
+                                            maxValueLabel: " ",
+                                            showValue: false,
+                                            valueChanged: function (value) {
+
+                                                this.Super('valueChanged', arguments);
+                                                // @ts-ignore
+                                                ThisForm.bodyWidget.getObject().slider = value;
+                                                this.setTitle(value === 1 ? "PDF" : "EXCEL");
+                                            }
+                                        });
                                         return isc.HLayout.create({
 
                                             width: "100%",
@@ -203,7 +225,11 @@ namespace nicico {
                                             edgeImage: "",
                                             showEdges: false,
                                             members: [ok, cancel, isc.HLayout.create({
+                                                height: 20,
                                                 width: "100%",
+                                                align: CommonUtil.getAlignByLang(),
+                                                members: [slider]
+                                            }), isc.HLayout.create({
                                                 align: CommonUtil.getAlignByLang(),
                                                 members: [filter]
                                             })]
@@ -216,6 +242,8 @@ namespace nicico {
                                         return data ? {
                                             fileId: data.id,
                                             fileKey: data.fileKey,
+                                            // @ts-ignore
+                                            type: bodyWidget.slider === 2 ? "EXCEL" : "PDF",
                                             // @ts-ignore
                                             criteria: bodyWidget.criteria,
                                         } : null;
@@ -234,12 +262,12 @@ namespace nicico {
                                         // @ts-ignore
                                         creator.dynamicForm.print.setValue("fileKey", data.fileKey);
                                         // @ts-ignore
-                                        creator.dynamicForm.print.setValue("type", "PDF");
+                                        creator.dynamicForm.print.setValue("type", data.type);
                                         if (data.criteria && Object.keys(data.criteria).length)
-                                            // @ts-ignore
+                                        // @ts-ignore
                                             creator.dynamicForm.print.setValue("criteria", JSON.stringify(data.criteria));
                                         else
-                                            // @ts-ignore
+                                        // @ts-ignore
                                             creator.dynamicForm.print.setValue("criteria", JSON.stringify(null));
                                         // @ts-ignore
                                         creator.dynamicForm.print.method = "GET";
@@ -278,7 +306,7 @@ namespace nicico {
                                     creator.window.main.close();
                                     // @ts-ignore
                                     if (creator.variable.owner != null)
-                                        // @ts-ignore
+                                    // @ts-ignore
                                         creator.variable.owner.show();
 
                                     ReportExecutorFormUtil.cancelCallBack();

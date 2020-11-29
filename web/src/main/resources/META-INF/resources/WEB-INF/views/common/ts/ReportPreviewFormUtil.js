@@ -140,12 +140,85 @@ var nicico;
                         value: selectedIds
                     });
                 var selectReportForm = new nicico.FormUtil();
+                selectReportForm.getButtonLayout = function () {
+                    var ThisForm = selectReportForm;
+                    // @ts-ignore
+                    var cancel = isc.IButtonCancel.create({
+                        // @ts-ignore
+                        click: function () {
+                            // @ts-ignore
+                            ThisForm.windowWidget.getObject().close();
+                            // @ts-ignore
+                            if (ThisForm.owner.getObject() != null)
+                                // @ts-ignore
+                                ThisForm.owner.getObject().show();
+                            ThisForm.cancelCallBack();
+                        },
+                        icon: "pieces/16/icon_delete.png",
+                        title: '<spring:message code="global.close" />'
+                    });
+                    // @ts-ignore
+                    var ok = isc.IButtonSave.create({
+                        // @ts-ignore
+                        click: function () {
+                            // @ts-ignore
+                            var data = ThisForm.populateData(ThisForm.bodyWidget.getObject());
+                            if (!ThisForm.validate(data))
+                                return;
+                            // @ts-ignore
+                            ThisForm.windowWidget.getObject().close();
+                            // @ts-ignore
+                            if (ThisForm.owner.getObject() != null)
+                                // @ts-ignore
+                                ThisForm.owner.getObject().show();
+                            ThisForm.okCallBack(data);
+                        },
+                        icon: "pieces/16/save.png",
+                        title: '<spring:message code="global.ok" />'
+                    });
+                    // @ts-ignore
+                    var slider = isc.Slider.create({
+                        title: "PDF",
+                        width: 100,
+                        height: 20,
+                        labelHeight: 0,
+                        minValue: 1,
+                        maxValue: 2,
+                        numValues: 2,
+                        vertical: false,
+                        minValueLabel: " ",
+                        maxValueLabel: " ",
+                        showValue: false,
+                        valueChanged: function (value) {
+                            this.Super('valueChanged', arguments);
+                            // @ts-ignore
+                            ThisForm.bodyWidget.getObject().slider = value;
+                            this.setTitle(value === 1 ? "PDF" : "EXCEL");
+                        }
+                    });
+                    return isc.HLayout.create({
+                        width: "100%",
+                        padding: 10,
+                        layoutMargin: 10,
+                        membersMargin: 10,
+                        edgeImage: "",
+                        showEdges: false,
+                        members: [ok, cancel, isc.HLayout.create({
+                                height: 20,
+                                width: "100%",
+                                align: nicico.CommonUtil.getAlignByLang(),
+                                members: [slider]
+                            })]
+                    });
+                };
                 selectReportForm.populateData = function (bodyWidget) {
                     // @ts-ignore
                     var data = bodyWidget.getSelectedValue();
                     return data ? {
                         fileId: data.id,
                         fileKey: data.fileKey,
+                        // @ts-ignore
+                        type: bodyWidget.slider === 2 ? "EXCEL" : "PDF",
                         // @ts-ignore
                         criteria: cr,
                     } : null;
@@ -159,7 +232,7 @@ var nicico;
                     // @ts-ignore
                     creator.dynamicForm.print.setValue("fileKey", data.fileKey);
                     // @ts-ignore
-                    creator.dynamicForm.print.setValue("type", "PDF");
+                    creator.dynamicForm.print.setValue("type", data.type);
                     // @ts-ignore
                     creator.dynamicForm.print.setValue("criteria", JSON.stringify(data.criteria));
                     // @ts-ignore
@@ -168,8 +241,6 @@ var nicico;
                     creator.dynamicForm.print.action = creator.variable.contextPath + "report-execute/print";
                     // @ts-ignore
                     creator.dynamicForm.print.submitForm();
-                    // @ts-ignore
-                    creator.window.main.close();
                 };
                 // @ts-ignore
                 selectReportForm.showForm(creator.window.main, "<spring:message code='global.form.print'/>" + " - " + report.title, 
@@ -207,12 +278,17 @@ var nicico;
                 c.dynamicForm.main = null;
             };
             nicico.BasicFormUtil.createListGrid = function (c) {
+                var listGridFirstField = { name: null };
+                if (creator.listGrid.fields && creator.listGrid.fields.length)
+                    listGridFirstField = creator.listGrid.fields[0];
                 // @ts-ignore
                 creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria, {
                     canHover: true,
                     showHover: true,
                     autoFitMaxWidth: "15%",
                     autoFitWidthApproach: "both",
+                    autoFitFieldsFillViewport: true,
+                    autoFitExpandField: listGridFirstField.name,
                     dataArrived: function (startRow, endRow) {
                         this.autoFitFields();
                         this.Super("dataArrived", arguments);
