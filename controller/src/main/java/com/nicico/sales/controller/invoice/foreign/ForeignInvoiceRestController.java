@@ -111,6 +111,15 @@ public class ForeignInvoiceRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/update-deleted-document")
+    public ResponseEntity<Void> updateDeletedDocument(@RequestParam MultiValueMap<String, String> criteria) {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        TotalResponse<ForeignInvoiceDTO.Info> search = foreignInvoiceService.search(nicicoCriteria);
+        foreignInvoiceService.updateDeletedDocument(search.getResponse().getData());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Loggable
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<ForeignInvoiceDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
 
