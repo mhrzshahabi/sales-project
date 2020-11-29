@@ -14,4 +14,4 @@ Enum_PriceBaseReference: JSON.parse('<%=request.getAttribute("Enum_PriceBaseRefe
 //</script>
 <%@include file="js/contract-references.js" %>
 <%@include file="js/contract-detail-type.js" %>
-<%@include file="js/contract-detail-type-dynamic-table.js" %>
+<%--<%@include file="js/contract-detail-type-dynamic-table.js" %>--%>
