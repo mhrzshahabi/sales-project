@@ -123,7 +123,8 @@ public class ForeignInvoiceFormController {
 
         List<ForeignInvoiceBillOfLandingDTO.InfoWithoutForeignInvoice> billOfLanding = foreignInvoice.getBillLadings();
         billOfLanding.forEach(q -> {
-            wordUtil.replacePOI(doc, "SWITCH_DOC_NO", q.getBillOfLanding().getSwitchDocumentNo());
+            wordUtil.replacePOI(doc, "SWITCH_DOC_NO", q.getBillOfLanding().getBillOfLadingSwitch() == null ?
+                    null : q.getBillOfLanding().getBillOfLadingSwitch().getDocumentNo());
             wordUtil.replacePOI(doc, "NICICO_DOC_NO", q.getBillOfLanding().getDocumentNo());
             wordUtil.replacePOI(doc, "PORT_OF_LOADING", q.getBillOfLanding().getPortOfLoading().getPort());
             wordUtil.replacePOI(doc, "PORT_OF_DISCHARGE", q.getBillOfLanding().getPortOfDischarge().getPort());

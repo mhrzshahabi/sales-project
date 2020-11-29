@@ -436,11 +436,14 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
             // </sec:authorize>
         ]
     })],
-    cellChanged: function (record, newValue, oldValue, rowNum, colNum, grid) {
-        if (newValue === oldValue)
+    rowEditorExit: function (editCompletionEvent, record, newValues, rowNum) {
+
+        if (editCompletionEvent !== 'enter' || !newValues || !record ||
+            !(newValues[contractDetailTypeTab.dynamicForm.paramFields.type.name] ||
+                newValues[contractDetailTypeTab.dynamicForm.paramFields.reference.name]))
             return;
 
-        if (grid.fields[colNum].name === contractDetailTypeTab.dynamicForm.paramFields.type.name) {
+        if (newValues[contractDetailTypeTab.dynamicForm.paramFields.type.name]) {
 
             if (record[contractDetailTypeTab.dynamicForm.paramFields.defaultValue.name] == null &&
                 record[contractDetailTypeTab.dynamicForm.paramFields.reference.name] == null)
@@ -450,9 +453,8 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
 
             record[contractDetailTypeTab.dynamicForm.paramFields.reference.name] = null;
             record[contractDetailTypeTab.dynamicForm.paramFields.defaultValue.name] = null;
-            contractDetailTypeTab.listGrid.param.refreshRow(contractDetailTypeTab.listGrid.param.getRecordIndex(record));
-        }
-        if (grid.fields[colNum].name === contractDetailTypeTab.dynamicForm.paramFields.reference.name) {
+            contractDetailTypeTab.listGrid.param.refreshRow(rowNum);
+        } else if (newValues[contractDetailTypeTab.dynamicForm.paramFields.reference.name]) {
 
             if (record[contractDetailTypeTab.dynamicForm.paramFields.defaultValue.name] == null)
                 return;
@@ -460,7 +462,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
             contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.param-reference.reset'/>");
 
             record[contractDetailTypeTab.dynamicForm.paramFields.defaultValue.name] = null;
-            contractDetailTypeTab.listGrid.param.refreshRow(contractDetailTypeTab.listGrid.param.getRecordIndex(record));
+            contractDetailTypeTab.listGrid.param.refreshRow(rowNum);
         }
     }
 });

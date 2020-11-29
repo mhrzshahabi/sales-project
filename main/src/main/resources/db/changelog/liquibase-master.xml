@@ -40,6 +40,8 @@
     <include file="classpath:/db/changelog/changes/tbl_unit.xml"/>
     <include file="classpath:/db/changelog/changes/aud_tbl_contact.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_warh_tozin.xml"/>
+    <include file="classpath:/db/changelog/changes/aud_tbl_bill_of_landing.xml"/>
+    <include file="classpath:/db/changelog/changes/aud_tbl_bill_of_lading_switch.xml"/>
     <!-- CHANGES -->
 
     <!-- INITIALIZE DATA -->
@@ -72,6 +74,7 @@
     <include file="classpath:/db/changelog/initial-data/tbl_cntr_cdtp_dynamic_table.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_cntr_cdtp_dynamic_table_value.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_bill_of_landing.xml"/>
+    <include file="classpath:/db/changelog/initial-data/tbl_bill_of_lading_switch.xml"/>
     <include file="classpath:/db/changelog/initial-definition/tbl_packing_list.xml"/>
     <include file="classpath:/db/changelog/initial-definition/tbl_packing_container.xml"/>
     <!-- INITIALIZE DATA -->
@@ -102,6 +105,7 @@
     <include file="classpath:/db/changelog/changes/liq-diff-13990805.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_warh_warehouse.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_foreign_invoice-document.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_cntr_contract_detail_type_param.xml"/>
     <!-- CHANGES -->
 
     <!-- VIEWS -->

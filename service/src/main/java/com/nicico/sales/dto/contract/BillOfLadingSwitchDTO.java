@@ -1,6 +1,9 @@
-package com.nicico.sales.dto;
+package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.annotation.report.ReportField;
+import com.nicico.sales.annotation.report.ReportModel;
+import com.nicico.sales.dto.*;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,28 +19,36 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CDTPDynamicTableValueDTO {
-    private Long id;
-    private Long cdtpDynamicTableId;
-    private Integer rowNum;
-    private String value;
-    private String fieldName;
-    private Long contractDetailValueId;
-    private String description;
+public class BillOfLadingSwitchDTO {
+    private String documentNo;
+
+    private Long shipperExporterId;
+
+    private Long notifyPartyId;
+
+    private Long consigneeId;
+
+    private Long portOfLoadingId;
+
+    private Long portOfDischargeId;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("CDTPDynamicTableValueInfo")
-    public static class Info extends CDTPDynamicTableValueDTO implements Comparable<Info> {
-        private Long id;
-        private CDTPDynamicTableDTO.Info cdtpDynamicTable;
+    @ApiModel("BillOfLandingInfoWithoutShipment")
+    public static class Info extends BillOfLadingSwitchDTO {
 
-        @Override
-        public int compareTo(Info info) {
-            if (info == null) return this.getRowNum();
-            return this.getRowNum() - info.getRowNum();
-        }
+        private Long id;
+
+        private ContactDTO.Info shipperExporter;
+
+        private ContactDTO.Info notifyParty;
+
+        private ContactDTO.Info consignee;
+
+        private PortDTO.Info portOfLoading;
+
+        private PortDTO.Info portOfDischarge;
 
         // Auditing
         private Date createdDate;
@@ -51,28 +62,32 @@ public class CDTPDynamicTableValueDTO {
         private List<EStatus> eStatus;
     }
 
-
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("CDTPDynamicTableValueCreateRq")
-    public static class Create extends CDTPDynamicTableValueDTO {
+    @ApiModel("BillOfLandingCreateRq")
+    public static class Create extends BillOfLadingSwitchDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("CDTPDynamicTableValueUpdateRq")
-    public static class Update extends CDTPDynamicTableValueDTO {
+    @ApiModel("BillOfLandingUpdateRq")
+    public static class Update extends BillOfLadingSwitchDTO {
+
+        @NotNull
+        @ApiModelProperty(required = true)
         private Long id;
+
         private Integer version;
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("CDTPDynamicTableValueDeleteRq")
+    @ApiModel("BillOfLandingDeleteRq")
     public static class Delete {
+
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;

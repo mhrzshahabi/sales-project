@@ -1,0 +1,66 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="AZAARE-78999" author="abiz">
+        <createSequence sequenceName="SEQ_BILL_OF_LADING_SWITCH"/>
+
+        <createTable tableName="TBL_BILL_OF_LADING_SWITCH">
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_BILLOFLADINGSWITCHPK"/>
+            </column>
+            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="d_created_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_last_modified_date" type="TIMESTAMP"/>
+            <column name="n_version" type="NUMBER(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C_DOCUMENT_NO" type="VARCHAR2(255 CHAR)"/>
+            <column name="F_CONTACT_SHIPPER_EXPORTER" type="NUMBER(19, 0)"/>
+            <column name="F_CONTACT_NOTIFY_PARTY" type="NUMBER(19, 0)"/>
+            <column name="F_CONTACT_CONSIGNEE_EXPORTER" type="NUMBER(19, 0)"/>
+            <column name="F_PORT_AS_LOADING" type="NUMBER(19, 0)"/>
+            <column name="F_PORT_AS_DISCHARGE" type="NUMBER(19, 0)"/>
+        </createTable>
+
+        <addUniqueConstraint tableName="TBL_BILL_OF_LADING_SWITCH" columnNames="C_DOCUMENT_NO"
+                             constraintName="UC_TBL_BILL_OF_LADING_SWITCH_C_DOCUMENT_NO"/>
+
+        <addForeignKeyConstraint baseTableName="TBL_BILL_OF_LADING_SWITCH"
+                                 baseColumnNames="F_CONTACT_SHIPPER_EXPORTER"
+                                 constraintName="FK_BILL_OF_LADING_SWITCH_TO_CONTACT_AS_EXPORTER"
+                                 referencedTableName="TBL_CONTACT" referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="TBL_BILL_OF_LADING_SWITCH"
+                                 baseColumnNames="F_CONTACT_NOTIFY_PARTY"
+                                 constraintName="FK_BILL_OF_LADING_SWITCH_TO_CONTACT_AS_NOTIFY_PARTY"
+                                 referencedTableName="TBL_CONTACT" referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="TBL_BILL_OF_LADING_SWITCH"
+                                 baseColumnNames="F_CONTACT_CONSIGNEE_EXPORTER"
+                                 constraintName="FK_BILL_OF_LADING_SWITCH_TO_CONTACT_AS_CONSIGNEE"
+                                 referencedTableName="TBL_CONTACT" referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="TBL_BILL_OF_LADING_SWITCH"
+                                 baseColumnNames="F_PORT_AS_LOADING"
+                                 constraintName="FK_BILL_OF_LADING_SWITCH_TO_PORT_AS_LOADING"
+                                 referencedTableName="TBL_PORT" referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="TBL_BILL_OF_LADING_SWITCH"
+                                 baseColumnNames="F_PORT_AS_DISCHARGE"
+                                 constraintName="FK_BILL_OF_LADING_SWITCH_TO_PORT_AS_DISCHARGE"
+                                 referencedTableName="TBL_PORT" referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>

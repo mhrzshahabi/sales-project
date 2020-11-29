@@ -42,7 +42,7 @@ public class ContractDetailTypeParam extends BaseEntity {
     @Column(name = "C_REFERENCE")
     private String reference;
 
-    @Column(name = "C_DEFAULT_VALUE")
+    @Column(name = "C_DEFAULT_VALUE", length = 4000)
     private String defaultValue;
 
     @Column(name = "B_REQUIRED")
@@ -66,6 +66,6 @@ public class ContractDetailTypeParam extends BaseEntity {
     private Long contractDetailTypeId;
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cdtp")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "cdtp")
     private Set<CDTPDynamicTable> dynamicTables;
 }
