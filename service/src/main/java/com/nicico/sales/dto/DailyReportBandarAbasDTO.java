@@ -334,6 +334,12 @@ public class DailyReportBandarAbasDTO {
     private long owpTotalNotArrivedWeight;
     @ReportField(titleMessageKey = "Daily-report.owp.total.not.arrived.tozin")
     private long owpTotalNotArrivedTozin;
+    private Long sumFirstRemainedPkgDay;
+    private Long sumFirstRemainedPkgMonth;
+    private Long sumFirstRemainedPkgYear;
+    private Long firstRemainedPkgDay;
+    private Long firstRemainedPkgMonth;
+    private Long firstRemainedPkgYear;
 
     public Long getSumFirstRemainedWeightDay() {
         return sumRemainedWeight + sumOutWeightDay - sumIncomeWeightDay;
@@ -358,6 +364,164 @@ public class DailyReportBandarAbasDTO {
     public Long getFirstRemainedWeightYear() {
         return remainedWeight + outWeightYear - incomeWeightYear;
     }
+
+    public Long getSumFirstRemainedPkgDay() {
+        return sumRemainedPkg + sumOutPkgDay - sumInPkgDay;
+    }
+
+    public Long getSumFirstRemainedPkgMonth() {
+        return sumRemainedPkg + sumOutPkgMonth - sumInPkgMonth;
+    }
+
+    public Long getSumFirstRemainedPkgYear() {
+        return sumRemainedPkg + sumOutPkgYear - sumInPkgYear;
+    }
+
+    public Long getFirstRemainedPkgDay() {
+        return remainedPkg + outPkgDay - inPkgDay;
+    }
+
+    public Long getFirstRemainedPkgMonth() {
+        return remainedPkg + outPkgMonth - inPkgMonth;
+    }
+
+    public Long getFirstRemainedPkgYear() {
+        return remainedPkg + outPkgYear - inPkgYear;
+    }
+
+
+
+
+
+    private long owpDaySentTozinRail;
+    private long owpDaySentWeightRail;
+    private long owpDaySentTozinRoad;
+    private long owpDaySentWeightRoad;
+    private long owpMonthSentTozinRail;
+    private long owpMonthSentWeightRail;
+    private long owpMonthSentTozinRoad;
+    private long owpMonthSentWeightRoad;
+    private long owpYearSentTozinRail;
+    private long owpYearSentWeightRail;
+    private long owpYearSentTozinRoad;
+    private long owpYearSentWeightRoad;
+    private long owpDaySentTozinRailAllMaterial;
+    private long owpDaySentWeightRailAllMaterial;
+    private long owpTotalSentWeightRailAllMaterial;
+    private long owpTotalSentTozinRailAllMaterial;
+    private long owpMonthSentTozinRailAllMaterial;
+    private long owpMonthSentWeightRailAllMaterial;
+    private long owpYearSentTozinRailAllMaterial;
+    private long owpYearSentWeightRailAllMaterial;
+    private long owpDaySentTozinRoadAllMaterial;
+    private long owpDaySentWeightRoadAllMaterial;
+    private long owpTotalSentWeightRoadAllMaterial;
+    private long owpTotalSentTozinRoadAllMaterial;
+    private long owpMonthSentTozinRoadAllMaterial;
+    private long owpMonthSentWeightRoadAllMaterial;
+    private long owpYearSentTozinRoadAllMaterial;
+    private long owpYearSentWeightRoadAllMaterial;
+    private long owpDaySentTozinAllMaterial;
+    private long owpDaySentWeightAllMaterial;
+    private long owpMonthSentTozinAllMaterial;
+    private long owpMonthSentWeightAllMaterial;
+    private long owpYearSentTozinAllMaterial;
+    private long owpYearSentWeightAllMaterial;
+
+    public Long getOwpDaySentTozinRail(){
+        return owpDayNotArrivedTozinRail + owpDayArrivedTozinRail;
+    }
+    public Long getOwpDaySentWeightRail(){
+        return owpDayNotArrivedWeightRail + owpDayArrivedWeightRail;
+    }
+    public Long getOwpDaySentTozinRoad(){
+        return owpDayNotArrivedTozinRoad + owpDayArrivedTozinRoad;
+    }
+    public Long getOwpDaySentWeightRoad(){
+        return owpDayNotArrivedWeightRoad + owpDayArrivedWeightRoad;
+    }
+    public Long getOwpMonthSentTozinRail(){
+        return owpMonthNotArrivedTozinRail + owpMonthArrivedTozinRail;
+    }
+    public Long getOwpMonthSentWeightRail(){
+        return owpMonthNotArrivedWeightRail + owpMonthArrivedWeightRail;
+    }
+    public Long getOwpMonthSentTozinRoad(){
+        return owpMonthNotArrivedTozinRoad + owpMonthArrivedTozinRoad;
+    }
+    public Long getOwpMonthSentWeightRoad(){
+        return owpMonthNotArrivedWeightRoad + owpMonthArrivedWeightRoad;
+    }
+    public Long getOwpYearSentTozinRail(){
+        return owpYearNotArrivedTozinRail + owpYearArrivedTozinRail;
+    }
+    public Long getOwpYearSentWeightRail(){
+        return owpYearNotArrivedWeightRail + owpYearArrivedWeightRail;
+    }
+    public Long getOwpYearSentTozinRoad(){
+        return owpYearNotArrivedTozinRoad + owpYearArrivedTozinRoad;
+    }
+    public Long getOwpYearSentWeightRoad(){
+        return owpYearNotArrivedWeightRoad + owpYearArrivedWeightRoad;
+    }
+    public Long getOwpDaySentTozinRailAllMaterial(){
+        return owpDayNotArrivedTozinRailAllMaterial + owpDayArrivedTozinRailAllMaterial;
+    }
+    public Long getOwpDaySentWeightRailAllMaterial(){
+        return owpDayNotArrivedWeightRailAllMaterial + owpDayArrivedWeightRailAllMaterial;
+    }
+
+    public Long getOwpMonthSentTozinRailAllMaterial(){
+        return owpMonthNotArrivedTozinRailAllMaterial + owpMonthArrivedTozinRailAllMaterial;
+    }
+    public Long getOwpMonthSentWeightRailAllMaterial(){
+        return owpMonthNotArrivedWeightRailAllMaterial + owpMonthArrivedWeightRailAllMaterial;
+    }
+    public Long getOwpYearSentTozinRailAllMaterial(){
+        return owpYearNotArrivedTozinRailAllMaterial + owpYearArrivedTozinRailAllMaterial;
+    }
+    public Long getOwpYearSentWeightRailAllMaterial(){
+        return owpYearNotArrivedWeightRailAllMaterial + owpYearArrivedWeightRailAllMaterial;
+    }
+    public Long getOwpDaySentTozinRoadAllMaterial(){
+        return owpDayNotArrivedTozinRoadAllMaterial + owpDayArrivedTozinRoadAllMaterial;
+    }
+    public Long getOwpDaySentWeightRoadAllMaterial(){
+        return owpDayNotArrivedWeightRoadAllMaterial + owpDayArrivedWeightRoadAllMaterial;
+    }
+
+    public Long getOwpMonthSentWeightRoadAllMaterial(){
+        return owpMonthNotArrivedWeightRoadAllMaterial + owpMonthArrivedWeightRoadAllMaterial;
+    }
+    public Long getOwpYearSentTozinRoadAllMaterial(){
+        return owpYearNotArrivedTozinRoadAllMaterial + owpYearArrivedTozinRoadAllMaterial;
+    }
+    public Long getOwpYearSentWeightRoadAllMaterial(){
+        return owpYearNotArrivedWeightRoadAllMaterial + owpYearArrivedWeightRoadAllMaterial;
+    }
+    public Long getOwpDaySentTozinAllMaterial(){
+        return owpDayNotArrivedTozinAllMaterial + owpDayArrivedTozinAllMaterial;
+    }
+    public Long getOwpDaySentWeightAllMaterial(){
+        return owpDayNotArrivedWeightAllMaterial + owpDayArrivedWeightAllMaterial;
+    }
+    public Long getOwpMonthSentTozinAllMaterial(){
+        return owpMonthNotArrivedTozinAllMaterial + owpMonthArrivedTozinAllMaterial;
+    }
+    public Long getOwpMonthSentWeightAllMaterial(){
+        return owpMonthNotArrivedWeightAllMaterial + owpMonthArrivedWeightAllMaterial;
+    }
+    public Long getOwpYearSentTozinAllMaterial(){
+        return owpYearNotArrivedTozinAllMaterial + owpYearArrivedTozinAllMaterial;
+    }
+    public Long getOwpYearSentWeightAllMaterial(){
+        return owpYearNotArrivedWeightAllMaterial + owpYearArrivedWeightAllMaterial;
+    }
+
+
+
+
+
 
     @Getter
     @Setter
