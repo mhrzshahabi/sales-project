@@ -40,4 +40,8 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-097">
+        <dropColumn tableName="TBL_FOREIGN_INVOICE" columnName="N_ACCOUNTING_ID"/>
+    </changeSet>
+
 </databaseChangeLog>
