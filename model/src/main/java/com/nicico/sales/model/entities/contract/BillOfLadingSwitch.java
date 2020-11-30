@@ -8,7 +8,6 @@ import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 
 @Getter
@@ -41,7 +40,6 @@ public class BillOfLadingSwitch extends BaseEntity {
     )
     private Contact shipperExporter;
 
-    @NotNull
     @Column(name = "F_CONTACT_SHIPPER_EXPORTER")
     private Long shipperExporterId;
 
@@ -54,8 +52,7 @@ public class BillOfLadingSwitch extends BaseEntity {
             updatable = false
     )
     private Contact notifyParty;
-    @NotNull
-    @Column(name = "F_CONTACT_NOTIFY_PARTY", nullable = false)
+    @Column(name = "F_CONTACT_NOTIFY_PARTY")
     private Long notifyPartyId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -68,8 +65,7 @@ public class BillOfLadingSwitch extends BaseEntity {
     )
     private Contact consignee;
 
-    @NotNull
-    @Column(name = "F_CONTACT_CONSIGNEE_EXPORTER", nullable = false)
+    @Column(name = "F_CONTACT_CONSIGNEE_EXPORTER")
     private Long consigneeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -82,8 +78,7 @@ public class BillOfLadingSwitch extends BaseEntity {
     )
     private Port portOfLoading;
 
-    @NotNull
-    @Column(name = "F_PORT_AS_LOADING", nullable = false)
+    @Column(name = "F_PORT_AS_LOADING")
     private Long portOfLoadingId;
 
     @ManyToOne(fetch = FetchType.LAZY)
