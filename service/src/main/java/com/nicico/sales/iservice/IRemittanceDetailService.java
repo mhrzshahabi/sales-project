@@ -2,6 +2,7 @@ package com.nicico.sales.iservice;
 
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.RemittanceDetailDTO;
 import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 
@@ -14,4 +15,5 @@ public interface IRemittanceDetailService extends IGenericService<RemittanceDeta
 
     TotalResponse<RemittanceDetailDTO.ReportInfo> reportSearch(NICICOCriteria nicicoCriteria);
 
+    SearchDTO.SearchRs<RemittanceDetailDTO.ReportInfo> reportSearch(SearchDTO.SearchRq request);
 }

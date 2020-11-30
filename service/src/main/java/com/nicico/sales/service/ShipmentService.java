@@ -3,7 +3,9 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.annotation.Action;
+import com.nicico.sales.annotation.CheckCriteria;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.iservice.IShipmentService;
@@ -27,8 +29,26 @@ public class ShipmentService extends GenericService<Shipment, Long, ShipmentDTO.
         return ((ShipmentDAO) repository).pickListShipment();
     }
 
+    @Override
+    @Action(value = ActionType.Search)
+    @Transactional(readOnly = true)
+    public SearchDTO.SearchRs<ShipmentDTO.ReportInfo> reportSearch(SearchDTO.SearchRq request) {
+
+        List<Shipment> entities = new ArrayList<>();
+        SearchDTO.SearchRs<ShipmentDTO.ReportInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
+
+            ShipmentDTO.ReportInfo eResult = modelMapper.map(entity, ShipmentDTO.ReportInfo.class);
+            validation(entity, eResult);
+            entities.add(entity);
+            return eResult;
+        });
+
+        validationAll(entities, result);
+        return result;
+    }
 
     @Override
+    @CheckCriteria
     @Action(value = ActionType.Search)
     @Transactional(readOnly = true)
     public TotalResponse<ShipmentDTO.ReportInfo> reportSearch(NICICOCriteria request) {

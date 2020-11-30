@@ -43,7 +43,9 @@ public class CriteriaRefinerAspect {
 
     private final ModelMapper modelMapper;
 
-    @Around(value = "execution(* com.nicico.sales.service.GenericService+.search(..)) && args(request) ||" + "execution(* com.nicico.sales.service.contract.ContractService.refinedSearch(..)) && args(request)")
+    @Around(value = "" +
+            "(execution(* com.nicico.sales.service.GenericService+.search(..)) && args(request)) || " +
+            "(@annotation(com.nicico.sales.annotation.CheckCriteria) && args(request))")
     public TotalResponse<? extends Object> refineDateCriteria(ProceedingJoinPoint proceedingJoinPoint, NICICOCriteria request) throws Throwable {
 
         Object target = proceedingJoinPoint.getTarget();
@@ -140,6 +142,50 @@ public class CriteriaRefinerAspect {
         }
 
         return fieldName;
+    }
+
+    private boolean makeContractContactsCriteria(SearchDTO.CriteriaRq criteriaRq, String fieldName) {
+
+        Integer roleId = null;
+        switch (fieldName) {
+            case "buyerId":
+                roleId = CommercialRole.Buyer.getId();
+                break;
+            case "sellerId":
+                roleId = CommercialRole.Seller.getId();
+                break;
+            case "agentBuyerId":
+                roleId = CommercialRole.AgentBuyer.getId();
+                break;
+            case "agentSellerId":
+                roleId = CommercialRole.AgentSeller.getId();
+                break;
+        }
+
+        if (roleId != null) {
+
+            SearchDTO.CriteriaRq newCriteriaRq = new SearchDTO.CriteriaRq();
+            modelMapper.map(criteriaRq, newCriteriaRq);
+
+            newCriteriaRq.setOperator(EOperator.equals);
+            newCriteriaRq.setFieldName("contractContacts.contactId");
+
+            SearchDTO.CriteriaRq roleCriteriaRq = new SearchDTO.CriteriaRq().
+                    setFieldName("contractContacts.commercialRole").
+                    setOperator(EOperator.equals).
+                    setValue(roleId);
+
+            criteriaRq.setFieldName(null).
+                    setOperator(EOperator.and).
+                    setValue(null).
+                    setCriteria(Arrays.asList(roleCriteriaRq, newCriteriaRq)).
+                    setStart(null).
+                    setEnd(null);
+
+            return true;
+        }
+
+        return false;
     }
 
     private boolean refineDateField(String fieldName, SearchDTO.CriteriaRq criteriaRq, boolean result) {
@@ -273,49 +319,5 @@ public class CriteriaRefinerAspect {
         }
 
         return result;
-    }
-
-    private boolean makeContractContactsCriteria(SearchDTO.CriteriaRq criteriaRq, String fieldName) {
-
-        Integer roleId = null;
-        switch (fieldName) {
-            case "buyerId":
-                roleId = CommercialRole.Buyer.getId();
-                break;
-            case "sellerId":
-                roleId = CommercialRole.Seller.getId();
-                break;
-            case "agentBuyerId":
-                roleId = CommercialRole.AgentBuyer.getId();
-                break;
-            case "agentSellerId":
-                roleId = CommercialRole.AgentSeller.getId();
-                break;
-        }
-
-        if (roleId != null) {
-
-            SearchDTO.CriteriaRq newCriteriaRq = new SearchDTO.CriteriaRq();
-            modelMapper.map(criteriaRq, newCriteriaRq);
-
-            newCriteriaRq.setOperator(EOperator.equals);
-            newCriteriaRq.setFieldName("contractContacts.contactId");
-
-            SearchDTO.CriteriaRq roleCriteriaRq = new SearchDTO.CriteriaRq().
-                    setFieldName("contractContacts.commercialRole").
-                    setOperator(EOperator.equals).
-                    setValue(roleId);
-
-            criteriaRq.setFieldName(null).
-                    setOperator(EOperator.and).
-                    setValue(null).
-                    setCriteria(Arrays.asList(roleCriteriaRq, newCriteriaRq)).
-                    setStart(null).
-                    setEnd(null);
-
-            return true;
-        }
-
-        return false;
     }
 }

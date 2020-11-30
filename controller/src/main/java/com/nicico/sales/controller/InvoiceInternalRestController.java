@@ -49,13 +49,15 @@ public class InvoiceInternalRestController {
         List<InternalInvoiceDTO.Info> lastIds = invoiceInternalService.getIds(ids);
         return new ResponseEntity<>(lastIds, HttpStatus.OK);
     }
+
     @Loggable
     @GetMapping(value = "/update-deleted-document")
     public ResponseEntity<Void> updateDeletedDocument(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         TotalResponse<InternalInvoiceDTO.Info> search = invoiceInternalService.search(nicicoCriteria);
-        invoiceInternalService.updateDeletedDocument(search.getResponse().getData());
-        return new ResponseEntity<>( HttpStatus.OK);
+        if (search.getResponse().getTotalRows() > 0)
+            invoiceInternalService.updateDeletedDocument(search.getResponse().getData());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Loggable
