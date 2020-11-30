@@ -369,16 +369,16 @@ public abstract class AllConverters {
     // *****************************************************************************************************************
 
     @Converter(autoApply = true)
-    public static class FileStatusConverter implements AttributeConverter<FileStatus, String> {
+    public static class FileStatusConverter implements AttributeConverter<EFileStatus, String> {
 
         @Override
-        public String convertToDatabaseColumn(FileStatus entry) {
+        public String convertToDatabaseColumn(EFileStatus entry) {
             return entry != null ? entry.getValue() : null;
         }
 
         @Override
-        public FileStatus convertToEntityAttribute(String value) {
-            for (FileStatus entry : FileStatus.values()) {
+        public EFileStatus convertToEntityAttribute(String value) {
+            for (EFileStatus entry : EFileStatus.values()) {
                 if (entry.getValue().equals(value)) {
                     return entry;
                 }

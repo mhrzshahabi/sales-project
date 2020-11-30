@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum FileStatus {
+public enum EFileStatus {
     NORMAL("NORMAL"),
     DELETED("DELETED");
 

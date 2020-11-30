@@ -15,11 +15,11 @@ public interface IFileService {
 
     String store(FileDTO.Request request) throws Exception;
 
-    FileDTO.Response retrieve(String key) throws Exception;
+    FileDTO.Response retrieve(String key);
 
     List<FileDTO.FileMetaData> getFiles(Long recordId, String entityName);
 
-    void delete(String key) throws Exception;
+    void delete(String key);
 
-    void restore(String key) throws Exception;
+    void restore(String key);
 }
