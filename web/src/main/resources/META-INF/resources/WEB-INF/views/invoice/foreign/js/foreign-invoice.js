@@ -35,7 +35,7 @@ foreignInvoiceTab.variable.invoiceTypeCriteria = {
 };
 
 foreignInvoiceTab.tab.pane = {};
-foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
+foreignInvoiceTab.variable.listGridFields = BaseFormItems.concat([
     {
         name: "no",
         width: "100%",
@@ -120,7 +120,121 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         title: "<spring:message code='foreign-invoice.form.parent-id'/>"
     }
 ]);
+foreignInvoiceTab.variable.listGridFields.filter(q => q.name === "estatus").first().hidden = false;
+
+foreignInvoiceTab.variable.foreignDataSource = isc.RestDataSource.nicico.getDefault(
+    foreignInvoiceTab.variable.foreignInvoiceUrl + "spec-list",
+    foreignInvoiceTab.variable.listGridFields,
+    null);
+
+foreignInvoiceTab.variable.sentListGrid = isc.ListGrid.nicico.getDefault(
+    foreignInvoiceTab.variable.listGridFields,
+    foreignInvoiceTab.variable.foreignDataSource,
+    {
+        operator: "and",
+        criteria: [{fieldName: 'eStatusId', operator: 'greaterOrEqual', value: 8},
+            {fieldName: 'eStatusId', operator: 'lessThan', value: 16}]
+    },
+    {sortField: 1, sortDirection: "descending"});
+
+foreignInvoiceTab.variable.deletedListGrid = isc.ListGrid.nicico.getDefault(
+    foreignInvoiceTab.variable.listGridFields,
+    foreignInvoiceTab.variable.foreignDataSource,
+    {
+        operator: "and",
+        criteria: [{fieldName: 'eStatusId', operator: 'greaterOrEqual', value: 16}]
+    },
+    {sortField: 1, sortDirection: "descending"});
+
+foreignInvoiceTab.listGrid.fields = foreignInvoiceTab.variable.listGridFields;
 foreignInvoiceTab.listGrid.fields.filter(q => q.name === "estatus").first().hidden = false;
+//
+// foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
+//     {
+//         name: "no",
+//         width: "100%",
+//         required: true,
+//         showHover: true,
+//         title: "<spring:message code='foreign-invoice.form.no'/>"
+//     },
+//     {
+//         name: "date",
+//         type: "date",
+//         width: "100%",
+//         required: true,
+//         showHover: true,
+//         title: "<spring:message code='foreign-invoice.form.date'/>"
+//     },
+//     {
+//         width: "100%",
+//         required: true,
+//         showHover: true,
+//         name: "invoiceType.title",
+//         title: "<spring:message code='foreign-invoice.form.invoice-type'/>"
+//     },
+//     {
+//         width: "100%",
+//         required: true,
+//         showHover: true,
+//         name: "sumPrice",
+//         title: "<spring:message code='foreign-invoice.form.sum-price'/>"
+//     },
+//     {
+//         width: "100%",
+//         showHover: true,
+//         name: "conversionSumPrice",
+//         title: "<spring:message code='foreign-invoice.form.conversion-sum-price'/>"
+//     },
+//     {
+//         width: "100%",
+//         required: true,
+//         showHover: true,
+//         name: "buyer.nameEN",
+//         title: "<spring:message code='foreign-invoice.form.buyer'/>"
+//     },
+//     {
+//         width: "100%",
+//         type: "date",
+//         required: true,
+//         showHover: true,
+//         name: "shipment.sendDate",
+//         title: "<spring:message code='global.sendDate'/>"
+//     },
+//     {
+//         width: "100%",
+//         required: true,
+//         showHover: true,
+//         name: "shipment.material.descEN",
+//         title: "<spring:message code='material.descEN'/>"
+//     },
+//     {
+//         width: "100%",
+//         required: true,
+//         showHover: true,
+//         name: "creator.fullName",
+//         title: "<spring:message code='foreign-invoice.form.creator'/>"
+//     },
+//     {
+//         width: "100%",
+//         showHover: true,
+//         name: "documentId",
+//         title: "<spring:message code='foreign-invoice.form.documentId'/>"
+//     },
+//     {
+//         width: "100%",
+//         showHover: true,
+//         name: "percent",
+//         title: "<spring:message code='foreign-invoice.form.percent'/>"
+//     },
+//     {
+//         hidden: true,
+//         width: "100%",
+//         showHover: true,
+//         name: "parentId",
+//         title: "<spring:message code='foreign-invoice.form.parent-id'/>"
+//     }
+// ]);
+// foreignInvoiceTab.listGrid.fields.filter(q => q.name === "estatus").first().hidden = false;
 foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     /* Foreign Invoice */
     {
@@ -691,8 +805,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='global.description'/>",
     }
 ]);
-
-//***************************************************** RESTDATASOURCE *************************************************
 
 //******************************************************* COMPONENTS ***************************************************
 
@@ -1595,7 +1707,6 @@ nicico.BasicFormUtil.createTabSet = function () {
         width: "100%",
         height: "100%",
         tabBarPosition: nicico.CommonUtil.getAlignByLangReverse(),
-        // wrap: false,
         showTabScroller: true,
         border: "1px solid lightblue",
         edgeMarginSize: 3,
@@ -1608,23 +1719,23 @@ nicico.BasicFormUtil.createTabSet = function () {
             },
             {
                 title: "<spring:message code='issuedInternalInvoices.sent'/>",
-                pane: foreignInvoiceTab.listGrid.main,
+                pane: foreignInvoiceTab.variable.sentListGrid,
                 name: "sent"
             },
             {
                 title: "<spring:message code='issuedInternalInvoices.deleted'/>",
-                pane: foreignInvoiceTab.listGrid.main,
+                pane: foreignInvoiceTab.variable.deletedListGrid,
                 name: "deleted"
             }
         ],
         tabSelected: function (tabNum, tabPane, ID, tab, name) {
             if (name === "notSent") {
 
-                foreignInvoiceTab.listGrid.main.setCriteria(null);
-                foreignInvoiceTab.listGrid.main.setImplicitCriteria({
-                    operator: "and",
-                    criteria: [{fieldName: 'eStatusId', operator: 'lessThan', value: 8}]
-                });
+                // foreignInvoiceTab.listGrid.main.setCriteria(null);
+                // foreignInvoiceTab.listGrid.main.setImplicitCriteria({
+                //     operator: "and",
+                //     criteria: [{fieldName: 'eStatusId', operator: 'lessThan', value: 8}]
+                // });
                 foreignInvoiceTab.toolStrip.main.getMembers().forEach(q => q.show());
                 if (foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "updateStatus").first() !== undefined)
                     foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "updateStatus").first().hide();
@@ -1633,16 +1744,14 @@ nicico.BasicFormUtil.createTabSet = function () {
 
             } else if (name === "sent") {
 
-                foreignInvoiceTab.listGrid.main.setCriteria(null);
-                foreignInvoiceTab.listGrid.main.setImplicitCriteria({
-                    operator: "and",
-                    criteria: [{fieldName: 'eStatusId', operator: 'greaterOrEqual', value: 8},
-                        {fieldName: 'eStatusId', operator: 'lessThan', value: 16}]
-                });
+                // foreignInvoiceTab.variable.sentListGrid.setCriteria(null);
+                // foreignInvoiceTab.variable.sentListGrid.setImplicitCriteria({
+                //     operator: "and",
+                //     criteria: [{fieldName: 'eStatusId', operator: 'greaterOrEqual', value: 8},
+                //         {fieldName: 'eStatusId', operator: 'lessThan', value: 16}]
+                // });
                 foreignInvoiceTab.toolStrip.main.getMembers().forEach(q => q.hide());
-                // <c:if test = "${P_FOREIGN_INVOICE}">
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "print").first().show();
-                // </c:if>
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "refresh").first().show();
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "relatedInvoice").first().show();
 
@@ -1650,23 +1759,17 @@ nicico.BasicFormUtil.createTabSet = function () {
 
             } else if (name === "deleted") {
 
-                foreignInvoiceTab.listGrid.main.setCriteria(null);
-                foreignInvoiceTab.listGrid.main.setImplicitCriteria({
-                    operator: "and",
-                    criteria: [{fieldName: 'eStatusId', operator: 'greaterOrEqual', value: 16}]
-                });
+                // foreignInvoiceTab.listGrid.main.setCriteria(null);
+                // foreignInvoiceTab.listGrid.main.setImplicitCriteria({
+                //     operator: "and",
+                //     criteria: [{fieldName: 'eStatusId', operator: 'greaterOrEqual', value: 16}]
+                // });
                 foreignInvoiceTab.toolStrip.main.getMembers().forEach(q => q.hide());
-                // <c:if test = "${P_FOREIGN_INVOICE}">
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "print").first().show();
-                // </c:if>
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "refresh").first().show();
-                // <c:if test = "${E_UPDATE_FOREIGN_INVOICE_DOC_ID}">
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "updateStatus").first().show();
-                // </c:if>
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "relatedInvoice").first().show();
-                // <c:if test = "${E_SEND_FOREIGN_INVOICE_TO_ACC}">
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "SentToAccounting").first().show();
-                // </c:if>
 
                 foreignInvoiceTab.menu.main.getMembers().forEach(q => q.hide());
             }
@@ -1686,11 +1789,34 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     title: "<spring:message code='global.form.related.invoice'/>",
     click: function () {
 
-        let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
-        if (record == null)
-            foreignInvoiceTab.dialog.notSelected();
-        else {
-            let referenceId = record.parentId ? record.parentId : record.id;
+        let tabName = foreignInvoiceTab.tab.main.getTab(foreignInvoiceTab.tab.main.selectedTab).name;
+        let record = null;
+
+        if (tabName === "notSent") {
+
+            record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
+            if (record == null)
+                foreignInvoiceTab.dialog.notSelected();
+            else {
+                let referenceId = record.parentId ? record.parentId : record.id;
+                foreignInvoiceTab.listGrid.main.setCriteria({
+                    _constructor: "AdvancedCriteria",
+                    operator: "or",
+                    criteria:
+                        [
+                            {
+                                fieldName: "id",
+                                operator: "equals",
+                                value: referenceId
+                            },
+                            {
+                                fieldName: "parentId",
+                                operator: "equals",
+                                value: referenceId
+                            }
+                        ]
+                });
+            }
             // let criteria = {
             //     operator: 'and',
             //     _constructor: "AdvancedCriteria",
@@ -1717,28 +1843,61 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
             //             ]
             //     });
             // foreignInvoiceTab.listGrid.main.setImplicitCriteria(criteria);
+        }
+        else if (tabName === "sent") {
 
-            foreignInvoiceTab.listGrid.main.setCriteria({
-                _constructor: "AdvancedCriteria",
-                operator: "or",
-                criteria:
-                    [
-                        {
-                            fieldName: "id",
-                            operator: "equals",
-                            value: referenceId
-                        },
-                        {
-                            fieldName: "parentId",
-                            operator: "equals",
-                            value: referenceId
-                        }
-                    ]
-            });
+            record = foreignInvoiceTab.variable.sentListGrid.getSelectedRecord();
+            if (record == null)
+                foreignInvoiceTab.dialog.notSelected();
+            else {
+                let referenceId = record.parentId ? record.parentId : record.id;
+                foreignInvoiceTab.variable.sentListGrid.setCriteria({
+                    _constructor: "AdvancedCriteria",
+                    operator: "or",
+                    criteria:
+                        [
+                            {
+                                fieldName: "id",
+                                operator: "equals",
+                                value: referenceId
+                            },
+                            {
+                                fieldName: "parentId",
+                                operator: "equals",
+                                value: referenceId
+                            }
+                        ]
+                });
+            }
+        }
+        else if (tabName === "deleted") {
+
+            record = foreignInvoiceTab.variable.deletedListGrid.getSelectedRecord();
+            if (record == null)
+                foreignInvoiceTab.dialog.notSelected();
+            else {
+                let referenceId = record.parentId ? record.parentId : record.id;
+                foreignInvoiceTab.variable.deletedListGrid.setCriteria({
+                    _constructor: "AdvancedCriteria",
+                    operator: "or",
+                    criteria:
+                        [
+                            {
+                                fieldName: "id",
+                                operator: "equals",
+                                value: referenceId
+                            },
+                            {
+                                fieldName: "parentId",
+                                operator: "equals",
+                                value: referenceId
+                            }
+                        ]
+                });
+            }
         }
     }
 }), 7);
-// <c:if test = "${C_FOREIGN_INVOICE_COMPLETION}">
 foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     visibility: "visible",
     icon: "[SKIN]/actions/configure.png",
@@ -1746,15 +1905,8 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     title: "<spring:message code='global.completion.foreign.invoice'/>",
     click: function () {
 
-        foreignInvoiceTab.variable.method = "POST";
-        foreignInvoiceTab.variable.completionInvoice = true;
         let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
-        foreignInvoiceTab.button.selectBillLadingCompletion.criteria = {
-            operator: "equals",
-            fieldName: "shipmentId",
-            value: record.shipmentId
-        };
-        foreignInvoiceTab.button.selectBillLadingCompletion.enable();
+
         if (record == null || record.id == null)
             foreignInvoiceTab.dialog.notSelected();
         else if (record.editable === false)
@@ -1766,6 +1918,15 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         else if (record.parentId)
             foreignInvoiceTab.dialog.say('<spring:message code="foreign-invoice.form.invoice.completion.on.parent"/>');
         else {
+
+            foreignInvoiceTab.variable.method = "POST";
+            foreignInvoiceTab.variable.completionInvoice = true;
+            foreignInvoiceTab.button.selectBillLadingCompletion.criteria = {
+                operator: "equals",
+                fieldName: "shipmentId",
+                value: record.shipmentId
+            };
+            foreignInvoiceTab.button.selectBillLadingCompletion.enable();
 
             foreignInvoiceTab.variable.materialId = record.shipment.materialId;
             foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.clearValues();
@@ -1797,8 +1958,6 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         }
     }
 }), 8);
-// </c:if>
-// <c:if test = "${E_SEND_FOREIGN_INVOICE_TO_ACC}">
 foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     visibility: "visible",
     icon: "pieces/receipt.png",
@@ -1806,7 +1965,14 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     title: "<spring:message code='accounting.document.create'/>",
     click: function () {
 
-        let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
+        let record = null;
+        let tabName = foreignInvoiceTab.tab.main.getTab(foreignInvoiceTab.tab.main.selectedTab).name;
+
+        if (tabName === "notSent")
+            record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
+        else if (tabName === "deleted")
+            record = foreignInvoiceTab.variable.deletedListGrid;
+
         if (record == null || record.id == null)
             foreignInvoiceTab.dialog.notSelected();
         else if (!record.estatus.contains(Enums.eStatus2.Final))
@@ -1824,15 +1990,14 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
             foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("sumPrice", record.sumPrice);
             foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("currencyId", record.currency.name);
             foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("conversionSumPrice", record.conversionSumPrice);
-            foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("conversionSumPriceText", record.conversionSumPriceText);
+            foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("conversionSumPriceText",
+                record.conversionSumPriceText);
             foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("conversionRate", record.conversionRate);
 
             foreignInvoiceTab.window.sentToAccounting.justShowForm();
         }
     }
 }), 9);
-// </c:if>
-// <c:if test = "${E_UPDATE_FOREIGN_INVOICE_DOC_ID}">
 foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     icon: "pieces/16/refresh.png",
     name: "updateStatus",
@@ -1862,25 +2027,30 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         }));
     }
 }), 10);
-// </c:if>
-// <c:if test = "${P_FOREIGN_INVOICE}">
 foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     icon: "[SKIN]/actions/print.png",
     name: "print",
     title: "<spring:message code='global.form.print'/>",
     click: function () {
 
-        let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
+        let tabName = foreignInvoiceTab.tab.main.getTab(foreignInvoiceTab.tab.main.selectedTab).name;
+        let record = null;
+
+        if (tabName === "notSent") {
+            record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
+        } else if (tabName === "sent") {
+            record = foreignInvoiceTab.variable.sentListGrid.getSelectedRecord();
+        } else if (tabName === "deleted") {
+            record = foreignInvoiceTab.variable.deletedListGrid.getSelectedRecord();
+        }
+
         if (!record || !record.id)
             foreignInvoiceTab.dialog.notSelected();
         else if (record.shipment.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
-
-            let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
             window.open('${printUrl}' + record.id);
         }
     }
 }), 11);
-// </c:if>
 
 foreignInvoiceTab.dynamicForm.main = null;
 
@@ -3659,7 +3829,6 @@ foreignInvoiceTab.method.newForm = function () {
     foreignInvoiceTab.dynamicForm.baseData.redraw();
     foreignInvoiceTab.window.main.show();
 };
-
 foreignInvoiceTab.method.editForm = function () {
 
     foreignInvoiceTab.variable.method = "PUT";
@@ -3833,12 +4002,18 @@ foreignInvoiceTab.method.editForm = function () {
         });
     }
 };
-
 foreignInvoiceTab.method.validateDeleteActionHook = function (record) {
 
     if (!record.parentId)
         foreignInvoiceTab.dialog.say('<spring:message code="global.grid.record.not.removable"/>');
     return record.parentId;
+};
+foreignInvoiceTab.method.addTab = function (pane, title) {
+    foreignInvoiceTab.tab.invoice.addTab({
+        pane: pane,
+        title: title,
+        paneMargin: 5
+    });
 };
 
 foreignInvoiceTab.listGrid.main.rowClick = function (record, recordNum, fieldNum) {
@@ -3852,9 +4027,7 @@ foreignInvoiceTab.listGrid.main.rowClick = function (record, recordNum, fieldNum
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DEACTIVATE).first().show();
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.FINALIZE).first().show();
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DISAPPROVE).first().show();
-        // <c:if test = "${C_FOREIGN_INVOICE_COMPLETION}">
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "invoiceCompletion").first().show();
-        // </c:if>
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "relatedInvoice").first().show();
 
         if (record.parentId) {
@@ -3863,9 +4036,7 @@ foreignInvoiceTab.listGrid.main.rowClick = function (record, recordNum, fieldNum
             foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DEACTIVATE).first().hide();
             foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.FINALIZE).first().hide();
             foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DISAPPROVE).first().hide();
-            // <c:if test = "${C_FOREIGN_INVOICE_COMPLETION}">
             foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "invoiceCompletion").first().hide();
-            // </c:if>
             foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "relatedInvoice").first().show();
         } else
             foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DELETE).first().hide();
@@ -3873,21 +4044,12 @@ foreignInvoiceTab.listGrid.main.rowClick = function (record, recordNum, fieldNum
 
     this.Super("rowClick", arguments);
 };
-
 foreignInvoiceTab.listGrid.main.getCellCSSText = function (record, rowNum, colNum) {
 
     if (record.parentId) {
         return "font-weight:bold; color:#2f8be0;";
     }
     return this.Super('getCellCSSText', arguments)
-};
-
-foreignInvoiceTab.method.addTab = function (pane, title) {
-    foreignInvoiceTab.tab.invoice.addTab({
-        pane: pane,
-        title: title,
-        paneMargin: 5
-    });
 };
 
 //*************************************************** REST *************************************************************

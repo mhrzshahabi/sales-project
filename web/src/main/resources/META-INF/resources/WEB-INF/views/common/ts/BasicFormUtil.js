@@ -161,7 +161,6 @@ var nicico;
                 width: "100%",
                 height: "100%",
                 tabBarPosition: nicico.CommonUtil.getAlignByLangReverse(),
-                // wrap: false,
                 showTabScroller: true,
                 border: "1px solid lightblue",
                 edgeMarginSize: 3,
