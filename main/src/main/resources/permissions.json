@@ -1033,6 +1033,14 @@
       "title": "لغو تائید نهایی فاکتور فروش خارجی"
     },
     {
+      "code": "P_FOREIGN_INVOICE",
+      "title": "چاپ فاکتور فروش خارجی"
+    },
+    {
+      "code": "C_FOREIGN_INVOICE_COMPLETION",
+      "title": "تکمیل فاکتور فروش خارجی"
+    },
+    {
       "code": "R_VIEW_INTERNAL_INVOICE_DOCUMENT",
       "title": "نمایش سند فاکتور فروش داخلی"
     },

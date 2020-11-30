@@ -1273,7 +1273,6 @@ foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm = isc.DynamicForm.cre
 foreignInvoiceTab.variable.selectBillLadingCompletionForm.validate = function (selectedRecords) {
     return selectedRecords;
 };
-
 foreignInvoiceTab.variable.selectBillLadingCompletionForm.okCallBack = function (selectedRecords) {
 
     foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager.setValue("billLadings", selectedRecords);
@@ -1571,12 +1570,11 @@ foreignInvoiceTab.window.sentToAccounting.okCallBack = function (data) {
         data: JSON.stringify(data),
         prompt: "<spring:message code='global.server.sending-to-accounting'/>",
         callback: function (resp) {
-            debugger
+
             let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
             let respData = JSON.stringify(resp.httpResponseText).split("@");
             record.documentId = respData[1].replace("\"", "");
             isc.say(respData[0]);
-            debugger
         }
     });
 };
@@ -1642,7 +1640,9 @@ nicico.BasicFormUtil.createTabSet = function () {
                         {fieldName: 'eStatusId', operator: 'lessThan', value: 16}]
                 });
                 foreignInvoiceTab.toolStrip.main.getMembers().forEach(q => q.hide());
+                // <c:if test = "${P_FOREIGN_INVOICE}">
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "print").first().show();
+                // </c:if>
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "refresh").first().show();
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "relatedInvoice").first().show();
 
@@ -1657,11 +1657,17 @@ nicico.BasicFormUtil.createTabSet = function () {
                     criteria: [{fieldName: 'eStatusId', operator: 'greaterOrEqual', value: 16}]
                 });
                 foreignInvoiceTab.toolStrip.main.getMembers().forEach(q => q.hide());
+                // <c:if test = "${P_FOREIGN_INVOICE}">
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "print").first().show();
+                // </c:if>
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "refresh").first().show();
+                // <c:if test = "${E_UPDATE_FOREIGN_INVOICE_DOC_ID}">
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "updateStatus").first().show();
+                // </c:if>
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "relatedInvoice").first().show();
+                // <c:if test = "${E_SEND_FOREIGN_INVOICE_TO_ACC}">
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "SentToAccounting").first().show();
+                // </c:if>
 
                 foreignInvoiceTab.menu.main.getMembers().forEach(q => q.hide());
                 // foreignInvoiceTab.menu.main.getItems().filter(q => q.actionType === nicico.ActionType.REFRESH).first().show();
@@ -1675,6 +1681,53 @@ nicico.BasicFormUtil.getDefaultBasicFormWithTabSet(foreignInvoiceTab, "api/forei
 nicico.BasicFormUtil.showAllToolStripActions(foreignInvoiceTab);
 nicico.BasicFormUtil.removeExtraGridMenuActions(foreignInvoiceTab);
 
+foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
+    visibility: "visible",
+    icon: "pieces/16/icon_view.png",
+    name: "relatedInvoice",
+    title: "<spring:message code='global.form.related.invoice'/>",
+    click: function () {
+
+        let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
+        if (record == null)
+            foreignInvoiceTab.dialog.notSelected();
+        else {
+            let referenceId = record.parentId ? record.parentId : record.id;
+            foreignInvoiceTab.listGrid.main.setCriteria({
+                _constructor: "AdvancedCriteria",
+                operator: "or",
+                criteria:
+                    [
+                        {
+                            fieldName: "id",
+                            operator: "equals",
+                            value: referenceId
+                        },
+                        {
+                            fieldName: "parentId",
+                            operator: "equals",
+                            value: referenceId
+                        },
+
+                    ]
+            });
+            // let criteria = {};
+            // Object.assign(criteria, foreignInvoiceTab.listGrid.main.getImplicitCriteria());
+            // criteria.criteria = criteria.criteria.concat({
+            //         fieldName: "id",
+            //         operator: "equals",
+            //         value: referenceId
+            //     },
+            //     {
+            //         fieldName: "parentId",
+            //         operator: "equals",
+            //         value: referenceId
+            //     });
+            // foreignInvoiceTab.listGrid.main.setImplicitCriteria(criteria);
+        }
+    }
+}), 7);
+// <c:if test = "${C_FOREIGN_INVOICE_COMPLETION}">
 foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     visibility: "visible",
     icon: "[SKIN]/actions/configure.png",
@@ -1732,53 +1785,9 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
             });
         }
     }
-}), 7);
-foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
-    visibility: "visible",
-    icon: "pieces/16/icon_view.png",
-    name: "relatedInvoice",
-    title: "<spring:message code='global.form.related.invoice'/>",
-    click: function () {
-
-        let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
-        if (record == null)
-            foreignInvoiceTab.dialog.notSelected();
-        else {
-            let referenceId = record.parentId ? record.parentId : record.id;
-            foreignInvoiceTab.listGrid.main.setCriteria({
-                _constructor: "AdvancedCriteria",
-                operator: "or",
-                criteria:
-                    [
-                        {
-                            fieldName: "id",
-                            operator: "equals",
-                            value: referenceId
-                        },
-                        {
-                            fieldName: "parentId",
-                            operator: "equals",
-                            value: referenceId
-                        },
-
-                    ]
-            });
-            // let criteria = {};
-            // Object.assign(criteria, foreignInvoiceTab.listGrid.main.getImplicitCriteria());
-            // criteria.criteria = criteria.criteria.concat({
-            //         fieldName: "id",
-            //         operator: "equals",
-            //         value: referenceId
-            //     },
-            //     {
-            //         fieldName: "parentId",
-            //         operator: "equals",
-            //         value: referenceId
-            //     });
-            // foreignInvoiceTab.listGrid.main.setImplicitCriteria(criteria);
-        }
-    }
 }), 8);
+// </c:if>
+// <c:if test = "${E_SEND_FOREIGN_INVOICE_TO_ACC}">
 foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     visibility: "visible",
     icon: "pieces/receipt.png",
@@ -1811,6 +1820,8 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         }
     }
 }), 9);
+// </c:if>
+// <c:if test = "${E_UPDATE_FOREIGN_INVOICE_DOC_ID}">
 foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     icon: "pieces/16/refresh.png",
     name: "updateStatus",
@@ -1818,14 +1829,14 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     title: "<spring:message code='accounting.document.change.status'/>",
     click: function () {
 
-        let criteria = {};
-        Object.assign(criteria, [{fieldName: 'eStatusId', operator: 'greaterOrEqual', value: 16}]);
-
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/foreign-invoice/update-deleted-document",
             httpMethod: "GET",
             params: {
-                criteria: criteria
+                criteria: {
+                    operator: "and",
+                    criteria: [{fieldName: 'eStatusId', operator: 'greaterOrEqual', value: 16}]
+                }
             },
             useSimpleHttp: true,
             contentType: "application/json; charset=utf-8",
@@ -1833,12 +1844,15 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
             serverOutputAsString: false,
             callback: function (resp) {
                 if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                    debugger
+
+                    foreignInvoiceTab.method.refresh(foreignInvoiceTab.listGrid.main);
                 }
             }
         }));
     }
 }), 10);
+// </c:if>
+// <c:if test = "${P_FOREIGN_INVOICE}">
 foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     icon: "[SKIN]/actions/print.png",
     name: "print",
@@ -1855,6 +1869,7 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         }
     }
 }), 11);
+// </c:if>
 
 foreignInvoiceTab.dynamicForm.main = null;
 
@@ -3826,7 +3841,9 @@ foreignInvoiceTab.listGrid.main.rowClick = function (record, recordNum, fieldNum
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DEACTIVATE).first().show();
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.FINALIZE).first().show();
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DISAPPROVE).first().show();
+        // <c:if test = "${C_FOREIGN_INVOICE_COMPLETION}">
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "invoiceCompletion").first().show();
+        // </c:if>
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "relatedInvoice").first().show();
 
         if (record.parentId) {
@@ -3835,7 +3852,9 @@ foreignInvoiceTab.listGrid.main.rowClick = function (record, recordNum, fieldNum
             foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DEACTIVATE).first().hide();
             foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.FINALIZE).first().hide();
             foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DISAPPROVE).first().hide();
+            // <c:if test = "${C_FOREIGN_INVOICE_COMPLETION}">
             foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "invoiceCompletion").first().hide();
+            // </c:if>
             foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "relatedInvoice").first().show();
         } else
             foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DELETE).first().hide();
