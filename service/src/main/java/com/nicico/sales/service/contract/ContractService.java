@@ -288,7 +288,6 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     }
 
     @Override
-    @CheckCriteria
     @Transactional(readOnly = true)
     @Action(value = ActionType.Search)
     public SearchDTO.SearchRs<ContractDTO.ListGridInfo> refinedSearch(SearchDTO.SearchRq request) {

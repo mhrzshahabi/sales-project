@@ -64,6 +64,21 @@ public class CriteriaRefinerAspect {
         } else return (TotalResponse<?>) proceedingJoinPoint.proceed();
     }
 
+    @Around(value = "" +
+            "(execution(* com.nicico.sales.service.GenericService+.search(..)) && args(request)) || " +
+            "(@annotation(com.nicico.sales.annotation.CheckCriteria) && args(request))")
+    public SearchDTO.SearchRs<? extends Object> refineDateCriteria(ProceedingJoinPoint proceedingJoinPoint, SearchDTO.SearchRq request) throws Throwable {
+
+        Object target = proceedingJoinPoint.getTarget();
+        if (target == null) return (SearchDTO.SearchRs<?>) proceedingJoinPoint.proceed();
+
+        ParameterizedType superClass = (ParameterizedType) target.getClass().getGenericSuperclass();
+        Class<?> entityClass = (Class<?>) superClass.getActualTypeArguments()[0];
+        checkSort(request, entityClass);
+        checkCriteria(request.getCriteria(), entityClass);
+        return (SearchDTO.SearchRs<?>) proceedingJoinPoint.proceed();
+    }
+
     private Field getField(String fieldName, Class<?> entityClass) {
 
         String propertyPostfix = "";
