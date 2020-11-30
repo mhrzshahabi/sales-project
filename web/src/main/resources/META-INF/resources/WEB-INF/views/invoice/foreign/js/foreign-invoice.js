@@ -1647,7 +1647,6 @@ nicico.BasicFormUtil.createTabSet = function () {
                 foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "relatedInvoice").first().show();
 
                 foreignInvoiceTab.menu.main.getMembers().forEach(q => q.hide());
-                // foreignInvoiceTab.menu.main.getItems().filter(q => q.actionType === nicico.ActionType.REFRESH).first().show();
 
             } else if (name === "deleted") {
 
@@ -1670,7 +1669,6 @@ nicico.BasicFormUtil.createTabSet = function () {
                 // </c:if>
 
                 foreignInvoiceTab.menu.main.getMembers().forEach(q => q.hide());
-                // foreignInvoiceTab.menu.main.getItems().filter(q => q.actionType === nicico.ActionType.REFRESH).first().show();
             }
         }
     });
@@ -1693,6 +1691,33 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
             foreignInvoiceTab.dialog.notSelected();
         else {
             let referenceId = record.parentId ? record.parentId : record.id;
+            // let criteria = {
+            //     operator: 'and',
+            //     _constructor: "AdvancedCriteria",
+            //     criteria: []
+            // };
+            // let implicit = foreignInvoiceTab.listGrid.main.getImplicitCriteria().criteria[0];
+            // foreignInvoiceTab.listGrid.main.setImplicitCriteria(null);
+            // criteria.criteria.add(implicit);
+            // criteria.criteria.add({
+            //         _constructor: "AdvancedCriteria",
+            //         operator: "or",
+            //         criteria:
+            //             [
+            //                 {
+            //                     fieldName: "id",
+            //                     operator: "equals",
+            //                     value: referenceId
+            //                 },
+            //                 {
+            //                     fieldName: "parentId",
+            //                     operator: "equals",
+            //                     value: referenceId
+            //                 }
+            //             ]
+            //     });
+            // foreignInvoiceTab.listGrid.main.setImplicitCriteria(criteria);
+
             foreignInvoiceTab.listGrid.main.setCriteria({
                 _constructor: "AdvancedCriteria",
                 operator: "or",
@@ -1707,23 +1732,9 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
                             fieldName: "parentId",
                             operator: "equals",
                             value: referenceId
-                        },
-
+                        }
                     ]
             });
-            // let criteria = {};
-            // Object.assign(criteria, foreignInvoiceTab.listGrid.main.getImplicitCriteria());
-            // criteria.criteria = criteria.criteria.concat({
-            //         fieldName: "id",
-            //         operator: "equals",
-            //         value: referenceId
-            //     },
-            //     {
-            //         fieldName: "parentId",
-            //         operator: "equals",
-            //         value: referenceId
-            //     });
-            // foreignInvoiceTab.listGrid.main.setImplicitCriteria(criteria);
         }
     }
 }), 7);
