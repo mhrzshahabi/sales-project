@@ -116,6 +116,8 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
         }
 
         ContractDetailType updating = new ContractDetailType();
+        contractDetailType.setContractDetailTypeParams(null);
+        contractDetailType.setContractDetailTypeTemplates(null);
         modelMapper.map(contractDetailType, updating);
         modelMapper.map(request, updating);
 
@@ -213,6 +215,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                 dynamicTables4Update.forEach(cdtpDynamicTableService::update);
             }
 
+            contractDetailTypeParam4Update.setDynamicTables(null);
             contractDetailTypeParamService.update(contractDetailTypeParam4Update);
         }
     }

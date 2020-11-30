@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Getter
@@ -285,7 +282,6 @@ public class DailyReportBandarAbas {
     @Column(name = "owp_total_not_arrived_tozin")
     private long owpTotalNotArrivedTozin;
 
-
     @EqualsAndHashCode
     public static class DailyReportBandAbasId implements Serializable {
         private String date;
@@ -296,4 +292,64 @@ public class DailyReportBandarAbas {
 
     }
 
+    @PostLoad
+    public void init() {
+
+        if (sumRemainedWeight == null)
+            sumRemainedWeight = 0L;
+        if (sumOutWeightDay == null)
+            sumOutWeightDay = 0L;
+        if (sumIncomeWeightDay == null)
+            sumIncomeWeightDay = 0L;
+        if (sumOutWeightMonth == null)
+            sumOutWeightMonth = 0L;
+        if (sumIncomeWeightMonth == null)
+            sumIncomeWeightMonth = 0L;
+        if (sumOutWeightYear == null)
+            sumOutWeightYear = 0L;
+        if (sumIncomeWeightYear == null)
+            sumIncomeWeightYear = 0L;
+        if (remainedWeight == null)
+            remainedWeight = 0L;
+        if (outWeightDay == null)
+            outWeightDay = 0L;
+        if (incomeWeightDay == null)
+            incomeWeightDay = 0L;
+        if (outWeightMonth == null)
+            outWeightMonth = 0L;
+        if (incomeWeightMonth == null)
+            incomeWeightMonth = 0L;
+        if (outWeightYear == null)
+            outWeightYear = 0L;
+        if (incomeWeightYear == null)
+            incomeWeightYear = 0L;
+        if (sumOutPkgDay == null)
+            sumOutPkgDay = 0L;
+        if (sumInPkgDay == null)
+            sumInPkgDay = 0L;
+        if (sumOutPkgMonth == null)
+            sumOutPkgMonth = 0L;
+        if (sumInPkgMonth == null)
+            sumInPkgMonth = 0L;
+        if (sumRemainedPkg == null)
+            sumRemainedPkg = 0L;
+        if (sumOutPkgYear == null)
+            sumOutPkgYear = 0L;
+        if (sumInPkgYear == null)
+            sumInPkgYear = 0L;
+        if (remainedPkg == null)
+            remainedPkg = 0L;
+        if (outPkgDay == null)
+            outPkgDay = 0L;
+        if (inPkgDay == null)
+            inPkgDay = 0L;
+        if (outPkgMonth == null)
+            outPkgMonth = 0L;
+        if (inPkgMonth == null)
+            inPkgMonth = 0L;
+        if (outPkgYear == null)
+            outPkgYear = 0L;
+        if (inPkgYear == null)
+            inPkgYear = 0L;
+    }
 }
