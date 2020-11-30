@@ -65,9 +65,6 @@
 
 			<script type="application/javascript">
                 const mylocale = '${pageContext.response.locale}';
-                align = function () {
-                    return mylocale == 'fa' ? "right" : "left";
-                }
 
                 isc.Class.create.prototype.create = function () {
                     const argzz = this.Super('create', arguments)
@@ -116,47 +113,6 @@
                     },
                     eStatus2: JSON.parse('${Enum_EStatus}'),
                     unit: {
-
-                        /*getStandardSymbol: function (symbolUnit) {
-
-							switch (symbolUnit) {
-
-								case "":
-									break;
-							}
-
-
-							// test
-							return "t";
-						}*/
-
-                        <%--symbols: JSON.parse('${Enum_SymbolUnit_WithValue}'),--%>
-                        <%--hasFlag: function (value, target) {--%>
-
-                        <%--value = Enums.unit.symbols[value];--%>
-                        <%--target = Enums.unit.symbols[target];--%>
-                        <%--for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {--%>
-
-                        <%--if (id > value) continue;--%>
-                        <%--if (id === target) return true;--%>
-                        <%--value -= id;--%>
-                        <%--}--%>
-
-                        <%--return false;--%>
-                        <%--},--%>
-                        <%--getValues: function (value) {--%>
-
-                        <%--let result = [];--%>
-                        <%--value = Enums.unit.symbols[value];--%>
-                        <%--for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {--%>
-
-                        <%--if (id > value) continue;--%>
-                        <%--result.push(Object.keys(Enums.unit.symbols).filter(q => Enums.unit.symbols[q] === id).first());--%>
-                        <%--value -= id;--%>
-                        <%--}--%>
-
-                        <%--return result;--%>
-                        <%--}--%>
                     }
                 };
 
@@ -205,21 +161,6 @@
 
                 const BaseFormItems = {
 
-                    getFieldNameByLang: function (baseName, postFixIsUpperCase) {
-
-                        let postFix = postFixIsUpperCase ? ["FA", "EN"] : ["Fa", "En"];
-                        if (baseName == null)
-                            baseName = "name";
-                        else if (baseName instanceof Array) {
-
-                            postFix[0] = baseName[1];
-                            postFix[1] = baseName[2];
-                            baseName = baseName[0];
-                        }
-
-                        let locale = languageForm.getValue("languageName");
-                        return baseName + (locale === "fa" ? postFix[0] : postFix[1]);
-                    },
                     concat: function (fields, setBaseItemsHidden = true) {
 
                         let items = [];
