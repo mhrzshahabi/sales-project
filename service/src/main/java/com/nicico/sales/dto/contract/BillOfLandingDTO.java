@@ -62,6 +62,7 @@ public class BillOfLandingDTO {
 
     private Long billOfLadingSwitchId;
 
+    private BillOfLadingSwitchDTO.Info billOfLadingSwitch;
 
 
     @Getter
@@ -85,10 +86,6 @@ public class BillOfLandingDTO {
         private PortDTO.Info portOfDischarge;
 
         private VesselDTO.Info oceanVessel;
-
-        private BillOfLadingSwitchDTO.Info billOfLadingSwitch;
-
-//        private List<RemittanceToBillOfLandingDTO.Info> remittances;
 
         private List<ContainerToBillOfLandingDTO.Info> containers;
         //        private ShipmentDTO.Info shipment;

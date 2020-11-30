@@ -4,7 +4,6 @@ import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.contract.BillOfLandingDTO;
-import com.nicico.sales.dto.contract.ContractContactDTO;
 import com.nicico.sales.iservice.contract.IBillOfLandingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -67,7 +66,7 @@ public class BillOfLandingController {
     @PutMapping
     public ResponseEntity<BillOfLandingDTO.Info> update(@Validated @RequestBody BillOfLandingDTO.Update request) {
 
-        return new ResponseEntity<>(service.update(request.getId(), request), HttpStatus.OK);
+        return new ResponseEntity<>(service.update(request), HttpStatus.OK);
     }
 
 
