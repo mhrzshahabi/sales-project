@@ -12,6 +12,7 @@ import com.nicico.sales.iservice.IFileService;
 import com.nicico.sales.iservice.report.IReportService;
 import com.nicico.sales.model.enumeration.ReportType;
 import com.nicico.sales.service.report.MappingUtil;
+import com.nicico.sales.service.report.ReportService;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.data.JsonDataSource;

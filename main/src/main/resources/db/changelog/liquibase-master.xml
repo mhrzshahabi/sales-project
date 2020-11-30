@@ -116,4 +116,8 @@
     <include file="classpath:/db/changelog/changes/view/view_internal_invoice_document-estatus.xml"/>
     <!-- CHANGES - VIEW -->
 
+    <!-- CHANGES -->
+    <include file="classpath:/db/changelog/changes/tbl_file-bucketname.xml"/>
+    <!-- CHANGES -->
+
 </databaseChangeLog>
