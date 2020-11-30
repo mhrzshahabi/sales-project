@@ -1,10 +1,13 @@
 package com.nicico.sales.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.util.date.DateUtil;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.iservice.IInvoiceInternalService;
 import com.nicico.sales.model.entities.base.ViewInternalInvoiceDocument;
+import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.JRException;
@@ -27,12 +30,13 @@ import java.util.Map;
 public class InvoiceInternalFormController {
 
     private final ReportUtil reportUtil;
+    private final ObjectMapper objectMapper;
     private final IInvoiceInternalService invoiceInternalService;
     private final DateUtil dateUtil;
     private static BufferedImage LOGO;
 
     @RequestMapping("/showForm")
-    public String showInvoiceInternal(HttpServletRequest request) {
+    public String showInvoiceInternal(HttpServletRequest request) throws JsonProcessingException {
 
         SecurityChecker.addViewPermissionToRequest(request, ViewInternalInvoiceDocument.class);
 

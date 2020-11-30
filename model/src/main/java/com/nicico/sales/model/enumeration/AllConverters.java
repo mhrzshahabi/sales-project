@@ -29,6 +29,9 @@ public abstract class AllConverters {
         @Override
         public List<EStatus> convertToEntityAttribute(Integer integer) {
 
+            if (integer == null)
+                return new ArrayList<>();
+
             EStatus[] values = EStatus.values();
             if (values.length == 0)
                 return null;

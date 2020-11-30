@@ -46,6 +46,7 @@
                 {name: "nosaProductGroupCode"},
                 {name: "productGroupName"},
                 {name: "lcDueDate"},
+                {name: "estatus"},
                 {name: "documentId"}
             ],
         fetchDataURL: "${contextPath}/api/invoiceInternal/spec-list"
@@ -90,6 +91,7 @@
                 {name: "nosaProductGroupCode"},
                 {name: "productGroupName"},
                 {name: "lcDueDate"},
+                {name: "estatus"},
                 {name: "documentId"}
             ],
         fetchDataURL: "${contextPath}/api/invoiceInternal/spec-list"
@@ -134,11 +136,11 @@
                 {name: "nosaProductGroupCode"},
                 {name: "productGroupName"},
                 {name: "lcDueDate"},
+                {name: "estatus"},
                 {name: "documentId"}
             ],
         fetchDataURL: "${contextPath}/api/invoiceInternal/spec-list"
     });
-    <%-- accounting window --%>
     var departmentDS = isc.MyRestDataSource.create({
         fields: [
             {name: "id", primaryKey: true, type: "integer", title: " ID"},
@@ -152,7 +154,6 @@
     });
 
     var mainValuesManager = isc.ValuesManager.create({});
-
     var mainInvoiceInfoForm = isc.DynamicForm.create({
         width: "90%",
         autoDraw: false,
@@ -233,7 +234,6 @@
             }
         ]
     });
-
     var mainDocumentInfoForm = isc.DynamicForm.create({
         width: "90%",
         height: "100%",
@@ -296,7 +296,7 @@
 
     var IButton_Document_Save = isc.IButtonSave.create({
         top: 260,
-        title: "<spring:message code='global.form.save'/>",
+        title: "<spring:message code='accounting.document.create'/>",
         click: function () {
 
             mainValuesManager.validate();
@@ -336,6 +336,7 @@
                     if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                         let data = JSON.stringify(RpcResponse_o.data).split("@");
                         record.documentId = data[1].replace("\"", "");
+                        record.estatus.add(Enums.eStatus2.SendToAcc);
                         isc.say(data[0]);
                         newDocumentWindow.close();
                         grid.getCellCSSText(record);
@@ -425,7 +426,7 @@
         var record = grid.getSelectedRecord();
         if (record == null) {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
-        } else if (record.documentId == null || record.documentId == -1 || record.documentId == -2) {
+        } else if ((record.estatus.contains(Enums.eStatus2.Final) || record.estatus.contains(Enums.eStatus2.RemoveFromAcc)) && !record.estatus.contains(Enums.eStatus2.SendToAcc)) {
             mainValuesManager.setValue("remittanceId", record.remittanceId);
             mainValuesManager.setValue("customerName", record.customerName);
             mainValuesManager.setValue("invoiceSerial", record.invoiceSerial);
@@ -441,7 +442,6 @@
             newDocumentWindow.show();
         } else isc.say("<spring:message code='accounting.create.document.sent'/>");
     }
-
     function changeStatusAccountingDoc() {
         let criteria = {};
         Object.assign(criteria, ListGrid_InvoiceInternal_Deleted.defaultCriteria);
@@ -459,12 +459,12 @@
             serverOutputAsString: false,
             callback: function (RpcResponse_o) {
                 if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                    InvoiceInternal_RadioGroup_Deleted.getItem("filterType").changed();
+                    InvoiceInternal_FilterForm_Deleted.getItem("filterType").changed();
+                    ListGrid_InvoiceInternal_refresh();
                 }
             }
         }));
     }
-
     function ToolStripButton_InvoiceInternal_Pdf_F() {
 
         let grid = invoiceInternalTabs.getTab(invoiceInternalTabs.selectedTab).pane.members.get(1);
@@ -475,7 +475,6 @@
             window.open("invoiceInternal/print/pdf/" + record.id);
         }
     }
-
     function ToolStripButton_InvoiceInternal_Html_F() {
 
         let grid = invoiceInternalTabs.getTab(invoiceInternalTabs.selectedTab).pane.members.get(1);
@@ -486,7 +485,6 @@
             window.open("invoiceInternal/print/html/" + record.id);
         }
     }
-
     function ListGrid_InvoiceInternal_refresh() {
         let grid = invoiceInternalTabs.getTab(invoiceInternalTabs.selectedTab).pane.members.get(1);
         grid.invalidateCache();
@@ -502,15 +500,6 @@
         }
     });
     </sec:authorize>
-    <%--<sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">--%>
-    <%--var ToolStripButton_InvoiceInternal_html = isc.ToolStripButtonPrint.create({--%>
-    <%--title: "<spring:message code='global.form.print.html'/>",--%>
-    <%--icon: "icon/html.jpg",--%>
-    <%--click: function () {--%>
-    <%--ToolStripButton_InvoiceInternal_Html_F();--%>
-    <%--}--%>
-    <%--});--%>
-    <%--</sec:authorize>--%>
     <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
     var ToolStripButton_InvoiceInternal_Pdf = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='InternalInvoices.invoice-print'/>",
@@ -520,7 +509,6 @@
         }
     });
     </sec:authorize>
-
     var ToolStripButton_InvoiceInternal_Refresh = isc.ToolStripButtonRefresh.create({
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -1173,131 +1161,6 @@
         ]
     });
 
-
-    var InvoiceInternal_RadioGroup_Deleted = isc.FormLayout.create({
-        autoDraw: false,
-        items: [{
-            name: "filterType", type: "radioGroup", showTitle: false, width: "300", vertical: false,
-            valueMap: {
-                "daily": "<spring:message code='global.daily'/>",
-                "weekly": "<spring:message code='global.weekly'/>",
-                "monthly": "<spring:message code='global.monthly'/>",
-                "yearly": "<spring:message code='global.yearly'/>",
-                "all": "<spring:message code='global.all'/>"
-            },
-            value: "weekly",
-            changed: function (form, item, value) {
-
-                let now = new persianDate();
-                let data = InvoiceInternal_RadioGroup_Deleted.getValues();
-                let filterEditorCriteriaList = [];
-                let filterEditorCriteria = ListGrid_InvoiceInternal_Deleted.getFilterEditorCriteria();
-                if (filterEditorCriteria && filterEditorCriteria.criteria)
-                    filterEditorCriteriaList = filterEditorCriteria.criteria.filter(q => !["documentId", "invoiceDate"].contains(q.fieldName));
-                switch (data.filterType) {
-
-                    case "all": {
-                        let criteria = {
-                            operator: 'and',
-                            _constructor: "AdvancedCriteria",
-                            criteria: [{
-                                fieldName: 'invoiceDate',
-                                operator: 'notNull'
-                            }]
-                        };
-                        criteria.criteria.addAll(filterEditorCriteriaList);
-                        ListGrid_InvoiceInternal_Deleted.defaultCriteria = criteria;
-                        ListGrid_InvoiceInternal_Deleted.filterData(criteria);
-                        break;
-                    }
-                    case "daily": {
-                        let criteria = {
-                            operator: 'and',
-                            _constructor: "AdvancedCriteria",
-                            criteria: [
-                                {
-                                    fieldName: 'invoiceDate',
-                                    operator: 'equals',
-                                    value: now.format('YYYY/MM/DD').toString()
-                                }
-                            ]
-                        };
-                        criteria.criteria.addAll(filterEditorCriteriaList);
-                        ListGrid_InvoiceInternal_Deleted.defaultCriteria = criteria;
-                        ListGrid_InvoiceInternal_Deleted.filterData(criteria);
-                        break;
-                    }
-                    case "weekly": {
-
-                        let firstDay = now.date() - now.day() + 1;
-                        let lastDay = firstDay + 6;
-                        let firstDate = now.format("YYYY/MM/") + firstDay.toString().padStart(2, "0");
-                        let lastDate = now.format("YYYY/MM/") + lastDay.toString().padStart(2, "0");
-                        let criteria = {
-                            operator: 'and',
-                            _constructor: "AdvancedCriteria",
-                            criteria: [
-                                {
-                                    fieldName: 'invoiceDate',
-                                    operator: 'iBetweenInclusive',
-                                    start: firstDate,
-                                    end: lastDate
-                                }
-                            ]
-                        };
-                        criteria.criteria.addAll(filterEditorCriteriaList);
-                        ListGrid_InvoiceInternal_Deleted.defaultCriteria = criteria;
-                        ListGrid_InvoiceInternal_Deleted.filterData(criteria);
-                        break;
-                    }
-                    case "monthly": {
-                        let criteria = {
-                            operator: 'and',
-                            _constructor: "AdvancedCriteria",
-                            criteria: [
-                                {
-                                    fieldName: 'invoiceDate',
-                                    operator: 'startsWith',
-                                    value: now.format('YYYY/MM/DD').toString().substring(0, 7)
-                                }
-                            ]
-                        };
-                        criteria.criteria.addAll(filterEditorCriteriaList);
-                        ListGrid_InvoiceInternal_Deleted.defaultCriteria = criteria;
-                        ListGrid_InvoiceInternal_Deleted.filterData(criteria);
-                        break;
-                    }
-                    case "yearly": {
-                        let criteria = {
-                            operator: 'and',
-                            _constructor: "AdvancedCriteria",
-                            criteria: [
-                                {
-                                    fieldName: 'invoiceDate',
-                                    operator: 'startsWith',
-                                    value: now.format('YYYY/MM/DD').toString().substring(0, 4)
-                                }
-                            ]
-                        };
-                        criteria.criteria.addAll(filterEditorCriteriaList);
-                        ListGrid_InvoiceInternal_Deleted.defaultCriteria = criteria;
-                        ListGrid_InvoiceInternal_Deleted.filterData(criteria);
-                        break;
-                    }
-
-                }
-            }
-        }]
-    });
-    <%--<sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">--%>
-    <%--var ToolStripButton_InvoiceInternal_Sent_html = isc.ToolStripButtonPrint.create({--%>
-    <%--title: "<spring:message code='global.form.print.html'/>",--%>
-    <%--icon: "icon/html.jpg",--%>
-    <%--click: function () {--%>
-    <%--ToolStripButton_InvoiceInternal_Html_F();--%>
-    <%--}--%>
-    <%--});--%>
-    <%--</sec:authorize>--%>
     <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
     var ToolStripButton_InvoiceInternal_Sent_Pdf = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='InternalInvoices.invoice-print'/>",
@@ -1307,7 +1170,6 @@
         }
     });
     </sec:authorize>
-
     var ToolStripButton_InvoiceInternal_Sent_Refresh = isc.ToolStripButtonRefresh.create({
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -1333,15 +1195,6 @@
         }
     });
     </sec:authorize>
-    <%--<sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">--%>
-    <%--var ToolStripButton_InvoiceInternal_Deleted_html = isc.ToolStripButtonPrint.create({--%>
-    <%--title: "<spring:message code='global.form.print.html'/>",--%>
-    <%--icon: "icon/html.jpg",--%>
-    <%--click: function () {--%>
-    <%--ToolStripButton_InvoiceInternal_Html_F();--%>
-    <%--}--%>
-    <%--});--%>
-    <%--</sec:authorize>--%>
     <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
     var ToolStripButton_InvoiceInternal_Deleted_Pdf = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='InternalInvoices.invoice-print'/>",
@@ -1578,7 +1431,7 @@
             operator: 'and',
             _constructor: "AdvancedCriteria",
             criteria: [
-                {fieldName: 'documentId', operator: 'isNull'}
+                 {fieldName: 'estatus', operator: 'equals' , value: Enums.eStatus2.Final},
             ]
         },
         recordDoubleClick(record) {
@@ -1631,6 +1484,32 @@
                 {type: 'float', name: "totalDeductions", title: "<spring:message code='invoice.totalKosorat'/>"},
                 {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>"},
                 {name: "documentId", title: "<spring:message code='invoice.documentId'/>", canFilter: false},
+                {
+                    name: "estatus",
+                    width: 100,
+                    canEdit: false,
+                    showHover: true,
+                    canSort: false,
+                    multiple: true,
+                    filterOperator: "equals",
+                    editorType: "SelectItem",
+                    valueMap: Enums.eStatus2,
+                    title: "<spring:message code='global.e-status'/>",
+                    hoverHTML(record, value, rowNum, colNum, grid) {
+
+                        if (record == null || record.estatus == null || record.estatus.length === 0)
+                            return;
+
+                        return record.estatus.map(q => '<div>' + Enums.eStatus[q] + '</div>').join();
+                    },
+                    formatCellValue: function (value, record, rowNum, colNum, grid) {
+
+                        if (record == null || record.estatus == null || record.estatus.length === 0)
+                            return;
+
+                        return record.estatus.join(', ');
+                    }
+                }
             ],
         autoFetchData: false,
         allowFilterOperators: true,
@@ -1644,7 +1523,6 @@
         else if (record.salesType === 2)
             return "font-weight:bold; color:#287fd6;";
     }
-
     var ListGrid_InvoiceInternal_Sent = isc.ListGrid.create({
         showFilterEditor: true,
         showRowNumbers: true,
@@ -1656,11 +1534,7 @@
             _constructor: "AdvancedCriteria",
             operator: 'and',
             criteria: [
-                {
-                    fieldName: 'documentId',
-                    operator: 'greaterThan',
-                    value: '0'
-                }
+                 {fieldName: 'estatus', operator: 'equals' , value: Enums.eStatus2.SendToAcc},
             ]
         },
         filterData: function (criteria, callback, requestProperties) {
@@ -1716,11 +1590,36 @@
                 {type: 'float', name: "totalDeductions", title: "<spring:message code='invoice.totalKosorat'/>"},
                 {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>"},
                 {name: "documentId", title: "<spring:message code='invoice.documentId'/>"},
+                 {
+                    name: "estatus",
+                    width: 100,
+                    canEdit: false,
+                    showHover: true,
+                    canSort: false,
+                    multiple: true,
+                    filterOperator: "equals",
+                    editorType: "SelectItem",
+                    valueMap: Enums.eStatus2,
+                    title: "<spring:message code='global.e-status'/>",
+                    hoverHTML(record, value, rowNum, colNum, grid) {
+
+                        if (record == null || record.estatus == null || record.estatus.length === 0)
+                            return;
+
+                        return record.estatus.map(q => '<div>' + Enums.eStatus[q] + '</div>').join();
+                    },
+                    formatCellValue: function (value, record, rowNum, colNum, grid) {
+
+                        if (record == null || record.estatus == null || record.estatus.length === 0)
+                            return;
+
+                        return record.estatus.join(', ');
+                    }
+                }
             ],
         autoFetchData: false,
         allowFilterOperators: true
     });
-
     var ListGrid_InvoiceInternal_Deleted = isc.ListGrid.create({
         showFilterEditor: true,
         showRowNumbers: true,
@@ -1733,11 +1632,7 @@
             _constructor: "AdvancedCriteria",
             operator: 'and',
             criteria: [
-                {
-                    fieldName: 'documentId',
-                    operator: 'equals',
-                    value: '-2'
-                }
+                 {fieldName: 'estatus', operator: 'equals' , value: Enums.eStatus2.RemoveFromAcc},
             ]
         },
         canMultiSort: true,
@@ -1795,6 +1690,32 @@
                 {type: 'float', name: "totalDeductions", title: "<spring:message code='invoice.totalKosorat'/>"},
                 {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>"},
                 {name: "documentId", title: "<spring:message code='invoice.documentId'/>", canFilter: false},
+                 {
+                    name: "estatus",
+                    width: 100,
+                    canEdit: false,
+                    showHover: true,
+                    canSort: false,
+                    multiple: true,
+                    filterOperator: "equals",
+                    editorType: "SelectItem",
+                    valueMap: Enums.eStatus2,
+                    title: "<spring:message code='global.e-status'/>",
+                    hoverHTML(record, value, rowNum, colNum, grid) {
+
+                        if (record == null || record.estatus == null || record.estatus.length === 0)
+                            return;
+
+                        return record.estatus.map(q => '<div>' + Enums.eStatus[q] + '</div>').join();
+                    },
+                    formatCellValue: function (value, record, rowNum, colNum, grid) {
+
+                        if (record == null || record.estatus == null || record.estatus.length === 0)
+                            return;
+
+                        return record.estatus.join(', ');
+                    }
+                }
             ],
         allowFilterOperators: true
     });
