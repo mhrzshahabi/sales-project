@@ -6,7 +6,7 @@ import com.nicico.copper.core.service.minio.EFileAccessLevel;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.model.entities.report.Report;
-import com.nicico.sales.model.enumeration.FileStatus;
+import com.nicico.sales.model.enumeration.EFileStatus;
 import com.nicico.sales.model.enumeration.ReportSource;
 import com.nicico.sales.model.enumeration.ReportType;
 import com.nicico.sales.utility.SecurityChecker;
@@ -88,10 +88,10 @@ public class ReportFormController {
 
         Map<String, String> fileStatus = new HashMap<>();
         Locale locale = LocaleContextHolder.getLocale();
-        for (FileStatus value : FileStatus.values())
-            if (value == FileStatus.NORMAL)
+        for (EFileStatus value : EFileStatus.values())
+            if (value == EFileStatus.NORMAL)
                 fileStatus.put(value.name(), messageSource.getMessage("file.status.normal", null, locale));
-            else if (value == FileStatus.DELETED)
+            else if (value == EFileStatus.DELETED)
                 fileStatus.put(value.name(), messageSource.getMessage("file.status.deleted", null, locale));
 
             else throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نگاشت وضعیت فایل تعریف نشده است");

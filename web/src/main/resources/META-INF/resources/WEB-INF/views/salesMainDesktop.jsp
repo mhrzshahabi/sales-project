@@ -110,7 +110,9 @@
                     eStatus: {
                         "Active": "عادی",
                         "DeActive": "حذف شده",
-                        "Final": "نهایی شده"
+                        "Final": "نهایی شده",
+                        "SendToAcc": "ارسال شده به سیستم مالی",
+                        "RemoveFromAcc": "حذف شده از سیستم مالی"
                     },
                     eStatus2: JSON.parse('${Enum_EStatus}'),
                     unit: {
@@ -352,16 +354,22 @@
                     transformResponse: function (dsResponse, dsRequest, data) {
                         return this.Super("transformResponse", arguments);
                     },
-					// applyFilter: function (data, criteria, requestProperties, startPos, endPos) {
-					//
-					// 	if (criteria) {
-					//
-					// 		let This = this;
-					// 		this.filterData(criteria, resp => This.applyFilter(JSON.parse(resp.httpResponseText).response.data, null, requestProperties), requestProperties);
-					// 	}
-					//
-					// 	return data;
-					// }
+					applyFilter: function (data, criteria, requestProperties, startPos, endPos) {
+
+						if (criteria) {
+
+							this.filterData(criteria, resp => {
+
+							    if ((resp.httpResponseCode === 200 || resp.httpResponseCode === 201) && requestProperties && requestProperties.componentId) {
+
+									let grid  = window[requestProperties.componentId];
+									grid.setData(JSON.parse(resp.httpResponseText).response.data);
+								}
+							}, requestProperties);
+						}
+
+						return data;
+					}
                 });
 				isc.defineClass("MyRestDataSource", isc.RestDataSource);
 

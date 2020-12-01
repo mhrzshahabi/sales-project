@@ -8,6 +8,7 @@ import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.annotation.Action;
+import com.nicico.sales.annotation.CheckCriteria;
 import com.nicico.sales.dto.CDTPDynamicTableValueDTO;
 import com.nicico.sales.dto.ContractShipmentDTO;
 import com.nicico.sales.dto.DeductionDTO;
@@ -261,6 +262,8 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         } else createContractContacts(contract.getId(), newContractContactId, commercialRole);
     }
 
+    @Override
+    @CheckCriteria
     @Transactional(readOnly = true)
     @Action(value = ActionType.Search)
     public TotalResponse<ContractDTO.ListGridInfo> refinedSearch(NICICOCriteria request) {
@@ -284,6 +287,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         return result;
     }
 
+    @Override
     @Transactional(readOnly = true)
     @Action(value = ActionType.Search)
     public SearchDTO.SearchRs<ContractDTO.ListGridInfo> refinedSearch(SearchDTO.SearchRq request) {

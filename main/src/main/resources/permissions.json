@@ -1413,6 +1413,34 @@
       "title": "لغو تائید نهایی بارنامه"
     },
     {
+      "code": "C_BILL_OF_LADING_SWITCH",
+      "title": "ایجاد سوئیچ بارنامه"
+    },
+    {
+      "code": "D_BILL_OF_LADING_SWITCH",
+      "title": "حذف  سوئیچ بارنامه"
+    },
+    {
+      "code": "U_BILL_OF_LADING_SWITCH",
+      "title": "به روز رسانی  سوئیچ بارنامه"
+    },
+    {
+      "code": "A_BILL_OF_LADING_SWITCH",
+      "title": "فعالسازی  سوئیچ بارنامه"
+    },
+    {
+      "code": "I_BILL_OF_LADING_SWITCH",
+      "title": "غیرفعالسازی  سوئیچ بارنامه"
+    },
+    {
+      "code": "F_BILL_OF_LADING_SWITCH",
+      "title": "تائید نهایی  سوئیچ بارنامه"
+    },
+    {
+      "code": "O_BILL_OF_LADING_SWITCH",
+      "title": "لغو تائید نهایی  سوئیچ بارنامه"
+    },
+    {
       "code": "R_DEPOT",
       "title": "نمایش دپو"
     },

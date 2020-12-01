@@ -1,10 +1,13 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,15 +15,15 @@ import lombok.experimental.Accessors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InternalInvoiceDTO {
 
-	private String id;
-	private String bankGroupDesc;
-	private String buyerId;
-	private String customerCostCenterCode;
-	private String customerId;
-	private String customerName;
-	private Integer hasPollution;
-	private Integer hasTax;
-	private String invoiceAreaPollution;
+    private String id;
+    private String bankGroupDesc;
+    private String buyerId;
+    private String customerCostCenterCode;
+    private String customerId;
+    private String customerName;
+    private Integer hasPollution;
+    private Integer hasTax;
+    private String invoiceAreaPollution;
     private String invoiceContainerName;
     private Integer invoiceContainerNumber;
     private Double invoiceContainerWeight;
@@ -65,7 +68,8 @@ public class InternalInvoiceDTO {
     private Double totalDeductions;
     private String unitId;
     private Double unitPrice;
-	private String documentId;
+    private String documentId;
+    private List<EStatus> eStatus;
 
 	@Getter
 	@Accessors(chain = true)
@@ -73,20 +77,20 @@ public class InternalInvoiceDTO {
 	public static class Info extends InternalInvoiceDTO {
 	}
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("InvoiceInternalCreateRq")
-	public static class Create extends InternalInvoiceDTO {
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("InvoiceInternalCreateRq")
+    public static class Create extends InternalInvoiceDTO {
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("InvoiceInternalUpdateRq")
-	public static class Update extends InternalInvoiceDTO {
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("InvoiceInternalUpdateRq")
+    public static class Update extends InternalInvoiceDTO {
         private Integer version;
-	}
+    }
 
     @Getter
     @Setter
