@@ -826,9 +826,6 @@ validateOnChange: true
     }
 
     var IButton_Contact_Save = isc.IButtonSave.create({
-        top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
         autoFit: false,
         click: async function () {
             let contact_id = ValuesManager_Contact.getValues().id;
@@ -853,9 +850,6 @@ validateOnChange: true
     });
 
     var contactCancelBtn = isc.IButtonCancel.create({
-        top: 260,
-        title: "<spring:message code='global.close'/>",
-        icon: "pieces/16/icon_delete.png",
         click: function () {
             Window_Contact.close();
         }
@@ -1461,9 +1455,6 @@ validateOnChange: true
 
 
     var ContactAccount_CreateSaveButton = isc.IButtonSave.create({
-        top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
         click: function () {
             ContactAccount_CreateDynamicForm.validate();
             if (ContactAccount_CreateDynamicForm.hasErrors()) {
@@ -1502,10 +1493,6 @@ validateOnChange: true
     });
 
     var ContactAccount_EditSaveButton = isc.IButtonSave.create({
-        top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        autoDraw: false,
-        icon: "pieces/16/save.png",
         click: function () {
             ContactAccount_EditDynamicForm.validate();
             if (ContactAccount_EditDynamicForm.hasErrors()) {
@@ -1538,9 +1525,6 @@ validateOnChange: true
     });
 
     var ContactAccountCancelBtn = isc.IButtonCancel.create({
-        top: 260,
-        title: "<spring:message code='global.form.close'/>",
-        icon: "pieces/16/icon_delete.png",
         click: function () {
             ListGrid_Contact.invalidateCache();
             Window_AccountsContact.close();

@@ -493,19 +493,11 @@ packingListTab.Methods= {
                 membersMargin: 10,
                 members: [
                     isc.IButtonSave.create({
-                        top: 260,
-                        title: '<spring:message code="global.form.save"/> ',
-                        icon: "pieces/16/save.png",
                         click: () => {
                             saveClickFunc();
                         }
                     }),
                     isc.IButtonCancel.create({
-                        title: '<spring:message code="global.close"/> ',
-                        prompt: "",
-                        width: 100,
-                        icon: "pieces/16/icon_delete.png",
-                        orientation: "vertical",
                         click: function () {
                             try {
                                 let wind = windowToCloseIs();

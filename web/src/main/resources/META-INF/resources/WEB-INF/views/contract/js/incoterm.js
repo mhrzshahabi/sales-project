@@ -207,11 +207,8 @@ incotermTab.button.continue = isc.IButtonSave.create({
     }
 });
 incotermTab.button.save = isc.IButtonSave.create({
-
     margin: 10,
     height: 50,
-    icon: "pieces/16/save.png",
-    title: "<spring:message code='global.form.save'/>",
     click: function () {
         incotermTab.dynamicForm.incoterm.validate();
         let steps = incotermTab.listGrid.incotermStep.getData().localData.filter(q => q[incotermTab.listGrid.incotermStep.selection.selectionProperty]);
@@ -266,8 +263,6 @@ incotermTab.button.cancel = isc.IButtonCancel.create({
 
     margin: 10,
     height: 50,
-    icon: "pieces/16/icon_delete.png",
-    title: "<spring:message code='global.cancel'/>",
     click: function () {
         incotermTab.window.incoterm.close();
     }

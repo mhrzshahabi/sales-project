@@ -745,7 +745,6 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
     margin: 10,
     height: 50,
     width: 150,
-    icon: "pieces/16/save.png",
     title: "<spring:message code='global.form.add.detail'/>",
     click: function () {
 
@@ -961,8 +960,6 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
 foreignInvoiceTab.button.cancel = isc.IButtonCancel.create({
     margin: 10,
     height: 50,
-    icon: "pieces/16/icon_delete.png",
-    title: "<spring:message code='global.cancel'/>",
     click: function () {
         foreignInvoiceTab.window.main.close();
     },

@@ -656,8 +656,6 @@ shipmentCostInvoiceTab.dynamicForm.mainDocumentInfoForm = isc.DynamicForm.create
     ]
 });
 shipmentCostInvoiceTab.button.save = isc.IButtonSave.create({
-    top: 260,
-    title: "<spring:message code='global.form.save'/>",
     click: function () {
 
         shipmentCostInvoiceTab.dynamicForm.valuesManager.validate();
@@ -709,8 +707,6 @@ shipmentCostInvoiceTab.button.save = isc.IButtonSave.create({
     }
 });
 shipmentCostInvoiceTab.button.cancel = isc.IButtonCancel.create({
-    top: 260,
-    title: "<spring:message code='global.close'/>",
     click: function () {
         shipmentCostInvoiceTab.window.invoiceInfoWindow.close();
     }

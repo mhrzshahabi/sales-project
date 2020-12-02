@@ -1455,8 +1455,13 @@
                 isc.DynamicForm.addProperties({
                     titleAlign: nicico.CommonUtil.getAlignByLang() === "right" ? "left" : "right"
                 });
-
-				function clone(item) {
+                isc.IButtonSave.addProperties({
+	                title:"<spring:message code='global.form.save'/>"
+                });
+                isc.IButtonCancel.addProperties({
+                    title:"<spring:message code='global.form.close'/>"
+                });
+                function clone(item) {
 
 					if (!item)
 						return item;

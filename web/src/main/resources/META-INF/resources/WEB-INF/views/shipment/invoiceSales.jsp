@@ -880,8 +880,6 @@
     var IButton_invoiceSales_Save = isc.IButtonSave.create(
         {
             top: 260,
-            title: "<spring:message code='global.form.save'/>",
-            icon: "pieces/16/save.png",
             click: function () {
                 DynamicForm_invoiceSales.validate();
                 if (DynamicForm_invoiceSales.hasErrors())
@@ -943,10 +941,7 @@
                             isc.IButtonCancel.create(
                                 {
                                     ID: "invoiceSalesEditExitIButton",
-                                    title: "<spring:message code='global.cancel'/>",
                                     width: 100,
-                                    icon: "pieces/16/icon_delete.png",
-                                    orientation: "vertical",
                                     click: function () {
                                         Window_invoiceSales.close();
                                     }
@@ -1652,8 +1647,6 @@
             top: 260,
             layoutMargin: 5,
             membersMargin: 5,
-            title: "<spring:message code='global.form.save'/>",
-            icon: "pieces/16/save.png",
             click: function () {
                 DynamicForm_InvoiceSalesItem.validate();
                 if (DynamicForm_InvoiceSalesItem.hasErrors())
@@ -1684,12 +1677,9 @@
         });
 
     var InvoiceSalesItemCancelBtn = isc.IButtonCancel.create({
-        top: 260,
         layoutMargin: 5,
         membersMargin: 5,
         width: 120,
-        title: "<spring:message code='global.cancel'/>",
-        icon: "pieces/16/icon_delete.png",
         click: function () {
             Window_InvoiceSalesItem.close();
         }

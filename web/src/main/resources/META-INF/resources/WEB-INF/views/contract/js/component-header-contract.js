@@ -623,14 +623,11 @@ isc.defineClass("headerContractPage", isc.VStack).addProperties({
         this.addMember(listGrid_ContractItemDefinitions, 6);
 
         buttonAllHeaderSave = isc.IButtonSave.create({
-            title: "<spring:message code='global.form.save'/>",
-            icon: "pieces/16/save.png",
             click: function () {
             }
         });
         buttonAllHeaderCancel = isc.IButtonCancel.create({
             title: "<spring:message code='global.form.save'/>",
-            icon: "pieces/16/save.png",
             click: function () {
             }
         });

@@ -299,9 +299,6 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
     membersMargin: 10,
     members: [
         isc.IButtonSave.create({
-            top: 260,
-            title: "<spring:message code='global.form.save'/>",
-            icon: "pieces/16/save.png",
             click: function () {
 
                 contractTab.dynamicForm.main.validate();
@@ -346,11 +343,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
             }
         }),
         isc.IButtonCancel.create({
-
             width: 100,
-            orientation: "vertical",
-            icon: "pieces/16/icon_delete.png",
-            title: "<spring:message code='global.close'/>",
             click: function () {
                 contractTab.window.main.close();
             }

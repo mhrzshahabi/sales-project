@@ -247,7 +247,6 @@ isc.defineClass("generatorContractPage", isc.HStack).addProperties({
                                                                 [
                                                                     isc.IButtonSave.create({
                                                                         title: "Ok",
-                                                                        icon: "pieces/16/save.png",
                                                                         click: function () {
                                                                             dynamicFormGenerator.validate();
                                                                             let detail =[];
@@ -284,7 +283,6 @@ isc.defineClass("generatorContractPage", isc.HStack).addProperties({
                                                                     }}),
                                                                     isc.IButtonCancel.create({
                                                                         title: "No",
-                                                                        icon: "pieces/16/save.png",
                                                                         click: function () {
                                                                             windowDynamicFormGenerator.close();
                                                                         }})
@@ -306,13 +304,10 @@ isc.defineClass("generatorContractPage", isc.HStack).addProperties({
                                             }});
 
         buttonAllSave = isc.IButtonSave.create({
-                title: "<spring:message code='global.form.save'/>",
-                icon: "pieces/16/save.png",
                 click: function () {
                 }});
         buttonAllCancel = isc.IButtonCancel.create({
                 title: "<spring:message code='global.form.save'/>",
-                icon: "pieces/16/save.png",
                 click: function () {
                 }});
 
