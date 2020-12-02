@@ -170,6 +170,7 @@
         width: 500,
         height: "100%",
         titleWidth: "100",
+        padding: 10,
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields: [
@@ -400,8 +401,7 @@
         height: "100%",
         layoutMargin: 10,
         membersMargin: 5,
-        textAlign: "center",
-        align: "center",
+        align: nicico.CommonUtil.getAlignByLangReverse(),
         members: [
             IButton_Person_Save,
             PersonCancelBtn
@@ -411,6 +411,7 @@
 
     var VLayout_saveButton_person = isc.VLayout.create({
         width: 650,
+        height: "100%",
         textAlign: "center",
         align: "center",
         members: [
@@ -429,7 +430,6 @@
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,
-        margin: '10px',
         closeClick: function () {
             this.Super("closeClick", arguments)
         },
