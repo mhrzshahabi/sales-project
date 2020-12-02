@@ -2897,9 +2897,6 @@ TADIL_YEAR,
     sum_.sum_OUT_WEIGHT_YEAR,
     sum_.sum_REMAINED_WEIGHT,
     sum_.sum_tadil,
-<!--    sum_.sum_OWP_WEIGHT,-->
-<!--    sum_.sum_OWP_PKG,-->
-<!--    sum_.sum_OWP_TOZIN,-->
     sum_.sum_TADIL_MONTH,
     sum_.sum_TADIL_YEAR,
     sum_.sum_tadil_year_percent
