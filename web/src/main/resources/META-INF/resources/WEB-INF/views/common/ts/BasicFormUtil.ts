@@ -136,7 +136,6 @@ namespace nicico {
                         {
                             width: "100%",
                             border: '0px',
-                            name: "refresh",
                             align: CommonUtil.getAlignByLang(),
                             members: [
                                 // @ts-ignore

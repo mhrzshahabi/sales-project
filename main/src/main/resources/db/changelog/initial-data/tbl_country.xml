@@ -129,4 +129,9 @@
             ALTER SEQUENCE SEQ_COUNTRY INCREMENT BY 1;
         </sql>
     </changeSet>
+    <changeSet author="Abiz" id="AZAARE-112336">
+        <sql>
+            UPDATE TBL_COUNTRY SET b_editable = 1;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

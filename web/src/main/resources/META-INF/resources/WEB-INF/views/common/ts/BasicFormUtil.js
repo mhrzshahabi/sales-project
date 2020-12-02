@@ -129,7 +129,6 @@ var nicico;
                     isc.ToolStrip.create({
                         width: "100%",
                         border: '0px',
-                        name: "refresh",
                         align: nicico.CommonUtil.getAlignByLang(),
                         members: [
                             // @ts-ignore
