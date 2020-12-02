@@ -78,9 +78,7 @@ public class Contact extends BaseEntity {
     private String contactCode;
 
     @NotAudited
-    @Setter(AccessLevel.NONE)
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CNT_ID", insertable = false, updatable = false)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "contact")
     private Set<ContactAccount> contactAccounts;
 
     @Column(name = "b_STATUS")
