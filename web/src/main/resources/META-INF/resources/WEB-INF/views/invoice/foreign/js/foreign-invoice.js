@@ -3697,6 +3697,7 @@ foreignInvoiceTab.method.editForm = function () {
         foreignInvoiceTab.variable.materialId = record.shipment.materialId;
         foreignInvoiceTab.method.jsonRPCManagerRequest({
             httpMethod: "GET",
+            promptDelay: 1000,
             actionURL: foreignInvoiceTab.variable.foreignInvoiceBillOfLadingUrl + "spec-list",
             params: {
                 criteria: {
@@ -3708,6 +3709,7 @@ foreignInvoiceTab.method.editForm = function () {
 
                 foreignInvoiceTab.method.jsonRPCManagerRequest({
                     httpMethod: "GET",
+                    showPrompt: false,
                     actionURL: foreignInvoiceTab.variable.foreignInvoicePaymentUrl + "spec-list",
                     params: {
                         criteria: {
@@ -3718,6 +3720,7 @@ foreignInvoiceTab.method.editForm = function () {
                     callback: function (paymentResp) {
                         foreignInvoiceTab.method.jsonRPCManagerRequest({
                             httpMethod: "GET",
+                            showPrompt: false,
                             actionURL: foreignInvoiceTab.variable.foreignInvoiceItemUrl + "spec-list",
                             params: {
                                 criteria: {
@@ -3731,6 +3734,7 @@ foreignInvoiceTab.method.editForm = function () {
 
                                 foreignInvoiceTab.method.jsonRPCManagerRequest({
                                     httpMethod: "GET",
+                                    showPrompt: false,
                                     actionURL: foreignInvoiceTab.variable.foreignInvoiceItemDetailUrl + "spec-list",
                                     params: {
                                         criteria: {
