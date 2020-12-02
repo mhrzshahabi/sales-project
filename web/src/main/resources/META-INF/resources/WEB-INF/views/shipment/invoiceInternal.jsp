@@ -1186,7 +1186,7 @@
         }
     });
     </sec:authorize>
-    <sec:authorize access="hasAuthority('E_UPDATE_INVOICE_INTERNAL_DOC_ID')">
+    <sec:authorize access="hasAuthority('E_UPDATE_DELETED_INVOICE_INTERNAL')">
     var ToolStripButton_Change_Status = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='accounting.document.change.status'/>",
         icon: "pieces/16/refresh.png",
@@ -1320,7 +1320,7 @@
                 }
             },
             </sec:authorize>
-            <sec:authorize access="hasAuthority('E_UPDATE_INVOICE_INTERNAL_DOC_ID')">
+            <sec:authorize access="hasAuthority('E_UPDATE_DELETED_INVOICE_INTERNAL')">
             {
                 title: "<spring:message code='accounting.document.change.status'/>",
                 icon: "pieces/16/refresh.png",
@@ -1398,7 +1398,7 @@
                 <%--<sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">--%>
                 <%--ToolStripButton_InvoiceInternal_Deleted_html,--%>
                 <%--</sec:authorize>--%>
-                <sec:authorize access="hasAuthority('E_UPDATE_INVOICE_INTERNAL_DOC_ID')">
+                <sec:authorize access="hasAuthority('E_UPDATE_DELETED_INVOICE_INTERNAL')">
                 ToolStripButton_Change_Status,
                 </sec:authorize>
                 InvoiceInternal_FilterForm_Deleted,

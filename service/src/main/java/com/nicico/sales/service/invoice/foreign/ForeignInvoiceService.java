@@ -197,7 +197,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
 
     @Override
     @Transactional
-    @Action(value = ActionType.Update , authority = "hasAuthority('E_UPDATE_FOREIGN_INVOICE_DOC_ID')")
+    @Action(value = ActionType.Update , authority = "hasAuthority('E_UPDATE_DELETED_FOREIGN_INVOICE')")
     public void updateDeletedDocument(List<ForeignInvoiceDTO.Info> data) {
 
         AccountingDTO.DocumentStatusRq request = new AccountingDTO.DocumentStatusRq();

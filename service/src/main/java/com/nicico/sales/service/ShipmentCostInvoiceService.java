@@ -7,7 +7,7 @@ import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
-import com.nicico.sales.iservice.IShipmentCostInvoiceService;
+import com.nicico.sales.iservice.*;
 import com.nicico.sales.model.entities.base.ShipmentCostInvoice;
 import com.nicico.sales.model.entities.base.ShipmentCostInvoiceDetail;
 import com.nicico.sales.utility.InvoiceNoGenerator;
@@ -17,21 +17,23 @@ import org.modelmapper.TypeToken;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoice, Long, ShipmentCostInvoiceDTO.Create, ShipmentCostInvoiceDTO.Info, ShipmentCostInvoiceDTO.Update, ShipmentCostInvoiceDTO.Delete> implements IShipmentCostInvoiceService {
 
-    private final ShipmentCostInvoiceDetailService shipmentCostInvoiceDetailService;
-    private final InvoiceTypeService invoiceTypeService;
-    private final ShipmentService shipmentService ;
+    private final IShipmentService shipmentService;
+    private final ICostInvoiceService costInvoiceService;
+    private final IInvoiceTypeService invoiceTypeService;
+    private final IShipmentCostInvoiceDetailService shipmentCostInvoiceDetailService;
     private final InvoiceNoGenerator invoiceNoGenerator;
     private final ResourceBundleMessageSource messageSource;
     private final UpdateUtil updateUtil;
@@ -77,6 +79,16 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
 
         return save(updating);
 
+    }
+
+    @Override
+    @Transactional
+    @Action(value = ActionType.Update, authority = "hasAuthority('E_UPDATE_DELETED_SHIPMENT_COST_INVOICE')")
+    public void updateDeletedDocument(List<ShipmentCostInvoiceDTO.Info> data) {
+
+        AccountingDTO.DocumentStatusRq request = new AccountingDTO.DocumentStatusRq();
+        request.setInvoiceIds(data.stream().map(q -> q.getId().toString()).collect(Collectors.toList()));
+        costInvoiceService.updateInvoiceIdsStatus("sales cost invoice", request);
     }
 
     private void updateDetail(ShipmentCostInvoiceDTO.Update request, ShipmentCostInvoice shipmentCostInvoice) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
