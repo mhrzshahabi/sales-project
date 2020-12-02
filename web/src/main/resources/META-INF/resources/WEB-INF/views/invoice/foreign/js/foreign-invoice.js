@@ -1816,9 +1816,8 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         foreignInvoiceTab.method.relatedInvoice(foreignInvoiceTab.listGrid.main);
     }
 }), 7);
-foreignInvoiceTab.toolStrip.main.addMember(
-    // <sec:authorize access="hasAuthority('C_FOREIGN_INVOICE_COMPLETION')">
-    isc.ToolStripButton.create({
+// <sec:authorize access="hasAuthority('C_FOREIGN_INVOICE_COMPLETION')">
+foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     icon: "[SKIN]/actions/configure.png",
     name: "invoiceCompletion",
     title: "<spring:message code='global.completion.foreign.invoice'/>",
@@ -1876,12 +1875,10 @@ foreignInvoiceTab.toolStrip.main.addMember(
             });
         }
     }
-})
-    // </sec:authorize>
-    , 8);
-foreignInvoiceTab.toolStrip.main.addMember(
-    // <sec:authorize access="hasAuthority('E_SEND_FOREIGN_INVOICE_TO_ACC')">
-    isc.ToolStripButton.create({
+}), 8);
+// </sec:authorize>
+// <sec:authorize access="hasAuthority('E_SEND_FOREIGN_INVOICE_TO_ACC')">
+foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     icon: "pieces/receipt.png",
     name: "SentToAccounting",
     title: "<spring:message code='accounting.document.create'/>",
@@ -1889,12 +1886,10 @@ foreignInvoiceTab.toolStrip.main.addMember(
 
         foreignInvoiceTab.method.sendToAcc(foreignInvoiceTab.listGrid.main);
     }
-})
-    // </sec:authorize>
-    , 9);
-foreignInvoiceTab.toolStrip.main.addMember(
-    // <sec:authorize access="hasAuthority('P_FOREIGN_INVOICE')">
-    isc.ToolStripButtonPrint.create({
+}), 9);
+// </sec:authorize>
+// <sec:authorize access="hasAuthority('P_FOREIGN_INVOICE')">
+foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButtonPrint.create({
     icon: "icon/pdf.png",
     name: "print",
     title: "<spring:message code='foreign-invoice.invoice-print'/>",
@@ -1902,9 +1897,8 @@ foreignInvoiceTab.toolStrip.main.addMember(
 
         foreignInvoiceTab.method.print(foreignInvoiceTab.listGrid.main);
     }
-})
-    // </sec:authorize>
-    , 10);
+}), 10);
+// </sec:authorize>
 foreignInvoiceTab.dynamicForm.main = null;
 
 //*************************************************** Functions ********************************************************
