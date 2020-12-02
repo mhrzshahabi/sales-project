@@ -112,6 +112,7 @@
                         "RemoveFromAcc": "حذف شده از سیستم مالی"
                     },
                     eStatus2: JSON.parse('${Enum_EStatus}'),
+                    eStatus3: JSON.parse('${Enum_EStatus_WithId}'),
                     unit: {
                     }
                 };
