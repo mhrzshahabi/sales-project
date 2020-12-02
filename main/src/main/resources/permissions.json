@@ -1037,6 +1037,14 @@
       "title": "لغو تائید نهایی فاکتور فروش خارجی"
     },
     {
+      "code": "P_FOREIGN_INVOICE",
+      "title": "چاپ فاکتور فروش خارجی"
+    },
+    {
+      "code": "C_FOREIGN_INVOICE_COMPLETION",
+      "title": "تکمیل فاکتور فروش خارجی"
+    },
+    {
       "code": "R_VIEW_INTERNAL_INVOICE_DOCUMENT",
       "title": "نمایش سند فاکتور فروش داخلی"
     },
@@ -2318,7 +2326,7 @@
     },
     {
       "code": "E_UPDATE_DELETED_SHIPMENT_COST_INVOICE",
-      "title": "به روز رسانی وضعیت اسناد هزینه های حمل"
+      "title": "به روز رسانی وضعیت اسناد هزینه حمل"
     },
     {
       "code": "E_SEND_INVOICE_INTERNAL_TO_ACC",
@@ -2330,7 +2338,7 @@
     },
     {
       "code": "E_SEND_SHIPMENT_COST_INVOICE_TO_ACC",
-      "title": "ایجاد سند حسابداری فاکتور هزینه های حمل"
+      "title": "ایجاد سند حسابداری فاکتور هزینه حمل"
     },
     {
       "code": "R_FOREIGN_INVOICE_BILL_OF_LADING",
