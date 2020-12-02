@@ -89,8 +89,6 @@ namespace nicico {
 
                     This.cancelCallBack();
                 },
-                icon: "pieces/16/icon_delete.png",
-                title: '<spring:message code="global.close" />'
             });
             // @ts-ignore
             let ok = isc.IButtonSave.create({
@@ -108,8 +106,6 @@ namespace nicico {
                     // @ts-ignore
                     This.okCallBack(creator.filterBuilder.main.getCriteria());
                 },
-                icon: "pieces/16/save.png",
-                title: '<spring:message code="global.ok" />'
             });
 
             // @ts-ignore
