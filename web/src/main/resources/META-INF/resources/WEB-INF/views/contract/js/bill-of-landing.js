@@ -348,7 +348,7 @@ const BlTab = {
                         message: '<spring:message code="global.grid.record.not.selected"/> ',
                         icon: "[SKIN]warn.png",
                         title: '<spring:message code="global.message"/> ',
-                        buttons: [isc.IButtonSave.create({title: "تائید"})],
+                        buttons: [isc.IButtonSave.create({title: '<spring:message code="global.ok"/>'})],
                         buttonClick: function (button, post) {
                             this.close();
                         }
@@ -446,20 +446,13 @@ const BlTab = {
                     members: [
                         // <sec:authorize access="hasAuthority('U_BILL_OF_LANDING') or hasAuthority('C_BILL_OF_LANDING')">
                         isc.IButtonSave.create({
-                            // top: 260,
-                            title: '<spring:message code="global.form.save"/> ',
-                            icon: "pieces/16/save.png",
                             click: () => {
                                 saveClickFunc();
                             }
                         }),
                         // </sec:authorize>
                         isc.IButtonCancel.create({
-                            title: '<spring:message code="global.close"/> ',
-                            prompt: "",
                             width: 100,
-                            icon: "pieces/16/icon_delete.png",
-                            orientation: "vertical",
                             click: function () {
                                 try {
                                     let wind = windowToCloseIs();
@@ -1720,9 +1713,6 @@ BlTab.RestDataSources.BillOfLanding = {
 }
 ////////////////////////////////////////////////////////GRIDS///////////////////////////////////////////////////////////
 BlTab.Vars.IButton_Container_Save = isc.IButtonSave.create({
-    top: 260,
-    title: "<spring:message code='global.form.save'/>",
-    icon: "pieces/16/save.png",
     click: function () {
         if (!BlTab.DynamicForms.Forms.ContainerToBillOfLanding.validate()) return;
         BlTab.Methods.Save({
@@ -1741,9 +1731,6 @@ BlTab.Vars.IButton_Container_Save = isc.IButtonSave.create({
 });
 
 BlTab.Vars.IButton_BillOfLading_Save = isc.IButtonSave.create({
-    top: 260,
-    title: "<spring:message code='global.form.save'/>",
-    icon: "pieces/16/save.png",
     click: function () {
         if (!BlTab.DynamicForms.Forms.BillOfLandingMain.validate()) {
             BlTab.Layouts.BillOfLandingFormTab.selectTab(0);
@@ -1801,12 +1788,6 @@ BlTab.Layouts.Window.ContainerToBillOfLanding = isc.Window.create({
             members: [
                 BlTab.Vars.IButton_Container_Save,
                 isc.IButtonCancel.create({
-                    top: 260,
-                    layoutMargin: 5,
-                    membersMargin: 5,
-                    width: 120,
-                    title: "<spring:message code='global.cancel'/>",
-                    icon: "pieces/16/icon_delete.png",
                     click: function () {
                         BlTab.Layouts.Window.ContainerToBillOfLanding.close();
                     }
@@ -1872,12 +1853,6 @@ BlTab.Layouts.Window.BillOfLandingMain = isc.Window.create({
             members: [
                 BlTab.Vars.IButton_BillOfLading_Save,
                 isc.IButtonCancel.create({
-                    top: 260,
-                    layoutMargin: 5,
-                    membersMargin: 5,
-                    width: 120,
-                    title: "<spring:message code='global.cancel'/>",
-                    icon: "pieces/16/icon_delete.png",
                     click: function () {
                         BlTab.Layouts.Window.BillOfLandingMain.close();
                     }

@@ -77,10 +77,6 @@ isc.defineClass("IncotermTable", isc.VLayout).addProperties({
             membersMargin: 10,
             members: [
                 isc.IButtonSave.create({
-
-                    top: 260,
-                    title: "<spring:message code='global.form.save'/>",
-                    icon: "pieces/16/save.png",
                     click: function () {
 
                         if (!This.incotermRuleTableComponent.validate()) {
@@ -107,11 +103,7 @@ isc.defineClass("IncotermTable", isc.VLayout).addProperties({
                     }
                 }),
                 isc.IButtonCancel.create({
-
                     width: 100,
-                    orientation: "vertical",
-                    icon: "pieces/16/icon_delete.png",
-                    title: "<spring:message code='global.close'/>",
                     click: function () {
 
                         let window = This.getParentElements().last();

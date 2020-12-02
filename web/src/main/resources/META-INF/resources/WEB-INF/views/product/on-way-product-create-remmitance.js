@@ -269,8 +269,6 @@ function onWayProductCreateRemittance() {
     });
     const IButton_warehouseCAD_Save = isc.IButtonSave.create({
         top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
         visibility: "hidden",
         click: function () {
             function dialog(message, okClick = function () {
@@ -494,10 +492,7 @@ function onWayProductCreateRemittance() {
                                     width: 5,
                                 }),
                                 isc.IButtonCancel.create({
-                                    title: "<spring:message code='global.cancel'/>",
                                     width: 100,
-                                    icon: "pieces/16/icon_delete.png",
-                                    orientation: "vertical",
                                     click: function () {
                                         isc.Dialog.create({
                                             title: "<spring:message code='global.warning'/>",

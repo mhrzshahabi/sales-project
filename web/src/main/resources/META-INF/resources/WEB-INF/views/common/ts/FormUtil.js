@@ -55,8 +55,6 @@ var nicico;
                         This.owner.getObject().show();
                     This.cancelCallBack();
                 },
-                icon: "pieces/16/icon_delete.png",
-                title: '<spring:message code="global.close" />'
             });
             // @ts-ignore
             var ok = isc.IButtonSave.create({
@@ -70,8 +68,6 @@ var nicico;
                         This.owner.getObject().show();
                     This.okCallBack(data);
                 },
-                icon: "pieces/16/save.png",
-                title: '<spring:message code="global.ok" />'
             });
             return isc.HLayout.create({
                 width: "100%",

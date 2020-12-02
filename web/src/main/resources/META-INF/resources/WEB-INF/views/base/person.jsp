@@ -361,12 +361,6 @@
     });
 
     var IButton_Person_Save = isc.IButtonSave.create({
-        top: 260,
-        layoutMargin: 5,
-        membersMargin: 5,
-        width: 120,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
         click: function () {
             ValuesManager_Person.validate();
             DynamicForm_Person.validate();
@@ -396,12 +390,6 @@
     });
 
     var PersonCancelBtn = isc.IButtonCancel.create({
-        top: 260,
-        layoutMargin: 10,
-        membersMargin: 10,
-        width: 120,
-        icon: "pieces/16/icon_delete.png",
-        title: "<spring:message code='global.cancel'/>",
         click: function () {
             Window_Person.close();
         }

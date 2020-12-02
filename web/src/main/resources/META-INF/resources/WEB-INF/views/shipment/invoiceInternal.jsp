@@ -295,7 +295,6 @@
     });
 
     var IButton_Document_Save = isc.IButtonSave.create({
-        top: 260,
         title: "<spring:message code='accounting.document.create'/>",
         click: function () {
 
@@ -356,8 +355,6 @@
         }
     });
     var IButton_Windows_Close = isc.IButtonCancel.create({
-        top: 260,
-        title: "<spring:message code='global.close'/>",
         click: function () {
             newDocumentWindow.close();
         }
