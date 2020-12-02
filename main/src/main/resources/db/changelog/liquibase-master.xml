@@ -73,8 +73,8 @@
     <include file="classpath:/db/changelog/initial-data/tbl_internal_invoice_document.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_cntr_cdtp_dynamic_table.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_cntr_cdtp_dynamic_table_value.xml"/>
-    <include file="classpath:/db/changelog/initial-data/tbl_bill_of_landing.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_bill_of_lading_switch.xml"/>
+    <include file="classpath:/db/changelog/initial-data/tbl_bill_of_landing.xml"/>
     <include file="classpath:/db/changelog/initial-definition/tbl_packing_list.xml"/>
     <include file="classpath:/db/changelog/initial-definition/tbl_packing_container.xml"/>
     <!-- INITIALIZE DATA -->
