@@ -64,7 +64,6 @@ public class ContractRestController {
         return new ResponseEntity<>(contractService.disapprove(id), HttpStatus.CREATED);
     }
 
-
     @Loggable
     @PutMapping
     public ResponseEntity<ContractDTO.Info> update(@Validated @RequestBody ContractDTO.Update request) {
