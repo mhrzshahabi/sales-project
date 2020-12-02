@@ -154,8 +154,6 @@ namespace nicico {
 
                                                 ThisForm.cancelCallBack();
                                             },
-                                            icon: "pieces/16/icon_delete.png",
-                                            title: '<spring:message code="global.close" />'
                                         });
                                         // @ts-ignore
                                         let ok = isc.IButtonSave.create({
@@ -176,8 +174,6 @@ namespace nicico {
 
                                                 ThisForm.okCallBack(data);
                                             },
-                                            icon: "pieces/16/save.png",
-                                            title: '<spring:message code="global.ok" />'
                                         });
                                         // @ts-ignore
                                         let filter = isc.IButtonSave.create({
