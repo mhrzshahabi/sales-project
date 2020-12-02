@@ -22,6 +22,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
+import javax.persistence.PersistenceException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -199,8 +200,17 @@ ConstraintViolationImpl{
         return provideStandardError(new SalesException2(ErrorType.BadRequest, null, message));
     }
 
+    @ExceptionHandler({PersistenceException.class})
+    public ResponseEntity<Object> handlePersistenceExceptionException(PersistenceException ex) {
+        return handleDataIntegrityViolationAndPersistenceException(ex);
+    }
+
     @ExceptionHandler({DataIntegrityViolationException.class})
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        return handleDataIntegrityViolationAndPersistenceException(ex);
+    }
+
+    private ResponseEntity<Object> handleDataIntegrityViolationAndPersistenceException(Exception ex) {
 
         this.printLog(ex, true, true, ex.getClass().getName());
 
@@ -228,4 +238,5 @@ ConstraintViolationImpl{
 
         return provideStandardError(ex);
     }
+
 }

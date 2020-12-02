@@ -1832,19 +1832,21 @@ BlTab.Layouts.Window.BillOfLandingMain = isc.Window.create({
             edgeMarginSize: 3,
             tabBarThickness: 100,
             tabBarPosition: nicico.CommonUtil.getAlignByLangReverse(),
-            height: .44 * innerHeight,
+            height: .55 * innerHeight,
             width: "100%",
             tabs: [
                 {
                     title: "<spring:message code='billOfLanding.main'/>",
                     pane: BlTab.DynamicForms.Forms.BillOfLandingMain = isc.DynamicForm.create({
                         numCols: 6,
-                        cellPadding: "7",
+                        cellPadding: "10",
                         wrapItemTitles: false,
                         errorOrientation: "bottom",
+                        overflow:"hidden",
+                        margin:"20",
                         fields: BlTab.Fields.BillOfLandingWithoutSwitch().map(_ => {
                             if (_.name === 'description') {
-                                _.width = 0.582 * innerWidth;
+                                _.width = 0.568 * innerWidth;
                             }
                             return _;
                         }),
@@ -1854,7 +1856,8 @@ BlTab.Layouts.Window.BillOfLandingMain = isc.Window.create({
                     title: "<spring:message code='billOfLanding.switch'/>",
                     pane: BlTab.DynamicForms.Forms.BillOfLandingSwitch = isc.DynamicForm.create({
                         numCols: 6,
-                        cellPadding: "7",
+                        cellPadding: "11",
+                        margin:"20",
                         wrapItemTitles: false,
                         fields: BlTab.Fields.BillOfLandingSwitch()
                     })
