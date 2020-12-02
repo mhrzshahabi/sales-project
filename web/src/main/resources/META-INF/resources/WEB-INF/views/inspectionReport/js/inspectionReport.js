@@ -1498,7 +1498,6 @@ inspectionReportTab.toolStrip.weightRemoveAll = isc.ToolStrip.create({
 inspectionReportTab.hStack.weightUnitSum = isc.HStack.create({
     height: "10%",
     width: "100%",
-    align: "right",
     overflow: "auto",
     members: []
 });
@@ -1509,12 +1508,6 @@ inspectionReportTab.vLayout.weightPane = isc.VLayout.create({
         inspectionReportTab.listGrid.weightElement,
         inspectionReportTab.listGrid.weightElementSum,
         inspectionReportTab.toolStrip.weightRemoveAll,
-        isc.Label.create({
-            margin: 10,
-            height: 5,
-            align: "left",
-            contents: "<spring:message code='inspectionReport.unit.sum.label'/>"
-        }),
         inspectionReportTab.hStack.weightUnitSum
     ]
 });
@@ -1677,7 +1670,6 @@ inspectionReportTab.toolStrip.assayRemoveAll = isc.ToolStrip.create({
 inspectionReportTab.hStack.assayUnitSum = isc.HStack.create({
     height: "10%",
     width: "100%",
-    align: "right",
     overflow: "auto",
     members: []
 });
@@ -1689,12 +1681,6 @@ inspectionReportTab.vLayout.assayPane = isc.VLayout.create({
         inspectionReportTab.listGrid.assayElement,
         inspectionReportTab.listGrid.assayElementSum,
         inspectionReportTab.toolStrip.assayRemoveAll,
-        isc.Label.create({
-            margin: 10,
-            height: 5,
-            align: "left",
-            contents: "<spring:message code='inspectionReport.unit.sum.label'/>"
-        }),
         inspectionReportTab.hStack.assayUnitSum
     ]
 });
@@ -1732,8 +1718,8 @@ inspectionReportTab.method.clearForm = function () {
     inspectionReportTab.listGrid.assayElementSum.setFields([]);
     inspectionReportTab.toolStrip.weightRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
     inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
-    inspectionReportTab.hStack.weightUnitSum.members.forEach(q => q.clearValues());
-    inspectionReportTab.hStack.assayUnitSum.members.forEach(q => q.clearValues());
+    inspectionReportTab.hStack.weightUnitSum.members.forEach(q => {if(q.clearValues) q.clearValues()});
+    inspectionReportTab.hStack.assayUnitSum.members.forEach(q => {if(q.clearValues) q.clearValues()});
     inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").enable();
     inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").enable();
 };
@@ -2145,13 +2131,16 @@ inspectionReportTab.window.formUtil.okCallBack = function (data) {
 inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
     let unitArray = [];
     let amountArray = [];
-    tab_.setMembers([]);
+    tab_.setMembers([isc.Label.create({
+        wrap: false,
+        contents: "<span style='font-weight: bolder;font-size: larger'><spring:message code='inspectionReport.unit.sum.label'/> : </span> "
+    }), ]);
     if (!inventories)
         return;
 
     let remittanceDetails = inventories.map(q => q.remittanceDetails);
     remittanceDetails.forEach(rds => {
-        rds.filter(q => q.inputRemittance === false).forEach(r => {
+        rds.forEach(r => {
             unitArray.push(r.unitId);
         });
     });
@@ -2174,8 +2163,7 @@ inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
             disabledValueField: true,
             showUnitFieldTitle: false,
             showValueFieldTitle: false,
-            align: "left",
-            width: "25%"
+            topPadding: 20
         });
         unitMember.setValue(amountArray[index]);
         unitMember.setUnitId(current);

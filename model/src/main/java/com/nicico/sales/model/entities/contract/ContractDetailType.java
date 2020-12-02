@@ -52,9 +52,9 @@ public class ContractDetailType extends BaseEntity {
     @Transient
     private String title;
 
-    @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ContractDetailTypeParam> contractDetailTypeParams;
 
-    @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ContractDetailTypeTemplate> contractDetailTypeTemplates;
 }

@@ -170,6 +170,7 @@
         width: 500,
         height: "100%",
         titleWidth: "100",
+        padding: 10,
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields: [
@@ -361,12 +362,6 @@
     });
 
     var IButton_Person_Save = isc.IButtonSave.create({
-        top: 260,
-        layoutMargin: 5,
-        membersMargin: 5,
-        width: 120,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
         click: function () {
             ValuesManager_Person.validate();
             DynamicForm_Person.validate();
@@ -396,12 +391,6 @@
     });
 
     var PersonCancelBtn = isc.IButtonCancel.create({
-        top: 260,
-        layoutMargin: 10,
-        membersMargin: 10,
-        width: 120,
-        icon: "pieces/16/icon_delete.png",
-        title: "<spring:message code='global.cancel'/>",
         click: function () {
             Window_Person.close();
         }
@@ -412,8 +401,7 @@
         height: "100%",
         layoutMargin: 10,
         membersMargin: 5,
-        textAlign: "center",
-        align: "center",
+        align: nicico.CommonUtil.getAlignByLangReverse(),
         members: [
             IButton_Person_Save,
             PersonCancelBtn
@@ -423,6 +411,7 @@
 
     var VLayout_saveButton_person = isc.VLayout.create({
         width: 650,
+        height: "100%",
         textAlign: "center",
         align: "center",
         members: [
@@ -441,7 +430,6 @@
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,
-        margin: '10px',
         closeClick: function () {
             this.Super("closeClick", arguments)
         },

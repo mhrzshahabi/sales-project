@@ -54,23 +54,27 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
         ],
         changed: function (form, item, value) {
             let elementId = item.getValue();
-            switch (elementId) {
+            form.getItem("weightUnitId").canEdit = true;
 
+            switch (elementId) {
                 case 1:
-                    form.getItem("financeUnitId").setValue(-32);
-                    form.getItem("weightUnitId").setValue(-11);
+                    form.getItem("weightUnitId").setValue(-1);
+                    form.getItem("weightUnitId").canEdit = false;
                     break;
                 case 2:
-                    form.getItem("financeUnitId").setValue(-32);
-                    form.getItem("weightUnitId").setValue(-1);
+                    form.getItem("weightUnitId").setValue(23);
+                    form.getItem("weightUnitId").canEdit = false;
                     break;
                 case 3:
-                    form.getItem("financeUnitId").setValue(-32);
-                    form.getItem("weightUnitId").setValue(-11);
+                    form.getItem("weightUnitId").setValue(23);
+                    form.getItem("weightUnitId").canEdit = false;
                     break;
                 case 4:
-                    form.getItem("financeUnitId").setValue(-32);
-                    form.getItem("weightUnitId").setValue(-1);
+                    form.getItem("weightUnitId").setValue(24);
+                    form.getItem("weightUnitId").canEdit = false;
+                    break;
+                default:
+                    form.getItem("weightUnitId").setValue(null);
                     break;
             }
         }
@@ -82,7 +86,7 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
         type: "long",
         required: true,
         autoFetchData: false,
-        canEdit: "${SecurityUtil.hasAuthority('U_PRICE_BASE')}".toString() === 'true',
+        canEdit: true,
         editorType: "SelectItem",
         valueField: "id",
         displayField: "nameEN",
@@ -113,7 +117,7 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
         type: "long",
         required: true,
         autoFetchData: false,
-        canEdit: "${SecurityUtil.hasAuthority('U_PRICE_BASE')}".toString() === 'true',
+        canEdit: true,
         editorType: "SelectItem",
         valueField: "id",
         displayField: "nameEN",
@@ -167,7 +171,31 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
     }
 ]);
 
-Object.assign(priceBaseTab.listGrid.fields, priceBaseTab.dynamicForm.fields);
+priceBaseTab.listGrid.fields = BaseFormItems.concat([
+    {
+        name: "priceDate",
+        width: "300",
+        type: 'date',
+        title: "<spring:message code='priceBase.date'/>"
+    },
+    {
+        name: "element.name",
+        title: "<spring:message code='priceBase.element'/>",
+    },
+    {
+        name: "financeUnit.name",
+        title: "<spring:message code='priceBase.financeUnit'/>",
+    },
+    {
+        name: "weightUnit.name",
+        title: "<spring:message code='priceBase.weightUnit'/>",
+    },
+    {
+        name: "price",
+        title: "<spring:message code='priceBase.price'/>",
+    }
+]);
+
 nicico.BasicFormUtil.getDefaultBasicForm(priceBaseTab, "api/price-base/");
 priceBaseTab.dynamicForm.main.windowWidth = 500;
 nicico.BasicFormUtil.removeExtraGridMenuActions(priceBaseTab);

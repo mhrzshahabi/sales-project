@@ -38,4 +38,30 @@
                 tableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-091">
+        <addColumn tableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL">
+            <column name="F_BASE_PRICE_FINANCE_UNIT_ID" type="NUMBER(19, 0)" defaultValueNumeric="-32">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_BASE_PRICE_WEIGHT_UNIT_ID" type="NUMBER(19, 0)" defaultValueNumeric="-1">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-092">
+        <addForeignKeyConstraint baseColumnNames="F_BASE_PRICE_FINANCE_UNIT_ID" baseTableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL"
+                                 constraintName="fk_foreignInvoiceItemDetail2UnitByBPFUnitId"
+                                 deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_UNIT"
+                                 validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_BASE_PRICE_WEIGHT_UNIT_ID" baseTableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL"
+                                 constraintName="fk_foreignInvoiceItemDetail2UnitByBPWUnitId"
+                                 deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_UNIT"
+                                 validate="true"/>
+    </changeSet>
+
 </databaseChangeLog>

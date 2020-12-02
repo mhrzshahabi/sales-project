@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Getter
@@ -36,7 +33,7 @@ public class DailyReportBandarAbas {
     private String sourceName;
     @Column(name = "material_name")
     private String materialName;
-     @Column(name = "unit")
+    @Column(name = "unit")
     private String unit;
     @Column(name = "tadil_year_percent")
     private Double tadilYearPrecent;
@@ -90,13 +87,6 @@ public class DailyReportBandarAbas {
     private Long tadilYear;
     @Column(name = "TADIL_MONTH")
     private Long tadilMonth;
-    @Column(name = "OWP_WEIGHT")
-    private Long owpWeight;
-    @Column(name = "OWP_PKG")
-    private Long owpPkg;
-    @Column(name = "OWP_TOZIN")
-    private Long owpTozin;
-
     @Column(name = "sum_tadil_year_percent")
     private Double sumTadilYearPrecent;
     @Column(name = "sum_IN_PKG_DAY")
@@ -147,25 +137,219 @@ public class DailyReportBandarAbas {
     private Long sumTadilYear;
     @Column(name = "sum_TADIL_MONTH")
     private Long sumTadilMonth;
-    @Column(name = "sum_OWP_WEIGHT")
-    private Long sumOwpWeight;
-    @Column(name = "sum_OWP_PKG")
-    private Long sumOwpPkg;
-    @Column(name = "sum_OWP_TOZIN")
-    private Long sumOwpTozin;
-
-
-
-
+    @Column(name = "owp_day_arrived_tozin_rail")
+    private long owpDayArrivedTozinRail;
+    @Column(name = "owp_day_not_arrived_tozin_rail")
+    private long owpDayNotArrivedTozinRail;
+    @Column(name = "owp_day_arrived_weight_rail")
+    private long owpDayArrivedWeightRail;
+    @Column(name = "owp_day_not_arrived_weight_rail")
+    private long owpDayNotArrivedWeightRail;
+    @Column(name = "owp_day_arrived_tozin_road")
+    private long owpDayArrivedTozinRoad;
+    @Column(name = "owp_day_not_arrived_tozin_road")
+    private long owpDayNotArrivedTozinRoad;
+    @Column(name = "owp_day_arrived_weight_road")
+    private long owpDayArrivedWeightRoad;
+    @Column(name = "owp_day_not_arrived_weight_road")
+    private long owpDayNotArrivedWeightRoad;
+    @Column(name = "owp_total_not_arrived_weight_rail")
+    private long owpTotalNotArrivedWeightRail;
+    @Column(name = "owp_total_not_arrived_tozin_rail")
+    private long owpTotalNotArrivedTozinRail;
+    @Column(name = "owp_total_not_arrived_weight_road")
+    private long owpTotalNotArrivedWeightRoad;
+    @Column(name = "owp_total_not_arrived_tozin_road")
+    private long owpTotalNotArrivedTozinRoad;
+    @Column(name = "owp_month_arrived_tozin_rail")
+    private long owpMonthArrivedTozinRail;
+    @Column(name = "owp_month_not_arrived_tozin_rail")
+    private long owpMonthNotArrivedTozinRail;
+    @Column(name = "owp_month_arrived_weight_rail")
+    private long owpMonthArrivedWeightRail;
+    @Column(name = "owp_month_not_arrived_weight_rail")
+    private long owpMonthNotArrivedWeightRail;
+    @Column(name = "owp_month_arrived_tozin_road")
+    private long owpMonthArrivedTozinRoad;
+    @Column(name = "owp_month_not_arrived_tozin_road")
+    private long owpMonthNotArrivedTozinRoad;
+    @Column(name = "owp_month_arrived_weight_road")
+    private long owpMonthArrivedWeightRoad;
+    @Column(name = "owp_month_not_arrived_weight_road")
+    private long owpMonthNotArrivedWeightRoad;
+    @Column(name = "owp_year_arrived_tozin_rail")
+    private long owpYearArrivedTozinRail;
+    @Column(name = "owp_year_not_arrived_tozin_rail")
+    private long owpYearNotArrivedTozinRail;
+    @Column(name = "owp_year_arrived_weight_rail")
+    private long owpYearArrivedWeightRail;
+    @Column(name = "owp_year_not_arrived_weight_rail")
+    private long owpYearNotArrivedWeightRail;
+    @Column(name = "owp_year_arrived_tozin_road")
+    private long owpYearArrivedTozinRoad;
+    @Column(name = "owp_year_not_arrived_tozin_road")
+    private long owpYearNotArrivedTozinRoad;
+    @Column(name = "owp_year_arrived_weight_road")
+    private long owpYearArrivedWeightRoad;
+    @Column(name = "owp_year_not_arrived_weight_road")
+    private long owpYearNotArrivedWeightRoad;
+    @Column(name = "owp_day_arrived_tozin_rail_all_material")
+    private long owpDayArrivedTozinRailAllMaterial;
+    @Column(name = "owp_day_not_arrived_tozin_rail_all_material")
+    private long owpDayNotArrivedTozinRailAllMaterial;
+    @Column(name = "owp_day_arrived_weight_rail_all_material")
+    private long owpDayArrivedWeightRailAllMaterial;
+    @Column(name = "owp_day_not_arrived_weight_rail_all_material")
+    private long owpDayNotArrivedWeightRailAllMaterial;
+    @Column(name = "owp_total_not_arrived_weight_rail_all_material")
+    private long owpTotalNotArrivedWeightRailAllMaterial;
+    @Column(name = "owp_total_not_arrived_tozin_rail_all_material")
+    private long owpTotalNotArrivedTozinRailAllMaterial;
+    @Column(name = "owp_month_arrived_tozin_rail_all_material")
+    private long owpMonthArrivedTozinRailAllMaterial;
+    @Column(name = "owp_month_not_arrived_tozin_rail_all_material")
+    private long owpMonthNotArrivedTozinRailAllMaterial;
+    @Column(name = "owp_month_arrived_weight_rail_all_material")
+    private long owpMonthArrivedWeightRailAllMaterial;
+    @Column(name = "owp_month_not_arrived_weight_rail_all_material")
+    private long owpMonthNotArrivedWeightRailAllMaterial;
+    @Column(name = "owp_year_arrived_tozin_rail_all_material")
+    private long owpYearArrivedTozinRailAllMaterial;
+    @Column(name = "owp_year_not_arrived_tozin_rail_all_material")
+    private long owpYearNotArrivedTozinRailAllMaterial;
+    @Column(name = "owp_year_arrived_weight_rail_all_material")
+    private long owpYearArrivedWeightRailAllMaterial;
+    @Column(name = "owp_year_not_arrived_weight_rail_all_material")
+    private long owpYearNotArrivedWeightRailAllMaterial;
+    @Column(name = "owp_day_arrived_tozin_road_all_material")
+    private long owpDayArrivedTozinRoadAllMaterial;
+    @Column(name = "owp_day_not_arrived_tozin_road_all_material")
+    private long owpDayNotArrivedTozinRoadAllMaterial;
+    @Column(name = "owp_day_arrived_weight_road_all_material")
+    private long owpDayArrivedWeightRoadAllMaterial;
+    @Column(name = "owp_day_not_arrived_weight_road_all_material")
+    private long owpDayNotArrivedWeightRoadAllMaterial;
+    @Column(name = "owp_total_not_arrived_weight_road_all_material")
+    private long owpTotalNotArrivedWeightRoadAllMaterial;
+    @Column(name = "owp_total_not_arrived_tozin_road_all_material")
+    private long owpTotalNotArrivedTozinRoadAllMaterial;
+    @Column(name = "owp_month_arrived_tozin_road_all_material")
+    private long owpMonthArrivedTozinRoadAllMaterial;
+    @Column(name = "owp_month_not_arrived_tozin_road_all_material")
+    private long owpMonthNotArrivedTozinRoadAllMaterial;
+    @Column(name = "owp_month_arrived_weight_road_all_material")
+    private long owpMonthArrivedWeightRoadAllMaterial;
+    @Column(name = "owp_month_not_arrived_weight_road_all_material")
+    private long owpMonthNotArrivedWeightRoadAllMaterial;
+    @Column(name = "owp_year_arrived_tozin_road_all_material")
+    private long owpYearArrivedTozinRoadAllMaterial;
+    @Column(name = "owp_year_not_arrived_tozin_road_all_material")
+    private long owpYearNotArrivedTozinRoadAllMaterial;
+    @Column(name = "owp_year_arrived_weight_road_all_material")
+    private long owpYearArrivedWeightRoadAllMaterial;
+    @Column(name = "owp_year_not_arrived_weight_road_all_material")
+    private long owpYearNotArrivedWeightRoadAllMaterial;
+    @Column(name = "owp_day_arrived_tozin_all_material")
+    private long owpDayArrivedTozinAllMaterial;
+    @Column(name = "owp_day_not_arrived_tozin_all_material")
+    private long owpDayNotArrivedTozinAllMaterial;
+    @Column(name = "owp_day_arrived_weight_all_material")
+    private long owpDayArrivedWeightAllMaterial;
+    @Column(name = "owp_day_not_arrived_weight_all_material")
+    private long owpDayNotArrivedWeightAllMaterial;
+    @Column(name = "owp_total_not_arrived_weight_all_material")
+    private long owpTotalNotArrivedWeightAllMaterial;
+    @Column(name = "owp_total_not_arrived_tozin_all_material")
+    private long owpTotalNotArrivedTozinAllMaterial;
+    @Column(name = "owp_month_arrived_tozin_all_material")
+    private long owpMonthArrivedTozinAllMaterial;
+    @Column(name = "owp_month_not_arrived_tozin_all_material")
+    private long owpMonthNotArrivedTozinAllMaterial;
+    @Column(name = "owp_month_arrived_weight_all_material")
+    private long owpMonthArrivedWeightAllMaterial;
+    @Column(name = "owp_month_not_arrived_weight_all_material")
+    private long owpMonthNotArrivedWeightAllMaterial;
+    @Column(name = "owp_year_arrived_tozin_all_material")
+    private long owpYearArrivedTozinAllMaterial;
+    @Column(name = "owp_year_not_arrived_tozin_all_material")
+    private long owpYearNotArrivedTozinAllMaterial;
+    @Column(name = "owp_year_arrived_weight_all_material")
+    private long owpYearArrivedWeightAllMaterial;
+    @Column(name = "owp_year_not_arrived_weight_all_material")
+    private long owpYearNotArrivedWeightAllMaterial;
+    @Column(name = "owp_total_not_arrived_weight")
+    private long owpTotalNotArrivedWeight;
+    @Column(name = "owp_total_not_arrived_tozin")
+    private long owpTotalNotArrivedTozin;
 
     @EqualsAndHashCode
     public static class DailyReportBandAbasId implements Serializable {
-       private String date;
+        private String date;
 
-       private Long source;
+        private Long source;
 
-       private Long material;
+        private Long material;
 
-   }
+    }
 
+    @PostLoad
+    public void init() {
+
+        if (sumRemainedWeight == null)
+            sumRemainedWeight = 0L;
+        if (sumOutWeightDay == null)
+            sumOutWeightDay = 0L;
+        if (sumIncomeWeightDay == null)
+            sumIncomeWeightDay = 0L;
+        if (sumOutWeightMonth == null)
+            sumOutWeightMonth = 0L;
+        if (sumIncomeWeightMonth == null)
+            sumIncomeWeightMonth = 0L;
+        if (sumOutWeightYear == null)
+            sumOutWeightYear = 0L;
+        if (sumIncomeWeightYear == null)
+            sumIncomeWeightYear = 0L;
+        if (remainedWeight == null)
+            remainedWeight = 0L;
+        if (outWeightDay == null)
+            outWeightDay = 0L;
+        if (incomeWeightDay == null)
+            incomeWeightDay = 0L;
+        if (outWeightMonth == null)
+            outWeightMonth = 0L;
+        if (incomeWeightMonth == null)
+            incomeWeightMonth = 0L;
+        if (outWeightYear == null)
+            outWeightYear = 0L;
+        if (incomeWeightYear == null)
+            incomeWeightYear = 0L;
+        if (sumOutPkgDay == null)
+            sumOutPkgDay = 0L;
+        if (sumInPkgDay == null)
+            sumInPkgDay = 0L;
+        if (sumOutPkgMonth == null)
+            sumOutPkgMonth = 0L;
+        if (sumInPkgMonth == null)
+            sumInPkgMonth = 0L;
+        if (sumRemainedPkg == null)
+            sumRemainedPkg = 0L;
+        if (sumOutPkgYear == null)
+            sumOutPkgYear = 0L;
+        if (sumInPkgYear == null)
+            sumInPkgYear = 0L;
+        if (remainedPkg == null)
+            remainedPkg = 0L;
+        if (outPkgDay == null)
+            outPkgDay = 0L;
+        if (inPkgDay == null)
+            inPkgDay = 0L;
+        if (outPkgMonth == null)
+            outPkgMonth = 0L;
+        if (inPkgMonth == null)
+            inPkgMonth = 0L;
+        if (outPkgYear == null)
+            outPkgYear = 0L;
+        if (inPkgYear == null)
+            inPkgYear = 0L;
+    }
 }

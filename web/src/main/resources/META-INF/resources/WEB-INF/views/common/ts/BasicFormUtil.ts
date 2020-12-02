@@ -366,6 +366,7 @@ namespace nicico {
             // @ts-ignore
             return creator.vLayout.main;
         }
+
     }
 
     //------------------------------------------ Classes -----------------------------------------//

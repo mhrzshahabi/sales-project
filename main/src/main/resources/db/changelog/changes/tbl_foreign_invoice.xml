@@ -34,4 +34,14 @@
                 tableName="TBL_FOREIGN_INVOICE"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-095">
+        <addColumn tableName="TBL_FOREIGN_INVOICE">
+            <column name="N_DELAY_PENALTY" type="NUMBER" defaultValueNumeric="0"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-097">
+        <dropColumn tableName="TBL_FOREIGN_INVOICE" columnName="N_ACCOUNTING_ID"/>
+    </changeSet>
+
 </databaseChangeLog>

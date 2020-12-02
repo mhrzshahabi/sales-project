@@ -1,5 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
+import com.nicico.sales.model.annotation.I18n;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
+@I18n
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,10 +31,10 @@ public class Bank extends BaseEntity {
     private Long id;
 
     @Column(name = "c_NAME_FA", length = 1000)
-    private String bankName;
+    private String nameFA;
 
     @Column(name = "c_NAME_EN", length = 1000)
-    private String enBankName;
+    private String nameEN;
 
     @Column(name = "c_ADDRESS", length = 1000)
     private String address;
@@ -49,4 +51,7 @@ public class Bank extends BaseEntity {
     @Column(name = "COUNTRY_ID")
     private Long countryId;
 
+    @I18n
+    @Transient
+    private String name;
 }

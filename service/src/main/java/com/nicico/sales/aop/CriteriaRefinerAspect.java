@@ -9,13 +9,16 @@ import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.model.annotation.I18n;
+import com.nicico.sales.model.entities.contract.Contract;
 import com.nicico.sales.model.enumeration.AllConverters;
+import com.nicico.sales.model.enumeration.CommercialRole;
 import com.nicico.sales.model.enumeration.EStatus;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -38,7 +41,11 @@ import static com.nicico.copper.common.domain.criteria.SearchUtil.mapSearchRs;
 @RequiredArgsConstructor
 public class CriteriaRefinerAspect {
 
-    @Around(value = "execution(* com.nicico.sales.service.GenericService+.search(..)) && args(request) ||" + "execution(* com.nicico.sales.service.contract.ContractService.refinedSearch(..)) && args(request)")
+    private final ModelMapper modelMapper;
+
+    @Around(value = "" +
+            "(execution(* com.nicico.sales.service.GenericService+.search(..)) && args(request)) || " +
+            "(@annotation(com.nicico.sales.annotation.CheckCriteria) && args(request))")
     public TotalResponse<? extends Object> refineDateCriteria(ProceedingJoinPoint proceedingJoinPoint, NICICOCriteria request) throws Throwable {
 
         Object target = proceedingJoinPoint.getTarget();
@@ -55,6 +62,21 @@ public class CriteriaRefinerAspect {
             final Method searchMethod = target.getClass().getMethod(searchMethodName, SearchDTO.SearchRq.class);
             return mapSearchRs(request, (SearchDTO.SearchRs<?>) searchMethod.invoke(target, newRequest));
         } else return (TotalResponse<?>) proceedingJoinPoint.proceed();
+    }
+
+    @Around(value = "" +
+            "(execution(* com.nicico.sales.service.GenericService+.search(..)) && args(request)) || " +
+            "(@annotation(com.nicico.sales.annotation.CheckCriteria) && args(request))")
+    public SearchDTO.SearchRs<? extends Object> refineDateCriteria(ProceedingJoinPoint proceedingJoinPoint, SearchDTO.SearchRq request) throws Throwable {
+
+        Object target = proceedingJoinPoint.getTarget();
+        if (target == null) return (SearchDTO.SearchRs<?>) proceedingJoinPoint.proceed();
+
+        ParameterizedType superClass = (ParameterizedType) target.getClass().getGenericSuperclass();
+        Class<?> entityClass = (Class<?>) superClass.getActualTypeArguments()[0];
+        checkSort(request, entityClass);
+        checkCriteria(request.getCriteria(), entityClass);
+        return (SearchDTO.SearchRs<?>) proceedingJoinPoint.proceed();
     }
 
     private Field getField(String fieldName, Class<?> entityClass) {
@@ -131,10 +153,55 @@ public class CriteriaRefinerAspect {
                 Optional<EStatus> statusOptional = Enums.getIfPresent(EStatus.class, value + "");
                 if (statusOptional.isPresent()) statuses.add(statusOptional.get());
             }
+            criteriaRq.setOperator(EOperator.equals);
             criteriaRq.setValue(new AllConverters.EStatusSetConverter().convertToDatabaseColumn(statuses));
         }
 
         return fieldName;
+    }
+
+    private boolean makeContractContactsCriteria(SearchDTO.CriteriaRq criteriaRq, String fieldName) {
+
+        Integer roleId = null;
+        switch (fieldName) {
+            case "buyerId":
+                roleId = CommercialRole.Buyer.getId();
+                break;
+            case "sellerId":
+                roleId = CommercialRole.Seller.getId();
+                break;
+            case "agentBuyerId":
+                roleId = CommercialRole.AgentBuyer.getId();
+                break;
+            case "agentSellerId":
+                roleId = CommercialRole.AgentSeller.getId();
+                break;
+        }
+
+        if (roleId != null) {
+
+            SearchDTO.CriteriaRq newCriteriaRq = new SearchDTO.CriteriaRq();
+            modelMapper.map(criteriaRq, newCriteriaRq);
+
+            newCriteriaRq.setOperator(EOperator.equals);
+            newCriteriaRq.setFieldName("contractContacts.contactId");
+
+            SearchDTO.CriteriaRq roleCriteriaRq = new SearchDTO.CriteriaRq().
+                    setFieldName("contractContacts.commercialRole").
+                    setOperator(EOperator.equals).
+                    setValue(roleId);
+
+            criteriaRq.setFieldName(null).
+                    setOperator(EOperator.and).
+                    setValue(null).
+                    setCriteria(Arrays.asList(roleCriteriaRq, newCriteriaRq)).
+                    setStart(null).
+                    setEnd(null);
+
+            return true;
+        }
+
+        return false;
     }
 
     private boolean refineDateField(String fieldName, SearchDTO.CriteriaRq criteriaRq, boolean result) {
@@ -177,9 +244,22 @@ public class CriteriaRefinerAspect {
 
                     result[0] = true;
                     sortByRq.setFieldName(fieldName.replaceAll("\\bestatus\\b", "eStatusId"));
+                } else if (entityClass.equals(Contract.class)) {
+
+                    ArrayList<String> fields = new ArrayList<>();
+                    fields.add("buyerId");
+                    fields.add("sellerId");
+                    fields.add("agentBuyerId");
+                    fields.add("agentSellerId");
+                    if (fields.contains(fieldName)) {
+
+                        result[0] = true;
+                        sortByRq.setFieldName("contractContacts.contactId");
+                    }
                 }
-                String newFieldName = refineFieldName(fieldName, entityClass);
-                if (!newFieldName.equals(fieldName)) result[0] = true;
+
+                String newFieldName = refineFieldName(sortByRq.getFieldName(), entityClass);
+                if (!newFieldName.equals(sortByRq.getFieldName())) result[0] = true;
 
                 sortBys.add((sortByRq.getDescendingSafe() ? "-" : "") + newFieldName);
             });
@@ -190,7 +270,7 @@ public class CriteriaRefinerAspect {
         return result[0];
     }
 
-    private Boolean checkCriteria(SearchDTO.CriteriaRq criteriaRq, Class<?> entityClass) throws NoSuchFieldException {
+    private Boolean checkCriteria(SearchDTO.CriteriaRq criteriaRq, Class<?> entityClass) {
 
         if (criteriaRq == null) return false;
 
@@ -202,6 +282,12 @@ public class CriteriaRefinerAspect {
 
                 result = true;
                 fieldName = refineEStatusField(fieldName, criteriaRq);
+            }
+
+            if (entityClass.equals(Contract.class)) {
+
+                if (makeContractContactsCriteria(criteriaRq, fieldName))
+                    return true;
             }
 
             Field field = getFieldByNames(fieldName, entityClass);

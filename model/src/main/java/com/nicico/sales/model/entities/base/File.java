@@ -2,7 +2,7 @@ package com.nicico.sales.model.entities.base;
 
 import com.nicico.copper.core.service.minio.EFileAccessLevel;
 import com.nicico.sales.model.Auditable;
-import com.nicico.sales.model.enumeration.FileStatus;
+import com.nicico.sales.model.enumeration.EFileStatus;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -38,9 +38,15 @@ public class File extends Auditable {
 
     @NotNull
     @Column(name = "E_FILE_STATUS", nullable = false)
-    private FileStatus fileStatus;
+    private EFileStatus fileStatus;
 
     @NotNull
     @Column(name = "E_FILE_ACCESS_LEVEL", nullable = false)
     private EFileAccessLevel accessLevel;
+
+    @Column(name = "C_PERMISSIONS")
+    private String permissions;
+
+    @Column(name = "N_OWNER_ID")
+    private Long ownerId;
 }

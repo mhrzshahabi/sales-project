@@ -17,9 +17,10 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BankDTO {
 
-    private String bankName;
+    private String name;
+    private String nameFA;
+    private String nameEN;
     private Long countryId;
-    private String enBankName;
     private String address;
     private String coreBranch;
 

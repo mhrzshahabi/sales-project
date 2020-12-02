@@ -2,6 +2,7 @@ package com.nicico.sales.iservice;
 
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.model.entities.base.Shipment;
 
@@ -13,4 +14,5 @@ public interface IShipmentService extends IGenericService<Shipment, Long, Shipme
 
     TotalResponse<ShipmentDTO.ReportInfo> reportSearch(NICICOCriteria nicicoCriteria);
 
+    SearchDTO.SearchRs<ShipmentDTO.ReportInfo> reportSearch(SearchDTO.SearchRq request);
 }

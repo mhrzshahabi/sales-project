@@ -32,7 +32,6 @@ import com.nicico.sales.utility.AuthenticationUtil;
 import com.nicico.sales.utility.StringFormatUtil;
 import com.nicico.sales.utility.UpdateUtil;
 import com.nicico.sales.utility.WhereClauseUtil;
-import io.minio.ErrorCode;
 import io.minio.errors.ErrorResponseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -134,7 +133,6 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
     private final static List<Class> MAPPING_ANNOTATIONS = new ArrayList<>(Arrays.asList(RequestMapping.class, GetMapping.class, PutMapping.class, PostMapping.class, DeleteMapping.class, PatchMapping.class));
 
     // -----------------------------------------------------------------------------------------------------------------
-
     private final AuthenticationUtil authenticationUtil;
     private final UpdateUtil updateUtil;
     private final IFileService fileService;
@@ -583,17 +581,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
             List<FileDTO.FileMetaData> files = fileService.getFiles(id, Report.class.getSimpleName());
             for (FileDTO.FileMetaData q : files) {
-                try {
-                    fileService.delete(q.getFileKey());
-                } catch (ErrorResponseException e) {
-
-                    if (e.errorResponse().errorCode() != ErrorCode.NO_SUCH_KEY &&
-                            e.errorResponse().errorCode() != ErrorCode.NO_SUCH_OBJECT &&
-                            e.errorResponse().errorCode() != ErrorCode.NO_SUCH_BUCKET)
-                        throw new SalesException2(e, ErrorType.InternalServerError, null, e.errorResponse().message());
-                } catch (Exception e) {
-                    throw new SalesException2(e);
-                }
+                fileService.delete(q.getFileKey());
             }
         } catch (Exception e) {
 

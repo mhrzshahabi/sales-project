@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.annotation.Action;
+import com.nicico.sales.annotation.CheckCriteria;
 import com.nicico.sales.dto.RemittanceDTO;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.exception.NotFoundException;
@@ -144,6 +146,25 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
     }
 
     @Override
+    @Action(value = ActionType.Search)
+    @Transactional(readOnly = true)
+    public SearchDTO.SearchRs<RemittanceDTO.ReportInfo> reportSearch(SearchDTO.SearchRq request) {
+
+        List<Remittance> entities = new ArrayList<>();
+        SearchDTO.SearchRs<RemittanceDTO.ReportInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
+
+            RemittanceDTO.ReportInfo eResult = modelMapper.map(entity, RemittanceDTO.ReportInfo.class);
+            validation(entity, eResult);
+            entities.add(entity);
+            return eResult;
+        });
+
+        validationAll(entities, result);
+        return result;
+    }
+
+    @Override
+    @CheckCriteria
     @Action(value = ActionType.Search)
     @Transactional(readOnly = true)
     public TotalResponse<RemittanceDTO.ReportInfo> reportSearch(NICICOCriteria request) {

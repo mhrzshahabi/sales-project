@@ -368,9 +368,6 @@
         }
     });
     var shipmentDccSaveIButton = isc.IButtonSave.create({
-        top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
         click: function () {
 
             shipmentDccDynamicForm.validate();
@@ -448,10 +445,7 @@
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                title: "<spring:message code='global.cancel'/>",
                                 width: 100,
-                                icon: "pieces/16/icon_delete.png",
-                                orientation: "vertical",
                                 click: function () {
                                     shipmentDccCreateWindow.close();
                                 }
@@ -475,12 +469,9 @@
                     [
                         shipmentDccAddIButton,
                         isc.IButtonCancel.create({
-                            top: 260,
                             layoutMargin: 5,
                             membersMargin: 5,
                             width: 120,
-                            title: "<spring:message code='global.cancel'/>",
-                            icon: "pieces/16/icon_delete.png",
                             click: function () {
                                 Window_Shipment_Dcc.close();
                             }

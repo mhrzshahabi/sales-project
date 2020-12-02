@@ -37,10 +37,6 @@ public class BillOfLanding extends BaseEntity {
     @Column(name = "C_DOCUMENT_NO", unique = true, nullable = false)
     private String documentNo;
 
-    @Column(name = "C_SWITCH_DOCUMENT_NO")
-    private String switchDocumentNo;
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @JoinColumn(
@@ -58,20 +54,6 @@ public class BillOfLanding extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @JoinColumn(
-            name = "F_CONTACT_SWITCH_SHIPPER_EXPORTER",
-            foreignKey = @ForeignKey(name = "FK_BILL_OF_LANDING_TO_CONTACT_AS_SWITCH_EXPORTER"),
-            insertable = false,
-            updatable = false
-    )
-    private Contact switchShipperExporter;
-
-    @Column(name = "F_CONTACT_SWITCH_SHIPPER_EXPORTER")
-    private Long switchShipperExporterId;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Setter(AccessLevel.NONE)
-    @JoinColumn(
             name = "F_CONTACT_NOTIFY_PARTY",
             foreignKey = @ForeignKey(name = "FK_BILL_OF_LANDING_TO_CONTACT_AS_NOTIFY_PARTY"),
             insertable = false,
@@ -81,21 +63,6 @@ public class BillOfLanding extends BaseEntity {
     @NotNull
     @Column(name = "F_CONTACT_NOTIFY_PARTY", nullable = false)
     private Long notifyPartyId;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Setter(AccessLevel.NONE)
-    @JoinColumn(
-            name = "F_CONTACT_SWITCH_NOTIFY_PARTY",
-            foreignKey = @ForeignKey(name = "FK_BILL_OF_LANDING_TO_CONTACT_AS_SWITCH_NOTIFY_PARTY"),
-            insertable = false,
-            updatable = false
-    )
-    private Contact switchNotifyParty;
-
-    @Column(name = "F_CONTACT_SWITCH_NOTIFY_PARTY")
-    private Long switchNotifyPartyId;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
@@ -107,26 +74,9 @@ public class BillOfLanding extends BaseEntity {
     )
     private Contact consignee;
 
-
     @NotNull
     @Column(name = "F_CONTACT_CONSIGNEE_EXPORTER", nullable = false)
     private Long consigneeId;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Setter(AccessLevel.NONE)
-    @JoinColumn(
-            name = "F_CONTACT_SWITCH_CONSIGNEE_EXPORTER",
-            foreignKey = @ForeignKey(name = "FK_BILL_OF_LANDING_TO_CONTACT_AS_SWITCH_CONSIGNEE"),
-            insertable = false,
-            updatable = false
-    )
-    private Contact switchConsignee;
-
-
-    @Column(name = "F_CONTACT_SWITCH_CONSIGNEE_EXPORTER")
-    private Long switchConsigneeId;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
@@ -143,23 +93,6 @@ public class BillOfLanding extends BaseEntity {
     @Column(name = "F_PORT_AS_LOADING", nullable = false)
     private Long portOfLoadingId;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Setter(AccessLevel.NONE)
-    @JoinColumn(
-            name = "F_SWITCH_PORT_AS_LOADING",
-            foreignKey = @ForeignKey(name = "FK_BILL_OF_LANDING_TO_SWITCH_PORT_AS_LOADING"),
-            insertable = false,
-            updatable = false
-    )
-    private Port switchPortOfLoading;
-
-
-    //@NotNull
-    @Column(name = "F_SWITCH_PORT_AS_LOADING", nullable = true)
-    private Long switchPortOfLoadingId;
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @JoinColumn(
@@ -170,32 +103,13 @@ public class BillOfLanding extends BaseEntity {
     )
     private Port portOfDischarge;
 
-
     @NotNull
     @Column(name = "F_PORT_AS_DISCHARGE", nullable = false)
     private Long portOfDischargeId;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Setter(AccessLevel.NONE)
-    @JoinColumn(
-            name = "F_SWITCH_PORT_AS_DISCHARGE",
-            foreignKey = @ForeignKey(name = "FK_BILL_OF_LANDING_TO_SWITCH_PORT_AS_DISCHARGE"),
-            insertable = false,
-            updatable = false
-    )
-    private Port switchPortOfDischarge;
-
-
-    //@NotNull
-    @Column(name = "F_SWITCH_PORT_AS_DISCHARGE", nullable = true)
-    private Long switchPortOfDischargeId;
-
-
     @NotBlank
     @Column(name = "C_PLACE_OF_DELIVERY", nullable = false)
     private String placeOfDelivery;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
@@ -289,12 +203,14 @@ public class BillOfLanding extends BaseEntity {
     private ShipmentMethod shipmentMethod;
 
 
-//    @NotNull
+    //    @NotNull
     @Column(name = "F_shipment_method_id")
     private Long shipmentMethodId;
 
-    @Column(name = "D_switch_DATE_OF_ISSUE")
-    private Date switchDateOfIssue;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "F_BILL_OF_LANDING_TO_SWITCH", foreignKey = @ForeignKey(name = "FK_BILL_OF_LANDING_TO_SWITCH") ,updatable = false,insertable = false)
+    private BillOfLadingSwitch billOfLadingSwitch;
 
-
+    @Column(name = "F_BILL_OF_LANDING_TO_SWITCH")
+    private Long billOfLadingSwitchId;
 }

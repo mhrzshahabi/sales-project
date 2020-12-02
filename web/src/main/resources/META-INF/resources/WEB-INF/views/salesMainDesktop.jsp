@@ -65,9 +65,6 @@
 
 			<script type="application/javascript">
                 const mylocale = '${pageContext.response.locale}';
-                align = function () {
-                    return mylocale == 'fa' ? "right" : "left";
-                }
 
                 isc.Class.create.prototype.create = function () {
                     const argzz = this.Super('create', arguments)
@@ -110,51 +107,13 @@
                     eStatus: {
                         "Active": "عادی",
                         "DeActive": "حذف شده",
-                        "Final": "نهایی شده"
+                        "Final": "نهایی شده",
+                        "SendToAcc": "ارسال شده به سیستم مالی",
+                        "RemoveFromAcc": "حذف شده از سیستم مالی"
                     },
                     eStatus2: JSON.parse('${Enum_EStatus}'),
+                    eStatus3: JSON.parse('${Enum_EStatus_WithId}'),
                     unit: {
-
-                        /*getStandardSymbol: function (symbolUnit) {
-
-							switch (symbolUnit) {
-
-								case "":
-									break;
-							}
-
-
-							// test
-							return "t";
-						}*/
-
-                        <%--symbols: JSON.parse('${Enum_SymbolUnit_WithValue}'),--%>
-                        <%--hasFlag: function (value, target) {--%>
-
-                        <%--value = Enums.unit.symbols[value];--%>
-                        <%--target = Enums.unit.symbols[target];--%>
-                        <%--for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {--%>
-
-                        <%--if (id > value) continue;--%>
-                        <%--if (id === target) return true;--%>
-                        <%--value -= id;--%>
-                        <%--}--%>
-
-                        <%--return false;--%>
-                        <%--},--%>
-                        <%--getValues: function (value) {--%>
-
-                        <%--let result = [];--%>
-                        <%--value = Enums.unit.symbols[value];--%>
-                        <%--for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {--%>
-
-                        <%--if (id > value) continue;--%>
-                        <%--result.push(Object.keys(Enums.unit.symbols).filter(q => Enums.unit.symbols[q] === id).first());--%>
-                        <%--value -= id;--%>
-                        <%--}--%>
-
-                        <%--return result;--%>
-                        <%--}--%>
                     }
                 };
 
@@ -203,21 +162,6 @@
 
                 const BaseFormItems = {
 
-                    getFieldNameByLang: function (baseName, postFixIsUpperCase) {
-
-                        let postFix = postFixIsUpperCase ? ["FA", "EN"] : ["Fa", "En"];
-                        if (baseName == null)
-                            baseName = "name";
-                        else if (baseName instanceof Array) {
-
-                            postFix[0] = baseName[1];
-                            postFix[1] = baseName[2];
-                            baseName = baseName[0];
-                        }
-
-                        let locale = languageForm.getValue("languageName");
-                        return baseName + (locale === "fa" ? postFix[0] : postFix[1]);
-                    },
                     concat: function (fields, setBaseItemsHidden = true) {
 
                         let items = [];
@@ -338,23 +282,38 @@
                     fontControls: ["fontSizeSelector"]
                 });
 
-                isc.defineClass("MyRestDataSource", RestDataSource);
-
-                isc.MyRestDataSource.addProperties({
+                isc.RestDataSource.addProperties({
                     dataFormat: "json",
                     jsonSuffix: "",
                     jsonPrefix: "",
+					filterLocalData: false,
                     transformRequest: function (dsRequest) {
                         dsRequest.httpHeaders = {
                             "Authorization": "Bearer <%= accessToken %>"
                         };
                         return this.Super("transformRequest", arguments);
                     },
-
                     transformResponse: function (dsResponse, dsRequest, data) {
                         return this.Super("transformResponse", arguments);
-                    }
+                    },
+					applyFilter: function (data, criteria, requestProperties, startPos, endPos) {
+
+						if (criteria) {
+
+							this.filterData(criteria, resp => {
+
+							    if ((resp.httpResponseCode === 200 || resp.httpResponseCode === 201) && requestProperties && requestProperties.componentId) {
+
+									let grid  = window[requestProperties.componentId];
+									grid.setData(JSON.parse(resp.httpResponseText).response.data);
+								}
+							}, requestProperties);
+						}
+
+						return data;
+					}
                 });
+				isc.defineClass("MyRestDataSource", isc.RestDataSource);
 
                 isc.SelectItem.addProperties({
                     click: function () {
@@ -458,6 +417,7 @@
                     allowFilterExpressions: true,
                     allowAdvancedCriteria: true,
                     filterOnKeypress: true,
+					filterLocalData: false,
                     dateFormatter: "toJapanShortDate",
                     formatCellValue: formatCellValueNumber,
                     sortFieldAscendingText: '<spring:message code="global.grid.sortFieldAscendingText" />',
@@ -1495,8 +1455,13 @@
                 isc.DynamicForm.addProperties({
                     titleAlign: nicico.CommonUtil.getAlignByLang() === "right" ? "left" : "right"
                 });
-
-				function clone(item) {
+                isc.IButtonSave.addProperties({
+	                title:"<spring:message code='global.form.save'/>"
+                });
+                isc.IButtonCancel.addProperties({
+                    title:"<spring:message code='global.form.close'/>"
+                });
+                function clone(item) {
 
 					if (!item)
 						return item;
@@ -1540,8 +1505,8 @@
 					return result;
 				}
 
-				function keepItAlive(){setTimeout(_=>{fetch("http://127.0.0.1:8080/sales/api/materialItem/1", {"headers": SalesConfigs.httpHeaders,},).then(_=>{keepItAlive()})},20000)}
-				keepItAlive()
+				// function keepItAlive(){setTimeout(_=>{fetch("http://127.0.0.1:8080/sales/api/materialItem/1", {"headers": SalesConfigs.httpHeaders,},).then(_=>{keepItAlive()})},20000)}
+				// keepItAlive()
 
 			</script>
 		</body>

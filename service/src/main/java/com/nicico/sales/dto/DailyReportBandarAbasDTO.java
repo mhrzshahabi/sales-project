@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-
 @Getter
 @Setter
 @Accessors(chain = true)
@@ -29,9 +27,9 @@ public class DailyReportBandarAbasDTO {
 
     @ReportField(titleMessageKey = "Daily-report.material.name")
     private String materialName;
-    @Column(name = "materialp")
+    @ReportField(titleMessageKey = "Daily-report.materialp")
     private Long materialp;
-    @Column(name = "materialpname")
+    @ReportField(titleMessageKey = "Daily-report.materialpname")
     private String materialPName;
     @ReportField(titleMessageKey = "global.unit")
     private String unit;
@@ -114,7 +112,6 @@ public class DailyReportBandarAbasDTO {
     private Long sumOwpTozin;
     private Double sumTadilYearPrecent;
 
-
     @ReportField(titleMessageKey = "Daily-report.IN.PKG.DAY")
     private Long inPkgDay;
 
@@ -184,13 +181,346 @@ public class DailyReportBandarAbasDTO {
     @ReportField(titleMessageKey = "Daily-report.OWP.tadil")
     private Long tadil;
 
-    @ReportField(titleMessageKey = "Daily-report.OWP.WEIGHT")
-    private Long owpWeight;
-    @ReportField(titleMessageKey = "Daily-report.OWP.PKG")
-    private Long owpPkg;
-    @ReportField(titleMessageKey = "Daily-report.OWP.TOZIN")
-    private Long owpTozin;
+
     private Double tadilYearPrecent;
+
+    private Long sumFirstRemainedWeightDay;
+    private Long sumFirstRemainedWeightMonth;
+    private Long sumFirstRemainedWeightYear;
+    private Long firstRemainedWeightDay;
+    private Long firstRemainedWeightMonth;
+    private Long firstRemainedWeightYear;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.arrived.tozin.rail")
+    private long owpDayArrivedTozinRail;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.not.arrived.tozin.rail")
+    private long owpDayNotArrivedTozinRail;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.arrived.weight.rail")
+    private long owpDayArrivedWeightRail;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.not.arrived.weight.rail")
+    private long owpDayNotArrivedWeightRail;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.arrived.tozin.road")
+    private long owpDayArrivedTozinRoad;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.not.arrived.tozin.road")
+    private long owpDayNotArrivedTozinRoad;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.arrived.weight.road")
+    private long owpDayArrivedWeightRoad;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.not.arrived.weight.road")
+    private long owpDayNotArrivedWeightRoad;
+    @ReportField(titleMessageKey = "Daily-report.owp.total.not.arrived.weight.rail")
+    private long owpTotalNotArrivedWeightRail;
+    @ReportField(titleMessageKey = "Daily-report.owp.total.not.arrived.tozin.rail")
+    private long owpTotalNotArrivedTozinRail;
+    @ReportField(titleMessageKey = "Daily-report.owp.total.not.arrived.weight.road")
+    private long owpTotalNotArrivedWeightRoad;
+    @ReportField(titleMessageKey = "Daily-report.owp.total.not.arrived.tozin.road")
+    private long owpTotalNotArrivedTozinRoad;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.arrived.tozin.rail")
+    private long owpMonthArrivedTozinRail;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.not.arrived.tozin.rail")
+    private long owpMonthNotArrivedTozinRail;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.arrived.weight.rail")
+    private long owpMonthArrivedWeightRail;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.not.arrived.weight.rail")
+    private long owpMonthNotArrivedWeightRail;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.arrived.tozin.road")
+    private long owpMonthArrivedTozinRoad;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.not.arrived.tozin.road")
+    private long owpMonthNotArrivedTozinRoad;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.arrived.weight.road")
+    private long owpMonthArrivedWeightRoad;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.not.arrived.weight.road")
+    private long owpMonthNotArrivedWeightRoad;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.arrived.tozin.rail")
+    private long owpYearArrivedTozinRail;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.not.arrived.tozin.rail")
+    private long owpYearNotArrivedTozinRail;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.arrived.weight.rail")
+    private long owpYearArrivedWeightRail;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.not.arrived.weight.rail")
+    private long owpYearNotArrivedWeightRail;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.arrived.tozin.road")
+    private long owpYearArrivedTozinRoad;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.not.arrived.tozin.road")
+    private long owpYearNotArrivedTozinRoad;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.arrived.weight.road")
+    private long owpYearArrivedWeightRoad;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.not.arrived.weight.road")
+    private long owpYearNotArrivedWeightRoad;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.arrived.tozin.rail.all.material")
+    private long owpDayArrivedTozinRailAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.not.arrived.tozin.rail.all.material")
+    private long owpDayNotArrivedTozinRailAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.arrived.weight.rail.all.material")
+    private long owpDayArrivedWeightRailAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.not.arrived.weight.rail.all.material")
+    private long owpDayNotArrivedWeightRailAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.total.not.arrived.weight.rail.all.material")
+    private long owpTotalNotArrivedWeightRailAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.total.not.arrived.tozin.rail.all.material")
+    private long owpTotalNotArrivedTozinRailAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.arrived.tozin.rail.all.material")
+    private long owpMonthArrivedTozinRailAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.not.arrived.tozin.rail.all.material")
+    private long owpMonthNotArrivedTozinRailAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.arrived.weight.rail.all.material")
+    private long owpMonthArrivedWeightRailAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.not.arrived.weight.rail.all.material")
+    private long owpMonthNotArrivedWeightRailAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.arrived.tozin.rail.all.material")
+    private long owpYearArrivedTozinRailAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.not.arrived.tozin.rail.all.material")
+    private long owpYearNotArrivedTozinRailAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.arrived.weight.rail.all.material")
+    private long owpYearArrivedWeightRailAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.not.arrived.weight.rail.all.material")
+    private long owpYearNotArrivedWeightRailAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.arrived.tozin.road.all.material")
+    private long owpDayArrivedTozinRoadAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.not.arrived.tozin.road.all.material")
+    private long owpDayNotArrivedTozinRoadAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.arrived.weight.road.all.material")
+    private long owpDayArrivedWeightRoadAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.not.arrived.weight.road.all.material")
+    private long owpDayNotArrivedWeightRoadAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.total.not.arrived.weight.road.all.material")
+    private long owpTotalNotArrivedWeightRoadAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.total.not.arrived.tozin.road.all.material")
+    private long owpTotalNotArrivedTozinRoadAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.arrived.tozin.road.all.material")
+    private long owpMonthArrivedTozinRoadAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.not.arrived.tozin.road.all.material")
+    private long owpMonthNotArrivedTozinRoadAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.arrived.weight.road.all.material")
+    private long owpMonthArrivedWeightRoadAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.not.arrived.weight.road.all.material")
+    private long owpMonthNotArrivedWeightRoadAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.arrived.tozin.road.all.material")
+    private long owpYearArrivedTozinRoadAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.not.arrived.tozin.road.all.material")
+    private long owpYearNotArrivedTozinRoadAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.arrived.weight.road.all.material")
+    private long owpYearArrivedWeightRoadAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.not.arrived.weight.road.all.material")
+    private long owpYearNotArrivedWeightRoadAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.arrived.tozin.all.material")
+    private long owpDayArrivedTozinAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.not.arrived.tozin.all.material")
+    private long owpDayNotArrivedTozinAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.arrived.weight.all.material")
+    private long owpDayArrivedWeightAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.day.not.arrived.weight.all.material")
+    private long owpDayNotArrivedWeightAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.total.not.arrived.weight.all.material")
+    private long owpTotalNotArrivedWeightAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.total.not.arrived.tozin.all.material")
+    private long owpTotalNotArrivedTozinAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.arrived.tozin.all.material")
+    private long owpMonthArrivedTozinAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.not.arrived.tozin.all.material")
+    private long owpMonthNotArrivedTozinAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.arrived.weight.all.material")
+    private long owpMonthArrivedWeightAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.month.not.arrived.weight.all.material")
+    private long owpMonthNotArrivedWeightAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.arrived.tozin.all.material")
+    private long owpYearArrivedTozinAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.not.arrived.tozin.all.material")
+    private long owpYearNotArrivedTozinAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.arrived.weight.all.material")
+    private long owpYearArrivedWeightAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.year.not.arrived.weight.all.material")
+    private long owpYearNotArrivedWeightAllMaterial;
+    @ReportField(titleMessageKey = "Daily-report.owp.total.not.arrived.weight")
+    private long owpTotalNotArrivedWeight;
+    @ReportField(titleMessageKey = "Daily-report.owp.total.not.arrived.tozin")
+    private long owpTotalNotArrivedTozin;
+    private Long sumFirstRemainedPkgDay;
+    private Long sumFirstRemainedPkgMonth;
+    private Long sumFirstRemainedPkgYear;
+    private Long firstRemainedPkgDay;
+    private Long firstRemainedPkgMonth;
+    private Long firstRemainedPkgYear;
+
+    public Long getSumFirstRemainedWeightDay() {
+        return sumRemainedWeight + sumOutWeightDay - sumIncomeWeightDay;
+    }
+
+    public Long getSumFirstRemainedWeightMonth() {
+        return sumRemainedWeight + sumOutWeightMonth - sumIncomeWeightMonth;
+    }
+
+    public Long getSumFirstRemainedWeightYear() {
+        return sumRemainedWeight + sumOutWeightYear - sumIncomeWeightYear;
+    }
+
+    public Long getFirstRemainedWeightDay() {
+        return remainedWeight + outWeightDay - incomeWeightDay;
+    }
+
+    public Long getFirstRemainedWeightMonth() {
+        return remainedWeight + outWeightMonth - incomeWeightMonth;
+    }
+
+    public Long getFirstRemainedWeightYear() {
+        return remainedWeight + outWeightYear - incomeWeightYear;
+    }
+
+    public Long getSumFirstRemainedPkgDay() {
+        return sumRemainedPkg + sumOutPkgDay - sumInPkgDay;
+    }
+
+    public Long getSumFirstRemainedPkgMonth() {
+        return sumRemainedPkg + sumOutPkgMonth - sumInPkgMonth;
+    }
+
+    public Long getSumFirstRemainedPkgYear() {
+        return sumRemainedPkg + sumOutPkgYear - sumInPkgYear;
+    }
+
+    public Long getFirstRemainedPkgDay() {
+        return remainedPkg + outPkgDay - inPkgDay;
+    }
+
+    public Long getFirstRemainedPkgMonth() {
+        return remainedPkg + outPkgMonth - inPkgMonth;
+    }
+
+    public Long getFirstRemainedPkgYear() {
+        return remainedPkg + outPkgYear - inPkgYear;
+    }
+
+
+
+
+
+    private long owpDaySentTozinRail;
+    private long owpDaySentWeightRail;
+    private long owpDaySentTozinRoad;
+    private long owpDaySentWeightRoad;
+    private long owpMonthSentTozinRail;
+    private long owpMonthSentWeightRail;
+    private long owpMonthSentTozinRoad;
+    private long owpMonthSentWeightRoad;
+    private long owpYearSentTozinRail;
+    private long owpYearSentWeightRail;
+    private long owpYearSentTozinRoad;
+    private long owpYearSentWeightRoad;
+    private long owpDaySentTozinRailAllMaterial;
+    private long owpDaySentWeightRailAllMaterial;
+    private long owpTotalSentWeightRailAllMaterial;
+    private long owpTotalSentTozinRailAllMaterial;
+    private long owpMonthSentTozinRailAllMaterial;
+    private long owpMonthSentWeightRailAllMaterial;
+    private long owpYearSentTozinRailAllMaterial;
+    private long owpYearSentWeightRailAllMaterial;
+    private long owpDaySentTozinRoadAllMaterial;
+    private long owpDaySentWeightRoadAllMaterial;
+    private long owpTotalSentWeightRoadAllMaterial;
+    private long owpTotalSentTozinRoadAllMaterial;
+    private long owpMonthSentTozinRoadAllMaterial;
+    private long owpMonthSentWeightRoadAllMaterial;
+    private long owpYearSentTozinRoadAllMaterial;
+    private long owpYearSentWeightRoadAllMaterial;
+    private long owpDaySentTozinAllMaterial;
+    private long owpDaySentWeightAllMaterial;
+    private long owpMonthSentTozinAllMaterial;
+    private long owpMonthSentWeightAllMaterial;
+    private long owpYearSentTozinAllMaterial;
+    private long owpYearSentWeightAllMaterial;
+
+    public Long getOwpDaySentTozinRail(){
+        return owpDayNotArrivedTozinRail + owpDayArrivedTozinRail;
+    }
+    public Long getOwpDaySentWeightRail(){
+        return owpDayNotArrivedWeightRail + owpDayArrivedWeightRail;
+    }
+    public Long getOwpDaySentTozinRoad(){
+        return owpDayNotArrivedTozinRoad + owpDayArrivedTozinRoad;
+    }
+    public Long getOwpDaySentWeightRoad(){
+        return owpDayNotArrivedWeightRoad + owpDayArrivedWeightRoad;
+    }
+    public Long getOwpMonthSentTozinRail(){
+        return owpMonthNotArrivedTozinRail + owpMonthArrivedTozinRail;
+    }
+    public Long getOwpMonthSentWeightRail(){
+        return owpMonthNotArrivedWeightRail + owpMonthArrivedWeightRail;
+    }
+    public Long getOwpMonthSentTozinRoad(){
+        return owpMonthNotArrivedTozinRoad + owpMonthArrivedTozinRoad;
+    }
+    public Long getOwpMonthSentWeightRoad(){
+        return owpMonthNotArrivedWeightRoad + owpMonthArrivedWeightRoad;
+    }
+    public Long getOwpYearSentTozinRail(){
+        return owpYearNotArrivedTozinRail + owpYearArrivedTozinRail;
+    }
+    public Long getOwpYearSentWeightRail(){
+        return owpYearNotArrivedWeightRail + owpYearArrivedWeightRail;
+    }
+    public Long getOwpYearSentTozinRoad(){
+        return owpYearNotArrivedTozinRoad + owpYearArrivedTozinRoad;
+    }
+    public Long getOwpYearSentWeightRoad(){
+        return owpYearNotArrivedWeightRoad + owpYearArrivedWeightRoad;
+    }
+    public Long getOwpDaySentTozinRailAllMaterial(){
+        return owpDayNotArrivedTozinRailAllMaterial + owpDayArrivedTozinRailAllMaterial;
+    }
+    public Long getOwpDaySentWeightRailAllMaterial(){
+        return owpDayNotArrivedWeightRailAllMaterial + owpDayArrivedWeightRailAllMaterial;
+    }
+
+    public Long getOwpMonthSentTozinRailAllMaterial(){
+        return owpMonthNotArrivedTozinRailAllMaterial + owpMonthArrivedTozinRailAllMaterial;
+    }
+    public Long getOwpMonthSentWeightRailAllMaterial(){
+        return owpMonthNotArrivedWeightRailAllMaterial + owpMonthArrivedWeightRailAllMaterial;
+    }
+    public Long getOwpYearSentTozinRailAllMaterial(){
+        return owpYearNotArrivedTozinRailAllMaterial + owpYearArrivedTozinRailAllMaterial;
+    }
+    public Long getOwpYearSentWeightRailAllMaterial(){
+        return owpYearNotArrivedWeightRailAllMaterial + owpYearArrivedWeightRailAllMaterial;
+    }
+    public Long getOwpDaySentTozinRoadAllMaterial(){
+        return owpDayNotArrivedTozinRoadAllMaterial + owpDayArrivedTozinRoadAllMaterial;
+    }
+    public Long getOwpDaySentWeightRoadAllMaterial(){
+        return owpDayNotArrivedWeightRoadAllMaterial + owpDayArrivedWeightRoadAllMaterial;
+    }
+
+    public Long getOwpMonthSentWeightRoadAllMaterial(){
+        return owpMonthNotArrivedWeightRoadAllMaterial + owpMonthArrivedWeightRoadAllMaterial;
+    }
+    public Long getOwpYearSentTozinRoadAllMaterial(){
+        return owpYearNotArrivedTozinRoadAllMaterial + owpYearArrivedTozinRoadAllMaterial;
+    }
+    public Long getOwpYearSentWeightRoadAllMaterial(){
+        return owpYearNotArrivedWeightRoadAllMaterial + owpYearArrivedWeightRoadAllMaterial;
+    }
+    public Long getOwpDaySentTozinAllMaterial(){
+        return owpDayNotArrivedTozinAllMaterial + owpDayArrivedTozinAllMaterial;
+    }
+    public Long getOwpDaySentWeightAllMaterial(){
+        return owpDayNotArrivedWeightAllMaterial + owpDayArrivedWeightAllMaterial;
+    }
+    public Long getOwpMonthSentTozinAllMaterial(){
+        return owpMonthNotArrivedTozinAllMaterial + owpMonthArrivedTozinAllMaterial;
+    }
+    public Long getOwpMonthSentWeightAllMaterial(){
+        return owpMonthNotArrivedWeightAllMaterial + owpMonthArrivedWeightAllMaterial;
+    }
+    public Long getOwpYearSentTozinAllMaterial(){
+        return owpYearNotArrivedTozinAllMaterial + owpYearArrivedTozinAllMaterial;
+    }
+    public Long getOwpYearSentWeightAllMaterial(){
+        return owpYearNotArrivedWeightAllMaterial + owpYearArrivedWeightAllMaterial;
+    }
+
+
+
+
 
 
     @Getter

@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ghasemkiani.util.icu.PersianCalendar;
 import com.ibm.icu.util.Calendar;
 import com.nicico.sales.annotation.Action;
-import com.nicico.sales.dto.InvoiceTypeDTO;
-import com.nicico.sales.dto.MaterialElementDTO;
-import com.nicico.sales.dto.UnitDTO;
+import com.nicico.sales.dto.*;
 import com.nicico.sales.dto.contract.ContractDTO;
 import com.nicico.sales.dto.contract.ContractDetailDTO;
 import com.nicico.sales.dto.contract.ContractDiscountDTO;
@@ -19,6 +17,7 @@ import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IContractDetailValueService2;
+import com.nicico.sales.iservice.IForeignInvoiceDocService;
 import com.nicico.sales.iservice.contract.IContractDetailService;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
 import com.nicico.sales.model.entities.base.Unit;
@@ -45,10 +44,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,6 +60,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
     private final MaterialElementDAO materialElementDAO;
     private final ResourceBundleMessageSource messageSource;
     private final IContractDetailService contractDetailService;
+    private final IForeignInvoiceDocService foreignInvoiceDocService;
     private final ForeignInvoiceItemService foreignInvoiceItemService;
     private final IContractDetailValueService2 contractDetailValueService2;
     private final ForeignInvoicePaymentService foreignInvoicePaymentService;
@@ -196,6 +193,16 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
 
             return contractDetailData;
         }
+    }
+
+    @Override
+    @Transactional
+    @Action(value = ActionType.Update , authority = "hasAuthority('E_UPDATE_DELETED_FOREIGN_INVOICE')")
+    public void updateDeletedDocument(List<ForeignInvoiceDTO.Info> data) {
+
+        AccountingDTO.DocumentStatusRq request = new AccountingDTO.DocumentStatusRq();
+        request.setInvoiceIds(data.stream().map(item -> item.getId().toString()).collect(Collectors.toList()));
+        foreignInvoiceDocService.updateInvoiceIdsStatus("sales foreign invoice", request);
     }
 
     @Override

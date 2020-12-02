@@ -2,6 +2,7 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.dto.contract.ContractDetailTypeParamDTO;
+import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -31,15 +33,24 @@ public class CDTPDynamicTableDTO {
     private String description;
     private String initialCriteria;
 
-
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("CDTPDynamicTableInfo")
     public static class InfoWithoutCDTP extends CDTPDynamicTableDTO {
-        private Long id;
-//        private ContractDetailTypeParamDTO.Info cdtp;
 
+        private Long id;
+
+        // Auditing
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
     }
 
     @Getter

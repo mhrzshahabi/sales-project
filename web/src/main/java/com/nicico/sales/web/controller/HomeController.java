@@ -49,6 +49,10 @@ public class HomeController {
                 Arrays.stream(EStatus.values()).collect(Collectors.toMap(EStatus::name, EStatus::name)))
         );
 
+        request.setAttribute("Enum_EStatus_WithId", objectMapper.writeValueAsString(
+                Arrays.stream(EStatus.values()).collect(Collectors.toMap(EStatus::name, EStatus::getId)))
+        );
+
         return "salesMainDesktop";
     }
 

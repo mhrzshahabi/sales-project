@@ -7,11 +7,11 @@
 
 //<script>
 const contractDetailTypeReferences = JSON.parse('<%=request.getAttribute("contractDetailTypeReferences")%>');
-const contractDetailTypeReferencesValues = {
+const contractDetailTypeEnumReferencesValues = {
 Enum_RateReference: JSON.parse('<%=request.getAttribute("Enum_RateReference")%>'),
 Enum_PriceBaseReference: JSON.parse('<%=request.getAttribute("Enum_PriceBaseReference")%>')
 };
 //</script>
 <%@include file="js/contract-references.js" %>
 <%@include file="js/contract-detail-type.js" %>
-<%@include file="js/contract-detail-type-dynamic-table.js" %>
+<%--<%@include file="js/contract-detail-type-dynamic-table.js" %>--%>

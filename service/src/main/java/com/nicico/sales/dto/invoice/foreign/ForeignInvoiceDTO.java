@@ -32,7 +32,7 @@ public class ForeignInvoiceDTO {
     private BigDecimal conversionSumPrice;
     private String conversionSumPriceText;
     private String description;
-    private Long accountingId;
+    private String documentId;
     private Long conversionRefId;
     private Long currencyId;
     private Long buyerId;
@@ -41,6 +41,7 @@ public class ForeignInvoiceDTO {
     private Long creatorId;
     private Long parentId;
     private Double percent;
+    private BigDecimal delayPenalty;
     private Long inspectionWeightReportId;
     private Long inspectionAssayReportId;
 

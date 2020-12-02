@@ -3,7 +3,9 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.annotation.Action;
+import com.nicico.sales.annotation.CheckCriteria;
 import com.nicico.sales.dto.InventoryDTO;
 import com.nicico.sales.dto.RemittanceDetailDTO;
 import com.nicico.sales.enumeration.ActionType;
@@ -104,6 +106,25 @@ public class RemittanceDetailService extends GenericService<RemittanceDetail, Lo
     }
 
     @Override
+    @Action(value = ActionType.Search)
+    @Transactional(readOnly = true)
+    public SearchDTO.SearchRs<RemittanceDetailDTO.ReportInfo> reportSearch(SearchDTO.SearchRq request) {
+
+        List<RemittanceDetail> entities = new ArrayList<>();
+        SearchDTO.SearchRs<RemittanceDetailDTO.ReportInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
+
+            RemittanceDetailDTO.ReportInfo eResult = modelMapper.map(entity, RemittanceDetailDTO.ReportInfo.class);
+            validation(entity, eResult);
+            entities.add(entity);
+            return eResult;
+        });
+
+        validationAll(entities, result);
+        return result;
+    }
+
+    @Override
+    @CheckCriteria
     @Action(value = ActionType.Search)
     @Transactional(readOnly = true)
     public TotalResponse<RemittanceDetailDTO.ReportInfo> reportSearch(NICICOCriteria request) {

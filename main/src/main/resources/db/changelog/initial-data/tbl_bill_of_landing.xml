@@ -10,4 +10,35 @@
     <changeSet author="abiz" id="123-001">
         <dropNotNullConstraint columnName="D_WEIGHT" tableName="TBL_CNTR_CONTAINER_TO_BILL_OF_LANDING"/>
     </changeSet>
+    <changeSet author="Abiz" id="AZAARE-56777">
+        <dropForeignKeyConstraint baseTableName="TBL_CNTR_BILL_OF_LANDING"
+                                  constraintName="FK_BILL_OF_LANDING_TO_CONTACT_AS_SWITCH_EXPORTER"/>
+        <dropForeignKeyConstraint baseTableName="TBL_CNTR_BILL_OF_LANDING"
+                                  constraintName="FK_BILL_OF_LANDING_TO_SWITCH_PORT_AS_DISCHARGE"/>
+        <dropForeignKeyConstraint baseTableName="TBL_CNTR_BILL_OF_LANDING"
+                                  constraintName="FK_BILL_OF_LANDING_TO_SWITCH_PORT_AS_LOADING"/>
+        <dropForeignKeyConstraint baseTableName="TBL_CNTR_BILL_OF_LANDING"
+                                  constraintName="FK_BILL_OF_LANDING_TO_CONTACT_AS_SWITCH_CONSIGNEE"/>
+        <dropForeignKeyConstraint baseTableName="TBL_CNTR_BILL_OF_LANDING"
+                                  constraintName="FK_BILL_OF_LANDING_TO_CONTACT_AS_SWITCH_NOTIFY_PARTY"/>
+
+        <dropColumn tableName="TBL_CNTR_BILL_OF_LANDING" columnName="D_switch_DATE_OF_ISSUE"/>
+        <dropColumn tableName="TBL_CNTR_BILL_OF_LANDING" columnName="F_SWITCH_PORT_AS_DISCHARGE"/>
+        <dropColumn tableName="TBL_CNTR_BILL_OF_LANDING" columnName="F_CONTACT_SWITCH_CONSIGNEE_EXPORTER"/>
+        <dropColumn tableName="TBL_CNTR_BILL_OF_LANDING" columnName="F_CONTACT_SWITCH_NOTIFY_PARTY"/>
+        <dropColumn tableName="TBL_CNTR_BILL_OF_LANDING" columnName="C_SWITCH_DOCUMENT_NO"/>
+        <dropColumn tableName="TBL_CNTR_BILL_OF_LANDING" columnName="F_SWITCH_PORT_AS_LOADING"/>
+        <dropColumn tableName="TBL_CNTR_BILL_OF_LANDING" columnName="F_CONTACT_SWITCH_SHIPPER_EXPORTER"/>
+
+        <addColumn tableName="TBL_CNTR_BILL_OF_LANDING">
+            <column name="F_BILL_OF_LANDING_TO_SWITCH" type="Number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="AZAARE-990909" author="abiz">
+        <addForeignKeyConstraint baseTableName="TBL_CNTR_BILL_OF_LANDING"
+                                 baseColumnNames="F_BILL_OF_LANDING_TO_SWITCH"
+                                 constraintName="FK_BILL_OF_LANDING_TO_SWITCH"
+                                 referencedTableName="TBL_BILL_OF_LADING_SWITCH"
+                                 referencedColumnNames="ID"/>
+    </changeSet>
 </databaseChangeLog>

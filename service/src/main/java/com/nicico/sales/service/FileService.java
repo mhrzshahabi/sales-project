@@ -1,23 +1,20 @@
 package com.nicico.sales.service;
 
-import com.nicico.copper.base.IErrorCode;
-import com.nicico.copper.base.NICICOException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicico.copper.common.dto.response.storage.DownloadResponse;
+import com.nicico.copper.common.dto.response.storage.UploadResponse;
+import com.nicico.copper.common.web.client.StorageClient;
 import com.nicico.copper.core.SecurityUtil;
 import com.nicico.copper.core.service.minio.EFileAccessLevel;
-import com.nicico.copper.core.service.minio.EFileStatus;
-import com.nicico.copper.core.service.minio.MinIODTO;
-import com.nicico.copper.core.service.minio.MinIOService;
 import com.nicico.sales.dto.FileDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IFileService;
 import com.nicico.sales.model.entities.base.File;
-import com.nicico.sales.model.enumeration.FileStatus;
+import com.nicico.sales.model.enumeration.EFileStatus;
 import com.nicico.sales.repository.FileDAO;
 import com.nicico.sales.utility.SecurityChecker;
-import io.minio.GetObjectTagsArgs;
-import io.minio.MinioClient;
-import io.minio.SetObjectTagsArgs;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -25,9 +22,13 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -36,9 +37,8 @@ import java.util.stream.Collectors;
 public class FileService implements IFileService {
 
     private final ModelMapper modelMapper;
-
-    private final MinioClient minioClient;
-    private final MinIOService minIOService;
+    private final ObjectMapper objectMapper;
+    private final StorageClient storageClient;
 
     private final FileDAO fileDAO;
 
@@ -50,7 +50,6 @@ public class FileService implements IFileService {
     @Override
     @Transactional(readOnly = true)
     public List<FileDTO.FileMetaData> getAll(List<Long> ids) {
-
         return modelMapper.map(fileDAO.findAllById(ids), new TypeToken<List<FileDTO.FileMetaData>>() {
         }.getType());
     }
@@ -58,7 +57,6 @@ public class FileService implements IFileService {
     @Override
     @Transactional
     public void createFiles(Long recordId, List<MultipartFile> files, List<FileDTO.FileData> fileData) throws Exception {
-
         int bound = fileData.size();
         for (int index = 0; index < bound; index++) {
             try {
@@ -74,7 +72,6 @@ public class FileService implements IFileService {
     @Override
     @Transactional
     public void updateFiles(Long recordId, String entityName, List<MultipartFile> files, List<FileDTO.FileData> fileData) throws Exception {
-
         final List<FileDTO.FileMetaData> savedFileData = getFiles(recordId, entityName);
         if (fileData.size() == 0 && savedFileData.size() == 0) return;
 
@@ -90,7 +87,7 @@ public class FileService implements IFileService {
             }
         }
 
-        for (FileDTO.FileMetaData metaData : savedFileData.stream().filter(q -> q.getFileStatus() != FileStatus.DELETED && fileData.stream().noneMatch(p -> q.getId().equals(p.getId()))).collect(Collectors.toList()))
+        for (FileDTO.FileMetaData metaData : savedFileData.stream().filter(q -> q.getFileStatus() != EFileStatus.DELETED && fileData.stream().noneMatch(p -> q.getId().equals(p.getId()))).collect(Collectors.toList()))
             try {
                 delete(metaData.getFileKey());
             } catch (Exception e) {
@@ -102,85 +99,93 @@ public class FileService implements IFileService {
     @Override
     @Transactional
     public String store(FileDTO.Request request) throws Exception {
+        Map<String, String> tags = new HashMap<>();
+        if (!StringUtils.isEmpty(request.getTags()))
+            tags = objectMapper.readValue(request.getTags(), new TypeReference<HashMap<String, Object>>() {
+            });
 
-        final MinIODTO.Request fileRequest = modelMapper.map(request, MinIODTO.Request.class);
-        final String fileKey = minIOService.store(fileRequest);
+        final UploadResponse uploadResponse = storageClient.upload(appId.toLowerCase(), tags, request.getFile());
+        //ToDo: Check upload response status
 
         final File file = new File()
                 .setEntityName(request.getEntityName())
                 .setRecordId(request.getRecordId())
-                .setFileKey(fileKey)
-                .setFileStatus(FileStatus.NORMAL)
-                .setAccessLevel(request.getAccessLevel());
+                .setFileKey(uploadResponse.getKey())
+                .setFileStatus(EFileStatus.NORMAL)
+                .setAccessLevel(request.getAccessLevel())
+                .setPermissions(request.getPermissions())
+                .setOwnerId(SecurityUtil.getUserId());
 
         fileDAO.saveAndFlush(file);
-        return fileKey;
+        return uploadResponse.getKey();
     }
 
     @Override
-    public FileDTO.Response retrieve(String key) throws Exception {
+    public FileDTO.Response retrieve(String key) {
+        final File file = accessCheck(key, EFileStatus.NORMAL);
 
-        final Map<String, String> tags = this.minioClient.getObjectTags(GetObjectTagsArgs.builder().bucket(appId.toLowerCase()).object(key).build()).get();
-        if (tags.containsKey("Permission") && !SecurityChecker.check(tags.get("Permission"))) {
-            throw new SalesException2(ErrorType.Forbidden, "fileKey", "شما دسترسی های لازم برای دریافت فیل مورد نظر را ندارید.");
-        }
+        final DownloadResponse downloadResponse = storageClient.download(appId.toLowerCase(), key);
+        // ToDo: Check download response status
 
-        return modelMapper.map(minIOService.retrieve(key), FileDTO.Response.class);
+        final Map<String, String> tags = new HashMap<>();
+        downloadResponse.getTags().forEach(tag -> tags.put(tag.getKey(), tag.getValue()));
+
+        return new FileDTO.Response()
+                .setContent(downloadResponse.getContent())
+                .setFileName(tags.getOrDefault("OriginalFileName", "no-name"))
+                .setExtension(tags.getOrDefault("OriginalFileExtension", ""))
+                .setContentType(tags.getOrDefault("ContentType", ""))
+                .setTags(tags)
+                .setAccessLevel(file.getAccessLevel())
+                .setPermissions(file.getPermissions());
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<FileDTO.FileMetaData> getFiles(Long recordId, String entityName) {
+        List<File> files = fileDAO.findAllByRecordIdAndEntityName(recordId, entityName).stream()
+                .filter(file -> EFileStatus.NORMAL.equals(file.getFileStatus()))
+                .filter(file -> SecurityUtil.isAdmin() || !EFileAccessLevel.SELF.equals(file.getAccessLevel()) || SecurityUtil.getUserId().equals(file.getOwnerId()))
+                .collect(Collectors.toList());
 
-        return modelMapper.map(fileDAO.findAllByRecordIdAndEntityName(recordId, entityName), new TypeToken<List<FileDTO.FileMetaData>>() {
+        return modelMapper.map(files, new TypeToken<List<FileDTO.FileMetaData>>() {
         }.getType());
     }
 
     @Override
     @Transactional
-    public void delete(String key) throws Exception {
+    public void delete(String key) {
+        final File file = accessCheck(key, EFileStatus.NORMAL);
 
-        final File file = fileDAO.findByFileKey(key)
-                .orElseThrow(() -> new SalesException2(ErrorType.NotFound, "fileKey", "فایل مورد نظر یافت نشد."));
-        minIOService.delete(key);
-        try {
-            file.setFileStatus(FileStatus.DELETED);
-            fileDAO.saveAndFlush(file);
-        } catch (Exception e) {
-            log.error(Arrays.toString(e.getStackTrace()));
-            restore(key);
-
-            throw e;
-        }
+        file.setFileStatus(EFileStatus.DELETED);
+        fileDAO.saveAndFlush(file);
     }
 
     @Override
     @Transactional
-    public void restore(String key) throws Exception {
+    public void restore(String key) {
+        final File file = accessCheck(key, EFileStatus.DELETED);
 
+        file.setFileStatus(EFileStatus.NORMAL);
+        fileDAO.saveAndFlush(file);
+    }
+
+    private File accessCheck(String key, EFileStatus fileStatus) {
         final File file = fileDAO.findByFileKey(key)
                 .orElseThrow(() -> new SalesException2(ErrorType.NotFound, "fileKey", "فایل مورد نظر یافت نشد."));
 
-        final Map<String, String> tags = new HashMap<>(this.minioClient.getObjectTags(GetObjectTagsArgs.builder().bucket(appId.toLowerCase()).object(key).build()).get());
-        if (EFileStatus.DELETED.equals(EFileStatus.valueOf(tags.get("Status")))) {
-            throw new NICICOException(IErrorCode.NotFound);
-        } else if (EFileAccessLevel.SELF.equals(EFileAccessLevel.valueOf(tags.get("AccessLevel"))) && !Objects.equals(SecurityUtil.getUserId(), Long.valueOf(tags.get("CreatedBy")))) {
-            throw new NICICOException(IErrorCode.Forbidden);
+        if (!fileStatus.equals(file.getFileStatus())) {
+            throw new SalesException2(ErrorType.NotFound, "fileKey", "فایل مورد نظر یافت نشد.");
         }
 
-        tags.replace("Status", EFileStatus.NORMAL.getValue());
-        tags.put("ModifiedBy", String.valueOf(SecurityUtil.getUserId()));
-        tags.put("ModifiedDate", String.valueOf((new Date()).getTime()));
-        this.minioClient.setObjectTags(SetObjectTagsArgs.builder().bucket(appId.toLowerCase()).object(key).tags(tags).build());
-
-        try {
-            file.setFileStatus(FileStatus.NORMAL);
-            fileDAO.saveAndFlush(file);
-        } catch (Exception e) {
-            log.error(Arrays.toString(e.getStackTrace()));
-            delete(key);
-
-            throw e;
+        if (!SecurityUtil.isAdmin() && EFileAccessLevel.SELF.equals(file.getAccessLevel()) && !SecurityUtil.getUserId().equals(file.getOwnerId())) {
+            throw new SalesException2(ErrorType.NotFound, "fileKey", "فایل مورد نظر خصوصی می باشد و تنها کاربر ایجاد کننده یا مدیر سیستم امکان دانلود یا تغییر آن را دارد.");
         }
+
+        if (!StringUtils.isEmpty(file.getPermissions()) && !SecurityChecker.check(file.getPermissions())) {
+            throw new SalesException2(ErrorType.Forbidden, "fileKey", "شما دسترسی های لازم برای دریافت فایل مورد نظر را ندارید.");
+        }
+
+        return file;
     }
 }

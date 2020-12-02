@@ -1,7 +1,7 @@
 spring:
   application:
     name: Sales
-    version: "1.0.5"
+    version: "1.0.7"
   profiles:
     active: Development
   datasource:
@@ -92,7 +92,7 @@ nicico:
         name: com.nicico.sales.controller
 
 storage:
-  url: storage.icico.net.ir/client/api
+  url: http://storage.icico.net.ir/client/api
   key: sales
   token: nicsales123
 ---

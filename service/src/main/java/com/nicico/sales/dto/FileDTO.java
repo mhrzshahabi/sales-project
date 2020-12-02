@@ -2,7 +2,7 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.copper.core.service.minio.EFileAccessLevel;
-import com.nicico.sales.model.enumeration.FileStatus;
+import com.nicico.sales.model.enumeration.EFileStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -26,20 +26,17 @@ public class FileDTO {
     @Accessors(chain = true)
     @ApiModel("FileRequest")
     public static class Request {
-
         @NotNull
         @ApiModelProperty(required = true)
         private EFileAccessLevel accessLevel;
-
+        private String permissions;
         @NotNull
         @ApiModelProperty(required = true)
         private MultipartFile file;
         private String tags;
-
         @NotEmpty
         @ApiModelProperty(required = true)
         private String entityName;
-
         @NotNull
         @ApiModelProperty(required = true)
         private Long recordId;
@@ -55,6 +52,8 @@ public class FileDTO {
         private String extension;
         private String contentType;
         private Map<String, String> tags;
+        private EFileAccessLevel accessLevel;
+        private String permissions;
     }
 
     @Getter
@@ -70,13 +69,13 @@ public class FileDTO {
     @Accessors(chain = true)
     @ApiModel("FileMetaData")
     public static class FileMetaData {
-
         private Long id;
         private Long recordId;
         private String entityName;
         private String fileKey;
-        private FileStatus fileStatus;
+        private EFileStatus fileStatus;
         private EFileAccessLevel accessLevel;
+        private String permissions;
     }
 
     @Getter

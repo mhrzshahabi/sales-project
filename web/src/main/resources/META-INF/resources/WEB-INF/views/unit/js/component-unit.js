@@ -1,7 +1,7 @@
 isc.defineClass("Unit", isc.DynamicForm).addProperties({
     numCols: 4,
-    width: 500,
     wrapItemTitles: false,
+    width: 500,
     data: null,
     unitHint: "",
     unitCategory: "",
@@ -92,5 +92,8 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
     },
     setUnitId: function (unitId) {
         this.getItem("unitId").setValue(unitId);
+    },
+    setUnitHint: function (unitHint) {
+        this.getItem("unitId").setHint(unitHint);
     }
 });

@@ -21,10 +21,10 @@
                 {
                     name: "code",
                     title: "<spring:message code='goods.code'/> "
-},
-{
-name: "nameEN",
-title: "<spring:message code='global.country'/> "
+                },
+                {
+                    name: "nameEN",
+                    title: "<spring:message code='global.country'/> "
                 }],
             fetchDataURL: "${contextPath}/api/country/spec-list"
         });
@@ -52,7 +52,7 @@ title: "<spring:message code='global.country'/> "
                     title: "<spring:message code='contactAccount.nameFA'/>"
                 },
                 {
-                    name: "bank.bankName",
+                    name: "bank.nameFA",
                     title: "<spring:message code='contactAccount.nameFA'/>"
                 },
                 {
@@ -110,12 +110,12 @@ title: "<spring:message code='global.country'/> "
                     width: 200
                 },
                 {
-                    name: "bankName",
+                    name: "nameFA",
                     title: "<spring:message code='bank.nameFa'/>",
                     width: 200
                 },
                 {
-                    name: "enBankName",
+                    name: "nameEN",
                     title: "<spring:message code='bank.nameEn'/>",
                     width: 200
                 },
@@ -306,7 +306,8 @@ title: "<spring:message code='global.country'/> "
             autoScroller: false,
             valuesManager: ValuesManager_Contact,
             requiredMessage: "<spring:message code='validator.field.is.required'/>",
-            cellPadding: 2,
+            errorOrientation: "bottom",
+            padding: 10,
             numCols: 4,
             width: "100%",
             height: "100%",
@@ -317,6 +318,22 @@ title: "<spring:message code='global.country'/> "
                 {
                     name: "id",
                     hidden: true
+                },
+                {
+                    name: "personInfo",
+                    type: "HeaderItem",
+                    align: nicico.CommonUtil.getAlignByLangReverse(),
+                    width: 300,
+                    colSpan: 4,
+                    defaultValue: "<spring:message code='contact.form.person.info'/>"
+                },
+                {
+                    name: "contactCode",
+                    title: "<spring:message code='contact.code'/>",
+                    width: 300,
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    wrapTitle: false,
                 },
                 {
                     name: "contactAccounts",
@@ -390,61 +407,40 @@ title: "<spring:message code='global.country'/> "
                     }]
                 },
                 {
-                    name: "tradeMark",
-                    title: "<spring:message code='contact.tradeMark'/>",
-                    type: 'text',
+                    defaultValue: true,
+                    name: "type",
+                    title: "<spring:message code='contact.type'/>",
                     width: 300,
-                    colSpan: 3,
-                    titleColSpan: 1,
-                    wrapTitle: false
-                },
-                {
-                    name: "ceo",
-                    title: "<spring:message code='contact.ceo'/>",
-                    type: 'text',
-                    width: 300,
-                    colSpan: 3,
-                    titleColSpan: 1,
-                    wrapTitle: false
-                },
-                {
-                    name: "ceoPassportNo",
-                    title: "<spring:message code='contact.ceoPassportNo'/>",
-                    type: 'text',
-                    width: 300,
-                    colSpan: 3,
-                    titleColSpan: 1,
-                    keyPressFilter: "[0-9.]",
-                    wrapTitle: false
-                },
-                {
-                    name: "commercialRegistration",
-                    title: "<spring:message code='contact.commercialRegistration'/>",
-                    type: 'text',
-                    width: 300,
-                    colSpan: 3,
-                    titleColSpan: 1,
-                    keyPressFilter: "[0-9.]",
-                    wrapTitle: false
-                },
-
-                {
-                    name: "branchName",
-                    title: "<spring:message code='contact.branchName'/>",
-                    type: 'text',
-                    width: 300,
-                    colSpan: 3,
-                    titleColSpan: 1,
                     wrapTitle: false,
+                    type: "boolean",
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    valueMap:
+                        {
+                            "true": "<spring:message code='contact.type.real'/>",
+                            "false": "<spring:message code='contact.type.legal'/>"
+                        }
+                },
+                {
+                    name: "nationalCode",
+                    title: "<spring:message code='contact.nationalCode'/>",
+                    width: 300,
+                    keyPressFilter: "[0-9.]",
+                    wrapTitle: false,
+                    textAlign: "left",
+                },
+                {
+                    type: "RowSpacerItem"
                 },
                 {
                     required: true,
-                    type: "Header",
-                    defaultValue: " ",
+                    type: "HeaderItem",
+                    defaultValue: "<spring:message code='contact.role'/>",
                     redrawOnChange: true,
                     mask: "required",
-                    hint: "<p style='color: black ; left: 386% ; white-space: pre; position: relative; top:5px;'><b style='color:red;'>*</b><spring:message
-code='contact.role'/></p>",
+                    align: nicico.CommonUtil.getAlignByLangReverse(),
+                    <%--hint: "<p style='color: black ; left: 386% ; white-space: pre; position: relative; top:5px;'><b " +--%>
+                    <%--"style='color:red;'>*</b><spring:message code='contact.role'/></p>"--%>
                 },
                 {
                     ID: "check_box_alert",
@@ -525,41 +521,76 @@ code='contact.role'/></p>",
                     wrapTitle: false
                 },
                 {
-                    defaultValue: true,
-                    name: "type",
-                    title: "<spring:message code='contact.type'/>",
-                    width: 200,
-                    wrapTitle: false,
-                    type: "boolean",
-                    colSpan: 3,
-                    titleColSpan: 1,
-                    valueMap:
-                        {
-                            "true": "<spring:message code='contact.type.real'/>",
-                            "false": "<spring:message code='contact.type.legal'/>"
-                        }
+                    type: "RowSpacerItem"
                 },
                 {
-                    name: "nationalCode",
-                    title: "<spring:message code='contact.nationalCode'/>",
-                    width: 200,
-                    keyPressFilter: "[0-9.]",
-                    wrapTitle: false,
-                    textAlign: "left",
+                    name: "legalInfo",
+                    type: "HeaderItem",
+                    align: nicico.CommonUtil.getAlignByLangReverse(),
+                    width: 300,
+                    colSpan: 4,
+                    defaultValue: "<spring:message code='contact.form.person.legal.info'/>"
                 },
                 {
                     name: "economicalCode",
                     title: "<spring:message code='contact.economicalCode'/>",
-                    width: 200,
+                    width: 300,
                     colSpan: 3,
                     titleColSpan: 1,
                     keyPressFilter: "[0-9.]",
                     wrapTitle: false
                 },
                 {
+                name: "tradeMark",
+                title: "<spring:message code='contact.tradeMark'/>",
+                type: 'text',
+                width: 300,
+                colSpan: 3,
+                titleColSpan: 1,
+                wrapTitle: false
+                                },
+                {
+                name: "ceo",
+                title: "<spring:message code='contact.ceo'/>",
+                type: 'text',
+                width: 300,
+                colSpan: 3,
+                titleColSpan: 1,
+                wrapTitle: false
+                },
+                {
+                name: "ceoPassportNo",
+                title: "<spring:message code='contact.ceoPassportNo'/>",
+                type: 'text',
+                width: 300,
+                colSpan: 3,
+                titleColSpan: 1,
+                keyPressFilter: "[0-9.]",
+                wrapTitle: false
+                },
+                {
+                name: "commercialRegistration",
+                title: "<spring:message code='contact.commercialRegistration'/>",
+                type: 'text',
+                width: 300,
+                colSpan: 3,
+                titleColSpan: 1,
+                keyPressFilter: "[0-9.]",
+                wrapTitle: false
+                },
+                {
+                name: "branchName",
+                title: "<spring:message code='contact.branchName'/>",
+                type: 'text',
+                width: 300,
+                colSpan: 3,
+                titleColSpan: 1,
+                wrapTitle: false,
+                },
+                {
                     name: "status",
                     title: "<spring:message code='contact.status'/>",
-                    width: 200,
+                    width: 300,
                     wrapTitle: false,
                     type: "boolean",
                     defaultValue: true,
@@ -604,9 +635,11 @@ code='contact.role'/></p>",
 
     var DynamicForm_Contact_Connection = isc.DynamicForm.create({
         valuesManager: ValuesManager_Contact,
+        errorOrientation: "bottom",
         width: "100%",
         height: "100%",
         titleWidth: "100",
+        padding: 10,
         numCols: 2,
         fields: [
             {
@@ -672,29 +705,48 @@ code='contact.role'/></p>",
                 }
             },
             {
+                type: "RowSpacerItem"
+            },
+            {
                 required: true,
                 name: "countryId",
                 title: "<spring:message code='global.country'/>",
-type: 'long',
+                type: 'long',
+                width: 500,
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_Country_IN_CONTACT,
+                displayField: "name",
+                valueField: "id",
+                pickListWidth: 500,
+                pickListHeight: "500",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "id", width: 480, align: "center", hidden: true},
+                    {name: "nameEN", width: 480, align: "center"},
+                ],
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
+            },
+            {name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
+            {
+name: "postalCode",
+title: "<spring:message code='contact.postalCode'/>",
 width: 500,
-editorType: "SelectItem",
-optionDataSource: RestDataSource_Country_IN_CONTACT,
-displayField: "name",
-valueField: "id",
-pickListWidth: 500,
-pickListHeight: "500",
-pickListProperties: {showFilterEditor: true},
-pickListFields: [
-{name: "id", width: 480, align: "center", hidden: true},
-{name: "nameEN", width: 480, align: "center"},
-],
+wrapTitle: false,
 validators: [
 {
-type: "required",
-validateOnChange: true
-}]
+type: "regexp",
+expression: "^[0-9|+]?([0-9]+[-]?[0-9]+[\\s]?)*$",
+validateOnChange: true,
+}
+]
 },
-{name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
+            {
+                type: "RowSpacerItem"
+            },
             {
                 name: "webSite",
                 title: "<spring:message code='contact.webSite'/>",
@@ -728,19 +780,6 @@ validateOnChange: true
                 ]
             },
             {
-                name: "postalCode",
-                title: "<spring:message code='contact.postalCode'/>",
-                width: 500,
-                wrapTitle: false,
-                validators: [
-                    {
-                        type: "regexp",
-                        expression: "^[0-9|+]?([0-9]+[-]?[0-9]+[\\s]?)*$",
-                        validateOnChange: true,
-                    }
-                ]
-            },
-            {
                 name: "registerNumber",
                 title: "<spring:message code='contact.registerNumber'/>",
                 width: 500,
@@ -759,8 +798,8 @@ validateOnChange: true
     });
 
     var contactTabs = isc.TabSet.create({
-        height: 550,
-        width: 700,
+        height: 650,
+        width: 750,
         showTabScroller: true,
         tabs: [
             {
@@ -818,9 +857,6 @@ validateOnChange: true
     }
 
     var IButton_Contact_Save = isc.IButtonSave.create({
-        top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
         autoFit: false,
         click: async function () {
             let contact_id = ValuesManager_Contact.getValues().id;
@@ -845,9 +881,6 @@ validateOnChange: true
     });
 
     var contactCancelBtn = isc.IButtonCancel.create({
-        top: 260,
-        title: "<spring:message code='global.close'/>",
-        icon: "pieces/16/icon_delete.png",
         click: function () {
             Window_Contact.close();
         }
@@ -861,7 +894,7 @@ validateOnChange: true
         autoDraw: false,
         isModal: true,
         showModalMask: true,
-        align: "center",
+        align: nicico.CommonUtil.getAlignByLangReverse(),
         members: [
             IButton_Contact_Save,
             contactCancelBtn
@@ -870,8 +903,8 @@ validateOnChange: true
 
     var Window_Contact = isc.Window.create({
         title: "<spring:message code='contact.title'/>",
-        width: 700,
-        height: 580,
+        width: 750,
+        height: 650,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -1039,7 +1072,7 @@ validateOnChange: true
                     width: "10%"
                 },
                 {
-                    name: "bank.bankName",
+                    name: "bank.nameFA",
                     title: "<spring:message code='contactAccount.nameFA'/>",
                     align: "center",
                     width: "10%"
@@ -1096,7 +1129,7 @@ validateOnChange: true
                         return "font-weight:bold; color:#0fed30;";
                     }
                 }
-                if (this.getFieldName(colNum) == "bank.bankName") {
+                if (this.getFieldName(colNum) == "bank.nameFA") {
                     if (record.isDefault == 1) {
                         return "font-weight:bold; color:#0fed30;";
                     }
@@ -1182,6 +1215,7 @@ validateOnChange: true
         numCols: 2,
         autoDraw: false,
         titleWidth: "100",
+        padding: 10,
         fields: [{
             type: "header",
             defaultValue: "<spring:message code='contactAccount.title'/>"
@@ -1220,7 +1254,7 @@ validateOnChange: true
                 width: 300,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Bank_IN_CONTACT,
-                displayField: "bankName",
+                displayField: "nameFA",
                 valueField: "id",
                 pickListWidth: "300",
                 pickListHeight: "500",
@@ -1228,7 +1262,7 @@ validateOnChange: true
                     showFilterEditor: true
                 },
                 pickListFields: [{
-                    name: "bankName",
+                    name: "nameFA",
                     width: 295,
                     align: "center",
                 },
@@ -1317,6 +1351,7 @@ validateOnChange: true
             numCols: 2,
             titleWidth: "100",
             autoDraw: false,
+            padding: 10,
             fields: [
                 {
                     type: "header",
@@ -1356,7 +1391,7 @@ validateOnChange: true
                     width: 300,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Bank_IN_CONTACT,
-                    displayField: "bankName",
+                    displayField: "nameFA",
                     valueField: "id",
                     pickListWidth: 300,
                     pickListHeight: "500",
@@ -1366,7 +1401,7 @@ validateOnChange: true
                         },
                     pickListFields: [
                         {
-                            name: "bankName",
+                            name: "nameFA",
                             width: 295,
                             align: "center"
                         },
@@ -1453,9 +1488,6 @@ validateOnChange: true
 
 
     var ContactAccount_CreateSaveButton = isc.IButtonSave.create({
-        top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
         click: function () {
             ContactAccount_CreateDynamicForm.validate();
             if (ContactAccount_CreateDynamicForm.hasErrors()) {
@@ -1475,7 +1507,7 @@ validateOnChange: true
                     if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                         ContactAccount_CreateDynamicForm.clearValues();
                         ListGrid_ContactAccount.invalidateCache();
-                        //ListGrid_Contact.invalidateCache();
+                        ListGrid_Contact.invalidateCache();
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_ContactAccount.fetchData({
                             _constructor: "AdvancedCriteria",
@@ -1494,10 +1526,6 @@ validateOnChange: true
     });
 
     var ContactAccount_EditSaveButton = isc.IButtonSave.create({
-        top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        autoDraw: false,
-        icon: "pieces/16/save.png",
         click: function () {
             ContactAccount_EditDynamicForm.validate();
             if (ContactAccount_EditDynamicForm.hasErrors()) {
@@ -1511,7 +1539,7 @@ validateOnChange: true
                 callback: function (RpcResponse_o) {
                     if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                         ListGrid_ContactAccount.invalidateCache();
-                        //ListGrid_Contact.invalidateCache();
+//ListGrid_Contact.invalidateCache();
                         ListGrid_ContactAccount.fetchData({
                             _constructor: "AdvancedCriteria",
                             operator: "and",
@@ -1530,9 +1558,6 @@ validateOnChange: true
     });
 
     var ContactAccountCancelBtn = isc.IButtonCancel.create({
-        top: 260,
-        title: "<spring:message code='global.form.close'/>",
-        icon: "pieces/16/icon_delete.png",
         click: function () {
             ListGrid_Contact.invalidateCache();
             Window_AccountsContact.close();
@@ -1577,12 +1602,13 @@ validateOnChange: true
         height: "100%",
         width: "100%",
         autoDraw: true,
-        tabs: [{
-            name: "create",
-            title: "<spring:message code='global.form.new'/>",
-            icon: "pieces/16/icon_add.png",
-            pane: createPane
-        },
+        tabs: [
+            {
+                name: "create",
+                title: "<spring:message code='global.form.new'/>",
+                icon: "pieces/16/icon_add.png",
+                pane: createPane
+            },
             {
                 name: "edit",
                 title: "<spring:message code='global.form.edit'/>",
@@ -1823,6 +1849,7 @@ validateOnChange: true
             loadOnExpand: true,
             loaded: false,
             contextMenu: Menu_ListGrid_Contact,
+            sortField: "id",
             fields: [
                 {
                     name: "id",
@@ -1831,10 +1858,10 @@ validateOnChange: true
                     hidden: true, showIf: "false",
                 },
                 {
-                    name: "code",
+                    name: "contactCode",
                     title: "<spring:message code='contact.code'/>",
                     align: "center",
-                    width: 100, showIf: "false",
+                    width: 100,
 
                 },
                 {
@@ -2004,9 +2031,10 @@ validateOnChange: true
                 });
                 return layoutContact;
             },
-           <sec:authorize access="hasAuthority('U_CONTACT')">
+            <sec:authorize access="hasAuthority('U_CONTACT')">
             doubleClick: function () {
-               ListGrid_Contact_edit();
+                contactHttpMethod = "PUT";
+                ListGrid_Contact_edit();
             }
             </sec:authorize>
         });

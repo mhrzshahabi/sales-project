@@ -2,11 +2,9 @@ package com.nicico.sales.web.controller.contract;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nicico.copper.core.SecurityUtil;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.EContractDetailValueKey;
 import com.nicico.sales.model.entities.contract.ContractDetailType;
-import com.nicico.sales.model.entities.contract.IncotermParty;
 import com.nicico.sales.model.enumeration.ContractDetailTypeReference;
 import com.nicico.sales.model.enumeration.DataType;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
@@ -41,7 +39,7 @@ public class ContractDetailTypeFormController {
         Map<Integer, String> priceBaseReferences = new HashMap<>();
 
         for (DataType value : DataType.values())
-            dataTypes.put(value.name(), value.name());
+            dataTypes.put(value.name(), value.getNameFA());
         for (ContractDetailTypeReference value : ContractDetailTypeReference.values())
             contractDetailTypeReferences.put(value.name(), value.name() + " ( " + value.getType() + " ) ");
         for (RateReference value : RateReference.values())

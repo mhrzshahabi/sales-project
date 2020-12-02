@@ -22,27 +22,15 @@ import java.util.List;
 public class BillOfLandingDTO {
     private String documentNo;
 
-    private String switchDocumentNo;
-
     private Long shipperExporterId;
-
-    private Long switchShipperExporterId;
 
     private Long notifyPartyId;
 
-    private Long switchNotifyPartyId;
-
     private Long consigneeId;
-
-    private Long switchConsigneeId;
 
     private Long portOfLoadingId;
 
-    private Long switchPortOfLoadingId;
-
     private Long portOfDischargeId;
-
-    private Long switchPortOfDischargeId;
 
     private String placeOfDelivery;
 
@@ -72,8 +60,9 @@ public class BillOfLandingDTO {
 
     private Long shipmentMethodId;
 
+    private Long billOfLadingSwitchId;
 
-
+    private BillOfLadingSwitchDTO.Info billOfLadingSwitch;
 
 
     @Getter
@@ -86,30 +75,17 @@ public class BillOfLandingDTO {
 
         private ContactDTO.Info shipperExporter;
 
-        private ContactDTO.Info switchShipperExporter;
-
         private ContactDTO.Info notifyParty;
-
-        private ContactDTO.Info switchNotifyParty;
 
         private ContactDTO.Info consignee;
 
-        private ContactDTO.Info switchConsignee;
-
         private PortDTO.Info portOfLoading;
-
-        private PortDTO.Info switchPortOfLoading;
 
         @ReportField(titleMessageKey = "shipment.Bol.tblPortByDischarge")
         @ReportModel(type = PortDTO.Info.class, jumpTo = true)
         private PortDTO.Info portOfDischarge;
 
-        private PortDTO.Info switchPortOfDischarge;
-
         private VesselDTO.Info oceanVessel;
-
-
-//        private List<RemittanceToBillOfLandingDTO.Info> remittances;
 
         private List<ContainerToBillOfLandingDTO.Info> containers;
         //        private ShipmentDTO.Info shipment;

@@ -3,18 +3,6 @@ isc.loadSkin = function (theWindow) {
         theWindow = window
     }
     with (theWindow) {
-        const actions_btn ={
-            add: 'افزودن',
-            remove: 'حذف',
-            edit: 'ویرایش',
-            refresh: 'بازیابی اطلاعات',
-            excel: 'ارسال به Excel',
-            print: 'چاپ',
-            closeAll: 'بستن همه',
-            cancel: 'لغو',
-            save: 'ذخیره',
-            Draft: 'تاریخچه'
-        }
         isc.Page.setSkinDir("[ISOMORPHIC]/skins/Nicico/");
         var cssLoaded = isc.Page.loadStyleSheet("[SKIN]/skin_styles.css", theWindow, "isc.FontLoader.loadCustomFonts()");
         isc.Page.checkBrowserAndRedirect("[SKIN]/unsupported_browser.html");
@@ -124,20 +112,18 @@ isc.loadSkin = function (theWindow) {
         });
         isc.ClassFactory.defineClass("IButtonSave", "Button").addProperties({
             baseStyle: "buttonSave",
-            title: actions_btn.save,
             showFocusedAsOver: false,
-            showFocusOutline: false
+            showFocusOutline: false,
+            icon: "[SKIN]/actions/save.png"
         });
         isc.ClassFactory.defineClass("IButtonCancel", "Button").addProperties({
             baseStyle: "buttonCancel",
-            title: actions_btn.cancel,
             showFocusedAsOver: false,
             showFocusOutline: false,
             icon: "pieces/16/icon_delete.png"
         });
         isc.ClassFactory.defineClass("IButtonClose", "Button").addProperties({
             baseStyle: "buttonClose",
-            title: actions_btn.closeAll,
             showFocusedAsOver: false,
             icon: "[SKIN]/actions/nicico_closeAllTabs.png",
             showFocusOutline: false
@@ -145,7 +131,6 @@ isc.loadSkin = function (theWindow) {
         isc.ClassFactory.defineClass("ToolStripButtonPrint", "Button").addProperties({
             baseStyle: "toolStripButtonPrint",
             icon: "[SKIN]/actions/print.png",
-            title: actions_btn.print,
             autoFit: true,
             iconSize: 15,
             height: 17,
@@ -159,7 +144,6 @@ isc.loadSkin = function (theWindow) {
         isc.ClassFactory.defineClass("ToolStripButtonAdd", "Button").addProperties({
             baseStyle: "toolStripButtonAdd",
             icon: "[SKIN]/actions/add.png",
-            title: actions_btn.add,
             autoFit: true,
             iconSize: 15,
             height: 17,
@@ -173,7 +157,6 @@ isc.loadSkin = function (theWindow) {
         isc.ClassFactory.defineClass("ToolStripButtonAddLarge", "Button").addProperties({
             baseStyle: "toolStripButtonAddLarge",
             icon: "[SKIN]/actions/add.png",
-            title: actions_btn.add,
             autoFit: true,
             iconSize: 15,
             height: 17,
@@ -187,7 +170,6 @@ isc.loadSkin = function (theWindow) {
         isc.ClassFactory.defineClass("ToolStripButtonRemove", "Button").addProperties({
             baseStyle: "toolStripButtonRemove",
             icon: "[SKIN]/actions/remove.png",
-            title: actions_btn.remove,
             autoFit: true,
             iconSize: 15,
             height: 17,
@@ -201,7 +183,6 @@ isc.loadSkin = function (theWindow) {
         isc.ClassFactory.defineClass("ToolStripButtonEdit", "Button").addProperties({
             baseStyle: "toolStripButtonEdit",
             icon: "[SKIN]/actions/edit.png",
-            title: actions_btn.edit,
             autoFit: true,
             iconSize: 15,
             height: 17,
@@ -215,7 +196,6 @@ isc.loadSkin = function (theWindow) {
         isc.ClassFactory.defineClass("ToolStripButtonRefresh", "Button").addProperties({
             baseStyle: "toolStripButtonRefresh",
             icon: "[SKIN]/actions/refresh.png",
-            title: actions_btn.refresh,
             autoFit: true,
             iconSize: 15,
             height: 17,
@@ -229,7 +209,6 @@ isc.loadSkin = function (theWindow) {
         isc.ClassFactory.defineClass("ToolStripButtonDraft", "Button").addProperties({
             baseStyle: "toolStripButtonEdit",
             icon: "[SKIN]/actions/dr.png",
-            title: actions_btn.Draft,
             autoFit: true,
             iconSize: 15,
             height: 17,
@@ -243,7 +222,6 @@ isc.loadSkin = function (theWindow) {
         isc.ClassFactory.defineClass("ToolStripButtonExcel", "Button").addProperties({
             baseStyle: "toolStripButtonExcel",
             icon: "[SKIN]/actions/excel.png",
-            title: actions_btn.excel,
             autoFit: true,
             iconSize: 15,
             height: 17,

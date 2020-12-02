@@ -47,11 +47,6 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
             }));
         }
 
-        this.addMember(isc.HTMLFlow.create({
-            width: "100%",
-            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
-        }));
-
         this.addMember(isc.Unit.create({
             data: {},
             name: "subTotal",
@@ -77,7 +72,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
                     width: "100",
                     height: "25",
                     autoFit: false,
-                    title: "<spring:message code='global.form.save'/>",
+                    title: "<spring:message code='global.form.next.step'/>",
                     click: function () {
 
                         if (!This.validate())
@@ -99,7 +94,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
                             width: "100",
                             height: "25",
                             autoFit: false,
-                            title: "<spring:message code='global.cancel'/>",
+                            title: "<spring:message code='global.form.previous.step'/>",
                             click: function () {
 
                                 let tab = This.parentElement.parentElement;

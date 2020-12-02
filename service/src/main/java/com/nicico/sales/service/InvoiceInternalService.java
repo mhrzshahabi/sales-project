@@ -63,7 +63,7 @@ public class InvoiceInternalService extends GenericService<ViewInternalInvoiceDo
 
     @Override
     @Transactional
-    @Action(value = ActionType.Update , authority = "hasAuthority('E_UPDATE_INVOICE_INTERNAL_DOC_ID')")
+    @Action(value = ActionType.Update , authority = "hasAuthority('E_UPDATE_DELETED_INVOICE_INTERNAL')")
     public void updateDeletedDocument(List<InternalInvoiceDTO.Info> data) {
 
         AccountingDTO.DocumentStatusRq request = new AccountingDTO.DocumentStatusRq();
