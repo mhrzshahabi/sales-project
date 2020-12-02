@@ -2313,12 +2313,16 @@
       "title": "چاپ فاکتور فروش داخلی"
     },
     {
-      "code": "E_UPDATE_INVOICE_INTERNAL_DOC_ID",
+      "code": "E_UPDATE_DELETED_INVOICE_INTERNAL",
       "title": "به روز رسانی وضعیت اسناد فروش داخلی"
     },
     {
-      "code": "E_UPDATE_FOREIGN_INVOICE_DOC_ID",
+      "code": "E_UPDATE_DELETED_FOREIGN_INVOICE",
       "title": "به روز رسانی وضعیت اسناد فروش خارجی"
+    },
+    {
+      "code": "E_UPDATE_DELETED_SHIPMENT_COST_INVOICE",
+      "title": "به روز رسانی وضعیت اسناد هزینه حمل"
     },
     {
       "code": "E_SEND_INVOICE_INTERNAL_TO_ACC",
@@ -2327,6 +2331,10 @@
     {
       "code": "E_SEND_FOREIGN_INVOICE_TO_ACC",
       "title": "ایجاد سند حسابداری فاکتور فروش خارجی"
+    },
+    {
+      "code": "E_SEND_SHIPMENT_COST_INVOICE_TO_ACC",
+      "title": "ایجاد سند حسابداری فاکتور هزینه حمل"
     },
     {
       "code": "R_FOREIGN_INVOICE_BILL_OF_LADING",
