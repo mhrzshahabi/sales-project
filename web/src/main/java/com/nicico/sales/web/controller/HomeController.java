@@ -4,10 +4,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.core.SecurityUtil;
+import com.nicico.copper.core.service.minio.EFileAccessLevel;
+import com.nicico.sales.enumeration.ErrorType;
+import com.nicico.sales.exception.SalesException2;
+import com.nicico.sales.model.enumeration.EFileStatus;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.model.enumeration.SymbolUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,7 +25,9 @@ import org.springframework.web.servlet.LocaleResolver;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,6 +37,7 @@ import java.util.stream.Collectors;
 public class HomeController {
 
     private final ObjectMapper objectMapper;
+    private final ResourceBundleMessageSource messageSource;
     private final LocaleResolver localeResolver;
 
     @GetMapping(value = {"/", "/home"})
@@ -49,7 +58,45 @@ public class HomeController {
                 Arrays.stream(EStatus.values()).collect(Collectors.toMap(EStatus::name, EStatus::name)))
         );
 
+        Map<String, String> accessLevel = getAccessLevelEnumMap();
+        request.setAttribute("Enum_EFileAccessLevel", objectMapper.writeValueAsString(accessLevel));
+
+        Map<String, String> fileStatus = getFileStatusEnumMap();
+        request.setAttribute("Enum_FileStatus", objectMapper.writeValueAsString(fileStatus));
+
+
         return "salesMainDesktop";
+    }
+
+    private Map<String, String> getFileStatusEnumMap() {
+
+        Map<String, String> fileStatus = new HashMap<>();
+        Locale locale = LocaleContextHolder.getLocale();
+        for (EFileStatus value : EFileStatus.values())
+            if (value == EFileStatus.NORMAL)
+                fileStatus.put(value.name(), messageSource.getMessage("file.status.normal", null, locale));
+            else if (value == EFileStatus.DELETED)
+                fileStatus.put(value.name(), messageSource.getMessage("file.status.deleted", null, locale));
+
+            else throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نگاشت وضعیت فایل تعریف نشده است");
+
+        return fileStatus;
+    }
+
+    private Map<String, String> getAccessLevelEnumMap() {
+
+        Map<String, String> accessLevel = new HashMap<>();
+        Locale locale = LocaleContextHolder.getLocale();
+        for (EFileAccessLevel value : EFileAccessLevel.values())
+            if (value == EFileAccessLevel.SELF)
+                accessLevel.put(value.name(), messageSource.getMessage("file.access-level.self", null, locale));
+            else if (value == EFileAccessLevel.PUBLIC)
+                accessLevel.put(value.name(), messageSource.getMessage("file.access-level.public", null, locale));
+
+            else
+                throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نگاشت نوع دسترسی به فایل تعریف نشده است");
+
+        return accessLevel;
     }
 
     @GetMapping("/oauth_login")

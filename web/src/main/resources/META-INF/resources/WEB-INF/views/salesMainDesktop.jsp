@@ -104,6 +104,7 @@
                 <%@include file="common/ts/FilterFormUtil.js"%>
                 <%@include file="common/ts/ReportExecutorFormUtil.js"%>
                 <%@include file="common/js/component-file.js"%>
+                <%@include file="common/ts/FileUtil.js"%>
 
                 var Enums = {
 
@@ -115,6 +116,8 @@
                         "RemoveFromAcc": "حذف شده از سیستم مالی"
                     },
                     eStatus2: JSON.parse('${Enum_EStatus}'),
+                    fileAccessLevel: JSON.parse('${Enum_EFileAccessLevel}'),
+                    fileStatus: JSON.parse('${Enum_FileStatus}'),
                     unit: {
 
                         /*getStandardSymbol: function (symbolUnit) {

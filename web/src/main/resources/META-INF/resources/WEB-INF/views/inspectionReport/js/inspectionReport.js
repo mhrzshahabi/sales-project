@@ -1718,8 +1718,12 @@ inspectionReportTab.method.clearForm = function () {
     inspectionReportTab.listGrid.assayElementSum.setFields([]);
     inspectionReportTab.toolStrip.weightRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
     inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
-    inspectionReportTab.hStack.weightUnitSum.members.forEach(q => {if(q.clearValues) q.clearValues()});
-    inspectionReportTab.hStack.assayUnitSum.members.forEach(q => {if(q.clearValues) q.clearValues()});
+    inspectionReportTab.hStack.weightUnitSum.members.forEach(q => {
+        if (q.clearValues) q.clearValues()
+    });
+    inspectionReportTab.hStack.assayUnitSum.members.forEach(q => {
+        if (q.clearValues) q.clearValues()
+    });
     inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").enable();
     inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").enable();
 };
@@ -2134,7 +2138,7 @@ inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
     tab_.setMembers([isc.Label.create({
         wrap: false,
         contents: "<span style='font-weight: bolder;font-size: larger'><spring:message code='inspectionReport.unit.sum.label'/> : </span> "
-    }), ]);
+    }),]);
     if (!inventories)
         return;
 
@@ -2286,3 +2290,15 @@ inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         }
     }
 }), 7);
+inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
+    visibility: "visible",
+    icon: "[SKIN]file.png",
+    title: "<spring:message code='global.attach.file'/>",
+    click: function () {
+        let record = inspectionReportTab.listGrid.main.getSelectedRecord();
+        if (record == null || record.id == null)
+            inspectionReportTab.dialog.notSelected();
+
+        nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message code="entity.inspection-report"/>', record.id, null, "InspectionReport");
+    }
+}), 8);
