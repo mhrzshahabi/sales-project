@@ -67,8 +67,6 @@ var nicico;
                         creator.variable.owner.show();
                     This.cancelCallBack();
                 },
-                icon: "pieces/16/icon_delete.png",
-                title: '<spring:message code="global.close" />'
             });
             // @ts-ignore
             var ok = isc.IButtonSave.create({
@@ -83,8 +81,6 @@ var nicico;
                     // @ts-ignore
                     This.okCallBack(creator.filterBuilder.main.getCriteria());
                 },
-                icon: "pieces/16/save.png",
-                title: '<spring:message code="global.ok" />'
             });
             // @ts-ignore
             creator.hLayout.main = isc.HLayout.create({

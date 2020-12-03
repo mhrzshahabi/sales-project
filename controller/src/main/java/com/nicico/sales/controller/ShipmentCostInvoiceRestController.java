@@ -87,6 +87,16 @@ public class ShipmentCostInvoiceRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/update-deleted-document")
+    public ResponseEntity<Void> updateDeletedDocument(@RequestParam MultiValueMap<String, String> criteria) {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        TotalResponse<ShipmentCostInvoiceDTO.Info> search = iShipmentCostInvoiceService.search(nicicoCriteria);
+        if (search.getResponse().getTotalRows() > 0)
+            iShipmentCostInvoiceService.updateDeletedDocument(search.getResponse().getData());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Loggable
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<ShipmentCostInvoiceDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);

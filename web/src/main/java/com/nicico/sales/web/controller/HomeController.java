@@ -58,12 +58,15 @@ public class HomeController {
                 Arrays.stream(EStatus.values()).collect(Collectors.toMap(EStatus::name, EStatus::name)))
         );
 
+        request.setAttribute("Enum_EStatus_WithId", objectMapper.writeValueAsString(
+                Arrays.stream(EStatus.values()).collect(Collectors.toMap(EStatus::name, EStatus::getId)))
+        );
+
         Map<String, String> accessLevel = getAccessLevelEnumMap();
         request.setAttribute("Enum_EFileAccessLevel", objectMapper.writeValueAsString(accessLevel));
 
         Map<String, String> fileStatus = getFileStatusEnumMap();
         request.setAttribute("Enum_FileStatus", objectMapper.writeValueAsString(fileStatus));
-
 
         return "salesMainDesktop";
     }

@@ -357,8 +357,6 @@
         members: [
             shipmentSelectPrintListGrid,
             isc.IButtonCancel.create({
-                icon: "pieces/16/icon_delete.png",
-                title: "<spring:message code='global.form.close'/>",
                 click: function () {
                     shipmentDccWindow.close();
                 }
@@ -865,9 +863,6 @@
     };
 
     var IButton_Shipment_Save = isc.IButtonSave.create({
-        top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
         click: async function () {
             let validate = DynamicForm_Shipment.validate();
             if (!validate)
@@ -943,12 +938,9 @@
     });
 
     var ShipmentCancelBtn = isc.IButtonCancel.create({
-        top: 260,
         layoutMargin: 5,
         membersMargin: 5,
         width: 120,
-        title: "<spring:message code='global.cancel'/>",
-        icon: "pieces/16/icon_delete.png",
         click: function () {
             Window_Shipment.close();
         }

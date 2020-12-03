@@ -129,7 +129,6 @@ var nicico;
                     isc.ToolStrip.create({
                         width: "100%",
                         border: '0px',
-                        name: "refresh",
                         align: nicico.CommonUtil.getAlignByLang(),
                         members: [
                             // @ts-ignore
@@ -154,25 +153,6 @@ var nicico;
         BasicFormUtil.createListGrid = function (creator) {
             // @ts-ignore
             creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
-        };
-        BasicFormUtil.createTabSet = function (creator) {
-            // @ts-ignore
-            creator.tab.main = isc.TabSet.create({
-                width: "100%",
-                height: "100%",
-                tabBarPosition: nicico.CommonUtil.getAlignByLangReverse(),
-                // wrap: false,
-                showTabScroller: true,
-                border: "1px solid lightblue",
-                edgeMarginSize: 3,
-                tabBarThickness: 80,
-                tabs: [
-                    {
-                        title: "<spring:message code='global.tab'/>",
-                        pane: creator.listGrid.main
-                    },
-                ]
-            });
         };
         BasicFormUtil.createListGridMenu = function (creator) {
             // @ts-ignore
@@ -292,14 +272,6 @@ var nicico;
                 members: [creator.toolStrip.main, creator.listGrid.main]
             });
         };
-        BasicFormUtil.createVLayoutWithTabSet = function (creator) {
-            // @ts-ignore
-            creator.vLayout.main = isc.VLayout.create({
-                width: "100%",
-                // @ts-ignore
-                members: [creator.toolStrip.main, creator.tab.main]
-            });
-        };
         BasicFormUtil.removeExtraGridMenuActions = function (creator) {
             // @ts-ignore
             var actionTypes = creator.toolStrip.main.members.filter(function (q) { return q.visibility === "hidden"; }).map(function (q) { return q.actionType; });
@@ -358,29 +330,6 @@ var nicico;
             if (createWindowHook && createWindowHook instanceof Function)
                 createWindowHook(creator);
             this.createVLayout(creator);
-            // @ts-ignore
-            return creator.vLayout.main;
-        };
-        BasicFormUtil.getDefaultBasicFormWithTabSet = function (creator, restControllerUrl, createWindowHook) {
-            if (createWindowHook === void 0) { createWindowHook = null; }
-            // @ts-ignore
-            creator.variable.url += restControllerUrl.replaceAll(new RegExp("^/|/$"), '') + '/';
-            this.createDynamicForm(creator);
-            this.createRestDataSource(creator);
-            this.createListGrid(creator);
-            this.createListGridMenu(creator);
-            this.createToolStrip(creator);
-            this.createTabSet(creator);
-            // <c:if test = "${u_entity}">
-            // @ts-ignore
-            creator.listGrid.main.recordDoubleClick = function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-                // @ts-ignore
-                creator.method.editForm('<spring:message code="global.form.edit"/>', creator.listGrid.main, creator.dynamicForm.main);
-            };
-            // </c:if>
-            if (createWindowHook && createWindowHook instanceof Function)
-                createWindowHook(creator);
-            this.createVLayoutWithTabSet(creator);
             // @ts-ignore
             return creator.vLayout.main;
         };

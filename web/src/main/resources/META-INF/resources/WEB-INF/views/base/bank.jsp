@@ -402,9 +402,6 @@ validateOnChange: true
 
     var IButton_Bank_Save = isc.IButtonSave.create(
         {
-            top: 260,
-            title: "<spring:message code='global.form.save'/>",
-            icon: "pieces/16/save.png",
             click: function () {
                 DynamicForm_Bank.validate();
                 if (DynamicForm_Bank.hasErrors())
@@ -465,10 +462,7 @@ validateOnChange: true
                                 }),
                             isc.IButtonCancel.create(
                                 {
-                                    title: "<spring:message code='global.cancel'/>",
                                     width: 100,
-                                    icon: "pieces/16/icon_delete.png",
-                                    orientation: "vertical",
                                     click: function () {
                                         Window_Bank.close();
                                     }

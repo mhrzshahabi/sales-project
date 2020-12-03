@@ -153,6 +153,7 @@ public class CriteriaRefinerAspect {
                 Optional<EStatus> statusOptional = Enums.getIfPresent(EStatus.class, value + "");
                 if (statusOptional.isPresent()) statuses.add(statusOptional.get());
             }
+            criteriaRq.setOperator(EOperator.equals);
             criteriaRq.setValue(new AllConverters.EStatusSetConverter().convertToDatabaseColumn(statuses));
         }
 

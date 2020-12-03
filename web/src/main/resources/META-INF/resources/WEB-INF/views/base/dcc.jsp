@@ -238,9 +238,6 @@ var criteria = {
 
     var dccSaveIButton = isc.IButtonSave.create(
         {
-            top: 260,
-            title: "<spring:message code='global.form.save'/>",
-            icon: "pieces/16/save.png",
             click: function () {
 
                 dccDynamicForm.validate();
@@ -345,10 +342,6 @@ var criteria = {
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                title: "<spring:message code='global.cancel'/>",
-                                width: 100,
-                                icon: "pieces/16/icon_delete.png",
-                                orientation: "vertical",
                                 click: function () {
                                     dccCreateWindow.close();
                                 }
