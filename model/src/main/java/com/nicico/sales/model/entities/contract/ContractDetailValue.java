@@ -37,6 +37,7 @@ public class ContractDetailValue extends BaseEntity {
     @Column(name = "C_KEY", nullable = false)
     private String key;
 
+    // TODO Drop it ...
     @NotEmpty
     @Column(name = "C_TITLE", nullable = false)
     private String title;

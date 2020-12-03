@@ -22,7 +22,7 @@ public class ContractDetailValueDTO {
 
     private String name;
     private String key;
-    private String title;
+//    private String title;
     private DataType type;
     private String reference;
     private String value;

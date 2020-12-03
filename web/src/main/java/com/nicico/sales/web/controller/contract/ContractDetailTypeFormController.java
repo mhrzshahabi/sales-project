@@ -35,11 +35,14 @@ public class ContractDetailTypeFormController {
         Map<String, String> contractDetailTypeCodes;
         Map<String, String> contractDetailValueKeys;
         Map<String, String> dataTypes = new HashMap<>();
+        Map<String, String> dataTypesFa = new HashMap<>();
         Map<Integer, String> rateReferences = new HashMap<>();
         Map<Integer, String> priceBaseReferences = new HashMap<>();
 
         for (DataType value : DataType.values())
-            dataTypes.put(value.name(), value.getNameFA());
+            dataTypes.put(value.name(), value.name());
+        for (DataType value : DataType.values())
+            dataTypesFa.put(value.name(), value.getNameFA());
         for (ContractDetailTypeReference value : ContractDetailTypeReference.values())
             contractDetailTypeReferences.put(value.name(), value.name() + " ( " + value.getType() + " ) ");
         for (RateReference value : RateReference.values())
@@ -56,7 +59,8 @@ public class ContractDetailTypeFormController {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
 
         request.setAttribute("Enum_DataType", objectMapper.writeValueAsString(dataTypes));
-        request.setAttribute("contractDetailTypeReferences", objectMapper.writeValueAsString(contractDetailTypeReferences));
+        request.setAttribute("Enum_DataType_Fa", objectMapper.writeValueAsString(dataTypesFa));
+        request.setAttribute("Enum_ContractDetailTypeReference", objectMapper.writeValueAsString(contractDetailTypeReferences));
         request.setAttribute("Enum_RateReference", objectMapper.writeValueAsString(rateReferences));
         request.setAttribute("Enum_PriceBaseReference", objectMapper.writeValueAsString(priceBaseReferences));
         request.setAttribute("Enum_EContractDetailTypeCode", objectMapper.writeValueAsString(contractDetailTypeCodes));

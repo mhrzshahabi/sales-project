@@ -5,6 +5,7 @@ contractDetailTypeTab.variable.paramUrl = "${contextPath}" + "/api/contract-deta
 contractDetailTypeTab.variable.templateUrl = "${contextPath}" + "/api/contract-detail-type-template/";
 
 contractDetailTypeTab.variable.dataType = JSON.parse('${Enum_DataType}');
+contractDetailTypeTab.variable.dataTypeFa = JSON.parse('${Enum_DataType_Fa}');
 
 contractDetailTypeTab.window.formUtil = new nicico.FormUtil();
 
@@ -95,7 +96,7 @@ contractDetailTypeTab.dynamicForm.paramFields.type = {
     width: "20%",
     required: true,
     title: "<spring:message code='global.type'/>",
-    valueMap: contractDetailTypeTab.variable.dataType
+    valueMap: contractDetailTypeTab.variable.dataTypeFa
 };
 contractDetailTypeTab.dynamicForm.paramFields.unitId = {
     name: "unitId",
@@ -466,7 +467,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         contractDetailTypeTab.dialog.notSelected();
                     else if (record.editable === false)
                         contractDetailTypeTab.dialog.notEditable();
-                    else if (!record.type.includes('Reference'))
+                    else if (!record.type.includes(contractDetailTypeTab.variable.dataType.Reference))
                         contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.type-must-reference'/>");
                     else {
 
@@ -494,7 +495,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             name: "reference",
                             editorType: "SelectItem",
                             title: "<spring:message code='global.reference'/>",
-                            valueMap: contractDetailTypeReferences
+                            valueMap: ReferenceEnums.Enum_ContractDetailTypeReference
                         }]);
                         dynamicForm.setValue("reference", record[contractDetailTypeTab.dynamicForm.paramFields.reference.name]);
                         contractDetailTypeTab.window.formUtil.showForm(
@@ -522,7 +523,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
 
                         let recordType = record[contractDetailTypeTab.dynamicForm.paramFields.type.name];
                         let referenceType = record[contractDetailTypeTab.dynamicForm.paramFields.reference.name];
-                        if (recordType === 'Reference' && referenceType == null) {
+                        if (recordType === contractDetailTypeTab.variable.dataType.Reference && referenceType == null) {
 
                             contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.reference-required'/>");
                             return;
@@ -530,6 +531,11 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         let defaultValueEditorProperties = getFieldProperties(recordType, referenceType);
                         if (defaultValueEditorProperties == null)
                             contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.cannot-set-default'/>");
+                        if (recordType === contractDetailTypeTab.variable.dataType.TextArea) {
+
+                            defaultValueEditorProperties.width = "700";
+                            defaultValueEditorProperties.height = "600";
+                        }
 
                         contractDetailTypeTab.window.formUtil.populateData = function (body) {
                             return [body.getValues()];
@@ -546,16 +552,16 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         };
 
                         let defaultValueExtraEditorProperties = {};
-                        if (recordType === 'Reference') {
+                        if (recordType === contractDetailTypeTab.variable.dataType.Reference) {
 
                             if (referenceType.includes('Enum')) {
                                 defaultValueExtraEditorProperties = {
                                     editorType: "SelectItem",
-                                    valueMap: contractDetailTypeEnumReferencesValues[referenceType],
+                                    valueMap: ReferenceEnums[referenceType],
                                 };
                             } else {
 
-                                let displayField = getReferenceFields(referenceType)[1].name;
+                                let displayField = getReferenceDisplayField(referenceType);
                                 defaultValueExtraEditorProperties = {
                                     autoFetchData: false,
                                     editorType: "SelectItem",
@@ -605,7 +611,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         contractDetailTypeTab.dialog.notSelected();
                     else if (record.editable === false)
                         contractDetailTypeTab.dialog.notEditable();
-                    else if (!record.type.includes('DynamicTable'))
+                    else if (!record.type.includes(contractDetailTypeTab.variable.dataType.DynamicTable))
                         contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.type-must-dynamic-table'/>");
                     else {
 
@@ -913,7 +919,7 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
 
                 for (let i = 0; i < allParams.length; i++) {
                     allParams[i][contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeId.name] = data.id;
-                    if ((allParams[i].type === "Reference" || allParams[i].type === "ListOfReference") && allParams[i].reference == null) {
+                    if ((allParams[i].type === contractDetailTypeTab.variable.dataType.Reference || allParams[i].type === contractDetailTypeTab.variable.dataType.ListOfReference) && allParams[i].reference == null) {
                         contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.param-reference-empty'/>");
                         return;
                     }

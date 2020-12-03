@@ -1,19 +1,3 @@
-function getReferenceCriteria(idValues) {
-    return {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [
-            {fieldName: "id", operator: "equals", value: idValues}
-        ]
-    }
-}
-
-var header = ['BUYER_NAME', 'BUYER_ADDRESS', 'BUYER_PHONE', 'BUYER_FAX', 'SELLER_NAME', 'SELLER_ADDRESS', 'SELLER_PHONE', 'SELLER_FAX',
-    'AGENT_BUYER_NAME', 'AGENT_BUYER_ADDRESS', 'AGENT_BUYER_PHONE', 'AGENT_BUYER_FAX',
-    'AGENT_SELLER_NAME', 'AGENT_SELLER_ADDRESS', 'AGENT_SELLER_PHONE', 'AGENT_SELLER_FAX', 'BUYER_MOBILE', 'BUYER_POSTAL_CODE', 'SELLER_MOBILE',
-    'SELLER_POSTAL_CODE', 'AGENT_BUYER_MOBILE', 'AGENT_BUYER_POSTAL_CODE', 'AGENT_SELLER_MOBILE', 'AGENT_SELLER_POSTAL_CODE'
-]
-
 var materialElementField = {
     name: "materialElementId",
     title: "<spring:message code='assayInspection.materialElement'/>",
@@ -63,12 +47,16 @@ var materialElementField = {
     templateDataFieldName: "materialElement.element.name"
 }
 
+function getReferenceDisplayField(referenceType) {
+
+    return getReferenceFields(referenceType).filter(q => q.forDisplayField).first().name;
+}
+
 function getReferenceFields(referenceType) {
 
     switch (referenceType) {
         case 'ContractShipment':
-            return [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
+            return BaseFormItems.concat([
                 {name: "contractDetailValueId", hidden: true},
                 {
                     name: "loadPortId",
@@ -110,6 +98,7 @@ function getReferenceFields(referenceType) {
                     showTemplate: true
                 },
                 {
+                    forDisplayField: true,
                     name: "sendDate",
                     title: "<spring:message code='global.sendDate'/>",
                     type: "date",
@@ -117,46 +106,37 @@ function getReferenceFields(referenceType) {
                     width: "10%",
                     showTemplate: true
                 }
-            ];
+            ]);
         case 'Bank':
-            return [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'name', title: "<spring:message code='bank.nameFa'/>"}
-            ]
+            return BaseFormItems.concat([
+                {name: 'name', title: "<spring:message code='bank.nameFa'/>", forDisplayField: true}
+            ]);
         case 'Contact':
-            return [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'name', title: "<spring:message code='contact.nameFa'/>"}
-            ]
+            return BaseFormItems.concat([
+                {name: 'name', title: "<spring:message code='contact.nameFa'/>", forDisplayField: true}
+            ]);
         case 'Country':
-            return [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'name', title: "<spring:message code='country.nameFa'/>"}
-            ]
+            return BaseFormItems.concat([
+                {name: 'name', title: "<spring:message code='country.nameFa'/>", forDisplayField: true}
+            ]);
         case 'Material':
-            return [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'desc', title: "<spring:message code='material.descFA'/>"}
-            ]
+            return BaseFormItems.concat([
+                {name: 'desc', title: "<spring:message code='material.descFA'/>", forDisplayField: true}
+            ]);
         case 'Port':
-            return [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'port', title: "<spring:message code='port.port'/>"}
-            ]
+            return BaseFormItems.concat([
+                {name: 'port', title: "<spring:message code='port.port'/>", forDisplayField: true}
+            ]);
         case 'Unit':
-            return [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'name', title: "<spring:message code='unit.nameFa'/>"}
-            ]
+            return BaseFormItems.concat([
+                {name: 'name', title: "<spring:message code='unit.nameFa'/>", forDisplayField: true}
+            ]);
         case 'Incoterm':
-            return [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: "title", title: '<spring:message code="global.title"/>'},
-                {name: "incotermVersion", title: '<spring:message code="global.version"/>'}
-            ]
+            return BaseFormItems.concat([
+                {name: "description", title: '<spring:message code="global.title"/>', forDisplayField: true}
+            ]);
         case 'TypicalAssay':
-            return [
-                {name: "id", hidden: true, width: "10%"},
+            return BaseFormItems.concat([
                 {
                     name: "minValue",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
@@ -194,11 +174,10 @@ function getReferenceFields(referenceType) {
                     showTemplate: true,
                     templateDataFieldName: "unit.nameEN"
                 },
-                materialElementField
-            ]
+                Object.assign(materialElementField, {forDisplayField: true})
+            ]);
         case 'Deduction':
-            return [
-                {name: "id", hidden: true, width: "10%"},
+            return BaseFormItems.concat([
                 {
                     name: "treatmentCost",
                     title: "<spring:message code='MaterialFeature.TC'/>",
@@ -236,11 +215,10 @@ function getReferenceFields(referenceType) {
                     showTemplate: true,
                     templateDataFieldName: "unit.nameEN"
                 },
-                materialElementField
-            ]
+                Object.assign(materialElementField, {forDisplayField: true})
+            ]);
         case 'Discount':
-            return [
-                {name: "id", hidden: true, width: "10%"},
+            return BaseFormItems.concat([
                 {
                     name: "lowerBound",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
@@ -259,8 +237,8 @@ function getReferenceFields(referenceType) {
                     width: "100%",
                     showTemplate: true
                 },
-                materialElementField
-            ]
+                Object.assign(materialElementField, {forDisplayField: true})
+            ]);
         case 'RateReference':
         case 'Enum_RateReference':
             return '';
@@ -300,9 +278,6 @@ function getReferenceDataSource(referenceType) {
         case 'Incoterm':
             url = "${contextPath}" + "/api/g-incoterm/list-contract";
             break;
-        case 'IncotermRules':
-            url = "${contextPath}" + "/api/g-incoterm/incoterm-rules";
-            break;
         case 'TypicalAssay':
             url = "${contextPath}" + "/api/typicalAssay/spec-list";
             break;
@@ -322,7 +297,7 @@ function getReferenceDataSource(referenceType) {
     });
 }
 
-function getContactByType(contactType) {
+function getContactFieldByType(contactType) {
     var contactCommons = {
         width: "100%",
         filterOperator: 'equals',
@@ -389,21 +364,19 @@ function getFieldProperties(fieldType, reference) {
         case 'GeorgianDate':
             return {
                 type: "date",
-                textAlign: "center"
+                textAlign: "center",
+                dateFormatter: "toJapanShortDate"
             };
         case 'Boolean':
             return {
                 type: "boolean"
             };
         case 'BigDecimal':
-        // case 'Float':
-        // case 'Double':
             return {
                 type: "float",
                 keyPressFilter: "[0-9.+-]"
             };
         case 'Integer':
-        // case 'Long':
             return {
                 type: "integer",
                 keyPressFilter: "[0-9+-]"
@@ -414,26 +387,17 @@ function getFieldProperties(fieldType, reference) {
             };
         case 'TextArea':
             return {
-                width: "700",
-                height: "600",
-                type: "TextArea",
-
+                type: "TextArea"
             };
         case 'Reference':
-            if (reference == 'Enum_RateReference') {
-                return {valueMap: JSON.parse('${Enum_RateReference}')}
-            }
-            if (reference == 'Enum_PriceBaseReference') {
-                return {valueMap: JSON.parse('${Enum_PriceBaseReference}')}
-            }
+            if (reference.contains('Enum_')) return {valueMap: ReferenceEnums[reference]}
             return {
-                width: "100%",
                 type: "integer",
-                editorType: "SelectItem",
                 valueField: "id",
                 autoFetchData: false,
-                optionDataSource: getReferenceDataSource(reference),
-                displayField: getReferenceFields(reference)[1].name
+                editorType: "SelectItem",
+                displayField: getReferenceFields(reference)[1].name,
+                optionDataSource: getReferenceDataSource(reference)
             };
         default:
             return null;
