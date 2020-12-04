@@ -16,7 +16,9 @@ contractDetailTypeTab.dynamicForm.fields.code = {
     width: "100%",
     required: true,
     title: "<spring:message code='global.code'/>",
-    valueMap: JSON.parse('${Enum_EContractDetailTypeCode}')
+    valueMap: JSON.parse('${Enum_EContractDetailTypeCode}'),
+    click: function () {
+    }
 };
 contractDetailTypeTab.dynamicForm.fields.material = {
     name: "materialId",
@@ -176,10 +178,9 @@ contractDetailTypeTab.restDataSource.detailType = isc.MyRestDataSource.create({
     fetchDataURL: contractDetailTypeTab.variable.url + "spec-list"
 });
 
-contractDetailTypeTab.variable.dynamicTableFields = [
+contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
     {
-        name: 'id',
-        title: "<spring:message code='global.id'/>",
+        name: 'cdtpId',
         hidden: true
     },
     {
@@ -189,10 +190,6 @@ contractDetailTypeTab.variable.dynamicTableFields = [
         required: true,
         validateOnExit: true,
         title: "<spring:message code='global.col.num'/>",
-    },
-    {
-        name: 'cdtpId',
-        hidden: true
     },
     {
         name: 'headerType',
@@ -216,9 +213,10 @@ contractDetailTypeTab.variable.dynamicTableFields = [
             if (Object.values(contractDetailTypeTab.variable.dataType).includes(newValue)) {
                 delete headerValueField['editorProperties']
                 delete headerKeyField['editorProperties']
+                headerKeyField.canEdit = false;
                 headerKeyField.required = false;
-                headerValueField.type = newValue
-                headerValueField.canEdit = true
+                headerValueField.canEdit = true;
+                headerValueField.type = newValue;
             } else {
                 let dialog = isc.Dialog.create({
                     isModal: true,
@@ -228,14 +226,17 @@ contractDetailTypeTab.variable.dynamicTableFields = [
                 let response = await r.json();
                 dialog.destroy();
                 if (r.ok) {
+
                     if (response && response.response && response.response.data && response.response.data.length > 0) {
+
                         let fields = Object.keys(response.response.data[0])
                             .filter(_ => typeof (response.response.data[0][_]) !== 'object').map(_ => {
                                 return {name: _}
                             });
                         let allFields = contractDetailTypeTab.method.getAllFields(response.response.data[0]);
                         let valueMap = {};
-                        allFields.forEach(_ => valueMap[_] = _)
+                        allFields.forEach(_ => valueMap[_] = _);
+                        headerKeyField.canEdit = true;
                         headerKeyField.required = true;
                         headerKeyField.validateOnChange = true;
                         headerKeyField.editorProperties = {
@@ -258,30 +259,38 @@ contractDetailTypeTab.variable.dynamicTableFields = [
                             pickListHeight: 800,
                             pickListFields: fields,
                             editorType: "SelectItem",
+                            displayField: null,
                             pickListProperties: {
                                 showFilterEditor: true,
                                 allowAdvancedCriteria: true,
                             }
-
                         }
                     }
                 }
             }
-            return true
 
+            return true;
         }
     },
     {
+        canEdit: false,
         name: 'headerKey',
-
         title: "<spring:message code='global.key'/> <spring:message code='global.header'/> ",
+        changed: function (form, item, value) {
+
+            if (!Object.values(contractDetailTypeTab.variable.dataType).includes(form.getValue("headerType"))) {
+
+                form.setValue("headerValue", '');
+                form.getField("headerValue").displayField = value;
+            }
+        }
     },
     {
         name: 'headerValue',
         required: true,
         validateOnExit: true,
         type: "string",
-        title: "<spring:message code='contractPenalty.value'/> <spring:message code='global.header'/> ",
+        title: "<spring:message code='contractPenalty.value'/> <spring:message code='global.header'/> "
     },
     {
         name: 'valueType',
@@ -295,7 +304,60 @@ contractDetailTypeTab.variable.dynamicTableFields = [
         },
         validateOnExit: true,
         type: "string",
-        title: "<spring:message code='contractPenalty.value'/> <spring:message code='global.type'/> ",
+        title: "<spring:message code='global.type'/> <spring:message code='contractPenalty.value'/>",
+        async editorExit(editCompletionEvent, record, newValue, rowNum, colNum) {
+
+            if (!newValue) return true;
+            let grid = contractDetailTypeTab.listGrid.dynamicTable;
+            grid.setEditValue(rowNum, colNum + 1, '')
+            let displayField = grid.getField("displayField")
+            if (Object.values(contractDetailTypeTab.variable.dataType).includes(newValue)) {
+                delete displayField['editorProperties']
+                displayField.canEdit = false;
+                displayField.required = false;
+            } else {
+                let dialog = isc.Dialog.create({
+                    isModal: true,
+                    message: "<spring:message code='global.please.wait'/>"
+                })
+                let r = await fetch('${contextPath}' + newValue + '?_startRow=0&_endRow=1', {headers: SalesConfigs.httpHeaders})
+                let response = await r.json();
+                dialog.destroy();
+                if (r.ok) {
+
+                    if (response && response.response && response.response.data && response.response.data.length > 0) {
+
+                        let fields = Object.keys(response.response.data[0])
+                            .filter(_ => typeof (response.response.data[0][_]) !== 'object').map(_ => {
+                                return {name: _}
+                            });
+                        let allFields = contractDetailTypeTab.method.getAllFields(response.response.data[0]);
+                        let valueMap = {};
+                        allFields.forEach(_ => valueMap[_] = _);
+                        displayField.canEdit = true;
+                        displayField.required = true;
+                        displayField.validateOnChange = true;
+                        displayField.editorProperties = {
+                            canEdit: true,
+                            required: true,
+                            valueMap: valueMap,
+                            editorType: "comboBox",
+                            validateOnExit: true,
+                            validateOnChange: true,
+                            addUnknownValues: false,
+                            textMatchStyle: "substring",
+                        };
+                    }
+                }
+            }
+
+            return true;
+        }
+    },
+    {
+        canEdit: false,
+        name: 'displayField',
+        title: "<spring:message code='global.key'/> <spring:message code='contractPenalty.value'/>",
     },
     {
         name: 'required',
@@ -333,8 +395,8 @@ contractDetailTypeTab.variable.dynamicTableFields = [
         },
         width: "20%",
         title: "<spring:message code='global.form.filter'/>",
-    },
-];
+    }
+]);
 fetch('api/g-contract/entities', {headers: SalesConfigs.httpHeaders}).then(res => {
     res.json().then(response => {
         let valueMap = [...Object.values(contractDetailTypeTab.variable.dataType)
@@ -590,6 +652,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             validateOnExit: true,
                             canRemoveRecords: true,
                             editByCell: true,
+                            sortField: 0,
                             gridComponents: ["filterEditor", "header",
                                 "body", "summaryRow",
                                 isc.ToolStrip.create({
@@ -597,6 +660,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                                         isc.ToolStripButtonAdd.create({
                                             title: "<spring:message code='global.col'/> <spring:message code='global.new'/> ",
                                             click() {
+
                                                 contractDetailTypeTab.listGrid.dynamicTable.startEditingNew(
                                                     {
                                                         colNum: contractDetailTypeTab.listGrid.dynamicTable.getTotalRows() + 1,
@@ -614,26 +678,31 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                                                         }),
                                                         headerType: contractDetailTypeTab.variable.dataType.String,
                                                         valueType: contractDetailTypeTab.variable.dataType.String,
-                                                    })
+                                                    });
                                             }
                                         }),
                                         isc.ToolStripButtonAdd.create({
                                             title: "<spring:message code='global.form.save'/>",
                                             icon: "[SKIN]/actions/save.png",
                                             click() {
-                                                for (let i = 0; i < contractDetailTypeTab.listGrid.dynamicTable.getTotalRows(); i++) {
+
+                                                for (let i = 0; i < contractDetailTypeTab.listGrid.dynamicTable.getTotalRows(); i++)
                                                     if (!contractDetailTypeTab.listGrid.dynamicTable.validateRow(i)) return;
-                                                }
+
                                                 contractDetailTypeTab.listGrid.dynamicTable.saveAllEdits();
                                                 contractDetailTypeTab.listGrid.param.getSelectedRecord()['dynamicTables'] = contractDetailTypeTab.listGrid.dynamicTable.getData();
-                                                contractDetailTypeTab.window.dynamicTable.destroy()
+
+                                                contractDetailTypeTab.window.detailType.show();
+                                                contractDetailTypeTab.window.dynamicTable.destroy();
                                             }
                                         }),
                                         isc.ToolStripButtonRemove.create({
                                             title: "<spring:message code='global.close'/>",
                                             // icon: "[SKIN]/actions/save.png",
                                             click() {
-                                                contractDetailTypeTab.window.dynamicTable.destroy()
+
+                                                contractDetailTypeTab.window.detailType.show();
+                                                contractDetailTypeTab.window.dynamicTable.destroy();
                                             }
                                         }),
                                     ]
@@ -644,6 +713,13 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         contractDetailTypeTab.window.dynamicTable = isc.Window.nicico.getDefault("<spring:message code='contact.title'/>", [
                             contractDetailTypeTab.listGrid.dynamicTable
                         ], (.9 * innerWidth) + "");
+                        contractDetailTypeTab.window.dynamicTable.closeClick = function () {
+
+                            this.Super("closeClick", arguments);
+                            contractDetailTypeTab.window.detailType.show();
+                            contractDetailTypeTab.window.dynamicTable.destroy();
+                        };
+                        contractDetailTypeTab.window.detailType.hide();
                         contractDetailTypeTab.window.dynamicTable.show();
                         if (record.dynamicTables)
                             contractDetailTypeTab.listGrid.dynamicTable.setData(record.dynamicTables);
@@ -845,7 +921,7 @@ contractDetailTypeTab.hLayout.extra = isc.HLayout.create({
 contractDetailTypeTab.dynamicForm.detailType = isc.DynamicForm.create({
     width: "100%",
     align: "center",
-    numCols: 8,
+    numCols: 6,
     margin: 10,
     wrapItemTitles: false,
     canSubmit: true,
@@ -957,12 +1033,24 @@ contractDetailTypeTab.method.editData = function () {
     else if (record.estatus.contains(Enums.eStatus2.Final))
         contractDetailTypeTab.dialog.finalRecord();
     else {
-        contractDetailTypeTab.variable.method = "PUT";
-        contractDetailTypeTab.listGrid.param.setData(clone(record.contractDetailTypeParams));
-        contractDetailTypeTab.listGrid.template.setData(clone(record.contractDetailTypeTemplates));
-        contractDetailTypeTab.dynamicForm.detailType.editRecord(clone(record));
-        contractDetailTypeTab.window.detailType.setTitle("<spring:message code='contract-detail-type.window.title.edit'/>");
-        contractDetailTypeTab.window.detailType.show();
+        contractDetailTypeTab.method.jsonRPCManagerRequest({
+            showPrompt: false,
+            httpMethod: "GET",
+            actionURL: "${contextPath}/api/g-contract/is-depend-on-contract-detail-type/" + record.id,
+            callback: function (data) {
+
+                contractDetailTypeTab.dynamicForm.detailType.getField(contractDetailTypeTab.dynamicForm.fields.code.name).setCanEdit(!JSON.parse(data.httpResponseText));
+                contractDetailTypeTab.dynamicForm.detailType.getField(contractDetailTypeTab.dynamicForm.fields.titleEn.name).setCanEdit(!JSON.parse(data.httpResponseText));
+                contractDetailTypeTab.dynamicForm.detailType.getField(contractDetailTypeTab.dynamicForm.fields.material.name).setCanEdit(!JSON.parse(data.httpResponseText));
+
+                contractDetailTypeTab.variable.method = "PUT";
+                contractDetailTypeTab.listGrid.param.setData(clone(record.contractDetailTypeParams));
+                contractDetailTypeTab.listGrid.template.setData(clone(record.contractDetailTypeTemplates));
+                contractDetailTypeTab.dynamicForm.detailType.editRecord(clone(record));
+                contractDetailTypeTab.window.detailType.setTitle("<spring:message code='contract-detail-type.window.title.edit'/>");
+                contractDetailTypeTab.window.detailType.show();
+            }
+        });
     }
 };
 contractDetailTypeTab.method.refreshData = function () {
@@ -1025,8 +1113,9 @@ contractDetailTypeTab.method.activate_deactivate = function (activate) {
 contractDetailTypeTab.method.getAllFields = function (_object) {
 
     if (typeof (_object) !== 'object') return [_object];
-    const fields = Object.keys(_object).filter(_ => !_.toString().startsWith('_') && !_.toString().startsWith('$')).filter(_ => typeof _object[_] !== 'object');
-    const internalObj = Object.keys(_object).filter(_ => !_.toString().startsWith('_') && !_.toString().startsWith('$')).filter(_ => typeof _object[_] === 'object');
+    const keys = (_object == null ? [] : Object.keys(_object));
+    const fields = keys.filter(_ => !_.toString().startsWith('_') && !_.toString().startsWith('$')).filter(_ => typeof _object[_] !== 'object');
+    const internalObj = keys.filter(_ => !_.toString().startsWith('_') && !_.toString().startsWith('$')).filter(_ => typeof _object[_] === 'object');
     internalObj.forEach(_ => fields.addList(contractDetailTypeTab.method.getAllFields(_object[_]).map(__ => _ + '.' + __)))
     return fields;
 }

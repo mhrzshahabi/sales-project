@@ -17,27 +17,36 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CDTPDynamicTableValueDTO {
-    private Long id;
-    private Long cdtpDynamicTableId;
-    private Integer rowNum;
-    private String value;
-    private String fieldName;
-    private Long contractDetailValueId;
+
+    private Long colNum;
+    private String headerType = "String";
+    private String headerValue;
+    private String headerKey;
+
+    private String valueType = "String";
+    private String displayField;
+    private Boolean required;
+    private String regexValidator;
+    private String defaultValue;
+    private Integer maxRows = 0;
     private String description;
+    private String initialCriteria;
+
+    private String value;
+    private Integer rowNum;
+//    private String fieldName;
+//    private Long cdtpDynamicTableId;
+    private Long contractDetailValueId;
+//    private String description;
 
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("CDTPDynamicTableValueInfo")
     public static class Info extends CDTPDynamicTableValueDTO implements Comparable<Info> {
+
         private Long id;
         private CDTPDynamicTableDTO.Info cdtpDynamicTable;
-
-        @Override
-        public int compareTo(Info info) {
-            if (info == null) return this.getRowNum();
-            return this.getRowNum() - info.getRowNum();
-        }
 
         // Auditing
         private Date createdDate;
@@ -49,8 +58,14 @@ public class CDTPDynamicTableValueDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
-    }
 
+        @Override
+        public int compareTo(Info info) {
+
+            if (info == null) return this.getRowNum();
+            return this.getRowNum() - info.getRowNum();
+        }
+    }
 
     @Getter
     @Setter
@@ -64,6 +79,7 @@ public class CDTPDynamicTableValueDTO {
     @Accessors(chain = true)
     @ApiModel("CDTPDynamicTableValueUpdateRq")
     public static class Update extends CDTPDynamicTableValueDTO {
+
         private Long id;
         private Integer version;
     }
@@ -73,6 +89,7 @@ public class CDTPDynamicTableValueDTO {
     @Accessors(chain = true)
     @ApiModel("CDTPDynamicTableValueDeleteRq")
     public static class Delete {
+
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;

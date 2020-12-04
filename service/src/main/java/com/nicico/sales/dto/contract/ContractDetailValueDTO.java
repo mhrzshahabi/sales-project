@@ -47,7 +47,7 @@ public class ContractDetailValueDTO {
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
-        private CDTPDynamicTableValueDTO.Info cdtpDynamicTableValue;
+        private List<CDTPDynamicTableValueDTO.Info> dynamicTableValues;
 
         // BaseEntity
         private Boolean editable;

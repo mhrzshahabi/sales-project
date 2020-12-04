@@ -26,6 +26,7 @@ public class CDTPDynamicTableDTO {
     private Long cdtpId;
 
     private String valueType = "String";
+    private String displayField;
     private Boolean required;
     private String regexValidator;
     private String defaultValue;
@@ -61,7 +62,6 @@ public class CDTPDynamicTableDTO {
         private ContractDetailTypeParamDTO.Info cdtp;
 
     }
-
 
     @Getter
     @Setter

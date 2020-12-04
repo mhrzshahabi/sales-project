@@ -11,6 +11,7 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -37,10 +38,9 @@ public class ContractDetailValue extends BaseEntity {
     @Column(name = "C_KEY", nullable = false)
     private String key;
 
-    // TODO Drop it ...
-    @NotEmpty
-    @Column(name = "C_TITLE", nullable = false)
-    private String title;
+//    @NotEmpty
+//    @Column(name = "C_TITLE", nullable = false)
+//    private String title;
 
     @NotNull
     @Column(name = "N_TYPE", nullable = false)
@@ -73,5 +73,5 @@ public class ContractDetailValue extends BaseEntity {
     private Long contractDetailId;
 
     @OneToOne(mappedBy = "contractDetailValue", fetch = FetchType.LAZY)
-    private CDTPDynamicTableValue cdtpDynamicTableValue;
+    private List<CDTPDynamicTableValue> dynamicTableValues;
 }
