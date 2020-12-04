@@ -844,6 +844,16 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
         target = contractDetailType.contractDetailTypeParams;
     }
 
+    function getValueFromString(type, valueStr) {
+
+        if (valueStr === "false")
+            return false;
+        if (valueStr === "true")
+            return true;
+        if (type === 'GeorgianDate')
+            return new Date(valueStr);
+    }
+
     target.filter(param =>
         param.type !== contractTab.variable.dataType.ListOfReference &&
         param.type !== contractTab.Vars.DataType.DynamicTable).forEach(param => {
@@ -856,10 +866,10 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
             unitId: param.unitId,
             paramType: param.type,
             required: param.required,
-            value: param[valueKey],
             reference: param.reference,
             name: contractDetailType.code + "." + param.key,
-            id: !isNewMode ? param.id : null,
+            value: getValueFromString(param.type, param[valueKey]),
+            vId: !isNewMode ? param.id : null,
             version: !isNewMode ? param.version : null,
             estatus: !isNewMode ? param.estatus : null,
             editable: !isNewMode ? param.editable : null,
@@ -983,7 +993,7 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
             dataChanged: function (operationType) {
 
                 this.autoFitFields();
-                contractTab.dynamicForm.valuesManager.setValue(th.name, this.getData());
+                contractTab.dynamicForm.valuesManager.setValue(this.name, this.getData());
 
                 this.Super("dataChanged", arguments);
             },
@@ -1301,191 +1311,6 @@ contractTab.method.createArticleBodyDynamicTableGrid = function (contractDetailT
 // contractTab.sectionStack.contract.sections.filter(x => x.title.toLowerCase().contains("footer")).forEach(section => {
 //     data.content = data.content + changeHeaderAndFooterTemplate(section.template);
 // });
-
-// contractTab.method.addSectionByContract = function (record) {
-//     record.contractDetails.sortByProperty('position').reverse().forEach(q => {
-//
-//         let sectionStackSectionObj = {
-//             position: q.position,
-//             template: q.contractDetailTemplate,
-//             expanded: true,
-//             canCollapse: false,
-//             destroyOnRemove: true,
-//             contractDetailId: q.id,
-//             name: q.contractDetailTypeId,
-//             title: q.contractDetailType.titleEN,
-//             content: q.content,
-//             controls: [
-//                 isc.ImgButton.create({
-//                     width: 16,
-//                     height: 16,
-//                     header: this,
-//                     showDown: false,
-//                     showRollOver: false,
-//                     layoutAlign: "center",
-//                     src: "[SKIN]/actions/view.png",
-//                     click: function () {
-//                         let clickedSection = contractTab.sectionStack.contract.sections.filter(q => q.name === sectionStackSectionObj.name).first();
-//                         contractTab.variable.contractDetailPreviewForm.bodyWidget
-//                             .getObject()
-//                             .setContents(providePrintContent(clickedSection, sectionStackSectionObj.template));
-//                         contractTab.variable.contractDetailPreviewForm.justShowForm();
-//                     }
-//                 }),
-//                 // <sec:authorize access="hasAuthority('D_CONTRACT_DETAIL')">
-//                 isc.ImgButton.create({
-//                     width: 16,
-//                     height: 16,
-//                     header: this,
-//                     showDown: false,
-//                     showRollOver: false,
-//                     layoutAlign: "center",
-//                     src: "[SKIN]/actions/remove.png",
-//                     click: function () {
-//                         contractTab.sectionStack.contract.removeSection(q.contractDetailTypeId + "");
-//                     }
-//                 })
-//                 // </sec:authorize>
-//             ],
-//             items: []
-//         };
-//         contractTab.Methods.DynamicTableGridCreatorForContract(record, sectionStackSectionObj, q);
-//         // DynamicForm
-//         let dynamicFormFields = [];
-//         q.contractDetailValues.filter(x => x.type !== contractTab.variable.dataType.ListOfReference
-//             && x.type !== contractTab.Vars.DataType.DynamicTable).forEach(detailValue => {
-//             let field = {
-//                 width: "100%",
-//             };
-//             field.name = detailValue.key;
-//             field.key = detailValue.key;
-//             field.title = detailValue.title;
-//             field.paramType = detailValue.type;
-//             field.reference = detailValue.reference;
-//             field.value = detailValue.value;
-//             if (field.value === "false")
-//                 field.value = false;
-//             if (field.value === "true")
-//                 field.value = true;
-//             if (field.paramType === 'GeorgianDate')
-//                 field.value = new Date(detailValue.value);
-//             field.required = detailValue.required;
-//             field.contractDetailValueId = detailValue.id;
-//             field.estatus = detailValue.estatus;
-//             field.editable = detailValue.editable;
-//             field.unitId = detailValue.unitId;
-//
-//             if (header.contains(field.key))
-//                 field.hidden = true;
-//
-//             if (detailValue.unitId !== undefined) {
-//                 getReferenceDataSource("Unit").fetchData(
-//                     {
-//                         _constructor: "AdvancedCriteria",
-//                         operator: "and",
-//                         criteria: [
-//                             {fieldName: "id", operator: "equals", value: detailValue.unitId}
-//                         ]
-//                     },
-//                     function (dsResponse, data) {
-//                         contractDetailDynamicForm.getField(field.name).setHint(data[0].symbolUnit);
-//                     }
-//                 );
-//             }
-//
-//             Object.assign(field, getFieldProperties(field.paramType, field.reference));
-//
-//             dynamicFormFields.push(field);
-//         });
-//         let contractDetailDynamicForm = isc.DynamicForm.create({
-//             visibility: "hidden",
-//             width: "85%",
-//             align: "center",
-//             wrapItemTitles: false,
-//             numCols: 4,
-//             canSubmit: true,
-//             showErrorText: true,
-//             showErrorStyle: true,
-//             showInlineErrors: true,
-//             errorOrientation: "bottom",
-//             requiredMessage: '<spring:message code="validator.field.is.required"/>',
-//             fields: BaseFormItems.concat(dynamicFormFields, true)
-//         });
-//         sectionStackSectionObj.items.push(contractDetailDynamicForm);
-//
-//         let contractDetailValueGroup = q.contractDetailValues.filter(x => x.type === contractTab.variable.dataType.ListOfReference).groupBy('reference');
-//         Object.keys(contractDetailValueGroup).forEach(reference => {
-//             let contractDetailListGrid = isc.ListGrid.create({
-//                 width: "100%",
-//                 height: 300,
-//                 showRowNumbers: true,
-//                 canAutoFitFields: false,
-//                 allowAdvancedCriteria: true,
-//                 alternateRecordStyles: true,
-//                 selectionType: "single",
-//                 sortDirection: "ascending",
-//                 fields: getReferenceFields(reference),
-//                 canEdit: "${SecurityUtil.hasAuthority('U_CONTRACT_DETAIL_VALUE')}".toString() === "true",
-//                 editEvent: "doubleClick",
-//                 autoSaveEdits: false,
-//                 virtualScrolling: false,
-//                 showRecordComponents: true,
-//                 showRecordComponentsByCell: true,
-//                 recordComponentPoolingMode: "recycle",
-//                 listEndEditAction: "next",
-//                 canRemoveRecords: "${SecurityUtil.hasAuthority('D_CONTRACT_DETAIL_VALUE')}".toString() === "true",
-//                 reference: reference,
-//                 paramName: contractDetailValueGroup[reference][0].name,
-//                 paramTitle: contractDetailValueGroup[reference][0].title,
-//                 paramKey: contractDetailValueGroup[reference][0].key,
-//                 gridComponents: ["header", "body", isc.ToolStrip.create({
-//                     width: "100%",
-//                     height: 24,
-//                     members: [
-//                         // <sec:authorize access="hasAuthority('R_CONTRACT_DETAIL_VALUE')">
-//                         isc.ToolStripButton.create({
-//                             icon: "pieces/16/icon_add.png",
-//                             title: "<spring:message code='global.add'/>",
-//                             click: function () {
-//                                 contractDetailListGrid.startEditingNew();
-//                             }
-//                         }),
-//                         // </sec:authorize>
-//                         isc.ToolStrip.create({
-//                             width: "100%",
-//                             height: 24,
-//                             align: 'left',
-//                             border: 0,
-//                             members: [
-//                                 // <sec:authorize access="hasAuthority('R_CONTRACT_DETAIL_VALUE')">
-//                                 isc.ToolStripButton.create({
-//                                     icon: "pieces/16/save.png",
-//                                     title: "<spring:message code='global.form.save.temporary'/>",
-//                                     click: function () {
-//                                         contractDetailListGrid.saveAllEdits();
-//                                     }
-//                                 })
-//                                 // </sec:authorize>
-//                             ]
-//                         })
-//                     ]
-//                 })]
-//             });
-//
-//             getReferenceDataSource(reference).fetchData(
-//                 getReferenceCriteria(contractDetailValueGroup[reference].map(p => p.value)),
-//                 function (dsResponse, data) {
-//                     contractDetailListGrid.setData(data);
-//                     q.contractDetailValues.filter(x => x.type === contractTab.variable.dataType.ListOfReference).forEach((detailValue, index) => {
-//                         data[index].contractDetailValueId = detailValue.id;
-//                     })
-//                 }
-//             );
-//             sectionStackSectionObj.items.push(contractDetailListGrid);
-//         });
-//         contractTab.sectionStack.contract.addSection(sectionStackSectionObj, parseInt(q.position));
-//     });
-// };
 
 //****************************************************** Extras *********************************************************
 

@@ -13,6 +13,7 @@ public enum ContractDetailTypeReference {
     Port(4, "REFERENCE"),
     Unit(5, "REFERENCE"),
     Incoterm(6, "REFERENCE"),
+    Material(13, "REFERENCE"),
 
     TypicalAssay(7, "LIST OF REFERENCE"),
     Discount(8, "LIST OF REFERENCE"),

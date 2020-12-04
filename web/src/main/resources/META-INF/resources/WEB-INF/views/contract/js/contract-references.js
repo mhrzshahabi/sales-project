@@ -1,3 +1,5 @@
+//**********************************************************************************************************************
+
 var materialElementField = {
     name: "materialElementId",
     title: "<spring:message code='assayInspection.materialElement'/>",
@@ -23,29 +25,12 @@ var materialElementField = {
         {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
         {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
     ],
-    editorProperties: {
-        optionDataSource: isc.MyRestDataSource.create({
-            fields: BaseFormItems.concat([
-                {
-                    name: "elementName",
-                    title: '<spring:message code="assayInspection.materialElement.name"/>'
-                },
-                {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
-            ]),
-            fetchDataURL: "${contextPath}/api/materialElement/" + "spec-list"
-        }),
-        pickListFields: [
-            {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
-            {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
-        ],
-        editorType: "SelectItem",
-        pickListProperties: {
-            showFilterEditor: true
-        }
-    },
-    showTemplate: true,
-    templateDataFieldName: "materialElement.element.name"
+    pickListProperties: {
+        showFilterEditor: true
+    }
 }
+
+//**********************************************************************************************************************
 
 function getReferenceDisplayField(referenceType) {
 
@@ -66,11 +51,9 @@ function getReferenceFields(referenceType) {
                     align: "center",
                     editorType: "SelectItem",
                     valueField: "id",
-                    displayField: getReferenceFields("Port")[1].name,
+                    displayField: getReferenceDisplayField("Port"),
                     autoFetchData: false,
                     optionDataSource: getReferenceDataSource("Port"),
-                    showTemplate: true,
-                    templateDataFieldName: "loadPort.port"
                 },
                 {
                     name: "quantity",
@@ -81,7 +64,6 @@ function getReferenceFields(referenceType) {
                         type: "isFloat",
                         validateOnChange: true
                     }],
-                    showTemplate: true
                 },
                 {
                     name: "tolorance",
@@ -95,7 +77,6 @@ function getReferenceFields(referenceType) {
                             validateOnChange: true,
                             keyPressFilter: "[0-9.]"
                         }],
-                    showTemplate: true
                 },
                 {
                     forDisplayField: true,
@@ -104,7 +85,6 @@ function getReferenceFields(referenceType) {
                     type: "date",
                     required: false,
                     width: "10%",
-                    showTemplate: true
                 }
             ]);
         case 'Bank':
@@ -141,13 +121,11 @@ function getReferenceFields(referenceType) {
                     name: "minValue",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
                     width: "100%",
-                    showTemplate: true
                 },
                 {
                     name: "maxValue",
                     title: "<spring:message code='MaterialFeature.maxValue'/>",
                     width: "100%",
-                    showTemplate: true
                 },
                 {
                     name: "unitId",
@@ -171,8 +149,6 @@ function getReferenceFields(referenceType) {
                         {name: "nameFA", title: '<spring:message code="unit.nameFa"/>'},
                         {name: "nameEN", title: '<spring:message code="unit.nameEN"/>'}
                     ],
-                    showTemplate: true,
-                    templateDataFieldName: "unit.nameEN"
                 },
                 Object.assign(materialElementField, {forDisplayField: true})
             ]);
@@ -182,13 +158,11 @@ function getReferenceFields(referenceType) {
                     name: "treatmentCost",
                     title: "<spring:message code='MaterialFeature.TC'/>",
                     width: "100%",
-                    showTemplate: true
                 },
                 {
                     name: "refineryCost",
                     title: "<spring:message code='MaterialFeature.RC'/>",
                     width: "100%",
-                    showTemplate: true
                 },
                 {
                     name: "unitId",
@@ -212,8 +186,6 @@ function getReferenceFields(referenceType) {
                         {name: "nameFA", title: '<spring:message code="unit.nameFa"/>'},
                         {name: "nameEN", title: '<spring:message code="unit.nameEN"/>'}
                     ],
-                    showTemplate: true,
-                    templateDataFieldName: "unit.nameEN"
                 },
                 Object.assign(materialElementField, {forDisplayField: true})
             ]);
@@ -223,19 +195,16 @@ function getReferenceFields(referenceType) {
                     name: "lowerBound",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
                     width: "100%",
-                    showTemplate: true
                 },
                 {
                     name: "upperBound",
                     title: "<spring:message code='MaterialFeature.maxValue'/>",
                     width: "100%",
-                    showTemplate: true
                 },
                 {
                     name: "discount",
                     title: "<spring:message code='contract.discount'/>",
                     width: "100%",
-                    showTemplate: true
                 },
                 Object.assign(materialElementField, {forDisplayField: true})
             ]);
@@ -297,6 +266,8 @@ function getReferenceDataSource(referenceType) {
     });
 }
 
+//**********************************************************************************************************************
+
 function getContactFieldByType(contactType) {
     var contactCommons = {
         width: "100%",
@@ -351,6 +322,8 @@ function getContactFieldByType(contactType) {
     return contactCommons;
 }
 
+//**********************************************************************************************************************
+
 function getFieldProperties(fieldType, reference) {
 
     switch (fieldType) {
@@ -396,10 +369,12 @@ function getFieldProperties(fieldType, reference) {
                 valueField: "id",
                 autoFetchData: false,
                 editorType: "SelectItem",
-                displayField: getReferenceFields(reference)[1].name,
+                displayField: getReferenceDisplayField(reference),
                 optionDataSource: getReferenceDataSource(reference)
             };
         default:
             return null;
     }
 }
+
+//**********************************************************************************************************************

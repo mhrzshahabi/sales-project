@@ -551,44 +551,11 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             contractDetailTypeTab.listGrid.param.refreshRow(contractDetailTypeTab.listGrid.param.getRecordIndex(selectedRecord));
                         };
 
-                        let defaultValueExtraEditorProperties = {};
-                        if (recordType === contractDetailTypeTab.variable.dataType.Reference) {
-
-                            if (referenceType.includes('Enum')) {
-                                defaultValueExtraEditorProperties = {
-                                    editorType: "SelectItem",
-                                    valueMap: ReferenceEnums[referenceType],
-                                };
-                            } else {
-
-                                let displayField = getReferenceDisplayField(referenceType);
-                                defaultValueExtraEditorProperties = {
-                                    autoFetchData: false,
-                                    editorType: "SelectItem",
-                                    valueField: "id",
-                                    displayField: displayField,
-                                    pickListHeight: "300",
-                                    optionDataSource: getReferenceDataSource(referenceType),
-                                    pickListFields: [
-                                        {name: displayField}
-                                    ]
-                                };
-                            }
-                        } else if (defaultValueEditorProperties.type.toLowerCase() === 'date') {
-                            defaultValueExtraEditorProperties.getValue = function () {
-
-                                if (this.value != null)
-                                    return new Date(this.value);
-
-                                return this.value;
-                            };
-                        }
-
                         let dynamicForm = isc.DynamicForm.nicico.getDefault([Object.assign({
                             width: "100%",
                             name: "defaultValue",
                             title: "<spring:message code='global.default-value'/>"
-                        }, defaultValueEditorProperties, defaultValueExtraEditorProperties)]);
+                        }, defaultValueEditorProperties)]);
                         dynamicForm.setValue("defaultValue", record[contractDetailTypeTab.dynamicForm.paramFields.defaultValue.name]);
                         contractDetailTypeTab.window.formUtil.showForm(
                             contractDetailTypeTab.window.detailType,
