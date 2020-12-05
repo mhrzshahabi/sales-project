@@ -60,7 +60,6 @@ public class CDTPDynamicTableDTO {
     @ApiModel("CDTPDynamicTableInfo")
     public static class Info extends InfoWithoutCDTP {
         private ContractDetailTypeParamDTO.Info cdtp;
-
     }
 
     @Getter

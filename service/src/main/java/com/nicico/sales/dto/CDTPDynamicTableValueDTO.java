@@ -46,7 +46,7 @@ public class CDTPDynamicTableValueDTO {
     public static class Info extends CDTPDynamicTableValueDTO implements Comparable<Info> {
 
         private Long id;
-        private CDTPDynamicTableDTO.Info cdtpDynamicTable;
+//        private CDTPDynamicTableDTO.Info cdtpDynamicTable;
 
         // Auditing
         private Date createdDate;
