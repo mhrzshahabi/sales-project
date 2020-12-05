@@ -1,7 +1,6 @@
 package com.nicico.sales.service;
 
 import com.nicico.sales.dto.*;
-import com.nicico.sales.dto.contract.ContractDetailDTO;
 import com.nicico.sales.dto.contract.ContractDiscountDTO;
 import com.nicico.sales.dto.contract.IncotermDTO;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
@@ -178,12 +177,13 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
                     return modelMapper.map(contactOpt.get(), ContactDTO.Info.class);
                 break;
             case "DynamicTable":
-                final Map<String, List<Map<String, Object>>> dynamicTableValue = modelMapper.map(contractDetailValue.getContractDetail(), ContractDetailDTO.Info.class)
-                        .getCdtpDynamicTableValue();
-
-                if (dynamicTableValue.containsKey(contractDetailValue.getKey()))
-                    return dynamicTableValue.get(contractDetailValue.getKey());
-                break;
+//                final Map<String, List<Map<String, Object>>> dynamicTableValue = modelMapper.map(contractDetailValue.getContractDetail(), ContractDetailDTO.Info.class)
+//                        .getCdtpDynamicTableValue();
+//
+//                if (dynamicTableValue.containsKey(contractDetailValue.getKey()))
+//                    return dynamicTableValue.get(contractDetailValue.getKey());
+//                break;
+                throw new SalesException2();
         }
 
         return null;

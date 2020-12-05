@@ -24,7 +24,10 @@ import com.nicico.sales.iservice.*;
 import com.nicico.sales.iservice.contract.*;
 import com.nicico.sales.model.entities.base.ContractShipment;
 import com.nicico.sales.model.entities.base.Shipment;
-import com.nicico.sales.model.entities.contract.*;
+import com.nicico.sales.model.entities.contract.Contract;
+import com.nicico.sales.model.entities.contract.ContractContact;
+import com.nicico.sales.model.entities.contract.ContractDetail;
+import com.nicico.sales.model.entities.contract.ContractDetailValue;
 import com.nicico.sales.model.enumeration.CommercialRole;
 import com.nicico.sales.model.enumeration.DataType;
 import com.nicico.sales.model.enumeration.EStatus;
@@ -320,10 +323,10 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         Contract contract = repository.findById(id).orElseThrow(() -> new NotFoundException(Contract.class));
         //Delete DynamicTables and insert Again
         List<Long> cdtpDynamicTableIdListForDelete = new ArrayList<>();
-        contract.getContractDetails().forEach(contractDetail -> contractDetail.getContractDetailValues().forEach(contractDetailValue -> {
-            final CDTPDynamicTableValue cdtpDynamicTableValue = contractDetailValue.getCdtpDynamicTableValue();
-            if (cdtpDynamicTableValue != null) cdtpDynamicTableIdListForDelete.add(cdtpDynamicTableValue.getId());
-        }));
+//        contract.getContractDetails().forEach(contractDetail -> contractDetail.getContractDetailValues().forEach(contractDetailValue -> {
+//            final CDTPDynamicTableValue cdtpDynamicTableValue = contractDetailValue.getCdtpDynamicTableValue();
+//            if (cdtpDynamicTableValue != null) cdtpDynamicTableIdListForDelete.add(cdtpDynamicTableValue.getId());
+//        }));
         if (cdtpDynamicTableIdListForDelete.size() > 0)
             cdtpDynamicTableValueDAO.deleteAllByIdIn(cdtpDynamicTableIdListForDelete);
 
@@ -533,10 +536,10 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 
         validation(entity, id);
         List<Long> cdtpDynamicTableIdListForDelete = new ArrayList<>();
-        entity.getContractDetails().forEach(contractDetail -> contractDetail.getContractDetailValues().forEach(contractDetailValue -> {
-            final CDTPDynamicTableValue cdtpDynamicTableValue = contractDetailValue.getCdtpDynamicTableValue();
-            if (cdtpDynamicTableValue != null) cdtpDynamicTableIdListForDelete.add(cdtpDynamicTableValue.getId());
-        }));
+//        entity.getContractDetails().forEach(contractDetail -> contractDetail.getContractDetailValues().forEach(contractDetailValue -> {
+//            final CDTPDynamicTableValue cdtpDynamicTableValue = contractDetailValue.getCdtpDynamicTableValue();
+//            if (cdtpDynamicTableValue != null) cdtpDynamicTableIdListForDelete.add(cdtpDynamicTableValue.getId());
+//        }));
         if (cdtpDynamicTableIdListForDelete.size() > 0)
             cdtpDynamicTableValueDAO.deleteAllByIdIn(cdtpDynamicTableIdListForDelete);
         if (entity.getContractDetails() != null && entity.getContractDetails().size() > 0) {
