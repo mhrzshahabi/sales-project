@@ -1,90 +1,4 @@
-// <%@ page contentType="text/html;charset=UTF-8" %>
-// <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-//     <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-//     <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-//     <%@ page import="com.nicico.copper.core.SecurityUtil" %>
-contractTab.Vars.DataType = JSON.parse('${Enum_DataType}')
-contractTab.ToolStripButtons = {DynamicTable: {}};
-contractTab.ToolStripButtons.DynamicTable.Define = {
-    // icon: "pieces/16/icon_add.png",
-    title: "<spring:message code='contract-detail-type.window.dynamic-table.define'/>",
-    click: function () {
-        // const _record = contractDetailTypeTab.listGrid.param.getSelectedRecord();
-        // if(!_record || !_record.type || _record.type !== contractDetailTypeTab.dynamicForm.paramFields.type.valueMap.DynamicTable)
-        //     return isc.warn("<spring:message code='contract-detail-type.window.type-must-dynamic-table'/>")
-        // contractDetailTypeTab.window.DynamicTable = isc.Window.create({
-        //     title: "<spring:message code='contact.title'/>",
-        //     width: .9 * innerWidth,
-        //     height: 580,
-        //     autoSize: true,
-        //     autoCenter: true,
-        //     isModal: true,
-        //     showModalMask: true,
-        //     align: "center",
-        //     autoDraw: true,
-        //     dismissOnEscape: true,
-        //
-        //     closeClick: function () {
-        //         this.Super("closeClick", arguments)
-        //     },
-        //     members: [
-        //         contractDetailTypeTab.listGrid.dynamicTable = isc.ListGrid.create({
-        //             height: "100%",
-        //             canEdit: true,
-        //             validateByCell: true,
-        //             validateOnExit: true,
-        //             canRemoveRecords:true,
-        //             editByCell:true,
-        //             gridComponents: ["filterEditor", "header",
-        //                 "body", "summaryRow",
-        //                 isc.ToolStrip.create({
-        //                     members: [
-        //                         isc.ToolStripButtonAdd.create(contractDetailTypeTab.ToolStripButtons.DynamicTable.NewColumn),
-        //                         isc.ToolStripButtonAdd.create(contractDetailTypeTab.ToolStripButtons.DynamicTable.Save),
-        //                         isc.ToolStripButtonRemove.create(contractDetailTypeTab.ToolStripButtons.DynamicTable.Close),
-        //                     ]
-        //                 })
-        //             ],
-        //             fields: [
-        //                 ...contractDetailTypeTab.Fields.DynamicTable()
-        //             ]
-        //         })]
-        // });
-        // if(_record.dynamicTables) contractDetailTypeTab.listGrid.dynamicTable.setData(_record.dynamicTables)
-    }
-};
-contractTab.ToolStripButtons.DynamicTable.Save = {
-    title: "<spring:message code='global.form.save'/>",
-    icon: "[SKIN]/actions/save.png",
-    click() {
-        // for (let i=0;i<contractDetailTypeTab.listGrid.dynamicTable.getTotalRows();i++)
-        // {
-        //     if (!contractDetailTypeTab.listGrid.dynamicTable.validateRow(i)) return;
-        // }
-        // contractDetailTypeTab.listGrid.dynamicTable.saveAllEdits();
-        // const _data = contractDetailTypeTab.listGrid.dynamicTable.getData();
-        // contractDetailTypeTab.listGrid.param.getSelectedRecord()['dynamicTables']=_data;
-        // contractDetailTypeTab.window.DynamicTable.destroy()
-    }
-};
-contractTab.ToolStripButtons.DynamicTable.Close = {
-    title: "<spring:message code='global.close'/>",
-    // icon: "[SKIN]/actions/save.png",
-    click() {
-        contractDetailTypeTab.window.DynamicTable.destroy()
-    }
-};
-/**
- * This is a function.
- *
- * @param {isc.ListGrid} grid - A string param
- * @_param {CDTPDynamicTable[]} columns - A string param
- * @_return {string} A good string
- *
- * @_example
- *
- *     foo('hello')
- */
+
 contractTab.Methods.ConvertDynamicTableListGridDataToModel = function (grid) {
     /**
      * @_type {CDTPDynamicTable[]}
@@ -118,7 +32,7 @@ contractTab.Methods.ConvertDynamicTableListGridDataToModel = function (grid) {
  * @param {CDTPDynamicTableValue[]} data - A string param
  */
 contractTab.Methods.GetListGridDataFromDynamicTableGrid = function (grid, data) {
-    if (grid && grid.reference === contractTab.Vars.DataType.DynamicTable) {
+    if (grid && grid.reference === contractTab.variable.dataType.DynamicTable) {
         contractTab.Methods.ConvertDynamicTableListGridDataToModel(grid)
         data = grid['cDTPDynamicTableValue']
     }
@@ -163,7 +77,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record,
     }
 
     async function getDynamicHeaders(columns) {
-        const dynamicHeaders = columns.filter(column => !Object.keys(contractTab.Vars.DataType)
+        const dynamicHeaders = columns.filter(column => !Object.keys(contractTab.variable.dataType)
             .includes(column.headerType))
         if (dynamicHeaders && dynamicHeaders.length > 0) {
             const dynamicHeaderTitleRes = await Promise.all(dynamicHeaders.map(
@@ -191,7 +105,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record,
     }
 
     async function getDynamicValueFields(columns) {
-        const hasDynamicValueFields = columns.filter(column => !Object.keys(contractTab.Vars.DataType).includes(column.valueType))
+        const hasDynamicValueFields = columns.filter(column => !Object.keys(contractTab.variable.dataType).includes(column.valueType))
         const hasDynamicValueFieldsRes = await Promise.all(hasDynamicValueFields
             .map(column => fetch('${contextPath}' + column.valueType + '?_startRow=0&_endRow=1',
                 {headers: SalesConfigs.httpHeaders}
@@ -215,11 +129,11 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record,
 
     function getFieldType(type) {
         switch (type) {
-            case contractTab.Vars.DataType.GeorgianDate:
+            case contractTab.variable.dataType.GeorgianDate:
                 return "date"
-            case contractTab.Vars.DataType.Integer:
+            case contractTab.variable.dataType.Integer:
                 return "number"
-            case contractTab.Vars.DataType.BigDecimal:
+            case contractTab.variable.dataType.BigDecimal:
                 return "number"
             default:
                 return "string"
@@ -227,7 +141,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record,
     }
 
     const cdtpdtList = _record.contractDetailTypeParams
-        .filter(_ => _ && _.type && _.type === contractTab.Vars.DataType.DynamicTable)
+        .filter(_ => _ && _.type && _.type === contractTab.variable.dataType.DynamicTable)
     if (!cdtpdtList || cdtpdtList.length === 0) return;
     const fields = [];
     /****
@@ -237,8 +151,8 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record,
         const columns = cdtpdt.dynamicTables;
         if (columns && columns.length > 0) {
             const staticHeadersWithStaticValue = columns
-                .filter(column => Object.keys(contractTab.Vars.DataType).includes(column.headerType)
-                    && Object.keys(contractTab.Vars.DataType).includes(column.valueType)
+                .filter(column => Object.keys(contractTab.variable.dataType).includes(column.headerType)
+                    && Object.keys(contractTab.variable.dataType).includes(column.valueType)
                 )
             fields.addList(staticHeadersWithStaticValue.sort((_1, _2) => _1.colNum >= _2.colNum).map(column => {
                 const _field = getDefaultFieldObject(column)
@@ -305,7 +219,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record,
                 validateOnExit: true,
                 canRemoveRecords: true,
                 // editByCell: true,
-                reference: contractTab.Vars.DataType.DynamicTable,
+                reference: contractTab.variable.dataType.DynamicTable,
                 paramName: cdtpdt.name,
                 paramTitle: cdtpdt.title,
                 paramKey: cdtpdt.key,
@@ -395,7 +309,7 @@ contractTab.Methods.DynamicTableGridCreatorForContract = async function (_contra
         const grid = _sectionStackSectionObj.items.find(c => c.Class === "ListGrid"
             && c.paramKey && c.reference
             && c.paramKey === k
-            && c.reference === contractTab.Vars.DataType.DynamicTable
+            && c.reference === contractTab.variable.dataType.DynamicTable
         );
         grid.setData(cdtpDynamicTableValue[k])
     })
