@@ -21,7 +21,7 @@
 			<column name="D_MAX_ROWS" type="number(10, 0)"/>
 		</addColumn>
 	</changeSet>
-	<changeSet author="ARezaieZR" id="1607148363477-302">
+	<changeSet author="ARezaieZR" id="1607148363477-303">
 		<update	tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE">
 			<column name="C_HEADER_TYPE" value="notset"/>
 			<column name="C_HEADER_VALUE" value="notset"/>
