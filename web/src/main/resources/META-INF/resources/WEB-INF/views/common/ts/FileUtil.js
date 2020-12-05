@@ -9,8 +9,8 @@ var nicico;
     //------------------------------------------ Classes -------------------------------------------
     var CreatorImpl = /** @class */ (function () {
         function CreatorImpl() {
-            this.method = "POST";
-            this.url = "api/files/create";
+            this.method = "PUT";
+            this.url = "api/files/update";
             this.contentType = "application/json; charset=utf-8";
         }
         return CreatorImpl;
@@ -88,6 +88,7 @@ var nicico;
             if (owner != null)
                 owner.close();
             this.createFileUploadForm(creator);
+            creator.fileUploadForm.reloadData(creator.recordId, creator.entityName);
             this.createButtonLayout(creator);
             this.createWindow(creator);
             creator.window.show();
@@ -103,7 +104,6 @@ var nicico;
         FileUtil.populateData = function (creator) {
             var formData = new FormData();
             var fileData = creator.fileUploadForm.getValues();
-            debugger;
             var files = [];
             var fileMetaData = [];
             for (var i = 0; i < fileData.length; i++) {
@@ -120,6 +120,8 @@ var nicico;
             }
             files.forEach(function (q) { return formData.append("files", q); });
             formData.append("fileMetaData", JSON.stringify(fileMetaData));
+            formData.append("recordId", creator.recordId + "");
+            formData.append("entityName", creator.entityName + "");
             return formData;
         };
         // @ts-ignore

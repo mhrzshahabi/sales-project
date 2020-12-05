@@ -198,7 +198,7 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
         this.grid.setData([]);
     },
     reloadData: function (recordId, entityName) {
-        debugger
+
         let This = this;
         if (entityName) this.entityName = entityName;
         if (recordId || recordId === 0) this.recordId = recordId;

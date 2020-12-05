@@ -52,8 +52,8 @@ namespace nicico {
         // @ts-ignore
         fileUploadForm: isc.FileUploadForm;
 
-        method: string = "POST";
-        url: string = "api/files/create";
+        method: string = "PUT";
+        url: string = "api/files/update";
         contentType: string = "application/json; charset=utf-8";
     }
 
@@ -73,7 +73,6 @@ namespace nicico {
 
             let formData = new FormData();
             let fileData = creator.fileUploadForm.getValues();
-            debugger
             let files = [];
             let fileMetaData = [];
             for (let i = 0; i < fileData.length; i++) {
@@ -90,6 +89,8 @@ namespace nicico {
             }
             files.forEach(q => formData.append("files", q));
             formData.append("fileMetaData", JSON.stringify(fileMetaData));
+            formData.append("recordId", creator.recordId+"");
+            formData.append("entityName", creator.entityName+"");
 
             return formData;
         };
@@ -221,6 +222,7 @@ namespace nicico {
                 owner.close();
 
             this.createFileUploadForm(creator);
+            creator.fileUploadForm.reloadData(creator.recordId,creator.entityName);
             this.createButtonLayout(creator);
             this.createWindow(creator);
 
