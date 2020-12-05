@@ -43,12 +43,12 @@
 		<addUniqueConstraint columnNames="F_PACKAGING_LIST, C_CONTAINER_No"
 							 constraintName="UC_F_PACKAGING_LIST_C_CONTAINER_No" tableName="TBL_PACKING_CONTAINER"/>
 	</changeSet>
-	<changeSet author="ARezaieZR" id="1607148363477-317">
-		<addForeignKeyConstraint baseColumnNames="F_SHIPMENT" baseTableName="TBL_PACKING_LIST"
-								 constraintName="FK_PACKING_LIST_TO_SHIPMENT" deferrable="false"
-								 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT"
-								 validate="true"/>
-	</changeSet>
+<!--	<changeSet author="ARezaieZR" id="1607148363477-317">-->
+<!--		<addForeignKeyConstraint baseColumnNames="F_SHIPMENT" baseTableName="TBL_PACKING_LIST"-->
+<!--								 constraintName="FK_PACKING_LIST_TO_SHIPMENT" deferrable="false"-->
+<!--								 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT"-->
+<!--								 validate="true"/>-->
+<!--	</changeSet>-->
 	<changeSet author="ARezaieZR" id="1607148363477-318">
 		<addForeignKeyConstraint baseColumnNames="F_PACKING_CONTAINER_id" baseTableName="TBL_WARH_REMITTANCE"
 								 constraintName="FK_remittance_to_packing_container" deferrable="false"
