@@ -1647,7 +1647,7 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
     {
         required: true,
         name: 'quantityType',
-        title: "<spring:message code='billOfLanding.quiantity.type'/>",
+        title: "<spring:message code='billOfLanding.quantity.type'/>",
     },
     {
         name: 'weight', required: false,

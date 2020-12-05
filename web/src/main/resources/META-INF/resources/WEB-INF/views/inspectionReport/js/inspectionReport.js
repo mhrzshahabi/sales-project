@@ -1718,8 +1718,12 @@ inspectionReportTab.method.clearForm = function () {
     inspectionReportTab.listGrid.assayElementSum.setFields([]);
     inspectionReportTab.toolStrip.weightRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
     inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
-    inspectionReportTab.hStack.weightUnitSum.members.forEach(q => {if(q.clearValues) q.clearValues()});
-    inspectionReportTab.hStack.assayUnitSum.members.forEach(q => {if(q.clearValues) q.clearValues()});
+    inspectionReportTab.hStack.weightUnitSum.members.forEach(q => {
+        if (q.clearValues) q.clearValues()
+    });
+    inspectionReportTab.hStack.assayUnitSum.members.forEach(q => {
+        if (q.clearValues) q.clearValues()
+    });
     inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").enable();
     inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").enable();
 };
@@ -2129,16 +2133,26 @@ inspectionReportTab.window.formUtil.okCallBack = function (data) {
 };
 
 inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
+    tab_.setMembers([]);
+    tab_.redraw();
     let unitArray = [];
     let amountArray = [];
+    if (!inventories)
+        return;
+    let remittanceDetails = inventories.filter(q => q.remittanceDetails && q.remittanceDetails.size() > 0).map(q => q.remittanceDetails);
+    if (remittanceDetails.size() == 0) {
+        tab_.addMember(isc.Label.create({
+            wrap: false,
+            contents: "<span style='font-weight: bolder;font-size: larger'><spring:message code='inspectionReport.inventory.has.no.output.warn'/></span> "
+        }));
+        return;
+    }
+
     tab_.setMembers([isc.Label.create({
         wrap: false,
         contents: "<span style='font-weight: bolder;font-size: larger'><spring:message code='inspectionReport.unit.sum.label'/> : </span> "
-    }), ]);
-    if (!inventories)
-        return;
+    }),]);
 
-    let remittanceDetails = inventories.map(q => q.remittanceDetails);
     remittanceDetails.forEach(rds => {
         rds.forEach(r => {
             unitArray.push(r.unitId);
