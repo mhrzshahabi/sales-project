@@ -15,6 +15,7 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
     accept: null,
     recordId: null,
     entityName: null,
+    permissions: null,
     fileStatusValueMap: null,
     accessLevelValueMap: null,
     showDeletedFiles: false,
@@ -155,7 +156,7 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                                 const url = URL.createObjectURL(file);
                                 const linkElement = document.createElement('a');
                                 const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                                const fileName = filenameRegex.exec(response.headers.get("content-disposition"))[1].replace(/['"]/g, '');
+                                const fileName  = filenameRegex.exec(response.headers.get("content-disposition"))[1].replace(/['"]/g, '');
 
                                 linkElement.setAttribute('download', fileName);
                                 linkElement.href = url;
@@ -197,7 +198,7 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
         this.grid.setData([]);
     },
     reloadData: function (recordId, entityName) {
-
+        debugger
         let This = this;
         if (entityName) this.entityName = entityName;
         if (recordId || recordId === 0) this.recordId = recordId;

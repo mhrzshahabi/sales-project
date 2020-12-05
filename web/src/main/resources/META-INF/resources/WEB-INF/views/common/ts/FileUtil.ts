@@ -22,6 +22,7 @@ namespace nicico {
         accept: string;
         recordId: number;
         entityName: string;
+        permissions: string;
 
         owner: isc.Window;
         window: isc.Window;
@@ -43,6 +44,7 @@ namespace nicico {
         accept: string;
         recordId: number;
         entityName: string;
+        permissions: string;
 
         owner: isc.Window;
         window: isc.Window;
@@ -51,7 +53,7 @@ namespace nicico {
         fileUploadForm: isc.FileUploadForm;
 
         method: string = "POST";
-        url: string = "api/file";
+        url: string = "api/files/create";
         contentType: string = "application/json; charset=utf-8";
     }
 
@@ -71,6 +73,7 @@ namespace nicico {
 
             let formData = new FormData();
             let fileData = creator.fileUploadForm.getValues();
+            debugger
             let files = [];
             let fileMetaData = [];
             for (let i = 0; i < fileData.length; i++) {
@@ -141,6 +144,7 @@ namespace nicico {
                 accept: creator.accept,
                 recordId: creator.recordId,
                 entityName: creator.entityName,
+                permissions: creator.permissions,
                 // @ts-ignore
                 fileStatusValueMap: Enums.fileStatus,
                 // @ts-ignore
@@ -200,7 +204,7 @@ namespace nicico {
             creator.window = isc.Window.nicico.getDefault(creator.title, [creator.fileUploadForm, creator.actionLayout], width, height);
         }
 
-        static show(owner: isc.Window, title: string, recordId: number, accept: string, entityName: string, width: string = null, height: string = null) {
+        static show(owner: isc.Window, title: string, recordId: number, accept: string, entityName: string, permissions: string, width: string = null, height: string = null) {
 
             let creator = new CreatorImpl();
 
@@ -208,6 +212,7 @@ namespace nicico {
             creator.accept = accept;
             creator.recordId = recordId;
             creator.entityName = entityName;
+            creator.permissions = permissions;
             creator.owner = owner;
             creator.width = width;
             creator.height = height;

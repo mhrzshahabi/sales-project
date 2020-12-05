@@ -10,7 +10,7 @@ var nicico;
     var CreatorImpl = /** @class */ (function () {
         function CreatorImpl() {
             this.method = "POST";
-            this.url = "api/file";
+            this.url = "api/files/create";
             this.contentType = "application/json; charset=utf-8";
         }
         return CreatorImpl;
@@ -25,6 +25,7 @@ var nicico;
                 accept: creator.accept,
                 recordId: creator.recordId,
                 entityName: creator.entityName,
+                permissions: creator.permissions,
                 // @ts-ignore
                 fileStatusValueMap: Enums.fileStatus,
                 // @ts-ignore
@@ -72,7 +73,7 @@ var nicico;
             // @ts-ignore
             creator.window = isc.Window.nicico.getDefault(creator.title, [creator.fileUploadForm, creator.actionLayout], width, height);
         };
-        FileUtil.show = function (owner, title, recordId, accept, entityName, width, height) {
+        FileUtil.show = function (owner, title, recordId, accept, entityName, permissions, width, height) {
             if (width === void 0) { width = null; }
             if (height === void 0) { height = null; }
             var creator = new CreatorImpl();
@@ -80,6 +81,7 @@ var nicico;
             creator.accept = accept;
             creator.recordId = recordId;
             creator.entityName = entityName;
+            creator.permissions = permissions;
             creator.owner = owner;
             creator.width = width;
             creator.height = height;
@@ -101,6 +103,7 @@ var nicico;
         FileUtil.populateData = function (creator) {
             var formData = new FormData();
             var fileData = creator.fileUploadForm.getValues();
+            debugger;
             var files = [];
             var fileMetaData = [];
             for (var i = 0; i < fileData.length; i++) {

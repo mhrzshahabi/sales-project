@@ -1,5 +1,7 @@
 package com.nicico.sales.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.sales.dto.FileDTO;
 import com.nicico.sales.service.FileService;
 import io.swagger.annotations.ApiParam;
@@ -10,6 +12,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,6 +23,7 @@ import java.util.List;
 public class FileRestController {
 
     private final FileService fileService;
+    private final ObjectMapper objectMapper;
 
     @PostMapping
     public ResponseEntity<String> Store(@Validated @ApiParam FileDTO.Request request) throws Exception {
@@ -29,6 +33,14 @@ public class FileRestController {
     @GetMapping
     public ResponseEntity<List<FileDTO.FileMetaData>> getFiles(@RequestParam Long recordId, @RequestParam String entityName) {
         return new ResponseEntity<>(fileService.getFiles(recordId, entityName), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/create")
+    public ResponseEntity<Void> createFiles(@RequestParam List<MultipartFile> files, @RequestParam String fileMetaData) throws Exception {
+        List<FileDTO.FileData> fileData = objectMapper.readValue(fileMetaData, new TypeReference<List<FileDTO.FileData>>() {
+        });
+        fileService.createFiles(fileData.get(0).getRecordId(), files, fileData);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "/{key}")
