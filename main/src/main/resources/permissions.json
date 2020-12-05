@@ -2579,6 +2579,18 @@
     {
       "code": "R_DAILY_REPORT_BANDAR_ABAS",
       "title": "گزارش روزانه بندرعباس"
+    },
+    {
+      "code": "AT_BILL_OF_LADING",
+      "title": "پیوست اسناد بارنامه"
+    },    
+    {
+      "code": "AT_SHIPMENT_COST_INVOICE",
+      "title": "پیوست اسناد صورتحساب هزینه های حمل"
+    },
+    {
+      "code": "AT_INSPECTION_REPORT",
+      "title": "پیوست اسناد گزارش بازرسی"
     }
   ]
 }
