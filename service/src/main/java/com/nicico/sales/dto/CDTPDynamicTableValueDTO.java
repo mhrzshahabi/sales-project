@@ -27,7 +27,6 @@ public class CDTPDynamicTableValueDTO {
     private String displayField;
     private Boolean required;
     private String regexValidator;
-    private String defaultValue;
     private Integer maxRows = 0;
     private String description;
     private String initialCriteria;

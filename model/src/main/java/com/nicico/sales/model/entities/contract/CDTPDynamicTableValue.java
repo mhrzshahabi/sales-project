@@ -57,9 +57,6 @@ public class CDTPDynamicTableValue extends BaseEntity {
     @Column(name = "C_REGEX_VALIDATOR", length = 2000)
     private String regexValidator;
 
-    @Column(name = "C_DEFAULT_VALUE", length = 2000)
-    private String defaultValue;
-
     @Column(name = "D_MAX_ROWS")
     private Integer maxRows = 0;
 

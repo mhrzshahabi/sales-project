@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -72,6 +73,7 @@ public class ContractDetailValue extends BaseEntity {
     @Column(name = "F_CONTRACT_DETAIL_ID", nullable = false)
     private Long contractDetailId;
 
+    @NotAudited
     @OneToMany(mappedBy = "contractDetailValue", fetch = FetchType.LAZY)
     private List<CDTPDynamicTableValue> dynamicTableValues;
 }
