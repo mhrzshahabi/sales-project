@@ -2047,16 +2047,26 @@ inspectionReportTab.method.editForm = function () {
     }
 };
 inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
+    tab_.setMembers([]);
+    tab_.redraw();
     let unitArray = [];
     let amountArray = [];
+    if (!inventories)
+        return;
+    let remittanceDetails = inventories.filter(q => q.remittanceDetails && q.remittanceDetails.size() > 0).map(q => q.remittanceDetails);
+    if (remittanceDetails.size() == 0) {
+        tab_.addMember(isc.Label.create({
+            wrap: false,
+            contents: "<span style='font-weight: bolder;font-size: larger'><spring:message code='inspectionReport.inventory.has.no.output.warn'/></span> "
+        }));
+        return;
+    }
+
     tab_.setMembers([isc.Label.create({
         wrap: false,
         contents: "<span style='font-weight: bolder;font-size: larger'><spring:message code='inspectionReport.unit.sum.label'/> : </span> "
-    }), ]);
-    if (!inventories)
-        return;
+    }),]);
 
-    let remittanceDetails = inventories.map(q => q.remittanceDetails);
     remittanceDetails.forEach(rds => {
         rds.forEach(r => {
             unitArray.push(r.unitId);
