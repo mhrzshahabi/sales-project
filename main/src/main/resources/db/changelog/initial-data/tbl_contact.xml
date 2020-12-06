@@ -606,5 +606,9 @@
             <column name="C_CONTACT_CODE" type="VARCHAR2(100 CHAR)"/>
         </addColumn>
     </changeSet>
-
+    <changeSet id="AZAARE-210012" author="abiz">
+        <dropColumn tableName="TBL_CONTACT" columnName="C_CONTACT_CODE"/>
+        <addUniqueConstraint tableName="TBL_CONTACT" columnNames="C_ACC_DETAIL"/>
+        <addUniqueConstraint tableName="TBL_CONTACT" columnNames="C_ACC_DETAIL_ID"/>
+    </changeSet>
 </databaseChangeLog>

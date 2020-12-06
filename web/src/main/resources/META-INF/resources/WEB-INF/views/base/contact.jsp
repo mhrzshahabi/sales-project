@@ -254,6 +254,24 @@
             fetchDataURL: "${contextPath}/api/contact/spec-list-mainContact"
         });
 
+    var RestDataSource_Accounting = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    hidden: true
+                },
+                {
+                    name: "code",
+                    title: "<spring:message code='contact.code'/>"
+                },
+                {
+                    name: "detailName",
+                    title: "<spring:message code='contact.nameFa'/>"
+                }],
+            fetchDataURL: "${contextPath}/api/accounting/document-details"
+        });
+
     var Menu_ListGrid_Contact = isc.Menu.create(
         {
             width: 150,
@@ -328,12 +346,39 @@
                     defaultValue: "<spring:message code='contact.form.person.info'/>"
                 },
                 {
-                    name: "contactCode",
+                    name: "accDetailId",
+                    hidden: true
+                },
+                {
+                    required: true,
+                    name: "accDetail",
                     title: "<spring:message code='contact.code'/>",
                     width: 300,
-                    colSpan: 3,
-                    titleColSpan: 1,
-                    wrapTitle: false,
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Accounting,
+                    displayField: "code",
+                    valueField: "code",
+                    pickListWidth: 390,
+                    pickListHeight: "500",
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [
+                        {name: "id", hidden: true},
+                        {name: "code", width: 150, align: "center"},
+                        {name: "detailName", width: 220, align: "center"},
+                    ],
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
+                    changed: function (form, item, value) {
+                        DynamicForm_Contact_GeneralInfo.setValue("nameFA", item.getSelectedRecord().detailName);
+                        DynamicForm_Contact_GeneralInfo.setValue("accDetailId", item.getSelectedRecord().id);
+                    }
+                },
+                {
+                    name: "accDetailId",
+                    hidden: true
                 },
                 {
                     name: "contactAccounts",
@@ -541,51 +586,51 @@
                     wrapTitle: false
                 },
                 {
-                name: "tradeMark",
-                title: "<spring:message code='contact.tradeMark'/>",
-                type: 'text',
-                width: 300,
-                colSpan: 3,
-                titleColSpan: 1,
-                wrapTitle: false
-                                },
-                {
-                name: "ceo",
-                title: "<spring:message code='contact.ceo'/>",
-                type: 'text',
-                width: 300,
-                colSpan: 3,
-                titleColSpan: 1,
-                wrapTitle: false
+                    name: "tradeMark",
+                    title: "<spring:message code='contact.tradeMark'/>",
+                    type: 'text',
+                    width: 300,
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    wrapTitle: false
                 },
                 {
-                name: "ceoPassportNo",
-                title: "<spring:message code='contact.ceoPassportNo'/>",
-                type: 'text',
-                width: 300,
-                colSpan: 3,
-                titleColSpan: 1,
-                keyPressFilter: "[0-9.]",
-                wrapTitle: false
+                    name: "ceo",
+                    title: "<spring:message code='contact.ceo'/>",
+                    type: 'text',
+                    width: 300,
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    wrapTitle: false
                 },
                 {
-                name: "commercialRegistration",
-                title: "<spring:message code='contact.commercialRegistration'/>",
-                type: 'text',
-                width: 300,
-                colSpan: 3,
-                titleColSpan: 1,
-                keyPressFilter: "[0-9.]",
-                wrapTitle: false
+                    name: "ceoPassportNo",
+                    title: "<spring:message code='contact.ceoPassportNo'/>",
+                    type: 'text',
+                    width: 300,
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    keyPressFilter: "[0-9.]",
+                    wrapTitle: false
                 },
                 {
-                name: "branchName",
-                title: "<spring:message code='contact.branchName'/>",
-                type: 'text',
-                width: 300,
-                colSpan: 3,
-                titleColSpan: 1,
-                wrapTitle: false,
+                    name: "commercialRegistration",
+                    title: "<spring:message code='contact.commercialRegistration'/>",
+                    type: 'text',
+                    width: 300,
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    keyPressFilter: "[0-9.]",
+                    wrapTitle: false
+                },
+                {
+                    name: "branchName",
+                    title: "<spring:message code='contact.branchName'/>",
+                    type: 'text',
+                    width: 300,
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    wrapTitle: false,
                 },
                 {
                     name: "status",
@@ -732,18 +777,18 @@
             },
             {name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
             {
-name: "postalCode",
-title: "<spring:message code='contact.postalCode'/>",
-width: 500,
-wrapTitle: false,
-validators: [
-{
-type: "regexp",
-expression: "^[0-9|+]?([0-9]+[-]?[0-9]+[\\s]?)*$",
-validateOnChange: true,
-}
-]
-},
+                name: "postalCode",
+                title: "<spring:message code='contact.postalCode'/>",
+                width: 500,
+                wrapTitle: false,
+                validators: [
+                    {
+                        type: "regexp",
+                        expression: "^[0-9|+]?([0-9]+[-]?[0-9]+[\\s]?)*$",
+                        validateOnChange: true,
+                    }
+                ]
+            },
             {
                 type: "RowSpacerItem"
             },
@@ -1858,7 +1903,7 @@ validateOnChange: true,
                     hidden: true, showIf: "false",
                 },
                 {
-                    name: "contactCode",
+                    name: "accDetail",
                     title: "<spring:message code='contact.code'/>",
                     align: "center",
                     width: 100,
