@@ -362,8 +362,8 @@ reportGeneratorTab.variable.fileUploadForm = isc.FileUploadForm.create({
     height: "200",
     accept: ".jasper",
     entityName: "Report",
-    fileStatusValueMap: JSON.parse('${Enum_FileStatus}'),
-    accessLevelValueMap: JSON.parse('${Enum_EFileAccessLevel}')
+    fileStatusValueMap: Enums.fileStatus,
+    accessLevelValueMap: Enums.fileAccessLevel
 });
 reportGeneratorTab.window.report.init(null, '<spring:message code="entity.report"/>', isc.VLayout.create({
     width: "100%",

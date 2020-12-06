@@ -2306,3 +2306,17 @@ inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     }
 }), 7);
 // </sec:authorize>
+// <sec:authorize access="hasAuthority('AT_INSPECTION_REPORT')">
+inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
+    visibility: "visible",
+    icon: "pieces/512/attachment.png",
+    title: "<spring:message code='global.attach.file'/>",
+    click: function () {
+        let record = inspectionReportTab.listGrid.main.getSelectedRecord();
+        if (record == null || record.id == null)
+            inspectionReportTab.dialog.notSelected();
+
+        nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message code="entity.inspection-report"/>', record.id, null, "InspectionReport",null);
+    }
+}), 8);
+// </sec:authorize>
