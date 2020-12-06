@@ -1831,12 +1831,13 @@ shipmentCostInvoiceTab.window.shipmentCost.init(null, '<spring:message code="shi
     ]
 }), "1700", "60%");
 shipmentCostInvoiceTab.window.shipmentCost.populateData = function (bodyWidget) {
+
     //////////////// DynamicForm ///////////////
-    var shipmentCostObj = Object.assign(bodyWidget.members.get(2).getValues(), bodyWidget.members.get(6).getValues());
+    let shipmentCostObj = Object.assign(bodyWidget.members.get(3).getValues(), bodyWidget.members.get(8).getValues());
     //////////////// ListGrid //////////////////
     let shipmentCostInvoiceDetails = [];
-    bodyWidget.members.get(5).selectAllRecords();
-    bodyWidget.members.get(5).getSelectedRecords().forEach(function (current, index) {
+    bodyWidget.members.get(7).selectAllRecords();
+    bodyWidget.members.get(7).getSelectedRecords().forEach(function (current, index) {
 
         let shipmentCostDetailObj = {};
         shipmentCostDetailObj.id = current.id;
