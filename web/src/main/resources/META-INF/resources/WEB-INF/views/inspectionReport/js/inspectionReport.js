@@ -419,7 +419,7 @@ inspectionReportTab.restDataSource.remittanceDetailRest = isc.MyRestDataSource.c
     fetchDataURL: "${contextPath}/api/remittance-detail/spec-list"
 });
 
-//***************************************************** RESTDATASOURCE *************************************************
+//***************************************************** FUNCTIONS *************************************************
 
 inspectionReportTab.method.setShipmentAndInventoryCriteria = function (materialId) {
 
@@ -471,7 +471,18 @@ inspectionReportTab.method.getAssayElementFields = function (materialId, setData
                 name: "inventoryId",
                 title: "<spring:message code='inspectionReport.InventoryId'/>",
                 type: "staticText",
-                formatCellValue: function (value, record, rowNum, colNum, grid) {
+                formatCellValue: function (value, record, rowNum, colNum) {
+
+                    let selectedInventories = inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").getSelectedRecords();
+                    if (record == null || value == null || !selectedInventories || !selectedInventories.length)
+                        return;
+
+                    let inventory = selectedInventories.filter(q => q.id === value).first();
+                    if (inventory == null) return;
+
+                    return inventory.label;
+                },
+                formatEditorValue: function (value, record, rowNum, colNum) {
 
                     let selectedInventories = inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").getSelectedRecords();
                     if (record == null || value == null || !selectedInventories || !selectedInventories.length)
@@ -1271,7 +1282,18 @@ inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
         {
             name: "inventoryId",
             type: "staticText",
-            formatCellValue: function (value, record, rowNum, colNum, grid) {
+            formatCellValue: function (value, record, rowNum, colNum) {
+
+                let selectedInventories = inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").getSelectedRecords();
+                if (record == null || value == null || !selectedInventories || !selectedInventories.length)
+                    return;
+
+                let inventory = selectedInventories.filter(q => q.id === value).first();
+                if (inventory == null) return;
+
+                return inventory.label;
+            },
+            formatEditorValue: function (value, record, rowNum, colNum) {
 
                 let selectedInventories = inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").getSelectedRecords();
                 if (record == null || value == null || !selectedInventories || !selectedInventories.length)
@@ -1703,26 +1725,7 @@ inspectionReportTab.tab.inspecTabs = isc.TabSet.create({
     ]
 });
 
-//***************************************************** FUNCTIONS *************************************************
-
-inspectionReportTab.method.clearForm = function () {
-
-    inspectionReportTab.listGrid.assayElement.setData([]);
-    inspectionReportTab.dynamicForm.material.clearValues();
-    inspectionReportTab.dynamicForm.assayLab.clearValues();
-    inspectionReportTab.listGrid.weightElement.setData([]);
-    inspectionReportTab.listGrid.assayElement.setFields([]);
-    inspectionReportTab.listGrid.assayElementSum.setData([]);
-    inspectionReportTab.listGrid.weightElementSum.setData([]);
-    inspectionReportTab.dynamicForm.inspecReport.clearValues();
-    inspectionReportTab.listGrid.assayElementSum.setFields([]);
-    inspectionReportTab.toolStrip.weightRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
-    inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
-    inspectionReportTab.hStack.weightUnitSum.members.forEach(q => {if(q.clearValues) q.clearValues()});
-    inspectionReportTab.hStack.assayUnitSum.members.forEach(q => {if(q.clearValues) q.clearValues()});
-    inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").enable();
-    inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").enable();
-};
+//***************************************************** MAIN WINDOW *************************************************
 
 inspectionReportTab.window.inspecReport = new nicico.FormUtil();
 inspectionReportTab.window.inspecReport.init(null, '<spring:message code="inspectionReport.title"/>', isc.HLayout.create({
@@ -1797,7 +1800,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
     inspectionReportObj.weightND = weightSum ? weightSum.weightND : null;
 
     //--------------- Save Assay Data in Object --------------
-    inspectionReportTab.variable.allCols = bodyWidget.members[1].members[0].tabs[1].pane.members[1].fields.length - 1;
+    inspectionReportTab.variable.allCols = bodyWidget.members[1].members[0].tabs[1].pane.members[1].fields.length;
 
     bodyWidget.members[1].members[0].tabs[1].pane.members[1].selectAllRecords();
     let records = bodyWidget.members[1].members[0].tabs[1].pane.members[1].getSelectedRecords();
@@ -1902,10 +1905,27 @@ inspectionReportTab.window.inspecReport.cancelCallBack = function () {
     inspectionReportTab.method.refreshData();
 };
 
+inspectionReportTab.method.clearForm = function () {
+
+    inspectionReportTab.listGrid.assayElement.setData([]);
+    inspectionReportTab.dynamicForm.material.clearValues();
+    inspectionReportTab.dynamicForm.assayLab.clearValues();
+    inspectionReportTab.listGrid.weightElement.setData([]);
+    inspectionReportTab.listGrid.assayElement.setFields([]);
+    inspectionReportTab.listGrid.assayElementSum.setData([]);
+    inspectionReportTab.listGrid.weightElementSum.setData([]);
+    inspectionReportTab.dynamicForm.inspecReport.clearValues();
+    inspectionReportTab.listGrid.assayElementSum.setFields([]);
+    inspectionReportTab.toolStrip.weightRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
+    inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
+    inspectionReportTab.hStack.weightUnitSum.members.forEach(q => {if(q.clearValues) q.clearValues()});
+    inspectionReportTab.hStack.assayUnitSum.members.forEach(q => {if(q.clearValues) q.clearValues()});
+    inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").enable();
+    inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").enable();
+};
 inspectionReportTab.method.refreshData = function () {
     inspectionReportTab.listGrid.main.invalidateCache();
 };
-
 inspectionReportTab.method.newForm = function () {
 
     inspectionReportTab.variable.method = "POST";
@@ -1918,7 +1938,6 @@ inspectionReportTab.method.newForm = function () {
     inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").enable();
     inspectionReportTab.window.inspecReport.justShowForm();
 };
-
 inspectionReportTab.method.editForm = function () {
 
     inspectionReportTab.variable.method = "PUT";
@@ -2027,6 +2046,58 @@ inspectionReportTab.method.editForm = function () {
 
     }
 };
+inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
+    tab_.setMembers([]);
+    tab_.redraw();
+    let unitArray = [];
+    let amountArray = [];
+    if (!inventories)
+        return;
+    let remittanceDetails = inventories.filter(q => q.remittanceDetails && q.remittanceDetails.size() > 0).map(q => q.remittanceDetails);
+    if (remittanceDetails.size() == 0) {
+        tab_.addMember(isc.Label.create({
+            wrap: false,
+            contents: "<span style='font-weight: bolder;font-size: larger'><spring:message code='inspectionReport.inventory.has.no.output.warn'/></span> "
+        }));
+        return;
+    }
+
+    tab_.setMembers([isc.Label.create({
+        wrap: false,
+        contents: "<span style='font-weight: bolder;font-size: larger'><spring:message code='inspectionReport.unit.sum.label'/> : </span> "
+    }),]);
+
+    remittanceDetails.forEach(rds => {
+        rds.forEach(r => {
+            unitArray.push(r.unitId);
+        });
+    });
+    unitArray = unitArray.distinct();
+    unitArray.forEach((u, index) => {
+        if (amountArray[index] === undefined) {
+            amountArray[index] = 0;
+        }
+        remittanceDetails.forEach(rds => {
+            rds.filter(q => q.inputRemittance === false).forEach((r, i) => {
+                if (r.unitId === u && r.amount !== 0) {
+                    amountArray[index] = amountArray[index] + r.amount;
+                }
+            });
+        });
+    });
+    unitArray.forEach((current, index) => {
+        let unitMember = isc.Unit.create({
+            disabledUnitField: true,
+            disabledValueField: true,
+            showUnitFieldTitle: false,
+            showValueFieldTitle: false,
+            topPadding: 20
+        });
+        unitMember.setValue(amountArray[index]);
+        unitMember.setUnitId(current);
+        tab_.addMember(unitMember);
+    });
+};
 
 inspectionReportTab.dynamicForm.addShipmentDynamicForm = isc.DynamicForm.nicico.getDefault([{
     width: "100%",
@@ -2062,12 +2133,12 @@ inspectionReportTab.dynamicForm.addShipmentDynamicForm = isc.DynamicForm.nicico.
 inspectionReportTab.window.formUtil = new nicico.FormUtil();
 inspectionReportTab.window.formUtil.init(null, '<spring:message code="global.add.shipment"/>', isc.HLayout.create({
     width: "100%",
-    height: "100",
+    height: "50",
     align: "center",
     members: [
         inspectionReportTab.dynamicForm.addShipmentDynamicForm
     ]
-}), "500", "15%");
+}), "500", "10%");
 
 inspectionReportTab.window.formUtil.populateData = function (bodyWidget) {
 
@@ -2125,49 +2196,6 @@ inspectionReportTab.window.formUtil.okCallBack = function (data) {
         } else
             inspectionReportTab.dialog.say('<spring:message code="inspectionReport.shipment-does-not-have-inventory"/>');
 
-    });
-};
-
-inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
-    let unitArray = [];
-    let amountArray = [];
-    tab_.setMembers([isc.Label.create({
-        wrap: false,
-        contents: "<span style='font-weight: bolder;font-size: larger'><spring:message code='inspectionReport.unit.sum.label'/> : </span> "
-    }), ]);
-    if (!inventories)
-        return;
-
-    let remittanceDetails = inventories.map(q => q.remittanceDetails);
-    remittanceDetails.forEach(rds => {
-        rds.forEach(r => {
-            unitArray.push(r.unitId);
-        });
-    });
-    unitArray = unitArray.distinct();
-    unitArray.forEach((u, index) => {
-        if (amountArray[index] === undefined) {
-            amountArray[index] = 0;
-        }
-        remittanceDetails.forEach(rds => {
-            rds.filter(q => q.inputRemittance === false).forEach((r, i) => {
-                if (r.unitId === u && r.amount !== 0) {
-                    amountArray[index] = amountArray[index] + r.amount;
-                }
-            });
-        });
-    });
-    unitArray.forEach((current, index) => {
-        let unitMember = isc.Unit.create({
-            disabledUnitField: true,
-            disabledValueField: true,
-            showUnitFieldTitle: false,
-            showValueFieldTitle: false,
-            topPadding: 20
-        });
-        unitMember.setValue(amountArray[index]);
-        unitMember.setUnitId(current);
-        tab_.addMember(unitMember);
     });
 };
 
@@ -2231,6 +2259,7 @@ inspectionReportTab.listGrid.main.sort();
 nicico.BasicFormUtil.showAllToolStripActions(inspectionReportTab);
 nicico.BasicFormUtil.removeExtraActions(inspectionReportTab, [nicico.ActionType.DELETE]);
 
+// <sec:authorize access="hasAuthority('U_INSPECTION_REPORT_ADD_SHIPMENT')">
 inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     visibility: "visible",
     icon: "[SKIN]/actions/configure.png",
@@ -2286,3 +2315,18 @@ inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         }
     }
 }), 7);
+// </sec:authorize>
+// <sec:authorize access="hasAuthority('AT_INSPECTION_REPORT')">
+inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
+    visibility: "visible",
+    icon: "pieces/512/attachment.png",
+    title: "<spring:message code='global.attach.file'/>",
+    click: function () {
+        let record = inspectionReportTab.listGrid.main.getSelectedRecord();
+        if (record == null || record.id == null)
+            inspectionReportTab.dialog.notSelected();
+
+        nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message code="entity.inspection-report"/>', record.id, null, "InspectionReport",null);
+    }
+}), 8);
+// </sec:authorize>

@@ -101,6 +101,7 @@
                 <%@include file="common/ts/FilterFormUtil.js"%>
                 <%@include file="common/ts/ReportExecutorFormUtil.js"%>
                 <%@include file="common/js/component-file.js"%>
+                <%@include file="common/ts/FileUtil.js"%>
 
                 var Enums = {
 
@@ -113,6 +114,8 @@
                     },
                     eStatus2: JSON.parse('${Enum_EStatus}'),
                     eStatus3: JSON.parse('${Enum_EStatus_WithId}'),
+                    fileAccessLevel: JSON.parse('${Enum_EFileAccessLevel}'),
+                    fileStatus: JSON.parse('${Enum_FileStatus}'),
                     unit: {
                     }
                 };

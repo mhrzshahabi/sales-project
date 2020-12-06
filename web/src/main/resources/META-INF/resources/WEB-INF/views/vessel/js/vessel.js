@@ -6,18 +6,18 @@ vesselTab.dynamicForm.fields = [{
     type: "number",
     title: "<spring:message code='global.id'/>"
 }, {
-    width: "10%",
+    width: "100%",
     name: "name",
     required: true,
     type: 'text',
     title: "<spring:message code='vessel.name'/>"
 }, {
-    width: "10%",
+    width: "100%",
     name: "type",
     type: 'text',
     title: "<spring:message code='vessel.type'/>"
 }, {
-    width: "10%",
+    width: "100%",
     name: "imo",
     type: 'text',
     length: 9,
@@ -29,7 +29,7 @@ vesselTab.dynamicForm.fields = [{
     }],
     title: "<spring:message code='vessel.imo'/>"
 }, {
-    width: "10%",
+    width: "100%",
     name: "yearOfBuild",
     type: 'text',
     length: 4,
@@ -41,7 +41,7 @@ vesselTab.dynamicForm.fields = [{
     }],
     title: "<spring:message code='vessel.year.of.build'/>"
 }, {
-    width: "10%",
+    width: "100%",
     name: "length",
     length: 4,
     type: "number",
@@ -53,7 +53,7 @@ vesselTab.dynamicForm.fields = [{
     }],
     title: "<spring:message code='vessel.length'/>"
 }, {
-    width: "10%",
+    width: "100%",
     name: "beam",
     type: "number",
     length: 4,

@@ -1831,12 +1831,13 @@ shipmentCostInvoiceTab.window.shipmentCost.init(null, '<spring:message code="shi
     ]
 }), "1700", "60%");
 shipmentCostInvoiceTab.window.shipmentCost.populateData = function (bodyWidget) {
+
     //////////////// DynamicForm ///////////////
-    var shipmentCostObj = Object.assign(bodyWidget.members.get(2).getValues(), bodyWidget.members.get(6).getValues());
+    let shipmentCostObj = Object.assign(bodyWidget.members.get(3).getValues(), bodyWidget.members.get(8).getValues());
     //////////////// ListGrid //////////////////
     let shipmentCostInvoiceDetails = [];
-    bodyWidget.members.get(5).selectAllRecords();
-    bodyWidget.members.get(5).getSelectedRecords().forEach(function (current, index) {
+    bodyWidget.members.get(7).selectAllRecords();
+    bodyWidget.members.get(7).getSelectedRecords().forEach(function (current, index) {
 
         let shipmentCostDetailObj = {};
         shipmentCostDetailObj.id = current.id;
@@ -2484,6 +2485,20 @@ shipmentCostInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         shipmentCostInvoiceTab.method.sendToAccounting();
     }
 }), 7);
+// </sec:authorize>
+// <sec:authorize access="hasAuthority('AT_SHIPMENT_COST_INVOICE')">
+shipmentCostInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
+    visibility: "visible",
+    icon: "pieces/512/attachment.png",
+    title: "<spring:message code='global.attach.file'/>",
+    click: function () {
+        let record = shipmentCostInvoiceTab.listGrid.main.getSelectedRecord();
+        if (record == null || record.id == null)
+            shipmentCostInvoiceTab.dialog.notSelected();
+
+        nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message code="entity.shipment-cost-invoice"/>', record.id, null, "ShipmentCostInvoice",null);
+    }
+}), 8);
 // </sec:authorize>
 shipmentCostInvoiceTab.toolStrip.main.getCellCSSText = function (record) {
     if (record.documentId > 0)
