@@ -69,18 +69,18 @@
 		<dropUniqueConstraint constraintName="UC_TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE_ROW_NUM_F_CDTPDYNAMICTABLE_ID"
 							  tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
 	</changeSet>
-	<changeSet author="ARezaieZR" id="1607148363477-343">
-		<preConditions>
-			<columnExists tableName="TBL_MATERIAL" columnName="C_DESCL"/>
-		</preConditions>
-		<dropColumn columnName="C_DESCL" tableName="TBL_MATERIAL"/>
-	</changeSet>
-	<changeSet author="ARezaieZR" id="1607148363477-344">
-		<preConditions>
-			<columnExists tableName="TBL_MATERIAL" columnName="C_DESCP"/>
-		</preConditions>
-		<dropColumn columnName="C_DESCP" tableName="TBL_MATERIAL"/>
-	</changeSet>
+<!--	<changeSet author="ARezaieZR" id="1607148363477-343">-->
+<!--		<preConditions>-->
+<!--			<columnExists tableName="TBL_MATERIAL" columnName="C_DESCL"/>-->
+<!--		</preConditions>-->
+<!--		<dropColumn columnName="C_DESCL" tableName="TBL_MATERIAL"/>-->
+<!--	</changeSet>-->
+<!--	<changeSet author="ARezaieZR" id="1607148363477-344">-->
+<!--		<preConditions>-->
+<!--			<columnExists tableName="TBL_MATERIAL" columnName="C_DESCP"/>-->
+<!--		</preConditions>-->
+<!--		<dropColumn columnName="C_DESCP" tableName="TBL_MATERIAL"/>-->
+<!--	</changeSet>-->
 	<changeSet author="ARezaieZR" id="1607148363477-345">
 		<dropColumn columnName="C_FIELD_NAME" tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
 	</changeSet>
