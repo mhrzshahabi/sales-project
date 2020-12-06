@@ -1549,7 +1549,7 @@ foreignInvoiceTab.window.sentToAccounting.init(null, '<spring:message code="acco
             ]
         })
     ]
-}), "700", "40%");
+}), "750", "40%");
 foreignInvoiceTab.window.sentToAccounting.validate = function (date) {
 
     foreignInvoiceTab.dynamicForm.sentToAccountingDocumentForm.validate();

@@ -32,45 +32,45 @@
                     width: 200
                 },
                 {
-name: "address",
-title: "<spring:message code='bank.address'/>",
-width: 200
-},
-{
-name: "coreBranch",
-title: "<spring:message code='bank.coreBranch'/>",
-width: 200
-},
-{
-name: "country.name",
-title: "<spring:message code='country'/>",
-width: 200,
-sortNormalizer: function (recordObject) {
-return recordObject.country.name;
-}
-}],
-fetchDataURL: "${contextPath}/api/bank/spec-list"
-});
+                    name: "address",
+                    title: "<spring:message code='bank.address'/>",
+                    width: 200
+                },
+                {
+                    name: "coreBranch",
+                    title: "<spring:message code='bank.coreBranch'/>",
+                    width: 200
+                },
+                {
+                    name: "country.name",
+                    title: "<spring:message code='country'/>",
+                    width: 200,
+                    sortNormalizer: function (recordObject) {
+                        return recordObject.country.name;
+                    }
+                }],
+            fetchDataURL: "${contextPath}/api/bank/spec-list"
+        });
 
 
-var RestDataSource_Country_IN_BANK = isc.MyRestDataSource.create(
-{
-fields: [
-{
-name: "id",
-title: "id",
-primaryKey: true,
-canEdit: false,
-hidden: true
-},
-{
-name: "nameFA",
-title: "<spring:message code='country.nameFa'/>",
-width: 200
-},
-{
-name: "nameEN",
-title: "<spring:message code='country.nameEn'/>",
+    var RestDataSource_Country_IN_BANK = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "nameFA",
+                    title: "<spring:message code='country.nameFa'/>",
+                    width: 200
+                },
+                {
+                    name: "nameEN",
+                    title: "<spring:message code='country.nameEn'/>",
                     width: 200
                 },
                 {
@@ -218,18 +218,16 @@ title: "<spring:message code='country.nameEn'/>",
             height: "100%",
             titleWidth: "100",
             numCols: 2,
+            padding: 10,
             fields: [
                 {
                     name: "id",
                     hidden: true
                 },
                 {
-                    type: "RowSpacerItem"
-                },
-                {
                     name: "nameFA",
                     title: "<spring:message code='bank.nameFa'/>",
-                    width: 500,
+                    width: "100%",
                     colSpan: 1,
                     required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
@@ -238,7 +236,7 @@ title: "<spring:message code='country.nameEn'/>",
                 {
                     name: "nameEN",
                     title: "<spring:message code='bank.nameEn'/>",
-                    width: 500,
+                    width: "100%",
                     colSpan: 1,
                     required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
@@ -247,7 +245,7 @@ title: "<spring:message code='country.nameEn'/>",
                 {
                     name: "address",
                     title: "<spring:message code='bank.address'/>",
-                    width: 500,
+                    width: "100%",
                     colSpan: 1,
                     required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
@@ -260,71 +258,71 @@ title: "<spring:message code='country.nameEn'/>",
                 {
                     name: "coreBranch",
                     title: "<spring:message code='bank.coreBranch'/>",
-                    width: 500,
+                    width: "100%",
                     colSpan: 1,
                     required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
                     valueMap:
                         {
                             "core": "<spring:message code='bank.coreBranch.centralOffice'/>",
-"branch": "<spring:message code='bank.coreBranch.branch'/>"
-},
-validators: [
-{
-type: "required",
-validateOnChange: true
-}]
-},
-{
-name: "countryId",
-title: "<spring:message code='country'/>",
-type: 'long',
-width: 500,
-required: true, errorOrientation: "bottom",
-editorType: "SelectItem",
-optionDataSource: RestDataSource_Country_IN_BANK,
-displayField: "name",
-colSpan: 1,
-titleColSpan: 1,
-valueField: "id",
-pickListWidth: 500,
-pickListHeight: 300,
-pickListProperties:
-{
-showFilterEditor: true
-},
-pickListFields: [
-{
-name: "id",
-width: "10%",
-align: "center",
-colSpan: 1,
-titleColSpan: 1,
-hidden: true
-},
-{
-name: "nameFA",
-width: "10%",
-align: "center",
-colSpan: 1,
-titleColSpan: 1
-},
-{
-name: "nameEN",
-width: "10%",
-align: "center",
-colSpan: 1,
-titleColSpan: 1
-}],
-validators: [
-{
-type: "required",
-validateOnChange: true
-}]
+                            "branch": "<spring:message code='bank.coreBranch.branch'/>"
+                        },
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
+                },
+                {
+                    name: "countryId",
+                    title: "<spring:message code='country'/>",
+                    type: 'long',
+                    width: "100%",
+                    required: true, errorOrientation: "bottom",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Country_IN_BANK,
+                    displayField: "name",
+                    colSpan: 1,
+                    titleColSpan: 1,
+                    valueField: "id",
+                    pickListWidth: 500,
+                    pickListHeight: 300,
+                    pickListProperties:
+                        {
+                            showFilterEditor: true
+                        },
+                    pickListFields: [
+                        {
+                            name: "id",
+                            width: "10%",
+                            align: "center",
+                            colSpan: 1,
+                            titleColSpan: 1,
+                            hidden: true
+                        },
+                        {
+                            name: "nameFA",
+                            width: "10%",
+                            align: "center",
+                            colSpan: 1,
+                            titleColSpan: 1
+                        },
+                        {
+                            name: "nameEN",
+                            width: "10%",
+                            align: "center",
+                            colSpan: 1,
+                            titleColSpan: 1
+                        }],
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     type: "RowSpacerItem"
-                },
+                }
             ]
         });
 
@@ -446,29 +444,24 @@ validateOnChange: true
             },
             items: [
                 DynamicForm_Bank,
-                isc.HLayout.create(
-                    {
-                        margin: '10px',
-                        padding: 10,
-                        layoutMargin: 10,
-                        membersMargin: 10,
-                        align: "center",
-                        width: "100%",
-                        members: [
-                            IButton_Bank_Save,
-                            isc.Label.create(
-                                {
-                                    width: 5,
-                                }),
-                            isc.IButtonCancel.create(
-                                {
-                                    width: 100,
-                                    click: function () {
-                                        Window_Bank.close();
-                                    }
-                                })
-                        ]
-                    })
+                isc.HLayout.create({
+                    width: "100%",
+                    height: "20",
+                    layoutMargin: 5,
+                    membersMargin: 5,
+                    autoDraw: false,
+                    isModal: true,
+                    showModalMask: true,
+                    align: nicico.CommonUtil.getAlignByLangReverse(),
+                    members: [
+                        IButton_Bank_Save,
+                        isc.IButtonCancel.create({
+                            click: function () {
+                                Window_Bank.close();
+                            }
+                        })
+                    ]
+                })
             ]
         });
 
@@ -502,28 +495,28 @@ validateOnChange: true
                 {
                     name: "nameEN",
                     title: "<spring:message code='bank.nameEn'/>",
-width: "10%",
-align: "center"
-},
-{
-name: "coreBranch",
-title: "<spring:message code='bank.coreBranch'/>",
-width: "10%",
-align: "center"
-},
-{
-name: "country.name",
-title: "<spring:message code='country'/>",
-width: "10%",
-align: "center"
-},
-{
-name: "address",
-title: "<spring:message code='bank.address'/>",
-width: "20%",
-align: "center"
-}],
-autoFetchData: true
+                    width: "10%",
+                    align: "center"
+                },
+                {
+                    name: "coreBranch",
+                    title: "<spring:message code='bank.coreBranch'/>",
+                    width: "10%",
+                    align: "center"
+                },
+                {
+                    name: "country.name",
+                    title: "<spring:message code='country'/>",
+                    width: "10%",
+                    align: "center"
+                },
+                {
+                    name: "address",
+                    title: "<spring:message code='bank.address'/>",
+                    width: "20%",
+                    align: "center"
+                }],
+            autoFetchData: true
         });
 
     var HLayout_Bank_Grid = isc.HLayout.create({
