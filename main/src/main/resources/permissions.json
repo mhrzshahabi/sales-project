@@ -677,6 +677,10 @@
       "title": "لغو تائید نهایی گزارش بازرسی"
     },
     {
+      "code": "U_INSPECTION_REPORT_ADD_SHIPMENT",
+      "title": "اضافه کردن حمل به گزارش بازرسی"
+    },
+    {
       "code": "R_CONTRACT_TYPE",
       "title": "نمایش نوع قرارداد"
     },
