@@ -4,6 +4,7 @@ import com.nicico.copper.common.AbstractExceptionHandlerControllerAdvice;
 import com.nicico.copper.common.dto.ErrorResponseDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.*;
+import feign.FeignException;
 import io.minio.errors.ErrorResponseException;
 import io.minio.messages.ErrorResponse;
 import lombok.RequiredArgsConstructor;
@@ -141,6 +142,11 @@ ConstraintViolationImpl{
             if (exception instanceof HttpClientErrorException.NotFound)
                 return new ResponseEntity<>(createErrorResponseDTO(new SalesException2(ErrorType.Unknown, null, message)), HttpStatus.NOT_FOUND);
         }
+        if (exception instanceof FeignException) {
+            final Locale locale = LocaleContextHolder.getLocale();
+            String message = messageSource.getMessage("exception.file.notfound.in.minio", null, locale);
+            return new ResponseEntity<>(createErrorResponseDTO(new SalesException2(ErrorType.Unknown, null, message)), HttpStatus.NOT_FOUND);
+        }
         final Locale locale = LocaleContextHolder.getLocale();
         String message = messageSource.getMessage("exception.un-managed", null, locale);
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(exception).
@@ -168,6 +174,13 @@ ConstraintViolationImpl{
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(Exception exception) {
+
+        this.printLog(exception, true, true, exception.getClass().getName());
+        return provideStandardError(exception);
+    }
+
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<Object> handleFeignException(FeignException exception) {
 
         this.printLog(exception, true, true, exception.getClass().getName());
         return provideStandardError(exception);

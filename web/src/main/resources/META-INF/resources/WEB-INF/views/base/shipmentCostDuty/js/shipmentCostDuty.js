@@ -17,7 +17,7 @@ costDutyTab.dynamicForm.fields = BaseFormItems.concat([{
     width: "100%",
     name: "nameFA",
     required: true,
-    title: "<spring:message code='unit.nameFa'/>",
+    title: "<spring:message code='shipmentCostInvoiceDetail.serviceNameFA'/>",
     keyPressFilter: "[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]",
     validators: [
         {
@@ -35,7 +35,7 @@ costDutyTab.dynamicForm.fields = BaseFormItems.concat([{
     width: "100%",
     name: "nameEN",
     required: true,
-    title: "<spring:message code='unit.nameEN'/>",
+    title: "<spring:message code='shipmentCostInvoiceDetail.serviceNameEN'/>",
     keyPressFilter: "[A-Za-z *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]",
     validators: [
         {
@@ -53,7 +53,7 @@ costDutyTab.listGrid.fields = BaseFormItems.concat([{
     title: "<spring:message code='shipmentCostInvoiceDetail.serviceCode'/>",
 }, {
     name: "name",
-    title: "<spring:message code='global.name'/>",
+    title: "<spring:message code='shipmentCostInvoiceDetail.serviceName'/>",
 }]);
 nicico.BasicFormUtil.getDefaultBasicForm(costDutyTab, "api/costDuty/");
 costDutyTab.dynamicForm.main.windowWidth = 500;

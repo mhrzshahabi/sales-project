@@ -75,7 +75,7 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         name: "reference",
-        title: "<spring:message code='currencyRate.Central.Bank'/>",
+        title: "<spring:message code='currencyRate.reference.bank'/>",
         required: true,
         width: "100%",
         filterOperator: "equals",

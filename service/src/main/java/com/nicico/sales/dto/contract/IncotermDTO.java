@@ -12,6 +12,7 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -119,9 +120,19 @@ public class IncotermDTO {
     @Accessors(chain = true)
     @ApiModel("IncotermViewForContract")
     @AllArgsConstructor
-    public static class ViewForContract{
+    public static class ViewForContract {
         private String id;
-        private Integer incotermVersion;
         private String title;
+        private List<IncotermRulesDTO.Info> incotermRules;
+
+        public String getDescription() {
+
+            String t = getTitle();
+            List<IncotermRulesDTO.Info> rules = getIncotermRules();
+            if (t != null && rules != null && rules.size() > 0)
+                return t + " (" + rules.stream().map(q -> q.getIncotermRule().getCode()).collect(Collectors.joining(", ")) + ")";
+
+            return "";
+        }
     }
 }

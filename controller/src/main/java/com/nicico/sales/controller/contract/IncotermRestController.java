@@ -39,15 +39,10 @@ public class IncotermRestController {
 
     @Loggable
     @GetMapping(value = "/list-contract")
-    public ResponseEntity<TotalResponse<IncotermDTO.ViewForContract>> getIncotermsForShowInContract() {
+    public ResponseEntity<TotalResponse<IncotermDTO.ViewForContract>> getIncotermsForShowInContract(MultiValueMap<String, String> criteria) {
 
-        return new ResponseEntity<>(incotermService.getIncotermsForShowInContract(), HttpStatus.OK);
-    }
-
-    @Loggable
-    @GetMapping(value = "/incoterm-rules")
-    public ResponseEntity<TotalResponse<String>> getIncotermRules(@RequestParam MultiValueMap<String, String> criteria) {
-        return new ResponseEntity<>(incotermService.getIncotermRules(Long.valueOf(criteria.get("criteria").get(0))), HttpStatus.OK);
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(incotermService.getIncotermsForShowInContract(nicicoCriteria), HttpStatus.OK);
     }
 
     @Loggable
@@ -84,7 +79,7 @@ public class IncotermRestController {
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<IncotermDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
 
-        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria); // todo incoterm chack ..........
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(incotermService.search(nicicoCriteria), HttpStatus.OK);
     }
 }

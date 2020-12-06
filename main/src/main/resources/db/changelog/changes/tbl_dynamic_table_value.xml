@@ -1,0 +1,122 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+	<changeSet author="ARezaieZR" id="1607148363477-301">
+		<addColumn tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE">
+			<column name="C_DISPLAY_FIELD" type="varchar2(255 CHAR)"/>
+		</addColumn>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-302">
+		<addColumn tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE">
+			<column name="B_REQUIRED" type="number(1, 0)"/>
+			<column name="C_DISPLAY_FIELD" type="varchar2(255 CHAR)"/>
+			<column name="C_HEADER_Key" type="varchar2(255 CHAR)"/>
+			<column name="C_HEADER_TYPE" type="varchar2(255 CHAR)"/>
+			<column name="C_HEADER_VALUE" type="varchar2(255 CHAR)"/>
+			<column name="C_INITIAL_CRITERIA" type="varchar2(2000 CHAR)"/>
+			<column name="C_REGEX_VALIDATOR" type="varchar2(2000 CHAR)"/>
+			<column name="C_VALUE_TYPE" type="varchar2(255 CHAR)"/>
+			<column name="D_COLNUM" type="number(19, 0)"/>
+			<column name="D_MAX_ROWS" type="number(10, 0)"/>
+		</addColumn>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-303">
+		<update	tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE">
+			<column name="C_HEADER_TYPE" value="notset"/>
+			<column name="C_HEADER_VALUE" value="notset"/>
+			<column name="C_VALUE_TYPE" value="notset"/>
+			<column name="D_COLNUM" valueNumeric="0"/>
+		</update>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-314">
+		<addUniqueConstraint columnNames="D_ROW_NUM, F_CONTRACTDETAILVALUE_ID"
+							 constraintName="UC_CONTRACTDETAILVALUE_ID_ROW_NUM"
+							 tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-315">
+		<addUniqueConstraint columnNames="C_HEADER_VALUE, F_CONTRACTDETAILVALUE_ID"
+							 constraintName="UC_F_CONTRACTDETAILVALUE_ID_C_HEADER_VALUE"
+							 tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-316">
+		<addUniqueConstraint columnNames="F_PACKAGING_LIST, C_CONTAINER_No"
+							 constraintName="UC_F_PACKAGING_LIST_C_CONTAINER_No" tableName="TBL_PACKING_CONTAINER"/>
+	</changeSet>
+<!--	<changeSet author="ARezaieZR" id="1607148363477-317">-->
+<!--		<addForeignKeyConstraint baseColumnNames="F_SHIPMENT" baseTableName="TBL_PACKING_LIST"-->
+<!--								 constraintName="FK_PACKING_LIST_TO_SHIPMENT" deferrable="false"-->
+<!--								 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT"-->
+<!--								 validate="true"/>-->
+<!--	</changeSet>-->
+	<changeSet author="ARezaieZR" id="1607148363477-318">
+		<addForeignKeyConstraint baseColumnNames="F_PACKING_CONTAINER_id" baseTableName="TBL_WARH_REMITTANCE"
+								 constraintName="FK_remittance_to_packing_container" deferrable="false"
+								 initiallyDeferred="false" referencedColumnNames="id"
+								 referencedTableName="TBL_PACKING_CONTAINER" validate="true"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-319">
+		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_BILL_OF_LADING_SWITCH"
+								 constraintName="FKg8ppp9d3jcl6nl8mt4jlpmckb" deferrable="false"
+								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
+								 validate="true"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-320">
+		<dropForeignKeyConstraint baseTableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"
+								  constraintName="FK_DYNAMIC_TABLE_VALUE2CDTPDYNAMICTABLE"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-321">
+		<dropUniqueConstraint constraintName="UC_TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE_ROW_NUM_F_CDTPDYNAMICTABLE_ID"
+							  tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-343">
+		<dropColumn columnName="C_DESCL" tableName="TBL_MATERIAL"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-344">
+		<dropColumn columnName="C_DESCP" tableName="TBL_MATERIAL"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-345">
+		<dropColumn columnName="C_FIELD_NAME" tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-346">
+		<dropColumn columnName="C_TITLE" tableName="AUD_TBL_CNTR_CONTRACT_DETAIL_VALUE"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-347">
+		<dropColumn columnName="C_TITLE" tableName="TBL_CNTR_CONTRACT_DETAIL_VALUE"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-348">
+		<dropColumn columnName="F_CDTPDYNAMICTABLE_ID" tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-349">
+		<dropColumn columnName="N_ACCOUNTING_ID" tableName="AUD_TBL_FOREIGN_INVOICE"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-270">
+		<addNotNullConstraint columnDataType="number(10,0)" columnName="REV" tableName="AUD_TBL_BILL_OF_LADING_SWITCH"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-271">
+		<addNotNullConstraint columnDataType="number(19,0)" columnName="id" tableName="AUD_TBL_BILL_OF_LADING_SWITCH"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-272">
+		<addNotNullConstraint columnDataType="varchar2(255 CHAR)" columnName="C_HEADER_TYPE"
+							  tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-273">
+		<addNotNullConstraint columnDataType="varchar2(255 CHAR)" columnName="C_HEADER_VALUE"
+							  tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-274">
+		<addNotNullConstraint columnDataType="varchar2(255 CHAR)" columnName="C_VALUE_TYPE"
+							  tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+	</changeSet>
+	<changeSet author="ARezaieZR" id="1607148363477-275">
+		<addNotNullConstraint columnDataType="number(19,0)" columnName="D_COLNUM"
+							  tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+	</changeSet>
+
+
+	<changeSet author="karimi" id="1607148363477-315-1">
+		<dropUniqueConstraint constraintName="UC_F_CONTRACTDETAILVALUE_ID_C_HEADER_VALUE"
+							  tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+	</changeSet>
+
+</databaseChangeLog>

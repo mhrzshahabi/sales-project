@@ -534,6 +534,11 @@ const BlTab = {
                                         ...BlTab.Layouts.ToolStripButtons.remove,
                                         // ID: BlTab.Vars.Prefix + "tool_stripـbuttonـremove",
                                     }),
+                                     //    </sec:authorize>
+                                     //    <sec:authorize access="hasAuthority('AT_BILL_OF_LADING')">
+                                    isc.ToolStripButton.create({
+                                        ...BlTab.Layouts.ToolStripButtons.fileUpload,
+                                    }),
                                     //    </sec:authorize>
                                     isc.ToolStrip.create({
                                         width: "100%",
@@ -567,6 +572,12 @@ const BlTab = {
             remove: {
                 icon: "[SKIN]/actions/remove.png",
                 title: "<spring:message code='global.form.remove'/>",
+                click: function () {
+                }
+            },
+            fileUpload: {
+                icon: "pieces/512/attachment.png",
+                title: "<spring:message code='global.attach.file'/>",
                 click: function () {
                 }
             },
@@ -1306,21 +1317,21 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
                 if (shipment.shipmentTypeId && !_form.getValue('shipmentTypeId'))
                     _form.setValue('shipmentTypeId', shipment.shipmentTypeId)
                 if (shipment.shipmentMethodId
-                    // && !_form.getValue('shipmentMethodId')
+                // && !_form.getValue('shipmentMethodId')
                 )
                     _form.setValue('shipmentMethodId', shipment.shipmentTypeId)
                 if (shipment.vessel && !_form.getValue('oceanVesselId'))
                     _form.setValue('oceanVesselId', shipment.vessel.id)
                 if (shipment.dischargePortId
-                    // && !_form.getValue('portOfDischargeId')
+                // && !_form.getValue('portOfDischargeId')
                 )
                     _form.setValue('portOfDischargeId', shipment.dischargePortId)
                 if (shipment.dischargePort
-                    // && !_form.getValue('placeOfDelivery')
+                // && !_form.getValue('placeOfDelivery')
                 )
                     _form.setValue('placeOfDelivery', shipment.dischargePort.port)
                 if (shipment.contractShipment
-                    // && !_form.getValue('placeOfDelivery')
+                // && !_form.getValue('placeOfDelivery')
                 )
                     _form.setValue('portOfLoadingId', shipment.contractShipment.loadPortId)
 
@@ -1337,15 +1348,15 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
                                             const seller = response.contractContacts.find(cc => cc.commercialRole.toLowerCase() === "seller".toLowerCase());
                                             const agentBuyer = response.contractContacts.find(cc => cc.commercialRole.toLowerCase() === "AgentBuyer".toLowerCase());
                                             if (buyer
-                                                // && !_form.getValue("shipperExporterId")
+                                            // && !_form.getValue("shipperExporterId")
                                             )
                                                 _form.setValue('shipperExporterId', seller.contactId)
                                             if (agentBuyer
-                                                // && !_form.getValue("consigneeId")
+                                            // && !_form.getValue("consigneeId")
                                             )
                                                 _form.setValue('consigneeId', agentBuyer.contactId)
                                             if (seller
-                                                // && !_form.getValue("notifyPartyId")
+                                            // && !_form.getValue("notifyPartyId")
                                             )
                                                 _form.setValue('notifyPartyId', buyer.contactId)
 
@@ -1647,7 +1658,7 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
     {
         required: true,
         name: 'quantityType',
-        title: "<spring:message code='billOfLanding.quiantity.type'/>",
+        title: "<spring:message code='billOfLanding.quantity.type'/>",
     },
     {
         name: 'weight', required: false,
@@ -1823,8 +1834,8 @@ BlTab.Layouts.Window.BillOfLandingMain = isc.Window.create({
                         cellPadding: "10",
                         wrapItemTitles: false,
                         errorOrientation: "bottom",
-                        overflow:"hidden",
-                        margin:"20",
+                        overflow: "hidden",
+                        margin: "20",
                         fields: BlTab.Fields.BillOfLandingWithoutSwitch().map(_ => {
                             if (_.name === 'description') {
                                 _.width = 0.568 * innerWidth;
@@ -1838,7 +1849,7 @@ BlTab.Layouts.Window.BillOfLandingMain = isc.Window.create({
                     pane: BlTab.DynamicForms.Forms.BillOfLandingSwitch = isc.DynamicForm.create({
                         numCols: 6,
                         cellPadding: "11",
-                        margin:"20",
+                        margin: "20",
                         wrapItemTitles: false,
                         fields: BlTab.Fields.BillOfLandingSwitch()
                     })
@@ -1965,6 +1976,17 @@ BlTab.Layouts.ToolStripButtons.RemoveBillOfLanding = {
             _ => BlTab.Grids.BillOfLanding.obj.invalidateCache())
     }
 }
+BlTab.Layouts.ToolStripButtons.FileUpload = {
+    ...BlTab.Layouts.ToolStripButtons.fileUpload,
+    click() {
+        let record = BlTab.Grids.BillOfLanding.obj.getSelectedRecord();
+        if (record == null || record.id == null)
+            BlTab.Dialog.NotSelected();
+
+        nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message code="entity.bill-of-landing"/>', record.id, null, "BillOfLanding", null);
+
+    }
+}
 BlTab.Layouts.ToolStripButtons.EditContainerToBillOfLanding = {...BlTab.Layouts.ToolStripButtons.edit}
 BlTab.Layouts.ToolStripButtons.EditBillOfLanding.click = _ => {
     BlTab.Grids.BillOfLanding.recordDoubleClick(BlTab.Grids.BillOfLanding, BlTab.Grids.BillOfLanding.obj.getSelectedRecord())
@@ -1977,6 +1999,7 @@ BlTab.Layouts.ToolStripButtons.new.click = _ => {
 }
 BlTab.Layouts.ToolStripButtons.edit.click = BlTab.Layouts.ToolStripButtons.EditBillOfLanding.click
 BlTab.Layouts.ToolStripButtons.remove.click = BlTab.Layouts.ToolStripButtons.RemoveBillOfLanding.click
+BlTab.Layouts.ToolStripButtons.fileUpload.click = BlTab.Layouts.ToolStripButtons.FileUpload.click
 BlTab.Layouts.ToolStripButtons.refresh.click = BlTab.Layouts.ToolStripButtons.RefreshBillOfLanding.click
 BlTab.Layouts.ToolStrips.BillOfLanding = BlTab.Layouts.ToolStrips.CreateMainToolStrip();
 BlTab.Layouts.Vlayouts.MainVLayOut = BlTab.Layouts.Vlayouts.CreateMainVlayOut([

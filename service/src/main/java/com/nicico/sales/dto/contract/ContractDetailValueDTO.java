@@ -22,7 +22,7 @@ public class ContractDetailValueDTO {
 
     private String name;
     private String key;
-    private String title;
+//    private String title;
     private DataType type;
     private String reference;
     private String value;
@@ -47,7 +47,7 @@ public class ContractDetailValueDTO {
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
-        private CDTPDynamicTableValueDTO.Info cdtpDynamicTableValue;
+        private List<CDTPDynamicTableValueDTO.Info> dynamicTableValues;
 
         // BaseEntity
         private Boolean editable;

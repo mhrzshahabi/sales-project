@@ -7,10 +7,12 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -37,9 +39,9 @@ public class ContractDetailValue extends BaseEntity {
     @Column(name = "C_KEY", nullable = false)
     private String key;
 
-    @NotEmpty
-    @Column(name = "C_TITLE", nullable = false)
-    private String title;
+//    @NotEmpty
+//    @Column(name = "C_TITLE", nullable = false)
+//    private String title;
 
     @NotNull
     @Column(name = "N_TYPE", nullable = false)
@@ -71,6 +73,7 @@ public class ContractDetailValue extends BaseEntity {
     @Column(name = "F_CONTRACT_DETAIL_ID", nullable = false)
     private Long contractDetailId;
 
-    @OneToOne(mappedBy = "contractDetailValue", fetch = FetchType.LAZY)
-    private CDTPDynamicTableValue cdtpDynamicTableValue;
+    @NotAudited
+    @OneToMany(mappedBy = "contractDetailValue", fetch = FetchType.LAZY)
+    private List<CDTPDynamicTableValue> dynamicTableValues;
 }

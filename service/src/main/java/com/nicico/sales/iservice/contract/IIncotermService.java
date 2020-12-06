@@ -15,9 +15,7 @@ public interface IIncotermService {
 
     List<IncotermDTO.Info> list();
 
-    TotalResponse<IncotermDTO.ViewForContract> getIncotermsForShowInContract();
-
-    TotalResponse<String> getIncotermRules(Long id);
+    TotalResponse<IncotermDTO.ViewForContract> getIncotermsForShowInContract(NICICOCriteria request);
 
     IncotermDTO.Info create(IncotermDTO.Create request);
 

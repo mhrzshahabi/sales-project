@@ -35,12 +35,6 @@ public class ReportFormController {
 
         SecurityChecker.addEntityPermissionToRequest(request, Report.class);
 
-        Map<String, String> accessLevel = getAccessLevelEnumMap();
-        request.setAttribute("Enum_EFileAccessLevel", objectMapper.writeValueAsString(accessLevel));
-
-        Map<String, String> fileStatus = getFileStatusEnumMap();
-        request.setAttribute("Enum_FileStatus", objectMapper.writeValueAsString(fileStatus));
-
         Map<String, String> source = getSourceEnumMap();
         request.setAttribute("Enum_ReportSource", objectMapper.writeValueAsString(source));
 
@@ -84,34 +78,4 @@ public class ReportFormController {
         return source;
     }
 
-    private Map<String, String> getFileStatusEnumMap() {
-
-        Map<String, String> fileStatus = new HashMap<>();
-        Locale locale = LocaleContextHolder.getLocale();
-        for (EFileStatus value : EFileStatus.values())
-            if (value == EFileStatus.NORMAL)
-                fileStatus.put(value.name(), messageSource.getMessage("file.status.normal", null, locale));
-            else if (value == EFileStatus.DELETED)
-                fileStatus.put(value.name(), messageSource.getMessage("file.status.deleted", null, locale));
-
-            else throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نگاشت وضعیت فایل تعریف نشده است");
-
-        return fileStatus;
-    }
-
-    private Map<String, String> getAccessLevelEnumMap() {
-
-        Map<String, String> accessLevel = new HashMap<>();
-        Locale locale = LocaleContextHolder.getLocale();
-        for (EFileAccessLevel value : EFileAccessLevel.values())
-            if (value == EFileAccessLevel.SELF)
-                accessLevel.put(value.name(), messageSource.getMessage("file.access-level.self", null, locale));
-            else if (value == EFileAccessLevel.PUBLIC)
-                accessLevel.put(value.name(), messageSource.getMessage("file.access-level.public", null, locale));
-
-            else
-                throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نگاشت نوع دسترسی به فایل تعریف نشده است");
-
-        return accessLevel;
-    }
 }

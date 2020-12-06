@@ -1344,10 +1344,10 @@ contractTab.Fields = {
             required: true,
             title: "<spring:message code='entity.contract-type'/>"
         },
-        Object.assign({}, getContactByType("buyer"), {useInGrid: true, width: "100%"}),
-        Object.assign({}, getContactByType("seller"), {useInGrid: true, width: "100%"}),
-        Object.assign({}, getContactByType("agentBuyer"), {useInGrid: true, width: "100%"}),
-        Object.assign({}, getContactByType("agentSeller"), {useInGrid: true, width: "100%"}),
+        Object.assign({}, getContactFieldByType("buyer"), {useInGrid: true, width: "100%"}),
+        Object.assign({}, getContactFieldByType("seller"), {useInGrid: true, width: "100%"}),
+        Object.assign({}, getContactFieldByType("agentBuyer"), {useInGrid: true, width: "100%"}),
+        Object.assign({}, getContactFieldByType("agentSeller"), {useInGrid: true, width: "100%"}),
         {
             colSpan: 8,
             // width: "100%",

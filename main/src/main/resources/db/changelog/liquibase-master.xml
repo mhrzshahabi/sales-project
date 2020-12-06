@@ -118,6 +118,7 @@
 
     <!-- CHANGES -->
     <include file="classpath:/db/changelog/changes/tbl_file-bucketname.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_dynamic_table_value.xml"/>
     <!-- CHANGES -->
 
 </databaseChangeLog>

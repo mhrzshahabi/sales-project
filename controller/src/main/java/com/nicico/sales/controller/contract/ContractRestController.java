@@ -44,6 +44,14 @@ public class ContractRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/is-depend-on-contract-detail-type/{cdtId}")
+    public ResponseEntity<Boolean> isDependOnContractDetailType(@PathVariable Long cdtId) {
+
+        boolean isDependOnContractDetailType = contractService.findAllByContractDetailTypeId(cdtId).size() > 0;
+        return new ResponseEntity<>(isDependOnContractDetailType, HttpStatus.OK);
+    }
+
+    @Loggable
     @PostMapping
     public ResponseEntity<ContractDTO.Info> create(@Validated @RequestBody ContractDTO.Create request) {
 

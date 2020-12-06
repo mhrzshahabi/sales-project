@@ -74,16 +74,17 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
             request.getContractDetailTypeParams().stream().
                     filter(param -> param.getType().equals(DataType.DynamicTable)).
                     forEach(cdtp -> cdtpDynamicTableMap.put(cdtp.getKey(), cdtp.getDynamicTables()));
-            if (cdtpDynamicTableMap.size() > 0)
+            if (cdtpDynamicTableMap.size() > 0) {
+
                 savedContractDetailTypeParam.stream().
                         filter(param -> param.getType().equals(DataType.DynamicTable)).
-                        forEach(cdtp -> cdtpDynamicTableMap.get(cdtp.getKey()).
-                                forEach(cdtpdt -> cdtpdt.setCdtpId(cdtp.getId())));
-            cdtpDynamicTableService.createAll(modelMapper.map(
-                    cdtpDynamicTableMap.values().stream().flatMap(Collection::stream).collect(Collectors.toList()),
-                    new TypeToken<List<CDTPDynamicTableDTO.Create>>() {
-                    }.getType()
-            ));
+                        forEach(cdtp -> cdtpDynamicTableMap.get(cdtp.getKey()).forEach(cdtpdt -> cdtpdt.setCdtpId(cdtp.getId())));
+
+                List<CDTPDynamicTableDTO.InfoWithoutCDTP> dynamicTables = cdtpDynamicTableMap.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
+                cdtpDynamicTableService.createAll(modelMapper.map(dynamicTables, new TypeToken<List<CDTPDynamicTableDTO.Create>>() {
+                        }.getType()
+                ));
+            }
         }
 
         if (request.getContractDetailTypeTemplates() != null && request.getContractDetailTypeTemplates().size() > 0) {
@@ -244,5 +245,4 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
         }
         return validation;
     }
-
 }
