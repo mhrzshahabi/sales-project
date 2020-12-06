@@ -32,6 +32,20 @@ var materialElementField = {
 
 //**********************************************************************************************************************
 
+function getAllFields(_object) {
+
+    if (typeof (_object) !== 'object') return [_object];
+
+    const keys = (_object == null ? [] : Object.keys(_object));
+    const fields = keys.filter(_ => !_.toString().startsWith('_') && !_.toString().startsWith('$') && typeof _object[_] !== 'object');
+    const internalObj = keys.filter(_ => !_.toString().startsWith('_') && !_.toString().startsWith('$') && typeof _object[_] === 'object');
+    internalObj.forEach(_ => fields.addList(contractDetailTypeTab.method.getAllFields(_object[_]).map(__ => _ + '.' + __)));
+
+    return fields;
+}
+
+//**********************************************************************************************************************
+
 function getReferenceDisplayField(referenceType) {
 
     return getReferenceFields(referenceType).filter(q => q.forDisplayField).first().name;

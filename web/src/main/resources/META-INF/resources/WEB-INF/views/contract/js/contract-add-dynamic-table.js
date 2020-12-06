@@ -1,4 +1,5 @@
 
+// for save data
 contractTab.Methods.ConvertDynamicTableListGridDataToModel = function (grid) {
     /**
      * @_type {CDTPDynamicTable[]}
@@ -25,12 +26,9 @@ contractTab.Methods.ConvertDynamicTableListGridDataToModel = function (grid) {
     })
     grid['cDTPDynamicTableValue'] = CDTPDynamicTableValueList;
     // dbg(grid,data)
-}
-/**
- * This is a function.
- * @param {isc.ListGrid} grid - A string param
- * @param {CDTPDynamicTableValue[]} data - A string param
- */
+};
+
+// for save data
 contractTab.Methods.GetListGridDataFromDynamicTableGrid = function (grid, data) {
     if (grid && grid.reference === contractTab.variable.dataType.DynamicTable) {
         contractTab.Methods.ConvertDynamicTableListGridDataToModel(grid)
@@ -38,10 +36,7 @@ contractTab.Methods.GetListGridDataFromDynamicTableGrid = function (grid, data) 
     }
     return data;
 }
-/**
- * @param {SectionStackSectionObj} _sectionStackSectionObj
- * @param {ContractDetailType} _record
- * **/
+
 contractTab.Methods.DynamicTableGridCreator = async function a(_record,
                                                                _sectionStackSectionObj) {
     if (!_record || !_record.contractDetailTypeParams) return;
@@ -144,9 +139,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record,
         .filter(_ => _ && _.type && _.type === contractTab.variable.dataType.DynamicTable)
     if (!cdtpdtList || cdtpdtList.length === 0) return;
     const fields = [];
-    /****
-     * @param {ContractDetailTypeParam} cdtpdt
-     * *****/
+
     await Promise.all(cdtpdtList.map(/**@param {ContractDetailTypeParam} cdtpdt**/async cdtpdt => {
         const columns = cdtpdt.dynamicTables;
         if (columns && columns.length > 0) {
@@ -291,12 +284,6 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record,
         }
     }))
 }
-/**
- * This is a function.
- * @param {Contract} _contract - A string param
- * @param {ContractDetail} contractDetail - A string param
- * @param {SectionStackSectionObj} _sectionStackSectionObj - A string param
- */
 contractTab.Methods.DynamicTableGridCreatorForContract = async function (_contract,
                                                                          _sectionStackSectionObj,
                                                                          contractDetail) {

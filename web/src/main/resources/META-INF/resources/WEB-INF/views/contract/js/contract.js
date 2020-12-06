@@ -1,3 +1,5 @@
+//****************************************************** VARIABLES *****************************************************
+
 var contractTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 
 contractTab.variable.contractUrl = "${contextPath}" + "/api/g-contract/";
@@ -20,7 +22,7 @@ contractTab.restDataSource.contractDetailType = isc.MyRestDataSource.create({
 
 //******************************************************* FORMITEMS ****************************************************
 
-function contractTabDynamicFormFields() {
+contractTab.method.getDynamicFormFields = function () {
 
     return BaseFormItems.concat([
         {
@@ -218,10 +220,10 @@ function contractTabDynamicFormFields() {
             title: "<spring:message code='global.description'/>"
         }
     ]);
-}
+};
 
-contractTab.dynamicForm.fields = contractTabDynamicFormFields();
-contractTab.listGrid.fields = contractTabDynamicFormFields().filter(field => field.useInGrid || field.isBaseItem);
+contractTab.dynamicForm.fields = contractTab.method.getDynamicFormFields();
+contractTab.listGrid.fields = contractTab.method.getDynamicFormFields().filter(field => field.useInGrid || field.isBaseItem);
 contractTab.listGrid.fields.forEach(item => {
     if (item.isBaseItem) item.hidden = false;
 });
@@ -918,7 +920,7 @@ contractTab.method.createArticleBody = function (sectionStackSectionObj) {
         sectionStackSectionObj.items.addAll(grids);
     }
 
-    let dynamicTableGrids = contractTab.method.createArticleBodyDynamicTableGrid(sectionStackSectionObj.data.contractDetailType, sectionStackSectionObj.data.contractDetail, sectionStackSectionObj.data.isNewMode);
+    let dynamicTableGrids = contractTab.method.createArticleBodyDynamicGrid(sectionStackSectionObj.data.contractDetailType, sectionStackSectionObj.data.contractDetail, sectionStackSectionObj.data.isNewMode);
     if (dynamicTableGrids.length) {
 
         sectionStackSectionObj.dynamicTableGrids = dynamicTableGrids;
@@ -1078,7 +1080,6 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
             canRemoveRecords: true,
             fields: fields,
             key: param.key,
-            title: param.name,
             unitId: param.unitId,
             paramType: param.type,
             required: param.required,
@@ -1139,9 +1140,308 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
 
     return grids;
 };
-contractTab.method.createArticleBodyDynamicTableGrid = function (contractDetailType, contractDetail, isNewMode) {
+contractTab.method.createArticleBodyDynamicGrid = async function (contractDetailType, contractDetail, isNewMode) {
 
-    // contractTab.Methods.DynamicTableGridCreator(record, sectionStackSectionObj);
+    let target;
+    let valueKey;
+    let dynamicGrids = [];
+    if (!isNewMode) {
+
+        valueKey = "value";
+
+        // value field contains rowNumber
+        // reference field contains contractDetailTypeParamId
+        let contractDetailValueGroup = contractDetail.contractDetailValues.filter(x => x.type === contractTab.variable.dataType.DynamicTable).groupBy('reference');
+        target = Object.keys(contractDetailValueGroup).map(reference => {
+
+            let values = contractDetailValueGroup[reference];
+            let firstValue = values.first();
+            return {
+                values: values,
+                key: firstValue.key,
+                type: firstValue.type,
+                name: firstValue.name,
+                unitId: firstValue.unitId,
+                required: firstValue.required,
+                reference: firstValue.reference,
+                contractDetailId: firstValue.contractDetailId,
+                dynamicTables: firstValue.dynamicTableValues
+            }
+        });
+    } else {
+
+        valueKey = "defaultValue";
+        target = contractDetailType.contractDetailTypeParams.filter(param => param.type === contractTab.variable.dataType.DynamicTable);
+    }
+
+    await Promise.all(target.map(async param => {
+
+        let fields = await contractTab.method.createDynamicGridFields(param.dynamicTables, valueKey);
+        let listGridFirstField = {name: null};
+        if (fields && fields.length)
+            listGridFirstField = fields[0];
+
+        let grid = isc.ListGrid.create({
+
+            width: "100%",
+            height: "300",
+            sortField: 1,
+            selectionType: "single",
+            sortDirection: "ascending",
+            canHover: true,
+            showHover: true,
+            autoFitData: "vertical",
+            autoFitDateFields: "both",
+            autoFitMaxWidth: "15%",
+            autoFitWidthApproach: "both",
+            autoFitFieldsFillViewport: true,
+            autoFitExpandField: listGridFirstField.name,
+            showRowNumbers: true,
+            canAutoFitFields: false,
+            allowAdvancedCriteria: true,
+            alternateRecordStyles: true,
+            canEdit: true,
+            editEvent: "doubleClick",
+            autoSaveEdits: false,
+            virtualScrolling: false,
+            showRecordComponents: true,
+            showRecordComponentsByCell: true,
+            recordComponentPoolingMode: "recycle",
+            listEndEditAction: "next",
+            canRemoveRecords: true,
+            fields: fields,
+            key: param.key,
+            unitId: param.unitId,
+            paramType: param.type,
+            required: param.required,
+            reference: param.reference,
+            dynamicTables: param.dynamicTables,
+            values: !isNewMode ? param.values : [],
+            contractDetailId: !isNewMode ? param.contractDetailId : null,
+            name: contractDetailType.code + "." + param.key,
+            dataChanged: function (operationType) {
+
+                this.autoFitFields();
+                contractTab.dynamicForm.valuesManager.setValue(this.name, this.getData());
+
+                this.Super("dataChanged", arguments);
+            },
+            gridComponents: [
+                isc.Lable.create({
+                    contents: "<h3>" + param.name + "</h3><span style='width: 100%; display: block; border-bottom: 1px solid rgba(0,0,0,0.3);margin-bottom: 3px'></span>"
+                }), "header", "body",
+                isc.ToolStrip.create({
+                    width: "100%",
+                    height: 24,
+                    members: [
+                        isc.ToolStripButton.create({
+                            icon: "pieces/16/icon_add.png",
+                            title: "<spring:message code='global.add'/>",
+                            click: function () {
+                                grid.startEditingNew();
+                            }
+                        }),
+                        isc.ToolStrip.create({
+                            width: "100%",
+                            height: 24,
+                            align: 'left',
+                            border: 0,
+                            members: [
+                                isc.ToolStripButton.create({
+                                    icon: "pieces/16/save.png",
+                                    title: "<spring:message code='global.form.save.temporary'/>",
+                                    click: function () {
+                                        grid.saveAllEdits();
+                                    }
+                                })]
+                        })
+                    ]
+                })]
+        });
+
+        if (!isNewMode)
+            grid.setData(await contractTab.method.createDynamicGridData(param.values));
+
+        dynamicGrids.push(grid);
+    }));
+
+    return dynamicGrids;
+};
+contractTab.method.createDynamicGridData = async function (values, fields) {
+
+    let data = [];
+    values.forEach(row => {
+
+        let record;
+        row.dynamicTables.forEach(col => {
+
+            let field = fields.find(q => q.colNum === col.colNum);
+            record = {
+
+                rowNum: field.rowNum,
+                colNum: field.colNum,
+                maxRows: field.maxRows,
+                required: field.required,
+                headerKey: field.headerKey,
+                headerType: field.headerType,
+                headerValue: field.headerValue,
+                valueType: field.valueType,
+                description: field.description,
+                displayField: field.displayField,
+                regexValidator: field.regexValidator,
+                initialCriteria: field.initialCriteria,
+                contractDetailValueId: field.contractDetailValueId
+            };
+            record[field.name] = col.value;
+        });
+
+        data.add(record);
+    });
+
+    return data;
+};
+contractTab.method.createDynamicGridFields = async function (dynamicTables, valueKey) {
+
+    var dataTypeKeys = Object.keys(contractTab.variable.dataType);
+
+    function getDefaultFieldObject(column) {
+
+        return {
+
+            validateOnExit: true,
+            validateOnChange: true,
+            name: column.headerValue,
+            showHintInField: column.description,
+            hint: column.description ? column.description : null,
+
+            required: column.required,
+
+            colNum: column.colNum,
+            maxRows: column.maxRows,
+            headerKey: column.headerKey,
+            headerType: column.headerType,
+            headerValue: column.headerValue,
+            valueType: column.valueType,
+            description: column.description,
+            displayField: column.displayField,
+            regexValidator: column.regexValidator,
+            initialCriteria: column.initialCriteria,
+            contractDetailValueId: column.contractDetailValueId
+        };
+    }
+
+    async function getDynamicHeaders(columns) {
+
+        const dynamicHeaders = columns.filter(column => !dataTypeKeys.includes(column.headerType));
+        const dynamicHeaderTitleRes = await Promise.all(dynamicHeaders.map(column => fetch(
+            '${contextPath}' + column.headerType + '?criteria=' + JSON.stringify({
+                fieldName: 'id',
+                operator: "equals",
+                value: Number(column.headerValue)
+            }),
+            {headers: SalesConfigs.httpHeaders})
+        ));
+
+        const dynamicHeaderTitles = await Promise.all(dynamicHeaderTitleRes.map(_ => _.json()));
+        return dynamicHeaders.map((_obj, _index) => {
+
+            return {
+
+                colNum: _obj.colNum,
+                name: dynamicHeaderTitles[_index]['response']['data'][0][_obj.headerKey],
+            }
+        });
+    }
+
+    async function getDynamicValueFields(columns) {
+
+        const dynamicValues = columns.filter(column => !dataTypeKeys.includes(column.valueType));
+        const dynamicValuesRes = await Promise.all(dynamicValues.map(column => fetch(
+            '${contextPath}' + column.valueType + '?_startRow=0&_endRow=1',
+            {headers: SalesConfigs.httpHeaders}
+            ))
+        );
+
+        const dynamicValuesResponse = await Promise.all(dynamicValuesRes.map(_ => _.json()))
+        return dynamicValues.map((_obj, _index) => {
+
+            return {
+
+                colNum: _obj.colNum,
+                fields: getAllFields(dynamicValuesResponse[_index]['response']['data'][0]).map(name => {
+
+                        const _f = {name: name};
+                        if (name.includes("\.")) _f.hidden = true;
+                        return _f;
+                    }
+                )
+            };
+        });
+    }
+
+    const fields = [];
+    const [dynamicHeaders, dynamicValueFields] = await Promise.all([getDynamicHeaders(dynamicTables), getDynamicValueFields(dynamicTables)]);
+    dynamicTables.forEach(column => {
+
+        const _field = getDefaultFieldObject(column)
+        if (column[valueKey])
+            _field[valueKey] = column[valueKey];
+        if (column.regexValidator)
+            _field.validators = [{type: "regexp", expression: column.regexValidator, validateOnChange: true}];
+
+        if (dataTypeKeys.includes(column.headerType) && dataTypeKeys.includes(column.valueType)) {
+
+            fields.add(_field);
+            return;
+        }
+
+        const dynamicHeader = dynamicHeaders.find(f => f.colNum === column.colNum);
+        const dynamicValue = dynamicValueFields.find(f => f.colNum === column.colNum);
+
+        let firstField = {name: null};
+        if (dynamicValue.fields && dynamicValue.fields.length)
+            firstField = dynamicValue.fields[0];
+
+        Object.assign(_field, {
+
+            name: dynamicHeader.name,
+            optionCriteria: column.initialCriteria ? JSON.parse(column.initialCriteria) : null,
+            optionDataSource: isc.MyRestDataSource.create({
+                fields: dynamicValue.fields,
+                fetchDataURL: '${contextPath}' + column.valueType
+            }),
+            pickListHeight: 800,
+            pickListWidth: .7 * innerWidth,
+            pickListFields: dynamicValue.fields.map((_field, _index) => {
+
+                if (_index > 5) _field.hidden = true;
+                return _field;
+            }),
+            pickListProperties: {
+
+                autoFitData: "vertical",
+                autoFitDateFields: "both",
+                autoFitMaxWidth: "15%",
+                autoFitWidthApproach: "both",
+                autoFitFieldsFillViewport: true,
+                autoFitExpandField: firstField.name,
+
+                showFilterEditor: true,
+                allowAdvancedCriteria: true,
+            },
+            required: true,
+            validateOnExit: true,
+            addUnknownValues: false,
+            editorType: "comboBox",
+            textMatchStyle: "substring",
+            valueField: "id",
+            displayField: column.displayField
+        });
+
+        fields.add(_field);
+    });
+
+    return fields;
 };
 
 //****************************************************** Extras *********************************************************

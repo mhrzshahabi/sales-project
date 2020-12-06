@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"
         , uniqueConstraints = {@UniqueConstraint(columnNames = {"D_ROW_NUM", "F_CONTRACTDETAILVALUE_ID"}, name = "UC_CONTRACTDETAILVALUE_ID_ROW_NUM"),
-        @UniqueConstraint(columnNames = {"C_HEADER_VALUE", "F_CONTRACTDETAILVALUE_ID"}, name = "UC_F_CONTRACTDETAILVALUE_ID_C_HEADER_VALUE")
+//        @UniqueConstraint(columnNames = {"C_HEADER_VALUE", "F_CONTRACTDETAILVALUE_ID"}, name = "UC_F_CONTRACTDETAILVALUE_ID_C_HEADER_VALUE")
 })
 public class CDTPDynamicTableValue extends BaseEntity {
 

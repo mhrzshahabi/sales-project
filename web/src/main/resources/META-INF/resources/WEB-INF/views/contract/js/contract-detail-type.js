@@ -215,7 +215,6 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
                 delete headerKeyField['editorProperties']
                 headerKeyField.canEdit = false;
                 headerKeyField.required = false;
-                headerValueField.canEdit = true;
                 headerValueField.type = newValue;
             } else {
                 let dialog = isc.Dialog.create({
@@ -233,7 +232,7 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
                             .filter(_ => typeof (response.response.data[0][_]) !== 'object').map(_ => {
                                 return {name: _}
                             });
-                        let allFields = contractDetailTypeTab.method.getAllFields(response.response.data[0]);
+                        let allFields = getAllFields(response.response.data[0]);
                         let valueMap = {};
                         allFields.forEach(_ => valueMap[_] = _);
                         headerKeyField.canEdit = true;
@@ -254,7 +253,7 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
                                 fields: fields,
                                 fetchDataURL: '${contextPath}' + newValue
                             }),
-                            valueField: fields.find(_ => Object.values(_).includes('id')) ? "id" : "tozinId",
+                            valueField: "id",
                             pickListWidth: .7 * innerWidth,
                             pickListHeight: 800,
                             pickListFields: fields,
@@ -327,11 +326,7 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
 
                     if (response && response.response && response.response.data && response.response.data.length > 0) {
 
-                        let fields = Object.keys(response.response.data[0])
-                            .filter(_ => typeof (response.response.data[0][_]) !== 'object').map(_ => {
-                                return {name: _}
-                            });
-                        let allFields = contractDetailTypeTab.method.getAllFields(response.response.data[0]);
+                        let allFields = getAllFields(response.response.data[0]);
                         let valueMap = {};
                         allFields.forEach(_ => valueMap[_] = _);
                         displayField.canEdit = true;
@@ -1109,16 +1104,6 @@ contractDetailTypeTab.method.activate_deactivate = function (activate) {
         });
     }
 };
-
-contractDetailTypeTab.method.getAllFields = function (_object) {
-
-    if (typeof (_object) !== 'object') return [_object];
-    const keys = (_object == null ? [] : Object.keys(_object));
-    const fields = keys.filter(_ => !_.toString().startsWith('_') && !_.toString().startsWith('$')).filter(_ => typeof _object[_] !== 'object');
-    const internalObj = keys.filter(_ => !_.toString().startsWith('_') && !_.toString().startsWith('$')).filter(_ => typeof _object[_] === 'object');
-    internalObj.forEach(_ => fields.addList(contractDetailTypeTab.method.getAllFields(_object[_]).map(__ => _ + '.' + __)))
-    return fields;
-}
 
 //*************************************************** layout ***********************************************************
 
