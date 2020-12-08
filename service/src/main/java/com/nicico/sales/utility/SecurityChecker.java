@@ -27,6 +27,9 @@ public class SecurityChecker {
 
     public static boolean check(String securityExpression) {
 
+        if(SecurityUtil.isAdmin())
+            return true;
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         OAuth2MethodSecurityExpressionHandler expressionHandler = new OAuth2MethodSecurityExpressionHandler();
         EvaluationContext evaluationContext = expressionHandler.createEvaluationContext(authentication, new SimpleMethodInvocation());
@@ -36,9 +39,14 @@ public class SecurityChecker {
     @SafeVarargs
     public static void addEntityPermissionToRequest(HttpServletRequest request, Class<? extends BaseEntity>... classes) {
 
+        boolean isAdmin = SecurityUtil.isAdmin();
         List<String> eight = Arrays.asList("R", "C", "U", "D", "F", "O", "A", "I");
         for (String p : eight) {
             Boolean hasPermission = Arrays.stream(classes).map(clazz -> {
+
+                if(isAdmin)
+                    return true;
+
                 String entityName = StringFormatUtil.makeMessageKey(clazz.getSimpleName(), "_").toUpperCase();
                 return Optional.of(SecurityUtil.hasAuthority(p + "_" + entityName)).orElse(false);
             }).reduce((a, b) -> a && b).orElse(false);
@@ -47,6 +55,12 @@ public class SecurityChecker {
     }
 
     public static void addViewPermissionToRequest(HttpServletRequest request, Class clazz) {
+
+        if(SecurityUtil.isAdmin()) {
+
+            request.setAttribute("r_entity", true);
+            return;
+        }
 
         String entityName = StringFormatUtil.makeMessageKey(clazz.getSimpleName(), "_").toUpperCase();
         Boolean hasPermission = Optional.of(SecurityUtil.hasAuthority("R_" + entityName)).orElse(false);
