@@ -888,7 +888,8 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
                 defaultValue: this.getDefaultHTMLValue(contractDetailTypeTab.listGrid.param.getData()),
                 keyPress: function () {
 
-                    if (isc.EventHandler.getKey().toLowerCase() === "enter" && !isc.EventHandler.shiftKeyDown()) {
+                    let key = isc.EventHandler.getKey();
+                    if (key && key.toLowerCase() === "enter" && !isc.EventHandler.shiftKeyDown()) {
 
                         contractDetailTypeTab.listGrid.template.endEditing();
                         return false;
