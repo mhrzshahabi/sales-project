@@ -2054,10 +2054,10 @@ inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
     if (!inventories)
         return;
     let remittanceDetails = inventories.filter(q => q.remittanceDetails && q.remittanceDetails.size() > 0).map(q => q.remittanceDetails);
-    if (remittanceDetails.size() == 0) {
+    if (remittanceDetails.size() === 0) {
         tab_.addMember(isc.Label.create({
             wrap: false,
-            contents: "<span style='font-weight: bolder;font-size: larger'><spring:message code='inspectionReport.inventory.has.no.output.warn'/></span> "
+            contents: "<span style='font-weight: bolder;font-size: larger; color: #bd2130'><spring:message code='inspectionReport.inventory.has.no.output.warn'/></span> "
         }));
         return;
     }
