@@ -1651,7 +1651,7 @@ inspectionReportTab.toolStrip.assayRemoveAll = isc.ToolStrip.create({
 
                         let recordLimit = inspectionReportTab.listGrid.assayElement.getTotalRows();
                         let fileBrowserId = document.getElementById(inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").uploadItem.getElement().id);
-                        let fieldNames = inspectionReportTab.listGrid.assayElement.getFields().slice(2, inspectionReportTab.listGrid.assayElement.getFields().length - 1).map(q => q.name);
+                        let fieldNames = inspectionReportTab.listGrid.assayElement.getFields().slice(2, inspectionReportTab.listGrid.assayElement.getFields().length).map(q => q.name);
 
                         let formData = new FormData();
                         formData.append("file", fileBrowserId.files[0]);
@@ -2091,7 +2091,8 @@ inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
             disabledValueField: true,
             showUnitFieldTitle: false,
             showValueFieldTitle: false,
-            topPadding: 20
+            topPadding: 13,
+            width: "10%"
         });
         unitMember.setValue(amountArray[index]);
         unitMember.setUnitId(current);
