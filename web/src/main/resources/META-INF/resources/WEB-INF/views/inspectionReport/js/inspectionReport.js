@@ -1086,10 +1086,11 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         colSpan: 3,
-        width: "150",
+        width: 150,
         name: "select",
         title: "<spring:message code='inspectionReport.select'/>",
         type: "ButtonItem",
+        align: nicico.CommonUtil.getAlignByLang(),
         icon: "pieces/16/icon_add.png",
         click: function (form, item) {
 
@@ -1114,10 +1115,11 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         colSpan: 3,
-        width: "150",
+        width: 150,
         name: "refresh",
         title: "<spring:message code='inspectionReport.refresh'/>",
         type: "ButtonItem",
+        align: nicico.CommonUtil.getAlignByLang(),
         icon: "pieces/16/refresh.png",
         click: function (form, item) {
 
@@ -2101,10 +2103,10 @@ inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
     if (!inventories)
         return;
     let remittanceDetails = inventories.filter(q => q.remittanceDetails && q.remittanceDetails.size() > 0).map(q => q.remittanceDetails);
-    if (remittanceDetails.size() == 0) {
+    if (remittanceDetails.size() === 0) {
         tab_.addMember(isc.Label.create({
             wrap: false,
-            contents: "<span style='font-weight: bolder;font-size: larger'><spring:message code='inspectionReport.inventory.has.no.output.warn'/></span> "
+            contents: "<span style='font-weight: bolder;font-size: larger; color: #bd2130'><spring:message code='inspectionReport.inventory.has.no.output.warn'/></span> "
         }));
         return;
     }
