@@ -1056,11 +1056,12 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             }],
     },
     {
-        colSpan: 2,
-        width: "150",
+        colSpan: 3,
+        width: 150,
         name: "select",
         title: "<spring:message code='inspectionReport.select'/>",
         type: "ButtonItem",
+        align: nicico.CommonUtil.getAlignByLang(),
         icon: "pieces/16/icon_add.png",
         click: function (form, item) {
 
@@ -1084,11 +1085,12 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         }
     },
     {
-        colSpan: 2,
-        width: "150",
+        colSpan: 3,
+        width: 150,
         name: "refresh",
         title: "<spring:message code='inspectionReport.refresh'/>",
         type: "ButtonItem",
+        align: nicico.CommonUtil.getAlignByLang(),
         icon: "pieces/16/refresh.png",
         click: function (form, item) {
 
