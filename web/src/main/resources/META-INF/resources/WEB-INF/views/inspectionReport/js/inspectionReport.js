@@ -1502,6 +1502,17 @@ inspectionReportTab.toolStrip.weightRemoveAll = isc.ToolStrip.create({
                 inspectionReportTab.listGrid.weightElementSum.setData([]);
             }
         }),
+        isc.ToolStripButton.create({
+            height: "25",
+            name: "template",
+            autoFit: false,
+            title: "<spring:message code='inspectionReport.download.template.weight'/>",
+            click: function () {
+
+                let fieldNames = inspectionReportTab.listGrid.weightElement.getFields().slice(2, 5).map(q => q.name);
+                window.open("${contextPath}/inspectionReport/export?headers=" + fieldNames + "&fieldNames=" + fieldNames);
+            }
+        }),
         isc.ToolStrip.create({
             border: '0px',
             width: "100%",
@@ -1522,7 +1533,7 @@ inspectionReportTab.toolStrip.weightRemoveAll = isc.ToolStrip.create({
                     click: function () {
 
                         let recordLimit = inspectionReportTab.listGrid.weightElement.getTotalRows();
-                        let fileBrowserId = document.getElementById(inspectionReportTab.toolStrip.weightRemoveAll.members[1].members[0].getItem("excelFile").uploadItem.getElement().id);
+                        let fileBrowserId = document.getElementById(inspectionReportTab.toolStrip.weightRemoveAll.members[2].members[0].getItem("excelFile").uploadItem.getElement().id);
                         let fieldNames = inspectionReportTab.listGrid.weightElement.getFields().slice(2, 5).map(q => q.name);
 
                         let formData = new FormData();
@@ -1674,6 +1685,17 @@ inspectionReportTab.toolStrip.assayRemoveAll = isc.ToolStrip.create({
                 inspectionReportTab.listGrid.assayElementSum.setData([]);
             }
         }),
+        isc.ToolStripButton.create({
+            height: "25",
+            name: "template",
+            autoFit: false,
+            title: "<spring:message code='inspectionReport.download.template.assay'/>",
+            click: function () {
+
+                let fieldNames = inspectionReportTab.listGrid.assayElement.getFields().slice(2, inspectionReportTab.listGrid.assayElement.getFields().length).map(q => q.name);
+                window.open("${contextPath}/inspectionReport/export?headers=" + fieldNames + "&fieldNames=" + fieldNames);
+            }
+        }),
         isc.ToolStrip.create({
             border: '0px',
             width: "100%",
@@ -1694,7 +1716,7 @@ inspectionReportTab.toolStrip.assayRemoveAll = isc.ToolStrip.create({
                     click: function () {
 
                         let recordLimit = inspectionReportTab.listGrid.assayElement.getTotalRows();
-                        let fileBrowserId = document.getElementById(inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").uploadItem.getElement().id);
+                        let fileBrowserId = document.getElementById(inspectionReportTab.toolStrip.assayRemoveAll.members[2].members[0].getItem("excelFile").uploadItem.getElement().id);
                         let fieldNames = inspectionReportTab.listGrid.assayElement.getFields().slice(2, inspectionReportTab.listGrid.assayElement.getFields().length).map(q => q.name);
 
                         let formData = new FormData();
@@ -1960,8 +1982,8 @@ inspectionReportTab.method.clearForm = function () {
     inspectionReportTab.listGrid.weightElementSum.setData([]);
     inspectionReportTab.dynamicForm.inspecReport.clearValues();
     inspectionReportTab.listGrid.assayElementSum.setFields([]);
-    inspectionReportTab.toolStrip.weightRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
-    inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
+    inspectionReportTab.toolStrip.weightRemoveAll.members[2].members[0].getItem("excelFile").clearValue();
+    inspectionReportTab.toolStrip.assayRemoveAll.members[2].members[0].getItem("excelFile").clearValue();
     inspectionReportTab.hStack.weightUnitSum.setMembers([]);
     inspectionReportTab.hStack.assayUnitSum.setMembers([]);
     inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").enable();
@@ -2376,7 +2398,7 @@ inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         if (record == null || record.id == null)
             inspectionReportTab.dialog.notSelected();
 
-        nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message code="entity.inspection-report"/>', record.id, null, "InspectionReport",null);
+        nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message code="entity.inspection-report"/>', record.id, null, "InspectionReport", null);
     }
 }), 8);
 // </sec:authorize>
