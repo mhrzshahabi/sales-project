@@ -417,13 +417,16 @@ const BlTab = {
                 if (typeof (func) === "function") func();
             }
         },
-        RefreshContainerData: async function (id, listGrid) {
+        RefreshContainerData: async function (mainGrid, id, listGrid) {
             let resp = await fetch("api/bill-of-landing/" + id, {
                 headers: SalesConfigs.httpHeaders,
             });
             let respjson = await resp.json();
             listGrid.invalidateCache();
             listGrid.setData(respjson.containers);
+            let localData = mainGrid.getData().localData;
+            localData.filter(r => r.id == id)[0].containers = respjson.containers;
+            mainGrid.getData(localData);
             listGrid.redraw();
 
         },
@@ -534,8 +537,8 @@ const BlTab = {
                                         ...BlTab.Layouts.ToolStripButtons.remove,
                                         // ID: BlTab.Vars.Prefix + "tool_stripـbuttonـremove",
                                     }),
-                                     //    </sec:authorize>
-                                     //    <sec:authorize access="hasAuthority('AT_BILL_OF_LADING')">
+                                    //    </sec:authorize>
+                                    //    <sec:authorize access="hasAuthority('AT_BILL_OF_LADING')">
                                     isc.ToolStripButton.create({
                                         ...BlTab.Layouts.ToolStripButtons.fileUpload,
                                     }),
@@ -674,33 +677,17 @@ BlTab.Fields.Shipment = _ => [
     {name: "id", primaryKey: true, canEdit: false, hidden: true},
     {
         name: "contractShipment.contract.no",
-        primaryKey: true,
-        canEdit: false,
         hidden: true,
         title: "<spring:message code='contract.contractNo'/>"
     },
-    {name: "code", title: "<spring:message code='contact.code'/>"},
-    {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
-    {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-    {name: "phone", title: "<spring:message code='contact.phone'/>"},
-    {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
     {
-        name: "type", title: "<spring:message code='contact.type'/>",
-        valueMap: {
-            "true": "<spring:message code='contact.type.real'/>",
-            "false": "<spring:message code='contact.type.legal'/>"
-        }
+        name: "material.descFA",
+        title: "<spring:message code='material.descFA'/>"
     },
-    {name: "economicalCode", title: "<spring:message code='contact.economicalCode'/>"},
     {
-        name: "status", title: "<spring:message code='contact.status'/>",
-        valueMap: {
-            "true": "<spring:message code='enabled'/>", "false": "<spring:message code='disabled'/>"
-        }
-    },
-    {name: "contactAccounts"},
-    {name: "country.nameFA", title: "<spring:message code='country.nameFa'/>"},
-    {name: "bookingCat", title: "<spring:message code='shipment.bookingCat'/>", align: "center"}
+        name: "material.descEN",
+        title: "<spring:message code='material.descEN'/>"
+    }
 ];
 BlTab.Fields.Vessel = _ => [
     {
@@ -1292,22 +1279,16 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
             pickListFields: [
                 {
                     name: "contractShipment.contract.no",
-                    align: "center"
-                    , title: "<spring:message code='contact.code'/>"
+                    title: "<spring:message code='contact.code'/>"
 
                 },
                 {
                     name: "material.descEN",
                     title: "<spring:message code='material.descEN'/>"
-
-                    // align: "center"
                 },
                 {
                     name: "material.descFA",
                     title: "<spring:message code='material.descFA'/>"
-
-
-                    // align: "center"
                 },
             ],
             changed(_form, _item, _value) {
@@ -1317,21 +1298,21 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
                 if (shipment.shipmentTypeId && !_form.getValue('shipmentTypeId'))
                     _form.setValue('shipmentTypeId', shipment.shipmentTypeId)
                 if (shipment.shipmentMethodId
-                // && !_form.getValue('shipmentMethodId')
+                    // && !_form.getValue('shipmentMethodId')
                 )
                     _form.setValue('shipmentMethodId', shipment.shipmentTypeId)
                 if (shipment.vessel && !_form.getValue('oceanVesselId'))
                     _form.setValue('oceanVesselId', shipment.vessel.id)
                 if (shipment.dischargePortId
-                // && !_form.getValue('portOfDischargeId')
+                    // && !_form.getValue('portOfDischargeId')
                 )
                     _form.setValue('portOfDischargeId', shipment.dischargePortId)
                 if (shipment.dischargePort
-                // && !_form.getValue('placeOfDelivery')
+                    // && !_form.getValue('placeOfDelivery')
                 )
                     _form.setValue('placeOfDelivery', shipment.dischargePort.port)
                 if (shipment.contractShipment
-                // && !_form.getValue('placeOfDelivery')
+                    // && !_form.getValue('placeOfDelivery')
                 )
                     _form.setValue('portOfLoadingId', shipment.contractShipment.loadPortId)
 
@@ -1348,19 +1329,19 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
                                             const seller = response.contractContacts.find(cc => cc.commercialRole.toLowerCase() === "seller".toLowerCase());
                                             const agentBuyer = response.contractContacts.find(cc => cc.commercialRole.toLowerCase() === "AgentBuyer".toLowerCase());
                                             if (buyer
-                                            // && !_form.getValue("shipperExporterId")
+                                                // && !_form.getValue("shipperExporterId")
                                             )
                                                 _form.setValue('shipperExporterId', seller.contactId)
                                             if (agentBuyer
-                                            // && !_form.getValue("consigneeId")
+                                                // && !_form.getValue("consigneeId")
                                             )
                                                 _form.setValue('consigneeId', agentBuyer.contactId)
                                             if (seller
-                                            // && !_form.getValue("notifyPartyId")
+                                                // && !_form.getValue("notifyPartyId")
                                             )
                                                 _form.setValue('notifyPartyId', buyer.contactId)
-
-
+                                            if (BlTab.Vars.allReadyValidated)
+                                                _form.validate();
                                         }
                                     }
                                 )
@@ -1430,6 +1411,7 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
         {
             name: 'documentNo',
             required: true,
+            width: 100,
             title: "<spring:message code='billOfLanding.document.no'/>",
             keyPressFilter: "[0-9/_a-zA-Z\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F-]",
             validateOnChange: true,
@@ -1443,15 +1425,15 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
         },
         {
             name: 'shipmentId',
+            type: 'long',
             ...shipmentOptionDataSource(),
             title: "<spring:message code='Shipment.title'/>",
+            width: 130,
             formatCellValue: function (value, record, rowNum, colNum, grid) {
                 if (record.shipment && record.shipment.vessel)
-                    return record.shipment.contractShipment.contract.no + " " + record.shipment.vessel.name +
-                        " " +
-                        moment(record.shipment.sendDate).format('YYYY/MM/DD');
+                    return "(" + moment(record.shipment.sendDate).format('YYYY/MM/DD') + ") " + record.shipment.contractShipment.contract.no;
                 return value
-            }
+            },
         },
         {
             name: 'shipperExporter',
@@ -1460,10 +1442,12 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
         },
         {
             name: 'shipperExporterId',
+            validateOnChange: true,
+            type: 'long',
+            width: 250,
             required: true,
             ...BlTab.Methods.contactOptionDataSource(),
             title: "<spring:message code='billOfLanding.shipper.exporter'/>",
-
         },
         {
             name: 'notifyParty', hidden: true,
@@ -1471,7 +1455,10 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
         },
         {
             name: 'notifyPartyId',
+            validateOnChange: true,
+            width: 250,
             required: true,
+            type: 'long',
             title: "<spring:message code='billOfLanding.notify.party'/>",
             ...BlTab.Methods.contactOptionDataSource(),
         },
@@ -1481,7 +1468,11 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
         },
         {
             name: 'consigneeId',
+            validateOnChange: true,
+            type: 'long',
+            width: 250,
             required: true,
+            showIf: "false",
             ...BlTab.Methods.contactOptionDataSource(),
             title: "<spring:message code='billOfLanding.consignee'/>",
         },
@@ -1492,6 +1483,9 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
         },
         {
             name: 'portOfLoadingId',
+            validateOnChange: true,
+            type: 'long',
+            width: 90,
             required: true,
             ...BlTab.Methods.portOptionDataSource(),
             title: "<spring:message code='billOfLanding.port.of.landing'/>",
@@ -1502,12 +1496,18 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
         },
         {
             name: 'portOfDischargeId',
+            validateOnChange: true,
+            type: 'long',
+            width: 90,
             required: true,
             ...BlTab.Methods.portOptionDataSource(),
             title: "<spring:message code='billOfLanding.port.of.discharge'/>",
         },
         {
             name: "shipmentTypeId",
+            validateOnChange: true,
+            type: 'long',
+            width: 70,
             title: "<spring:message code='shipment.type'/>",
             ...shipmentTypeOptionDataSource(),
             formatCellValue: function (value, record, rowNum, colNum, grid) {
@@ -1519,6 +1519,9 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
         },
         {
             name: "shipmentMethodId",
+            type: 'long',
+            width: 70,
+            validateOnChange: true,
             ...shipmentMethodOptionDataSource(),
             title: "<spring:message code='shipment.method'/>",
             formatCellValue: function (value, record, rowNum, colNum, grid) {
@@ -1529,72 +1532,94 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
         },
         {
             name: 'placeOfDelivery', required: true,
+            type: 'text',
+            width: 100,
             title: "<spring:message code='billOfLanding.place.of.delivery'/>",
+            validateOnChange: true,
         },
         {
             name: 'oceanVessel', hidden: true, shouldSaveValue: false,
             title: "<spring:message code='billOfLanding.ocean.vessel'/>",
+            validateOnChange: true,
         },
         {
-            name: 'oceanVesselId', ...{
-                required: true,
-                autoFetchData: false,
-                editorType: "SelectItem",
-                valueField: "id",
-                displayField: "name",
-                pickListWidth: "700",
-                pickListHeight: "300",
-                optionDataSource: isc.MyRestDataSource.create({...BlTab.RestDataSources.Vessel}),
-                click: function () {
-                },
-                // optionCriteria: currencyInUnitCriteria,
-                pickListProperties:
-                    {
-                        showHover: true,
-                        autoFitWidth: true,
-                        showFilterEditor: true
-                    },
-                pickListFields: BlTab.Fields.Vessel(),
+            name: 'oceanVesselId',
+            required: true,
+            width: 110,
+            autoFetchData: false,
+            editorType: "SelectItem",
+            type: 'long',
+            valueField: "id",
+            displayField: "name",
+            pickListWidth: "700",
+            pickListHeight: "300",
+            optionDataSource: isc.MyRestDataSource.create({...BlTab.RestDataSources.Vessel}),
+            click: function () {
             },
+            // optionCriteria: currencyInUnitCriteria,
+            pickListProperties:
+                {
+                    showHover: true,
+                    autoFitWidth: true,
+                    showFilterEditor: true
+                },
+            pickListFields: BlTab.Fields.Vessel(),
+            validateOnChange: true,
             title: "<spring:message code='billOfLanding.ocean.vessel'/>",
         },
         {
             name: 'totalNet',
+            type: 'long',
+            width: 90,
             keyPressFilter: "[0-9]",
             title: "<spring:message code='billOfLanding.total.net.weight'/>",
+            validateOnChange: true,
         },
         {
             name: 'totalGross',
+            type: 'long',
+            width: 90,
             keyPressFilter: "[0-9]",
             title: "<spring:message code='billOfLanding.total.gross.weight'/>",
+            validateOnChange: true,
         },
         {
             name: 'totalBundles',
+            type: 'long',
+            width: 70,
+            validateOnChange: true,
             keyPressFilter: "[0-9]",
             title: "<spring:message code='billOfLanding.total.bundles'/>",
         },
         {
             name: 'numberOfBlCopies', required: true,
+            type: 'long',
+            showIf: "false",
+            width: 60,
+            validateOnChange: true,
             title: "<spring:message code='billOfLanding.copies.of.bl'/>",
             keyPressFilter: "[0-9]",
         },
         {
             name: 'dateOfIssue', type: "date",
+            width: 80,
             title: "<spring:message code='billOfLanding.date.of.issue'/>",
-
         },
         {
             name: 'placeOfIssue', required: true,
+            type: 'text',
+            width: 100,
+            validateOnChange: true,
             title: "<spring:message code='billOfLanding.place.of.issue'/>",
         },
         {
             name: 'description',
             colSpan: 6,
+            type: 'text',
+            //width: 180,
             editorType: "textArea",
             title: "<spring:message code='global.description'/>",
-            // width:"100%",
         },
-
 
     ]
 }
@@ -1602,30 +1627,48 @@ BlTab.Fields.BillOfLanding = _ => [
     ...BlTab.Fields.BillOfLandingWithoutSwitch(),
     {
         name: 'billOfLadingSwitch.documentNo',
-        title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.document.no'/>  ",
+        type: 'text',
+        showIf: "true",
+        width: 100,
+        title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.document.no'/>",
     },
     {
         name: 'billOfLadingSwitch.shipperExporterId',
+        type: 'long',
+        width: 250,
+        showIf: "false",
         ...BlTab.Methods.contactOptionDataSource(),
         title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.shipper.exporter'/>",
 
     },
     {
         name: 'billOfLadingSwitch.notifyPartyId',
+        type: 'long',
+        width: 250,
+        showIf: "false",
         title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.notify.party'/>",
         ...BlTab.Methods.contactOptionDataSource(),
     },
     {
         name: 'billOfLadingSwitch.consigneeId',
+        type: 'long',
+        width: 250,
+        showIf: "false",
         ...BlTab.Methods.contactOptionDataSource(),
         title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.consignee'/>",
     },
     {
         name: 'billOfLadingSwitch.portOfLoadingId', ...BlTab.Methods.portOptionDataSource(),
+        type: 'long',
+        width: 90,
+        showIf: "false",
         title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.port.of.landing'/>",
     },
     {
         name: 'billOfLadingSwitch.portOfDischargeId', ...BlTab.Methods.portOptionDataSource(),
+        type: 'long',
+        width: 90,
+        showIf: "false",
         title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.port.of.discharge'/>",
     },
 
@@ -1719,7 +1762,10 @@ BlTab.RestDataSources.Contact = {
     fetchDataURL: "api/contact/spec-list"
 }
 BlTab.RestDataSources.BillOfLanding = {
-    fields: BlTab.Fields.BillOfLanding(),
+    fields: BlTab.Fields.BillOfLanding().map(_ => {
+        delete _.required;
+        return _;
+    }),
     fetchDataURL: "api/bill-of-landing/spec-list"
 }
 ////////////////////////////////////////////////////////GRIDS///////////////////////////////////////////////////////////
@@ -1735,7 +1781,7 @@ BlTab.Vars.IButton_Container_Save = isc.IButtonSave.create({
                 BlTab.Layouts.Window.ContainerToBillOfLanding.close();
                 BlTab.DynamicForms.Forms.ContainerToBillOfLanding.clearValues();
                 BlTab.Grids.ContainerToBillOfLanding.invalidateCache();
-                BlTab.Methods.RefreshContainerData(BlTab.Grids.BillOfLanding.obj.getSelectedRecord().id, BlTab.Grids.ContainerToBillOfLanding);
+                BlTab.Methods.RefreshContainerData(BlTab.Grids.BillOfLanding.obj, BlTab.Grids.BillOfLanding.obj.getSelectedRecord().id, BlTab.Grids.ContainerToBillOfLanding);
             }
         )
     }
@@ -1745,6 +1791,7 @@ BlTab.Vars.IButton_BillOfLading_Save = isc.IButtonSave.create({
     click: function () {
         if (!BlTab.DynamicForms.Forms.BillOfLandingMain.validate()) {
             BlTab.Layouts.BillOfLandingFormTab.selectTab(0);
+            BlTab.Vars.allReadyValidated = true;
             return;
         }
         if (!BlTab.Methods.validateEqualsFields(BlTab.DynamicForms.Forms.BillOfLandingMain.getValues())) {
@@ -1837,8 +1884,17 @@ BlTab.Layouts.Window.BillOfLandingMain = isc.Window.create({
                         overflow: "hidden",
                         margin: "20",
                         fields: BlTab.Fields.BillOfLandingWithoutSwitch().map(_ => {
+                            delete _.width;
+                            delete _.showIf;
                             if (_.name === 'description') {
                                 _.width = 0.568 * innerWidth;
+                            }
+                            if (_.name === 'shipmentId') {
+                                _.mapValueToDisplay =  function (value) {
+                                    let record = this.getSelectedRecord();
+                                    if (!record) return '';
+                                    return "(" + moment(record.sendDate).format('YYYY/MM/DD') + ") " + record.contractShipment.contract.no;
+                                }
                             }
                             return _;
                         }),
@@ -1880,6 +1936,7 @@ BlTab.Grids.BillOfLanding = {
         if (!record) return BlTab.Dialog.NotSelected();
         BlTab.Layouts.ToolStripButtons.new.click();
         BlTab.Vars.Method = "PUT";
+        BlTab.Vars.allReadyValidated = false;
         BlTab.DynamicForms.Forms.BillOfLandingMain.clearValues();
         BlTab.DynamicForms.Forms.BillOfLandingMain.editRecord(record);
         BlTab.DynamicForms.Forms.BillOfLandingSwitch.clearValues();
@@ -1888,6 +1945,7 @@ BlTab.Grids.BillOfLanding = {
     },
     autoFitWidth: true,
     autoFetchData: true,
+    showFilterEditor: true,
     dataSource: {...BlTab.RestDataSources.BillOfLanding},
     expansionFieldImageShowSelected: true,
     canExpandRecords: true,
@@ -1939,7 +1997,7 @@ BlTab.Grids.BillOfLanding = {
                             //BlTab.Grids.BillOfLanding.obj.invalidateCache()
                             BlTab.Methods.Delete(BlTab.Grids.ContainerToBillOfLanding,
                                 SalesConfigs.Urls.completeUrl + '/api/container-to-bill-of-landing',
-                                _ => BlTab.Methods.RefreshContainerData(BlTab.Grids.BillOfLanding.obj.getSelectedRecord().id, BlTab.Grids.ContainerToBillOfLanding))
+                                _ => BlTab.Methods.RefreshContainerData(BlTab.Grids.BillOfLanding.obj, BlTab.Grids.BillOfLanding.obj.getSelectedRecord().id, BlTab.Grids.ContainerToBillOfLanding))
                         },
                         title: '<spring:message code="billOfLanding.container.remove"/>',
                         icon: "[SKIN]/headerIcons/trash_Over.png",
@@ -1954,7 +2012,7 @@ BlTab.Grids.BillOfLanding = {
     },
     // </sec:authorize>
     showHover: true,
-    rotateHeaderTitles: true,
+    //rotateHeaderTitles: true,
     autoFitHeaderHeights: true,
     wrapHeaderTitles: true,
     canHover: true,
@@ -1993,6 +2051,7 @@ BlTab.Layouts.ToolStripButtons.EditBillOfLanding.click = _ => {
 }
 BlTab.Layouts.ToolStripButtons.new.click = _ => {
     BlTab.Vars.Method = "POST";
+    BlTab.Vars.allReadyValidated = false;
     BlTab.DynamicForms.Forms.BillOfLandingMain.clearValues();
     BlTab.DynamicForms.Forms.BillOfLandingSwitch.clearValues();
     BlTab.Layouts.Window.BillOfLandingMain.show();
