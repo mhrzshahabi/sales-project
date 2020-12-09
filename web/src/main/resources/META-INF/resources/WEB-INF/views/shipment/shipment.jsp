@@ -46,7 +46,8 @@
                         if (tmp.materialId && tmp.shipmentTypeId)
                             printTemplateList.add(tmp);
                     });
-            });
+                    ListGrid_Shipment.fetchData();
+});
     }
 
     fetchPrintTemplateList();
@@ -1203,7 +1204,7 @@
         virtualScrolling: true,
         loadOnExpand: true,
         loaded: false,
-        autoFetchData: true,
+        autoFetchData: false,
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", hidden: true, type: 'long'},
