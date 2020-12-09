@@ -9,6 +9,7 @@ import com.nicico.sales.model.enumeration.InspectionRateValueType;
 import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import com.nicico.sales.model.enumeration.WeighingType;
 import com.nicico.sales.utility.MakeExcelInputUtil;
+import com.nicico.sales.utility.MakeExcelOutputUtil;
 import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -16,12 +17,14 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
@@ -32,6 +35,7 @@ public class InspectionReportFormController {
 
     private final ObjectMapper objectMapper;
     private final MakeExcelInputUtil excelInputUtil;
+    private final MakeExcelOutputUtil excelOutputUtil;
     private final ResourceBundleMessageSource messageSource;
 
     @RequestMapping("/show-form")
@@ -105,5 +109,15 @@ public class InspectionReportFormController {
 
         List<Map<String, Object>> data = excelInputUtil.getData(0, recordLimit, file.getInputStream(), fieldNames);
         return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    @RequestMapping("/export")
+    public void exportExcel(
+            @RequestParam("headers") String[] headers,
+            @RequestParam("fieldNames") String[] fieldNames,
+            HttpServletResponse response) throws Exception {
+
+        byte[] bytes = excelOutputUtil.makeOutput(new ArrayList<>(), InspectionReport.class, fieldNames, headers, true, "");
+        excelOutputUtil.makeExcelResponse(bytes, response);
     }
 }
