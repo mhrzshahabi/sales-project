@@ -49,6 +49,7 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
     @Override
     public Map<String, List<Object>> get(Long contractId, EContractDetailTypeCode contractDetailTypeCode,
                                          EContractDetailValueKey contractDetailValueKey, Boolean finalized) {
+
         if (finalized == null) finalized = true;
         final Contract contract = contractDAO.findById(contractId)
                 .orElseThrow(() -> new SalesException2(ErrorType.NotFound, "id", "شناسه موجودیت یافت نشد."));

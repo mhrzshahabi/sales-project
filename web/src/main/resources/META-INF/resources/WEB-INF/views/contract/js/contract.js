@@ -142,6 +142,7 @@ contractTab.method.getDynamicFormFields = function () {
                 if (buyer) {
 
                     contractTab.dynamicForm.valuesManager.setValue("BUYER_NAME", buyer.nameEN);
+                    contractTab.dynamicForm.valuesManager.setValue("BUYER_MAIL", buyer.email);
                     contractTab.dynamicForm.valuesManager.setValue("BUYER_ADDRESS", buyer.address);
                     contractTab.dynamicForm.valuesManager.setValue("BUYER_PHONE", buyer.phone);
                     contractTab.dynamicForm.valuesManager.setValue("BUYER_FAX", buyer.fax);
@@ -162,6 +163,7 @@ contractTab.method.getDynamicFormFields = function () {
                 if (seller) {
 
                     contractTab.dynamicForm.valuesManager.setValue("SELLER_NAME", seller.nameEN);
+                    contractTab.dynamicForm.valuesManager.setValue("SELLER_MAIL", seller.email);
                     contractTab.dynamicForm.valuesManager.setValue("SELLER_ADDRESS", seller.address);
                     contractTab.dynamicForm.valuesManager.setValue("SELLER_PHONE", seller.phone);
                     contractTab.dynamicForm.valuesManager.setValue("SELLER_FAX", seller.fax);
@@ -182,6 +184,7 @@ contractTab.method.getDynamicFormFields = function () {
                 if (agentBuyer) {
 
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_BUYER_NAME", agentBuyer.nameEN);
+                    contractTab.dynamicForm.valuesManager.setValue("AGENT_BUYER_MAIL", agentBuyer.email);
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_BUYER_ADDRESS", agentBuyer.address);
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_BUYER_PHONE", agentBuyer.phone);
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_BUYER_FAX", agentBuyer.fax);
@@ -202,6 +205,7 @@ contractTab.method.getDynamicFormFields = function () {
                 if (agentSeller) {
 
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_SELLER_NAME", agentSeller.nameEN);
+                    contractTab.dynamicForm.valuesManager.setValue("AGENT_SELLER_MAIL", agentSeller.email);
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_SELLER_ADDRESS", agentSeller.address);
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_SELLER_PHONE", agentSeller.phone);
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_SELLER_FAX", agentSeller.fax);
@@ -249,6 +253,12 @@ nicico.BasicFormUtil.createDynamicForm = function (creator) {
         valuesManager: contractTab.dynamicForm.valuesManager,
         titleAlign: nicico.CommonUtil.getAlignByLangReverse(),
         requiredMessage: '<spring:message code="validator.field.is.required"/>'
+    });
+};
+nicico.BasicFormUtil.createListGrid = function (creator) {
+
+    creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria, {
+        sortField: 'no'
     });
 };
 
@@ -642,7 +652,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
     layoutMargin: 5,
     membersMargin: 10,
     members: [
-        saveButton,
+        contractTab.button.saveButton,
         isc.IButtonCancel.create({
             width: 100,
             click: function () {
@@ -813,7 +823,7 @@ contractTab.method.newForm = function () {
 };
 contractTab.method.editForm = function () {
 
-    let listGridRecord = contractTab.listGrid.main.getSelectedRecord();
+    let listGridRecord = clone(contractTab.listGrid.main.getSelectedRecord());
     if (listGridRecord == null || listGridRecord.id == null)
         contractTab.dialog.notSelected();
     else if (listGridRecord.editable === false)
@@ -822,33 +832,29 @@ contractTab.method.editForm = function () {
         contractTab.dialog.inactiveRecord();
     else {
 
-        if (listGridRecord.estatus.contains(Enums.eStatus2.Final)) {
-
-            contractTab.dialog.finalRecord();
+        if (listGridRecord.estatus.contains(Enums.eStatus2.Final))
             contractTab.button.saveButton.hide();
-        } else
+        else
             contractTab.button.saveButton.show();
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: 'api/g-contract/' + listGridRecord.id,
             httpMethod: "GET",
             callback: function (resp) {
+
                 if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
 
                     let record = JSON.parse(resp.data);
 
                     contractTab.variable.method = "PUT";
                     contractTab.dynamicForm.main.editRecord(listGridRecord);
+                    contractTab.dynamicForm.main.setValue("date", new Date(listGridRecord.date));
+                    contractTab.dynamicForm.main.setValue("affectFrom", new Date(listGridRecord.affectFrom));
+                    contractTab.dynamicForm.main.setValue("affectUpTo", new Date(listGridRecord.affectUpTo));
 
                     contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
-                    record.contractDetails.sortByProperty('position').reverse().forEach(contractDetail => contractTab.method.addArticle({
-                        isNewMode: false,
-                        contractDetail: contractDetail,
-                        position: contractDetail.position,
-                        template: contractDetail.contractDetailTemplate,
-                        contractDetailType: contractDetail.contractDetailType
-                    }));
 
                     contractTab.listGrid.contractDetailType.invalidateRecordComponents();
+                    contractTab.listGrid.contractDetailType.setCriteria(null);
                     contractTab.listGrid.contractDetailType.fetchData({
                         operator: 'and',
                         criteria: [{
@@ -860,7 +866,13 @@ contractTab.method.editForm = function () {
                             operator: 'notEqual',
                             value: Enums.eStatus2.DeActive
                         }]
-                    });
+                    }, () => record.contractDetails.sortByProperty('position').reverse().forEach(contractDetail => contractTab.method.addArticle({
+                        isNewMode: false,
+                        contractDetail: contractDetail,
+                        position: contractDetail.position,
+                        template: contractDetail.contractDetailTemplate,
+                        contractDetailType: contractDetail.contractDetailType
+                    })));
 
                     contractTab.window.main.setTitle("<spring:message code='contract.window.title.edit'/>" + "\t" + listGridRecord.material.descEN);
                     contractTab.window.main.show();
@@ -946,15 +958,36 @@ contractTab.method.createArticle = function (data) {
                 layoutAlign: "center",
                 src: "[SKIN]/actions/remove.png",
                 click: function () {
+
                     contractTab.sectionStack.contract.removeSection(data.contractDetailType.id + "");
-                    let detailTypeRecord = contractTab.listGrid.contractDetailType.getOriginalData().localData.filter(q => q.id === data.contractDetailType.id).first();
-                    contractTab.listGrid.contractDetailType.getRecordComponent(
-                        contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord)).enable();
+
+                    let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
+                    if (contractDetailTypeData && !(contractDetailTypeData instanceof Array))
+                        contractDetailTypeData = contractDetailTypeData.localData;
+                    if (contractDetailTypeData && contractDetailTypeData.length) {
+
+                        let detailTypeRecord = contractDetailTypeData.filter(q => q.id === data.contractDetailType.id).first();
+                        contractTab.listGrid.contractDetailType.getRecordComponent(
+                            contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord)).enable();
+                    }
                 }
             })
             // </sec:authorize>
         ],
         items: [],
+        provideGlobalPrintContent: function (template) {
+
+            let values = contractTab.dynamicForm.valuesManager.getValues();
+            Object.keys(values).filter(key => !contractTab.dynamicForm.main.getField(key)).forEach(field => {
+
+                if (template.contains('\\${' + field + '_IN_CHARACTER}'))
+                    template = template.replaceAll('\\${' + field + '_IN_CHARACTER}', numberToEnglish(values[field]));
+
+                template = template.replaceAll('\\${' + field + '}', values[field]);
+            });
+
+            return template == null ? '' : template;
+        },
         provideFormPrintContent: function (template) {
 
             if (this.form)
@@ -1066,28 +1099,6 @@ contractTab.method.createArticle = function (data) {
         },
         provideScriptsPrintContent: function (template) {
 
-            let materialIdField = contractTab.dynamicForm.main.getField("materialId");
-            contractTab.dynamicForm.valuesManager.setValue("material", materialIdField.getSelectedRecord());
-
-            let contractTypeIdField = contractTab.dynamicForm.main.getField("contractTypeId");
-            contractTab.dynamicForm.valuesManager.setValue("contractType", contractTypeIdField.getSelectedRecord());
-
-            let buyerIdField = contractTab.dynamicForm.main.getField("buyerId");
-            let buyerIdValue = contractTab.dynamicForm.main.getValue("buyerId");
-            buyerIdField.changed(contractTab.dynamicForm.main, buyerIdField, buyerIdValue);
-
-            let sellerIdField = contractTab.dynamicForm.main.getField("sellerId");
-            let sellerIdValue = contractTab.dynamicForm.main.getValue("sellerId");
-            sellerIdField.changed(contractTab.dynamicForm.main, sellerIdField, sellerIdValue);
-
-            let agentBuyerIdField = contractTab.dynamicForm.main.getField("agentBuyerId");
-            let agentBuyerIdValue = contractTab.dynamicForm.main.getValue("agentBuyerId");
-            agentBuyerIdField.changed(contractTab.dynamicForm.main, agentBuyerIdField, agentBuyerIdValue);
-
-            let agentSellerIdField = contractTab.dynamicForm.main.getField("agentSellerId");
-            let agentSellerIdValue = contractTab.dynamicForm.main.getValue("agentSellerId");
-            agentSellerIdField.changed(contractTab.dynamicForm.main, agentSellerIdField, agentSellerIdValue);
-
             function evaluate(script) {
 
                 var context = contractTab.dynamicForm.valuesManager.getValues();
@@ -1117,6 +1128,30 @@ contractTab.method.createArticle = function (data) {
 
             let error = null;
             let template = this.data.template;
+
+            let materialIdField = contractTab.dynamicForm.main.getField("materialId");
+            contractTab.dynamicForm.valuesManager.setValue("material", materialIdField.getSelectedRecord());
+
+            let contractTypeIdField = contractTab.dynamicForm.main.getField("contractTypeId");
+            contractTab.dynamicForm.valuesManager.setValue("contractType", contractTypeIdField.getSelectedRecord());
+
+            let buyerIdField = contractTab.dynamicForm.main.getField("buyerId");
+            let buyerIdValue = contractTab.dynamicForm.main.getValue("buyerId");
+            buyerIdField.changed(contractTab.dynamicForm.main, buyerIdField, buyerIdValue);
+
+            let sellerIdField = contractTab.dynamicForm.main.getField("sellerId");
+            let sellerIdValue = contractTab.dynamicForm.main.getValue("sellerId");
+            sellerIdField.changed(contractTab.dynamicForm.main, sellerIdField, sellerIdValue);
+
+            let agentBuyerIdField = contractTab.dynamicForm.main.getField("agentBuyerId");
+            let agentBuyerIdValue = contractTab.dynamicForm.main.getValue("agentBuyerId");
+            agentBuyerIdField.changed(contractTab.dynamicForm.main, agentBuyerIdField, agentBuyerIdValue);
+
+            let agentSellerIdField = contractTab.dynamicForm.main.getField("agentSellerId");
+            let agentSellerIdValue = contractTab.dynamicForm.main.getValue("agentSellerId");
+            agentSellerIdField.changed(contractTab.dynamicForm.main, agentSellerIdField, agentSellerIdValue);
+
+            template = this.provideGlobalPrintContent(template);
             template = this.provideFormPrintContent(template);
             template = this.provideGridsPrintContent(template);
             template = this.provideDynamicGridsPrintContent(template);
@@ -1131,13 +1166,19 @@ contractTab.method.createArticle = function (data) {
 
     contractTab.method.createArticleBody(sectionStackSectionObj);
 
-    let detailTypeRecord = contractTab.listGrid.contractDetailType.getOriginalData().localData.filter(q => q.id === data.contractDetailType.id).first();
-    let recordIndex = contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord);
-    if (recordIndex >= 0) {
+    let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
+    if (contractDetailTypeData && !(contractDetailTypeData instanceof Array))
+        contractDetailTypeData = contractDetailTypeData.localData;
+    if (contractDetailTypeData && contractDetailTypeData.length) {
 
-        let addButton = contractTab.listGrid.contractDetailType.getRecordComponent(recordIndex);
-        if (addButton)
-            addButton.disable();
+        let detailTypeRecord = contractDetailTypeData.filter(q => q.id === data.contractDetailType.id).first();
+        let recordIndex = contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord);
+        if (recordIndex >= 0) {
+
+            let addButton = contractTab.listGrid.contractDetailType.getRecordComponent(recordIndex);
+            if (addButton)
+                addButton.disable();
+        }
     }
 };
 contractTab.method.createArticleBody = function (sectionStackSectionObj) {
@@ -1720,7 +1761,3 @@ contractTab.method.createDynamicGridFields = async function (dynamicTables, valu
 };
 
 //****************************************************** Extras *********************************************************
-
-contractTab.listGrid.main.addProperties({
-    sortField: 'no',
-});

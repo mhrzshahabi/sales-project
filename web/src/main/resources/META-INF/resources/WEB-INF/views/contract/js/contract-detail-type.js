@@ -1177,7 +1177,7 @@ contractDetailTypeTab.toolStrip.refresh = isc.ToolStripButtonRefresh.create({
 });
 contractDetailTypeTab.toolStrip.actions.addMember(isc.ToolStrip.create({
     width: "100%",
-    align: "left",
+    align: nicico.CommonUtil.getAlignByLang(),
     border: '0px',
     members: [contractDetailTypeTab.toolStrip.refresh]
 }));
