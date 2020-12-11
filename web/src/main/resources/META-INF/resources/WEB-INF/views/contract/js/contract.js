@@ -575,6 +575,64 @@ contractTab.vLayout.sectionStack = isc.VLayout.create({
     overflow: "auto",
     members: [contractTab.sectionStack.contract]
 });
+contractTab.button.saveButton = isc.IButtonSave.create({
+
+    click: function () {
+
+        contractTab.dynamicForm.main.validate();
+        if (contractTab.dynamicForm.main.hasErrors())
+            return;
+
+        if (!nicico.PersianDateUtil.compareDate(contractTab.dynamicForm.main.getValue("affectFrom").toShortDate(), contractTab.dynamicForm.main.getValue("affectUpTo").toShortDate())) {
+
+            contractTab.dynamicForm.main.errors["affectUpTo"] = '<spring:message code="contract.date.validation"/>';
+            contractTab.dynamicForm.main.redraw();
+            return;
+        }
+        if (contractTab.dynamicForm.main.getValue("buyerId") === contractTab.dynamicForm.main.getValue("sellerId")) {
+
+            contractTab.dynamicForm.main.errors["sellerId"] = '<spring:message code="contract.buyer-seller.validation"/>';
+            contractTab.dynamicForm.main.redraw();
+            return;
+        }
+        if (contractTab.dynamicForm.main.getValue("agentBuyerId") != null && contractTab.dynamicForm.main.getValue("agentBuyerId") === contractTab.dynamicForm.main.getValue("agentSellerId")) {
+
+            contractTab.dynamicForm.main.errors["agentSellerId"] = '<spring:message code="contract.agent-buyer-agent-seller.validation"/>';
+            contractTab.dynamicForm.main.redraw();
+            return;
+        }
+
+        let data = contractTab.dynamicForm.main.getValues();
+        data.content = contractTab.sectionStack.contract.providePrintContent();
+        data.contractDetails = contractTab.sectionStack.contract.getContractDetails();
+        if (!data.content) {
+
+            contractTab.dialog.say('<spring:message code="contract.validation.empty-content"/>');
+            return;
+        }
+        if (!data.contractDetails)
+            return;
+        if (!data.contractDetails.length) {
+
+            contractTab.dialog.say('<spring:message code="contract.validation.empty-detail"/>');
+            return;
+        }
+
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            actionURL: contractTab.variable.contractUrl,
+            httpMethod: contractTab.variable.method,
+            data: JSON.stringify(data),
+            callback: function (resp) {
+                if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
+                    contractTab.dialog.ok();
+                    contractTab.method.refresh(contractTab.listGrid.main);
+                    contractTab.window.main.close();
+                } else
+                    contractTab.dialog.error(resp);
+            }
+        }))
+    }
+});
 contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
     height: "5%",
     width: "100%",
@@ -584,63 +642,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
     layoutMargin: 5,
     membersMargin: 10,
     members: [
-        isc.IButtonSave.create({
-            click: function () {
-
-                contractTab.dynamicForm.main.validate();
-                if (contractTab.dynamicForm.main.hasErrors())
-                    return;
-
-                if (!nicico.PersianDateUtil.compareDate(contractTab.dynamicForm.main.getValue("affectFrom").toShortDate(), contractTab.dynamicForm.main.getValue("affectUpTo").toShortDate())) {
-
-                    contractTab.dynamicForm.main.errors["affectUpTo"] = '<spring:message code="contract.date.validation"/>';
-                    contractTab.dynamicForm.main.redraw();
-                    return;
-                }
-                if (contractTab.dynamicForm.main.getValue("buyerId") === contractTab.dynamicForm.main.getValue("sellerId")) {
-
-                    contractTab.dynamicForm.main.errors["sellerId"] = '<spring:message code="contract.buyer-seller.validation"/>';
-                    contractTab.dynamicForm.main.redraw();
-                    return;
-                }
-                if (contractTab.dynamicForm.main.getValue("agentBuyerId") != null && contractTab.dynamicForm.main.getValue("agentBuyerId") === contractTab.dynamicForm.main.getValue("agentSellerId")) {
-
-                    contractTab.dynamicForm.main.errors["agentSellerId"] = '<spring:message code="contract.agent-buyer-agent-seller.validation"/>';
-                    contractTab.dynamicForm.main.redraw();
-                    return;
-                }
-
-                let data = contractTab.dynamicForm.main.getValues();
-                data.content = contractTab.sectionStack.contract.providePrintContent();
-                data.contractDetails = contractTab.sectionStack.contract.getContractDetails();
-                if (!data.content) {
-
-                    contractTab.dialog.say('<spring:message code="contract.validation.empty-content"/>');
-                    return;
-                }
-                if (!data.contractDetails)
-                    return;
-                if (!data.contractDetails.length) {
-
-                    contractTab.dialog.say('<spring:message code="contract.validation.empty-detail"/>');
-                    return;
-                }
-
-                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: contractTab.variable.contractUrl,
-                    httpMethod: contractTab.variable.method,
-                    data: JSON.stringify(data),
-                    callback: function (resp) {
-                        if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
-                            contractTab.dialog.ok();
-                            contractTab.method.refresh(contractTab.listGrid.main);
-                            contractTab.window.main.close();
-                        } else
-                            contractTab.dialog.error(resp);
-                    }
-                }))
-            }
-        }),
+        saveButton,
         isc.IButtonCancel.create({
             width: 100,
             click: function () {
@@ -818,10 +820,14 @@ contractTab.method.editForm = function () {
         contractTab.dialog.notEditable();
     else if (listGridRecord.estatus.contains(Enums.eStatus2.DeActive))
         contractTab.dialog.inactiveRecord();
-    else if (listGridRecord.estatus.contains(Enums.eStatus2.Final))
-        contractTab.dialog.finalRecord();
     else {
 
+        if (listGridRecord.estatus.contains(Enums.eStatus2.Final)) {
+
+            contractTab.dialog.finalRecord();
+            contractTab.button.saveButton.hide();
+        } else
+            contractTab.button.saveButton.show();
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: 'api/g-contract/' + listGridRecord.id,
             httpMethod: "GET",
