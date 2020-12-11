@@ -1,10 +1,10 @@
-package com.nicico.sales.controller;
+package com.nicico.sales.controller.contract;
 
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.dto.ContractShipmentDTO;
-import com.nicico.sales.iservice.IContractShipmentService;
+import com.nicico.sales.dto.contract.ContractShipmentDTO;
+import com.nicico.sales.iservice.contract.IContractShipmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

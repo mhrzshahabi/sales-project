@@ -1,4 +1,4 @@
-package com.nicico.sales.iservice;
+package com.nicico.sales.iservice.contract;
 
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.EContractDetailValueKey;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.annotation.report.ReportField;
 import com.nicico.sales.annotation.report.ReportModel;
 import com.nicico.sales.dto.contract.BillOfLandingDTO;
+import com.nicico.sales.dto.contract.ContractShipmentDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

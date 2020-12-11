@@ -1,7 +1,7 @@
 package com.nicico.sales.service.contract;
 
-import com.nicico.sales.dto.CDTPDynamicTableDTO;
-import com.nicico.sales.iservice.ICDTPDynamicTableService;
+import com.nicico.sales.dto.contract.CDTPDynamicTableDTO;
+import com.nicico.sales.iservice.contract.ICDTPDynamicTableService;
 import com.nicico.sales.model.entities.contract.CDTPDynamicTable;
 import com.nicico.sales.service.GenericService;
 import lombok.RequiredArgsConstructor;

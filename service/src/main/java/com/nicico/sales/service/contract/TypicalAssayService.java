@@ -1,9 +1,10 @@
-package com.nicico.sales.service;
+package com.nicico.sales.service.contract;
 
 
-import com.nicico.sales.dto.TypicalAssayDTO;
-import com.nicico.sales.iservice.ITypicalAssayService;
-import com.nicico.sales.model.entities.base.TypicalAssay;
+import com.nicico.sales.dto.contract.TypicalAssayDTO;
+import com.nicico.sales.iservice.contract.ITypicalAssayService;
+import com.nicico.sales.model.entities.contract.TypicalAssay;
+import com.nicico.sales.service.GenericService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

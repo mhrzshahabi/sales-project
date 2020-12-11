@@ -1,4 +1,4 @@
-package com.nicico.sales.dto;
+package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.model.enumeration.EStatus;

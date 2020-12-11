@@ -1,8 +1,8 @@
-package com.nicico.sales.dto;
+package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.dto.contract.ContractDTO;
+import com.nicico.sales.dto.PortDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

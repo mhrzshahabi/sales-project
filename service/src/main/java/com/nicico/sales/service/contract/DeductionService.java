@@ -1,9 +1,10 @@
-package com.nicico.sales.service;
+package com.nicico.sales.service.contract;
 
 
-import com.nicico.sales.dto.DeductionDTO;
-import com.nicico.sales.iservice.IDeductionService;
-import com.nicico.sales.model.entities.base.Deduction;
+import com.nicico.sales.dto.contract.DeductionDTO;
+import com.nicico.sales.iservice.contract.IDeductionService;
+import com.nicico.sales.model.entities.contract.Deduction;
+import com.nicico.sales.service.GenericService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
