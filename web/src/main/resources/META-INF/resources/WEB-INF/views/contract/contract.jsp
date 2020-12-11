@@ -18,5 +18,4 @@ const ReferenceEnums = {
 <%@include file="../common/ts/BasicFormUtil.js" %>
 <%@include file="js/contract-references.js" %>
 <%@include file="js/contract.js" %>
-<%@include file="js/contract-addendum.js" %>
-<%@include file="js/contract-add-dynamic-table.js" %>
+<%--<%@include file="js/contract-addendum.js" %>--%>

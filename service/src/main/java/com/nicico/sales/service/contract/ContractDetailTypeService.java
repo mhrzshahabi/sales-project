@@ -1,21 +1,13 @@
 package com.nicico.sales.service.contract;
 
 import com.nicico.sales.annotation.Action;
-import com.nicico.sales.dto.CDTPDynamicTableDTO;
-import com.nicico.sales.dto.contract.ContractDTO;
-import com.nicico.sales.dto.contract.ContractDetailTypeDTO;
-import com.nicico.sales.dto.contract.ContractDetailTypeParamDTO;
-import com.nicico.sales.dto.contract.ContractDetailTypeTemplateDTO;
+import com.nicico.sales.dto.contract.*;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
-import com.nicico.sales.iservice.ICDTPDynamicTableService;
-import com.nicico.sales.iservice.contract.IContractDetailTypeParamService;
-import com.nicico.sales.iservice.contract.IContractDetailTypeService;
-import com.nicico.sales.iservice.contract.IContractDetailTypeTemplateService;
-import com.nicico.sales.iservice.contract.IContractService;
+import com.nicico.sales.iservice.contract.*;
 import com.nicico.sales.model.entities.contract.CDTPDynamicTable;
 import com.nicico.sales.model.entities.contract.ContractDetailType;
 import com.nicico.sales.model.entities.contract.ContractDetailTypeParam;

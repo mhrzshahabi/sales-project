@@ -1,8 +1,8 @@
-package com.nicico.sales.iservice;
+package com.nicico.sales.iservice.contract;
 
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.dto.DeductionDTO;
+import com.nicico.sales.dto.contract.DeductionDTO;
 
 import java.util.List;
 

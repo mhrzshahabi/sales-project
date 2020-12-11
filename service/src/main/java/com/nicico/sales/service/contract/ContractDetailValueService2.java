@@ -1,23 +1,20 @@
-package com.nicico.sales.service;
+package com.nicico.sales.service.contract;
 
 import com.nicico.sales.dto.*;
 import com.nicico.sales.dto.contract.ContractDiscountDTO;
+import com.nicico.sales.dto.contract.ContractShipmentDTO;
 import com.nicico.sales.dto.contract.IncotermDTO;
+import com.nicico.sales.dto.contract.TypicalAssayDTO;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.EContractDetailValueKey;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
-import com.nicico.sales.iservice.IContractDetailValueService2;
+import com.nicico.sales.iservice.contract.IContractDetailValueService2;
 import com.nicico.sales.model.entities.base.*;
-import com.nicico.sales.model.entities.contract.Contract;
-import com.nicico.sales.model.entities.contract.ContractDetailValue;
-import com.nicico.sales.model.entities.contract.ContractDiscount;
-import com.nicico.sales.model.entities.contract.Incoterm;
+import com.nicico.sales.model.entities.contract.*;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.repository.*;
-import com.nicico.sales.repository.contract.ContractDAO;
-import com.nicico.sales.repository.contract.ContractDetailValueDAO;
-import com.nicico.sales.repository.contract.IncotermDAO;
+import com.nicico.sales.repository.contract.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -52,6 +49,7 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
     @Override
     public Map<String, List<Object>> get(Long contractId, EContractDetailTypeCode contractDetailTypeCode,
                                          EContractDetailValueKey contractDetailValueKey, Boolean finalized) {
+
         if (finalized == null) finalized = true;
         final Contract contract = contractDAO.findById(contractId)
                 .orElseThrow(() -> new SalesException2(ErrorType.NotFound, "id", "شناسه موجودیت یافت نشد."));

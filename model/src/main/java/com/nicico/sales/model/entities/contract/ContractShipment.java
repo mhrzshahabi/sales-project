@@ -1,7 +1,7 @@
-package com.nicico.sales.model.entities.base;
+package com.nicico.sales.model.entities.contract;
 
+import com.nicico.sales.model.entities.base.Port;
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.entities.contract.Contract;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;

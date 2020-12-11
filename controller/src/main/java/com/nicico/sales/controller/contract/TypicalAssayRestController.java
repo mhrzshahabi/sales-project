@@ -1,11 +1,11 @@
-package com.nicico.sales.controller;
+package com.nicico.sales.controller.contract;
 
 
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.dto.TypicalAssayDTO;
-import com.nicico.sales.iservice.ITypicalAssayService;
+import com.nicico.sales.dto.contract.TypicalAssayDTO;
+import com.nicico.sales.iservice.contract.ITypicalAssayService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

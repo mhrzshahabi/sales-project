@@ -1,4 +1,4 @@
-package com.nicico.sales.repository;
+package com.nicico.sales.repository.contract;
 
 
 import com.nicico.sales.model.entities.contract.ContractDiscount;

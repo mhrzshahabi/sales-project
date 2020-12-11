@@ -85,4 +85,26 @@
                              constraintName="UC_TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE_ROW_NUM_F_CDTPDYNAMICTABLE_ID"
                              tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
     </changeSet>
+
+    <changeSet author="NICICO2 (generated)" id="1607612855431-304-1">
+        <addColumn tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE">
+            <column name="C_FIELD_NAME" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="karimi" id="1607612855431-304-2">
+        <sql>
+            UPDATE TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE SET C_FIELD_NAME = nvl(C_HEADER_VALUE, 'UNKNOWN');
+        </sql>
+    </changeSet>
+    <changeSet author="karimi" id="1607612855431-304-3">
+        <addNotNullConstraint columnDataType="varchar2(255 CHAR)" columnName="C_FIELD_NAME"
+                              tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+    </changeSet>
+
+    <changeSet author="NICICO2 (generated)" id="1607612855431-306">
+        <addUniqueConstraint columnNames="C_FIELD_NAME, F_CONTRACTDETAILVALUE_ID"
+                             constraintName="UC_CONTRACTDETAILVALUE_ID_FIELD_NAME"
+                             tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+    </changeSet>
+
 </databaseChangeLog>
