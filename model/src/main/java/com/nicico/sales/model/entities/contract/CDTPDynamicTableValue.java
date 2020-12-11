@@ -15,9 +15,9 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"
-        , uniqueConstraints = {@UniqueConstraint(columnNames = {"D_ROW_NUM", "F_CONTRACTDETAILVALUE_ID"}, name = "UC_CONTRACTDETAILVALUE_ID_ROW_NUM"),
-//        @UniqueConstraint(columnNames = {"C_HEADER_VALUE", "F_CONTRACTDETAILVALUE_ID"}, name = "UC_F_CONTRACTDETAILVALUE_ID_C_HEADER_VALUE")
+@Table(name = "TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"D_ROW_NUM", "F_CONTRACTDETAILVALUE_ID"}, name = "UC_CONTRACTDETAILVALUE_ID_ROW_NUM"),
+        @UniqueConstraint(columnNames = {"C_FIELD_NAME", "F_CONTRACTDETAILVALUE_ID"}, name = "UC_CONTRACTDETAILVALUE_ID_FIELD_NAME")
 })
 public class CDTPDynamicTableValue extends BaseEntity {
 
@@ -68,16 +68,6 @@ public class CDTPDynamicTableValue extends BaseEntity {
 
     //************************************************************************************************************************************
 
-//    @Setter(AccessLevel.NONE)
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "F_CDTPDYNAMICTABLE_ID", insertable = false, updatable = false,
-//            foreignKey = @ForeignKey(name = "FK_DYNAMIC_TABLE_VALUE2CDTPDYNAMICTABLE"))
-//    private CDTPDynamicTable cdtpDynamicTable;
-//
-//    @NotNull
-//    @Column(name = "F_CDTPDYNAMICTABLE_ID", nullable = false)
-//    private Long cdtpDynamicTableId;
-
     @NotNull
     @Column(name = "D_ROW_NUM")
     private Integer rowNum;
@@ -86,10 +76,9 @@ public class CDTPDynamicTableValue extends BaseEntity {
     @Column(name = "C_VALUE", length = 2000)
     private String value;
 
-//    headerValue
-//    @NotNull
-//    @Column(name = "C_FIELD_NAME", nullable = false)
-//    private String fieldName;
+    @NotNull
+    @Column(name = "C_FIELD_NAME", nullable = false)
+    private String fieldName;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -100,7 +89,4 @@ public class CDTPDynamicTableValue extends BaseEntity {
     @NotNull
     @Column(name = "F_CONTRACTDETAILVALUE_ID", nullable = false)
     private Long contractDetailValueId;
-
-//    @Column(name = "C_DESCRIPTION", length = 2000)
-//    private String description;
 }

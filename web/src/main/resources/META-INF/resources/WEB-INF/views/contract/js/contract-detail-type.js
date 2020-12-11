@@ -123,7 +123,13 @@ contractDetailTypeTab.dynamicForm.paramFields.required = {
     type: "boolean",
     width: "10%",
     required: false,
-    title: "<spring:message code='global.required'/>"
+    title: "<spring:message code='global.required'/>",
+    changed: function (form, item, value) {
+
+        let type = form.getValue(contractDetailTypeTab.dynamicForm.paramFields.type.name);
+        if (type === contractDetailTypeTab.variable.dataType.DynamicTable || type === contractDetailTypeTab.variable.dataType.ListOfReference)
+            item.setValue(true);
+    }
 };
 contractDetailTypeTab.dynamicForm.paramFields.reference = {
     name: "reference",
@@ -542,6 +548,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             let rowNumber = contractDetailTypeTab.listGrid.param.getRecordIndex(record);
                             let oldValue = record[contractDetailTypeTab.dynamicForm.paramFields.reference.name];
 
+                            record[contractDetailTypeTab.dynamicForm.paramFields.required.name] = true;
                             record[contractDetailTypeTab.dynamicForm.paramFields.reference.name] = data[0]['reference'];
                             contractDetailTypeTab.listGrid.param.refreshRow(rowNumber);
                             contractDetailTypeTab.listGrid.param.cellChanged(record, data[0]['reference'], oldValue, rowNumber, colNumber, contractDetailTypeTab.listGrid.param);
@@ -685,6 +692,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                                                     if (!contractDetailTypeTab.listGrid.dynamicTable.validateRow(i)) return;
 
                                                 contractDetailTypeTab.listGrid.dynamicTable.saveAllEdits();
+                                                contractDetailTypeTab.listGrid.param.getSelectedRecord()[contractDetailTypeTab.dynamicForm.paramFields.required.name] = true;
                                                 contractDetailTypeTab.listGrid.param.getSelectedRecord()['dynamicTables'] = contractDetailTypeTab.listGrid.dynamicTable.getData();
 
                                                 contractDetailTypeTab.window.detailType.show();

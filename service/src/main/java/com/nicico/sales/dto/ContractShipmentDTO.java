@@ -90,10 +90,12 @@ public class ContractShipmentDTO {
     @Accessors(chain = true)
     @ApiModel("ContractShipmentUpdateRq")
     public static class Update extends ContractShipmentDTO {
+
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-        private Boolean deleted;
+
+        private Integer version;
     }
 
     @Getter

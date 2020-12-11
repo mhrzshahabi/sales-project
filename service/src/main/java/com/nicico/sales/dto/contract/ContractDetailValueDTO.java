@@ -22,7 +22,6 @@ public class ContractDetailValueDTO {
 
     private String name;
     private String key;
-//    private String title;
     private DataType type;
     private String reference;
     private String value;
@@ -40,6 +39,7 @@ public class ContractDetailValueDTO {
     public static class Info extends ContractDetailValueDTO {
 
         private Long id;
+        private List<CDTPDynamicTableValueDTO.Info> dynamicTableValues;
 
         // Auditing
         private Date createdDate;
@@ -47,7 +47,6 @@ public class ContractDetailValueDTO {
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
-        private List<CDTPDynamicTableValueDTO.Info> dynamicTableValues;
 
         // BaseEntity
         private Boolean editable;
@@ -59,6 +58,8 @@ public class ContractDetailValueDTO {
     @Accessors(chain = true)
     @ApiModel("ContractDetailValueCreateRq")
     public static class Create extends ContractDetailValueDTO {
+
+        private List<CDTPDynamicTableValueDTO.Create> dynamicTableValues;
     }
 
     @Getter
@@ -67,9 +68,13 @@ public class ContractDetailValueDTO {
     @ApiModel("ContractDetailValueUpdateRq")
     public static class Update extends ContractDetailValueDTO {
 
+        private List<CDTPDynamicTableValueDTO.Update> dynamicTableValues;
+
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

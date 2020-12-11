@@ -15,10 +15,9 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CNTR_CDTP_DYNAMIC_TABLE"
-        , uniqueConstraints = {@UniqueConstraint(columnNames = {"D_COLNUM", "F_CDTP_ID"}, name = "UC_C_D_COLNUM_F_CDTP_ID"),
-//        @UniqueConstraint(columnNames = {"C_HEADER_VALUE", "F_CDTP_ID"}, name = "UC_C_HEADER_VALUE_F_CDTP_ID")
-})
+@Table(name = "TBL_CNTR_CDTP_DYNAMIC_TABLE",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"D_COLNUM", "F_CDTP_ID"}, name = "UC_C_D_COLNUM_F_CDTP_ID"),
+        })
 public class CDTPDynamicTable extends BaseEntity {
 
     @Id
@@ -30,15 +29,6 @@ public class CDTPDynamicTable extends BaseEntity {
     @Column(name = "D_COLNUM", nullable = false)
     @Min(1)
     private Long colNum;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_CDTP_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "F_DYNAMIC_TABLE2CONTRACT_DTP"))
-    private ContractDetailTypeParam cdtp;
-
-    @NotNull
-    @Column(name = "F_CDTP_ID", nullable = false)
-    private Long cdtpId;
 
     @NotNull
     @Column(name = "C_HEADER_TYPE", nullable = false)
@@ -75,4 +65,13 @@ public class CDTPDynamicTable extends BaseEntity {
 
     @Column(name = "C_INITIAL_CRITERIA", length = 2000)
     private String initialCriteria;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_CDTP_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "F_DYNAMIC_TABLE2CONTRACT_DTP"))
+    private ContractDetailTypeParam cdtp;
+
+    @NotNull
+    @Column(name = "F_CDTP_ID", nullable = false)
+    private Long cdtpId;
 }

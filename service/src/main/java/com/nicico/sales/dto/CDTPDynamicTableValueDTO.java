@@ -33,10 +33,8 @@ public class CDTPDynamicTableValueDTO {
 
     private String value;
     private Integer rowNum;
-//    private String fieldName;
-//    private Long cdtpDynamicTableId;
+    private String fieldName;
     private Long contractDetailValueId;
-//    private String description;
 
     @Getter
     @Setter
@@ -45,7 +43,6 @@ public class CDTPDynamicTableValueDTO {
     public static class Info extends CDTPDynamicTableValueDTO implements Comparable<Info> {
 
         private Long id;
-//        private CDTPDynamicTableDTO.Info cdtpDynamicTable;
 
         // Auditing
         private Date createdDate;
@@ -79,7 +76,10 @@ public class CDTPDynamicTableValueDTO {
     @ApiModel("CDTPDynamicTableValueUpdateRq")
     public static class Update extends CDTPDynamicTableValueDTO {
 
+        @NotNull
+        @ApiModelProperty(required = true)
         private Long id;
+
         private Integer version;
     }
 

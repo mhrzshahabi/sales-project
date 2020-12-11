@@ -34,65 +34,6 @@ public class ContractDetailDTO {
 
         private ContractDetailTypeDTO.Info contractDetailType;
         private List<ContractDetailValueDTO.Info> contractDetailValues;
-//        private Map<String, List<Map<String, Object>>> cdtpDynamicTableValue;
-//
-//        public Map<String, List<Map<String, Object>>> getCdtpDynamicTableValue() {
-//            List<Map<String, Object>> returnList = new ArrayList<>();
-//            Map<String, List<CDTPDynamicTableValueDTO.Info>> baseOnKey = new HashMap<>();
-//            contractDetailValues
-//                    .stream()
-//                    .filter(c -> c.getCdtpDynamicTableValue() != null).forEach(c -> {
-//                if (!baseOnKey.containsKey(c.getKey())) {
-//                    baseOnKey.put(c.getKey(), new ArrayList<CDTPDynamicTableValueDTO.Info>(Collections.singletonList(c.getCdtpDynamicTableValue())));
-//                } else {
-//                    baseOnKey.get(c.getKey()).add(c.getCdtpDynamicTableValue());
-//                }
-//            });
-//
-//            Map<String, List<Map<String, Object>>> returnMap = new HashMap<>();
-//
-//            baseOnKey.keySet().forEach(k -> returnMap.put(k, getCDTPDynamicTableMap(baseOnKey.get(k))));
-//
-//
-//            return returnMap;
-//        }
-//
-//        private List<Map<String, Object>> getCDTPDynamicTableMap(List<CDTPDynamicTableValueDTO.Info> cdtpDynamicTableValueList) {
-//            List<Map<String, Object>> returnList = new ArrayList<>();
-//            if (cdtpDynamicTableValueList.size() == 0) return returnList;
-//            cdtpDynamicTableValueList.sort(CDTPDynamicTableValueDTO.Info::compareTo);
-//            final Set<Integer> rowNums = cdtpDynamicTableValueList.stream().map(CDTPDynamicTableValueDTO::getRowNum).sorted().collect(Collectors.toSet());
-//            for (int i = 0; i < rowNums.size(); i++) {
-//                Integer _rowNum = Integer.valueOf(rowNums.toArray()[i].toString());
-//                Map<String, Object> rowData = new HashMap<String, Object>();
-//                rowData.put("cdtpDtId____", "");
-//                rowData.put("cdtpDtValueId____", "");
-//
-//                cdtpDynamicTableValueList
-//                        .stream()
-//                        .filter(rowNum -> rowNum.getRowNum()
-//                                .equals(_rowNum)).forEach(c -> {
-//                    rowData.put(c.getFieldName(), c.getValue());
-//                    rowData.put("cdtpId____", c.getCdtpDynamicTable().getCdtpId().toString());
-//                    rowData.put("rowNum____", _rowNum.toString());
-//                    rowData.put("cdtpDtId____", String.format("%s,\"%s\":%s",
-//                            rowData.get("cdtpDtId____"),
-//                            c.getFieldName(), c.getCdtpDynamicTableId().toString()
-//                    ));
-//                    rowData.put("cdtpDtValueId____", String.format("%s,\"%s\":%s",
-//                            rowData.get("cdtpDtValueId____"),
-//                            c.getFieldName(), c.getId().toString()
-//                    ));
-//                });
-//                rowData.put("cdtpDtId____", String.format("{%s}",
-//                        rowData.get("cdtpDtId____").toString().substring(1)));
-//                rowData.put("cdtpDtValueId____", String.format("{%s}",
-//                        rowData.get("cdtpDtValueId____").toString().substring(1)));
-//                returnList.add(rowData);
-//
-//            }
-//            return returnList;
-//        }
 
         // Auditing
         private Date createdDate;
@@ -120,12 +61,13 @@ public class ContractDetailDTO {
     @ApiModel("ContractDetailUpdateRq")
     public static class Update extends ContractDetailDTO {
 
-        private ContractDetailTypeDTO.Update contractDetailType;
-        private List<ContractDetailValueDTO.Update> contractDetailValues;
-
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
+
+        private List<ContractDetailValueDTO.Update> contractDetailValues;
     }
 
     @Getter
@@ -138,5 +80,4 @@ public class ContractDetailDTO {
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
-
 }

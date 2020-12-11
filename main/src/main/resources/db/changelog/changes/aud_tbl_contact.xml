@@ -3,10 +3,14 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-<!--    <changeSet id="AZAARE-006" author="abiz">-->
-<!--        <addColumn tableName="AUD_TBL_CONTACT">-->
-<!--            <column name="C_CONTACT_CODE" type="VARCHAR2(100 CHAR)"/>-->
-<!--        </addColumn>-->
-<!--    </changeSet>-->
+    <!--    <changeSet id="AZAARE-006" author="abiz">-->
+    <!--        <addColumn tableName="AUD_TBL_CONTACT">-->
+    <!--            <column name="C_CONTACT_CODE" type="VARCHAR2(100 CHAR)"/>-->
+    <!--        </addColumn>-->
+    <!--    </changeSet>-->
+
+    <changeSet author="NICICO2 (generated)" id="1607612855431-332">
+        <dropColumn columnName="C_CONTACT_CODE" tableName="AUD_TBL_CONTACT"/>
+    </changeSet>
 
 </databaseChangeLog>

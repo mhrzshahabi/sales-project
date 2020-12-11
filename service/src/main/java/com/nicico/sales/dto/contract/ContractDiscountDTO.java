@@ -6,7 +6,6 @@ import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -61,9 +60,11 @@ public class ContractDiscountDTO {
     @Accessors(chain = true)
     @ApiModel("DiscountUpdateRq")
     public static class Update extends ContractDiscountDTO {
-        @NonNull
+        @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

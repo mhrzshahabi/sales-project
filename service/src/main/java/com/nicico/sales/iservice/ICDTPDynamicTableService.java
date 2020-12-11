@@ -1,6 +1,5 @@
 package com.nicico.sales.iservice;
 
-
 import com.nicico.sales.dto.CDTPDynamicTableDTO;
 import com.nicico.sales.model.entities.contract.CDTPDynamicTable;
 
