@@ -37,8 +37,7 @@ var nicico;
                         return field.filterOperator;
                     // @ts-ignore
                     if (field.type === "date")
-                        return ["greaterThan", "lessThan", "greaterOrEqual", "lessOrEqual", "iBetween", "iBetweenInclusive", "isNull",
-                            "notNull", "greaterThanField", "lessThanField", "greaterOrEqualField", "lessOrEqualField", "between", "betweenInclusive"];
+                        return ["greaterThan", "lessThan", "greaterOrEqual", "lessOrEqual", "isNull", "notNull"];
                     // @ts-ignore
                     if (field.type === "boolean")
                         return ["isNull", "notNull", "equals", "notEqual", "iEquals", "iNotEqual", "equalsField", "notEqualField", "iEqualsField", "iNotEqualField"];
@@ -137,4 +136,5 @@ var nicico;
     nicico.FilterFormUtil = FilterFormUtil;
     //------------------------------------------ Classes -----------------------------------------//
 })(nicico || (nicico = {}));
+//------------------------------------------- Namespaces -----------------------------------------//
 //------------------------------------------- Namespaces -----------------------------------------//
