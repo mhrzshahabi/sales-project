@@ -8,10 +8,11 @@ import com.nicico.sales.model.entities.base.InvoiceSales;
 import com.nicico.sales.repository.InvoiceSalesDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+//import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
 @Service
 public class InvoiceSalesService extends GenericService<InvoiceSales, Long, InvoiceSalesDTO.Create, InvoiceSalesDTO.Info, InvoiceSalesDTO.Update, InvoiceSalesDTO.Delete> implements IInvoiceSalesService {
 
-    private final OAuth2RestTemplate restTemplate;
+//    private final OAuth2RestTemplate restTemplate;
 
     @Value("${nicico.apps.accounting}")
     private String accountingAppUrl;
@@ -42,7 +43,7 @@ public class InvoiceSalesService extends GenericService<InvoiceSales, Long, Invo
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     void getDetailContactInformation(Long id) {
-        restTemplate.getForEntity("http://localhost:8090/accounting" + "/rest/detail/" + id, String.class);
+        new RestTemplate().getForEntity("http://localhost:8090/accounting" + "/rest/detail/" + id, String.class);
     }
 
 }

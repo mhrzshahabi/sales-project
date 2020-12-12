@@ -143,7 +143,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     private final ModelMapper modelMapper;
     private final ObjectMapper objectMapper;
-    private final RestTemplate restTemplate;
+//    private final RestTemplate restTemplate;
     private final EntityManager entityManager;
     private final ResourceBundleMessageSource messageSource;
 
@@ -407,7 +407,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
                 .encode()
                 .toUri();
         HttpEntity<Object> httpEntity = new HttpEntity<>(null, authenticationUtil.getApplicationJSONHttpHeaders());
-        ResponseEntity<String> exchange = restTemplate.exchange(uri, httpMethodEnum, httpEntity, String.class);
+        ResponseEntity<String> exchange = new RestTemplate().exchange(uri, httpMethodEnum, httpEntity, String.class);
         if (exchange.getStatusCode().equals(HttpStatus.OK)) {
 
             Map body = objectMapper.readValue(exchange.getBody(), Map.class);

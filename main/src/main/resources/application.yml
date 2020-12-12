@@ -76,8 +76,8 @@ nicico:
     upload:
       dir: /var/nicico/${spring.application.name}/
   security:
-    sys-password: password
-    resource-id: Copper
+#    sys-password: password
+#    resource-id: Copper
   apps:
     oauth: http://staging.icico.net.ir
     accounting: http://staging.icico.net.ir/accounting
