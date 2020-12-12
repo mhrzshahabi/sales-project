@@ -375,7 +375,7 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
 
         if (section.form) {
 
-            if (!this.form.validate()) {
+            if (!section.form.validate()) {
 
                 contractTab.dialog.say('<spring:message code="contract.validation.exception-detail"/> [' + section.title + ']');
                 return false;
@@ -942,8 +942,8 @@ contractTab.method.createArticle = function (data) {
                 click: function () {
 
                     contractTab.variable.contractDetailPreviewForm.bodyWidget.getObject().setContents(
-                        "<div style='text-align: " + nicico.CommonUtil.getAlignByLangReverse() + "'>" +
-                        sectionStackSectionObj.providePrintContent() + "</div>");
+                        "<pre style='text-align: " + nicico.CommonUtil.getAlignByLangReverse() + "'>" +
+                        sectionStackSectionObj.providePrintContent() + "</pre>");
                     contractTab.variable.contractDetailPreviewForm.justShowForm();
                 }
             }),
@@ -1231,6 +1231,8 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
             return true;
         if (type === 'GeorgianDate')
             return new Date(valueStr);
+
+        return valueStr;
     }
 
     target.filter(param =>
