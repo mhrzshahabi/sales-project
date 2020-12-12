@@ -473,7 +473,8 @@
                             membersMargin: 5,
                             width: 120,
                             click: function () {
-                                Window_Shipment_Dcc.close();
+                               fetchPrintTemplateListAndRefreshGrid();
+                               Window_Shipment_Dcc.close();
                             }
                         })
                     ]
