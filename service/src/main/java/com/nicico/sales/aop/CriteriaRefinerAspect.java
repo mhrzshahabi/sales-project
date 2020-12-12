@@ -217,11 +217,13 @@ public class CriteriaRefinerAspect {
                 String date = String.valueOf(value);
                 if (date.length() <= 10) {
 
-                    if (criteriaRq.getOperator() == EOperator.lessOrEqual) date += " 23:59:59";
+                    if (criteriaRq.getOperator() == EOperator.lessThan || criteriaRq.getOperator() == EOperator.lessOrEqual)
+                        date += " 23:59:59";
                     else date += " 00:00:00";
                 } else {
                     date = date.substring(0, 10);
-                    if (criteriaRq.getOperator() == EOperator.lessOrEqual) date += " 23:59:59";
+                    if (criteriaRq.getOperator() == EOperator.lessThan || criteriaRq.getOperator() == EOperator.lessOrEqual)
+                        date += " 23:59:59";
                     else date += " 00:00:00";
                 }
 
