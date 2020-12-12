@@ -55,8 +55,7 @@ namespace nicico {
                         return field.filterOperator;
 
                     // @ts-ignore
-                    if (field.type === "date") return ["greaterThan", "lessThan", "greaterOrEqual", "lessOrEqual", "iBetween", "iBetweenInclusive", "isNull",
-                        "notNull", "greaterThanField", "lessThanField", "greaterOrEqualField", "lessOrEqualField", "between", "betweenInclusive"];
+                    if (field.type === "date") return ["greaterThan", "lessThan", "greaterOrEqual", "lessOrEqual", "isNull", "notNull"];
                     // @ts-ignore
                     if (field.type === "boolean") return ["isNull", "notNull", "equals", "notEqual", "iEquals", "iNotEqual", "equalsField", "notEqualField", "iEqualsField", "iNotEqualField"];
                     // @ts-ignore
@@ -84,7 +83,7 @@ namespace nicico {
                     creator.window.main.close();
                     // @ts-ignore
                     if (creator.variable.owner != null)
-                        // @ts-ignore
+                    // @ts-ignore
                         creator.variable.owner.show();
 
                     This.cancelCallBack();
@@ -100,7 +99,7 @@ namespace nicico {
                     creator.window.main.close();
                     // @ts-ignore
                     if (creator.variable.owner != null)
-                        // @ts-ignore
+                    // @ts-ignore
                         creator.variable.owner.show();
 
                     // @ts-ignore

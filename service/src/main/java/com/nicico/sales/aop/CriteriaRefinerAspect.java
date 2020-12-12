@@ -217,7 +217,13 @@ public class CriteriaRefinerAspect {
                 String date = String.valueOf(value);
                 if (date.length() <= 10) {
 
-                    if (criteriaRq.getOperator() == EOperator.lessOrEqual) date += " 23:59:59";
+                    if (criteriaRq.getOperator() == EOperator.lessThan || criteriaRq.getOperator() == EOperator.lessOrEqual)
+                        date += " 23:59:59";
+                    else date += " 00:00:00";
+                } else {
+                    date = date.substring(0, 10);
+                    if (criteriaRq.getOperator() == EOperator.lessThan || criteriaRq.getOperator() == EOperator.lessOrEqual)
+                        date += " 23:59:59";
                     else date += " 00:00:00";
                 }
 
@@ -300,7 +306,7 @@ public class CriteriaRefinerAspect {
             if (field.getType().equals(Date.class)) {
 
                 final EOperator operator = criteriaRq.getOperator();
-                if (operator == EOperator.lessOrEqual || operator == EOperator.greaterOrEqual)
+                if (operator == EOperator.lessOrEqual || operator == EOperator.greaterOrEqual || operator == EOperator.lessThan || operator == EOperator.greaterThan)
                     result = refineDateField(newFieldName, criteriaRq, result);
                 else {
 
