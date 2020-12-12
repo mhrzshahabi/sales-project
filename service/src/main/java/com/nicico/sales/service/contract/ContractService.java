@@ -48,6 +48,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 
     /******************************************************************************************************************/
 
+    private final ContractDAO contractDAO;
     private final ContractDetailDAO contractDetailDAO;
     private final ContractContactDAO contractContactDAO;
     private final ContractDetailValueDAO contractDetailValueDAO;
@@ -313,8 +314,10 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     @Action(value = ActionType.Update)
     public ContractDTO.Info update(Long id, ContractDTO.Update request) {
 
-        Contract entity = repository.findById(id).orElseThrow(() -> new NotFoundException(Contract.class));
-//        entity.setContractDetails(null);
+        Contract entity = contractDAO.findById(id).orElseThrow(() -> new NotFoundException(Contract.class));
+        validation(entity, request);
+
+        entity.setContractDetails(null);
 //        entity.setContractContacts(null);
 
         List<ContractDetail> contractDetails = contractDetailDAO.getByContractId(entity.getId());
@@ -323,12 +326,6 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 
         List<ContractDetailDTO.Update> contractDetailRqs = request.getContractDetails();
 //        request.setContractDetails(null);
-
-        Contract updating = new Contract();
-        modelMapper.map(entity, updating);
-        modelMapper.map(request, updating);
-
-        validation(updating, request);
 
         // update contacts
         ContractContact buyer = contractContacts.stream().filter(item -> item.getCommercialRole() == CommercialRole.Buyer).findFirst().get();
@@ -463,6 +460,10 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
                 dynamicTableValueService.updateAll(dynamicTableValue4Update);
             }
         }
+
+        Contract updating = new Contract();
+        modelMapper.map(entity, updating);
+        modelMapper.map(request, updating);
 
         return save(updating);
     }
