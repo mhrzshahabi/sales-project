@@ -3,7 +3,7 @@ spring:
     name: Sales
     version: "1.0.8"
   profiles:
-    active: Local
+    active: Development
   datasource:
     hikari:
       connection-test-query: SELECT 1 FROM DUAL
@@ -76,8 +76,8 @@ nicico:
     upload:
       dir: /var/nicico/${spring.application.name}/
   security:
-    sys-password: password
-    resource-id: Copper
+#    sys-password: password
+#    resource-id: Copper
   apps:
     oauth: http://staging.icico.net.ir
     accounting: http://staging.icico.net.ir/accounting

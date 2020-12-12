@@ -82,8 +82,8 @@ deploy-staging:
         docker service create \
           --network back-net \
           --network front-net \
-          --mount 'type=volume,volume-driver=local,destination=/var/log/nicico/,volume-opt=type=nfs,volume-opt=device=:/var/log/nicico/,volume-opt=o=addr=staging.icico.net.ir' \
-          --mount 'type=volume,volume-driver=local,destination=/var/nicico/,volume-opt=type=nfs,volume-opt=device=:/var/nicico/,volume-opt=o=addr=staging.icico.net.ir' \
+          --mount 'type=volume,target=/var/log/nicico/,source=$CI_PROJECT_NAME-log,volume-opt=type=nfs,volume-opt=device=:/var/log/nicico/,volume-opt=o=addr=172.16.180.32' \
+          --mount 'type=volume,volume-driver=local,target=/var/nicico/,source=$CI_PROJECT_NAME-data,volume-opt=type=nfs,volume-opt=device=:/var/nicico/,volume-opt=o=addr=172.16.180.32' \
           -l traefik.port=8080 \
           -l traefik.docker.network=front-net \
           -l traefik.backend=$CI_PROJECT_NAME \
@@ -91,4 +91,5 @@ deploy-staging:
           -e PROFILE=Staging \
           --name $CI_PROJECT_NAME \
           $G_REG_PULL_URL/$CI_PROJECT_NAME:staging
+        docker system prune --all --force --volumes
       "
