@@ -142,6 +142,7 @@ contractTab.method.getDynamicFormFields = function () {
                 if (buyer) {
 
                     contractTab.dynamicForm.valuesManager.setValue("BUYER_NAME", buyer.nameEN);
+                    contractTab.dynamicForm.valuesManager.setValue("BUYER_MAIL", buyer.email);
                     contractTab.dynamicForm.valuesManager.setValue("BUYER_ADDRESS", buyer.address);
                     contractTab.dynamicForm.valuesManager.setValue("BUYER_PHONE", buyer.phone);
                     contractTab.dynamicForm.valuesManager.setValue("BUYER_FAX", buyer.fax);
@@ -162,6 +163,7 @@ contractTab.method.getDynamicFormFields = function () {
                 if (seller) {
 
                     contractTab.dynamicForm.valuesManager.setValue("SELLER_NAME", seller.nameEN);
+                    contractTab.dynamicForm.valuesManager.setValue("SELLER_MAIL", seller.email);
                     contractTab.dynamicForm.valuesManager.setValue("SELLER_ADDRESS", seller.address);
                     contractTab.dynamicForm.valuesManager.setValue("SELLER_PHONE", seller.phone);
                     contractTab.dynamicForm.valuesManager.setValue("SELLER_FAX", seller.fax);
@@ -182,6 +184,7 @@ contractTab.method.getDynamicFormFields = function () {
                 if (agentBuyer) {
 
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_BUYER_NAME", agentBuyer.nameEN);
+                    contractTab.dynamicForm.valuesManager.setValue("AGENT_BUYER_MAIL", agentBuyer.email);
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_BUYER_ADDRESS", agentBuyer.address);
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_BUYER_PHONE", agentBuyer.phone);
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_BUYER_FAX", agentBuyer.fax);
@@ -202,6 +205,7 @@ contractTab.method.getDynamicFormFields = function () {
                 if (agentSeller) {
 
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_SELLER_NAME", agentSeller.nameEN);
+                    contractTab.dynamicForm.valuesManager.setValue("AGENT_SELLER_MAIL", agentSeller.email);
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_SELLER_ADDRESS", agentSeller.address);
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_SELLER_PHONE", agentSeller.phone);
                     contractTab.dynamicForm.valuesManager.setValue("AGENT_SELLER_FAX", agentSeller.fax);
@@ -251,6 +255,12 @@ nicico.BasicFormUtil.createDynamicForm = function (creator) {
         requiredMessage: '<spring:message code="validator.field.is.required"/>'
     });
 };
+nicico.BasicFormUtil.createListGrid = function (creator) {
+
+    creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria, {
+        sortField: 'no'
+    });
+};
 
 contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFormItems.concat([
     {name: "title", title: '<spring:message code="global.title-en"/>'},
@@ -268,6 +278,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
     }]
 }, {
     width: "30%",
+    sortField: 1,
     showResizeBar: true,
     showFilterEditor: false,
     showRecordComponents: true,
@@ -294,6 +305,25 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
 
                         if (!contractTab.dynamicForm.main.validate())
                             return;
+
+                        if (!nicico.PersianDateUtil.compareDate(contractTab.dynamicForm.main.getValue("affectFrom").toShortDate(), contractTab.dynamicForm.main.getValue("affectUpTo").toShortDate())) {
+
+                            contractTab.dynamicForm.main.errors["affectUpTo"] = '<spring:message code="contract.date.validation"/>';
+                            contractTab.dynamicForm.main.redraw();
+                            return;
+                        }
+                        if (contractTab.dynamicForm.main.getValue("buyerId") === contractTab.dynamicForm.main.getValue("sellerId")) {
+
+                            contractTab.dynamicForm.main.errors["sellerId"] = '<spring:message code="contract.buyer-seller.validation"/>';
+                            contractTab.dynamicForm.main.redraw();
+                            return;
+                        }
+                        if (contractTab.dynamicForm.main.getValue("agentBuyerId") != null && contractTab.dynamicForm.main.getValue("agentBuyerId") === contractTab.dynamicForm.main.getValue("agentSellerId")) {
+
+                            contractTab.dynamicForm.main.errors["agentSellerId"] = '<spring:message code="contract.agent-buyer-agent-seller.validation"/>';
+                            contractTab.dynamicForm.main.redraw();
+                            return;
+                        }
 
                         if (contractTab.sectionStack.contract.hasContractDetailType(record.id)) {
 
@@ -335,6 +365,7 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
             if (!this.setContractDetailData(section))
                 return null;
 
+            section.data.contractDetail.position = i + 1;
             result.add(section.data.contractDetail);
         }
 
@@ -342,102 +373,185 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
     },
     setContractDetailData: function (section) {
 
-        // section.form
-        // section.grids
-        // section.dynamicTableGrids
-        // section.data.contractDetail.contractDetailValues
+        if (section.form) {
 
-        // contractTab.sectionStack.contract.sections.filter(x => x.title.toLowerCase().contains("header")).forEach(section => {
-//     data.content = data.content + changeHeaderAndFooterTemplate(section.template);
-// });
-// contractTab.sectionStack.contract.sections.forEach(section => {
-//     let contractDetailObj = {
-//         contractDetailTypeId: section.name,
-//         position: contractTab.sectionStack.contract.sections.indexOf(section),
-//         contractDetailTemplate: section.template,
-//         id: section.contractDetailId,
-//         content: providePrintContent(section, section.template),
-//         contractDetailValues: []
-//     };
-//
-//     if (data.contractTypeId !== 3) {
-//         section.items[0].validate();
-//         if (section.items[0].hasErrors())
-//             throw "dynamicForm validation is failed.";
-//
-//     }
-//
-//     // dynamicForm
-//     section.items[0].fields.filter(x => x.isBaseItem == null).forEach(x => {
-//         contractDetailObj.contractDetailValues.push({
-//             id: x.contractDetailValueId,
-//             name: x.name,
-//             key: x.key,
-//             title: x.title,
-//             reference: x.reference,
-//             type: x.paramType,
-//             value: section.items[0].values[x.name],
-//             unitId: x.unitId,
-//             required: (x.required == null) ? false : x.required,
-//             contractDetailId: section.contractDetailId,
-//             estatus: x.estatus,
-//             editable: x.editable
-//         });
-//     });
-//
-//     // listGrids
-//     section.items.slice(1, section.items.length).forEach(listGrid => {
-//         listGrid.saveAllEdits();
-//         let listGridData;
-//         if (listGrid.getData() instanceof Array) //create
-//             listGridData = listGrid.getData();
-//         else { //update
-//             listGridData = listGrid.getData().localData
-//         }
-//         listGridData = contractTab.Methods.GetListGridDataFromDynamicTableGrid(listGrid, listGridData);
-//         if (listGridData.length === 0) {
-//             contractTab.dialog.say(
-//                 "<spring:message code='contract.window.list-of-reference-empty'/>",
-//                 "<spring:message code='global.warning'/>");
-//             throw "One of List Grids is Empty"
-//         }
-//         listGridData.forEach(x => {
-//             Object.keys(x).forEach(listGridKey => {
-//                 if (listGridKey.startsWith("_"))
-//                     delete x[listGridKey];
-//             });
-//             dbg(listGrid);
-//             contractDetailObj.contractDetailValues.push({
-//                 id: x.contractDetailValueId,
-//                 name: listGrid.paramName,
-//                 title: listGrid.paramName,
-//                 key: listGrid.paramKey,
-//                 reference: listGrid.reference,
-//                 type: listGrid['cDTPDynamicTableValue'] ? contractTab.Vars.DataType.DynamicTable : contractTab.variable.dataType.ListOfReference,
-//                 value: x.id,
-//                 referenceJsonValue: JSON.stringify(x),
-//                 unitId: null,
-//                 required: false,
-//                 contractDetailId: section.contractDetailId,
-//                 estatus: x.estatus,
-//                 editable: x.editable
-//             });
-//         });
-//     });
-//
-//     data.contractDetails.push(contractDetailObj);
-//
-//     if (!section.title.toLowerCase().contains("header") && !section.title.toLowerCase().contains("footer"))
-//         data.content = data.content + "<h2>" + section.title + "</h2>" + contractDetailObj.content;
-// });
-// contractTab.sectionStack.contract.sections.filter(x => x.title.toLowerCase().contains("footer")).forEach(section => {
-//     data.content = data.content + changeHeaderAndFooterTemplate(section.template);
-// });
+            if (!this.form.validate()) {
 
-        return true;
-    },
-    validateContractDetailData(section) {
+                contractTab.dialog.say('<spring:message code="contract.validation.exception-detail"/> [' + section.title + ']');
+                return false;
+            }
 
+            let target = !section.data.isNewMode ?
+                section.data.contractDetail.contractDetailValues :
+                section.data.contractDetailType.contractDetailTypeParams;
+            target.filter(param =>
+                param.type !== contractTab.variable.dataType.ListOfReference &&
+                param.type !== contractTab.variable.dataType.DynamicTable).forEach(param => {
+
+                let detailValue = section.data.contractDetail.contractDetailValues.find(q => param.vId && q.id === param.vId);
+                if (detailValue)
+                    detailValue.value = section.form.getValue(section.data.contractDetailType.code + "." + param.key);
+                else
+                    section.data.contractDetail.contractDetailValues.add({
+                        key: param.key,
+                        name: param.title,
+                        type: param.paramType,
+                        required: param.required,
+                        reference: param.reference,
+                        unitId: param.unitId,
+                        contractDetailId: field.contractDetailId,
+                        value: section.form.getValue(section.data.contractDetailType.code + "." + param.key),
+                    });
+            });
+        }
+
+        if (section.grids) {
+
+            for (let i = 0; i < section.grids.length; i++) {
+
+                let grid = section.grids[i];
+                if (!grid.validateAllData()) {
+
+                    contractTab.dialog.say('<spring:message code="contract.validation.exception-detail"/> [' + section.title + ']');
+                    return false;
+                }
+
+                grid.saveAllEdits();
+                let records = grid.getData();
+                if (grid.required && !records.length) {
+
+                    contractTab.dialog.say('<spring:message code="contract.validation.exception-detail"/>' +
+                        ' [' + section.title + ']<br>' + '<spring:message code="validator.field.is.required"/>');
+
+                    return false;
+                }
+
+                records.forEach(record => {
+
+                    if (record.id) {
+
+                        let detailValueId = grid.values.find(q => q.value == record.id).id;
+                        let detailValue = section.data.contractDetail.contractDetailValues.find(q => q.id === detailValueId);
+                        detailValue.referenceJsonValue = JSON.stringify(record);
+                    } else {
+
+                        section.data.contractDetail.contractDetailValues.add({
+                            key: grid.key,
+                            name: grid.title,
+                            type: grid.paramType,
+                            required: grid.required,
+                            reference: grid.reference,
+                            unitId: grid.unitId,
+                            contractDetailId: grid.contractDetailId,
+                            value: null,
+                            referenceJsonValue: JSON.stringify(record)
+                        });
+                    }
+                });
+
+                let recordIds = records.map(record => record.id);
+                grid.values.forEach(param => {
+
+                    if (!recordIds.contains(param.value)) {
+
+                        let detailValue = section.data.contractDetail.contractDetailValues.find(q => q.id === param.id);
+                        section.data.contractDetail.contractDetailValues.remove(detailValue);
+                    }
+                });
+            }
+        }
+
+        if (section.dynamicGrids) {
+
+            for (let i = 0; i < section.dynamicGrids.length; i++) {
+
+                let dynamicGrid = section.dynamicGrids[i];
+                if (!dynamicGrid.validateAllData()) {
+
+                    contractTab.dialog.say('<spring:message code="contract.validation.exception-detail"/> [' + section.title + ']');
+                    return false;
+                }
+
+                dynamicGrid.saveAllEdits();
+                let records = dynamicGrid.getData();
+                if (dynamicGrid.required && !records.length) {
+
+                    contractTab.dialog.say('<spring:message code="contract.validation.exception-detail"/>' +
+                        ' [' + section.title + ']<br>' + '<spring:message code="validator.field.is.required"/>');
+
+                    return false;
+                }
+
+                if (dynamicGrid.fields.map(q => q.name).distinct().length < dynamicGrid.fields.length) {
+
+                    contractTab.dialog.say('<spring:message code="contract.validation.exception-detail"/>' +
+                        ' [' + section.title + ']<br>' + '<spring:message code="validator.grid.duplicate.column.name"/>');
+
+                    return false;
+                }
+
+                let rowIndex = 1;
+                let maxRowNum = records.map(q => q.rowNum).max();
+                if (!maxRowNum)
+                    maxRowNum = 0;
+                records.forEach(record => {
+
+                    if (record.rowNum) {
+
+                        let detailValueId = dynamicGrid.values.find(q => q.value == record.rowNum && q.id === record.contractDetailValueId).id;
+                        let detailValue = section.data.contractDetail.contractDetailValues.find(q => q.id === detailValueId);
+                        detailValue.dynamicTables.forEach(dynamicTable => {
+
+                            let fieldName = dynamicGrid.fields.find(field => field.colNum === dynamicTable.colNum).name;
+                            dynamicTable.value = record[fieldName];
+                        });
+                    } else {
+
+                        let rowNum = maxRowNum + rowIndex++;
+                        let detailValue = {
+                            key: dynamicGrid.key,
+                            name: dynamicGrid.title,
+                            type: dynamicGrid.paramType,
+                            required: dynamicGrid.required,
+                            reference: dynamicGrid.reference,
+                            unitId: dynamicGrid.unitId,
+                            contractDetailId: dynamicGrid.contractDetailId,
+                            value: rowNum,
+                            dynamicTables: []
+                        };
+                        dynamicGrid.fields.filter(field => field.colNum).forEach(field => detailValue.dynamicTables.add({
+
+                            rowNum: rowNum,
+                            fieldName: field.name,
+                            value: record[field.name],
+
+                            colNum: field.colNum,
+                            maxRows: field.maxRows,
+                            required: field.required,
+                            headerKey: field.headerKey,
+                            headerType: field.headerType,
+                            headerValue: field.headerValue,
+                            valueType: field.valueType,
+                            description: field.description,
+                            displayField: field.displayField,
+                            regexValidator: field.regexValidator,
+                            initialCriteria: field.initialCriteria
+                        }));
+                        section.data.contractDetail.contractDetailValues.add(detailValue);
+                    }
+                });
+
+                let rowNums = records.map(record => record.rowNum);
+                dynamicGrid.values.forEach(param => {
+
+                    if (!rowNums.contains(param.value)) {
+
+                        let detailValue = section.data.contractDetail.contractDetailValues.find(q => q.id === param.id);
+                        section.data.contractDetail.contractDetailValues.remove(detailValue);
+                    }
+                });
+            }
+        }
 
         return true;
     },
@@ -468,8 +582,66 @@ contractTab.vLayout.sectionStack = isc.VLayout.create({
 
     width: "100%",
     height: "100%",
-    overflow: "scroll",
+    overflow: "auto",
     members: [contractTab.sectionStack.contract]
+});
+contractTab.button.saveButton = isc.IButtonSave.create({
+
+    click: function () {
+
+        contractTab.dynamicForm.main.validate();
+        if (contractTab.dynamicForm.main.hasErrors())
+            return;
+
+        if (!nicico.PersianDateUtil.compareDate(contractTab.dynamicForm.main.getValue("affectFrom").toShortDate(), contractTab.dynamicForm.main.getValue("affectUpTo").toShortDate())) {
+
+            contractTab.dynamicForm.main.errors["affectUpTo"] = '<spring:message code="contract.date.validation"/>';
+            contractTab.dynamicForm.main.redraw();
+            return;
+        }
+        if (contractTab.dynamicForm.main.getValue("buyerId") === contractTab.dynamicForm.main.getValue("sellerId")) {
+
+            contractTab.dynamicForm.main.errors["sellerId"] = '<spring:message code="contract.buyer-seller.validation"/>';
+            contractTab.dynamicForm.main.redraw();
+            return;
+        }
+        if (contractTab.dynamicForm.main.getValue("agentBuyerId") != null && contractTab.dynamicForm.main.getValue("agentBuyerId") === contractTab.dynamicForm.main.getValue("agentSellerId")) {
+
+            contractTab.dynamicForm.main.errors["agentSellerId"] = '<spring:message code="contract.agent-buyer-agent-seller.validation"/>';
+            contractTab.dynamicForm.main.redraw();
+            return;
+        }
+
+        let data = contractTab.dynamicForm.main.getValues();
+        data.content = contractTab.sectionStack.contract.providePrintContent();
+        data.contractDetails = contractTab.sectionStack.contract.getContractDetails();
+        if (!data.content) {
+
+            contractTab.dialog.say('<spring:message code="contract.validation.empty-content"/>');
+            return;
+        }
+        if (!data.contractDetails)
+            return;
+        if (!data.contractDetails.length) {
+
+            contractTab.dialog.say('<spring:message code="contract.validation.empty-detail"/>');
+            return;
+        }
+
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            actionURL: contractTab.variable.contractUrl,
+            httpMethod: contractTab.variable.method,
+            data: JSON.stringify(data),
+            callback: function (resp) {
+                if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
+                    contractTab.dialog.ok();
+                    contractTab.method.refresh(contractTab.listGrid.main);
+                    contractTab.window.main.close();
+                } else
+                    contractTab.dialog.error(resp);
+            }
+        }))
+    }
 });
 contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
     height: "5%",
@@ -480,61 +652,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
     layoutMargin: 5,
     membersMargin: 10,
     members: [
-        isc.IButtonSave.create({
-            click: function () {
-
-                contractTab.dynamicForm.main.validate();
-                if (contractTab.dynamicForm.main.hasErrors())
-                    return;
-
-                if (!nicico.PersianDateUtil.compareDate(contractTab.dynamicForm.main.getValue("affectFrom").toShortDate(), contractTab.dynamicForm.main.getValue("affectUpTo").toShortDate())) {
-
-                    contractTab.dynamicForm.main.errors["affectUpTo"] = '<spring:message code="contract.date.validation"/>';
-                    contractTab.dynamicForm.main.redraw();
-                    return;
-                }
-                if (contractTab.dynamicForm.main.getValue("buyerId") === contractTab.dynamicForm.main.getValue("sellerId")) {
-
-                    contractTab.dynamicForm.main.errors["sellerId"] = '<spring:message code="contract.buyer-seller.validation"/>';
-                    contractTab.dynamicForm.main.redraw();
-                    return;
-                }
-                if (contractTab.dynamicForm.main.getValue("agentBuyerId") != null && contractTab.dynamicForm.main.getValue("agentBuyerId") === contractTab.dynamicForm.main.getValue("agentSellerId")) {
-
-                    contractTab.dynamicForm.main.errors["agentSellerId"] = '<spring:message code="contract.agent-buyer-agent-seller.validation"/>';
-                    contractTab.dynamicForm.main.redraw();
-                    return;
-                }
-
-                let data = contractTab.dynamicForm.main.getValues();
-                data.content = contractTab.sectionStack.contract.providePrintContent();
-                data.contractDetails = contractTab.sectionStack.contract.getContractDetails();
-                if (!data.content) {
-
-                    contractTab.dialog.say('<spring:message code="contract.validation.empty-content">');
-                    return;
-                }
-                if (!data.contractDetails) {
-
-                    contractTab.dialog.say('<spring:message code="contract.validation.empty-detail">');
-                    return;
-                }
-
-                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: contractTab.variable.contractUrl,
-                    httpMethod: contractTab.variable.method,
-                    data: JSON.stringify(data),
-                    callback: function (resp) {
-                        if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
-                            contractTab.dialog.ok();
-                            contractTab.method.refresh(contractTab.listGrid.main);
-                            contractTab.window.main.close();
-                        } else
-                            contractTab.dialog.error(resp);
-                    }
-                }))
-            }
-        }),
+        contractTab.button.saveButton,
         isc.IButtonCancel.create({
             width: 100,
             click: function () {
@@ -560,17 +678,18 @@ contractTab.variable.contractDetailTypeTemplateSelectorForm.getButtonLayout = fu
 };
 contractTab.variable.contractDetailTypeTemplateSelectorForm.init(null, "<spring:message code='contract.form.detail-type-template'/>", isc.ListGrid.nicico.getDefault([
     {name: "id", primaryKey: true, hidden: true, title: '<spring:message code="global.id"/>'},
-    {name: "content", title: '<spring:message code="global.content"/>', showHover: true, hoverWidth: '50%'}
+    {name: "content", title: '<spring:message code="global.content"/>', showHover: true, hoverWidth: '25%'}
 ], null, null, {
-    cellHeight: "100",
-    minimumCellHeight: "20",
-    fixedRecordHeights: false,
+    height: "100%",
+    wrapCells: true,
+    showFilterEditor: false,
+    fixedRecordHeights: true,
     cellDoubleClick: function (record, rowNum, colNum) {
 
         contractTab.variable.contractDetailTypeTemplateSelectorForm.okCallBack(record.content);
         contractTab.variable.contractDetailTypeTemplateSelectorForm.windowWidget.getObject().close();
     }
-}), "50%", 400);
+}), "70%", 600);
 
 contractTab.variable.contractDetailPreviewForm = new nicico.FormUtil();
 contractTab.variable.contractDetailPreviewForm.getButtonLayout = function () {
@@ -581,8 +700,8 @@ contractTab.variable.contractDetailPreviewForm.cancelCallBack = function () {
 contractTab.variable.contractDetailPreviewForm.init(null, "<spring:message code='contract.window.detail.preview'/>", isc.HTMLFlow.create({
     padding: 20,
     width: "100%",
-    overflow: "auto",
-}), "50%", "400");
+    overflow: "auto"
+}), "70%", "600");
 
 contractTab.variable.contractPreviewForm = new nicico.FormUtil();
 contractTab.variable.contractPreviewForm.getButtonLayout = function () {
@@ -596,41 +715,48 @@ contractTab.variable.contractPreviewForm.init(null, "<spring:message code='contr
         width: "100%",
         padding: 20,
     }),
-    isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/print.png",
-        title: "<spring:message code='global.form.print.pdf'/>",
+    isc.HLayout.create({
+        height: "5%",
         width: "100%",
-        margin: 3,
-        click: function () {
-            var printWindow = window.open('', '', 'height=800,width=800');
-            printWindow.document.write('<html><head><title></title>');
-            printWindow.document.write('</head><body>');
-            printWindow.document.write(contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).getContents());
-            printWindow.document.write('</body></html>');
-            printWindow.document.close();
-            printWindow.print();
-        }
-    }),
-    isc.ToolStripButtonAdd.create({
-        icon: "pieces/512/word.png",
-        title: "<spring:message code='global.form.print.contract.word'/>",
-        width: "100%",
-        margin: 3,
-        click: function () {
-            var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
-                "xmlns:w='urn:schemas-microsoft-com:office:word' " +
-                "xmlns='http://www.w3.org/TR/REC-html40'>" +
-                "<head><meta charset='utf-8'><title>CONTRACT</title></head><body>";
-            var footer = "</body></html>";
-            var sourceHTML = header + contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).getContents() + footer;
-            var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
-            var fileDownload = document.createElement("a");
-            document.body.appendChild(fileDownload);
-            fileDownload.href = source;
-            fileDownload.download = 'contract.doc';
-            fileDownload.click();
-            document.body.removeChild(fileDownload);
-        }
+        showEdges: false,
+        alignLayout: "center",
+        padding: 10,
+        layoutMargin: 5,
+        membersMargin: 10,
+        members: [
+            isc.ToolStripButton.create({
+                icon: "[SKIN]/actions/print.png",
+                title: "<spring:message code='global.form.print.pdf'/>",
+                click: function () {
+                    let printWindow = window.open('', '', 'height=800,width=800');
+                    printWindow.document.write('<html><head><title></title>');
+                    printWindow.document.write('</head><body>');
+                    printWindow.document.write(contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).getContents());
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+                    printWindow.print();
+                }
+            }),
+            isc.ToolStripButton.create({
+                icon: "pieces/512/word.png",
+                title: "<spring:message code='global.form.print.contract.word'/>",
+                click: function () {
+                    let header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+                        "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+                        "xmlns='http://www.w3.org/TR/REC-html40'>" +
+                        "<head><meta charset='utf-8'><title>CONTRACT</title></head><body>";
+                    let footer = "</body></html>";
+                    let sourceHTML = header + contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).getContents() + footer;
+                    let source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+                    let fileDownload = document.createElement("a");
+                    document.body.appendChild(fileDownload);
+                    fileDownload.href = source;
+                    fileDownload.download = 'contract.doc';
+                    fileDownload.click();
+                    document.body.removeChild(fileDownload);
+                }
+            })
+        ]
     })
 ], "50%", 0.7 * innerHeight);
 
@@ -697,38 +823,38 @@ contractTab.method.newForm = function () {
 };
 contractTab.method.editForm = function () {
 
-    let listGridRecord = contractTab.listGrid.main.getSelectedRecord();
+    let listGridRecord = clone(contractTab.listGrid.main.getSelectedRecord());
     if (listGridRecord == null || listGridRecord.id == null)
         contractTab.dialog.notSelected();
     else if (listGridRecord.editable === false)
         contractTab.dialog.notEditable();
     else if (listGridRecord.estatus.contains(Enums.eStatus2.DeActive))
         contractTab.dialog.inactiveRecord();
-    else if (listGridRecord.estatus.contains(Enums.eStatus2.Final))
-        contractTab.dialog.finalRecord();
     else {
 
+        if (listGridRecord.estatus.contains(Enums.eStatus2.Final))
+            contractTab.button.saveButton.hide();
+        else
+            contractTab.button.saveButton.show();
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: 'api/g-contract/' + listGridRecord.id,
             httpMethod: "GET",
             callback: function (resp) {
+
                 if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
 
                     let record = JSON.parse(resp.data);
 
                     contractTab.variable.method = "PUT";
                     contractTab.dynamicForm.main.editRecord(listGridRecord);
+                    contractTab.dynamicForm.main.setValue("date", new Date(listGridRecord.date));
+                    contractTab.dynamicForm.main.setValue("affectFrom", new Date(listGridRecord.affectFrom));
+                    contractTab.dynamicForm.main.setValue("affectUpTo", new Date(listGridRecord.affectUpTo));
+
                     contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
-                    record.contractDetails.sortByProperty('position').reverse().forEach(contractDetail =>
-                        contractTab.method.addArticle({
-                            isNewMode: false,
-                            contractDetail: contractDetail,
-                            position: contractDetail.position,
-                            template: contractDetail.contractDetailTemplate,
-                            contractDetailType: contractDetail.contractDetailType
-                        })
-                    );
+
                     contractTab.listGrid.contractDetailType.invalidateRecordComponents();
+                    contractTab.listGrid.contractDetailType.setCriteria(null);
                     contractTab.listGrid.contractDetailType.fetchData({
                         operator: 'and',
                         criteria: [{
@@ -740,7 +866,14 @@ contractTab.method.editForm = function () {
                             operator: 'notEqual',
                             value: Enums.eStatus2.DeActive
                         }]
-                    });
+                    }, () => record.contractDetails.sortByProperty('position').reverse().forEach(contractDetail => contractTab.method.addArticle({
+                        isNewMode: false,
+                        contractDetail: contractDetail,
+                        position: contractDetail.position,
+                        template: contractDetail.contractDetailTemplate,
+                        contractDetailType: contractDetail.contractDetailType
+                    })));
+
                     contractTab.window.main.setTitle("<spring:message code='contract.window.title.edit'/>" + "\t" + listGridRecord.material.descEN);
                     contractTab.window.main.show();
                 } else
@@ -766,27 +899,29 @@ contractTab.method.addArticle = function (data) {
         if (data.contractDetailType.contractDetailTypeTemplates.length === 1) {
 
             data.template = data.contractDetailType.contractDetailTypeTemplates[0].content;
+            data.contractDetail.contractDetailTemplate = data.template;
             contractTab.method.createArticle(data);
         } else {
             contractTab.variable.contractDetailTypeTemplateSelectorForm.okCallBack = function (templateContent) {
 
                 data.template = templateContent;
+                data.contractDetail.contractDetailTemplate = data.template;
                 contractTab.method.createArticle(data);
             };
             contractTab.variable.contractDetailTypeTemplateSelectorForm.bodyWidget.getObject().setData(data.contractDetailType.contractDetailTypeTemplates);
             contractTab.variable.contractDetailTypeTemplateSelectorForm.justShowForm();
         }
-    } else if (data.isNewMode)
+    } else if (!data.isNewMode)
         contractTab.method.createArticle(data);
     else
-        contractTab.dialog.say('<spring:message code="incoterm.exception.required-info">');
+        contractTab.dialog.say('<spring:message code="incoterm.exception.required-info"/>');
 };
 contractTab.method.createArticle = function (data) {
 
     let sectionStackSectionObj = {
         form: null,
         grids: [],
-        dynamicTableGrids: [],
+        dynamicGrids: [],
         data: data,
         expanded: true,
         canCollapse: false,
@@ -807,7 +942,8 @@ contractTab.method.createArticle = function (data) {
                 click: function () {
 
                     contractTab.variable.contractDetailPreviewForm.bodyWidget.getObject().setContents(
-                        providePrintContent(sectionStackSectionObj, sectionStackSectionObj.data.template));
+                        "<div style='text-align: " + nicico.CommonUtil.getAlignByLangReverse() + "'>" +
+                        sectionStackSectionObj.providePrintContent() + "</div>");
                     contractTab.variable.contractDetailPreviewForm.justShowForm();
                 }
             }),
@@ -822,86 +958,227 @@ contractTab.method.createArticle = function (data) {
                 layoutAlign: "center",
                 src: "[SKIN]/actions/remove.png",
                 click: function () {
+
                     contractTab.sectionStack.contract.removeSection(data.contractDetailType.id + "");
-                    let detailTypeRecord = contractTab.listGrid.contractDetailType.getOriginalData().localData.filter(q => q.id === data.contractDetailType.id).first();
-                    contractTab.listGrid.contractDetailType.getRecordComponent(
-                        contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord)).enable();
+
+                    let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
+                    if (contractDetailTypeData && !(contractDetailTypeData instanceof Array))
+                        contractDetailTypeData = contractDetailTypeData.localData;
+                    if (contractDetailTypeData && contractDetailTypeData.length) {
+
+                        let detailTypeRecord = contractDetailTypeData.filter(q => q.id === data.contractDetailType.id).first();
+                        contractTab.listGrid.contractDetailType.getRecordComponent(
+                            contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord)).enable();
+                    }
                 }
             })
             // </sec:authorize>
         ],
         items: [],
+        provideGlobalPrintContent: function (template) {
+
+            let values = contractTab.dynamicForm.valuesManager.getValues();
+            Object.keys(values).filter(key => !contractTab.dynamicForm.main.getField(key)).forEach(field => {
+
+                if (template.contains('\\${' + field + '_IN_CHARACTER}'))
+                    template = template.replaceAll('\\${' + field + '_IN_CHARACTER}', numberToEnglish(values[field]));
+
+                template = template.replaceAll('\\${' + field + '}', values[field]);
+            });
+
+            return template == null ? '' : template;
+        },
+        provideFormPrintContent: function (template) {
+
+            if (this.form)
+                this.form.fields.filter(field => !field.isBaseItem).forEach(field => {
+
+                    if (field.unitId)
+                        template = template.replaceAll('\\${_' + field.unitId + '}', this.form.getField(field.name).getHint());
+
+                    if (field.paramType === contractTab.variable.dataType.Reference)
+                        template = template.replaceAll('\\${' + field.key + '}', this.form.getField(field.name).getDisplayValue());
+
+                    if (template.contains('\\${' + field.key + '_IN_CHARACTER}'))
+                        template = template.replaceAll('\\${' + field.key + '_IN_CHARACTER}', numberToEnglish(this.form.getValue(field.name)));
+
+                    template = template.replaceAll('\\${' + field.key + '}', this.form.getValue(field.name));
+                });
+
+            return template == null ? '' : template;
+        },
+        provideGridsPrintContent: function (template) {
+
+            if (this.grids.length)
+                this.grids.forEach(grid => {
+
+                    grid.saveAllEdits();
+
+                    var table = "";
+                    var tableRows = "";
+                    var tableHeader = "";
+                    var tableEndTag = "</table>";
+                    var tableStartTag = "<table style='color: #000000; border-spacing: 0; border: 1px solid #000000; text-align: " + nicico.CommonUtil.getAlignByLangReverse() + "'>";
+                    let data = grid.getData();
+
+                    var correspondingNameTitle = {};
+                    grid.getFields().filter(field => !field.isBaseItem && !field.hidden && !field.isRemoveField && field.rowNumberStart === undefined).forEach(field => correspondingNameTitle[field.name] = field.title);
+
+                    tableHeader += "<tr>";
+                    Object.values(correspondingNameTitle).forEach(header => tableHeader +=
+                        "<th style='padding: 10px; border: 1px solid #000000;'>" +
+                        header +
+                        "</th>");
+                    tableHeader += "</tr>";
+
+                    data.forEach(record => {
+
+                        tableRows += "<tr>";
+                        Object.keys(correspondingNameTitle).forEach(name => {
+
+                            let displayField = grid.getField(name).templateFieldName;
+                            tableRows +=
+                                "<td style='padding: 10px; border: 1px solid #000000;'>" +
+                                (displayField ? displayField.split('.').evalPropertyPath(record) : record[name]) +
+                                "</td>";
+                        });
+                        tableRows += "</tr>";
+                    });
+
+                    table += tableStartTag + tableHeader + tableRows + tableEndTag;
+
+                    template = template.replaceAll('\\${' + grid.key + '}', table);
+                });
+
+            return template == null ? '' : template;
+        },
+        provideDynamicGridsPrintContent: function (template) {
+
+            if (this.dynamicGrids.length)
+                this.dynamicGrids.forEach(dynamicGrid => {
+
+                    dynamicGrid.saveAllEdits();
+
+                    var table = "";
+                    var tableRows = "";
+                    var tableHeader = "";
+                    var tableEndTag = "</table>";
+                    var tableStartTag = "<table style='color: #000000; border-spacing: 0; border: 1px solid #000000; text-align: " + nicico.CommonUtil.getAlignByLangReverse() + "'>";
+                    let data = dynamicGrid.getData();
+
+                    var correspondingNameTitle = {};
+                    dynamicGrid.getFields().filter(field => !field.isBaseItem && !field.hidden && !field.isRemoveField && field.rowNumberStart === undefined).forEach(field => correspondingNameTitle[field.name] = field.title);
+
+                    tableHeader += "<tr>";
+                    Object.values(correspondingNameTitle).forEach(header => tableHeader +=
+                        "<th  style='padding: 10px; border: 1px solid #000000;'>" +
+                        header +
+                        "</th>");
+                    tableHeader += "</tr>";
+
+                    data.forEach(record => {
+
+                        tableRows += "<tr>";
+                        Object.keys(correspondingNameTitle).forEach(name => {
+
+                            let displayField = dynamicGrid.getField(name).templateFieldName;
+                            tableRows +=
+                                "<td  style='padding: 10px; border: 1px solid #000000;'>" +
+                                (displayField ? displayField.split('.').evalPropertyPath(record) : record[name]) +
+                                "</td>";
+                        });
+                        tableRows += "</tr>";
+                    });
+
+                    table += tableStartTag + tableHeader + tableRows + tableEndTag;
+
+                    template = template.replaceAll('\\${' + dynamicGrid.key + '}', table);
+                });
+
+            return template == null ? '' : template;
+        },
+        provideScriptsPrintContent: function (template) {
+
+            function evaluate(script) {
+
+                var context = contractTab.dynamicForm.valuesManager.getValues();
+                let keys = Object.keys(context);
+                let declarations = keys.map(key => ' var ' + key + " = " + (typeof context[key] === 'object' ? 'clone(context["' + key + '"])' : 'context["' + key + '"]') + " ; ").join("");
+
+                return eval("function _EVALUATE_TEMPLATE_SCRIPT(){" + declarations + script + "} _EVALUATE_TEMPLATE_SCRIPT();");
+            }
+
+            try {
+
+                return [template.replace(/\\$(\W|&nbsp;)*=(\W|&nbsp;)*{(.+?)}/g, function (capture, group1, group2, group3) {
+
+                    let element = document.createElement('div');
+                    element.innerHTML = group3;
+                    let result = evaluate(element.innerText);
+
+                    return result == null ? '' : result;
+                }), null];
+            } catch (e) {
+
+                console.log(e.message);
+                return [null, e];
+            }
+        },
         providePrintContent: function () {
 
+            let error = null;
             let template = this.data.template;
 
-            //
-            // this.items[0].fields.filter(x => x.isBaseItem == null).forEach(x => {
-            //     if (x.unitId !== undefined)
-            //         template = template.replaceAll('\\${_' + x.unitId + '}', this.items[0].getField(x.name).getHint());
-            //     if (x.paramType == contractTab.variable.dataType.Reference)
-            //         template = template.replaceAll('\\${' + x.key + '}', this.items[0].getField(x.key).getDisplayValue());
-            //     if (template.contains('\\${' + x.key + '_IN_CHARACTER}'))
-            //         template = template.replaceAll('\\${' + x.key + '_IN_CHARACTER}', numberToEnglish(this.items[0].values[x.name]));
-            //     template = template.replaceAll('\\${' + x.key + '}', this.items[0].values[x.name]);
-            // });
-            //
-            // this.items.slice(1, this.items.length).forEach(listGrid => {
-            //     listGrid.saveAllEdits();
-            //     let listGridData;
-            //     if (listGrid.getData() instanceof Array) //create
-            //         listGridData = listGrid.getData();
-            //     else { //update
-            //         listGridData = listGrid.getData().localData
-            //     }
-            //
-            //     var table = "";
-            //     var tableStartTag = "<table style='border: 1px solid black;'>";
-            //     var tableEndTag = "</table>";
-            //     var tableHeader = "";
-            //     var tableRows = "";
-            //
-            //     var correspondingNameTitle = {};
-            //     listGrid.getFields().filter(filed => filed.showTemplate == true).forEach(field => correspondingNameTitle[field.name] = field.title);
-            //
-            //     tableHeader = tableHeader + "<tr>";
-            //     Object.values(correspondingNameTitle).forEach(header => {
-            //         tableHeader = tableHeader + "<th style='border: 1px solid black;'>" + header + "</th>";
-            //     });
-            //     tableHeader = tableHeader + "</tr>";
-            //
-            //     listGridData.forEach(record => {
-            //         tableRows = tableRows + "<tr>";
-            //         Object.keys(correspondingNameTitle).forEach(name => {
-            //             let templateDataFieldName = listGrid.getField(name).templateDataFieldName;
-            //             if (templateDataFieldName)
-            //                 tableRows = tableRows + "<td style='border: 1px solid black;'>" + templateDataFieldName.split('.').evalPropertyPath(record) + "</td>";
-            //             else
-            //                 tableRows = tableRows + "<td style='border: 1px solid black;'>" + record[name] + "</td>";
-            //         });
-            //         tableRows = tableRows + "</tr>";
-            //     });
-            //
-            //     table = table + tableStartTag + tableHeader + tableRows + tableEndTag;
-            //
-            //     template = template.replaceAll('\\${' + listGrid.paramKey + '}', table);
-            // });
+            let materialIdField = contractTab.dynamicForm.main.getField("materialId");
+            contractTab.dynamicForm.valuesManager.setValue("material", materialIdField.getSelectedRecord());
+
+            let contractTypeIdField = contractTab.dynamicForm.main.getField("contractTypeId");
+            contractTab.dynamicForm.valuesManager.setValue("contractType", contractTypeIdField.getSelectedRecord());
+
+            let buyerIdField = contractTab.dynamicForm.main.getField("buyerId");
+            let buyerIdValue = contractTab.dynamicForm.main.getValue("buyerId");
+            buyerIdField.changed(contractTab.dynamicForm.main, buyerIdField, buyerIdValue);
+
+            let sellerIdField = contractTab.dynamicForm.main.getField("sellerId");
+            let sellerIdValue = contractTab.dynamicForm.main.getValue("sellerId");
+            sellerIdField.changed(contractTab.dynamicForm.main, sellerIdField, sellerIdValue);
+
+            let agentBuyerIdField = contractTab.dynamicForm.main.getField("agentBuyerId");
+            let agentBuyerIdValue = contractTab.dynamicForm.main.getValue("agentBuyerId");
+            agentBuyerIdField.changed(contractTab.dynamicForm.main, agentBuyerIdField, agentBuyerIdValue);
+
+            let agentSellerIdField = contractTab.dynamicForm.main.getField("agentSellerId");
+            let agentSellerIdValue = contractTab.dynamicForm.main.getValue("agentSellerId");
+            agentSellerIdField.changed(contractTab.dynamicForm.main, agentSellerIdField, agentSellerIdValue);
+
+            template = this.provideGlobalPrintContent(template);
+            template = this.provideFormPrintContent(template);
+            template = this.provideGridsPrintContent(template);
+            template = this.provideDynamicGridsPrintContent(template);
+            [template, error] = this.provideScriptsPrintContent(template);
 
             this.data.contractDetail.content = template;
-            return template;
+            return error == null ? template :
+                "<p style='color: red; font-weight: bold; direction: ltr; text-align: left'>There is some problem : </p>" +
+                "<p style='color: red; font-size: 14px; direction: ltr; text-align: left'>" + error.message + "</p>";
         }
     };
 
     contractTab.method.createArticleBody(sectionStackSectionObj);
-    contractTab.sectionStack.contract.addSection(sectionStackSectionObj, sectionStackSectionObj.position);
 
-    let detailTypeRecord = contractTab.listGrid.contractDetailType.getOriginalData().localData.filter(q => q.id === data.contractDetailType.id).first();
-    let recordIndex = contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord);
-    if (recordIndex >= 0) {
+    let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
+    if (contractDetailTypeData && !(contractDetailTypeData instanceof Array))
+        contractDetailTypeData = contractDetailTypeData.localData;
+    if (contractDetailTypeData && contractDetailTypeData.length) {
 
-        let addButton = contractTab.listGrid.contractDetailType.getRecordComponent(recordIndex);
-        if (addButton)
-            addButton.disable();
+        let detailTypeRecord = contractDetailTypeData.filter(q => q.id === data.contractDetailType.id).first();
+        let recordIndex = contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord);
+        if (recordIndex >= 0) {
+
+            let addButton = contractTab.listGrid.contractDetailType.getRecordComponent(recordIndex);
+            if (addButton)
+                addButton.disable();
+        }
     }
 };
 contractTab.method.createArticleBody = function (sectionStackSectionObj) {
@@ -920,12 +1197,16 @@ contractTab.method.createArticleBody = function (sectionStackSectionObj) {
         sectionStackSectionObj.items.addAll(grids);
     }
 
-    let dynamicTableGrids = contractTab.method.createArticleBodyDynamicGrid(sectionStackSectionObj.data.contractDetailType, sectionStackSectionObj.data.contractDetail, sectionStackSectionObj.data.isNewMode);
-    if (dynamicTableGrids.length) {
+    contractTab.method.createArticleBodyDynamicGrid(sectionStackSectionObj.data.contractDetailType, sectionStackSectionObj.data.contractDetail, sectionStackSectionObj.data.isNewMode).then(dynamicGrids => {
 
-        sectionStackSectionObj.dynamicTableGrids = dynamicTableGrids;
-        sectionStackSectionObj.items.addAll(dynamicTableGrids);
-    }
+        if (dynamicGrids.length) {
+
+            sectionStackSectionObj.dynamicGrids = dynamicGrids;
+            sectionStackSectionObj.items.addAll(dynamicGrids);
+        }
+
+        contractTab.sectionStack.contract.addSection(sectionStackSectionObj, sectionStackSectionObj.position);
+    });
 };
 contractTab.method.createArticleForm = function (contractDetailType, contractDetail, isNewMode) {
 
@@ -954,7 +1235,7 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
 
     target.filter(param =>
         param.type !== contractTab.variable.dataType.ListOfReference &&
-        param.type !== contractTab.Vars.DataType.DynamicTable).forEach(param => {
+        param.type !== contractTab.variable.dataType.DynamicTable).forEach(param => {
 
         let field = {
 
@@ -973,7 +1254,8 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
             editable: !isNewMode ? param.editable : null,
             contractDetailId: !isNewMode ? param.contractDetailId : null,
             canEdit: contractTab.dynamicForm.main.getField(param.key) == null,
-            colSpan: param.type === contractTab.variable.dataType.TextArea ? 4 : 2,
+            colSpan: param.type === contractTab.variable.dataType.TextArea ? 7 : 3,
+            titleColSpan: 1,
             changed: function (form, item, value) {
 
                 let This = this;
@@ -999,13 +1281,19 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
                 }]
             });
         Object.assign(field, getFieldProperties(field.paramType, field.reference));
+        if (field.type === contractTab.variable.dataType.TextArea) {
+
+            field.width = "100%";
+            field.height = "300";
+        }
+
         fields.push(field);
     });
 
     return fields.length ? isc.DynamicForm.create({
 
-        numCols: 4,
-        width: "85%",
+        numCols: 8,
+        width: "100%",
         align: "center",
         canSubmit: true,
         showErrorText: true,
@@ -1024,7 +1312,7 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
     let grids = [];
     if (!isNewMode) {
 
-        let contractDetailValueGroup = contractDetail.contractDetailValues.filter(x => x.type === contractTab.variable.dataType.ListOfReference).groupBy('reference');
+        let contractDetailValueGroup = contractDetail.contractDetailValues.filter(param => param.type === contractTab.variable.dataType.ListOfReference).groupBy('reference');
         target = Object.keys(contractDetailValueGroup).map(reference => {
 
             let values = contractDetailValueGroup[reference];
@@ -1080,6 +1368,7 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
             canRemoveRecords: true,
             fields: fields,
             key: param.key,
+            title: param.name,
             unitId: param.unitId,
             paramType: param.type,
             required: param.required,
@@ -1094,10 +1383,7 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
 
                 this.Super("dataChanged", arguments);
             },
-            gridComponents: [
-                isc.Lable.create({
-                    contents: "<h3>" + param.name + "</h3><span style='width: 100%; display: block; border-bottom: 1px solid rgba(0,0,0,0.3);margin-bottom: 3px'></span>"
-                }), "header", "body",
+            gridComponents: ["header", "body",
                 isc.ToolStrip.create({
                     width: "100%",
                     height: 24,
@@ -1112,13 +1398,15 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
                         isc.ToolStrip.create({
                             width: "100%",
                             height: 24,
-                            align: 'left',
+                            align: nicico.CommonUtil.getAlignByLang(),
                             border: 0,
                             members: [
                                 isc.ToolStripButton.create({
                                     icon: "pieces/16/save.png",
                                     title: "<spring:message code='global.form.save.temporary'/>",
                                     click: function () {
+
+                                        if (!grid.validateAllData()) return;
                                         grid.saveAllEdits();
                                     }
                                 })]
@@ -1128,13 +1416,13 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
         });
 
         if (!isNewMode)
-            getReferenceDataSource(reference).fetchData({
-                    operator: "and",
-                    _constructor: "AdvancedCriteria",
-                    criteria: [{fieldName: "id", operator: "equals", value: grid.values.map(p => p.value)}]
-                }, (dsResponse, data) => grid.setData(data)
-            );
+            getReferenceDataSource(grid.reference).fetchData({
+                operator: "and",
+                _constructor: "AdvancedCriteria",
+                criteria: [{fieldName: "id", operator: "equals", value: grid.values.map(p => p.value)}]
+            }, (dsResponse, data) => grid.setData(data));
 
+        contractTab.dynamicForm.valuesManager.setValue(grid.name, grid.getData());
         grids.push(grid);
     });
 
@@ -1151,7 +1439,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
 
         // value field contains rowNumber
         // reference field contains contractDetailTypeParamId
-        let contractDetailValueGroup = contractDetail.contractDetailValues.filter(x => x.type === contractTab.variable.dataType.DynamicTable).groupBy('reference');
+        let contractDetailValueGroup = contractDetail.contractDetailValues.filter(param => param.type === contractTab.variable.dataType.DynamicTable).groupBy('reference');
         target = Object.keys(contractDetailValueGroup).map(reference => {
 
             let values = contractDetailValueGroup[reference];
@@ -1181,7 +1469,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
         if (fields && fields.length)
             listGridFirstField = fields[0];
 
-        let grid = isc.ListGrid.create({
+        let dynamicGrid = isc.ListGrid.create({
 
             width: "100%",
             height: "300",
@@ -1190,6 +1478,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
             sortDirection: "ascending",
             canHover: true,
             showHover: true,
+            validateOnExit: true,
             autoFitData: "vertical",
             autoFitDateFields: "both",
             autoFitMaxWidth: "15%",
@@ -1209,14 +1498,22 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
             recordComponentPoolingMode: "recycle",
             listEndEditAction: "next",
             canRemoveRecords: true,
-            fields: fields,
+            fields: fields.concat({
+
+                hidden: true,
+                canEdit: false,
+                required: false,
+                name: "rowNum",
+                title: '<spring:message code="global.col.num"/>'
+            }),
             key: param.key,
+            title: param.name,
             unitId: param.unitId,
             paramType: param.type,
             required: param.required,
-            reference: param.reference,
             dynamicTables: param.dynamicTables,
             values: !isNewMode ? param.values : [],
+            reference: !isNewMode ? param.reference : param.id,
             contractDetailId: !isNewMode ? param.contractDetailId : null,
             name: contractDetailType.code + "." + param.key,
             dataChanged: function (operationType) {
@@ -1226,10 +1523,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
 
                 this.Super("dataChanged", arguments);
             },
-            gridComponents: [
-                isc.Lable.create({
-                    contents: "<h3>" + param.name + "</h3><span style='width: 100%; display: block; border-bottom: 1px solid rgba(0,0,0,0.3);margin-bottom: 3px'></span>"
-                }), "header", "body",
+            gridComponents: ["header", "body",
                 isc.ToolStrip.create({
                     width: "100%",
                     height: 24,
@@ -1238,20 +1532,52 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
                             icon: "pieces/16/icon_add.png",
                             title: "<spring:message code='global.add'/>",
                             click: function () {
-                                grid.startEditingNew();
+
+                                const maxRows = {
+                                    required: false,
+                                    maxRows: 0
+                                };
+                                fields.forEach(column => {
+
+                                    if (column.maxRows > maxRows.maxRows) {
+
+                                        if (column.required && !maxRows.required) {
+
+                                            maxRows.required = true;
+                                            maxRows.maxRows = column.maxRows
+                                        }
+                                        if (!column.required && !maxRows.required) {
+
+                                            maxRows.required = false;
+                                            maxRows.maxRows = column.maxRows
+                                        }
+                                    }
+                                    if (column.maxRows > 0 && column.maxRows < maxRows.maxRows && column.required && !maxRows.required) {
+
+                                        maxRows.required = true;
+                                        maxRows.maxRows = column.maxRows
+                                    }
+                                });
+
+                                if (maxRows.maxRows > 0 && dynamicGrid.getTotalRows() >= maxRows.maxRows)
+                                    return contractTab.dialog.say("<spring:message code='global.max.rows.exceed'/>");
+
+                                dynamicGrid.startEditingNew();
                             }
                         }),
                         isc.ToolStrip.create({
                             width: "100%",
                             height: 24,
-                            align: 'left',
+                            align: nicico.CommonUtil.getAlignByLang(),
                             border: 0,
                             members: [
                                 isc.ToolStripButton.create({
                                     icon: "pieces/16/save.png",
                                     title: "<spring:message code='global.form.save.temporary'/>",
                                     click: function () {
-                                        grid.saveAllEdits();
+
+                                        if (!dynamicGrid.validateAllData()) return;
+                                        dynamicGrid.saveAllEdits();
                                     }
                                 })]
                         })
@@ -1260,9 +1586,10 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
         });
 
         if (!isNewMode)
-            grid.setData(await contractTab.method.createDynamicGridData(param.values));
+            dynamicGrid.setData(await contractTab.method.createDynamicGridData(param.values, fields));
 
-        dynamicGrids.push(grid);
+        contractTab.dynamicForm.valuesManager.setValue(dynamicGrid.name, dynamicGrid.getData());
+        dynamicGrids.push(dynamicGrid);
     }));
 
     return dynamicGrids;
@@ -1272,26 +1599,10 @@ contractTab.method.createDynamicGridData = async function (values, fields) {
     let data = [];
     values.forEach(row => {
 
-        let record;
+        let record = {rowNum: row.value, contractDetailValueId: row.id};
         row.dynamicTables.forEach(col => {
 
             let field = fields.find(q => q.colNum === col.colNum);
-            record = {
-
-                rowNum: field.rowNum,
-                colNum: field.colNum,
-                maxRows: field.maxRows,
-                required: field.required,
-                headerKey: field.headerKey,
-                headerType: field.headerType,
-                headerValue: field.headerValue,
-                valueType: field.valueType,
-                description: field.description,
-                displayField: field.displayField,
-                regexValidator: field.regexValidator,
-                initialCriteria: field.initialCriteria,
-                contractDetailValueId: field.contractDetailValueId
-            };
             record[field.name] = col.value;
         });
 
@@ -1311,8 +1622,8 @@ contractTab.method.createDynamicGridFields = async function (dynamicTables, valu
             validateOnExit: true,
             validateOnChange: true,
             name: column.headerValue,
-            showHintInField: column.description,
-            hint: column.description ? column.description : null,
+            hint: column.description,
+            showHintInField: !!column.description,
 
             required: column.required,
 
@@ -1326,7 +1637,6 @@ contractTab.method.createDynamicGridFields = async function (dynamicTables, valu
             displayField: column.displayField,
             regexValidator: column.regexValidator,
             initialCriteria: column.initialCriteria,
-            contractDetailValueId: column.contractDetailValueId
         };
     }
 
@@ -1370,11 +1680,10 @@ contractTab.method.createDynamicGridFields = async function (dynamicTables, valu
                 colNum: _obj.colNum,
                 fields: getAllFields(dynamicValuesResponse[_index]['response']['data'][0]).map(name => {
 
-                        const _f = {name: name};
-                        if (name.includes("\.")) _f.hidden = true;
-                        return _f;
-                    }
-                )
+                    const _f = {name: name};
+                    if (name.includes("\.")) _f.hidden = true;
+                    return _f;
+                })
             };
         });
     }
@@ -1395,57 +1704,60 @@ contractTab.method.createDynamicGridFields = async function (dynamicTables, valu
             return;
         }
 
+        let extraProperties = {};
         const dynamicHeader = dynamicHeaders.find(f => f.colNum === column.colNum);
         const dynamicValue = dynamicValueFields.find(f => f.colNum === column.colNum);
 
-        let firstField = {name: null};
-        if (dynamicValue.fields && dynamicValue.fields.length)
-            firstField = dynamicValue.fields[0];
+        if (dynamicHeader)
+            extraProperties.name = dynamicHeader.name;
 
-        Object.assign(_field, {
+        if (dynamicValue) {
 
-            name: dynamicHeader.name,
-            optionCriteria: column.initialCriteria ? JSON.parse(column.initialCriteria) : null,
-            optionDataSource: isc.MyRestDataSource.create({
-                fields: dynamicValue.fields,
-                fetchDataURL: '${contextPath}' + column.valueType
-            }),
-            pickListHeight: 800,
-            pickListWidth: .7 * innerWidth,
-            pickListFields: dynamicValue.fields.map((_field, _index) => {
+            let firstField = {name: null};
+            if (dynamicValue.fields && dynamicValue.fields.length)
+                firstField = dynamicValue.fields[0];
 
-                if (_index > 5) _field.hidden = true;
-                return _field;
-            }),
-            pickListProperties: {
+            Object.assign(extraProperties, {
 
-                autoFitData: "vertical",
-                autoFitDateFields: "both",
-                autoFitMaxWidth: "15%",
-                autoFitWidthApproach: "both",
-                autoFitFieldsFillViewport: true,
-                autoFitExpandField: firstField.name,
+                optionCriteria: column.initialCriteria ? JSON.parse(column.initialCriteria) : null,
+                optionDataSource: isc.MyRestDataSource.create({
+                    fields: dynamicValue.fields,
+                    fetchDataURL: '${contextPath}' + column.valueType
+                }),
+                pickListHeight: 800,
+                pickListWidth: .7 * innerWidth,
+                pickListFields: dynamicValue.fields.map((_field, _index) => {
 
-                showFilterEditor: true,
-                allowAdvancedCriteria: true,
-            },
-            required: true,
-            validateOnExit: true,
-            addUnknownValues: false,
-            editorType: "comboBox",
-            textMatchStyle: "substring",
-            valueField: "id",
-            displayField: column.displayField
-        });
+                    if (_index > 5) _field.hidden = true;
+                    return _field;
+                }),
+                pickListProperties: {
 
+                    autoFitData: "vertical",
+                    autoFitDateFields: "both",
+                    autoFitMaxWidth: "15%",
+                    autoFitWidthApproach: "both",
+                    autoFitFieldsFillViewport: true,
+                    autoFitExpandField: firstField.name,
+
+                    showFilterEditor: true,
+                    allowAdvancedCriteria: true,
+                },
+                required: true,
+                validateOnExit: true,
+                addUnknownValues: false,
+                editorType: "comboBox",
+                textMatchStyle: "substring",
+                valueField: "id",
+                displayField: column.displayField
+            });
+        }
+
+        Object.assign(_field, extraProperties);
         fields.add(_field);
     });
 
-    return fields;
+    return fields.sort((_1, _2) => Number(_1.colNum) >= Number(_2.colNum));
 };
 
 //****************************************************** Extras *********************************************************
-
-contractTab.listGrid.main.addProperties({
-    sortField: 'no',
-});

@@ -1,17 +1,14 @@
-package com.nicico.sales.dto;
-
+package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -19,28 +16,37 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TypicalAssayDTO {
+public class CDTPDynamicTableDTO {
 
-    private BigDecimal minValue;
-    private BigDecimal maxValue;
-    private Long unitId;
-    private Long materialElementId;
-    private Long contractId;
+    private Long colNum;
+    private String headerType = "String";
+    private String headerValue;
+    private String headerKey;
+    private Long cdtpId;
+
+    private String valueType = "String";
+    private String displayField;
+    private Boolean required;
+    private String regexValidator;
+    private String defaultValue;
+    private Integer maxRows = 0;
+    private String description;
+    private String initialCriteria;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("TypicalAssayInfo")
-    public static class Info extends TypicalAssayDTO {
+    @ApiModel("CDTPDynamicTableInfo")
+    public static class InfoWithoutCDTP extends CDTPDynamicTableDTO {
+
         private Long id;
-        private Date createDate;
+
+        // Auditing
+        private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
-
-        private MaterialElementDTO.Info materialElement;
-        private UnitDTO.Info unit;
 
         // BaseEntity
         private Boolean editable;
@@ -50,27 +56,33 @@ public class TypicalAssayDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("TypicalAssayCreateRq")
-    public static class Create extends TypicalAssayDTO {
-
+    @ApiModel("CDTPDynamicTableInfo")
+    public static class Info extends InfoWithoutCDTP {
+        private ContractDetailTypeParamDTO.Info cdtp;
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("TypicalAssayUpdateRq")
-    public static class Update extends TypicalAssayDTO {
-        @NonNull
+    @ApiModel("CDTPDynamicTableCreateRq")
+    public static class Create extends CDTPDynamicTableDTO {
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("CDTPDynamicTableUpdateRq")
+    public static class Update extends CDTPDynamicTableDTO {
+        @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-
         private Integer version;
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("TypicalAssayDeleteRq")
+    @ApiModel("CDTPDynamicTableDeleteRq")
     public static class Delete {
         @NotNull
         @ApiModelProperty(required = true)

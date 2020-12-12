@@ -19,7 +19,10 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CNTR_CONTRACT_DETAIL")
+@Table(name = "TBL_CNTR_CONTRACT_DETAIL",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"F_CONTRACT_ID","F_CONTRACT_DETAIL_TYPE_ID"}, name = "UC_F_CONTRACT_ID_DETAIL_TYPE_ID"),
+        })
 @Audited
 @AuditOverride(forClass = BaseEntity.class)
 public class ContractDetail extends BaseEntity {

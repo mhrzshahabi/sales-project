@@ -53,7 +53,7 @@ var nicico;
             // @ts-ignore
             creator.method.exportExcel = function () {
                 // @ts-ignore
-                var criteria = creator.listGrid.main.getCriteria();
+                var criteria = creator.listGrid.main.getInitialCriteria();
                 if (!Object.keys(criteria).length)
                     criteria = null;
                 // @ts-ignore
@@ -102,7 +102,7 @@ var nicico;
             // @ts-ignore
             creator.method.print = function () {
                 // @ts-ignore
-                var criteria = creator.listGrid.main.getCriteria();
+                var criteria = creator.listGrid.main.getInitialCriteria();
                 if (!Object.keys(criteria).length)
                     criteria = null;
                 var selectedIds = [];

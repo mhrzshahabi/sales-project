@@ -15,7 +15,7 @@ public interface IContractService extends IGenericService<Contract, Long, Contra
 
     SearchDTO.SearchRs<ContractDTO.ListGridInfo> refinedSearch(SearchDTO.SearchRq request);
 
-    List<Object> getOperationalDataOfContractArticle(Long contractId, String articleCode, String articleKey);
-
     List<ContractDTO.Info> findAllByContractDetailTypeId(Long typeId);
+
+    List<Object> getOperationalDataOfContractArticle(Long contractId, String articleCode, String articleKey);
 }

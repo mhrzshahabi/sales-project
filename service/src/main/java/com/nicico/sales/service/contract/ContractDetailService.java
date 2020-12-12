@@ -10,14 +10,10 @@ import com.nicico.sales.model.entities.contract.ContractDetail;
 import com.nicico.sales.repository.contract.ContractDetailDAO;
 import com.nicico.sales.service.GenericService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.PropertyMap;
-import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,33 +32,4 @@ public class ContractDetailService extends GenericService<ContractDetail, Long, 
 
         return result;
     }
-
-
-    @Override
-    @Action(value = ActionType.Update)
-    @Transactional
-    public ContractDetailDTO.Info update(Long id, ContractDetailDTO.Update request) {
-
-        final Optional<ContractDetail> entityById = repository.findById(id);
-        final ContractDetail entity = entityById.orElseThrow(() -> new NotFoundException(ContractDetail.class));
-
-        ContractDetail updating = new ContractDetail();
-
-        TypeMap<ContractDetail, ContractDetail> typeMap = modelMapper.getTypeMap(ContractDetail.class, ContractDetail.class);
-        if (typeMap == null) { // if not  already added
-            modelMapper.addMappings(new PropertyMap<ContractDetail, ContractDetail>() {
-                @Override
-                protected void configure() {
-                    skip(destination.getContractDetailValues());
-                }
-            });
-        }
-
-        modelMapper.map(entity, updating);
-        modelMapper.map(request, updating);
-
-        validation(updating, request);
-        return modelMapper.map(repository.save(updating), ContractDetailDTO.Info.class);
-    }
-
 }

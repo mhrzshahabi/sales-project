@@ -19,7 +19,7 @@ var materialElementField = {
             },
             {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
         ]),
-        fetchDataURL: "${contextPath}/api/materialElement/" + "spec-list"
+        fetchDataURL: "${contextPath}/api/materialElement/spec-list"
     }),
     pickListFields: [
         {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
@@ -39,7 +39,7 @@ function getAllFields(_object) {
     const keys = (_object == null ? [] : Object.keys(_object));
     const fields = keys.filter(_ => !_.toString().startsWith('_') && !_.toString().startsWith('$') && typeof _object[_] !== 'object');
     const internalObj = keys.filter(_ => !_.toString().startsWith('_') && !_.toString().startsWith('$') && typeof _object[_] === 'object');
-    internalObj.forEach(_ => fields.addList(contractDetailTypeTab.method.getAllFields(_object[_]).map(__ => _ + '.' + __)));
+    internalObj.forEach(_ => fields.addList(getAllFields(_object[_]).map(__ => _ + '.' + __)));
 
     return fields;
 }
@@ -48,7 +48,8 @@ function getAllFields(_object) {
 
 function getReferenceDisplayField(referenceType) {
 
-    return getReferenceFields(referenceType).filter(q => q.forDisplayField).first().name;
+    let first = getReferenceFields(referenceType).filter(q => q.forDisplayField).first();
+    return first ? first.name : null;
 }
 
 function getReferenceFields(referenceType) {
@@ -68,6 +69,7 @@ function getReferenceFields(referenceType) {
                     displayField: getReferenceDisplayField("Port"),
                     autoFetchData: false,
                     optionDataSource: getReferenceDataSource("Port"),
+                    templateFieldName: "loadPort." +  getReferenceDisplayField("Port"),
                 },
                 {
                     name: "quantity",
@@ -163,8 +165,12 @@ function getReferenceFields(referenceType) {
                         {name: "nameFA", title: '<spring:message code="unit.nameFa"/>'},
                         {name: "nameEN", title: '<spring:message code="unit.nameEN"/>'}
                     ],
+                    templateFieldName: "unit.nameEN",
                 },
-                Object.assign(materialElementField, {forDisplayField: true})
+                Object.assign(materialElementField, {
+                    forDisplayField: true,
+                    templateFieldName: "materialElement.elementName"
+                })
             ]);
         case 'Deduction':
             return BaseFormItems.concat([
@@ -200,8 +206,12 @@ function getReferenceFields(referenceType) {
                         {name: "nameFA", title: '<spring:message code="unit.nameFa"/>'},
                         {name: "nameEN", title: '<spring:message code="unit.nameEN"/>'}
                     ],
+                    templateFieldName: "unit.nameEN",
                 },
-                Object.assign(materialElementField, {forDisplayField: true})
+                Object.assign(materialElementField, {
+                    forDisplayField: true,
+                    templateFieldName: "materialElement.elementName"
+                })
             ]);
         case 'Discount':
             return BaseFormItems.concat([
@@ -220,7 +230,10 @@ function getReferenceFields(referenceType) {
                     title: "<spring:message code='contract.discount'/>",
                     width: "100%",
                 },
-                Object.assign(materialElementField, {forDisplayField: true})
+                Object.assign(materialElementField, {
+                    forDisplayField: true,
+                    templateFieldName: "materialElement.elementName"
+                })
             ]);
         case 'RateReference':
         case 'Enum_RateReference':

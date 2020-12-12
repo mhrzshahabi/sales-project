@@ -1568,10 +1568,15 @@ foreignInvoiceTab.window.sentToAccounting.okCallBack = function (data) {
         prompt: "<spring:message code='global.server.sending-to-accounting'/>",
         callback: function (resp) {
 
-            let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
+            let grid = foreignInvoiceTab.tab.invoiceTabs.getTab(foreignInvoiceTab.tab.invoiceTabs.selectedTab).pane.members.get(1);
+            let record = grid.getSelectedRecord();
             let respData = JSON.stringify(resp.httpResponseText).split("@");
             record.documentId = respData[1].replace("\"", "");
+            record.estatus.add(Enums.eStatus2.SendToAcc);
             isc.say(respData[0]);
+            grid.refreshRow(grid.getRowNum(record));
+            grid.invalidateCache();
+            foreignInvoiceTab.listGrid.invoiceSent.invalidateCache();
         }
     });
 };
@@ -1678,14 +1683,17 @@ nicico.BasicFormUtil.createVLayout = function () {
                 icon: "pieces/16/refresh.png",
                 click: function () {
 
+                    let criteria = {};
+                    Object.assign(criteria, foreignInvoiceTab.listGrid.invoiceDeleted.getCriteria());
+                    if (criteria.criteria)
+                        criteria.criteria = criteria.criteria.concat(foreignInvoiceTab.listGrid.invoiceSent.getImplicitCriteria().criteria);
+                    else
+                        criteria = foreignInvoiceTab.listGrid.invoiceSent.getImplicitCriteria();
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                         actionURL: "${contextPath}/api/foreign-invoice/update-deleted-document",
                         httpMethod: "GET",
                         params: {
-                            criteria: {
-                                operator: "and",
-                                criteria: [{fieldName: 'eStatusId', operator: 'greaterOrEqual', value: 16}]
-                            }
+                            criteria: criteria
                         },
                         useSimpleHttp: true,
                         contentType: "application/json; charset=utf-8",
@@ -1695,6 +1703,7 @@ nicico.BasicFormUtil.createVLayout = function () {
                             if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
 
                                 foreignInvoiceTab.method.refresh(foreignInvoiceTab.listGrid.invoiceDeleted);
+                                foreignInvoiceTab.method.refresh(foreignInvoiceTab.listGrid.invoiceSent);
                             }
                         }
                     }));

@@ -769,9 +769,9 @@ inspectionReportTab.variable.currencyInUnitCriteria = {
 };
 
 inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
-    height: "10%",
-    numCols: 2,
     margin: 10,
+    height: "10%",
+    numCols: 3,
     align: "center",
     titleWidth: 150,
     canSubmit: true,
@@ -784,13 +784,15 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
         {
             name: "material",
             title: "<spring:message code='material.title'/>",
+            colSpan: 3,
+            width: 300,
             required: true,
             wrapTitle: false,
             autoFetchData: false,
             editorType: "SelectItem",
             valueField: "id",
             displayField: "descFA",
-            pickListWidth: "500",
+            pickListWidth: "400",
             pickListHeight: "300",
             optionDataSource: inspectionReportTab.restDataSource.materialRest,
             pickListProperties:
@@ -815,8 +817,9 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
                 inspectionReportTab.method.materialChange();
 
                 inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").setValue([]);
-                inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue([]);
                 inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").setValue(null);
+                inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue([]);
+                inspectionReportTab.dynamicForm.inspecReport.getItem("inventories").setValue(null);
                 inspectionReportTab.listGrid.weightElement.setData([]);
                 inspectionReportTab.listGrid.assayElement.setData([]);
             }
@@ -832,12 +835,14 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "shipmentId",
         title: "<spring:message code='Shipment.title'/>",
+        colSpan: 3,
+        width: 300,
         autoFetchData: false,
         editorType: "ComboBoxItem",
         addUnknownValues: false,
         valueField: "id",
         displayField: "sendDate",
-        pickListWidth: "500",
+        pickListWidth: "400",
         pickListHeight: "300",
         optionDataSource: inspectionReportTab.restDataSource.shipmentRest,
         mapValueToDisplay: function (value) {
@@ -852,7 +857,6 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         pickListFields: [
             {name: "id", primaryKey: true, hidden: true},
             {name: "sendDate", width: 100, type: "date", dateFormatter: "toJapanShortDate"},
-            {name: "bookingCat"},
             {name: "contractShipment.contract.no"},
             {name: "material.descEN"}
         ],
@@ -932,6 +936,8 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "inspectionNO",
         title: "<spring:message code='inspectionReport.InspectionNO'/>",
+        colSpan: 3,
+        width: 300,
         required: true,
         wrapTitle: false,
         keyPressFilter: "[0-9]",
@@ -944,13 +950,15 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "inspectorId",
         title: "<spring:message code='inspectionReport.inspector.name'/>",
+        colSpan: 3,
+        width: 300,
         required: true,
         wrapTitle: false,
         autoFetchData: true,
         editorType: "SelectItem",
         valueField: "id",
         displayField: "name",
-        pickListWidth: "500",
+        pickListWidth: "400",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create(inspectionReportTab.restDataSource.contactRest),
         optionCriteria: inspectionReportTab.variable.inspectorCriteria,
@@ -977,6 +985,8 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "inspectionPlace",
         title: "<spring:message code='inspectionReport.inspectionPlace'/>",
+        colSpan: 3,
+        width: 300,
         type: "text",
         required: true,
         wrapTitle: false,
@@ -989,14 +999,32 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "issueDate",
         title: "<spring:message code='inspectionReport.IssueDate'/>",
+        colSpan: 3,
+        width: 300,
         type: "dateTime",
         editorType: "date",
         wrapTitle: false,
         dateFormatter: "yyyy-MM-dd HH:mm:ss"
     },
     {
+        name: "mileStone",
+        title: "<spring:message code='inspectionReport.mileStone'/>",
+        colSpan: 3,
+        width: 300,
+        required: true,
+        wrapTitle: false,
+        valueMap: JSON.parse('${Enum_MileStone}'),
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }],
+    },
+    {
         name: "inventoryId",
         title: "<spring:message code='inspectionReport.InventoryId'/>",
+        colSpan: 3,
+        width: 300,
         required: true,
         wrapTitle: false,
         autoFetchData: false,
@@ -1004,7 +1032,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         multiple: true,
         valueField: "id",
         displayField: "label",
-        pickListWidth: "500",
+        pickListWidth: "400",
         pickListHeight: "300",
         optionDataSource: inspectionReportTab.restDataSource.inventoryRest,
         pickListProperties:
@@ -1013,16 +1041,14 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             },
         pickListFields: [
             {
-                name: "materialItem.material.descFA",
-                align: "center",
-            },
-            {
                 name: "materialItem.gdsName",
                 align: "center",
+                width: "30%"
             },
             {
                 name: "label",
                 align: "center",
+                width: "70%"
             }
         ],
         validators: [{
@@ -1041,26 +1067,30 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             inspectionReportTab.variable.selectedInventories = [];
             inspectionReportTab.listGrid.weightElement.setData([]);
             inspectionReportTab.listGrid.assayElement.setData([]);
+
+            let inventoryLabels = [];
+            item.getSelectedRecords().map(q => q.label).forEach(m => inventoryLabels.add(m + "\n"));
+            form.setValue("inventories", null);
+            form.setValue("inventories", inventoryLabels);
         }
     },
     {
-        name: "mileStone",
-        title: "<spring:message code='inspectionReport.mileStone'/>",
-        required: true,
+        name: "inventories",
+        title: "<spring:message code='inspectionReport.inventories'/>",
+        colSpan: 3,
+        width: 300,
         wrapTitle: false,
-        valueMap: JSON.parse('${Enum_MileStone}'),
-        validators: [
-            {
-                type: "required",
-                validateOnChange: true
-            }],
+        editorType: "textArea",
+        canEdit: false,
+        height: 100
     },
     {
-        colSpan: 2,
-        width: "150",
+        colSpan: 3,
+        width: 150,
         name: "select",
         title: "<spring:message code='inspectionReport.select'/>",
         type: "ButtonItem",
+        align: nicico.CommonUtil.getAlignByLang(),
         icon: "pieces/16/icon_add.png",
         click: function (form, item) {
 
@@ -1084,11 +1114,12 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         }
     },
     {
-        colSpan: 2,
-        width: "150",
+        colSpan: 3,
+        width: 150,
         name: "refresh",
         title: "<spring:message code='inspectionReport.refresh'/>",
         type: "ButtonItem",
+        align: nicico.CommonUtil.getAlignByLang(),
         icon: "pieces/16/refresh.png",
         click: function (form, item) {
 
@@ -1104,13 +1135,15 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "sellerId",
         title: "<spring:message code='inspectionReport.sellerId'/>",
+        colSpan: 3,
+        width: 300,
         required: true,
         wrapTitle: false,
         autoFetchData: true,
         editorType: "SelectItem",
         valueField: "id",
         displayField: "name",
-        pickListWidth: "500",
+        pickListWidth: "400",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create(inspectionReportTab.restDataSource.contactRest1),
         optionCriteria: inspectionReportTab.variable.sellerCriteria,
@@ -1121,11 +1154,13 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         pickListFields: [
             {
                 name: "nameFA",
-                align: "center"
+                align: "center",
+                showHover: true
             },
             {
                 name: "nameEN",
-                align: "center"
+                align: "center",
+                showHover: true
             }
         ],
         validators: [
@@ -1137,13 +1172,15 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "buyerId",
         title: "<spring:message code='inspectionReport.buyerId'/>",
+        colSpan: 3,
+        width: 300,
         required: true,
         wrapTitle: false,
         autoFetchData: true,
         editorType: "SelectItem",
         valueField: "id",
         displayField: "name",
-        pickListWidth: "500",
+        pickListWidth: "400",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create(inspectionReportTab.restDataSource.contactRest2),
         optionCriteria: inspectionReportTab.variable.buyerCriteria,
@@ -1154,11 +1191,13 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         pickListFields: [
             {
                 name: "nameFA",
-                align: "center"
+                align: "center",
+                showHover: true
             },
             {
                 name: "nameEN",
-                align: "center"
+                align: "center",
+                showHover: true
             }
         ],
         validators: [
@@ -1170,6 +1209,8 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "inspectionRateValue",
         title: "<spring:message code='inspectionReport.inspectionRateValue'/>",
+        colSpan: 3,
+        width: 300,
         type: "float",
         length: 11,
         required: true,
@@ -1189,6 +1230,8 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "inspectionRateValueType",
         title: "<spring:message code='inspectionReport.inspectionRateValueType'/>",
+        colSpan: 3,
+        width: 300,
         required: true,
         wrapTitle: false,
         valueMap: JSON.parse('${Enum_InspectionRateValueType}'),
@@ -1201,12 +1244,14 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "unitId",
         title: "<spring:message code='global.unit'/>",
+        colSpan: 3,
+        width: 300,
         required: true,
         autoFetchData: false,
         editorType: "SelectItem",
         valueField: "id",
         displayField: "name",
-        pickListWidth: "500",
+        pickListWidth: "400",
         pickListHeight: "300",
         optionDataSource: inspectionReportTab.restDataSource.unitRest,
         optionCriteria: inspectionReportTab.variable.currencyInUnitCriteria,
@@ -1231,20 +1276,19 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             }]
     },
     {
-        type: "RowSpacerItem"
-    },
-    {
         name: "description",
         title: "<spring:message code='inspectionReport.description'/>",
+        colSpan: 3,
+        width: 300,
         wrapTitle: false,
         editorType: "textArea",
-        height: 150
+        height: 100
     },
 ]);
 
 inspectionReportTab.dynamicForm.inspecReport = isc.DynamicForm.create({
     height: "90%",
-    numCols: 2,
+    numCols: 3,
     margin: 10,
     align: "center",
     titleWidth: 150,
@@ -1458,6 +1502,17 @@ inspectionReportTab.toolStrip.weightRemoveAll = isc.ToolStrip.create({
                 inspectionReportTab.listGrid.weightElementSum.setData([]);
             }
         }),
+        isc.ToolStripButton.create({
+            height: "25",
+            name: "template",
+            autoFit: false,
+            title: "<spring:message code='inspectionReport.download.template.weight'/>",
+            click: function () {
+
+                let fieldNames = inspectionReportTab.listGrid.weightElement.getFields().slice(2, 5).map(q => q.name);
+                window.open("${contextPath}/inspectionReport/export?headers=" + fieldNames + "&fieldNames=" + fieldNames);
+            }
+        }),
         isc.ToolStrip.create({
             border: '0px',
             width: "100%",
@@ -1478,7 +1533,7 @@ inspectionReportTab.toolStrip.weightRemoveAll = isc.ToolStrip.create({
                     click: function () {
 
                         let recordLimit = inspectionReportTab.listGrid.weightElement.getTotalRows();
-                        let fileBrowserId = document.getElementById(inspectionReportTab.toolStrip.weightRemoveAll.members[1].members[0].getItem("excelFile").uploadItem.getElement().id);
+                        let fileBrowserId = document.getElementById(inspectionReportTab.toolStrip.weightRemoveAll.members[2].members[0].getItem("excelFile").uploadItem.getElement().id);
                         let fieldNames = inspectionReportTab.listGrid.weightElement.getFields().slice(2, 5).map(q => q.name);
 
                         let formData = new FormData();
@@ -1630,6 +1685,17 @@ inspectionReportTab.toolStrip.assayRemoveAll = isc.ToolStrip.create({
                 inspectionReportTab.listGrid.assayElementSum.setData([]);
             }
         }),
+        isc.ToolStripButton.create({
+            height: "25",
+            name: "template",
+            autoFit: false,
+            title: "<spring:message code='inspectionReport.download.template.assay'/>",
+            click: function () {
+
+                let fieldNames = inspectionReportTab.listGrid.assayElement.getFields().slice(2, inspectionReportTab.listGrid.assayElement.getFields().length).map(q => q.name);
+                window.open("${contextPath}/inspectionReport/export?headers=" + fieldNames + "&fieldNames=" + fieldNames);
+            }
+        }),
         isc.ToolStrip.create({
             border: '0px',
             width: "100%",
@@ -1650,8 +1716,8 @@ inspectionReportTab.toolStrip.assayRemoveAll = isc.ToolStrip.create({
                     click: function () {
 
                         let recordLimit = inspectionReportTab.listGrid.assayElement.getTotalRows();
-                        let fileBrowserId = document.getElementById(inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").uploadItem.getElement().id);
-                        let fieldNames = inspectionReportTab.listGrid.assayElement.getFields().slice(2, inspectionReportTab.listGrid.assayElement.getFields().length - 1).map(q => q.name);
+                        let fileBrowserId = document.getElementById(inspectionReportTab.toolStrip.assayRemoveAll.members[2].members[0].getItem("excelFile").uploadItem.getElement().id);
+                        let fieldNames = inspectionReportTab.listGrid.assayElement.getFields().slice(2, inspectionReportTab.listGrid.assayElement.getFields().length).map(q => q.name);
 
                         let formData = new FormData();
                         formData.append("file", fileBrowserId.files[0]);
@@ -1734,20 +1800,20 @@ inspectionReportTab.window.inspecReport.init(null, '<spring:message code="inspec
     align: "center",
     members: [
         isc.VLayout.create({
-            width: "35%",
+            width: "40%",
             members: [
                 inspectionReportTab.dynamicForm.material,
                 inspectionReportTab.dynamicForm.inspecReport,
             ]
         }),
         isc.VLayout.create({
-            width: "65%",
+            width: "60%",
             members: [
                 inspectionReportTab.tab.inspecTabs,
             ]
         }),
     ]
-}), "1300", "60%");
+}), "1400", "60%");
 
 inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
 
@@ -1916,10 +1982,10 @@ inspectionReportTab.method.clearForm = function () {
     inspectionReportTab.listGrid.weightElementSum.setData([]);
     inspectionReportTab.dynamicForm.inspecReport.clearValues();
     inspectionReportTab.listGrid.assayElementSum.setFields([]);
-    inspectionReportTab.toolStrip.weightRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
-    inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
-    inspectionReportTab.hStack.weightUnitSum.members.forEach(q => {if(q.clearValues) q.clearValues()});
-    inspectionReportTab.hStack.assayUnitSum.members.forEach(q => {if(q.clearValues) q.clearValues()});
+    inspectionReportTab.toolStrip.weightRemoveAll.members[2].members[0].getItem("excelFile").clearValue();
+    inspectionReportTab.toolStrip.assayRemoveAll.members[2].members[0].getItem("excelFile").clearValue();
+    inspectionReportTab.hStack.weightUnitSum.setMembers([]);
+    inspectionReportTab.hStack.assayUnitSum.setMembers([]);
     inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").enable();
     inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").enable();
 };
@@ -1998,6 +2064,11 @@ inspectionReportTab.method.editForm = function () {
         inspectionReportTab.dynamicForm.inspecReport.setValue("shipmentId", shipmentId);
         // Set Inventories
         inspectionReportTab.dynamicForm.inspecReport.setValue("inventoryId", inventoryIds);
+
+        let inventoryLabels = [];
+        inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().map(q => q.label).forEach(m => inventoryLabels.add(m + "\n"));
+        inspectionReportTab.dynamicForm.inspecReport.setValue("inventories", inventoryLabels);
+
         // Set IssueDate
         inspectionReportTab.dynamicForm.inspecReport.setValue("issueDate", new Date(record.issueDate));
         // Set Milestone
@@ -2054,10 +2125,10 @@ inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
     if (!inventories)
         return;
     let remittanceDetails = inventories.filter(q => q.remittanceDetails && q.remittanceDetails.size() > 0).map(q => q.remittanceDetails);
-    if (remittanceDetails.size() == 0) {
+    if (remittanceDetails.size() === 0) {
         tab_.addMember(isc.Label.create({
             wrap: false,
-            contents: "<span style='font-weight: bolder;font-size: larger'><spring:message code='inspectionReport.inventory.has.no.output.warn'/></span> "
+            contents: "<span style='font-weight: bolder;font-size: larger; color: #bd2130'><spring:message code='inspectionReport.inventory.has.no.output.warn'/></span> "
         }));
         return;
     }
@@ -2091,7 +2162,8 @@ inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
             disabledValueField: true,
             showUnitFieldTitle: false,
             showValueFieldTitle: false,
-            topPadding: 20
+            topPadding: 13,
+            width: "10%"
         });
         unitMember.setValue(amountArray[index]);
         unitMember.setUnitId(current);
@@ -2326,7 +2398,7 @@ inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         if (record == null || record.id == null)
             inspectionReportTab.dialog.notSelected();
 
-        nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message code="entity.inspection-report"/>', record.id, null, "InspectionReport",null);
+        nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message code="entity.inspection-report"/>', record.id, null, "InspectionReport", null);
     }
 }), 8);
 // </sec:authorize>

@@ -1,38 +1,39 @@
 package com.nicico.sales.dto.contract;
 
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.dto.MaterialElementDTO;
+import com.nicico.sales.dto.UnitDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
 
 @Getter
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContractDiscountDTO {
+public class DeductionDTO {
 
-    private Double discount;
-    /*  discount contains upperBound */
-    private Double upperBound;
-    /*  discount does NOT contain lowerBound */
-    private Double lowerBound;
-    private Long contractId;
+    private BigDecimal treatmentCost;
+    private BigDecimal refineryCost;
+    private Long unitId;
     private Long materialElementId;
+    private Long contractId;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("DiscountInfo")
-    public static class Info extends ContractDiscountDTO {
+    @ApiModel("DeductionInfo")
+    public static class Info extends DeductionDTO {
         private Long id;
         private Date createDate;
         private String createdBy;
@@ -41,6 +42,7 @@ public class ContractDiscountDTO {
         private Integer version;
 
         private MaterialElementDTO.Info materialElement;
+        private UnitDTO.Info unit;
 
         // BaseEntity
         private Boolean editable;
@@ -50,17 +52,17 @@ public class ContractDiscountDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("DiscountCreateRq")
-    public static class Create extends ContractDiscountDTO {
+    @ApiModel("DeductionCreateRq")
+    public static class Create extends DeductionDTO {
 
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("DiscountUpdateRq")
-    public static class Update extends ContractDiscountDTO {
-        @NotNull
+    @ApiModel("DeductionUpdateRq")
+    public static class Update extends DeductionDTO {
+        @NonNull
         @ApiModelProperty(required = true)
         private Long id;
 
@@ -70,11 +72,10 @@ public class ContractDiscountDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("DiscountDeleteRq")
+    @ApiModel("DeductionDeleteRq")
     public static class Delete {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
-
 }

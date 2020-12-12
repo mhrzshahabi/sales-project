@@ -1,7 +1,9 @@
-package com.nicico.sales.dto;
+package com.nicico.sales.dto.contract;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.dto.MaterialElementDTO;
+import com.nicico.sales.dto.UnitDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,10 +21,10 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DeductionDTO {
+public class TypicalAssayDTO {
 
-    private BigDecimal treatmentCost;
-    private BigDecimal refineryCost;
+    private BigDecimal minValue;
+    private BigDecimal maxValue;
     private Long unitId;
     private Long materialElementId;
     private Long contractId;
@@ -30,8 +32,8 @@ public class DeductionDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("DeductionInfo")
-    public static class Info extends DeductionDTO {
+    @ApiModel("TypicalAssayInfo")
+    public static class Info extends TypicalAssayDTO {
         private Long id;
         private Date createDate;
         private String createdBy;
@@ -50,16 +52,16 @@ public class DeductionDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("DeductionCreateRq")
-    public static class Create extends DeductionDTO {
+    @ApiModel("TypicalAssayCreateRq")
+    public static class Create extends TypicalAssayDTO {
 
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("DeductionUpdateRq")
-    public static class Update extends DeductionDTO {
+    @ApiModel("TypicalAssayUpdateRq")
+    public static class Update extends TypicalAssayDTO {
         @NonNull
         @ApiModelProperty(required = true)
         private Long id;
@@ -70,7 +72,7 @@ public class DeductionDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("DeductionDeleteRq")
+    @ApiModel("TypicalAssayDeleteRq")
     public static class Delete {
         @NotNull
         @ApiModelProperty(required = true)

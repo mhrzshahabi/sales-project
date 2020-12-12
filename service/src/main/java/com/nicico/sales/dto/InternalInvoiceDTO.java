@@ -71,11 +71,11 @@ public class InternalInvoiceDTO {
     private String documentId;
     private List<EStatus> eStatus;
 
-	@Getter
-	@Accessors(chain = true)
-	@ApiModel("InvoiceInternalInfo")
-	public static class Info extends InternalInvoiceDTO {
-	}
+    @Getter
+    @Accessors(chain = true)
+    @ApiModel("InvoiceInternalInfo")
+    public static class Info extends InternalInvoiceDTO {
+    }
 
     @Getter
     @Setter
