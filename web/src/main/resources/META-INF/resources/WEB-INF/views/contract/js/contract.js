@@ -395,11 +395,11 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                     section.data.contractDetail.contractDetailValues.add({
                         key: param.key,
                         name: param.title,
-                        type: param.paramType,
+                        type: param.type,
                         required: param.required,
                         reference: param.reference,
                         unitId: param.unitId,
-                        contractDetailId: field.contractDetailId,
+                        contractDetailId: param.contractDetailId,
                         value: section.form.getValue(section.data.contractDetailType.code + "." + param.key),
                     });
             });
@@ -942,8 +942,8 @@ contractTab.method.createArticle = function (data) {
                 click: function () {
 
                     contractTab.variable.contractDetailPreviewForm.bodyWidget.getObject().setContents(
-                        "<pre style='text-align: " + nicico.CommonUtil.getAlignByLangReverse() + "'>" +
-                        sectionStackSectionObj.providePrintContent() + "</pre>");
+                        "<div style='text-align: " + nicico.CommonUtil.getAlignByLangReverse() + "'>" +
+                        sectionStackSectionObj.providePrintContent() + "</div>");
                     contractTab.variable.contractDetailPreviewForm.justShowForm();
                 }
             }),
@@ -1256,12 +1256,12 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
             editable: !isNewMode ? param.editable : null,
             contractDetailId: !isNewMode ? param.contractDetailId : null,
             canEdit: contractTab.dynamicForm.main.getField(param.key) == null,
-            colSpan: param.type === contractTab.variable.dataType.TextArea ? 7 : 3,
+            colSpan: param.type === contractTab.variable.dataType.TextArea ? 5 : 2,
             titleColSpan: 1,
             changed: function (form, item, value) {
 
                 let This = this;
-                if (this.unitId)
+                if (this.unitId && !this.getHint())
                     getReferenceDataSource("Unit").fetchData({
                         operator: "and",
                         _constructor: "AdvancedCriteria",

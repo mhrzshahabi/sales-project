@@ -16,9 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class ContractContactService extends GenericService<ContractContact, Long, ContractContactDTO.Create, ContractContactDTO.Info, ContractContactDTO.Update, ContractContactDTO.Delete> implements IContractContactService {
+
+    @Override
     @Transactional
     @Action(value = ActionType.Get)
-    @Override
     public ContractContactDTO.Info getByContractIdAndContactIdAndCommercialRole(Long contractId, Long contactId, CommercialRole commercialRole) {
         ContractContact contractContact = ((ContractContactDAO) repository).findByContractIdAndContactIdAndCommercialRole(contractId, contactId, commercialRole)
                 .orElseThrow(() -> new NotFoundException(ContractContact.class));
