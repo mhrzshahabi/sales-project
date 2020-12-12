@@ -23,7 +23,7 @@
     var contractId;
     var printTemplateList;
 
-    function fetchPrintTemplateList() {
+    function fetchPrintTemplateListAndRefreshGrid() {
         printTemplateList = [];
         fetch("${contextPath}/api/shipmentDcc/spec-list", {
             headers:
@@ -46,11 +46,12 @@
                         if (tmp.materialId && tmp.shipmentTypeId)
                             printTemplateList.add(tmp);
                     });
+                    ListGrid_Shipment.invalidateCache();
                     ListGrid_Shipment.fetchData();
 });
     }
 
-    fetchPrintTemplateList();
+    fetchPrintTemplateListAndRefreshGrid();
 
     var RestDataSource_Contact__SHIPMENT = isc.MyRestDataSource.create({
         fields:
@@ -390,7 +391,7 @@
             {
                 title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
                 click: function () {
-                    ListGrid_Shipment_refresh();
+                    fetchPrintTemplateListAndRefreshGrid();
                 }
             },
             <sec:authorize access="hasAuthority('C_SHIPMENT')">
@@ -450,7 +451,8 @@
         autoDraw: false,
         dismissOnEscape: true,
         closeClick: function () {
-            this.Super("closeClick", arguments)
+           fetchPrintTemplateListAndRefreshGrid();
+           this.Super("closeClick", arguments)
         },
         items:
             [
@@ -891,7 +893,7 @@
                     callback: function (RpcResponse_o) {
                         if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
-                            ListGrid_Shipment_refresh();
+                            fetchPrintTemplateListAndRefreshGrid();
                             Window_Shipment.close();
                         } else {
                             isc.say(RpcResponse_o.data);
@@ -976,10 +978,6 @@
             hLayout_saveButton
         ]
     });
-
-    function ListGrid_Shipment_refresh() {
-        ListGrid_Shipment.invalidateCache();
-    }
 
     function ListGrid_Shipment_remove() {
         let record = ListGrid_Shipment.getSelectedRecord();
@@ -1086,8 +1084,7 @@
     var ToolStripButton_Shipment_Refresh = isc.ToolStripButtonRefresh.create({
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
-            fetchPrintTemplateList();
-            ListGrid_Shipment_refresh();
+            fetchPrintTemplateListAndRefreshGrid();
         }
     });
 
@@ -1208,7 +1205,6 @@
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", hidden: true, type: 'long'},
-            {name: "contactId", type: 'long', hidden: true},
             {
                 name: "contact.name",
                 title: "<spring:message code='contact.name'/>",
@@ -1220,7 +1216,6 @@
                     return recordObject.contact.name
                 }
             },
-            {name: "contractId", type: 'long', hidden: true},
             {
                 name: "contractShipment.contract.no",
                 title: "<spring:message code='contract.contractNo'/>",
