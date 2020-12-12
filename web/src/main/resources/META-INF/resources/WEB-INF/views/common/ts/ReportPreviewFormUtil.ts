@@ -61,7 +61,7 @@ namespace nicico {
             creator.method.exportExcel = function () {
 
                 // @ts-ignore
-                let criteria = creator.listGrid.main.getCriteria();
+                let criteria = creator.listGrid.main.getInitialCriteria();
                 if (!Object.keys(criteria).length)
                     criteria = null;
                 // @ts-ignore
@@ -111,7 +111,7 @@ namespace nicico {
             creator.method.print = function () {
 
                 // @ts-ignore
-                let criteria = creator.listGrid.main.getCriteria();
+                let criteria = creator.listGrid.main.getInitialCriteria();
                 if (!Object.keys(criteria).length)
                     criteria = null;
                 let selectedIds = [];
