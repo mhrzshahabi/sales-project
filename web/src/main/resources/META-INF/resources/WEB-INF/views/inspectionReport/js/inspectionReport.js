@@ -2135,6 +2135,7 @@ inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
 
     tab_.setMembers([isc.Label.create({
         wrap: false,
+        width: "15%",
         contents: "<span style='font-weight: bolder;font-size: larger'><spring:message code='inspectionReport.unit.sum.label'/> : </span> "
     }),]);
 
@@ -2162,12 +2163,17 @@ inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
             disabledValueField: true,
             showUnitFieldTitle: false,
             showValueFieldTitle: false,
-            topPadding: 13,
-            width: "10%"
+            topPadding: 15,
+            width: "7%"
         });
         unitMember.setValue(amountArray[index]);
         unitMember.setUnitId(current);
         tab_.addMember(unitMember);
+        tab_.addMember(isc.Label.create({
+            wrap: false,
+            width: "1%",
+            contents: "<span style='font-weight: bolder;'> , </span>"
+        }));
     });
 };
 

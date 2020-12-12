@@ -611,4 +611,29 @@
         <addUniqueConstraint tableName="TBL_CONTACT" columnNames="C_ACC_DETAIL"/>
         <addUniqueConstraint tableName="TBL_CONTACT" columnNames="C_ACC_DETAIL_ID"/>
     </changeSet>
+    <changeSet id="AZAARE-001200" author="abiz">
+        <sql splitStatements="false" stripComments="false">
+            <![CDATA[
+                DECLARE IX_NAME VARCHAR2(999);
+            BEGIN
+                BEGIN
+                   SELECT index_name INTO IX_NAME FROM all_ind_columns where table_name = 'TBL_CONTACT' and column_name  = 'C_ACC_DETAIL';
+                   EXECUTE IMMEDIATE 'ALTER TABLE TBL_CONTACT DROP CONSTRAINT '|| IX_NAME;
+                   EXCEPTION WHEN NO_DATA_FOUND THEN  DBMS_OUTPUT.PUT_LINE('NOTHING HAPPENED');
+                END;
+                BEGIN
+                   SELECT index_name INTO IX_NAME FROM all_ind_columns where table_name = 'TBL_CONTACT' and column_name  = 'C_ACC_DETAIL_ID';
+                   EXECUTE IMMEDIATE 'ALTER TABLE TBL_CONTACT DROP CONSTRAINT '|| IX_NAME;
+                   EXCEPTION WHEN NO_DATA_FOUND THEN  DBMS_OUTPUT.PUT_LINE('NOTHING HAPPENED');
+                END;
+            END;
+            ]]>
+        </sql>
+    </changeSet>
+    <changeSet id="AZAARE-0021233" author="abiz">
+        <addUniqueConstraint tableName="TBL_CONTACT" columnNames="C_ACC_DETAIL" constraintName="UC_C_ACC_DETAIL"/>
+        <addUniqueConstraint tableName="TBL_CONTACT" columnNames="C_ACC_DETAIL_ID" constraintName="UC_C_ACC_DETAIL_ID"/>
+    </changeSet>
+
+
 </databaseChangeLog>

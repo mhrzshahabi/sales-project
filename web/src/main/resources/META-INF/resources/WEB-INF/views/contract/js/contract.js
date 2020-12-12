@@ -375,7 +375,7 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
 
         if (section.form) {
 
-            if (!this.form.validate()) {
+            if (!section.form.validate()) {
 
                 contractTab.dialog.say('<spring:message code="contract.validation.exception-detail"/> [' + section.title + ']');
                 return false;
@@ -395,11 +395,11 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                     section.data.contractDetail.contractDetailValues.add({
                         key: param.key,
                         name: param.title,
-                        type: param.paramType,
+                        type: param.type,
                         required: param.required,
                         reference: param.reference,
                         unitId: param.unitId,
-                        contractDetailId: field.contractDetailId,
+                        contractDetailId: param.contractDetailId,
                         value: section.form.getValue(section.data.contractDetailType.code + "." + param.key),
                     });
             });
@@ -1231,6 +1231,8 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
             return true;
         if (type === 'GeorgianDate')
             return new Date(valueStr);
+
+        return valueStr;
     }
 
     target.filter(param =>
@@ -1254,12 +1256,12 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
             editable: !isNewMode ? param.editable : null,
             contractDetailId: !isNewMode ? param.contractDetailId : null,
             canEdit: contractTab.dynamicForm.main.getField(param.key) == null,
-            colSpan: param.type === contractTab.variable.dataType.TextArea ? 7 : 3,
+            colSpan: param.type === contractTab.variable.dataType.TextArea ? 5 : 2,
             titleColSpan: 1,
             changed: function (form, item, value) {
 
                 let This = this;
-                if (this.unitId)
+                if (this.unitId && !this.getHint())
                     getReferenceDataSource("Unit").fetchData({
                         operator: "and",
                         _constructor: "AdvancedCriteria",
