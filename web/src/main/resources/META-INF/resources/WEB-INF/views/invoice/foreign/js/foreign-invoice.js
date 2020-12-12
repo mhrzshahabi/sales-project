@@ -65,13 +65,26 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         showHover: true,
         name: "sumPrice",
         filterOperator: "equals",
-        title: "<spring:message code='foreign-invoice.form.sum-price'/>"
+        title: "<spring:message code='foreign-invoice.form.sum-price'/>",
+        formatCellValue: function (value, record, rowNum, colNum) {
+            if (!value)
+                return value;
+
+            return value + "";
+        },
     },
     {
         width: "100%",
         showHover: true,
         name: "conversionSumPrice",
-        title: "<spring:message code='foreign-invoice.form.conversion-sum-price'/>"
+        filterOperator: "equals",
+        title: "<spring:message code='foreign-invoice.form.conversion-sum-price'/>",
+        formatCellValue: function (value, record, rowNum, colNum) {
+            if (!value)
+                return value;
+
+            return value + "";
+        },
     },
     {
         width: "100%",
@@ -1372,8 +1385,12 @@ foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager = isc.ValuesManager.
 foreignInvoiceTab.dynamicForm.sentToAccountingInvoiceForm = isc.DynamicForm.create({
     margin: 10,
     numCols: 4,
+    padding: 10,
     width: "100%",
+    titleWidth: 130,
     align: "center",
+    borderRadius: 5,
+    border: "1px solid black",
     showErrorText: true,
     showErrorStyle: true,
     showInlineErrors: true,
@@ -1386,57 +1403,69 @@ foreignInvoiceTab.dynamicForm.sentToAccountingInvoiceForm = isc.DynamicForm.crea
         },
         {
             name: "invoiceTypeId",
-            canEdit: false,
             title: "<spring:message code='foreign-invoice.form.invoice-type'/>",
-            width: "100%"
+            width: "100%",
+            editorType: "staticText",
         },
         {
             name: "date",
-            canEdit: false,
             title: "<spring:message code='foreign-invoice.form.date'/>",
             width: "100%",
+            type: "date",
+            dateFormatter: "toJapanShortDate",
+            editorType: "staticText",
         },
         {
             name: "shipmentId",
-            canEdit: false,
             title: "<spring:message code='foreign-invoice.form.shipment'/>",
-            width: "100%"
+            width: "100%",
+            type: "date",
+            dateFormatter: "toJapanShortDate",
+            editorType: "staticText",
         },
         {
             name: "creatorId",
-            canEdit: false,
             title: "<spring:message code='foreign-invoice.form.creator'/>",
             width: "100%",
+            editorType: "staticText",
         },
         {
             name: "currencyId",
-            canEdit: false,
             title: "<spring:message code='foreign-invoice.form.currency'/>",
-            width: "100%"
+            width: "100%",
+            editorType: "staticText",
         },
         {
             name: "sumPrice",
-            canEdit: false,
             title: "<spring:message code='shipmentCostInvoice.sumPrice'/>",
-            width: "100%"
+            width: "100%",
+            format: "0,0.##",
+            editorType: "staticText",
+        },
+        {
+            name: "toCurrencyId",
+            title: "<spring:message code='foreign-invoice.form.to.currency'/>",
+            width: "100%",
+            editorType: "staticText",
         },
         {
             name: "conversionRate",
-            canEdit: false,
             title: "<spring:message code='foreign-invoice.conversionRate'/>",
-            width: "100%"
+            width: "100%",
+            editorType: "staticText",
         },
         {
             name: "conversionSumPrice",
-            canEdit: false,
             title: "<spring:message code='foreign-invoice.conversionSumPrice'/>",
-            width: "100%"
+            width: "100%",
+            format: "0,0.##",
+            editorType: "staticText",
         },
         {
             name: "conversionSumPriceText",
-            canEdit: false,
             title: "<spring:message code='foreign-invoice.conversionSumPriceText'/>",
-            width: "100%"
+            width: "100%",
+            editorType: "staticText",
         }
     ]
 });
@@ -1471,7 +1500,7 @@ foreignInvoiceTab.dynamicForm.sentToAccountingDocumentForm = isc.DynamicForm.cre
             valueField: "id",
             displayField: "departmentName",
             width: "100%",
-            pickListWidth: "250",
+            pickListWidth: "370",
             allowAdvancedCriteria: false,
             autoFetchData: false,
             pickListFields: [
@@ -1549,7 +1578,7 @@ foreignInvoiceTab.window.sentToAccounting.init(null, '<spring:message code="acco
             ]
         })
     ]
-}), "750", "40%");
+}), "1000", "40%");
 foreignInvoiceTab.window.sentToAccounting.validate = function (date) {
 
     foreignInvoiceTab.dynamicForm.sentToAccountingDocumentForm.validate();
@@ -3914,6 +3943,7 @@ foreignInvoiceTab.method.sendToAcc = function (listgrid) {
         foreignInvoiceTab.dynamicForm.sentToAccountingInvoiceForm.clearValues();
         foreignInvoiceTab.dynamicForm.sentToAccountingDocumentForm.clearValues();
 
+        let toCurrencyName = record.conversionRef !== undefined ? record.conversionRef.unitTo.name : record.currency.name;
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("id", record.id);
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("invoiceTypeId", record.invoiceType.title);
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("date", new Date(record.date));
@@ -3921,10 +3951,13 @@ foreignInvoiceTab.method.sendToAcc = function (listgrid) {
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("creatorId", record.creator.fullName);
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("sumPrice", record.sumPrice);
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("currencyId", record.currency.name);
+        foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("toCurrencyId", toCurrencyName);
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("conversionSumPrice", record.conversionSumPrice);
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("conversionSumPriceText",
-            record.conversionSumPriceText);
+            nicico.CommonUtil.getLang() === "fa" ? String(record.conversionSumPrice).toPersianLetter() + " " + toCurrencyName:
+                numberToEnglish(record.conversionSumPrice) + " " + toCurrencyName);
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("conversionRate", record.conversionRate);
+
         foreignInvoiceTab.window.sentToAccounting.justShowForm();
     }
 };
