@@ -148,7 +148,7 @@
                 },
                 {
                     name: "code",
-                    title: "<spring:message code='contact.code'/>"
+                    title: "<spring:message code='contact.accDetail'/>"
                 },
                 {
                     name: "nameFA",
@@ -352,7 +352,7 @@
                 {
                     required: true,
                     name: "accDetail",
-                    title: "<spring:message code='contact.code'/>",
+                    title: "<spring:message code='contact.accDetail'/>",
                     width: 300,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Accounting,
@@ -361,6 +361,7 @@
                     pickListWidth: 390,
                     pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true},
+                    autoFetchData: false,
                     pickListFields: [
                         {name: "id", hidden: true},
                         {name: "code", width: 150, align: "center"},
@@ -1898,27 +1899,35 @@
             fields: [
                 {
                     name: "id",
+                    title: "<spring:message code='global.id'/>",
                     primaryKey: true,
                     canEdit: false,
                     hidden: true, showIf: "false",
+                    width: 100,
                 },
                 {
                     name: "accDetail",
-                    title: "<spring:message code='contact.code'/>",
+                    title: "<spring:message code='contact.accDetail'/>",
                     align: "center",
-                    width: 100,
-
+                    width: 150,
+                },
+                {
+                    name: "nameFA",
+                    title: "<spring:message code='contact.nameFa'/>",
+                    align: "center",
+                    width: 380
                 },
                 {
                     name: "nameEN",
                     title: "<spring:message code='contact.nameEn'/>",
-                    align: "center"
+                    align: "center",
+                    width: 380
                 },
                 {
                     name: "tradeMark",
                     title: "<spring:message code='contact.tradeMark'/>",
                     type: 'text',
-                    width: "10%",
+                    width: 200,
                     wrapTitle: false,
                     align: "center"
                 },
@@ -1926,7 +1935,7 @@
                     name: "commercialRegistration",
                     title: "<spring:message code='contact.commercialRegistration'/>",
                     type: 'text',
-                    width: "10%",
+                    width: 150,
                     wrapTitle: false,
                     align: "center", showIf: "false",
                 },
@@ -1934,7 +1943,7 @@
                     name: "branchName",
                     title: "<spring:message code='contact.branchName'/>",
                     type: 'text',
-                    width: "10%",
+                    width: 150,
                     wrapTitle: false,
                     align: "center", showIf: "false",
                 },
@@ -1942,7 +1951,7 @@
                     name: "commercialRole",
                     title: "<spring:message code='contact.commercialRole'/>",
                     type: 'text',
-                    width: "10%",
+                    width: 150,
                     wrapTitle: false,
                     align: "center",
                 },
@@ -1950,24 +1959,24 @@
                     name: "phone",
                     title: "<spring:message code='contact.phone'/>",
                     align: "center",
-                    width: "10%",
+                    width: 170,
                 },
                 {
                     name: "mobile",
                     title: "<spring:message code='contact.mobile'/>",
                     align: "center",
-                    width: "10%", showIf: "false",
+                    width: 150, showIf: "false",
                 },
                 {
                     name: "fax",
                     title: "<spring:message code='contact.fax'/>",
                     align: "center",
-                    width: "10%", showIf: "false",
+                    width: 150, showIf: "false",
                 },
                 {
                     name: "country.nameFa",
                     title: "<spring:message code='country.nameFa'/>",
-                    width: "10%", showIf: "false",
+                    width: 150, showIf: "false",
                     sortNormalizer: function (recordObject) {
                         return recordObject.country.nameFa;
                     }
@@ -1976,25 +1985,29 @@
                     name: "address",
                     title: "<spring:message code='contact.address'/>",
                     align: "center",
+                    width: 450,
                     hidden: true, type: 'text'
                 },
                 {
                     name: "webSite",
                     title: "<spring:message code='contact.webSite'/>",
                     align: "center",
+                    width: 150,
                     hidden: true,
                 },
                 {
                     name: "email",
                     title: "<spring:message code='contact.email'/>",
                     align: "center",
+                    width: 250,
                     hidden: true,
                 },
                 {
                     name: "type",
                     title: "<spring:message code='contact.type'/>",
                     align: "center",
-                    width: "10%",
+                    width: 120,
+                    showIf: "false",
                     filterEditorProperties: {
                         operator: "equals", type: "boolean",
                         valueMap: {
@@ -2007,38 +2020,39 @@
                     name: "nationalCode",
                     title: "<spring:message code='contact.nationalCode'/>",
                     align: "center",
-                    width: "10%", showIf: "false",
+                    width: 150, showIf: "false",
                 },
                 {
                     name: "economicalCode",
                     title: "<spring:message code='contact.economicalCode'/>",
                     align: "center",
-                    width: "10%", showIf: "false",
+                    width: 150, showIf: "false",
 
                 },
                 {
                     name: "defaultAccount.bankAccount",
                     title: "<spring:message code='contact.bankAccount'/>",
                     align: "center",
-                    width: "10%"
+                    showIf: "false",
+                    width: 150
                 },
                 {
                     name: "defaultAccount.bankShaba",
                     title: "<spring:message code='contact.bankShaba'/>",
                     align: "center",
-                    width: "10%"
+                    width: 200
                 },
                 {
                     name: "defaultAccount.bankSwift",
                     title: "<spring:message code='contactAccount.bankSwift'/>",
                     align: "center",
-                    width: "10%"
+                    width: 150
                 },
                 {
                     name: "status",
                     title: "<spring:message code='contact.status'/>",
                     align: "center",
-                    width: "10%",
+                    width: 80,
                     filterEditorProperties: {
                         operator: "equals", type: "boolean",
                         valueMap: {

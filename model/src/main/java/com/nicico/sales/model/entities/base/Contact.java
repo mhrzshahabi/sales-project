@@ -25,7 +25,8 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"C_PHONE ", "b_SELLER", "b_BUYER", "b_TRANSPORTER", "b_SHIPPER", "b_INSPECTOR", "b_INSURANCER", "b_AGENT_BUYER", "b_AGENT_SELLER", "COUNTRY_ID"}, name = Contact.UNIQUE_List_Person),
                 @UniqueConstraint(columnNames = {"C_ECONOMICAL_CODE"}, name = Contact.UNIQUE_C_ECONOMICAL_CODE),
-
+                @UniqueConstraint(columnNames = {"C_ACC_DETAIL"}, name = "UC_C_ACC_DETAIL"),
+                @UniqueConstraint(columnNames = {"C_ACC_DETAIL_ID"}, name = "UC_C_ACC_DETAIL_ID"),
         })
 @Audited
 @AuditOverride(forClass = BaseEntity.class)
