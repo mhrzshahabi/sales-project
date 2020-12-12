@@ -14,4 +14,5 @@ public interface ContractContactDAO extends JpaRepository<ContractContact, Long>
 
     Optional<ContractContact> findByContractIdAndContactIdAndCommercialRole(Long contractId, Long contactId, CommercialRole commercialRole);
 
+    List<ContractContact> getByContractId(Long contractId);
 }

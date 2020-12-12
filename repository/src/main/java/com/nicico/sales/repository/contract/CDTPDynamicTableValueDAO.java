@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CDTPDynamicTableValueDAO extends JpaRepository<CDTPDynamicTableValue, Long>,
-        JpaSpecificationExecutor<CDTPDynamicTableValue> {
+public interface CDTPDynamicTableValueDAO extends JpaRepository<CDTPDynamicTableValue, Long>, JpaSpecificationExecutor<CDTPDynamicTableValue> {
+
     void deleteAllByIdIn(List<Long> ids);
 
+    List<CDTPDynamicTableValue> getByContractDetailValueId(Long contractDetailValueId);
 }

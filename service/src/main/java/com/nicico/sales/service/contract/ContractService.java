@@ -17,14 +17,11 @@ import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.contract.*;
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.entities.contract.Contract;
-import com.nicico.sales.model.entities.contract.ContractContact;
-import com.nicico.sales.model.entities.contract.ContractDetail;
-import com.nicico.sales.model.entities.contract.ContractDetailValue;
+import com.nicico.sales.model.entities.contract.*;
 import com.nicico.sales.model.enumeration.CommercialRole;
 import com.nicico.sales.model.enumeration.ContractDetailTypeReference;
 import com.nicico.sales.model.enumeration.DataType;
-import com.nicico.sales.repository.contract.ContractDAO;
+import com.nicico.sales.repository.contract.*;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.EntityRelationChecker;
 import com.nicico.sales.utility.StringFormatUtil;
@@ -45,19 +42,36 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ContractService extends GenericService<Contract, Long, ContractDTO.Create, ContractDTO.Info, ContractDTO.Update, ContractDTO.Delete> implements IContractService {
 
+    /******************************************************************************************************************/
+
     public static final String CONTRACT_DETAIL_EXCEPTION_UPDATE = "contract-detail.exception.update";
+
+    /******************************************************************************************************************/
+
+    private final ContractDetailDAO contractDetailDAO;
+    private final ContractContactDAO contractContactDAO;
+    private final ContractDetailValueDAO contractDetailValueDAO;
+    private final CDTPDynamicTableValueDAO dynamicTableValueDAO;
+
+    /******************************************************************************************************************/
 
     private final IContractDetailService contractDetailService;
     private final IContractContactService contractContactService;
     private final IContractDetailValueService contractDetailValueService;
     private final ICDTPDynamicTableValueService dynamicTableValueService;
 
+    /******************************************************************************************************************/
+
     private final IContractDetailValueService2 contractDetailValueService2;
+
+    /******************************************************************************************************************/
 
     private final IDeductionService deductionService;
     private final ITypicalAssayService typicalAssayService;
     private final IContractDiscountService contractDiscountService;
     private final IContractShipmentService contractShipmentService;
+
+    /******************************************************************************************************************/
 
     private final Gson gson;
     private final UpdateUtil updateUtil;
@@ -68,21 +82,6 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     /******************************************************************************************************************/
 
     private void deleteContractDetailValueExtras(ContractDetailValue contractDetailValue) {
-
-        if (contractDetailValue.getType().name().equals(DataType.ListOfReference.name())) {
-
-            if (ContractDetailTypeReference.ContractShipment.name().equals(contractDetailValue.getReference()))
-                contractShipmentService.delete(Long.valueOf(contractDetailValue.getValue()));
-            else if (ContractDetailTypeReference.TypicalAssay.name().equals(contractDetailValue.getReference()))
-                typicalAssayService.delete(Long.valueOf(contractDetailValue.getValue()));
-            else if (ContractDetailTypeReference.Deduction.name().equals(contractDetailValue.getReference()))
-                deductionService.delete(Long.valueOf(contractDetailValue.getValue()));
-            else if (ContractDetailTypeReference.Discount.name().equals(contractDetailValue.getReference()))
-                contractDiscountService.delete(Long.valueOf(contractDetailValue.getValue()));
-        }
-    }
-
-    private void deleteContractDetailValueExtras(ContractDetailValueDTO.Info contractDetailValue) {
 
         if (contractDetailValue.getType().name().equals(DataType.ListOfReference.name())) {
 
@@ -221,21 +220,20 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         contractShipmentService.update(contractShipmentDTO.getId(), contractShipmentDTO);
     }
 
-    private void updateContractContacts(Contract contract, Long newContactId, CommercialRole commercialRole) {
+    private void updateContractContacts(ContractContact savedContractContact, Long contractId, Long newContactId, CommercialRole commercialRole) {
 
-        Optional<ContractContact> savedContractContact = contract.getContractContacts().stream().filter(item -> item.getCommercialRole() == commercialRole).findFirst();
-        if (savedContractContact.isPresent()) {
+        if (savedContractContact != null) {
 
             ContractContactDTO.Update contractContactDTO = new ContractContactDTO.Update();
             contractContactDTO.setContactId(newContactId);
-            contractContactDTO.setContractId(contract.getId());
+            contractContactDTO.setContractId(contractId);
             contractContactDTO.setCommercialRole(commercialRole);
-            contractContactDTO.setId(savedContractContact.get().getId());
-            contractContactDTO.setVersion(savedContractContact.get().getVersion());
+            contractContactDTO.setId(savedContractContact.getId());
+            contractContactDTO.setVersion(savedContractContact.getVersion());
 
             contractContactService.update(contractContactDTO);
         } else
-            createContractContacts(contract.getId(), newContactId, commercialRole);
+            createContractContacts(contractId, newContactId, commercialRole);
     }
 
     private void updateContractDetailValueExtras(ContractDetailValueDTO.Update contractDetailValue) {
@@ -316,6 +314,15 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     public ContractDTO.Info update(Long id, ContractDTO.Update request) {
 
         Contract entity = repository.findById(id).orElseThrow(() -> new NotFoundException(Contract.class));
+//        entity.setContractDetails(null);
+//        entity.setContractContacts(null);
+
+        List<ContractDetail> contractDetails = contractDetailDAO.getByContractId(entity.getId());
+//        contractDetails.forEach(contractDetail -> contractDetail.setContractDetailValues(null));
+        List<ContractContact> contractContacts = contractContactDAO.getByContractId(entity.getId());
+
+        List<ContractDetailDTO.Update> contractDetailRqs = request.getContractDetails();
+//        request.setContractDetails(null);
 
         Contract updating = new Contract();
         modelMapper.map(entity, updating);
@@ -323,12 +330,21 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 
         validation(updating, request);
 
-        updateContractContacts(entity, request.getBuyerId(), CommercialRole.Buyer);
-        updateContractContacts(entity, request.getSellerId(), CommercialRole.Seller);
-        if (request.getAgentBuyerId() != null)
-            updateContractContacts(entity, request.getAgentBuyerId(), CommercialRole.AgentBuyer);
-        if (request.getAgentSellerId() != null)
-            updateContractContacts(entity, request.getAgentSellerId(), CommercialRole.AgentSeller);
+        // update contacts
+        ContractContact buyer = contractContacts.stream().filter(item -> item.getCommercialRole() == CommercialRole.Buyer).findFirst().get();
+        updateContractContacts(buyer, entity.getId(), request.getBuyerId(), CommercialRole.Buyer);
+        ContractContact seller = contractContacts.stream().filter(item -> item.getCommercialRole() == CommercialRole.Seller).findFirst().get();
+        updateContractContacts(seller, entity.getId(), request.getSellerId(), CommercialRole.Seller);
+        if (request.getAgentBuyerId() != null) {
+
+            ContractContact agentBuyer = contractContacts.stream().filter(item -> item.getCommercialRole() == CommercialRole.AgentBuyer).findFirst().get();
+            updateContractContacts(agentBuyer, entity.getId(), request.getAgentBuyerId(), CommercialRole.AgentBuyer);
+        }
+        if (request.getAgentSellerId() != null) {
+
+            ContractContact agentSeller = contractContacts.stream().filter(item -> item.getCommercialRole() == CommercialRole.AgentSeller).findFirst().get();
+            updateContractContacts(agentSeller, entity.getId(), request.getAgentSellerId(), CommercialRole.AgentSeller);
+        }
 
         //  update ContractDetails
         List<ContractDetailDTO.Create> contractDetail4Insert = new ArrayList<>();
@@ -337,9 +353,9 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         try {
             updateUtil.fill(
                     ContractDetail.class,
-                    entity.getContractDetails(),
+                    contractDetails,
                     ContractDetailDTO.Update.class,
-                    request.getContractDetails(),
+                    contractDetailRqs,
                     ContractDetailDTO.Create.class,
                     contractDetail4Insert,
                     ContractDetailDTO.Update.class,
@@ -354,7 +370,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 
         if (!contractDetail4Delete.getIds().isEmpty()) {
 
-            entity.getContractDetails().stream()
+            contractDetails.stream()
                     .filter(contractDetail -> contractDetail4Delete.getIds().contains(contractDetail.getId()))
                     .flatMap(contractDetail -> contractDetail.getContractDetailValues().stream()).forEach(this::deleteContractDetailValueExtras);
 
@@ -364,18 +380,24 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         createContractDetails(contractDetail4Insert, id);
         for (ContractDetailDTO.Update contractDetail : contractDetail4Update) {
 
-            contractDetail.setContractId(id);
-            ContractDetailDTO.Info savedContractDetail = contractDetailService.update(contractDetail);
+            List<ContractDetailValueDTO.Update> contractDetailValueRqs = contractDetail.getContractDetailValues();
 
+            contractDetail.setContractId(id);
+//            contractDetail.setContractDetailValues(null);
+            ContractDetailDTO.Info savedContractDetail = contractDetailService.update(contractDetail);
+            List<ContractDetailValue> contractDetailValues = contractDetailValueDAO.getByContractDetailId(savedContractDetail.getId());
+//            contractDetailValues.forEach(contractDetailValue -> contractDetailValue.setDynamicTableValues(null));
+
+            // update contractDetailValues
             List<ContractDetailValueDTO.Create> contractDetailValue4Insert = new ArrayList<>();
             List<ContractDetailValueDTO.Update> contractDetailValue4Update = new ArrayList<>();
             ContractDetailValueDTO.Delete contractDetailValue4Delete = new ContractDetailValueDTO.Delete();
             try {
                 updateUtil.fill(
-                        ContractDetailValueDTO.Info.class,
-                        savedContractDetail.getContractDetailValues(),
+                        ContractDetailValue.class,
+                        contractDetailValues,
                         ContractDetailValueDTO.Update.class,
-                        contractDetail.getContractDetailValues(),
+                        contractDetailValueRqs,
                         ContractDetailValueDTO.Create.class,
                         contractDetailValue4Insert,
                         ContractDetailValueDTO.Update.class,
@@ -390,7 +412,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 
             if (!contractDetailValue4Delete.getIds().isEmpty()) {
 
-                savedContractDetail.getContractDetailValues().stream().
+                contractDetailValues.stream().
                         filter(contractDetailValue -> contractDetailValue4Delete.getIds().contains(contractDetailValue.getId())).
                         forEach(this::deleteContractDetailValueExtras);
 
@@ -400,19 +422,24 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
             createContractDetailValues(contractDetailValue4Insert, id, savedContractDetail.getId());
             for (ContractDetailValueDTO.Update contractDetailValue : contractDetailValue4Update) {
 
+                List<CDTPDynamicTableValueDTO.Update> dynamicTableValueRqs = contractDetailValue.getDynamicTableValues();
+
                 updateContractDetailValueExtras(contractDetailValue);
+//                contractDetailValue.setDynamicTableValues(null);
                 contractDetailValue.setContractDetailId(savedContractDetail.getId());
                 ContractDetailValueDTO.Info savedContractDetailValue = contractDetailValueService.update(contractDetailValue);
+                List<CDTPDynamicTableValue> dynamicTableValues = dynamicTableValueDAO.getByContractDetailValueId(savedContractDetailValue.getId());
 
+                // update dynamicTableValues
                 List<CDTPDynamicTableValueDTO.Create> dynamicTableValue4Insert = new ArrayList<>();
                 List<CDTPDynamicTableValueDTO.Update> dynamicTableValue4Update = new ArrayList<>();
                 CDTPDynamicTableValueDTO.Delete dynamicTableValue4Delete = new CDTPDynamicTableValueDTO.Delete();
                 try {
                     updateUtil.fill(
-                            CDTPDynamicTableValueDTO.Info.class,
-                            savedContractDetailValue.getDynamicTableValues(),
+                            CDTPDynamicTableValue.class,
+                            dynamicTableValues,
                             CDTPDynamicTableValueDTO.Update.class,
-                            contractDetailValue.getDynamicTableValues(),
+                            dynamicTableValueRqs,
                             CDTPDynamicTableValueDTO.Create.class,
                             dynamicTableValue4Insert,
                             CDTPDynamicTableValueDTO.Update.class,
