@@ -4,10 +4,11 @@
 				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
 	<changeSet author="ARezaieZR" id="1607847192518-307">
-		<preConditions>
+		<preConditions onFail="MARK_RAN">
 			<indexExists indexName="UC_CONTRACTDETAILVALUE_ID_ROW_NUM" tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
 		</preConditions>
-		<dropIndex indexName="UC_CONTRACTDETAILVALUE_ID_ROW_NUM" tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+		<dropUniqueConstraint constraintName="UC_CONTRACTDETAILVALUE_ID_ROW_NUM"
+							  tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE" />
 	</changeSet>
 
 	<changeSet author="ARezaieZR" id="1607847192518-308">
