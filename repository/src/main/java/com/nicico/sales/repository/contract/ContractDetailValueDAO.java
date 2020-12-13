@@ -12,11 +12,11 @@ import java.util.List;
 @Repository
 public interface ContractDetailValueDAO extends JpaRepository<ContractDetailValue, Long>, JpaSpecificationExecutor<ContractDetailValue> {
 
-	@Query("SELECT cdv FROM ContractDetailValue cdv JOIN cdv.contractDetail cd JOIN cd.contractDetailType cdt JOIN cd.contract c WHERE c.id = :contractId AND cdt.code = :contractDetailCode")
-	List<ContractDetailValue> findAllByContractIdAndDetailCode(@Param("contractId")Long contractId, @Param("contractDetailCode")String contractDetailCode);
+    @Query("SELECT cdv FROM ContractDetailValue cdv JOIN cdv.contractDetail cd JOIN cd.contractDetailType cdt JOIN cd.contract c WHERE c.id = :contractId AND cdt.code = :contractDetailCode")
+    List<ContractDetailValue> findAllByContractIdAndDetailCode(@Param("contractId") Long contractId, @Param("contractDetailCode") String contractDetailCode);
 
-	@Query("SELECT cdv FROM ContractDetailValue cdv JOIN cdv.contractDetail cd JOIN cd.contractDetailType cdt JOIN cd.contract c WHERE c.id = :contractId AND cdt.code = :contractDetailCode AND cdv.key = :contractDetailValueKey")
-	List<ContractDetailValue> findAllByContractIdAndDetailCodeAndValueKey(@Param("contractId") Long contractId, @Param("contractDetailCode")String contractDetailCode, @Param("contractDetailValueKey")String contractDetailValueKey);
+    @Query("SELECT cdv FROM ContractDetailValue cdv JOIN cdv.contractDetail cd JOIN cd.contractDetailType cdt JOIN cd.contract c WHERE c.id = :contractId AND cdt.code = :contractDetailCode AND cdv.key = :contractDetailValueKey")
+    List<ContractDetailValue> findAllByContractIdAndDetailCodeAndValueKey(@Param("contractId") Long contractId, @Param("contractDetailCode") String contractDetailCode, @Param("contractDetailValueKey") String contractDetailValueKey);
 
-
+    List<ContractDetailValue> getByContractDetailId(Long contractDetailId);
 }
