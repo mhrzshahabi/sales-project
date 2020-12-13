@@ -8,6 +8,7 @@ inspectionReportTab.variable.materialId = 0;
 inspectionReportTab.variable.removeAllAssay = false;
 inspectionReportTab.variable.removeAllWeight = false;
 inspectionReportTab.variable.selectedInventories = [];
+inspectionReportTab.variable.attachFileList = "";
 
 inspectionReportTab.variable.inspectionReportUrl = "${contextPath}" + "/api/inspectionReport/";
 
@@ -742,6 +743,30 @@ inspectionReportTab.method.materialChange = function () {
     inspectionReportTab.listGrid.weightElement.setFieldTitle("weightGW", weightWGTitle + " (" + unitName + ")");
     let weightNDTitle = inspectionReportTab.listGrid.weightElement.getFieldTitle("weightND").replace(/ *\([^)]*\) */g, "");
     inspectionReportTab.listGrid.weightElement.setFieldTitle("weightND", weightNDTitle + " (" + unitName + ")");
+};
+
+inspectionReportTab.method.attachFileList = function () {
+
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+        httpMethod: "GET",
+        actionURL: "${contextPath}/api/files/byEntityName",
+        params: {
+            entityName: "InspectionReport"
+        },
+        callback: function (resp) {
+
+            let data = JSON.parse(resp.httpResponseText);
+            inspectionReportTab.variable.attachFileList = data.filter(q => q.fileStatus !== "DELETED");
+        }
+    }));
+};
+
+inspectionReportTab.method.attachFileList();
+
+inspectionReportTab.method.checkHasAttachFile = function checkHasPrintTemplate(record) {
+
+    let size = inspectionReportTab.variable.attachFileList.filter(q => q.recordId == record.id).size();
+    return size > 0;
 };
 
 inspectionReportTab.variable.inspectorCriteria = {
@@ -1961,14 +1986,14 @@ inspectionReportTab.window.inspecReport.okCallBack = function (inspectionReportO
         data: JSON.stringify(inspectionReportObj)
     }, (resp) => {
         if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-            inspectionReportTab.method.refreshData();
+            inspectionReportTab.method.refresh();
             inspectionReportTab.dialog.ok();
         }
     });
 };
 inspectionReportTab.window.inspecReport.cancelCallBack = function () {
     inspectionReportTab.method.clearForm();
-    inspectionReportTab.method.refreshData();
+    inspectionReportTab.method.refresh();
 };
 
 inspectionReportTab.method.clearForm = function () {
@@ -1989,7 +2014,9 @@ inspectionReportTab.method.clearForm = function () {
     inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").enable();
     inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").enable();
 };
-inspectionReportTab.method.refreshData = function () {
+inspectionReportTab.method.refresh = function () {
+
+    inspectionReportTab.method.attachFileList();
     inspectionReportTab.listGrid.main.invalidateCache();
 };
 inspectionReportTab.method.newForm = function () {
@@ -2265,7 +2292,7 @@ inspectionReportTab.window.formUtil.okCallBack = function (data) {
                     },
                     callback: function (resp) {
                         if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                            inspectionReportTab.method.refreshData();
+                            inspectionReportTab.method.refresh();
                             inspectionReportTab.dialog.ok();
                         }
                     }
@@ -2326,14 +2353,81 @@ inspectionReportTab.listGrid.fields = BaseFormItems.concat([
     {
         name: "unit.name",
         title: "<spring:message code='global.unit'/>"
-    }
+    },
+    {name: "attachIcon", align: "center", width: "4%", title: "<spring:message code='global.Attachment'/>"}
+
 ]);
 inspectionReportTab.listGrid.fields.filter(q => q.name === "estatus").first().hidden = false;
+
+nicico.BasicFormUtil.createListGrid = function () {
+
+    inspectionReportTab.listGrid.main = isc.ListGrid.nicico.getDefault(inspectionReportTab.listGrid.fields,
+        inspectionReportTab.restDataSource.inspecReportRest, null, {
+            showFilterEditor: true,
+            canAutoFitFields: true,
+            canResizeFields: false,
+            width: "100%",
+            height: "100%",
+            autoFetchData: true,
+            styleName: 'expandList',
+            alternateRecordStyles: true,
+            canExpandRecords: true,
+            canExpandMultipleRecords: false,
+            wrapCells: false,
+            showRollOver: false,
+            showRecordComponents: true,
+            showRecordComponentsByCell: true,
+            autoFitExpandField: true,
+            virtualScrolling: true,
+            loadOnExpand: true,
+            loaded: false,
+            createRecordComponent: function (record, colNum) {
+
+                let fieldName = this.getFieldName(colNum);
+                if (fieldName == "attachIcon") {
+
+                    let hasAttachFile = inspectionReportTab.method.checkHasAttachFile(record);
+                    if (!hasAttachFile)
+                        return null;
+                    var printImg = isc.ImgButton.create({
+                        showDown: false,
+                        showRollOver: false,
+                        layoutAlign: "center",
+                        src: "pieces/512/attachment.png",
+                        height: 16,
+                        width: 16,
+                        grid: this,
+                        click: function () {
+
+                            let selectReportForm = new nicico.FormUtil();
+                            selectReportForm.showForm(inspectionReportTab.window.main, "<spring:message code='global.form.print'/>",
+                                isc.FileUploadForm.create({
+                                    entityName: "InspectionReport",
+                                    recordId: record.id,
+                                    canAddFile: false,
+                                    canRemoveFile: false,
+                                    canDownloadFile: true,
+                                    height: "300",
+                                    margin: 5
+                                }),
+                                null, "300"
+                            );
+                            selectReportForm.bodyWidget.getObject().reloadData();
+                        }
+                    });
+                    return printImg;
+
+                } else {
+                    return null;
+                }
+            }
+        }
+    );
+};
 
 nicico.BasicFormUtil.getDefaultBasicForm(inspectionReportTab, "api/inspectionReport/");
 inspectionReportTab.listGrid.main.sortFieldNum = 1;
 inspectionReportTab.listGrid.main.sort();
-
 nicico.BasicFormUtil.showAllToolStripActions(inspectionReportTab);
 nicico.BasicFormUtil.removeExtraActions(inspectionReportTab, [nicico.ActionType.DELETE]);
 
@@ -2404,6 +2498,9 @@ inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         if (record == null || record.id == null)
             inspectionReportTab.dialog.notSelected();
 
+        nicico.FileUtil.okCallBack = function (files) {
+            inspectionReportTab.method.refresh();
+        };
         nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message code="entity.inspection-report"/>', record.id, null, "InspectionReport", null);
     }
 }), 8);

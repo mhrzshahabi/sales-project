@@ -35,11 +35,16 @@ public class FileRestController {
         return new ResponseEntity<>(fileService.getFiles(recordId, entityName), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/byEntityName")
+    public ResponseEntity<List<FileDTO.FileMetaData>> getFiles(@RequestParam String entityName) {
+        return new ResponseEntity<>(fileService.getFiles(entityName), HttpStatus.OK);
+    }
+
     @PutMapping(value = "/update")
     public ResponseEntity<Void> updateFiles(@RequestParam List<MultipartFile> files, @RequestParam String entityName, @RequestParam Long recordId, @RequestParam String fileMetaData) throws Exception {
         List<FileDTO.FileData> fileData = objectMapper.readValue(fileMetaData, new TypeReference<List<FileDTO.FileData>>() {
         });
-        fileService.updateFiles(recordId,entityName,files,fileData);
+        fileService.updateFiles(recordId, entityName, files, fileData);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
