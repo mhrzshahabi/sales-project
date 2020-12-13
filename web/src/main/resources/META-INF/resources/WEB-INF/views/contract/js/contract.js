@@ -905,7 +905,7 @@ contractTab.method.editForm = function () {
     }
 };
 
-contractTab.method.addArticle = function (data) {
+contractTab.method.addArticle = async function (data) {
 
     if (!data.contractDetail)
         data.contractDetail = {
@@ -922,23 +922,23 @@ contractTab.method.addArticle = function (data) {
 
             data.template = data.contractDetailType.contractDetailTypeTemplates[0].content;
             data.contractDetail.contractDetailTemplate = data.template;
-            contractTab.method.createArticle(data);
+            await contractTab.method.createArticle(data);
         } else {
-            contractTab.variable.contractDetailTypeTemplateSelectorForm.okCallBack = function (templateContent) {
+            contractTab.variable.contractDetailTypeTemplateSelectorForm.okCallBack = async function (templateContent) {
 
                 data.template = templateContent;
                 data.contractDetail.contractDetailTemplate = data.template;
-                contractTab.method.createArticle(data);
+                await contractTab.method.createArticle(data);
             };
             contractTab.variable.contractDetailTypeTemplateSelectorForm.bodyWidget.getObject().setData(data.contractDetailType.contractDetailTypeTemplates);
             contractTab.variable.contractDetailTypeTemplateSelectorForm.justShowForm();
         }
     } else if (!data.isNewMode)
-        contractTab.method.createArticle(data);
+        await contractTab.method.createArticle(data);
     else
         contractTab.dialog.say('<spring:message code="incoterm.exception.required-info"/>');
 };
-contractTab.method.createArticle = function (data) {
+contractTab.method.createArticle = async function (data) {
 
     let sectionStackSectionObj = {
         form: null,
@@ -1233,7 +1233,7 @@ contractTab.method.createArticle = function (data) {
         }
     };
 
-    contractTab.method.createArticleBody(sectionStackSectionObj);
+    await contractTab.method.createArticleBody(sectionStackSectionObj);
 
     let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
     if (contractDetailTypeData && !(contractDetailTypeData instanceof Array))
@@ -1250,7 +1250,7 @@ contractTab.method.createArticle = function (data) {
         }
     }
 };
-contractTab.method.createArticleBody = function (sectionStackSectionObj) {
+contractTab.method.createArticleBody = async function (sectionStackSectionObj) {
 
     let form = contractTab.method.createArticleForm(sectionStackSectionObj.data.contractDetailType, sectionStackSectionObj.data.contractDetail, sectionStackSectionObj.data.isNewMode);
     if (form) {
@@ -1266,16 +1266,13 @@ contractTab.method.createArticleBody = function (sectionStackSectionObj) {
         sectionStackSectionObj.items.addAll(grids);
     }
 
-    contractTab.method.createArticleBodyDynamicGrid(sectionStackSectionObj.data.contractDetailType, sectionStackSectionObj.data.contractDetail, sectionStackSectionObj.data.isNewMode).then(dynamicGrids => {
+    let dynamicGrids = await contractTab.method.createArticleBodyDynamicGrid(sectionStackSectionObj.data.contractDetailType, sectionStackSectionObj.data.contractDetail, sectionStackSectionObj.data.isNewMode);
+    if (dynamicGrids.length) {
 
-        if (dynamicGrids.length) {
-
-            sectionStackSectionObj.dynamicGrids = dynamicGrids;
-            sectionStackSectionObj.items.addAll(dynamicGrids);
-        }
-
-        contractTab.sectionStack.contract.addSection(sectionStackSectionObj, sectionStackSectionObj.position);
-    });
+        sectionStackSectionObj.dynamicGrids = dynamicGrids;
+        sectionStackSectionObj.items.addAll(dynamicGrids);
+    }
+    contractTab.sectionStack.contract.addSection(sectionStackSectionObj, sectionStackSectionObj.position);
 };
 contractTab.method.createArticleForm = function (contractDetailType, contractDetail, isNewMode) {
 
