@@ -1175,9 +1175,11 @@ contractTab.method.createArticle = function (data) {
             [template, error] = this.provideScriptsPrintContent(template);
 
             this.data.contractDetail.content = template;
-            return error == null ? template :
-                "<p style='color: red; font-weight: bold; direction: ltr; text-align: left'>There is some problem : </p>" +
-                "<p style='color: red; font-size: 14px; direction: ltr; text-align: left'>" + error.message + "</p>";
+            // TODO Error Validation
+            return template;
+            // return error == null ? template :
+            //     "<p style='color: red; font-weight: bold; direction: ltr; text-align: left'>There is some problem : </p>" +
+            //     "<p style='color: red; font-size: 14px; direction: ltr; text-align: left'>" + error.message + "</p>";
         }
     };
 
