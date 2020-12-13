@@ -44,6 +44,8 @@ public enum EContractDetailTypeCode {
     ExtraArticle3("ExtraArticle3"),
     ExtraArticle4("ExtraArticle4"),
     ExtraArticle5("ExtraArticle5"),
+    Termination("Termination"),
+    GoverningLaw("GoverningLaw"),
     Sizing("Sizing");
 
     private final String id;
