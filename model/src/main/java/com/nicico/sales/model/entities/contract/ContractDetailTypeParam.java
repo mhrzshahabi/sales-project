@@ -45,7 +45,8 @@ public class ContractDetailTypeParam extends BaseEntity {
     @Column(name = "C_DEFAULT_VALUE", length = 4000)
     private String defaultValue;
 
-    @Column(name = "B_REQUIRED")
+    @NotNull
+    @Column(name = "B_REQUIRED", nullable = false)
     private Boolean required;
 
     @Setter(AccessLevel.NONE)

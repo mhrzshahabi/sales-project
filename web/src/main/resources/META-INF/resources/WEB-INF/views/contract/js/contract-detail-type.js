@@ -966,6 +966,8 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
 
                 for (let i = 0; i < allParams.length; i++) {
                     allParams[i][contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeId.name] = data.id;
+                    if (allParams[i][contractDetailTypeTab.dynamicForm.paramFields.required.name] == null)
+                        allParams[i][contractDetailTypeTab.dynamicForm.paramFields.required.name] = false;
                     if ((allParams[i].type === contractDetailTypeTab.variable.dataType.Reference || allParams[i].type === contractDetailTypeTab.variable.dataType.ListOfReference) && allParams[i].reference == null) {
                         contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.param-reference-empty'/>");
                         return;

@@ -121,6 +121,7 @@
     <include file="classpath:/db/changelog/changes/tbl_file-bucketname.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_dynamic_table_value.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_cntr_cdtp_dynamic_table_value-index.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl-cntr-contract-detail-type-param-2.xml"/>
     <!-- CHANGES -->
 
 </databaseChangeLog>
