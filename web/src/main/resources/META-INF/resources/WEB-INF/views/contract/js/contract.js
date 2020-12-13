@@ -388,9 +388,10 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                 param.type !== contractTab.variable.dataType.ListOfReference &&
                 param.type !== contractTab.variable.dataType.DynamicTable).forEach(param => {
 
-                let detailValue = section.data.contractDetail.contractDetailValues.find(q => param.vId && q.id === param.vId);
+                let field = section.form.getField(section.data.contractDetailType.code + "." + param.key);
+                let detailValue = section.data.contractDetail.contractDetailValues.find(q => field.vId && q.id === field.vId);
                 if (detailValue)
-                    detailValue.value = section.form.getValue(section.data.contractDetailType.code + "." + param.key);
+                    detailValue.value = section.form.getValue(field.name);
                 else {
 
                     let exist = section.data.contractDetail.contractDetailValues.find(q => q.key === param.key);
@@ -405,7 +406,7 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                         reference: param.reference,
                         unitId: param.unitId,
                         contractDetailId: param.contractDetailId,
-                        value: section.form.getValue(section.data.contractDetailType.code + "." + param.key),
+                        value: section.form.getValue(field.name),
                         dynamicTableValues: []
                     });
                 }

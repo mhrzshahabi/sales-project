@@ -461,8 +461,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
             }
         }
 
-        Contract updating = new Contract();
-        modelMapper.map(contractDAO.findById(id), updating);
+        Contract updating = contractDAO.findById(id).get();
         modelMapper.map(request, updating);
 
         return save(updating);
