@@ -21,6 +21,7 @@ shipmentCostInvoiceTab.variable.tVatPercent = 0;
 shipmentCostInvoiceTab.variable.cVatPercent = 0;
 shipmentCostInvoiceTab.variable.financeUnitName = "";
 shipmentCostInvoiceTab.variable.summaryRowData = {};
+shipmentCostInvoiceTab.variable.attachFileList = "";
 
 //***************************************************** RESTDATASOURCE *************************************************
 
@@ -466,7 +467,7 @@ shipmentCostInvoiceTab.method.sendToAccounting = function () {
         isc.say("<spring:message code='accounting.document.check.status'/>");
     else if (record.documentId == null) {
 
-        shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("invoiceDate",  new Date(record.invoiceDate));
+        shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("invoiceDate", new Date(record.invoiceDate));
         shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("invoiceNoPaper", record.invoiceNoPaper);
         shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("invoiceType.title", record.invoiceType.title);
         shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("sellerContact.name", record.sellerContact.name);
@@ -500,11 +501,32 @@ shipmentCostInvoiceTab.method.changeStatus = function () {
         callback: function (RpcResponse_o) {
             if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
 
-                shipmentCostInvoiceTab.method.refreshData();
+                shipmentCostInvoiceTab.method.refresh();
                 shipmentCostInvoiceTab.listGrid.costInvoiceSent.invalidateCache();
             }
         }
     }));
+};
+shipmentCostInvoiceTab.method.attachFileList = function () {
+
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+        httpMethod: "GET",
+        actionURL: "${contextPath}/api/files/byEntityName",
+        params: {
+            entityName: "ShipmentCostInvoice"
+        },
+        callback: function (resp) {
+
+            var data = JSON.parse(resp.httpResponseText);
+            shipmentCostInvoiceTab.variable.attachFileList = data.filter(q => q.fileStatus !== "DELETED");
+        }
+    }));
+};
+shipmentCostInvoiceTab.method.attachFileList();
+shipmentCostInvoiceTab.method.checkHasAttachFile = function checkHasPrintTemplate(record) {
+
+    let size = shipmentCostInvoiceTab.variable.attachFileList.filter(q => q.recordId == record.id).size();
+    return size > 0;
 };
 
 //***************************************************** MAINWINDOW *************************************************
@@ -1893,7 +1915,7 @@ shipmentCostInvoiceTab.window.shipmentCost.okCallBack = function (shipmentCostOb
             callback: function (resp) {
                 if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                     isc.say("<spring:message code='global.form.request.successful'/>");
-                    shipmentCostInvoiceTab.method.refreshData();
+                    shipmentCostInvoiceTab.method.refresh();
                     // shipmentCostInvoiceTab.window.shipmentCost.close();
                 } else
                     isc.say(RpcResponse_o.data);
@@ -1909,8 +1931,9 @@ shipmentCostInvoiceTab.window.shipmentCost.cancelCallBack = function () {
 
 };
 
-shipmentCostInvoiceTab.method.refreshData = function () {
+shipmentCostInvoiceTab.method.refresh = function () {
 
+    shipmentCostInvoiceTab.method.attachFileList();
     let grid = shipmentCostInvoiceTab.tab.costInvoiceTabs.getTab(shipmentCostInvoiceTab.tab.costInvoiceTabs.selectedTab).pane.members.get(1);
     grid.invalidateCache();
 };
@@ -2054,7 +2077,8 @@ shipmentCostInvoiceTab.listGrid.fields = BaseFormItems.concat([
 
             return value + "";
         },
-    }
+    },
+    {name: "attachIcon", align: "center", width: "4%", title: "<spring:message code='global.Attachment'/>"}
 ]);
 shipmentCostInvoiceTab.listGrid.fields.filter(q => q.name === "estatus").first().hidden = false;
 
@@ -2124,6 +2148,46 @@ nicico.BasicFormUtil.createListGrid = function () {
                 });
 
                 return shipmentCostInvoiceTab.vLayout.shipmentCostMain;
+            },
+            createRecordComponent: function (record, colNum) {
+
+                let fieldName = this.getFieldName(colNum);
+                if (fieldName == "attachIcon") {
+
+                    let hasAttachFile = shipmentCostInvoiceTab.method.checkHasAttachFile(record);
+                    if (!hasAttachFile)
+                        return null;
+                    var printImg = isc.ImgButton.create({
+                        showDown: false,
+                        showRollOver: false,
+                        layoutAlign: "center",
+                        src: "pieces/512/attachment.png",
+                        height: 16,
+                        width: 16,
+                        grid: this,
+                        click: function () {
+
+                            let selectReportForm = new nicico.FormUtil();
+                            selectReportForm.showForm(shipmentCostInvoiceTab.window.main, "<spring:message code='global.form.print'/>",
+                                isc.FileUploadForm.create({
+                                    entityName: "ShipmentCostInvoice",
+                                    recordId: record.id,
+                                    canAddFile: false,
+                                    canRemoveFile: false,
+                                    canDownloadFile: true,
+                                    height: "300",
+                                    margin: 5
+                                }),
+                                null, "300"
+                            );
+                            selectReportForm.bodyWidget.getObject().reloadData();
+                        }
+                    });
+                    return printImg;
+
+                } else {
+                    return null;
+                }
             }
         }
     );
@@ -2231,7 +2295,7 @@ nicico.BasicFormUtil.createVLayout = function () {
             isc.ToolStripButtonRefresh.create({
                 title: "<spring:message code='global.form.refresh'/>",
                 click: function () {
-                    shipmentCostInvoiceTab.method.refreshData();
+                    shipmentCostInvoiceTab.method.refresh();
                 }
             })
         ]
@@ -2268,7 +2332,7 @@ nicico.BasicFormUtil.createVLayout = function () {
                         isc.ToolStripButtonRefresh.create({
                             title: "<spring:message code='global.form.refresh'/>",
                             click: function () {
-                                shipmentCostInvoiceTab.method.refreshData();
+                                shipmentCostInvoiceTab.method.refresh();
                             }
                         })
                     ]
@@ -2496,7 +2560,11 @@ shipmentCostInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         if (record == null || record.id == null)
             shipmentCostInvoiceTab.dialog.notSelected();
 
-        nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message code="entity.shipment-cost-invoice"/>', record.id, null, "ShipmentCostInvoice",null);
+        nicico.FileUtil.okCallBack = function (files) {
+
+            shipmentCostInvoiceTab.method.refresh();
+        };
+        nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message code="entity.shipment-cost-invoice"/>', record.id, null, "ShipmentCostInvoice", null);
     }
 }), 8);
 // </sec:authorize>

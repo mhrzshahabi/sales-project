@@ -38,6 +38,7 @@ const BlTab = {
             },
         },
         Authorities: {},
+        attachFileList: {}
     },
     Methods: {
         JsonRPCManagerRequest: function (props, responseCallBack) {
@@ -1298,21 +1299,21 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
                 if (shipment.shipmentTypeId && !_form.getValue('shipmentTypeId'))
                     _form.setValue('shipmentTypeId', shipment.shipmentTypeId)
                 if (shipment.shipmentMethodId
-                    // && !_form.getValue('shipmentMethodId')
+                // && !_form.getValue('shipmentMethodId')
                 )
                     _form.setValue('shipmentMethodId', shipment.shipmentTypeId)
                 if (shipment.vessel && !_form.getValue('oceanVesselId'))
                     _form.setValue('oceanVesselId', shipment.vessel.id)
                 if (shipment.dischargePortId
-                    // && !_form.getValue('portOfDischargeId')
+                // && !_form.getValue('portOfDischargeId')
                 )
                     _form.setValue('portOfDischargeId', shipment.dischargePortId)
                 if (shipment.dischargePort
-                    // && !_form.getValue('placeOfDelivery')
+                // && !_form.getValue('placeOfDelivery')
                 )
                     _form.setValue('placeOfDelivery', shipment.dischargePort.port)
                 if (shipment.contractShipment
-                    // && !_form.getValue('placeOfDelivery')
+                // && !_form.getValue('placeOfDelivery')
                 )
                     _form.setValue('portOfLoadingId', shipment.contractShipment.loadPortId)
 
@@ -1329,15 +1330,15 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
                                             const seller = response.contractContacts.find(cc => cc.commercialRole.toLowerCase() === "seller".toLowerCase());
                                             const agentBuyer = response.contractContacts.find(cc => cc.commercialRole.toLowerCase() === "AgentBuyer".toLowerCase());
                                             if (buyer
-                                                // && !_form.getValue("shipperExporterId")
+                                            // && !_form.getValue("shipperExporterId")
                                             )
                                                 _form.setValue('shipperExporterId', seller.contactId)
                                             if (agentBuyer
-                                                // && !_form.getValue("consigneeId")
+                                            // && !_form.getValue("consigneeId")
                                             )
                                                 _form.setValue('consigneeId', agentBuyer.contactId)
                                             if (seller
-                                                // && !_form.getValue("notifyPartyId")
+                                            // && !_form.getValue("notifyPartyId")
                                             )
                                                 _form.setValue('notifyPartyId', buyer.contactId)
                                             if (BlTab.Vars.allReadyValidated)
@@ -1411,7 +1412,7 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
         {
             name: 'documentNo',
             required: true,
-            width: 100,
+            width: 90,
             title: "<spring:message code='billOfLanding.document.no'/>",
             keyPressFilter: "[0-9/_a-zA-Z\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F-]",
             validateOnChange: true,
@@ -1428,7 +1429,7 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
             type: 'long',
             ...shipmentOptionDataSource(),
             title: "<spring:message code='Shipment.title'/>",
-            width: 130,
+            width: 120,
             formatCellValue: function (value, record, rowNum, colNum, grid) {
                 if (record.shipment && record.shipment.vessel)
                     return "(" + moment(record.shipment.sendDate).format('YYYY/MM/DD') + ") " + record.shipment.contractShipment.contract.no;
@@ -1444,7 +1445,7 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
             name: 'shipperExporterId',
             validateOnChange: true,
             type: 'long',
-            width: 250,
+            width: 240,
             required: true,
             ...BlTab.Methods.contactOptionDataSource(),
             title: "<spring:message code='billOfLanding.shipper.exporter'/>",
@@ -1608,7 +1609,7 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
         {
             name: 'placeOfIssue', required: true,
             type: 'text',
-            width: 100,
+            width: 90,
             validateOnChange: true,
             title: "<spring:message code='billOfLanding.place.of.issue'/>",
         },
@@ -1667,11 +1668,11 @@ BlTab.Fields.BillOfLanding = _ => [
     {
         name: 'billOfLadingSwitch.portOfDischargeId', ...BlTab.Methods.portOptionDataSource(),
         type: 'long',
-        width: 90,
+        width: 80,
         showIf: "false",
         title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.port.of.discharge'/>",
     },
-
+    {name: "attachIcon", align: "center", width: 60, title: "<spring:message code='global.Attachment'/>"}
 ]
 BlTab.Fields.ContainerToBillOfLanding = _ => [
     {name: 'id', hidden: true,},
@@ -1744,6 +1745,29 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
         ],
     },
 ]
+
+BlTab.Methods.attachFileList = function () {
+
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+        httpMethod: "GET",
+        actionURL: "${contextPath}/api/files/byEntityName",
+        params: {
+            entityName: "BillOfLanding"
+        },
+        callback: function (resp) {
+
+            var data = JSON.parse(resp.httpResponseText);
+            BlTab.Vars.attachFileList = data.filter(q => q.fileStatus !== "DELETED");
+        }
+    }));
+};
+BlTab.Methods.attachFileList();
+BlTab.Methods.checkHasAttachFile = function checkHasPrintTemplate(record) {
+
+    let size = BlTab.Vars.attachFileList.filter(q => q.recordId == record.id).size();
+    return size > 0;
+};
+
 ////////////////////////////////////////////////////////DATASOURCE//////////////////////////////////////////////////////
 BlTab.RestDataSources.Vessel = {
     fields: BlTab.Fields.Vessel(),
@@ -1817,7 +1841,6 @@ BlTab.Vars.IButton_BillOfLading_Save = isc.IButtonSave.create({
     }
 });
 
-
 BlTab.Layouts.Window.ContainerToBillOfLanding = isc.Window.create({
     title: "<spring:message code='shipment.inquiry.container'/>",
     autoSize: true,
@@ -1890,7 +1913,7 @@ BlTab.Layouts.Window.BillOfLandingMain = isc.Window.create({
                                 _.width = 0.568 * innerWidth;
                             }
                             if (_.name === 'shipmentId') {
-                                _.mapValueToDisplay =  function (value) {
+                                _.mapValueToDisplay = function (value) {
                                     let record = this.getSelectedRecord();
                                     if (!record) return '';
                                     return "(" + moment(record.sendDate).format('YYYY/MM/DD') + ") " + record.contractShipment.contract.no;
@@ -2016,7 +2039,48 @@ BlTab.Grids.BillOfLanding = {
     autoFitHeaderHeights: true,
     wrapHeaderTitles: true,
     canHover: true,
+    showRecordComponents: true,
+    showRecordComponentsByCell: true,
+    createRecordComponent: function (record, colNum) {
 
+        let fieldName = this.getFieldName(colNum);
+        if (fieldName == "attachIcon") {
+
+            let hasAttachFile = BlTab.Methods.checkHasAttachFile(record);
+            if (!hasAttachFile)
+                return null;
+            var printImg = isc.ImgButton.create({
+                showDown: false,
+                showRollOver: false,
+                layoutAlign: "center",
+                src: "pieces/512/attachment.png",
+                height: 16,
+                width: 16,
+                grid: this,
+                click: function () {
+
+                    let selectReportForm = new nicico.FormUtil();
+                    selectReportForm.showForm(null, '<spring:message code="global.attach.file"/> <spring:message code="entity.bill-of-landing"/>',
+                        isc.FileUploadForm.create({
+                            entityName: "BillOfLanding",
+                            recordId: record.id,
+                            canAddFile: false,
+                            canRemoveFile: false,
+                            canDownloadFile: true,
+                            height: "300",
+                            margin: 5
+                        }),
+                        null, "300"
+                    );
+                    selectReportForm.bodyWidget.getObject().reloadData();
+                }
+            });
+            return printImg;
+
+        } else {
+            return null;
+        }
+    }
 }
 ////////////////////////////////////////////////////////DYNAMICFORMS////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////COMPONENTS//////////////////////////////////////////////////////
@@ -2024,6 +2088,7 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding = {...BlTab.Layouts.ToolStripBut
 BlTab.Layouts.ToolStripButtons.EditBillOfLanding = {...BlTab.Layouts.ToolStripButtons.edit}
 BlTab.Layouts.ToolStripButtons.RefreshBillOfLanding = {
     ...BlTab.Layouts.ToolStripButtons.refresh, click() {
+        BlTab.Methods.attachFileList();
         BlTab.Grids.BillOfLanding.obj.invalidateCache()
     }
 }
@@ -2041,6 +2106,10 @@ BlTab.Layouts.ToolStripButtons.FileUpload = {
         if (record == null || record.id == null)
             BlTab.Dialog.NotSelected();
 
+        nicico.FileUtil.okCallBack = function (files) {
+
+            BlTab.Layouts.ToolStripButtons.refresh.click();
+        };
         nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message code="entity.bill-of-landing"/>', record.id, null, "BillOfLanding", null);
 
     }

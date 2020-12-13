@@ -388,20 +388,28 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                 param.type !== contractTab.variable.dataType.ListOfReference &&
                 param.type !== contractTab.variable.dataType.DynamicTable).forEach(param => {
 
-                let detailValue = section.data.contractDetail.contractDetailValues.find(q => param.vId && q.id === param.vId);
+                let field = section.form.getField(section.data.contractDetailType.code + "." + param.key);
+                let detailValue = section.data.contractDetail.contractDetailValues.find(q => field.vId && q.id === field.vId);
                 if (detailValue)
-                    detailValue.value = section.form.getValue(section.data.contractDetailType.code + "." + param.key);
-                else
+                    detailValue.value = section.form.getValue(field.name);
+                else {
+
+                    let exist = section.data.contractDetail.contractDetailValues.find(q => q.key === param.key);
+                    if (exist)
+                        section.data.contractDetail.contractDetailValues.remove(exist);
+
                     section.data.contractDetail.contractDetailValues.add({
                         key: param.key,
-                        name: param.title,
+                        name: param.name,
                         type: param.type,
                         required: param.required,
                         reference: param.reference,
                         unitId: param.unitId,
                         contractDetailId: param.contractDetailId,
-                        value: section.form.getValue(section.data.contractDetailType.code + "." + param.key),
+                        value: section.form.getValue(field.name),
+                        dynamicTableValues: []
                     });
+                }
             });
         }
 
@@ -435,6 +443,10 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                         detailValue.referenceJsonValue = JSON.stringify(record);
                     } else {
 
+                        let exist = section.data.contractDetail.contractDetailValues.find(q => q.key === grid.key);
+                        if (exist)
+                            section.data.contractDetail.contractDetailValues.remove(exist);
+
                         section.data.contractDetail.contractDetailValues.add({
                             key: grid.key,
                             name: grid.title,
@@ -444,7 +456,8 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                             unitId: grid.unitId,
                             contractDetailId: grid.contractDetailId,
                             value: null,
-                            referenceJsonValue: JSON.stringify(record)
+                            referenceJsonValue: JSON.stringify(record),
+                            dynamicTableValues: []
                         });
                     }
                 });
@@ -500,12 +513,16 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
 
                         let detailValueId = dynamicGrid.values.find(q => q.value == record.rowNum && q.id === record.contractDetailValueId).id;
                         let detailValue = section.data.contractDetail.contractDetailValues.find(q => q.id === detailValueId);
-                        detailValue.dynamicTables.forEach(dynamicTable => {
+                        detailValue.dynamicTableValues.forEach(dynamicTableValue => {
 
-                            let fieldName = dynamicGrid.fields.find(field => field.colNum === dynamicTable.colNum).name;
-                            dynamicTable.value = record[fieldName];
+                            let fieldName = dynamicGrid.fields.find(field => field.colNum === dynamicTableValue.colNum).name;
+                            dynamicTableValue.value = record[fieldName];
                         });
                     } else {
+
+                        let exist = section.data.contractDetail.contractDetailValues.find(q => q.key === dynamicGrid.key);
+                        if (exist)
+                            section.data.contractDetail.contractDetailValues.remove(exist);
 
                         let rowNum = maxRowNum + rowIndex++;
                         let detailValue = {
@@ -517,9 +534,9 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                             unitId: dynamicGrid.unitId,
                             contractDetailId: dynamicGrid.contractDetailId,
                             value: rowNum,
-                            dynamicTables: []
+                            dynamicTableValues: []
                         };
-                        dynamicGrid.fields.filter(field => field.colNum).forEach(field => detailValue.dynamicTables.add({
+                        dynamicGrid.fields.filter(field => field.colNum).forEach(field => detailValue.dynamicTableValues.add({
 
                             rowNum: rowNum,
                             fieldName: field.name,
@@ -1258,21 +1275,6 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
             canEdit: contractTab.dynamicForm.main.getField(param.key) == null,
             colSpan: param.type === contractTab.variable.dataType.TextArea ? 5 : 2,
             titleColSpan: 1,
-            changed: function (form, item, value) {
-
-                let This = this;
-                if (this.unitId && !this.getHint())
-                    getReferenceDataSource("Unit").fetchData({
-                        operator: "and",
-                        _constructor: "AdvancedCriteria",
-                        criteria: [{fieldName: "id", operator: "equals", value: This.unitId}]
-                    }, (dsResponse, data) => {
-                        if (data && data.length === 1)
-                            This.setHint(data[0].symbolUnit);
-                    });
-
-                return this.Super("changed", arguments)
-            }
         };
 
         if (field.required)
@@ -1292,7 +1294,7 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
         fields.push(field);
     });
 
-    return fields.length ? isc.DynamicForm.create({
+    let dynamicForm = isc.DynamicForm.create({
 
         numCols: 8,
         width: "100%",
@@ -1306,7 +1308,25 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
         valuesManager: contractTab.dynamicForm.valuesManager,
         fields: BaseFormItems.concat(fields, true),
         requiredMessage: '<spring:message code="validator.field.is.required"/>'
-    }) : null;
+    });
+
+    dynamicForm.getItems().forEach(item => {
+
+        if (item.unitId)
+            fetch(getReferenceDataSource("Unit").fetchDataURL + '?criteria=' + JSON.stringify({
+                operator: "and",
+                _constructor: "AdvancedCriteria",
+                criteria: [{fieldName: "id", operator: "equals", value: item.unitId}]
+            }), {headers: SalesConfigs.httpHeaders}).then(res => {
+                res.json().then(resp => {
+
+                    if (resp && resp.response && resp.response.data && resp.response.data.length === 1)
+                        item.setHint(resp.response.data[0].symbolUnit);
+                });
+            });
+    });
+
+    return fields.length ? dynamicForm : null;
 };
 contractTab.method.createArticleBodyGrid = function (contractDetailType, contractDetail, isNewMode) {
 
@@ -1513,7 +1533,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
             unitId: param.unitId,
             paramType: param.type,
             required: param.required,
-            dynamicTables: param.dynamicTables,
+            dynamicTableValues: param.dynamicTables,
             values: !isNewMode ? param.values : [],
             reference: !isNewMode ? param.reference : param.id,
             contractDetailId: !isNewMode ? param.contractDetailId : null,
@@ -1602,7 +1622,7 @@ contractTab.method.createDynamicGridData = async function (values, fields) {
     values.forEach(row => {
 
         let record = {rowNum: row.value, contractDetailValueId: row.id};
-        row.dynamicTables.forEach(col => {
+        row.dynamicTableValues.forEach(col => {
 
             let field = fields.find(q => q.colNum === col.colNum);
             record[field.name] = col.value;
@@ -1613,7 +1633,7 @@ contractTab.method.createDynamicGridData = async function (values, fields) {
 
     return data;
 };
-contractTab.method.createDynamicGridFields = async function (dynamicTables, valueKey) {
+contractTab.method.createDynamicGridFields = async function (dynamicTableValues, valueKey) {
 
     var dataTypeKeys = Object.keys(contractTab.variable.dataType);
 
@@ -1691,8 +1711,8 @@ contractTab.method.createDynamicGridFields = async function (dynamicTables, valu
     }
 
     const fields = [];
-    const [dynamicHeaders, dynamicValueFields] = await Promise.all([getDynamicHeaders(dynamicTables), getDynamicValueFields(dynamicTables)]);
-    dynamicTables.forEach(column => {
+    const [dynamicHeaders, dynamicValueFields] = await Promise.all([getDynamicHeaders(dynamicTableValues), getDynamicValueFields(dynamicTableValues)]);
+    dynamicTableValues.forEach(column => {
 
         const _field = getDefaultFieldObject(column)
         if (column[valueKey])

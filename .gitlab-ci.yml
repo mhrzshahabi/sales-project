@@ -44,6 +44,7 @@ deploy-dev:
         -l traefik.backend=$CI_PROJECT_NAME \
         -l traefik.frontend.rule=PathPrefix:/sales \
         -e PROFILE=Development \
+        -e TZ=Asia/Tehran \
         --name $CI_PROJECT_NAME \
         $G_REG_PULL_URL/$CI_PROJECT_NAME:dev
       "

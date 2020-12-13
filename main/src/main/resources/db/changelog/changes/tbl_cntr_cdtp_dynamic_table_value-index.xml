@@ -1,0 +1,23 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+	<changeSet author="ARezaieZR" id="1607847192518-307">
+		<preConditions onFail="MARK_RAN">
+			<indexExists indexName="UC_CONTRACTDETAILVALUE_ID_ROW_NUM" tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+		</preConditions>
+		<dropUniqueConstraint constraintName="UC_CONTRACTDETAILVALUE_ID_ROW_NUM"
+							  tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE" />
+	</changeSet>
+
+	<changeSet author="ARezaieZR" id="1607847192518-308">
+		<createIndex indexName="UC_CONTRACTDETAILVALUE_ID_ROW_NUM" tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"
+					 unique="true">
+			<column name="D_COLNUM"/>
+			<column name="D_ROW_NUM"/>
+			<column name="F_CONTRACTDETAILVALUE_ID"/>
+		</createIndex>
+	</changeSet>
+
+</databaseChangeLog>
