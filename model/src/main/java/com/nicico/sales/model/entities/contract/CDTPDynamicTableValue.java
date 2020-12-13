@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"D_ROW_NUM", "F_CONTRACTDETAILVALUE_ID"}, name = "UC_CONTRACTDETAILVALUE_ID_ROW_NUM"),
+        @UniqueConstraint(columnNames = {"D_COLNUM", "D_ROW_NUM", "F_CONTRACTDETAILVALUE_ID"}, name = "UC_CONTRACTDETAILVALUE_ID_ROW_NUM"),
         @UniqueConstraint(columnNames = {"C_FIELD_NAME", "F_CONTRACTDETAILVALUE_ID"}, name = "UC_CONTRACTDETAILVALUE_ID_FIELD_NAME")
 })
 public class CDTPDynamicTableValue extends BaseEntity {
