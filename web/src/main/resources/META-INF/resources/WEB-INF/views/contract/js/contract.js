@@ -1275,21 +1275,6 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
             canEdit: contractTab.dynamicForm.main.getField(param.key) == null,
             colSpan: param.type === contractTab.variable.dataType.TextArea ? 5 : 2,
             titleColSpan: 1,
-            changed: function (form, item, value) {
-
-                let This = this;
-                if (this.unitId && !this.getHint())
-                    getReferenceDataSource("Unit").fetchData({
-                        operator: "and",
-                        _constructor: "AdvancedCriteria",
-                        criteria: [{fieldName: "id", operator: "equals", value: This.unitId}]
-                    }, (dsResponse, data) => {
-                        if (data && data.length === 1)
-                            This.setHint(data[0].symbolUnit);
-                    });
-
-                return this.Super("changed", arguments)
-            }
         };
 
         if (field.required)
@@ -1309,7 +1294,7 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
         fields.push(field);
     });
 
-    return fields.length ? isc.DynamicForm.create({
+    let dynamicForm = isc.DynamicForm.create({
 
         numCols: 8,
         width: "100%",
@@ -1323,7 +1308,25 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
         valuesManager: contractTab.dynamicForm.valuesManager,
         fields: BaseFormItems.concat(fields, true),
         requiredMessage: '<spring:message code="validator.field.is.required"/>'
-    }) : null;
+    });
+
+    dynamicForm.getItems().forEach(item => {
+
+        if (item.unitId)
+            fetch(getReferenceDataSource("Unit").fetchDataURL + '?criteria=' + JSON.stringify({
+                operator: "and",
+                _constructor: "AdvancedCriteria",
+                criteria: [{fieldName: "id", operator: "equals", value: item.unitId}]
+            }), {headers: SalesConfigs.httpHeaders}).then(res => {
+                res.json().then(resp => {
+
+                    if (resp && resp.response && resp.response.data && resp.response.data.length === 1)
+                        item.setHint(resp.response.data[0].symbolUnit);
+                });
+            });
+    });
+
+    return fields.length ? dynamicForm : null;
 };
 contractTab.method.createArticleBodyGrid = function (contractDetailType, contractDetail, isNewMode) {
 
