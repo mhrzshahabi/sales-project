@@ -101,7 +101,6 @@
                 <%@include file="common/ts/FilterFormUtil.js"%>
                 <%@include file="common/ts/ReportExecutorFormUtil.js"%>
                 <%@include file="common/js/component-file.js"%>
-                <%@include file="common/ts/FileUtil.js"%>
 
                 var Enums = {
 
