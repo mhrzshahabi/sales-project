@@ -995,39 +995,68 @@ contractTab.method.createArticle = function (data) {
         provideGlobalPrintContent: function (template) {
 
             let values = contractTab.dynamicForm.valuesManager.getValues();
-            Object.keys(values).filter(key => !contractTab.dynamicForm.main.getField(key)).forEach(field => {
+            for (let i = 0; i < Object.keys(values).filter(key => !contractTab.dynamicForm.main.getField(key)).length; i++) {
 
-                if (template.contains('\\${' + field + '_IN_CHARACTER}'))
-                    template = template.replaceAll('\\${' + field + '_IN_CHARACTER}', numberToEnglish(values[field]));
+                if (template == null)
+                    break;
 
-                template = template.replaceAll('\\${' + field + '}', values[field]);
-            });
+                let field = Object.keys(values).filter(key => !contractTab.dynamicForm.main.getField(key))[i];
+                template = template.replace(
+                    new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field + "_IN_CHARACTER.*}", "g"),
+                    numberToEnglish(values[field])
+                );
+                template = template.replace(
+                    new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field + ".*}", "g"),
+                    values[field]
+                );
+            }
 
             return template == null ? '' : template;
         },
         provideFormPrintContent: function (template) {
 
             if (this.form)
-                this.form.fields.filter(field => !field.isBaseItem).forEach(field => {
+                for (let i = 0; i < this.form.fields.filter(field => !field.isBaseItem).length; i++) {
+
+                    if (template == null)
+                        break;
+
+                    let field = this.form.fields.filter(f => !f.isBaseItem)[i];
 
                     if (field.unitId)
-                        template = template.replaceAll('\\${_' + field.unitId + '}', this.form.getField(field.name).getHint());
+                        template = template.replace(
+                            new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*_" + field.unitId + ".*}", "g"),
+                            this.form.getField(field.name).getHint()
+                        );
+
+                    template = template.replace(
+                        new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field.key + "_IN_CHARACTER.*}", "g"),
+                        numberToEnglish(this.form.getValue(field.name))
+                    );
 
                     if (field.paramType === contractTab.variable.dataType.Reference)
-                        template = template.replaceAll('\\${' + field.key + '}', this.form.getField(field.name).getDisplayValue());
+                        template = template.replace(
+                            new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field.key + ".*}", "g"),
+                            this.form.getField(field.name).getDisplayValue()
+                        );
 
-                    if (template.contains('\\${' + field.key + '_IN_CHARACTER}'))
-                        template = template.replaceAll('\\${' + field.key + '_IN_CHARACTER}', numberToEnglish(this.form.getValue(field.name)));
-
-                    template = template.replaceAll('\\${' + field.key + '}', this.form.getValue(field.name));
-                });
+                    template = template.replace(
+                        new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field.key + ".*}", "g"),
+                        this.form.getValue(field.name)
+                    );
+                }
 
             return template == null ? '' : template;
         },
         provideGridsPrintContent: function (template) {
 
             if (this.grids.length)
-                this.grids.forEach(grid => {
+                for (let i = 0; i < this.grids.length; i++) {
+
+                    if (template == null)
+                        break;
+
+                    let grid = this.grids[i];
 
                     grid.saveAllEdits();
 
@@ -1064,15 +1093,23 @@ contractTab.method.createArticle = function (data) {
 
                     table += tableStartTag + tableHeader + tableRows + tableEndTag;
 
-                    template = template.replaceAll('\\${' + grid.key + '}', table);
-                });
+                    template = template.replace(
+                        new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + grid.key + ".*}", "g"),
+                        table
+                    );
+                }
 
             return template == null ? '' : template;
         },
         provideDynamicGridsPrintContent: function (template) {
 
             if (this.dynamicGrids.length)
-                this.dynamicGrids.forEach(dynamicGrid => {
+                for (let i = 0; i < this.dynamicGrids.length; i++) {
+
+                    if (template == null)
+                        break;
+
+                    let dynamicGrid = this.dynamicGrids[i];
 
                     dynamicGrid.saveAllEdits();
 
@@ -1109,8 +1146,12 @@ contractTab.method.createArticle = function (data) {
 
                     table += tableStartTag + tableHeader + tableRows + tableEndTag;
 
-                    template = template.replaceAll('\\${' + dynamicGrid.key + '}', table);
-                });
+
+                    template = template.replace(
+                        new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + dynamicGrid.key + ".*}", "g"),
+                        table
+                    );
+                }
 
             return template == null ? '' : template;
         },
@@ -1127,14 +1168,15 @@ contractTab.method.createArticle = function (data) {
 
             try {
 
-                return [template.replace(/\\$(\W|&nbsp;)*=(\W|&nbsp;)*{(.+?)}/g, function (capture, group1, group2, group3) {
+                return [template.replace(/\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*=(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{(.+?)}/g,
+                    function (capture, group1, group2, group3) {
 
-                    let element = document.createElement('div');
-                    element.innerHTML = group3;
-                    let result = evaluate(element.innerText);
+                        let element = document.createElement('div');
+                        element.innerHTML = group3;
+                        let result = evaluate(element.innerText);
 
-                    return result == null ? '' : result;
-                }), null];
+                        return result == null ? '' : result;
+                    }), null];
             } catch (e) {
 
                 console.log(e.message);
@@ -1175,11 +1217,9 @@ contractTab.method.createArticle = function (data) {
             [template, error] = this.provideScriptsPrintContent(template);
 
             this.data.contractDetail.content = template;
-            // TODO Error Validation
-            return template;
-            // return error == null ? template :
-            //     "<p style='color: red; font-weight: bold; direction: ltr; text-align: left'>There is some problem : </p>" +
-            //     "<p style='color: red; font-size: 14px; direction: ltr; text-align: left'>" + error.message + "</p>";
+            return error == null ? template :
+                "<p style='color: red; font-weight: bold; direction: ltr; text-align: left'>There is some problem : </p>" +
+                "<p style='color: red; font-size: 14px; direction: ltr; text-align: left'>" + error.message + "</p>";
         }
     };
 
