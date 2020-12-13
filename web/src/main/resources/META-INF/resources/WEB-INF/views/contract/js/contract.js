@@ -434,6 +434,10 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                     return false;
                 }
 
+                let exists = section.data.contractDetail.contractDetailValues.filter(q => q.key === grid.key && !q.value);
+                if (exists && exists.length)
+                    section.data.contractDetail.contractDetailValues.removeAll(exists);
+
                 records.forEach(record => {
 
                     if (record.id) {
@@ -441,12 +445,7 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                         let detailValueId = grid.values.find(q => q.value == record.id).id;
                         let detailValue = section.data.contractDetail.contractDetailValues.find(q => q.id === detailValueId);
                         detailValue.referenceJsonValue = JSON.stringify(record);
-                    } else {
-
-                        let exist = section.data.contractDetail.contractDetailValues.find(q => q.key === grid.key);
-                        if (exist)
-                            section.data.contractDetail.contractDetailValues.remove(exist);
-
+                    } else
                         section.data.contractDetail.contractDetailValues.add({
                             key: grid.key,
                             name: grid.title,
@@ -459,7 +458,6 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                             referenceJsonValue: JSON.stringify(record),
                             dynamicTableValues: []
                         });
-                    }
                 });
 
                 let recordIds = records.map(record => record.id);
@@ -507,6 +505,11 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                 let maxRowNum = records.map(q => q.rowNum).max();
                 if (!maxRowNum)
                     maxRowNum = 0;
+
+                let exists = section.data.contractDetail.contractDetailValues.filter(q => q.key === dynamicGrid.key && q.value < 0);
+                if (exists && exists.length)
+                    section.data.contractDetail.contractDetailValues.removeAll(exists);
+
                 records.forEach(record => {
 
                     if (record.rowNum) {
@@ -520,10 +523,6 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                         });
                     } else {
 
-                        let exist = section.data.contractDetail.contractDetailValues.find(q => q.key === dynamicGrid.key);
-                        if (exist)
-                            section.data.contractDetail.contractDetailValues.remove(exist);
-
                         let rowNum = maxRowNum + rowIndex++;
                         let detailValue = {
                             key: dynamicGrid.key,
@@ -533,7 +532,7 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                             reference: dynamicGrid.reference,
                             unitId: dynamicGrid.unitId,
                             contractDetailId: dynamicGrid.contractDetailId,
-                            value: rowNum,
+                            value: rowNum * -1,
                             dynamicTableValues: []
                         };
                         dynamicGrid.fields.filter(field => field.colNum).forEach(field => detailValue.dynamicTableValues.add({
@@ -645,6 +644,11 @@ contractTab.button.saveButton = isc.IButtonSave.create({
             return;
         }
 
+        data.contractDetails.forEach(contractDetail => contractDetail.contractDetailValues.forEach(contractDetailValue => {
+
+            if (contractDetailValue.type === contractTab.variable.dataType.DynamicTable)
+                contractDetailValue.value = Math.abs(contractDetailValue.value);
+        }));
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: contractTab.variable.contractUrl,
             httpMethod: contractTab.variable.method,
@@ -730,6 +734,7 @@ contractTab.variable.contractPreviewForm.init(null, "<spring:message code='contr
     isc.HTMLFlow.create({
         overflow: "auto",
         width: "100%",
+        height: "95%",
         padding: 20,
     }),
     isc.HLayout.create({
@@ -1002,11 +1007,11 @@ contractTab.method.createArticle = function (data) {
 
                 let field = Object.keys(values).filter(key => !contractTab.dynamicForm.main.getField(key))[i];
                 template = template.replace(
-                    new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field + "_IN_CHARACTER.*}", "g"),
+                    new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field + "_IN_CHARACTER.*}", "g"),
                     numberToEnglish(values[field])
                 );
                 template = template.replace(
-                    new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field + ".*}", "g"),
+                    new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field + ".*}", "g"),
                     values[field]
                 );
             }
@@ -1025,23 +1030,23 @@ contractTab.method.createArticle = function (data) {
 
                     if (field.unitId)
                         template = template.replace(
-                            new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*_" + field.unitId + ".*}", "g"),
+                            new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*_" + field.unitId + ".*}", "g"),
                             this.form.getField(field.name).getHint()
                         );
 
                     template = template.replace(
-                        new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field.key + "_IN_CHARACTER.*}", "g"),
+                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field.key + "_IN_CHARACTER.*}", "g"),
                         numberToEnglish(this.form.getValue(field.name))
                     );
 
                     if (field.paramType === contractTab.variable.dataType.Reference)
                         template = template.replace(
-                            new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field.key + ".*}", "g"),
+                            new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field.key + ".*}", "g"),
                             this.form.getField(field.name).getDisplayValue()
                         );
 
                     template = template.replace(
-                        new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field.key + ".*}", "g"),
+                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field.key + ".*}", "g"),
                         this.form.getValue(field.name)
                     );
                 }
@@ -1094,7 +1099,7 @@ contractTab.method.createArticle = function (data) {
                     table += tableStartTag + tableHeader + tableRows + tableEndTag;
 
                     template = template.replace(
-                        new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + grid.key + ".*}", "g"),
+                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + grid.key + ".*}", "g"),
                         table
                     );
                 }
@@ -1148,7 +1153,7 @@ contractTab.method.createArticle = function (data) {
 
 
                     template = template.replace(
-                        new RegExp("\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + dynamicGrid.key + ".*}", "g"),
+                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + dynamicGrid.key + ".*}", "g"),
                         table
                     );
                 }
@@ -1216,10 +1221,15 @@ contractTab.method.createArticle = function (data) {
             template = this.provideDynamicGridsPrintContent(template);
             [template, error] = this.provideScriptsPrintContent(template);
 
-            this.data.contractDetail.content = template;
-            return error == null ? template :
-                "<p style='color: red; font-weight: bold; direction: ltr; text-align: left'>There is some problem : </p>" +
-                "<p style='color: red; font-size: 14px; direction: ltr; text-align: left'>" + error.message + "</p>";
+            if (error == null) {
+
+                if (this.title != ReferenceEnums.Enum_EContractDetailTypeCode.Header && this.title != ReferenceEnums.Enum_EContractDetailTypeCode.Footer)
+                    template = "<h2 style='text-decoration: underline; text-align: left'><b>" + data.contractDetailType.titleEN + "</b></h2>" + template;
+                this.data.contractDetail.content = template;
+                return template;
+            } else
+                return "<p style='color: red; font-weight: bold; direction: ltr; text-align: left'>There is some problem : </p>" +
+                    "<p style='color: red; font-size: 14px; direction: ltr; text-align: left'>" + error.message + "</p>";
         }
     };
 
@@ -1398,9 +1408,9 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
     target.forEach(param => {
 
         let fields = getReferenceFields(param.reference);
-        let listGridFirstField = {name: null};
-        if (fields && fields.length)
-            listGridFirstField = fields[0];
+        // let listGridFirstField = {name: null};
+        // if (fields && fields.length)
+        //     listGridFirstField = fields[0];
 
         let grid = isc.ListGrid.create({
 
@@ -1411,12 +1421,12 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
             sortDirection: "ascending",
             canHover: true,
             showHover: true,
-            autoFitData: "vertical",
-            autoFitDateFields: "both",
-            autoFitMaxWidth: "15%",
-            autoFitWidthApproach: "both",
-            autoFitFieldsFillViewport: true,
-            autoFitExpandField: listGridFirstField.name,
+            // autoFitData: "vertical",
+            // autoFitDateFields: "both",
+            // autoFitMaxWidth: "15%",
+            // autoFitWidthApproach: "both",
+            // autoFitFieldsFillViewport: true,
+            // autoFitExpandField: listGridFirstField.name,
             showRowNumbers: true,
             canAutoFitFields: false,
             allowAdvancedCriteria: true,
@@ -1529,9 +1539,9 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
     await Promise.all(target.map(async param => {
 
         let fields = await contractTab.method.createDynamicGridFields(param.dynamicTables, valueKey);
-        let listGridFirstField = {name: null};
-        if (fields && fields.length)
-            listGridFirstField = fields[0];
+        // let listGridFirstField = {name: null};
+        // if (fields && fields.length)
+        //     listGridFirstField = fields[0];
 
         let dynamicGrid = isc.ListGrid.create({
 
@@ -1543,12 +1553,12 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
             canHover: true,
             showHover: true,
             validateOnExit: true,
-            autoFitData: "vertical",
-            autoFitDateFields: "both",
-            autoFitMaxWidth: "15%",
-            autoFitWidthApproach: "both",
-            autoFitFieldsFillViewport: true,
-            autoFitExpandField: listGridFirstField.name,
+            // autoFitData: "vertical",
+            // autoFitDateFields: "both",
+            // autoFitMaxWidth: "15%",
+            // autoFitWidthApproach: "both",
+            // autoFitFieldsFillViewport: true,
+            // autoFitExpandField: listGridFirstField.name,
             showRowNumbers: true,
             canAutoFitFields: false,
             allowAdvancedCriteria: true,
