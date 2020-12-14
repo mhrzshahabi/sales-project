@@ -634,6 +634,13 @@
         <addUniqueConstraint tableName="TBL_CONTACT" columnNames="C_ACC_DETAIL" constraintName="UC_C_ACC_DETAIL"/>
         <addUniqueConstraint tableName="TBL_CONTACT" columnNames="C_ACC_DETAIL_ID" constraintName="UC_C_ACC_DETAIL_ID"/>
     </changeSet>
+    <changeSet author="Abiz" id="AZAARE-1611">
+        <sql>
+            ALTER SEQUENCE SEQ_CONTACT INCREMENT BY 10000;
+            SELECT SEQ_CONTACT.NEXTVAL FROM DUAL;
+            ALTER SEQUENCE SEQ_CONTACT INCREMENT BY 1;
+        </sql>
+    </changeSet>
 
 
 </databaseChangeLog>
