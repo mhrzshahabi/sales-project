@@ -1375,6 +1375,8 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
             });
     });
 
+    if (isNewMode)
+        dynamicForm.clearValues();
     return fields.length ? dynamicForm : null;
 };
 contractTab.method.createArticleBodyGrid = function (contractDetailType, contractDetail, isNewMode) {
