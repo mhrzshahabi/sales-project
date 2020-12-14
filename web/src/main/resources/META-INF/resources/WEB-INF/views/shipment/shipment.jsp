@@ -4,6 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="com.nicico.copper.core.SecurityUtil" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@include file="../common/ts/FileUtil.js" %>
 
 //<script>
 
@@ -25,33 +26,53 @@
 
     function fetchPrintTemplateListAndRefreshGrid() {
         printTemplateList = [];
-        fetch("${contextPath}/api/shipmentDcc/spec-list", {
-            headers:
-            SalesConfigs.httpHeaders
+        fetch("${contextPath}/api/files/list?entityName=Shipment", {
+            headers: SalesConfigs.httpHeaders
         })
             .then(response => response.json())
             .then(data => {
-                if (data.response && data.response.data)
-                    data.response.data.forEach(d => {
-                        let extractNumber = function (ix, letter) {
-                            if (!letter.startsWith("ShipOrder_"))
-                                return null;
-                            return letter.split("ShipOrder_")[1].split("_")[ix];
-                        };
+                if (data && data.size() > 0)
+                    data.forEach(d => {
+                        let materialAndShipmentType = calcMaterialAndShipmentType(d.recordId);
                         let tmp = {
-                            materialId: extractNumber(0, d.fileNewName),
-                            shipmentTypeId: extractNumber(1, d.fileNewName),
-                            fileName: d.fileNewName
+                            id: d.id,
+                            shipmentType: materialAndShipmentType.shipmentType,
+                            material: materialAndShipmentType.material,
+                            fileKey: d.fileKey
                         };
-                        if (tmp.materialId && tmp.shipmentTypeId)
+                        if (tmp.material && tmp.shipmentType)
                             printTemplateList.add(tmp);
                     });
-                    ListGrid_Shipment.invalidateCache();
-                    ListGrid_Shipment.fetchData();
-});
+                ListGrid_Shipment.invalidateCache();
+                ListGrid_Shipment.fetchData();
+            });
     }
 
     fetchPrintTemplateListAndRefreshGrid();
+
+    function calcMaterialAndShipmentType(recordId) {
+        return {
+            material: Math.floor(recordId / 100),
+            shipmentType: recordId - 100 * Math.floor(recordId / 100)
+        }
+    }
+
+    function calcRecordId(record) {
+        return (record.shipmentTypeId ? record.shipmentTypeId : record.shipmentType) +
+            100 * (record.materialId ? record.materialId : record.material);
+    }
+
+    function transferResponsePrintAttachment(res) {
+        res.forEach(_ => _.material = calcMaterialAndShipmentType(_.recordId).material);
+        res.forEach(_ => _.shipmentType = calcMaterialAndShipmentType(_.recordId).shipmentType);
+        return res;
+    }
+
+    function transferRequestPrintAttachment(req) {
+        let formValues = req.fileUploadForm.form.getValues();
+        req.recordId = calcRecordId(formValues);
+        return req;
+    }
 
     var RestDataSource_Contact__SHIPMENT = isc.MyRestDataSource.create({
         fields:
@@ -98,49 +119,6 @@
             ],
 
         fetchDataURL: "${contextPath}/api/port/spec-list"
-    });
-
-    var RestDataSource_Dcc = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", hidden: true, primaryKey: true, canEdit: false,},
-            {
-                name: "documentType",
-                title: "<spring:message code='dcc.documentType'/>",
-                type: 'text',
-                required: true,
-                width: 400
-                ,
-                valueMap: {
-                    "letter": "<spring:message code='dcc.letter'/>",
-                    "image": "<spring:message code='dcc.image'/>"
-                },
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
-            },
-            {
-                name: "description",
-                title: "<spring:message code='global.description'/>",
-                type: 'text',
-                width: 400
-            },
-            {
-                name: "fileName",
-                title: "<spring:message code='global.fileName'/>",
-                type: 'text',
-                required: true,
-                width: 400,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
-            },
-            {name: "fileNewName", title: "<spring:message code='global.fileNewName'/>", type: 'text', width: 400}
-        ],
-        fetchDataURL: "${contextPath}/api/shipmentDcc/spec-list"
     });
 
     var RestDataSource_VesselInShipment = isc.MyRestDataSource.create({
@@ -337,52 +315,25 @@
         ],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
-
-    var shipmentSelectPrintListGrid = isc.ListGrid.create({
-        data: [],
-        width: 400,
-        height: 200,
-        fields: [{
-            name: "fileName",
-            title: "<spring:message code='global.fileName'/>",
-            type: 'text',
-        },
-        ],
-        doubleClick() {
-            let record = shipmentSelectPrintListGrid.getSelectedRecord();
-            window.open('${contextPath}/shipment/print/' + record.dccId + "/" + record.fileName);
-            shipmentDccWindow.close();
-        }
-    });
-
-    var vLayout_shipment_dcc = isc.VLayout.create({
-        members: [
-            shipmentSelectPrintListGrid,
-            isc.IButtonCancel.create({
-                click: function () {
-                    shipmentDccWindow.close();
-                }
-            })
-        ]
-    });
-
-    var shipmentDccWindow = isc.Window.create({
-        title: "<spring:message code='global.form.select.print.template'/> ",
-        autoSize: true,
-        autoCenter: true,
-        isModal: true,
-        showModalMask: true,
-        canDragReposition: false,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
-        items:
+    var RestDataSource_ShipmentTypeInShipmentDcc = isc.MyRestDataSource.create({
+        fields:
             [
-                vLayout_shipment_dcc
-            ]
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "shipmentType", title: "<spring:message code='shipment.type'/>"},
+            ],
+        fetchDataURL: "${contextPath}/api/shipmentType/spec-list"
+    });
+
+    var RestDataSource_Material = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, hidden: true},
+                {name: "code", title: "<spring:message code='goods.code'/> "},
+                {name: "descEN"},
+                {name: "unitId"},
+                {name: "unit.nameEN"},
+            ],
+        fetchDataURL: "${contextPath}/api/material/spec-list"
     });
 
     var Menu_ListGrid_Shipment = isc.Menu.create({
@@ -436,29 +387,6 @@
     }
 
     var dash = "\n";
-
-    var ShipmentDccViewLoader = isc.ViewLoader.create({
-        autoDraw: false,
-        loadingMessage: ""
-    });
-
-    var Window_Shipment_Dcc = isc.Window.create({
-        title: "<spring:message code='shipment.loading.pattern.attachment'/>",
-        width: "40%",
-        height: "60%",
-        autoCenter: true,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-           fetchPrintTemplateListAndRefreshGrid();
-           this.Super("closeClick", arguments)
-        },
-        items:
-            [
-                ShipmentDccViewLoader
-            ]
-    });
 
     var DynamicForm_Shipment = isc.DynamicForm.create({
         numCols: 4,
@@ -1069,15 +997,10 @@
         }
     }
 
-    function ListGrid_Shipment_dcc() {
-        ShipmentDccViewLoader.setViewURL("shipmentDcc/showForm/");
-        Window_Shipment_Dcc.animateShow();
-    }
-
     function checkHasPrintTemplate(record) {
         let size = printTemplateList
-            .filter(x => x.shipmentTypeId == record.shipmentTypeId)
-            .filter(x => x.materialId == record.materialId).size();
+            .filter(x => x.shipmentType == record.shipmentTypeId)
+            .filter(x => x.material == record.materialId).size();
         return size > 0;
     }
 
@@ -1123,7 +1046,27 @@
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='shipment.loading.pattern.attachment'/>",
         click: function () {
-            ListGrid_Shipment_dcc();
+            nicico.FileUtil.addSomeFeatures(true,
+                [{
+                    name: "material",
+                    required: true,
+                    title: "<spring:message code='material.title'/>",
+                    optionDataSource: RestDataSource_Material,
+                    displayField: "descEN",
+                    valueField: "id",
+                },
+                    {
+                        name: "shipmentType",
+                        required: true,
+                        title: "<spring:message code='shipment.shipmentType'/>",
+                        displayField: "shipmentType",
+                        valueField: "id",
+                        optionDataSource: RestDataSource_ShipmentTypeInShipmentDcc,
+                    }],
+                _ => transferRequestPrintAttachment(_),
+                _ => transferResponsePrintAttachment(_));
+
+            nicico.FileUtil.show(null, "<spring:message code='shipment.loading.pattern.attachment'/> ", null, null, "Shipment", null);
         }
     });
     </sec:authorize>
@@ -1146,7 +1089,7 @@
             <sec:authorize access="hasAuthority('C_SHIPMENT_DCC')">
             ToolStripButton_Shipment_dcc,
             </sec:authorize>
-           
+
             ShipmentCancelBtn_Help_shipment,
 
             isc.ToolStrip.create({
@@ -1408,16 +1351,22 @@
                     width: 16,
                     grid: this,
                     click: function () {
-                        let list = printTemplateList
-                            .filter(x => x.shipmentTypeId == record.shipmentTypeId)
-                            .filter(x => x.materialId == record.materialId);
-                        list.forEach(x => x.dccId = record.id);
-                        if (list.size() == 1) {
-                            window.open('${contextPath}/shipment/print/' + list[0].dccId + "/" + list[0].fileName);
-                            return;
+                        let selectReportForm = new nicico.FormUtil();
+                        let fileUploadForm = isc.FileUploadForm.create({
+                            entityName: "Shipment",
+                            recordId: calcRecordId(record),
+                            canAddFile: false,
+                            canRemoveFile: false,
+                            canDownloadFile: false,
+                            height: "300",
+                            margin: 5
+                        });
+                        fileUploadForm.grid.recordDoubleClick = function (viewer, printRecord, recordNum, field, fieldNum, value, rawValue) {
+                            window.open('${contextPath}/shipment/print/' + record.id + "/" + printRecord.fileKey);
                         }
-                        shipmentSelectPrintListGrid.setData(list);
-                        shipmentDccWindow.show();
+                        selectReportForm.showForm(null, "<spring:message code='global.form.select.print.template'/>", fileUploadForm, null, "300");
+                        selectReportForm.bodyWidget.getObject().reloadData();
+
                     }
                 });
                 return printImg;

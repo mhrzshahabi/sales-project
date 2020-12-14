@@ -64,7 +64,27 @@ namespace nicico {
                         "notEqualField", "greaterThanField", "lessThanField", "greaterOrEqualField", "lessOrEqualField"];
 
                     return this.Super("getFieldOperators", arguments);
+                },
+                getValueFieldProperties: function (type, fieldName, operatorId, itemType) {
+
+                    let superProperties = this.Super("getValueFieldProperties", arguments);
+                    if (!superProperties) superProperties = {};
+
+                    const field = this.dataSource.getField(fieldName);
+
+                    if (field != null && field.type.toLowerCase() === "date")
+                    // @ts-ignore
+                        return Object.assign(superProperties, {
+                            // @ts-ignore
+                            editorType: "DateItem",
+                            useTextField: true,
+                            type: "date",
+                            dateFormatter: "toJapanShortDate"
+                        });
+
+                    return superProperties;
                 }
+
             });
             // @ts-ignore
             creator.filterBuilder.main.topOperatorForm.setHeight("95%");

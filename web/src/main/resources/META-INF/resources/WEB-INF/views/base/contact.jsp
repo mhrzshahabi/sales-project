@@ -1896,6 +1896,7 @@
             loaded: false,
             contextMenu: Menu_ListGrid_Contact,
             sortField: "id",
+            sortDirection: "descending",
             fields: [
                 {
                     name: "id",
