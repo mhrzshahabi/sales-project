@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.util.date.DateUtil;
 import com.nicico.sales.dto.ContactDTO;
+import com.nicico.sales.dto.FileDTO;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.EContractDetailValueKey;
@@ -13,6 +14,7 @@ import com.nicico.sales.iservice.IShipmentService;
 import com.nicico.sales.iservice.IWeightInspectionService;
 import com.nicico.sales.model.entities.base.Shipment;
 import com.nicico.sales.model.enumeration.CategoryUnit;
+import com.nicico.sales.service.FileService;
 import com.nicico.sales.utility.SecurityChecker;
 import com.nicico.sales.web.controller.utility.WordUtil;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -47,6 +46,7 @@ public class ShipmentFormController {
     private final IRemittanceService remittanceService;
     private final IAssayInspectionService assayInspectionService;
     private final IWeightInspectionService weightInspectionService;
+    private final FileService fileService;
 
     @RequestMapping("/showForm")
     public String showShipment(HttpServletRequest request) throws JsonProcessingException {
@@ -65,16 +65,12 @@ public class ShipmentFormController {
         return "shipment/shipment";
     }
 
-    @RequestMapping("/print/{shipmentId}/{fileNewName}")
-    public void printDocx(HttpServletResponse response, @PathVariable Long shipmentId, @PathVariable String fileNewName) throws IOException {
+    @RequestMapping("/print/{shipmentId}/{fileKey}")
+    public void printDocx(HttpServletResponse response, @PathVariable Long shipmentId, @PathVariable String fileKey) throws IOException {
 
         ShipmentDTO.Info shipment = shipmentService.get(shipmentId);
-
-        String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
-        String filePath = UPLOAD_FILE_DIR + File.separator + "shipment" + File.separator + fileNewName;
-        File downloadFile = new File(filePath);
-        FileInputStream inputStream = new FileInputStream(downloadFile);
-
+        FileDTO.Response retrieve = fileService.retrieve(fileKey);
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(retrieve.getContent());
         ServletOutputStream out = response.getOutputStream();
         XWPFDocument doc = new XWPFDocument(inputStream);
         wordUtil.replacePOI(doc, "vessel_name", (shipment.getVessel() != null ? shipment.getVessel().getName() : ""));
@@ -123,7 +119,7 @@ public class ShipmentFormController {
         wordUtil.replacePOI(doc, "arrivalDateTo", shipment.getArrivalDateTo() != null ? dtf.format(shipment.getArrivalDateTo()) : "");
         wordUtil.replacePOI(doc, "letterDate", shipment.getLastDeliveryLetterDate() != null ? dtf.format(shipment.getLastDeliveryLetterDate()) : "");
 
-        response.setHeader("Content-Disposition", "attachment; filename=" + fileNewName);
+        response.setHeader("Content-Disposition", String.format("attachment; filename=%s.%s", retrieve.getFileName(), retrieve.getExtension()));
         response.setContentType("application/vnd.ms-word");
         doc.write(out);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

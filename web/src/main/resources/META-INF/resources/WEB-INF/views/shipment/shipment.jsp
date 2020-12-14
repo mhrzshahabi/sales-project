@@ -336,53 +336,6 @@
         fetchDataURL: "${contextPath}/api/material/spec-list"
     });
 
-    var shipmentSelectPrintListGrid = isc.ListGrid.create({
-        data: [],
-        width: 400,
-        height: 200,
-        fields: [{
-            name: "fileName",
-            title: "<spring:message code='global.fileName'/>",
-            type: 'text',
-        },
-        ],
-        doubleClick() {
-            let record = shipmentSelectPrintListGrid.getSelectedRecord();
-            window.open('${contextPath}/shipment/print/' + record.dccId + "/" + record.fileName);
-            shipmentDccWindow.close();
-        }
-    });
-
-    var vLayout_shipment_dcc = isc.VLayout.create({
-        members: [
-            shipmentSelectPrintListGrid,
-            isc.IButtonCancel.create({
-                click: function () {
-                    shipmentDccWindow.close();
-                }
-            })
-        ]
-    });
-
-    var shipmentDccWindow = isc.Window.create({
-        title: "<spring:message code='global.form.select.print.template'/> ",
-        autoSize: true,
-        autoCenter: true,
-        isModal: true,
-        showModalMask: true,
-        canDragReposition: false,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
-        items:
-            [
-                vLayout_shipment_dcc
-            ]
-    });
-
     var Menu_ListGrid_Shipment = isc.Menu.create({
         width: 150,
         data: [
@@ -1398,34 +1351,20 @@
                     width: 16,
                     grid: this,
                     click: function () {
-
-                        /*let list = printTemplateList
-                            .filter(x => x.shipmentTypeId == record.shipmentTypeId)
-                            .filter(x => x.materialId == record.materialId);
-                        list.forEach(x => x.dccId = record.id);
-                        if (list.size() == 1) {
-                            window.open('
-                        
-                        
-                        ${contextPath}/shipment/print/' + list[0].dccId + "/" + list[0].fileName);
-                            return;
-                        }
-                        shipmentSelectPrintListGrid.setData(list);
-                        shipmentDccWindow.show();*/
                         let selectReportForm = new nicico.FormUtil();
-
-                        selectReportForm.showForm(null, "<spring:message code='global.form.print'/>",
-                            isc.FileUploadForm.create({
-                                entityName: "Shipment",
-                                recordId: calcRecordId(record),
-                                canAddFile: false,
-                                canRemoveFile: false,
-                                canDownloadFile: true,
-                                height: "300",
-                                margin: 5
-                            }),
-                            null, "300"
-                        );
+                        let fileUploadForm = isc.FileUploadForm.create({
+                            entityName: "Shipment",
+                            recordId: calcRecordId(record),
+                            canAddFile: false,
+                            canRemoveFile: false,
+                            canDownloadFile: false,
+                            height: "300",
+                            margin: 5
+                        });
+                        fileUploadForm.grid.recordDoubleClick = function (viewer, printRecord, recordNum, field, fieldNum, value, rawValue) {
+                            window.open('${contextPath}/shipment/print/' + record.id + "/" + printRecord.fileKey);
+                        }
+                        selectReportForm.showForm(null, "<spring:message code='global.form.select.print.template'/>", fileUploadForm, null, "300");
                         selectReportForm.bodyWidget.getObject().reloadData();
 
                     }
