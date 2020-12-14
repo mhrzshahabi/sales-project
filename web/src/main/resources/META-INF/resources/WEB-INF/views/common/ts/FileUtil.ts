@@ -59,6 +59,14 @@ namespace nicico {
 
     export class FileUtil {
 
+        private additionalFormFields: isc.FormItem[];
+        private showAllDataOfEntity: boolean = false;
+        static transferResponse: any = function () {
+            return null;
+        }
+        static transferRequest: any = function () {
+            return null;
+        }
         static cancelCallBack: any = function () {
 
             return;
@@ -89,8 +97,8 @@ namespace nicico {
             }
             files.forEach(q => formData.append("files", q));
             formData.append("fileMetaData", JSON.stringify(fileMetaData));
-            formData.append("recordId", creator.recordId+"");
-            formData.append("entityName", creator.entityName+"");
+            formData.append("recordId", creator.recordId + "");
+            formData.append("entityName", creator.entityName + "");
 
             return formData;
         };
@@ -149,7 +157,9 @@ namespace nicico {
                 // @ts-ignore
                 fileStatusValueMap: Enums.fileStatus,
                 // @ts-ignore
-                accessLevelValueMap: Enums.fileAccessLevel
+                accessLevelValueMap: Enums.fileAccessLevel,
+                // @ts-ignore
+                additionalFormFields: this.additionalFormFields
             });
         }
 
@@ -167,20 +177,18 @@ namespace nicico {
 
                     This.cancelCallBack();
                 },
-                icon: "pieces/16/icon_delete.png",
-                title: '<spring:message code="global.close" />'
             });
             // @ts-ignore
             let ok = isc.IButtonSave.create({
 
                 click: function () {
 
+                    if(This.transferRequest)
+                        creator = This.transferRequest(creator);
                     let data = This.populateData(creator);
                     if (!This.validate(creator)) return;
                     This.save(creator, data);
                 },
-                icon: "pieces/16/save.png",
-                title: '<spring:message code="global.ok" />'
             });
 
             creator.actionLayout = isc.HLayout.create({
@@ -222,13 +230,27 @@ namespace nicico {
                 owner.close();
 
             this.createFileUploadForm(creator);
-            creator.fileUploadForm.reloadData(creator.recordId,creator.entityName);
+            // @ts-ignore
+            if (this.showAllDataOfEntity)
+                creator.fileUploadForm.reloadAllDataOfEntity(creator.entityName, this.transferResponse);
+            else
+                creator.fileUploadForm.reloadData(creator.recordId, creator.entityName);
             this.createButtonLayout(creator);
             this.createWindow(creator);
 
             creator.window.show();
             return creator.window;
         }
+        static addSomeFeatures(showAllDataOfEntity:boolean, fields: isc.FormItem[],transferRequest:any, transferResponse:any){
+            // @ts-ignore
+            this.showAllDataOfEntity = showAllDataOfEntity;
+            // @ts-ignore
+            this.transferRequest = transferRequest;
+            // @ts-ignore
+            this.additionalFormFields = fields;
+            // @ts-ignore
+            this.transferResponse = transferResponse;
+        };
     }
 
     //------------------------------------------ Classes -----------------------------------------//

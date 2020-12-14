@@ -22,6 +22,8 @@ public interface IFileService {
 
     List<FileDTO.FileMetaData> getFiles(String entityName);
 
+    List<FileDTO.FileMetaData> getAllFiles(String entityName);
+
     void delete(String key);
 
     void restore(String key);

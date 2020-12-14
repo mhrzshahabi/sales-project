@@ -17,6 +17,7 @@ var nicico;
     }());
     var FileUtil = /** @class */ (function () {
         function FileUtil() {
+            this.showAllDataOfEntity = false;
         }
         FileUtil.createFileUploadForm = function (creator) {
             // @ts-ignore
@@ -29,7 +30,9 @@ var nicico;
                 // @ts-ignore
                 fileStatusValueMap: Enums.fileStatus,
                 // @ts-ignore
-                accessLevelValueMap: Enums.fileAccessLevel
+                accessLevelValueMap: Enums.fileAccessLevel,
+                // @ts-ignore
+                additionalFormFields: this.additionalFormFields
             });
         };
         FileUtil.createButtonLayout = function (creator) {
@@ -42,19 +45,17 @@ var nicico;
                         creator.owner.show();
                     This.cancelCallBack();
                 },
-                icon: "pieces/16/icon_delete.png",
-                title: '<spring:message code="global.close" />'
             });
             // @ts-ignore
             var ok = isc.IButtonSave.create({
                 click: function () {
+                    if (This.transferRequest)
+                        creator = This.transferRequest(creator);
                     var data = This.populateData(creator);
                     if (!This.validate(creator))
                         return;
                     This.save(creator, data);
                 },
-                icon: "pieces/16/save.png",
-                title: '<spring:message code="global.ok" />'
             });
             creator.actionLayout = isc.HLayout.create({
                 width: "100%",
@@ -88,11 +89,32 @@ var nicico;
             if (owner != null)
                 owner.close();
             this.createFileUploadForm(creator);
-            creator.fileUploadForm.reloadData(creator.recordId, creator.entityName);
+            // @ts-ignore
+            if (this.showAllDataOfEntity)
+                creator.fileUploadForm.reloadAllDataOfEntity(creator.entityName, this.transferResponse);
+            else
+                creator.fileUploadForm.reloadData(creator.recordId, creator.entityName);
             this.createButtonLayout(creator);
             this.createWindow(creator);
             creator.window.show();
             return creator.window;
+        };
+        FileUtil.addSomeFeatures = function (showAllDataOfEntity, fields, transferRequest, transferResponse) {
+            // @ts-ignore
+            this.showAllDataOfEntity = showAllDataOfEntity;
+            // @ts-ignore
+            this.transferRequest = transferRequest;
+            // @ts-ignore
+            this.additionalFormFields = fields;
+            // @ts-ignore
+            this.transferResponse = transferResponse;
+        };
+        ;
+        FileUtil.transferResponse = function () {
+            return null;
+        };
+        FileUtil.transferRequest = function () {
+            return null;
         };
         FileUtil.cancelCallBack = function () {
             return;
