@@ -657,7 +657,7 @@ contractTab.button.saveButton = isc.IButtonSave.create({
                 if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
                     contractTab.dialog.ok();
                     contractTab.method.refresh(contractTab.listGrid.main);
-                    contractTab.window.main.close();
+                    // contractTab.window.main.close();
                 } else
                     contractTab.dialog.error(resp);
             }
