@@ -456,6 +456,9 @@ contractDetailTypeTab.listGrid.detailType = isc.ListGrid.create({
     autoFetchData: true,
     showRowNumbers: true,
     showFilterEditor: true,
+    initialCriteria: null,
+    filterOnKeypress: false,
+    allowAdvancedCriteria: true,
     initialSort: [
         {property: contractDetailTypeTab.dynamicForm.fields.material.name, direction: "ascending"},
         {property: contractDetailTypeTab.dynamicForm.fields.titleEn.name, direction: "ascending"}
@@ -476,7 +479,6 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
     sortField: "id",
     showRowNumbers: true,
     canAutoFitFields: false,
-    allowAdvancedCriteria: true,
     alternateRecordStyles: true,
     selectionType: "single",
     sortDirection: "ascending",
@@ -551,6 +553,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             record[contractDetailTypeTab.dynamicForm.paramFields.required.name] = true;
                             record[contractDetailTypeTab.dynamicForm.paramFields.reference.name] = data[0]['reference'];
                             contractDetailTypeTab.listGrid.param.refreshRow(rowNumber);
+                            if (contractDetailTypeTab.listGrid.param.cellChanged)
                             contractDetailTypeTab.listGrid.param.cellChanged(record, data[0]['reference'], oldValue, rowNumber, colNumber, contractDetailTypeTab.listGrid.param);
                         };
 
@@ -586,15 +589,20 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                     else {
 
                         let recordType = record[contractDetailTypeTab.dynamicForm.paramFields.type.name];
+                        if (recordType === contractDetailTypeTab.variable.dataType.ListOfReference)
+                            contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.cannot-set-default'/>");
+
                         let referenceType = record[contractDetailTypeTab.dynamicForm.paramFields.reference.name];
                         if (recordType === contractDetailTypeTab.variable.dataType.Reference && referenceType == null) {
 
                             contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.reference-required'/>");
                             return;
                         }
+
                         let defaultValueEditorProperties = getFieldProperties(recordType, referenceType);
                         if (defaultValueEditorProperties == null)
                             contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.cannot-set-default'/>");
+
                         if (recordType === contractDetailTypeTab.variable.dataType.TextArea) {
 
                             defaultValueEditorProperties.width = "700";
@@ -789,7 +797,6 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
     sortField: 1,
     showRowNumbers: true,
     canAutoFitFields: false,
-    allowAdvancedCriteria: true,
     alternateRecordStyles: true,
     selectionType: "single",
     sortDirection: "ascending",
@@ -1060,6 +1067,7 @@ contractDetailTypeTab.method.editData = function () {
     }
 };
 contractDetailTypeTab.method.refreshData = function () {
+
     contractDetailTypeTab.listGrid.detailType.invalidateCache();
 };
 contractDetailTypeTab.method.deleteRecord = function () {
@@ -1174,6 +1182,7 @@ contractDetailTypeTab.toolStrip.actions.addMember(contractDetailTypeTab.toolStri
 contractDetailTypeTab.toolStrip.refresh = isc.ToolStripButtonRefresh.create({
     title: "<spring:message code='global.form.refresh'/>",
     click: function () {
+
         contractDetailTypeTab.method.refreshData();
     }
 });
