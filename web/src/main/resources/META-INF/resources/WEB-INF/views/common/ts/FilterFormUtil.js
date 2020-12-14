@@ -47,6 +47,22 @@ var nicico;
                             "iEqualsField", "iNotEqualField", "isBlank", "notBlank", "isNull", "notNull", "inSet", "notInSet", "equalsField",
                             "notEqualField", "greaterThanField", "lessThanField", "greaterOrEqualField", "lessOrEqualField"];
                     return this.Super("getFieldOperators", arguments);
+                },
+                getValueFieldProperties: function (type, fieldName, operatorId, itemType) {
+                    var superProperties = this.Super("getValueFieldProperties", arguments);
+                    if (!superProperties)
+                        superProperties = {};
+                    var field = this.dataSource.getField(fieldName);
+                    if (field != null && field.type.toLowerCase() === "date")
+                        // @ts-ignore
+                        return Object.assign(superProperties, {
+                            // @ts-ignore
+                            editorType: "DateItem",
+                            useTextField: true,
+                            type: "date",
+                            dateFormatter: "toJapanShortDate"
+                        });
+                    return superProperties;
                 }
             });
             // @ts-ignore
@@ -136,5 +152,4 @@ var nicico;
     nicico.FilterFormUtil = FilterFormUtil;
     //------------------------------------------ Classes -----------------------------------------//
 })(nicico || (nicico = {}));
-//------------------------------------------- Namespaces -----------------------------------------//
 //------------------------------------------- Namespaces -----------------------------------------//
