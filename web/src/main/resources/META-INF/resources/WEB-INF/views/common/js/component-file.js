@@ -220,12 +220,12 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
             }
         }));
     },
-    reloadAllDataOfEntity: function (entityName, transferResponse) {
+    reloadAllDataOfEntity: function (entityName, transformResponse) {
         let This = this;
         if (entityName) this.entityName = entityName;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             httpMethod: "GET",
-            actionURL: "${contextPath}/api/files/list",
+            actionURL: "${contextPath}/api/files/byEntityName",
             params: {
                 entityName: This.entityName
             },
@@ -234,8 +234,8 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                 let data = JSON.parse(resp.httpResponseText);
                 if (!This.showDeletedFiles)
                     data = data.filter(q => q.fileStatus !== "DELETED");
-                if(transferResponse)
-                    data = transferResponse(data);
+                if(transformResponse)
+                    data = transformResponse(data);
                 This.grid.setData(data);
             }
         }));

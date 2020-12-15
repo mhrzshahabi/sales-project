@@ -26,7 +26,7 @@
 
     function fetchPrintTemplateListAndRefreshGrid() {
         printTemplateList = [];
-        fetch("${contextPath}/api/files/list?entityName=Shipment", {
+        fetch("${contextPath}/api/files/byEntityName?entityName=Shipment", {
             headers: SalesConfigs.httpHeaders
         })
             .then(response => response.json())
@@ -62,13 +62,13 @@
             100 * (record.materialId ? record.materialId : record.material);
     }
 
-    function transferResponsePrintAttachment(res) {
+    function transformResponsePrintAttachment(res) {
         res.forEach(_ => _.material = calcMaterialAndShipmentType(_.recordId).material);
         res.forEach(_ => _.shipmentType = calcMaterialAndShipmentType(_.recordId).shipmentType);
         return res;
     }
 
-    function transferRequestPrintAttachment(req) {
+    function transformRequestPrintAttachment(req) {
         let formValues = req.fileUploadForm.form.getValues();
         req.recordId = calcRecordId(formValues);
         return req;
@@ -1063,8 +1063,8 @@
                         valueField: "id",
                         optionDataSource: RestDataSource_ShipmentTypeInShipmentDcc,
                     }],
-                _ => transferRequestPrintAttachment(_),
-                _ => transferResponsePrintAttachment(_));
+                _ => transformRequestPrintAttachment(_),
+                _ => transformResponsePrintAttachment(_));
 
             nicico.FileUtil.show(null, "<spring:message code='shipment.loading.pattern.attachment'/> ", null, null, "Shipment", null);
         }

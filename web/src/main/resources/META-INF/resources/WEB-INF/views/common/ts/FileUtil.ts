@@ -61,10 +61,10 @@ namespace nicico {
 
         private additionalFormFields: isc.FormItem[];
         private showAllDataOfEntity: boolean = false;
-        static transferResponse: any = function () {
+        static transformResponse: any = function () {
             return null;
         }
-        static transferRequest: any = function () {
+        static transformRequest: any = function () {
             return null;
         }
         static cancelCallBack: any = function () {
@@ -183,8 +183,8 @@ namespace nicico {
 
                 click: function () {
 
-                    if(This.transferRequest)
-                        creator = This.transferRequest(creator);
+                    if(This.transformRequest)
+                        creator = This.transformRequest(creator);
                     let data = This.populateData(creator);
                     if (!This.validate(creator)) return;
                     This.save(creator, data);
@@ -232,7 +232,7 @@ namespace nicico {
             this.createFileUploadForm(creator);
             // @ts-ignore
             if (this.showAllDataOfEntity)
-                creator.fileUploadForm.reloadAllDataOfEntity(creator.entityName, this.transferResponse);
+                creator.fileUploadForm.reloadAllDataOfEntity(creator.entityName, this.transformResponse);
             else
                 creator.fileUploadForm.reloadData(creator.recordId, creator.entityName);
             this.createButtonLayout(creator);
@@ -241,15 +241,15 @@ namespace nicico {
             creator.window.show();
             return creator.window;
         }
-        static addSomeFeatures(showAllDataOfEntity:boolean, fields: isc.FormItem[],transferRequest:any, transferResponse:any){
+        static addSomeFeatures(showAllDataOfEntity:boolean, fields: isc.FormItem[],transformRequest:any, transformResponse:any){
             // @ts-ignore
             this.showAllDataOfEntity = showAllDataOfEntity;
             // @ts-ignore
-            this.transferRequest = transferRequest;
+            this.transformRequest = transformRequest;
             // @ts-ignore
             this.additionalFormFields = fields;
             // @ts-ignore
-            this.transferResponse = transferResponse;
+            this.transformResponse = transformResponse;
         };
     }
 
