@@ -165,6 +165,18 @@ public class FileService implements IFileService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<FileDTO.FileMetaData> getAllFiles(String entityName) {
+        List<File> files = fileDAO.findAllByEntityName(entityName).stream()
+                .filter(file -> EFileStatus.NORMAL.equals(file.getFileStatus()))
+                .filter(file -> SecurityUtil.isAdmin() || !EFileAccessLevel.SELF.equals(file.getAccessLevel()) || SecurityUtil.getUserId().equals(file.getOwnerId()))
+                .collect(Collectors.toList());
+
+        return modelMapper.map(files, new TypeToken<List<FileDTO.FileMetaData>>() {
+        }.getType());
+    }
+
+    @Override
     @Transactional
     public void delete(String key) {
         final File file = accessCheck(key, EFileStatus.NORMAL);

@@ -1618,6 +1618,15 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
 
                 return value + "";
             },
+            summaryFunction: function (records, field) {
+
+                if (!records || records.length === 0) return;
+                let price = 0;
+                records.forEach(q => {
+                    price += Number(q[field.name]);
+                });
+                return NumberUtil.format(price, "0.##");
+            }
         },
         {
             name: "sumPrice",
@@ -1633,7 +1642,15 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
 
                 return value + "";
             },
-            // value: 0
+            summaryFunction: function (records, field) {
+
+                if (!records || records.length === 0) return;
+                let price = 0;
+                records.forEach(q => {
+                    price += Number(q[field.name]);
+                });
+                return NumberUtil.format(price, "0.##");
+            }
         },
         {
             name: "discountPrice",
@@ -1652,6 +1669,15 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
 
                 return value + "";
             },
+            summaryFunction: function (records, field) {
+
+                if (!records || records.length === 0) return;
+                let price = 0;
+                records.forEach(q => {
+                    price += Number(q[field.name]);
+                });
+                return NumberUtil.format(price, "0.##");
+            }
         },
         {
             name: "sumPriceWithDiscount",
@@ -1666,7 +1692,15 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
 
                 return value + "";
             },
-            // value: 0
+            summaryFunction: function (records, field) {
+
+                if (!records || records.length === 0) return;
+                let price = 0;
+                records.forEach(q => {
+                    price += Number(q[field.name]);
+                });
+                return NumberUtil.format(price, "0.##");
+            }
         },
         {
             name: "tvatPrice",
@@ -1682,7 +1716,15 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
 
                 return value + "";
             },
-            // value: 0
+            summaryFunction: function (records, field) {
+
+                if (!records || records.length === 0) return;
+                let price = 0;
+                records.forEach(q => {
+                    price += Number(q[field.name]);
+                });
+                return NumberUtil.format(price, "0.##");
+            }
         },
         {
             name: "cvatPrice",
@@ -1697,7 +1739,15 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
 
                 return value + "";
             },
-            // value: 0
+            summaryFunction: function (records, field) {
+
+                if (!records || records.length === 0) return;
+                let price = 0;
+                records.forEach(q => {
+                    price += Number(q[field.name]);
+                });
+                return NumberUtil.format(price, "0.##");
+            }
         },
         {
             name: "sumVatPrice",
@@ -1710,6 +1760,15 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
 
                 return value + "";
             },
+            summaryFunction: function (records, field) {
+
+                if (!records || records.length === 0) return;
+                let price = 0;
+                records.forEach(q => {
+                    price += Number(q[field.name]);
+                });
+                return NumberUtil.format(price, "0.##");
+            }
         },
         {
             name: "sumPriceWithVat",
@@ -1725,7 +1784,15 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
 
                 return value + "";
             },
-            // value: 0
+            summaryFunction: function (records, field) {
+
+                if (!records || records.length === 0) return;
+                let price = 0;
+                records.forEach(q => {
+                    price += Number(q[field.name]);
+                });
+                return NumberUtil.format(price, "0.##");
+            }
         },
     ]),
     removeRecordClick: function (rowNum) {
@@ -1753,11 +1820,11 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
             let cVatPriceValue = shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("cvat").getValue() * sumPriceWithDiscountValue / 100;
             let sumPriceWithVatValue = sumPriceWithDiscountValue + tVatPriceValue + cVatPriceValue;
 
-            this.setEditValue(rowNum, sumPriceIndex, sumPriceValue);
-            this.setEditValue(rowNum, sumPriceWithDiscountIndex, sumPriceWithDiscountValue);
-            this.setEditValue(rowNum, tVatPriceIndex, tVatPriceValue);
-            this.setEditValue(rowNum, cVatPriceIndex, cVatPriceValue);
-            this.setEditValue(rowNum, sumPriceWithVatIndex, sumPriceWithVatValue);
+            this.setEditValue(rowNum, sumPriceIndex, NumberUtil.format(sumPriceValue, "0.##"));
+            this.setEditValue(rowNum, sumPriceWithDiscountIndex, NumberUtil.format(sumPriceWithDiscountValue, "0.##"));
+            this.setEditValue(rowNum, tVatPriceIndex, NumberUtil.format(tVatPriceValue, "0.##"));
+            this.setEditValue(rowNum, cVatPriceIndex, NumberUtil.format(cVatPriceValue, "0.##"));
+            this.setEditValue(rowNum, sumPriceWithVatIndex, NumberUtil.format(sumPriceWithVatValue, "0.##"));
 
             shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(0).members.get(2).members.get(0).click();
         }

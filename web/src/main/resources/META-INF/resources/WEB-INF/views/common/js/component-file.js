@@ -10,6 +10,7 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "visible",
     form: null,
+    additionalFormFields: null,
     grid: null,
     button: null,
     accept: null,
@@ -49,7 +50,7 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                 name: "accessLevel",
                 title: "<spring:message code='file.access-level'/>",
                 valueMap: This.accessLevelValueMap
-            }]
+            }, ...this.getAdditionalFormFields()]
         });
         if (!this.canAddFile)
             this.form.hide();
@@ -101,6 +102,7 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
             {name: "id", type: "integer", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
             {name: "fileKey", title: "<spring:message code='global.key'/>"},
             {name: "recordId", type: "integer", title: "<spring:message code='dcc.dccViewer.Id'/>"},
+            ...this.getAdditionalFormFields(),
             {name: "entityName", title: "<spring:message code='group.name'/>"},
             {
                 name: "accessLevel",
@@ -217,5 +219,32 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                 This.grid.setData(data);
             }
         }));
+    },
+    reloadAllDataOfEntity: function (entityName, transferResponse) {
+        let This = this;
+        if (entityName) this.entityName = entityName;
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            httpMethod: "GET",
+            actionURL: "${contextPath}/api/files/list",
+            params: {
+                entityName: This.entityName
+            },
+            callback: function (resp) {
+
+                let data = JSON.parse(resp.httpResponseText);
+                if (!This.showDeletedFiles)
+                    data = data.filter(q => q.fileStatus !== "DELETED");
+                if(transferResponse)
+                    data = transferResponse(data);
+                This.grid.setData(data);
+            }
+        }));
+    },
+
+    getAdditionalFormFields: function () {
+        if(this.additionalFormFields)
+            return this.additionalFormFields;
+        else
+            return [];
     }
 });

@@ -48,7 +48,6 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 
     /******************************************************************************************************************/
 
-    private final ContractDAO contractDAO;
     private final ContractDetailDAO contractDetailDAO;
     private final ContractContactDAO contractContactDAO;
     private final ContractDetailValueDAO contractDetailValueDAO;
@@ -314,7 +313,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     @Action(value = ActionType.Update)
     public ContractDTO.Info update(Long id, ContractDTO.Update request) {
 
-        Contract entity = contractDAO.findById(id).orElseThrow(() -> new NotFoundException(Contract.class));
+        Contract entity = repository.findById(id).orElseThrow(() -> new NotFoundException(Contract.class));
         validation(entity, request);
 
         entity.setContractDetails(null);
@@ -461,7 +460,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
             }
         }
 
-        Contract updating = contractDAO.findById(id).get();
+        Contract updating = repository.findById(id).get();
         modelMapper.map(request, updating);
 
         return save(updating);
