@@ -119,6 +119,7 @@ var nicico;
                 creator.filterBuilder.main, creator.hLayout.main
             ], width, height);
         };
+        // @ts-ignore
         FilterFormUtil.show = function (owner, title, restDataSource, criteria, width, height) {
             if (width === void 0) { width = null; }
             if (height === void 0) { height = null; }

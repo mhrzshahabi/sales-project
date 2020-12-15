@@ -100,11 +100,11 @@ namespace nicico {
             this.windowWidget.getObject().show();
         }
 
-        showFindFormByRestDataSource(ownerWindow: isc.Window, width: string, height: string, title: string, currentData: Array<any>, restDataSource: isc.RestDataSource, dataArrivedCallback?: any, criteria: Criteria = null, selectionMultiplicityValue: number = 1): void {
+        showFindFormByRestDataSource(ownerWindow: isc.Window, width: string, height: string, title: string, currentData: Array<any>, restDataSource: isc.MyRestDataSource, dataArrivedCallback?: any, criteria: Criteria = null, selectionMultiplicityValue: number = 1): void {
 
             this.owner = new ObjectHider(ownerWindow);
             this.selectionMultiplicity = new ObjectHider(selectionMultiplicityValue);
-            this.createListGrid(isc.RestDataSource.create(restDataSource), criteria, currentData, dataArrivedCallback);
+            this.createListGrid(isc.MyRestDataSource.create(restDataSource), criteria, currentData, dataArrivedCallback);
             this.createWindow(title, this.getButtonLayout(), this.listGridWidget.getObject(), width, height);
             if (ownerWindow != null)
                 ownerWindow.close();
@@ -193,13 +193,13 @@ namespace nicico {
             });
         }
 
-        public getRestDataSource(restApiUrl: string, fields: Array<Partial<isc.DataSourceField>>): isc.RestDataSource {
+        public getRestDataSource(restApiUrl: string, fields: Array<Partial<isc.DataSourceField>>): isc.MyRestDataSource {
 
             // @ts-ignore
-            return isc.RestDataSource.nicico.getDefault(restApiUrl, fields);
+            return isc.MyRestDataSource.nicico.getDefault(restApiUrl, fields);
         }
 
-        public createListGrid(restDataSource: isc.RestDataSource, criteria: Criteria, currentData: Array<any>, dataArrivedCallback?: any): void {
+        public createListGrid(restDataSource: isc.MyRestDataSource, criteria: Criteria, currentData: Array<any>, dataArrivedCallback?: any): void {
 
             let This = this;
             // @ts-ignore

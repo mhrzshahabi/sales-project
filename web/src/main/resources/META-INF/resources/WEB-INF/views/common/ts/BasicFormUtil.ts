@@ -156,7 +156,7 @@ namespace nicico {
 
         static createRestDataSource(creator: JSPTabVariable): void {
             // @ts-ignore
-            creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.listGrid.fields, creator.method.transformRequest);
+            creator.restDataSource.main = isc.MyRestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.listGrid.fields, creator.method.transformRequest);
         }
 
         static createListGrid(creator: JSPTabVariable): void {

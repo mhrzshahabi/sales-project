@@ -290,7 +290,7 @@ namespace nicico {
                 // @ts-ignore
                 let fetchDataUrl = creator.variable.contextPath + report.source.replaceAll(new RegExp("^/|/$"), '') + '/';
                 // @ts-ignore
-                let dataSource = isc.RestDataSource.nicico.getDefault(fetchDataUrl, report.reportFields.filter(q => q.canFilter).map(p => {
+                let dataSource = isc.MyRestDataSource.nicico.getDefault(fetchDataUrl, report.reportFields.filter(q => q.canFilter).map(p => {
                     return {name: p.name, title: p.title, type: p.type, hidden: false};
                 }));
 
