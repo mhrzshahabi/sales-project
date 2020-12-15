@@ -49,8 +49,8 @@ var nicico;
             // @ts-ignore
             var ok = isc.IButtonSave.create({
                 click: function () {
-                    if (This.transferRequest)
-                        creator = This.transferRequest(creator);
+                    if (This.transformRequest)
+                        creator = This.transformRequest(creator);
                     var data = This.populateData(creator);
                     if (!This.validate(creator))
                         return;
@@ -91,7 +91,7 @@ var nicico;
             this.createFileUploadForm(creator);
             // @ts-ignore
             if (this.showAllDataOfEntity)
-                creator.fileUploadForm.reloadAllDataOfEntity(creator.entityName, this.transferResponse);
+                creator.fileUploadForm.reloadAllDataOfEntity(creator.entityName, this.transformResponse);
             else
                 creator.fileUploadForm.reloadData(creator.recordId, creator.entityName);
             this.createButtonLayout(creator);
@@ -99,21 +99,21 @@ var nicico;
             creator.window.show();
             return creator.window;
         };
-        FileUtil.addSomeFeatures = function (showAllDataOfEntity, fields, transferRequest, transferResponse) {
+        FileUtil.addSomeFeatures = function (showAllDataOfEntity, fields, transformRequest, transformResponse) {
             // @ts-ignore
             this.showAllDataOfEntity = showAllDataOfEntity;
             // @ts-ignore
-            this.transferRequest = transferRequest;
+            this.transformRequest = transformRequest;
             // @ts-ignore
             this.additionalFormFields = fields;
             // @ts-ignore
-            this.transferResponse = transferResponse;
+            this.transformResponse = transformResponse;
         };
         ;
-        FileUtil.transferResponse = function () {
+        FileUtil.transformResponse = function () {
             return null;
         };
-        FileUtil.transferRequest = function () {
+        FileUtil.transformRequest = function () {
             return null;
         };
         FileUtil.cancelCallBack = function () {
