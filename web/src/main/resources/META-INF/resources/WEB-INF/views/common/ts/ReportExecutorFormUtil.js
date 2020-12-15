@@ -17,7 +17,7 @@ var nicico;
             // @ts-ignore
             var fetchDataUrl = creator.variable.contextPath + record.source.replaceAll(new RegExp("^/|/$"), '') + '/';
             // @ts-ignore
-            var dataSource = isc.RestDataSource.nicico.getDefault(fetchDataUrl, record.reportFields.filter(function (q) { return q.canFilter; }).map(function (p) {
+            var dataSource = isc.MyRestDataSource.nicico.getDefault(fetchDataUrl, record.reportFields.filter(function (q) { return q.canFilter; }).map(function (p) {
                 return { name: p.name, title: p.title, type: p.type, hidden: false };
             }));
             nicico.FilterFormUtil.okCallBack = okCallBack;
@@ -26,7 +26,7 @@ var nicico;
         };
         ReportExecutorFormUtil.createRestDataSource = function (creator) {
             // @ts-ignore
-            creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "report-with-permission", [], creator.method.transformRequest);
+            creator.restDataSource.main = isc.MyRestDataSource.nicico.getDefault(creator.variable.url + "report-with-permission", [], creator.method.transformRequest);
         };
         ReportExecutorFormUtil.createListGrid = function (creator) {
             // @ts-ignore

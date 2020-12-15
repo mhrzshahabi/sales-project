@@ -92,6 +92,41 @@
                     }
                 });
 
+                isc.defineClass("MyRestDataSource", RestDataSource);
+
+                isc.MyRestDataSource.addProperties({
+                    dataFormat: "json",
+                    jsonSuffix: "",
+                    jsonPrefix: "",
+                    filterLocalData: false,
+                    transformRequest: function (dsRequest) {
+                        dsRequest.httpHeaders = {
+                            "Authorization": "Bearer <%= accessToken %>"
+                        };
+                        return this.Super("transformRequest", arguments);
+                    },
+
+                    transformResponse: function (dsResponse, dsRequest, data) {
+                        return this.Super("transformResponse", arguments);
+                    },
+                    applyFilter: function (data, criteria, requestProperties, startPos, endPos) {
+
+						if (criteria) {
+
+							this.filterData(criteria, resp => {
+
+							    if ((resp.httpResponseCode === 200 || resp.httpResponseCode === 201) && requestProperties && requestProperties.componentId) {
+
+									let grid  = window[requestProperties.componentId];
+									grid.setData(JSON.parse(resp.httpResponseText).response.data);
+								}
+							}, requestProperties);
+						}
+
+						return data;
+					}
+                });
+
                 <%@include file="common/ts/CommonUtil.js"%>
                 <%@include file="common/ts/PersianDateUtil.js"%>
                 <%@include file="common/ts/FormUtil.js"%>
@@ -283,39 +318,6 @@
                 isc.RichTextEditor.addProperties({
                     fontControls: ["fontSizeSelector"]
                 });
-
-                isc.RestDataSource.addProperties({
-                    dataFormat: "json",
-                    jsonSuffix: "",
-                    jsonPrefix: "",
-					filterLocalData: false,
-                    transformRequest: function (dsRequest) {
-                        dsRequest.httpHeaders = {
-                            "Authorization": "Bearer <%= accessToken %>"
-                        };
-                        return this.Super("transformRequest", arguments);
-                    },
-                    transformResponse: function (dsResponse, dsRequest, data) {
-                        return this.Super("transformResponse", arguments);
-                    },
-					applyFilter: function (data, criteria, requestProperties, startPos, endPos) {
-
-						if (criteria) {
-
-							this.filterData(criteria, resp => {
-
-							    if ((resp.httpResponseCode === 200 || resp.httpResponseCode === 201) && requestProperties && requestProperties.componentId) {
-
-									let grid  = window[requestProperties.componentId];
-									grid.setData(JSON.parse(resp.httpResponseText).response.data);
-								}
-							}, requestProperties);
-						}
-
-						return data;
-					}
-                });
-				isc.defineClass("MyRestDataSource", isc.RestDataSource);
 
                 isc.SelectItem.addProperties({
                     click: function () {

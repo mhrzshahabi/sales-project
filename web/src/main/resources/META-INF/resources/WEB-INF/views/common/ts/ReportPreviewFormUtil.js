@@ -259,7 +259,7 @@ var nicico;
                 // @ts-ignore
                 var fetchDataUrl = creator.variable.contextPath + report.source.replaceAll(new RegExp("^/|/$"), '') + '/';
                 // @ts-ignore
-                var dataSource = isc.RestDataSource.nicico.getDefault(fetchDataUrl, report.reportFields.filter(function (q) { return q.canFilter; }).map(function (p) {
+                var dataSource = isc.MyRestDataSource.nicico.getDefault(fetchDataUrl, report.reportFields.filter(function (q) { return q.canFilter; }).map(function (p) {
                     return { name: p.name, title: p.title, type: p.type, hidden: false };
                 }));
                 nicico.FilterFormUtil.okCallBack = function (criteria) {

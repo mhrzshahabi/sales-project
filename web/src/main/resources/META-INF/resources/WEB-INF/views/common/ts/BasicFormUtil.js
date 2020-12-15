@@ -148,7 +148,7 @@ var nicico;
         };
         BasicFormUtil.createRestDataSource = function (creator) {
             // @ts-ignore
-            creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.listGrid.fields, creator.method.transformRequest);
+            creator.restDataSource.main = isc.MyRestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.listGrid.fields, creator.method.transformRequest);
         };
         BasicFormUtil.createListGrid = function (creator) {
             // @ts-ignore
