@@ -6,6 +6,12 @@ contractTab.variable.contractUrl = "${contextPath}" + "/api/g-contract/";
 contractTab.variable.contractDetailTypeUrl = "${contextPath}" + "/api/contract-detail-type/";
 
 contractTab.variable.dataType = JSON.parse('${Enum_DataType}');
+contractTab.variable.units = [];
+getReferenceDataSource("Unit").fetchData(null, resp => {
+
+    if (resp && resp.httpResponseCode === 200 || resp.httpResponseCode === 201)
+        contractTab.variable.units = JSON.parse(resp.httpResponseText).response.data;
+});
 
 //*************************************************** RESTDATASOURCES **************************************************
 
@@ -1007,11 +1013,11 @@ contractTab.method.createArticle = async function (data) {
 
                 let field = Object.keys(values).filter(key => !contractTab.dynamicForm.main.getField(key))[i];
                 template = template.replace(
-                    new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field + "_IN_CHARACTER.*}", "g"),
+                    new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{" + field + "_IN_CHARACTER}", "g"),
                     numberToEnglish(values[field])
                 );
                 template = template.replace(
-                    new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field + ".*}", "g"),
+                    new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{" + field + "}", "g"),
                     values[field]
                 );
             }
@@ -1030,23 +1036,23 @@ contractTab.method.createArticle = async function (data) {
 
                     if (field.unitId)
                         template = template.replace(
-                            new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*_" + field.unitId + ".*}", "g"),
+                            new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{_" + field.unitId + "}", "g"),
                             this.form.getField(field.name).getHint()
                         );
 
                     template = template.replace(
-                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field.key + "_IN_CHARACTER.*}", "g"),
+                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{" + field.key + "_IN_CHARACTER}", "g"),
                         numberToEnglish(this.form.getValue(field.name))
                     );
 
                     if (field.paramType === contractTab.variable.dataType.Reference)
                         template = template.replace(
-                            new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field.key + ".*}", "g"),
+                            new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{" + field.key + "}", "g"),
                             this.form.getField(field.name).getDisplayValue()
                         );
 
                     template = template.replace(
-                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + field.key + ".*}", "g"),
+                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{" + field.key + "}", "g"),
                         this.form.getValue(field.name)
                     );
                 }
@@ -1099,7 +1105,7 @@ contractTab.method.createArticle = async function (data) {
                     table += tableStartTag + tableHeader + tableRows + tableEndTag;
 
                     template = template.replace(
-                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + grid.key + ".*}", "g"),
+                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{" + grid.key + "}", "g"),
                         table
                     );
                 }
@@ -1153,7 +1159,7 @@ contractTab.method.createArticle = async function (data) {
 
 
                     template = template.replace(
-                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{.*" + dynamicGrid.key + ".*}", "g"),
+                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{" + dynamicGrid.key + "}", "g"),
                         table
                     );
                 }
@@ -1165,7 +1171,7 @@ contractTab.method.createArticle = async function (data) {
             function evaluate(script) {
 
                 var context = contractTab.dynamicForm.valuesManager.getValues();
-                let keys = Object.keys(context);
+                let keys = Object.keys(context).filter(q => !/^-?\d+$/.test(q.replace("_", "")));
                 let declarations = keys.map(key => ' var ' + key + " = " + (typeof context[key] === 'object' ? 'clone(context["' + key + '"])' : 'context["' + key + '"]') + " ; ").join("");
 
                 return eval("function _EVALUATE_TEMPLATE_SCRIPT(){" + declarations + script + "} _EVALUATE_TEMPLATE_SCRIPT();");
@@ -1173,11 +1179,11 @@ contractTab.method.createArticle = async function (data) {
 
             try {
 
-                return [template.replace(/\\$(\W|&.*;|<.*>|<\/.*>|<.*\/>)*=(\W|&.*;|<.*>|<\/.*>|<.*\/>)*{(.+?)}/g,
-                    function (capture, group1, group2, group3) {
+                return [template.replace(/\\$={(.+?)}/g,
+                    function (capture, group1) {
 
                         let element = document.createElement('div');
-                        element.innerHTML = group3;
+                        element.innerHTML = group1;
                         let result = evaluate(element.innerText);
 
                         return result == null ? '' : result;
@@ -1190,7 +1196,7 @@ contractTab.method.createArticle = async function (data) {
         },
         providePrintContent: function () {
 
-            let error = null;
+            let error;
             let template = this.data.template;
 
             let materialIdField = contractTab.dynamicForm.main.getField("materialId");
@@ -1214,6 +1220,8 @@ contractTab.method.createArticle = async function (data) {
             let agentSellerIdField = contractTab.dynamicForm.main.getField("agentSellerId");
             let agentSellerIdValue = contractTab.dynamicForm.main.getValue("agentSellerId");
             agentSellerIdField.changed(contractTab.dynamicForm.main, agentSellerIdField, agentSellerIdValue);
+
+            contractTab.variable.units.forEach(unit => contractTab.dynamicForm.valuesManager.setValue("_" + unit.id, unit.symbolUnit));
 
             template = this.provideGlobalPrintContent(template);
             template = this.provideFormPrintContent(template);
@@ -1361,18 +1369,12 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
 
     dynamicForm.getItems().forEach(item => {
 
-        if (item.unitId)
-            fetch(getReferenceDataSource("Unit").fetchDataURL + '?criteria=' + JSON.stringify({
-                operator: "and",
-                _constructor: "AdvancedCriteria",
-                criteria: [{fieldName: "id", operator: "equals", value: item.unitId}]
-            }), {headers: SalesConfigs.httpHeaders}).then(res => {
-                res.json().then(resp => {
+        if (item.unitId) {
 
-                    if (resp && resp.response && resp.response.data && resp.response.data.length === 1)
-                        item.setHint(resp.response.data[0].symbolUnit);
-                });
-            });
+            let unit = contractTab.variable.units.find(q => q.id === item.unitId);
+            if (unit)
+                item.setHint(unit.symbolUnit);
+        }
     });
 
     if (isNewMode)
