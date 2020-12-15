@@ -74,7 +74,7 @@ function getReferenceFields(referenceType) {
                 {
                     name: "quantity",
                     title: "<spring:message code='global.quantity'/>",
-                    width: "10%",
+                    width: "100%",
                     align: "center",
                     validators: [{
                         type: "isFloat",
@@ -85,7 +85,7 @@ function getReferenceFields(referenceType) {
                     name: "tolorance",
                     title: "<spring:message code='contractItemShipment.tolorance'/>",
                     keyPressFilter: "[0-9.]",
-                    width: "10%",
+                    width: "100%",
                     align: "center",
                     validators: [
                         {
@@ -100,7 +100,7 @@ function getReferenceFields(referenceType) {
                     title: "<spring:message code='global.sendDate'/>",
                     type: "date",
                     required: false,
-                    width: "10%",
+                    width: "100%",
                 }
             ]);
         case 'Bank':

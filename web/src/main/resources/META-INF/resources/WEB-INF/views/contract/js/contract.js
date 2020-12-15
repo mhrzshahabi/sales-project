@@ -1451,9 +1451,7 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
             name: contractDetailType.code + "." + param.key,
             dataChanged: function (operationType) {
 
-                this.autoFitFields();
                 contractTab.dynamicForm.valuesManager.setValue(this.name, this.getData());
-
                 this.Super("dataChanged", arguments);
             },
             gridComponents: ["header", "body",
@@ -1591,9 +1589,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
             name: contractDetailType.code + "." + param.key,
             dataChanged: function (operationType) {
 
-                this.autoFitFields();
                 contractTab.dynamicForm.valuesManager.setValue(this.name, this.getData());
-
                 this.Super("dataChanged", arguments);
             },
             gridComponents: ["header", "body",
