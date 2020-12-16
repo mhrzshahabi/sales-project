@@ -61,11 +61,11 @@ namespace nicico {
 
         private additionalFormFields: isc.FormItem[];
         private showAllDataOfEntity: boolean = false;
-        static transformResponse: any = function () {
-            return null;
+        static transformResponse: any = function (res) {
+            return res;
         }
-        static transformRequest: any = function () {
-            return null;
+        static transformRequest: any = function (req) {
+            return req;
         }
         static cancelCallBack: any = function () {
 

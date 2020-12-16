@@ -18,15 +18,43 @@
     };
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-    var c_record = "${SecurityUtil.hasAuthority('C_SHIPMENT')}";
-    var d_record = "${SecurityUtil.hasAuthority('U_SHIPMENT')}";
 
     var contractId;
     var printTemplateList;
+    var oldPrintTemplateList;
+    var attachFileList = [];
+
+    function getAttachFileList() {
+
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            httpMethod: "GET",
+            actionURL: "${contextPath}/api/files/byEntityName",
+            params: {
+                entityName: "Shipment"
+            },
+            callback: function (resp) {
+                let data = JSON.parse(resp.httpResponseText);
+                attachFileList = data.filter(q => q.fileStatus !== "DELETED");
+            }
+        }));
+    }
+
+    getAttachFileList();
+
+    function checkHasAttachFile(record) {
+        let size = attachFileList.filter(q => q.recordId == record.id).size();
+        return size > 0;
+    };
+
+    nicico.FileUtil.okCallBack = function (files) {
+        getAttachFileList();
+        fetchPrintTemplateListAndRefreshGrid();
+    };
 
     function fetchPrintTemplateListAndRefreshGrid() {
         printTemplateList = [];
-        fetch("${contextPath}/api/files/byEntityName?entityName=Shipment", {
+        oldPrintTemplateList = [];
+        fetch("${contextPath}/api/files/byEntityName?entityName=ShipmentPrint", {
             headers: SalesConfigs.httpHeaders
         })
             .then(response => response.json())
@@ -65,13 +93,34 @@
     function transformResponsePrintAttachment(res) {
         res.forEach(_ => _.material = calcMaterialAndShipmentType(_.recordId).material);
         res.forEach(_ => _.shipmentType = calcMaterialAndShipmentType(_.recordId).shipmentType);
+        Object.assign(oldPrintTemplateList, res);
         return res;
     }
 
     function transformRequestPrintAttachment(req) {
         let formValues = req.fileUploadForm.form.getValues();
-        req.recordId = calcRecordId(formValues);
-        return req;
+        let gridValues = req.fileUploadForm.grid.getData();
+        let gridDataDeleted = oldPrintTemplateList && (oldPrintTemplateList.length > 0) && (gridValues.length < oldPrintTemplateList.length);
+        debugger
+        if (gridDataDeleted) {
+            let deletedRecords = oldPrintTemplateList.filter(ro =>
+                !gridValues.map(rn => rn.fileKey).includes(ro.fileKey));
+            if (deletedRecords && deletedRecords.length > 0) {
+                let remindedRecords = gridValues.filter(rn => rn.fileKey != deletedRecords.fileKey);
+                req.fileUploadForm.grid.setData(remindedRecords);
+                req.recordId = deletedRecords[0].recordId;
+                return req;
+            }
+        }
+        let dataAdded = gridValues.length > 0 && gridValues.filter(rn => !rn.recordId).length > 0;
+        if (dataAdded && formValues.shipmentType && formValues.material) {
+            req.recordId = calcRecordId(formValues);
+            return req;
+        } else {
+            req.recordId = 0;
+            req.fileUploadForm.grid.setData([]);
+            return req;
+        }
     }
 
     var RestDataSource_Contact__SHIPMENT = isc.MyRestDataSource.create({
@@ -213,7 +262,12 @@
         fields: [
             {type: "Header", defaultValue: ""},
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
+            {
+                name: "contractShipmentId",
+                title: "<spring:message code='contact.name'/>",
+                type: 'long',
+                hidden: true
+            },
             {name: "contactId", type: 'long', hidden: true},
             {
                 name: "contact.name",
@@ -263,7 +317,12 @@
                 showHover: true
             },
             {name: "loading", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
-            {name: "description", title: "<spring:message code='shipment.description'/>", type: 'text', width: "10%"},
+            {
+                name: "description",
+                title: "<spring:message code='shipment.description'/>",
+                type: 'text',
+                width: "10%"
+            },
             {
                 name: "status",
                 title: "<spring:message code='shipment.staus'/>",
@@ -1066,7 +1125,8 @@
                 _ => transformRequestPrintAttachment(_),
                 _ => transformResponsePrintAttachment(_));
 
-            nicico.FileUtil.show(null, "<spring:message code='shipment.loading.pattern.attachment'/> ", null, null, "Shipment", null);
+            nicico.FileUtil.show(null, "<spring:message
+	code='shipment.loading.pattern.attachment'/> ", null, null, "ShipmentPrint", null);
         }
     });
     </sec:authorize>
@@ -1090,6 +1150,24 @@
             ToolStripButton_Shipment_dcc,
             </sec:authorize>
 
+            <sec:authorize access="hasAuthority('C_SHIPMENT') or hasAuthority('U_SHIPMENT')">
+            isc.ToolStripButton.create({
+                visibility: "visible",
+                icon: "pieces/512/attachment.png",
+                title: "<spring:message code='global.attach.file'/>",
+                click: function () {
+                    let record = ListGrid_Shipment.getSelectedRecord();
+                    if (record == null || record.id == null) {
+                        isc.warn("<spring:message code='global.grid.record.not.selected'/>");
+                        return;
+                    }
+                    nicico.FileUtil.addSomeFeatures(false, null, null, null);
+                    nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message code="entity.shipment"/>',
+                        record.id, null, "Shipment", null);
+                }
+            }),
+            </sec:authorize>
+
             ShipmentCancelBtn_Help_shipment,
 
             isc.ToolStrip.create({
@@ -1110,32 +1188,13 @@
         ]
     });
 
-    var ShipmentAttachmentViewLoader = isc.ViewLoader.create({
-        autoDraw: false,
-        loadingMessage: ""
-    });
-
-    var hLayoutViewLoader = isc.HLayout.create({
-        width: "100%",
-        height: 180,
-        align: "center", padding: 5,
-        membersMargin: 20,
-        members: [
-            ShipmentAttachmentViewLoader
-        ]
-    });
-    hLayoutViewLoader.hide();
-
     var ListGrid_Shipment = isc.ListGrid.create({
         showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
         contextMenu: Menu_ListGrid_Shipment,
-        styleName: 'expandList',
         alternateRecordStyles: true,
-        canExpandRecords: true,
-        canExpandMultipleRecords: false,
         wrapCells: false,
         showRollOver: false,
         showRecordComponents: true,
@@ -1300,36 +1359,9 @@
                     return recordObject.vessel.name
                 }
             },
-            {name: "printIcon", align: "center", width: "4%", title: "<spring:message code='global.form.print'/>"}
+            {name: "printIcon", align: "center", width: "4%", title: "<spring:message code='global.form.print'/>"},
+            {name: "attachIcon", align: "center", width: 70, title: "<spring:message code='global.Attachment'/>"}
         ],
-        getExpansionComponent: function (record) {
-            if (record == null || record.id == null) {
-                isc.Dialog.create({
-                    message: "<spring:message code='global.grid.record.not.selected'/>",
-                    icon: "[SKIN]ask.png",
-                    title: "<spring:message code='global.message'/>",
-                    buttons: [isc.Button.create({
-                        title: "<spring:message code='global.ok'/>"
-                    })],
-                    buttonClick: function () {
-                        this.hide();
-                    }
-                });
-                record.id = null;
-            }
-            let dccTableId = record.id;
-            let dccTableName = "TBL_SHIPMENT";
-            ShipmentAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId + "?d_record="
-                + d_record + "&c_record=" + c_record);
-            hLayoutViewLoader.show();
-            let layoutShipment = isc.VLayout.create({
-                styleName: "expand-layout",
-                padding: 5,
-                membersMargin: 10,
-                members: [hLayoutViewLoader]
-            });
-            return layoutShipment;
-        },
         doubleClick(viewer, record, recordNum, field, fieldNum, value, rawValue) {
             <sec:authorize access="hasAuthority('U_SHIPMENT')">
             ListGrid_Shipment_edit();
@@ -1353,7 +1385,7 @@
                     click: function () {
                         let selectReportForm = new nicico.FormUtil();
                         let fileUploadForm = isc.FileUploadForm.create({
-                            entityName: "Shipment",
+                            entityName: "ShipmentPrint",
                             recordId: calcRecordId(record),
                             canAddFile: false,
                             canRemoveFile: false,
@@ -1364,16 +1396,51 @@
                         fileUploadForm.grid.recordDoubleClick = function (viewer, printRecord, recordNum, field, fieldNum, value, rawValue) {
                             window.open('${contextPath}/shipment/print/' + record.id + "/" + printRecord.fileKey);
                         }
-                        selectReportForm.showForm(null, "<spring:message code='global.form.select.print.template'/>", fileUploadForm, null, "300");
+                        selectReportForm.showForm(null, "<spring:message
+	code='global.form.select.print.template'/>", fileUploadForm, null, "300");
                         selectReportForm.bodyWidget.getObject().reloadData();
 
                     }
                 });
                 return printImg;
+            } else if (fieldName == "attachIcon") {
+
+                let hasAttachFile = checkHasAttachFile(record);
+                if (!hasAttachFile)
+                    return null;
+                var printImg = isc.ImgButton.create({
+                    showDown: false,
+                    showRollOver: false,
+                    layoutAlign: "center",
+                    src: "pieces/512/attachment.png",
+                    height: 16,
+                    width: 16,
+                    grid: this,
+                    click: function () {
+
+                        let selectReportForm = new nicico.FormUtil();
+                        selectReportForm.showForm(null, "<spring:message code="global.attach.file"/>",
+                            isc.FileUploadForm.create({
+                                entityName: "Shipment",
+                                recordId: record.id,
+                                canAddFile: false,
+                                canRemoveFile: false,
+                                canDownloadFile: true,
+                                height: "300",
+                                margin: 5
+                            }),
+                            null, "300"
+                        );
+                        selectReportForm.bodyWidget.getObject().reloadData();
+                    }
+                });
+                return printImg;
+
             } else {
                 return null;
             }
         }
+
     });
 
     var HLayout_Grid_Shipment = isc.HLayout.create({
