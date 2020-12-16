@@ -1,12 +1,37 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page  import="com.nicico.copper.core.SecurityUtil" %>
+<%@ page import="com.nicico.copper.core.SecurityUtil" %>
+<%@ include file="../common/ts/FileUtil.js" %>
+<%@include file="../common/ts/BasicFormUtil.js" %>
+<%@include file="../unit/js/component-unit.js" %>
+
 //<script>
 
-    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
-    var c_record = "${SecurityUtil.hasAuthority('C_PERSON')}";
-    var d_record = "${SecurityUtil.hasAuthority('U_PERSON')}";
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
+    var attachFileList = [];
+
+    function getAttachFileList() {
+
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            httpMethod: "GET",
+            actionURL: "${contextPath}/api/files/byEntityName",
+            params: {
+                entityName: "Person"
+            },
+            callback: function (resp) {
+                let data = JSON.parse(resp.httpResponseText);
+                attachFileList = data.filter(q => q.fileStatus !== "DELETED");
+            }
+        }));
+    }
+
+    getAttachFileList();
+
+    function checkHasAttachFile(record) {
+        let size = attachFileList.filter(q => q.recordId == record.id).size();
+        return size > 0;
+    };
 
     var RestDataSource_Contact = isc.MyRestDataSource.create(
         {
@@ -212,17 +237,17 @@
                 length: "200",
                 errorOrientation: "bottom",
                 width: 500,
-                keyPressFilter : "[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z| ]",
+                keyPressFilter: "[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z| ]",
                 validators: [
                     {
                         type: "required",
                         validateOnChange: true
                     },
                     {
-                      type: "regexp",
-                      expression:"^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z][\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z| ]*$",
-                      validateOnChange: true
-                    } ]
+                        type: "regexp",
+                        expression: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z][\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z| ]*$",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "jobTitle",
@@ -232,21 +257,21 @@
                 type: 'text',
                 width: 500,
                 wrapTitle: false,
-                keyPressFilter : "[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z| ]",
+                keyPressFilter: "[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z| ]",
                 validators: [
                     {
                         type: "required",
                         validateOnChange: true
                     },
                     {
-                      type: "regexp",
-                      expression:"^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z][\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z| ]*$",
-                      validateOnChange: true
+                        type: "regexp",
+                        expression: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z][\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z| ]*$",
+                        validateOnChange: true
                     }
                 ]
             },
             {
-                name: "title",hidden: true,
+                name: "title", hidden: true,
                 title: "<spring:message code='person.title.gender'/>",
                 type: 'text', wrapTitle: false,
                 width: 500,
@@ -279,7 +304,7 @@
                 ]
             },
             {
-                name: "email1",hidden: true,
+                name: "email1", hidden: true,
                 title: "<spring:message code='person.email1'/>",
                 type: 'text',
                 width: 500,
@@ -293,7 +318,7 @@
                 ]
             },
             {
-                name: "email2",hidden: true,
+                name: "email2", hidden: true,
                 title: "<spring:message code='person.email2'/>",
                 type: 'text',
                 width: 500,
@@ -307,7 +332,7 @@
                 ]
             },
             {
-                name: "webAddress",hidden: true,
+                name: "webAddress", hidden: true,
                 title: "<spring:message code='person.webAddress'/>",
                 type: 'text',
                 width: 500,
@@ -317,41 +342,53 @@
                 textAlign: "left"
             },
             {
-                name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: 500,hidden: true,
+                name: "phoneNo",
+                title: "<spring:message code='person.phoneNo'/>",
+                type: 'text',
+                width: 500,
+                hidden: true,
+                wrapTitle: false,
+                length: "20",
+                keyPressFilter: "[0-9.+]"
+            },
+            {
+                name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: 500, hidden: true,
                 wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
             },
             {
-                name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: 500,hidden: true,
-                wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
+                name: "mobileNo",
+                title: "<spring:message code='person.mobileNo'/>",
+                length: "20",
+                type: 'text',
+                hidden: true,
+                width: 500,
+                wrapTitle: false,
+                keyPressFilter: "[0-9.+]"
             },
             {
-                name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", length: "20", type: 'text',hidden: true,
-                width: 500, wrapTitle: false, keyPressFilter: "[0-9.+]"
-            },
-            {
-                name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text',hidden: true,
+                name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text', hidden: true,
                 width: 500, wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]", textAlign: "left"
             },
             {
-                name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text',hidden: true,
+                name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text', hidden: true,
                 width: 500, wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
             },
             {
-                name: "whatsApp",hidden: true,
+                name: "whatsApp", hidden: true,
                 title: "<spring:message code='person.whatsApp'/>",
                 type: 'text',
                 width: 500,
                 wrapTitle: false
             },
             {
-                name: "weChat",hidden: true,
+                name: "weChat", hidden: true,
                 title: "<spring:message code='person.weChat'/>",
                 type: 'text',
                 width: 500,
                 wrapTitle: false
             },
             {
-                name: "address",hidden: true,
+                name: "address", hidden: true,
                 title: "<spring:message code='person.address'/>",
                 type: 'text',
                 width: 500,
@@ -440,6 +477,7 @@
     });
 
     function ListGrid_Person_refresh() {
+        getAttachFileList();
         ListGrid_Person.invalidateCache();
     }
 
@@ -464,7 +502,7 @@
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message
-		code='global.no'/>"
+	code='global.no'/>"
                 })],
                 buttonClick: function (button, index) {
                     this.hide();
@@ -561,6 +599,25 @@
 
             <sec:authorize access="hasAuthority('D_PERSON')">
             ToolStripButton_Person_Remove,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('C_PERSON') or hasAuthority('U_PERSON')">
+            isc.ToolStripButton.create({
+                visibility: "visible",
+                icon: "pieces/512/attachment.png",
+                title: "<spring:message code='global.attach.file'/>",
+                click: function () {
+                    let record = ListGrid_Person.getSelectedRecord();
+                    if (record == null || record.id == null) {
+                        isc.warn("<spring:message code='global.grid.record.not.selected'/>");
+                        return;
+                    }
+                    nicico.FileUtil.okCallBack = function (files) {
+                        ListGrid_Person_refresh();
+                    };
+                    nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message	code="entity.person"/>', record.id, null, "Person", null);
+                }
+            }),
             </sec:authorize>
 
             isc.ToolStrip.create({
@@ -712,20 +769,6 @@
             fetchDataURL: "${contextPath}/api/person/spec-list"
         });
 
-    var personAttachmentViewLoader = isc.ViewLoader.create({
-        autoDraw: false,
-        loadingMessage: ""
-    });
-    var hLayoutViewLoader = isc.HLayout.create({
-        width: "100%",
-        height: 180,
-        align: "center", padding: 5,
-        membersMargin: 20,
-        members: [
-            personAttachmentViewLoader
-        ]
-    });
-    hLayoutViewLoader.hide();
 
     var ListGrid_Person = isc.ListGrid.create(
         {
@@ -734,10 +777,7 @@
             height: "100%",
             dataSource: RestDataSource_Person,
             contextMenu: Menu_ListGrid_Person,
-            styleName: 'expandList',
             alternateRecordStyles: true,
-            canExpandRecords: true,
-            canExpandMultipleRecords: false,
             wrapCells: false,
             showRollOver: false,
             showRecordComponents: true,
@@ -755,7 +795,7 @@
                     hidden: true
                 },
                 {
-                    name: "contact.nameFA",hidden: true,
+                    name: "contact.nameFA", hidden: true,
                     title: "<spring:message code='commercialParty.title'/>",
                     type: 'text',
                     width: "10%",
@@ -784,7 +824,7 @@
                     width: "10%",
                 },
                 {
-                    name: "title",hidden: true,
+                    name: "title", hidden: true,
                     title: "<spring:message code='person.title'/>",
                     type: 'text',
                     width: "10%",
@@ -796,7 +836,7 @@
                         }
                 },
                 {
-                    name: "email",hidden: true,
+                    name: "email", hidden: true,
                     title: "<spring:message code='person.email'/>",
                     type: 'text',
                     errorOrientation: "bottom",
@@ -808,73 +848,88 @@
                         }]
                 },
                 {
-                    name: "webAddress",hidden: true,
+                    name: "webAddress", hidden: true,
                     title: "<spring:message code='person.webAddress'/>",
                     type: 'text',
                     width: "10%",
                 },
                 {
-                    name: "phoneNo",hidden: true,
+                    name: "phoneNo", hidden: true,
                     title: "<spring:message code='person.phoneNo'/>",
                     type: 'text',
                     width: "10%",
                 },
                 {
-                    name: "faxNo",hidden: true,
+                    name: "faxNo", hidden: true,
                     title: "<spring:message code='person.faxNo'/>",
                     type: 'text',
                     width: "10%",
                 },
                 {
-                    name: "mobileNo",hidden: true,
+                    name: "mobileNo", hidden: true,
                     title: "<spring:message code='person.mobileNo'/>",
                     type: 'text',
                     width: "10%",
                 },
                 {
-                    name: "whatsApp",hidden: true,
+                    name: "whatsApp", hidden: true,
                     title: "<spring:message code='person.whatsApp'/>",
                     type: 'text',
                     width: "10%",
                 },
                 {
-                    name: "weChat",hidden: true,
+                    name: "weChat", hidden: true,
                     title: "<spring:message code='person.weChat'/>",
                     type: 'text',
                     width: "10%",
                 },
                 {
-                    name: "address",hidden: true,
+                    name: "address", hidden: true,
                     title: "<spring:message code='person.address'/>",
                     type: 'text',
                     width: "10%",
                 },
-            ],getExpansionComponent: function (record) {
-            if (record == null || record.id == null) {
-                    isc.Dialog.create({
-                        message: "<spring:message code='global.grid.record.not.selected'/>",
-                        icon: "[SKIN]ask.png",
-                        title: "<spring:message code='global.message'/>",
-                        buttons: [isc.Button.create({
-                            title: "<spring:message code='global.ok'/>"
-                        })],
-                        buttonClick: function () {
-                            this.hide();
+                {name: "attachIcon", align: "center", width: 70, title: "<spring:message code='global.Attachment'/>"}
+            ],
+            createRecordComponent: function (record, colNum) {
+
+                let fieldName = this.getFieldName(colNum);
+                if (fieldName == "attachIcon") {
+
+                    let hasAttachFile = checkHasAttachFile(record);
+                    if (!hasAttachFile)
+                        return null;
+                    var printImg = isc.ImgButton.create({
+                        showDown: false,
+                        showRollOver: false,
+                        layoutAlign: "center",
+                        src: "pieces/512/attachment.png",
+                        height: 16,
+                        width: 16,
+                        grid: this,
+                        click: function () {
+
+                            let selectReportForm = new nicico.FormUtil();
+                            selectReportForm.showForm(null, "<spring:message code="global.attach.file"/>",
+                                isc.FileUploadForm.create({
+                                    entityName: "Person",
+                                    recordId: record.id,
+                                    canAddFile: false,
+                                    canRemoveFile: false,
+                                    canDownloadFile: true,
+                                    height: "300",
+                                    margin: 5
+                                }),
+                                null, "300"
+                            );
+                            selectReportForm.bodyWidget.getObject().reloadData();
                         }
                     });
-                    record.id = null;
+                    return printImg;
+
+                } else {
+                    return null;
                 }
-                var dccTableId = record.id;
-                var dccTableName = "TBL_PERSON";
-                personAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId + "?d_record=" + d_record + "&c_record=" + c_record);
-                hLayoutViewLoader.show();
-                var layoutPerson = isc.VLayout.create({
-                    styleName: "expand-layout",
-                    padding: 5,
-                    membersMargin: 10,
-                    members: [hLayoutViewLoader]
-                });
-                return layoutPerson;
             },
             sortField: 2,
             sortDirection: "descending",

@@ -110,11 +110,11 @@ var nicico;
             this.transformResponse = transformResponse;
         };
         ;
-        FileUtil.transformResponse = function () {
-            return null;
+        FileUtil.transformResponse = function (res) {
+            return res;
         };
-        FileUtil.transformRequest = function () {
-            return null;
+        FileUtil.transformRequest = function (req) {
+            return req;
         };
         FileUtil.cancelCallBack = function () {
             return;

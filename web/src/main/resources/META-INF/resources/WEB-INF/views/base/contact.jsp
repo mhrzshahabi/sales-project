@@ -2,13 +2,36 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="com.nicico.copper.core.SecurityUtil" %>
+<%@ include file="../common/ts/FileUtil.js" %>
+<%@include file="../common/ts/BasicFormUtil.js" %>
+<%@include file="../unit/js/component-unit.js" %>
 
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-    var c_record = "${SecurityUtil.hasAuthority('C_CONTACT')}";
-    var d_record = "${SecurityUtil.hasAuthority('U_CONTACT')}";
+    var attachFileList = [];
 
+    function getAttachFileList() {
+
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            httpMethod: "GET",
+            actionURL: "${contextPath}/api/files/byEntityName",
+            params: {
+                entityName: "Contact"
+            },
+            callback: function (resp) {
+                let data = JSON.parse(resp.httpResponseText);
+                attachFileList = data.filter(q => q.fileStatus !== "DELETED");
+            }
+        }));
+    }
+
+    getAttachFileList();
+
+    function checkHasAttachFile(record) {
+        let size = attachFileList.filter(q => q.recordId == record.id).size();
+        return size > 0;
+    };
     var RestDataSource_Country_IN_CONTACT = isc.MyRestDataSource.create(
         {
             fields: [
@@ -968,6 +991,7 @@
     });
 
     function ListGrid_Contact_refresh() {
+        getAttachFileList();
         ListGrid_Contact.invalidateCache();
     }
 
@@ -1839,6 +1863,25 @@
             <sec:authorize access="hasAuthority('D_CONTACT')">
             ToolStripButton_Contact_Remove,
             </sec:authorize>
+            <sec:authorize access="hasAuthority('C_CONTACT') or hasAuthority('U_CONTACT')">
+            isc.ToolStripButton.create({
+                visibility: "visible",
+                icon: "pieces/512/attachment.png",
+                title: "<spring:message code='global.attach.file'/>",
+                click: function () {
+                    let record = ListGrid_Contact.getSelectedRecord();
+                    if (record == null || record.id == null) {
+                        isc.warn("<spring:message code='global.grid.record.not.selected'/>");
+                        return;
+                    }
+                    nicico.FileUtil.okCallBack = function (files) {
+                        ListGrid_Contact_refresh();
+                    };
+                    nicico.FileUtil.show(null, '<spring:message code="global.attach.file"/> <spring:message	code="entity.contact"/>',
+                        record.id, null, "Contact", null);
+                }
+            }),
+            </sec:authorize>
 
             ToolStripButton_Contact_Accounts,
             isc.ToolStrip.create({
@@ -1859,33 +1902,14 @@
         ]
     });
 
-    var contactAttachmentViewLoader = isc.ViewLoader.create({
-        autoDraw: false,
-        loadingMessage: ""
-    });
-
-    var hLayoutViewLoader = isc.HLayout.create({
-        width: "100%",
-        height: 200,
-        align: "center", padding: 5,
-        membersMargin: 20,
-        members: [
-            contactAttachmentViewLoader
-        ]
-    });
-    hLayoutViewLoader.hide();
-
     var ListGrid_Contact = isc.ListGrid.create(
         {
             showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_Contact,
-            styleName: 'expandList',
             autoFetchData: true,
             alternateRecordStyles: true,
-            canExpandRecords: true,
-            canExpandMultipleRecords: false,
             wrapCells: false,
             showRollOver: false,
             showRecordComponents: true,
@@ -1916,13 +1940,13 @@
                     name: "nameFA",
                     title: "<spring:message code='contact.nameFa'/>",
                     align: "center",
-                    width: 380
+                    width: 360
                 },
                 {
                     name: "nameEN",
                     title: "<spring:message code='contact.nameEn'/>",
                     align: "center",
-                    width: 380
+                    width: 360
                 },
                 {
                     name: "tradeMark",
@@ -2061,35 +2085,48 @@
                             false: "<spring:message code='global.table.disabled'/>"
                         }
                     }
-                }
-
+                },
+                {name: "attachIcon", align: "center", width: 70, title: "<spring:message code='global.Attachment'/>"}
             ],
-            getExpansionComponent: function (record) {
-                if (record == null || record.id == null) {
-                    isc.Dialog.create({
-                        message: "<spring:message code='global.grid.record.not.selected'/>",
-                        icon: "[SKIN]ask.png",
-                        title: "<spring:message code='global.message'/>",
-                        buttons: [isc.Button.create({
-                            title: "<spring:message code='global.ok'/>"
-                        })],
-                        buttonClick: function () {
-                            this.hide();
+            createRecordComponent: function (record, colNum) {
+
+                let fieldName = this.getFieldName(colNum);
+                if (fieldName == "attachIcon") {
+
+                    let hasAttachFile = checkHasAttachFile(record);
+                    if (!hasAttachFile)
+                        return null;
+                    var printImg = isc.ImgButton.create({
+                        showDown: false,
+                        showRollOver: false,
+                        layoutAlign: "center",
+                        src: "pieces/512/attachment.png",
+                        height: 16,
+                        width: 16,
+                        grid: this,
+                        click: function () {
+
+                            let selectReportForm = new nicico.FormUtil();
+                            selectReportForm.showForm(null, "<spring:message code="global.attach.file"/>",
+                                isc.FileUploadForm.create({
+                                    entityName: "Contact",
+                                    recordId: record.id,
+                                    canAddFile: false,
+                                    canRemoveFile: false,
+                                    canDownloadFile: true,
+                                    height: "300",
+                                    margin: 5
+                                }),
+                                null, "300"
+                            );
+                            selectReportForm.bodyWidget.getObject().reloadData();
                         }
                     });
-                    record.id = null;
+                    return printImg;
+
+                } else {
+                    return null;
                 }
-                var dccTableId = record.id;
-                var dccTableName = "TBL_CONTACT";
-                contactAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId + "?d_record=" + d_record + "&c_record=" + c_record);
-                hLayoutViewLoader.show();
-                var layoutContact = isc.VLayout.create({
-                    styleName: "expand-layout",
-                    padding: 5,
-                    membersMargin: 10,
-                    members: [hLayoutViewLoader]
-                });
-                return layoutContact;
             },
             <sec:authorize access="hasAuthority('U_CONTACT')">
             doubleClick: function () {
