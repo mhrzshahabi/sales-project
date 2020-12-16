@@ -663,7 +663,7 @@ contractTab.button.saveButton = isc.IButtonSave.create({
                 if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
                     contractTab.dialog.ok();
                     contractTab.method.refresh(contractTab.listGrid.main);
-                    // contractTab.window.main.close();
+                    contractTab.window.main.close();
                 } else
                     contractTab.dialog.error(resp);
             }
@@ -1231,8 +1231,8 @@ contractTab.method.createArticle = async function (data) {
 
             if (error == null) {
 
-                if (this.title != ReferenceEnums.Enum_EContractDetailTypeCode.Header && this.title != ReferenceEnums.Enum_EContractDetailTypeCode.Footer)
-                    template = "<h2 style='text-decoration: underline; text-align: left'><b>" + data.contractDetailType.titleEN + "</b></h2>" + template;
+                if (this.title !== ReferenceEnums.Enum_EContractDetailTypeCode.Header && this.title !== ReferenceEnums.Enum_EContractDetailTypeCode.Footer)
+                    template = "<p style='text-decoration: underline; text-align: left; font-size: 15px; font-family: 'Times New Roman''><b>" + data.contractDetailType.titleEN + "</b></p>" + template;
                 this.data.contractDetail.content = template;
                 return template;
             } else
