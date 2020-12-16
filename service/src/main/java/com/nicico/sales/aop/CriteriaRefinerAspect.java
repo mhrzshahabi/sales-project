@@ -29,6 +29,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -221,12 +222,21 @@ public class CriteriaRefinerAspect {
                         date += " 23:59:59";
                     else date += " 00:00:00";
                 } else {
-                    date = date.substring(0, 10);
+
+                    Date dateObj;
+                    try {
+
+                        dateObj = new Date(date.replace('-', '/'));
+                    } catch (Exception e) {
+
+                        date = date.replaceAll(".*([-/\\d]{10}).*", "$1");
+                        dateObj = new Date(date.replace('-', '/'));
+                    }
+                    date = new SimpleDateFormat("YYYY/MM/dd").format(dateObj);
                     if (criteriaRq.getOperator() == EOperator.lessThan || criteriaRq.getOperator() == EOperator.lessOrEqual)
                         date += " 23:59:59";
                     else date += " 00:00:00";
                 }
-
                 newValues.add(new Date(date.replace('-', '/')));
             } else if (value instanceof Map)
                 throw new SalesException2(ErrorType.BadRequest, fieldName, "فیلتر مورد نظر پشتیبانی نمی شود.");
