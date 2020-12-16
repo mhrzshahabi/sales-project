@@ -591,16 +591,11 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         if (actionType == ActionType.Disapprove) {
 
             Contract contract = repository.findById(entity.getId()).orElseThrow(() -> new NotFoundException(entity.getClass()));
-            Map<Class<? extends BaseEntity>, List<BaseEntity>> relations = relationChecker.getRecordRelations(Contract.class, contract.getId());
-            long relationCount = relations.keySet().stream()
-                    .filter(clazz -> clazz != ContractDetail.class)
-                    .filter(clazz -> clazz != ContractContact.class)
-                    .count();
-            if (relationCount > 0) {
+            Map<Class<? extends BaseEntity>, List<BaseEntity>> relations = relationChecker.getRecordRelations(Contract.class, contract.getId(),
+                    Arrays.asList(ContractDetail.class, ContractContact.class, ContractShipment.class, ContractDiscount.class, TypicalAssay.class, Deduction.class));
+            if (relations.size() > 0) {
                 String message;
                 List<String> collect = relations.keySet().stream()
-                        .filter(clazz -> clazz != ContractDetail.class)
-                        .filter(clazz -> clazz != ContractContact.class)
                         .map(Class::getSimpleName)
                         .map(s -> messageSource.getMessage("entity." + StringFormatUtil.makeMessageKey(s, "-"), null, locale))
                         .collect(Collectors.toList());
