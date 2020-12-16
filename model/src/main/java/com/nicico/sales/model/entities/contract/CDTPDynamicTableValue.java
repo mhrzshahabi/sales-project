@@ -72,7 +72,6 @@ public class CDTPDynamicTableValue extends BaseEntity {
     @Column(name = "D_ROW_NUM")
     private Integer rowNum;
 
-    @NotNull
     @Column(name = "C_VALUE", length = 2000)
     private String value;
 

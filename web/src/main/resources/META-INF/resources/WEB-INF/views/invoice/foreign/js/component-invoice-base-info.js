@@ -21,7 +21,7 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
         let result = '';
 
         let material = This.contract.material;
-        let deliveryTerm = This.contractDetailDataIncoterm;
+        let incoterm = This.contractDetailDataIncoterm;
         let buyer = This.contract.contractContacts.filter(q => q.commercialRole === JSON.parse('${Enum_CommercialRole}').Buyer).first().contact;
 
         this.addMember(isc.Label.create({
@@ -114,8 +114,8 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
                   <tr>
                     <td class="table-td">DELIVERY TERMS:&nbsp;</td>
                     <td class="table-td-value">
-                        <div>` + deliveryTerm.incotermRules[0].incotermRule.titleEn + `</div>
-                        <div>` + deliveryTerm.incotermVersion.incotermVersion + `</div>
+                        <div>` + incoterm.incotermRules[0].incotermRule.titleEn + `</div>
+                        <div>` + incoterm.incotermVersion.incotermVersion + `</div>
                     </td>
                   </tr>
                 </table>`
