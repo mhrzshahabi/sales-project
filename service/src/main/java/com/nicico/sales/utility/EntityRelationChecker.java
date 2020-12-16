@@ -24,17 +24,19 @@ public class EntityRelationChecker {
 
     private Map<Class<? extends BaseEntity>, Map<Class<? extends BaseEntity>, Set<String>>> relatedToEntity = new HashMap<>();
 
-    public Set<Class<? extends BaseEntity>> getRelatedEntities(Class<? extends BaseEntity> entityClass){
+    public Set<Class<? extends BaseEntity>> getRelatedEntities(Class<? extends BaseEntity> entityClass) {
         if (relatedToEntity.get(entityClass) == null)
             fillRelationMap(entityClass);
         return relatedToEntity.get(entityClass).keySet();
     }
 
-    public Map<Class<? extends BaseEntity>, List<BaseEntity>> getRecordRelations(Class<? extends BaseEntity> entityClass, Long id) {
+    public Map<Class<? extends BaseEntity>, List<BaseEntity>> getRecordRelations(Class<? extends BaseEntity> entityClass, Long id, Collection<Class<? extends BaseEntity>> ignoreList) {
         Map<Class<? extends BaseEntity>, List<BaseEntity>> relatedRecords = new HashMap<>();
         if (relatedToEntity.get(entityClass) == null)
             fillRelationMap(entityClass);
         for (Class<? extends BaseEntity> entityType : relatedToEntity.get(entityClass).keySet()) {
+            if (ignoreList != null && ignoreList.contains(entityType))
+                continue;
             Set<String> fields = relatedToEntity.get(entityClass).get(entityType);
             CriteriaBuilder cb = entityManager.getCriteriaBuilder();
             CriteriaQuery<? extends BaseEntity> query = cb.createQuery(entityType);
@@ -51,6 +53,11 @@ public class EntityRelationChecker {
         }
 
         return relatedRecords;
+    }
+
+
+    public Map<Class<? extends BaseEntity>, List<BaseEntity>> getRecordRelations(Class<? extends BaseEntity> entityClass, Long id) {
+        return getRecordRelations(entityClass, id, null);
     }
 
     private void fillRelationMap(Class<? extends BaseEntity> entityClass) {

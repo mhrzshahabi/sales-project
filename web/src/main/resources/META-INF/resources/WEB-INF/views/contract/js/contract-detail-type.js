@@ -207,7 +207,7 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
             validateOnExit: true,
         },
         type: "string",
-        title: "<spring:message code='global.type'/> <spring:message code='global.header'/> ",
+        title: "<spring:message code='global.headerType'/>",
         async editorExit(editCompletionEvent, record, newValue, rowNum, colNum) {
 
             if (!newValue) return true;
@@ -280,7 +280,7 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
     {
         canEdit: false,
         name: 'headerKey',
-        title: "<spring:message code='global.key'/> <spring:message code='global.header'/> ",
+        title: "<spring:message code='global.headerKey'/>",
         changed: function (form, item, value) {
 
             if (!Object.values(contractDetailTypeTab.variable.dataType).includes(form.getValue("headerType"))) {
@@ -295,7 +295,7 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
         required: true,
         validateOnExit: true,
         type: "string",
-        title: "<spring:message code='contractPenalty.value'/> <spring:message code='global.header'/> "
+        title: "<spring:message code='global.headerValue'/>"
     },
     {
         name: 'valueType',
@@ -309,7 +309,7 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
         },
         validateOnExit: true,
         type: "string",
-        title: "<spring:message code='global.type'/> <spring:message code='contractPenalty.value'/>",
+        title: "<spring:message code='global.valueType'/>",
         async editorExit(editCompletionEvent, record, newValue, rowNum, colNum) {
 
             if (!newValue) return true;
@@ -358,7 +358,7 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
     {
         canEdit: false,
         name: 'displayField',
-        title: "<spring:message code='global.key'/> <spring:message code='contractPenalty.value'/>",
+        title: "<spring:message code='global.displayField'/>",
     },
     {
         name: 'required',
@@ -378,7 +378,7 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
     {
         name: 'maxRows',
         type: "number",
-        title: "<spring:message code='MaterialFeature.maxValue'/> <spring:message code='global.row.num'/>",
+        title: "<spring:message code='global.maxRows'/>",
     },
     {
         name: 'description',
