@@ -22,6 +22,7 @@ public class CDTPDynamicTableDTO {
     private String headerType = "String";
     private String headerValue;
     private String headerKey;
+    private String headerTitle;
     private Long cdtpId;
 
     private String valueType = "String";

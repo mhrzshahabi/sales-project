@@ -298,6 +298,13 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
         title: "<spring:message code='contractPenalty.value'/> <spring:message code='global.header'/> "
     },
     {
+        name: 'headerTitle',
+        required: true,
+        validateOnExit: true,
+        type: "string",
+        title: "<spring:message code='global.header'/> <spring:message code='global.title'/>"
+    },
+    {
         name: 'valueType',
         required: true,
         editorProperties: {
