@@ -76,10 +76,11 @@ var nicico;
                     }));
             };
             // @ts-ignore
-            isc.RestDataSource.nicico = {};
+            isc.MyRestDataSource.nicico = {};
             // @ts-ignore
-            isc.RestDataSource.nicico.getDefault = function (fetchDataUrl, fields, transformRequest) {
+            isc.MyRestDataSource.nicico.getDefault = function (fetchDataUrl, fields, transformRequest) {
                 if (transformRequest === void 0) { transformRequest = null; }
+                // @ts-ignore
                 var restDataSourceProperties = {};
                 restDataSourceProperties.jsonPrefix = "";
                 restDataSourceProperties.jsonSuffix = "";
@@ -96,9 +97,9 @@ var nicico;
                 return this.createRestDataSource(restDataSourceProperties, fetchDataUrl, fields);
             };
             // @ts-ignore
-            isc.RestDataSource.nicico.createRestDataSource = function (restDataSourceProperties, fetchDataUrl, fields) {
+            isc.MyRestDataSource.nicico.createRestDataSource = function (restDataSourceProperties, fetchDataUrl, fields) {
                 // @ts-ignore
-                return isc.RestDataSource.create(Object.assign(restDataSourceProperties, {
+                return isc.MyRestDataSource.create(Object.assign(restDataSourceProperties, {
                     fields: fields,
                     fetchDataURL: fetchDataUrl
                 }));

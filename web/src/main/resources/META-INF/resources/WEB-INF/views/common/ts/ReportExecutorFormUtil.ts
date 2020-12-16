@@ -23,7 +23,7 @@ namespace nicico {
             // @ts-ignore
             let fetchDataUrl = creator.variable.contextPath + record.source.replaceAll(new RegExp("^/|/$"), '') + '/';
             // @ts-ignore
-            let dataSource = isc.RestDataSource.nicico.getDefault(fetchDataUrl, record.reportFields.filter(q => q.canFilter).map(p => {
+            let dataSource = isc.MyRestDataSource.nicico.getDefault(fetchDataUrl, record.reportFields.filter(q => q.canFilter).map(p => {
                 return {name: p.name, title: p.title, type: p.type, hidden: false};
             }));
 
@@ -39,7 +39,7 @@ namespace nicico {
 
         static createRestDataSource(creator: JSPTabVariable): void {
             // @ts-ignore
-            creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "report-with-permission", [], creator.method.transformRequest);
+            creator.restDataSource.main = isc.MyRestDataSource.nicico.getDefault(creator.variable.url + "report-with-permission", [], creator.method.transformRequest);
         }
 
         static createListGrid(creator: JSPTabVariable): void {

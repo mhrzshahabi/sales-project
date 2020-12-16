@@ -70,7 +70,7 @@ namespace nicico {
             // @ts-ignore
             isc.ListGrid.nicico = {};
             // @ts-ignore
-            isc.ListGrid.nicico.getDefault = function (fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.RestDataSource, criteria?: Criteria, extraProperties: Partial<isc.ListGrid>): isc.ListGrid {
+            isc.ListGrid.nicico.getDefault = function (fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.MyRestDataSource, criteria?: Criteria, extraProperties: Partial<isc.ListGrid>): isc.ListGrid {
 
                 let listGridProperties: Partial<isc.ListGrid> = {};
 
@@ -107,7 +107,7 @@ namespace nicico {
                 return this.createListGrid(Object.assign(listGridProperties, extraProperties), fields, restDataSource);
             };
             // @ts-ignore
-            isc.ListGrid.nicico.createListGrid = function (listGridProperties: Partial<isc.ListGrid>, fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.RestDataSource): isc.ListGrid {
+            isc.ListGrid.nicico.createListGrid = function (listGridProperties: Partial<isc.ListGrid>, fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.MyRestDataSource): isc.ListGrid {
 
                 return fields ?
                     // @ts-ignore
@@ -122,11 +122,11 @@ namespace nicico {
             };
 
             // @ts-ignore
-            isc.RestDataSource.nicico = {};
+            isc.MyRestDataSource.nicico = {};
             // @ts-ignore
-            isc.RestDataSource.nicico.getDefault = function (fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>, transformRequest: any = null): isc.RestDataSource {
-
-                let restDataSourceProperties: Partial<isc.RestDataSource> = {};
+            isc.MyRestDataSource.nicico.getDefault = function (fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>, transformRequest: any = null): isc.MyRestDataSource {
+            // @ts-ignore
+                let restDataSourceProperties: Partial<isc.MyRestDataSource> = {};
 
                 restDataSourceProperties.jsonPrefix = "";
                 restDataSourceProperties.jsonSuffix = "";
@@ -144,10 +144,10 @@ namespace nicico {
                 return this.createRestDataSource(restDataSourceProperties, fetchDataUrl, fields);
             };
             // @ts-ignore
-            isc.RestDataSource.nicico.createRestDataSource = function (restDataSourceProperties: Partial<isc.RestDataSource>, fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>): isc.RestDataSource {
+            isc.MyRestDataSource.nicico.createRestDataSource = function (restDataSourceProperties: Partial<isc.MyRestDataSource>, fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>): isc.MyRestDataSource {
 
                 // @ts-ignore
-                return isc.RestDataSource.create(Object.assign(restDataSourceProperties, {
+                return isc.MyRestDataSource.create(Object.assign(restDataSourceProperties, {
                     fields: fields,
                     fetchDataURL: fetchDataUrl
                 }));
@@ -382,7 +382,7 @@ namespace nicico {
             // @ts-ignore
             isc.FilterBuilder.nicico = {};
             // @ts-ignore
-            isc.FilterBuilder.nicico.getDefault = function (restDataSource?: isc.RestDataSource) {
+            isc.FilterBuilder.nicico.getDefault = function (restDataSource?: isc.MyRestDataSource) {
                 return isc.FilterBuilder.create({
                     // @ts-ignore
                     dataSource: restDataSource,

@@ -86,7 +86,7 @@ var nicico;
             if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
             this.owner = new nicico.ObjectHider(ownerWindow);
             this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicityValue);
-            this.createListGrid(isc.RestDataSource.create(restDataSource), criteria, currentData, dataArrivedCallback);
+            this.createListGrid(isc.MyRestDataSource.create(restDataSource), criteria, currentData, dataArrivedCallback);
             this.createWindow(title, this.getButtonLayout(), this.listGridWidget.getObject(), width, height);
             if (ownerWindow != null)
                 ownerWindow.close();
@@ -161,7 +161,7 @@ var nicico;
         };
         FindFormUtil.prototype.getRestDataSource = function (restApiUrl, fields) {
             // @ts-ignore
-            return isc.RestDataSource.nicico.getDefault(restApiUrl, fields);
+            return isc.MyRestDataSource.nicico.getDefault(restApiUrl, fields);
         };
         FindFormUtil.prototype.createListGrid = function (restDataSource, criteria, currentData, dataArrivedCallback) {
             var This = this;

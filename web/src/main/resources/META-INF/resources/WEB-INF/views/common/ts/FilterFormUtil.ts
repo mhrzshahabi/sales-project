@@ -152,8 +152,8 @@ namespace nicico {
                 creator.filterBuilder.main, creator.hLayout.main
             ], width, height);
         }
-
-        static show(owner: isc.Window, title: string, restDataSource: isc.RestDataSource, criteria: isc.AdvancedCriteria, width: string = null, height: string = null) {
+        // @ts-ignore
+        static show(owner: isc.Window, title: string, restDataSource: isc.MyRestDataSource, criteria: isc.AdvancedCriteria, width: string = null, height: string = null) {
 
             let creator = new GeneralTabUtil().getDefaultJSPTabVariable();
             // @ts-ignore
