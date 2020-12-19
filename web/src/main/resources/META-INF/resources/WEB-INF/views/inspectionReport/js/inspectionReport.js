@@ -763,10 +763,8 @@ inspectionReportTab.method.attachFileList = function () {
 
 inspectionReportTab.method.attachFileList();
 
-inspectionReportTab.method.checkHasAttachFile = function checkHasPrintTemplate(record) {
-
-    let size = inspectionReportTab.variable.attachFileList.filter(q => q.recordId == record.id).size();
-    return size > 0;
+inspectionReportTab.method.attachFileListSize = function checkHasPrintTemplate(record) {
+    return inspectionReportTab.variable.attachFileList.filter(q => q.recordId == record.id).size();
 };
 
 inspectionReportTab.variable.inspectorCriteria = {
@@ -2386,16 +2384,18 @@ nicico.BasicFormUtil.createListGrid = function () {
                 let fieldName = this.getFieldName(colNum);
                 if (fieldName == "attachIcon") {
 
-                    let hasAttachFile = inspectionReportTab.method.checkHasAttachFile(record);
-                    if (!hasAttachFile)
+                    let listSize = inspectionReportTab.method.attachFileListSize(record);
+                    if (listSize == 0)
                         return null;
-                    var printImg = isc.ImgButton.create({
+                    let cntnt = (listSize > 1) ? "(" + listSize + ")" : "";
+                    var printImg = isc.Label.create({
+                        contents: cntnt,
                         showDown: false,
                         showRollOver: false,
-                        layoutAlign: "center",
-                        src: "pieces/512/attachment.png",
+                        icon: "pieces/512/attachment.png",
                         height: 16,
                         width: 16,
+                        cursor: "hand",
                         grid: this,
                         click: function () {
 

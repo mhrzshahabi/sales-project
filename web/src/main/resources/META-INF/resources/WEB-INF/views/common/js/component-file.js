@@ -126,7 +126,7 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                 formatCellValue: function (value, record, rowNum, colNum, grid) {
 
                     if (record && record.fileKey && record.fileStatus && record.fileStatus !== "DELETED")
-                        return '<img alt="download icon" src="static/img/pieces/download.png" style="vertical-align:middle;width:20px" />';
+                        return '<img alt="download icon" src="static/img/pieces/download.png" style="vertical-align:middle;width:20px;cursor:pointer" />';
 
                     return "";
                 }

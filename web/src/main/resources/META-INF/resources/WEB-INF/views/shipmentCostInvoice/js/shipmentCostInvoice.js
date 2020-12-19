@@ -523,10 +523,8 @@ shipmentCostInvoiceTab.method.attachFileList = function () {
     }));
 };
 shipmentCostInvoiceTab.method.attachFileList();
-shipmentCostInvoiceTab.method.checkHasAttachFile = function checkHasPrintTemplate(record) {
-
-    let size = shipmentCostInvoiceTab.variable.attachFileList.filter(q => q.recordId == record.id).size();
-    return size > 0;
+shipmentCostInvoiceTab.method.attachFileListSize = function checkHasPrintTemplate(record) {
+    return shipmentCostInvoiceTab.variable.attachFileList.filter(q => q.recordId == record.id).size();
 };
 
 //***************************************************** MAINWINDOW *************************************************
@@ -2221,16 +2219,20 @@ nicico.BasicFormUtil.createListGrid = function () {
                 let fieldName = this.getFieldName(colNum);
                 if (fieldName == "attachIcon") {
 
-                    let hasAttachFile = shipmentCostInvoiceTab.method.checkHasAttachFile(record);
-                    if (!hasAttachFile)
+                    let listSize = shipmentCostInvoiceTab.method.attachFileListSize(record);
+                    if (listSize == 0)
                         return null;
-                    var printImg = isc.ImgButton.create({
+                    let cntnt = (listSize > 1) ? "(" + listSize + ")" : "";
+                    var printImg = isc.Label.create({
+                        contents: cntnt,
                         showDown: false,
                         showRollOver: false,
                         layoutAlign: "center",
-                        src: "pieces/512/attachment.png",
+                        iconAlign: "left",
+                        icon: "pieces/512/attachment.png",
                         height: 16,
                         width: 16,
+                        cursor: "hand",
                         grid: this,
                         click: function () {
 
