@@ -552,6 +552,7 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                             required: field.required,
                             headerKey: field.headerKey,
                             headerType: field.headerType,
+                            headerTitle: field.headerTitle,
                             headerValue: field.headerValue,
                             valueType: field.valueType,
                             description: field.description,
@@ -911,6 +912,19 @@ contractTab.method.editForm = function () {
     }
 };
 
+contractTab.method.setDisplayData = function foo(grid, isDynamicGrid) {
+
+    let data = clone(grid.getData());
+    for (let i = 0; i < grid.fields.length; i++)
+        if ((!isDynamicGrid && grid.fields[i].templateFieldName) || (isDynamicGrid && grid.fields[i].displayField))
+            for (let j = 0; j < data.length; j++)
+                data[j][grid.fields[i].name] = {
+                    value: data[j][grid.fields[i].name],
+                    display: grid.getDisplayValue(grid.fields[i], data[j][grid.fields[i].name], data[j])
+                };
+
+    return data;
+};
 contractTab.method.addArticle = async function (data) {
 
     if (!data.contractDetail)
@@ -1013,11 +1027,11 @@ contractTab.method.createArticle = async function (data) {
 
                 let field = Object.keys(values).filter(key => !contractTab.dynamicForm.main.getField(key))[i];
                 template = template.replace(
-                    new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{" + field + "_IN_CHARACTER}", "g"),
+                    new RegExp("\\\${" + field + "_IN_CHARACTER}", "g"),
                     numberToEnglish(values[field])
                 );
                 template = template.replace(
-                    new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{" + field + "}", "g"),
+                    new RegExp("\\\${" + field + "}", "g"),
                     values[field]
                 );
             }
@@ -1036,23 +1050,23 @@ contractTab.method.createArticle = async function (data) {
 
                     if (field.unitId)
                         template = template.replace(
-                            new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{_" + field.unitId + "}", "g"),
+                            new RegExp("\\\${_" + field.unitId + "}", "g"),
                             this.form.getField(field.name).getHint()
                         );
 
                     template = template.replace(
-                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{" + field.key + "_IN_CHARACTER}", "g"),
+                        new RegExp("\\\${" + field.key + "_IN_CHARACTER}", "g"),
                         numberToEnglish(this.form.getValue(field.name))
                     );
 
                     if (field.paramType === contractTab.variable.dataType.Reference)
                         template = template.replace(
-                            new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{" + field.key + "}", "g"),
+                            new RegExp("\\\${" + field.key + "}", "g"),
                             this.form.getField(field.name).getDisplayValue()
                         );
 
                     template = template.replace(
-                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{" + field.key + "}", "g"),
+                        new RegExp("\\\${" + field.key + "}", "g"),
                         this.form.getValue(field.name)
                     );
                 }
@@ -1105,7 +1119,7 @@ contractTab.method.createArticle = async function (data) {
                     table += tableStartTag + tableHeader + tableRows + tableEndTag;
 
                     template = template.replace(
-                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{" + grid.key + "}", "g"),
+                        new RegExp("\\\${" + grid.key + "}", "g"),
                         table
                     );
                 }
@@ -1146,7 +1160,7 @@ contractTab.method.createArticle = async function (data) {
                         tableRows += "<tr>";
                         Object.keys(correspondingNameTitle).forEach(name => {
 
-                            let displayField = dynamicGrid.getField(name).templateFieldName;
+                            let displayField = dynamicGrid.getField(name).displayField;
                             tableRows +=
                                 "<td  style='padding: 10px; border: 1px solid #000000;'>" +
                                 (displayField ? displayField.split('.').evalPropertyPath(record) : record[name]) +
@@ -1159,7 +1173,7 @@ contractTab.method.createArticle = async function (data) {
 
 
                     template = template.replace(
-                        new RegExp("\\\$(\\W|&.*;|<.*>|<\/.*>|<.*\/>)*{" + dynamicGrid.key + "}", "g"),
+                        new RegExp("\\\${" + dynamicGrid.key + "}", "g"),
                         table
                     );
                 }
@@ -1453,7 +1467,7 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
             name: contractDetailType.code + "." + param.key,
             dataChanged: function (operationType) {
 
-                contractTab.dynamicForm.valuesManager.setValue(this.name, this.getData());
+                contractTab.dynamicForm.valuesManager.setValue(this.name, contractTab.method.setDisplayData(this, false));
                 this.Super("dataChanged", arguments);
             },
             gridComponents: ["header", "body",
@@ -1495,7 +1509,7 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
                 criteria: [{fieldName: "id", operator: "equals", value: grid.values.map(p => p.value)}]
             }, (dsResponse, data) => grid.setData(data));
 
-        contractTab.dynamicForm.valuesManager.setValue(grid.name, grid.getData());
+        contractTab.dynamicForm.valuesManager.setValue(grid.name, contractTab.method.setDisplayData(grid, false));
         grids.push(grid);
     });
 
@@ -1591,7 +1605,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
             name: contractDetailType.code + "." + param.key,
             dataChanged: function (operationType) {
 
-                contractTab.dynamicForm.valuesManager.setValue(this.name, this.getData());
+                contractTab.dynamicForm.valuesManager.setValue(this.name, contractTab.method.setDisplayData(this, false));
                 this.Super("dataChanged", arguments);
             },
             gridComponents: ["header", "body",
@@ -1659,7 +1673,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
         if (!isNewMode)
             dynamicGrid.setData(await contractTab.method.createDynamicGridData(param.values, fields));
 
-        contractTab.dynamicForm.valuesManager.setValue(dynamicGrid.name, dynamicGrid.getData());
+        contractTab.dynamicForm.valuesManager.setValue(dynamicGrid.name, contractTab.method.setDisplayData(dynamicGrid, false));
         dynamicGrids.push(dynamicGrid);
     }));
 
@@ -1688,11 +1702,12 @@ contractTab.method.createDynamicGridFields = async function (dynamicTableValues,
 
     function getDefaultFieldObject(column) {
 
-        return {
+        let defaultField = {
 
             validateOnExit: true,
             validateOnChange: true,
             name: column.headerValue,
+            title: column.headerTitle,
             hint: column.description,
             showHintInField: !!column.description,
 
@@ -1702,6 +1717,7 @@ contractTab.method.createDynamicGridFields = async function (dynamicTableValues,
             maxRows: column.maxRows,
             headerKey: column.headerKey,
             headerType: column.headerType,
+            headerTitle: column.headerTitle,
             headerValue: column.headerValue,
             valueType: column.valueType,
             description: column.description,
@@ -1709,6 +1725,10 @@ contractTab.method.createDynamicGridFields = async function (dynamicTableValues,
             regexValidator: column.regexValidator,
             initialCriteria: column.initialCriteria,
         };
+        if (dataTypeKeys.includes(column.valueType))
+            Object.assign(defaultField, getFieldProperties(column.valueType, null));
+
+        return defaultField;
     }
 
     async function getDynamicHeaders(columns) {

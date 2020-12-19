@@ -92,27 +92,27 @@ public class ContractFormController {
             String CDTPDynamicTableValueClassName = CDTPDynamicTableValue.class.getSimpleName();
             String CDTPDynamicTableValuePermissionKey = StringFormatUtil.makeMessageKey(CDTPDynamicTableValueClassName, "_").toUpperCase();
 
-            request.setAttribute("r_entity", SecurityUtil.hasAuthority("R" + contractPermissionKey));
+            request.setAttribute("r_entity", SecurityUtil.hasAuthority("R_" + contractPermissionKey));
 
-            request.setAttribute("c_entity", SecurityUtil.hasAuthority("C" + contractPermissionKey) &&
-                    SecurityUtil.hasAuthority("C" + contractDetailPermissionKey) &&
-                    SecurityUtil.hasAuthority("C" + contractDetailValuePermissionKey) &&
-                    SecurityUtil.hasAuthority("C" + CDTPDynamicTableValuePermissionKey));
+            request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_" + contractPermissionKey) &&
+                    SecurityUtil.hasAuthority("C_" + contractDetailPermissionKey) &&
+                    SecurityUtil.hasAuthority("C_" + contractDetailValuePermissionKey) &&
+                    SecurityUtil.hasAuthority("C_" + CDTPDynamicTableValuePermissionKey));
 
-            request.setAttribute("u_entity", SecurityUtil.hasAuthority("U" + contractPermissionKey) &&
-                    SecurityUtil.hasAuthority("U" + contractDetailPermissionKey) &&
-                    SecurityUtil.hasAuthority("U" + contractDetailValuePermissionKey) &&
-                    SecurityUtil.hasAuthority("U" + CDTPDynamicTableValuePermissionKey));
+            request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_" + contractPermissionKey) &&
+                    SecurityUtil.hasAuthority("U_" + contractDetailPermissionKey) &&
+                    SecurityUtil.hasAuthority("U_" + contractDetailValuePermissionKey) &&
+                    SecurityUtil.hasAuthority("U_" + CDTPDynamicTableValuePermissionKey));
 
-            request.setAttribute("d_entity", SecurityUtil.hasAuthority("D" + contractPermissionKey) &&
-                    SecurityUtil.hasAuthority("D" + contractDetailPermissionKey) &&
-                    SecurityUtil.hasAuthority("D" + contractDetailValuePermissionKey) &&
-                    SecurityUtil.hasAuthority("D" + CDTPDynamicTableValuePermissionKey));
+            request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_" + contractPermissionKey) &&
+                    SecurityUtil.hasAuthority("D_" + contractDetailPermissionKey) &&
+                    SecurityUtil.hasAuthority("D_" + contractDetailValuePermissionKey) &&
+                    SecurityUtil.hasAuthority("D_" + CDTPDynamicTableValuePermissionKey));
 
-            request.setAttribute("f_entity", SecurityUtil.hasAuthority("F" + contractPermissionKey));
-            request.setAttribute("o_entity", SecurityUtil.hasAuthority("O" + contractPermissionKey));
-            request.setAttribute("a_entity", SecurityUtil.hasAuthority("A" + contractPermissionKey));
-            request.setAttribute("i_entity", SecurityUtil.hasAuthority("I" + contractPermissionKey));
+            request.setAttribute("f_entity", SecurityUtil.hasAuthority("F_" + contractPermissionKey));
+            request.setAttribute("o_entity", SecurityUtil.hasAuthority("O_" + contractPermissionKey));
+            request.setAttribute("a_entity", SecurityUtil.hasAuthority("A_" + contractPermissionKey));
+            request.setAttribute("i_entity", SecurityUtil.hasAuthority("I_" + contractPermissionKey));
         }
 
         return "contract/contract";

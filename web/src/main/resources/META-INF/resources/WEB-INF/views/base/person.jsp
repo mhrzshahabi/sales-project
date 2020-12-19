@@ -28,9 +28,8 @@
 
     getAttachFileList();
 
-    function checkHasAttachFile(record) {
-        let size = attachFileList.filter(q => q.recordId == record.id).size();
-        return size > 0;
+    function attachFileListSize(record) {
+        return attachFileList.filter(q => q.recordId == record.id).size();
     };
 
     var RestDataSource_Contact = isc.MyRestDataSource.create(
@@ -896,17 +895,18 @@
                 let fieldName = this.getFieldName(colNum);
                 if (fieldName == "attachIcon") {
 
-                    let hasAttachFile = checkHasAttachFile(record);
-                    if (!hasAttachFile)
+                    let listSize = attachFileListSize(record);
+                    if (listSize == 0)
                         return null;
-                    var printImg = isc.ImgButton.create({
+                    let cntnt = (listSize > 1) ? "(" + listSize + ")" : "";
+                    var printImg = isc.Label.create({
+                        contents: cntnt,
                         showDown: false,
                         showRollOver: false,
-                        layoutAlign: "center",
-                        src: "pieces/512/attachment.png",
+                        icon: "pieces/512/attachment.png",
                         height: 16,
                         width: 16,
-                        grid: this,
+                        cursor: "hand",
                         click: function () {
 
                             let selectReportForm = new nicico.FormUtil();

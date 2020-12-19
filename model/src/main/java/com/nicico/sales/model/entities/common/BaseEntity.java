@@ -29,7 +29,6 @@ public class BaseEntity extends Auditable {
     @Column(name = "B_EDITABLE", nullable = false, columnDefinition = "number default 1")
     private Boolean editable = true;
 
-//    @NotAudited
     @NotNull
     @Builder.Default
     @Column(name = "N_E_STATUS", nullable = false, columnDefinition = "number default 1")
