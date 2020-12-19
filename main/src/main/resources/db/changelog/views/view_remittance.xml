@@ -1,0 +1,1290 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="saeb" id="rezasdasdasdasdasda_004">
+        <createView viewName="VIEW_REMITTANCE"><![CDATA[
+select distinct F_REMITTANCE_ID,
+                first_value(ID) over (partition by F_REMITTANCE_ID order by id) ID,
+                first_value(N_AMOUNT) over (partition by F_REMITTANCE_ID order by id) N_AMOUNT,
+                first_value(F_DEPOT_ID) over (partition by F_REMITTANCE_ID order by id) F_DEPOT_ID,
+                first_value(C_DESCRIPTION) over (partition by F_REMITTANCE_ID order by id) C_DESCRIPTION,
+                first_value(F_DESTINATION_TOZINE_ID) over (partition by F_REMITTANCE_ID order by id) F_DESTINATION_TOZINE_ID,
+                first_value(F_INVENTORY_ID) over (partition by F_REMITTANCE_ID order by id) F_INVENTORY_ID,
+                first_value(RAIL_POLOMP_NO) over (partition by F_REMITTANCE_ID order by id) RAIL_POLOMP_NO,
+                first_value(SECURITY_POLOMP_NO) over (partition by F_REMITTANCE_ID order by id) SECURITY_POLOMP_NO,
+                first_value(F_SOURCE_TOZINE_ID) over (partition by F_REMITTANCE_ID order by id) F_SOURCE_TOZINE_ID,
+                first_value(F_UNIT_ID) over (partition by F_REMITTANCE_ID order by id) F_UNIT_ID,
+                first_value(N_WEIGHT) over (partition by F_REMITTANCE_ID order by id) N_WEIGHT,
+                first_value(inventory_id) over (partition by F_REMITTANCE_ID order by id) inventory_id,
+                first_value(inventory_label) over (partition by F_REMITTANCE_ID order by id) inventory_label,
+                first_value(remained_bandar) over (partition by F_REMITTANCE_ID order by id) remained_bandar,
+                first_value(now_target) over (partition by F_REMITTANCE_ID order by id) now_target,
+                 case when first_value(now_target) over (partition by F_REMITTANCE_ID order by id) =
+                           first_value(now_target) over (partition by F_REMITTANCE_ID order by id desc )
+                     then 0 else 1 end has_tafkiki,
+                first_value(first_target) over (partition by F_REMITTANCE_ID order by id) first_target,
+                first_value(now_rd) over (partition by F_REMITTANCE_ID order by id) now_rd,
+                first_value(now_r) over (partition by F_REMITTANCE_ID order by id) now_r,
+                first_value(first_rd) over (partition by F_REMITTANCE_ID order by id) first_rd,
+                first_value(first_r) over (partition by F_REMITTANCE_ID order by id) first_r,
+                first_value(tozin_table_id) over (partition by F_REMITTANCE_ID order by id) tozin_table_id,
+                first_value(CARD_ID) over (partition by F_REMITTANCE_ID order by id) CARD_ID,
+                first_value(GDSCODE) over (partition by F_REMITTANCE_ID order by id) GDSCODE,
+                first_value(CONTENER_NO3) over (partition by F_REMITTANCE_ID order by id) CONTENER_NO3,
+                first_value(CTRL_DESC_OUT) over (partition by F_REMITTANCE_ID order by id) CTRL_DESC_OUT,
+                first_value(DAT) over (partition by F_REMITTANCE_ID order by id) DAT,
+                first_value(DRVNAME) over (partition by F_REMITTANCE_ID order by id) DRVNAME,
+                first_value(HAVCODE) over (partition by F_REMITTANCE_ID order by id) HAVCODE,
+                first_value(B_IS_IN_VIEW) over (partition by F_REMITTANCE_ID order by id) B_IS_IN_VIEW,
+                first_value(PLAK) over (partition by F_REMITTANCE_ID order by id) PLAK,
+                first_value(SOURCEID) over (partition by F_REMITTANCE_ID order by id) SOURCEID,
+                first_value(TARGETID) over (partition by F_REMITTANCE_ID order by id) TARGETID,
+                first_value(TOZINE_ID) over (partition by F_REMITTANCE_ID order by id) TOZINE_ID,
+                first_value(WAZN) over (partition by F_REMITTANCE_ID order by id) WAZN,
+                first_value(B_IS_RAIL) over (partition by F_REMITTANCE_ID order by id) B_IS_RAIL
+
+from (
+         select rd.ID,
+                N_AMOUNT,
+                F_DEPOT_ID,
+                C_DESCRIPTION,
+                F_DESTINATION_TOZINE_ID,
+                F_INVENTORY_ID,
+                RAIL_POLOMP_NO,
+                F_REMITTANCE_ID,
+                SECURITY_POLOMP_NO,
+                F_SOURCE_TOZINE_ID,
+                F_UNIT_ID,
+                N_WEIGHT,
+                inventory_id,
+                inventory_label,
+                remained_bandar,
+                now_target,
+                first_target,
+                now_rd,
+                now_r,
+                first_rd,
+                first_r,
+                twt.ID tozin_table_id,
+                CARD_ID,
+                GDSCODE,
+                CONTENER_NO3,
+                CTRL_DESC_OUT,
+                DAT,
+                DRVNAME,
+                HAVCODE,
+                B_IS_IN_VIEW,
+                PLAK,
+                SOURCEID,
+                TARGETID,
+                TOZINE_ID,
+                WAZN,
+                B_IS_RAIL
+         from TBL_WARH_REMITTANCE_DETAIL rd
+                  left join (select distinct inv.id                                                                  inventory_id,
+                                             inv.C_LABEL                                                             inventory_label,
+                                             sum(case
+                                                     when twt.TARGETID in (2320, 2340, 2555) then rd.N_WEIGHT
+                                                     when twt.SOURCEID in (2320, 2340, 2555) then -rd.N_WEIGHT
+                                                     else 0 end)
+                                                 over ( partition by inv.ID )                                     as remained_bandar,
+                                             first_value(twt.TARGETID)
+                                                         over (partition by inv.ID order by twt.DAT desc )        as now_target,
+                                             first_value(twt.TARGETID)
+                                                         over (partition by inv.ID order by twt.DAT )             as first_target,
+                                             first_value(rd.ID) over (partition by inv.ID order by twt.DAT desc ) as now_rd,
+                                             first_value(r.ID) over (partition by inv.ID order by twt.DAT desc )  as now_r,
+                                             first_value(rd.ID) over (partition by inv.ID order by twt.DAT )      as first_rd,
+                                             first_value(r.ID) over (partition by inv.ID order by twt.DAT )       as first_r
+                             from TBL_WARH_INVENTORY inv
+                                      left join TBL_WARH_REMITTANCE_DETAIL rd on inv.ID = rd.F_INVENTORY_ID
+                                      left join TBL_WARH_TOZIN twt
+                                                on nvl(rd.F_DESTINATION_TOZINE_ID, rd.F_SOURCE_TOZINE_ID) = twt.ID
+                                      left join TBL_WARH_REMITTANCE r on rd.F_REMITTANCE_ID = r.ID) TWI
+                            on TWI.inventory_id = rd.F_INVENTORY_ID
+                  left join TBL_WARH_TOZIN twt on nvl(rd.F_DESTINATION_TOZINE_ID, rd.F_SOURCE_TOZINE_ID) = twt.ID
+     )
+				]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saeb" id="rezasdasdasda_004">
+        <createView viewName="VIEW_REMITTANCE" replaceIfExists="true"><![CDATA[
+select r.C_CODE,
+       r.C_DESCRIPTION as remittance_description,
+       r.F_SHIPMENT_ID,
+       r.F_PACKING_CONTAINER_ID,
+       s.C_AUTOMATION_LETTER_NO,
+       s.D_AUTOMATION_LETTER_DATE,
+       rr.F_REMITTANCE_ID,
+       rr.ID,
+       rr.N_AMOUNT,
+       rr.F_DEPOT_ID,
+       rr.C_DESCRIPTION,
+       rr.F_DESTINATION_TOZINE_ID,
+       rr.F_INVENTORY_ID,
+       rr.RAIL_POLOMP_NO,
+       rr.SECURITY_POLOMP_NO,
+       rr.F_SOURCE_TOZINE_ID,
+       rr.F_UNIT_ID,
+       rr.N_WEIGHT,
+       rr.inventory_id,
+       rr.inventory_label,
+       rr.remained_bandar,
+       rr.now_target,
+       rr.has_tafkiki,
+       rr.first_target,
+       rr.now_rd,
+       rr.now_r,
+       rr.first_rd,
+       rr.first_r,
+       rr.tozin_table_id,
+       rr.CARD_ID,
+       rr.GDSCODE,
+       rr.CONTENER_NO3,
+       rr.CTRL_DESC_OUT,
+       rr.DAT,
+       rr.DRVNAME,
+       rr.HAVCODE,
+       rr.B_IS_IN_VIEW,
+       rr.PLAK,
+       rr.SOURCEID,
+       rr.TARGETID,
+       rr.TOZINE_ID,
+       rr.WAZN,
+       rr.B_IS_RAIL
+
+from TBL_WARH_REMITTANCE r
+         left join (select distinct F_REMITTANCE_ID,
+                                    first_value(ID) over (partition by F_REMITTANCE_ID order by id)           ID,
+                                    first_value(N_AMOUNT) over (partition by F_REMITTANCE_ID order by id)     N_AMOUNT,
+                                    first_value(F_DEPOT_ID) over (partition by F_REMITTANCE_ID order by id)   F_DEPOT_ID,
+                                    first_value(C_DESCRIPTION)
+                                                over (partition by F_REMITTANCE_ID order by id)               C_DESCRIPTION,
+                                    first_value(F_DESTINATION_TOZINE_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_DESTINATION_TOZINE_ID,
+                                    first_value(F_INVENTORY_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_INVENTORY_ID,
+                                    first_value(RAIL_POLOMP_NO)
+                                                over (partition by F_REMITTANCE_ID order by id)               RAIL_POLOMP_NO,
+                                    first_value(SECURITY_POLOMP_NO)
+                                                over (partition by F_REMITTANCE_ID order by id)               SECURITY_POLOMP_NO,
+                                    first_value(F_SOURCE_TOZINE_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_SOURCE_TOZINE_ID,
+                                    first_value(F_UNIT_ID) over (partition by F_REMITTANCE_ID order by id)    F_UNIT_ID,
+                                    first_value(N_WEIGHT) over (partition by F_REMITTANCE_ID order by id)     N_WEIGHT,
+                                    first_value(inventory_id) over (partition by F_REMITTANCE_ID order by id) inventory_id,
+                                    first_value(inventory_label)
+                                                over (partition by F_REMITTANCE_ID order by id)               inventory_label,
+                                    first_value(remained_bandar)
+                                                over (partition by F_REMITTANCE_ID order by id)               remained_bandar,
+                                    first_value(now_target) over (partition by F_REMITTANCE_ID order by id)   now_target,
+                                    case
+                                        when first_value(now_target) over (partition by F_REMITTANCE_ID order by id) =
+                                             first_value(now_target)
+                                                         over (partition by F_REMITTANCE_ID order by id desc )
+                                            then 0
+                                        else 1 end                                                            has_tafkiki,
+                                    first_value(first_target) over (partition by F_REMITTANCE_ID order by id) first_target,
+                                    first_value(now_rd) over (partition by F_REMITTANCE_ID order by id)       now_rd,
+                                    first_value(now_r) over (partition by F_REMITTANCE_ID order by id)        now_r,
+                                    first_value(first_rd) over (partition by F_REMITTANCE_ID order by id)     first_rd,
+                                    first_value(first_r) over (partition by F_REMITTANCE_ID order by id)      first_r,
+                                    first_value(tozin_table_id)
+                                                over (partition by F_REMITTANCE_ID order by id)               tozin_table_id,
+                                    first_value(CARD_ID) over (partition by F_REMITTANCE_ID order by id)      CARD_ID,
+                                    first_value(GDSCODE) over (partition by F_REMITTANCE_ID order by id)      GDSCODE,
+                                    first_value(CONTENER_NO3) over (partition by F_REMITTANCE_ID order by id) CONTENER_NO3,
+                                    first_value(CTRL_DESC_OUT)
+                                                over (partition by F_REMITTANCE_ID order by id)               CTRL_DESC_OUT,
+                                    first_value(DAT) over (partition by F_REMITTANCE_ID order by id)          DAT,
+                                    first_value(DRVNAME) over (partition by F_REMITTANCE_ID order by id)      DRVNAME,
+                                    first_value(HAVCODE) over (partition by F_REMITTANCE_ID order by id)      HAVCODE,
+                                    first_value(B_IS_IN_VIEW) over (partition by F_REMITTANCE_ID order by id) B_IS_IN_VIEW,
+                                    first_value(PLAK) over (partition by F_REMITTANCE_ID order by id)         PLAK,
+                                    first_value(SOURCEID) over (partition by F_REMITTANCE_ID order by id)     SOURCEID,
+                                    first_value(TARGETID) over (partition by F_REMITTANCE_ID order by id)     TARGETID,
+                                    first_value(TOZINE_ID) over (partition by F_REMITTANCE_ID order by id)    TOZINE_ID,
+                                    first_value(WAZN) over (partition by F_REMITTANCE_ID order by id)         WAZN,
+                                    first_value(B_IS_RAIL) over (partition by F_REMITTANCE_ID order by id)    B_IS_RAIL
+
+                    from (
+                             select rd.ID,
+                                    N_AMOUNT,
+                                    F_DEPOT_ID,
+                                    C_DESCRIPTION,
+                                    F_DESTINATION_TOZINE_ID,
+                                    F_INVENTORY_ID,
+                                    RAIL_POLOMP_NO,
+                                    F_REMITTANCE_ID,
+                                    SECURITY_POLOMP_NO,
+                                    F_SOURCE_TOZINE_ID,
+                                    F_UNIT_ID,
+                                    N_WEIGHT,
+                                    inventory_id,
+                                    inventory_label,
+                                    remained_bandar,
+                                    now_target,
+                                    first_target,
+                                    now_rd,
+                                    now_r,
+                                    first_rd,
+                                    first_r,
+                                    twt.ID tozin_table_id,
+                                    CARD_ID,
+                                    GDSCODE,
+                                    CONTENER_NO3,
+                                    CTRL_DESC_OUT,
+                                    DAT,
+                                    DRVNAME,
+                                    HAVCODE,
+                                    B_IS_IN_VIEW,
+                                    PLAK,
+                                    SOURCEID,
+                                    TARGETID,
+                                    TOZINE_ID,
+                                    WAZN,
+                                    B_IS_RAIL
+                             from TBL_WARH_REMITTANCE_DETAIL rd
+                                      left join (select distinct inv.id                                                                  inventory_id,
+                                                                 inv.C_LABEL                                                             inventory_label,
+                                                                 sum(case
+                                                                         when twt.TARGETID in (2320, 2340, 2555)
+                                                                             then rd.N_WEIGHT
+                                                                         when twt.SOURCEID in (2320, 2340, 2555)
+                                                                             then -rd.N_WEIGHT
+                                                                         else 0 end)
+                                                                     over ( partition by inv.ID )                                     as remained_bandar,
+                                                                 first_value(twt.TARGETID)
+                                                                             over (partition by inv.ID order by twt.DAT desc )        as now_target,
+                                                                 first_value(twt.TARGETID)
+                                                                             over (partition by inv.ID order by twt.DAT )             as first_target,
+                                                                 first_value(rd.ID) over (partition by inv.ID order by twt.DAT desc ) as now_rd,
+                                                                 first_value(r.ID) over (partition by inv.ID order by twt.DAT desc )  as now_r,
+                                                                 first_value(rd.ID) over (partition by inv.ID order by twt.DAT )      as first_rd,
+                                                                 first_value(r.ID) over (partition by inv.ID order by twt.DAT )       as first_r
+                                                 from TBL_WARH_INVENTORY inv
+                                                          left join TBL_WARH_REMITTANCE_DETAIL rd on inv.ID = rd.F_INVENTORY_ID
+                                                          left join TBL_WARH_TOZIN twt
+                                                                    on nvl(rd.F_DESTINATION_TOZINE_ID, rd.F_SOURCE_TOZINE_ID) = twt.ID
+                                                          left join TBL_WARH_REMITTANCE r on rd.F_REMITTANCE_ID = r.ID) TWI
+                                                on TWI.inventory_id = rd.F_INVENTORY_ID
+                                      left join TBL_WARH_TOZIN twt
+                                                on nvl(rd.F_DESTINATION_TOZINE_ID, rd.F_SOURCE_TOZINE_ID) = twt.ID
+                         )) rr on r.ID = rr.F_REMITTANCE_ID
+         left join TBL_SHIPMENT s on r.F_SHIPMENT_ID = s.ID
+         left join TBL_PACKING_CONTAINER pc
+                   on r.F_PACKING_CONTAINER_ID = pc.ID
+				]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saeb" id="resda_004">
+        <createView viewName="VIEW_REMITTANCE" replaceIfExists="true"><![CDATA[
+select r.C_CODE,
+       r.C_DESCRIPTION as remittance_description,
+       r.F_SHIPMENT_ID,
+       r.F_PACKING_CONTAINER_ID,
+       s.C_AUTOMATION_LETTER_NO,
+       s.D_AUTOMATION_LETTER_DATE,
+       rr.F_REMITTANCE_ID,
+       rr.ID,
+       rr.N_AMOUNT,
+       rr.F_DEPOT_ID,
+       rr.C_DESCRIPTION,
+       rr.F_DESTINATION_TOZINE_ID,
+       rr.F_INVENTORY_ID,
+       rr.RAIL_POLOMP_NO,
+       rr.SECURITY_POLOMP_NO,
+       rr.F_SOURCE_TOZINE_ID,
+       rr.F_UNIT_ID,
+       rr.N_WEIGHT,
+       rr.inventory_id,
+       rr.inventory_label,
+       rr.remained_bandar,
+       rr.now_target,
+       rr.has_tafkiki,
+       rr.first_target,
+       rr.now_rd,
+       rr.now_r,
+       rr.first_rd,
+       rr.first_r,
+       rr.tozin_table_id,
+       rr.CARD_ID,
+       rr.GDSCODE,
+       rr.CONTENER_NO3,
+       rr.CTRL_DESC_OUT,
+       rr.DAT,
+       rr.DRVNAME,
+       rr.HAVCODE,
+       rr.B_IS_IN_VIEW,
+       rr.PLAK,
+       rr.SOURCEID,
+       rr.TARGETID,
+       rr.TOZINE_ID,
+       rr.WAZN,
+       rr.B_IS_RAIL
+
+from TBL_WARH_REMITTANCE r
+         left join (select distinct F_REMITTANCE_ID,
+                                    first_value(ID) over (partition by F_REMITTANCE_ID order by id)           ID,
+                                    first_value(N_AMOUNT) over (partition by F_REMITTANCE_ID order by id)     N_AMOUNT,
+                                    first_value(F_DEPOT_ID) over (partition by F_REMITTANCE_ID order by id)   F_DEPOT_ID,
+                                    first_value(C_DESCRIPTION)
+                                                over (partition by F_REMITTANCE_ID order by id)               C_DESCRIPTION,
+                                    first_value(F_DESTINATION_TOZINE_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_DESTINATION_TOZINE_ID,
+                                    first_value(F_INVENTORY_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_INVENTORY_ID,
+                                    first_value(RAIL_POLOMP_NO)
+                                                over (partition by F_REMITTANCE_ID order by id)               RAIL_POLOMP_NO,
+                                    first_value(SECURITY_POLOMP_NO)
+                                                over (partition by F_REMITTANCE_ID order by id)               SECURITY_POLOMP_NO,
+                                    first_value(F_SOURCE_TOZINE_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_SOURCE_TOZINE_ID,
+                                    first_value(F_UNIT_ID) over (partition by F_REMITTANCE_ID order by id)    F_UNIT_ID,
+                                    first_value(N_WEIGHT) over (partition by F_REMITTANCE_ID order by id)     N_WEIGHT,
+                                    first_value(inventory_id) over (partition by F_REMITTANCE_ID order by id) inventory_id,
+                                    first_value(inventory_label)
+                                                over (partition by F_REMITTANCE_ID order by id)               inventory_label,
+                                    case
+                                        when first_value(remained_bandar)
+                                                         over (partition by F_REMITTANCE_ID order by remained_bandar desc ) > 0
+                                            then 1
+                                        else 0 end                                                            remained_bandar,
+                                    first_value(now_target) over (partition by F_REMITTANCE_ID order by id)   now_target,
+                                    case
+                                        when first_value(now_target) over (partition by F_REMITTANCE_ID order by id) =
+                                             first_value(now_target)
+                                                         over (partition by F_REMITTANCE_ID order by id desc )
+                                            then 0
+                                        else 1 end                                                            has_tafkiki,
+                                    first_value(first_target) over (partition by F_REMITTANCE_ID order by id) first_target,
+                                    first_value(now_rd) over (partition by F_REMITTANCE_ID order by id)       now_rd,
+                                    first_value(now_r) over (partition by F_REMITTANCE_ID order by id)        now_r,
+                                    first_value(first_rd) over (partition by F_REMITTANCE_ID order by id)     first_rd,
+                                    first_value(first_r) over (partition by F_REMITTANCE_ID order by id)      first_r,
+                                    first_value(tozin_table_id)
+                                                over (partition by F_REMITTANCE_ID order by id)               tozin_table_id,
+                                    first_value(CARD_ID) over (partition by F_REMITTANCE_ID order by id)      CARD_ID,
+                                    first_value(GDSCODE) over (partition by F_REMITTANCE_ID order by id)      GDSCODE,
+                                    first_value(CONTENER_NO3) over (partition by F_REMITTANCE_ID order by id) CONTENER_NO3,
+                                    first_value(CTRL_DESC_OUT)
+                                                over (partition by F_REMITTANCE_ID order by id)               CTRL_DESC_OUT,
+                                    first_value(DAT) over (partition by F_REMITTANCE_ID order by id)          DAT,
+                                    first_value(DRVNAME) over (partition by F_REMITTANCE_ID order by id)      DRVNAME,
+                                    first_value(HAVCODE) over (partition by F_REMITTANCE_ID order by id)      HAVCODE,
+                                    first_value(B_IS_IN_VIEW) over (partition by F_REMITTANCE_ID order by id) B_IS_IN_VIEW,
+                                    first_value(PLAK) over (partition by F_REMITTANCE_ID order by id)         PLAK,
+                                    first_value(SOURCEID) over (partition by F_REMITTANCE_ID order by id)     SOURCEID,
+                                    first_value(TARGETID) over (partition by F_REMITTANCE_ID order by id)     TARGETID,
+                                    first_value(TOZINE_ID) over (partition by F_REMITTANCE_ID order by id)    TOZINE_ID,
+                                    first_value(WAZN) over (partition by F_REMITTANCE_ID order by id)         WAZN,
+                                    first_value(B_IS_RAIL) over (partition by F_REMITTANCE_ID order by id)    B_IS_RAIL
+
+                    from (
+                             select rd.ID,
+                                    N_AMOUNT,
+                                    F_DEPOT_ID,
+                                    C_DESCRIPTION,
+                                    F_DESTINATION_TOZINE_ID,
+                                    F_INVENTORY_ID,
+                                    RAIL_POLOMP_NO,
+                                    F_REMITTANCE_ID,
+                                    SECURITY_POLOMP_NO,
+                                    F_SOURCE_TOZINE_ID,
+                                    F_UNIT_ID,
+                                    N_WEIGHT,
+                                    inventory_id,
+                                    inventory_label,
+                                    remained_bandar,
+                                    now_target,
+                                    first_target,
+                                    now_rd,
+                                    now_r,
+                                    first_rd,
+                                    first_r,
+                                    twt.ID tozin_table_id,
+                                    CARD_ID,
+                                    GDSCODE,
+                                    CONTENER_NO3,
+                                    CTRL_DESC_OUT,
+                                    DAT,
+                                    DRVNAME,
+                                    HAVCODE,
+                                    B_IS_IN_VIEW,
+                                    PLAK,
+                                    SOURCEID,
+                                    TARGETID,
+                                    TOZINE_ID,
+                                    WAZN,
+                                    B_IS_RAIL
+                             from TBL_WARH_REMITTANCE_DETAIL rd
+                                      left join (select distinct inv.id                                                                  inventory_id,
+                                                                 inv.C_LABEL                                                             inventory_label,
+                                                                 sum(case
+                                                                         when twt.TARGETID in (2320, 2340, 2555)
+                                                                             then rd.N_WEIGHT
+                                                                         when twt.SOURCEID in (2320, 2340, 2555)
+                                                                             then -rd.N_WEIGHT
+                                                                         else 0 end)
+                                                                     over ( partition by inv.ID )                                     as remained_bandar,
+                                                                 first_value(twt.TARGETID)
+                                                                             over (partition by inv.ID order by twt.DAT desc )        as now_target,
+                                                                 first_value(twt.TARGETID)
+                                                                             over (partition by inv.ID order by twt.DAT )             as first_target,
+                                                                 first_value(rd.ID) over (partition by inv.ID order by twt.DAT desc ) as now_rd,
+                                                                 first_value(r.ID) over (partition by inv.ID order by twt.DAT desc )  as now_r,
+                                                                 first_value(rd.ID) over (partition by inv.ID order by twt.DAT )      as first_rd,
+                                                                 first_value(r.ID) over (partition by inv.ID order by twt.DAT )       as first_r
+                                                 from TBL_WARH_INVENTORY inv
+                                                          left join TBL_WARH_REMITTANCE_DETAIL rd on inv.ID = rd.F_INVENTORY_ID
+                                                          left join TBL_WARH_TOZIN twt
+                                                                    on nvl(rd.F_DESTINATION_TOZINE_ID, rd.F_SOURCE_TOZINE_ID) = twt.ID
+                                                          left join TBL_WARH_REMITTANCE r on rd.F_REMITTANCE_ID = r.ID) TWI
+                                                on TWI.inventory_id = rd.F_INVENTORY_ID
+                                      left join TBL_WARH_TOZIN twt
+                                                on nvl(rd.F_DESTINATION_TOZINE_ID, rd.F_SOURCE_TOZINE_ID) = twt.ID
+                         )) rr on r.ID = rr.F_REMITTANCE_ID
+         left join TBL_SHIPMENT s on r.F_SHIPMENT_ID = s.ID
+         left join TBL_PACKING_CONTAINER pc
+                   on r.F_PACKING_CONTAINER_ID = pc.ID
+				]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saeb" id="resdsa_004">
+        <createView viewName="VIEW_REMITTANCE" replaceIfExists="true"><![CDATA[
+select r.C_CODE,
+       r.C_DESCRIPTION as remittance_description,
+       r.F_SHIPMENT_ID,
+       r.F_PACKING_CONTAINER_ID,
+       s.C_AUTOMATION_LETTER_NO,
+       s.D_AUTOMATION_LETTER_DATE,
+       rr.F_REMITTANCE_ID,
+       rr.ID,
+       rr.N_AMOUNT,
+       rr.F_DEPOT_ID,
+       rr.C_DESCRIPTION,
+       rr.F_DESTINATION_TOZINE_ID,
+       rr.F_INVENTORY_ID,
+       rr.RAIL_POLOMP_NO,
+       rr.SECURITY_POLOMP_NO,
+       rr.F_SOURCE_TOZINE_ID,
+       rr.F_UNIT_ID,
+       rr.N_WEIGHT,
+       rr.inventory_id,
+       rr.inventory_label,
+       rr.remained_bandar,
+       rr.now_target,
+       rr.has_tafkiki,
+       rr.first_target,
+       rr.now_rd,
+       rr.now_r,
+       rr.first_rd,
+       rr.first_r,
+       rr.tozin_table_id,
+       rr.CARD_ID,
+       rr.GDSCODE,
+       rr.CONTENER_NO3,
+       rr.CTRL_DESC_OUT,
+       rr.DAT,
+       rr.DRVNAME,
+       rr.HAVCODE,
+       rr.B_IS_IN_VIEW,
+       rr.PLAK,
+       rr.SOURCEID,
+       rr.TARGETID,
+       rr.TOZINE_ID,
+       rr.WAZN,
+       rr.B_IS_RAIL,
+       rr.pkg,
+       rr.amount,
+       rwazn.remittance_wazn
+
+from TBL_WARH_REMITTANCE r
+         left join (select distinct F_REMITTANCE_ID,
+                                    first_value(ID) over (partition by F_REMITTANCE_ID order by id)           ID,
+                                    count(ID) over (partition by F_REMITTANCE_ID order by id)           pkg,
+                                    sum(N_AMOUNT) over (partition by F_REMITTANCE_ID order by id)           amount,
+                                    first_value(N_AMOUNT) over (partition by F_REMITTANCE_ID order by id)     N_AMOUNT,
+                                    first_value(F_DEPOT_ID) over (partition by F_REMITTANCE_ID order by id)   F_DEPOT_ID,
+                                    first_value(C_DESCRIPTION)
+                                                over (partition by F_REMITTANCE_ID order by id)               C_DESCRIPTION,
+                                    first_value(F_DESTINATION_TOZINE_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_DESTINATION_TOZINE_ID,
+                                    first_value(F_INVENTORY_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_INVENTORY_ID,
+                                    first_value(RAIL_POLOMP_NO)
+                                                over (partition by F_REMITTANCE_ID order by id)               RAIL_POLOMP_NO,
+                                    first_value(SECURITY_POLOMP_NO)
+                                                over (partition by F_REMITTANCE_ID order by id)               SECURITY_POLOMP_NO,
+                                    first_value(F_SOURCE_TOZINE_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_SOURCE_TOZINE_ID,
+                                    first_value(F_UNIT_ID) over (partition by F_REMITTANCE_ID order by id)    F_UNIT_ID,
+                                    first_value(N_WEIGHT) over (partition by F_REMITTANCE_ID order by id)     N_WEIGHT,
+                                    first_value(inventory_id) over (partition by F_REMITTANCE_ID order by id) inventory_id,
+                                    first_value(inventory_label)
+                                                over (partition by F_REMITTANCE_ID order by id)               inventory_label,
+                                    case
+                                        when first_value(remained_bandar)
+                                                         over (partition by F_REMITTANCE_ID order by remained_bandar desc ) > 0
+                                            then 1
+                                        else 0 end                                                            remained_bandar,
+                                    first_value(now_target) over (partition by F_REMITTANCE_ID order by id)   now_target,
+                                    case
+                                        when first_value(now_target) over (partition by F_REMITTANCE_ID order by id) =
+                                             first_value(now_target)
+                                                         over (partition by F_REMITTANCE_ID order by id desc )
+                                            then 0
+                                        else 1 end                                                            has_tafkiki,
+                                    first_value(first_target) over (partition by F_REMITTANCE_ID order by id) first_target,
+                                    first_value(now_rd) over (partition by F_REMITTANCE_ID order by id)       now_rd,
+                                    first_value(now_r) over (partition by F_REMITTANCE_ID order by id)        now_r,
+                                    first_value(first_rd) over (partition by F_REMITTANCE_ID order by id)     first_rd,
+                                    first_value(first_r) over (partition by F_REMITTANCE_ID order by id)      first_r,
+                                    first_value(tozin_table_id)
+                                                over (partition by F_REMITTANCE_ID order by id)               tozin_table_id,
+                                    first_value(CARD_ID) over (partition by F_REMITTANCE_ID order by id)      CARD_ID,
+                                    first_value(GDSCODE) over (partition by F_REMITTANCE_ID order by id)      GDSCODE,
+                                    first_value(CONTENER_NO3) over (partition by F_REMITTANCE_ID order by id) CONTENER_NO3,
+                                    first_value(CTRL_DESC_OUT)
+                                                over (partition by F_REMITTANCE_ID order by id)               CTRL_DESC_OUT,
+                                    first_value(DAT) over (partition by F_REMITTANCE_ID order by id)          DAT,
+                                    first_value(DRVNAME) over (partition by F_REMITTANCE_ID order by id)      DRVNAME,
+                                    first_value(HAVCODE) over (partition by F_REMITTANCE_ID order by id)      HAVCODE,
+                                    first_value(B_IS_IN_VIEW) over (partition by F_REMITTANCE_ID order by id) B_IS_IN_VIEW,
+                                    first_value(PLAK) over (partition by F_REMITTANCE_ID order by id)         PLAK,
+                                    first_value(SOURCEID) over (partition by F_REMITTANCE_ID order by id)     SOURCEID,
+                                    first_value(TARGETID) over (partition by F_REMITTANCE_ID order by id)     TARGETID,
+                                    first_value(TOZINE_ID) over (partition by F_REMITTANCE_ID order by id)    TOZINE_ID,
+                                    first_value(WAZN) over (partition by F_REMITTANCE_ID order by id)         WAZN,
+                                    first_value(B_IS_RAIL) over (partition by F_REMITTANCE_ID order by id)    B_IS_RAIL
+
+                    from (
+                             select rd.ID,
+                                    N_AMOUNT,
+                                    F_DEPOT_ID,
+                                    C_DESCRIPTION,
+                                    F_DESTINATION_TOZINE_ID,
+                                    F_INVENTORY_ID,
+                                    RAIL_POLOMP_NO,
+                                    F_REMITTANCE_ID,
+                                    SECURITY_POLOMP_NO,
+                                    F_SOURCE_TOZINE_ID,
+                                    F_UNIT_ID,
+                                    N_WEIGHT,
+                                    inventory_id,
+                                    inventory_label,
+                                    remained_bandar,
+                                    now_target,
+                                    first_target,
+                                    now_rd,
+                                    now_r,
+                                    first_rd,
+                                    first_r,
+                                    twt.ID tozin_table_id,
+                                    CARD_ID,
+                                    GDSCODE,
+                                    CONTENER_NO3,
+                                    CTRL_DESC_OUT,
+                                    DAT,
+                                    DRVNAME,
+                                    HAVCODE,
+                                    B_IS_IN_VIEW,
+                                    PLAK,
+                                    SOURCEID,
+                                    TARGETID,
+                                    TOZINE_ID,
+                                    WAZN,
+                                    B_IS_RAIL
+                             from TBL_WARH_REMITTANCE_DETAIL rd
+                                      left join (select distinct inv.id                                                                  inventory_id,
+                                                                 inv.C_LABEL                                                             inventory_label,
+                                                                 sum(case
+                                                                         when twt.TARGETID in (2320, 2340, 2555)
+                                                                             then rd.N_WEIGHT
+                                                                         when twt.SOURCEID in (2320, 2340, 2555)
+                                                                             then -rd.N_WEIGHT
+                                                                         else 0 end)
+                                                                     over ( partition by inv.ID )                                     as remained_bandar,
+                                                                 first_value(twt.TARGETID)
+                                                                             over (partition by inv.ID order by twt.DAT desc )        as now_target,
+                                                                 first_value(twt.TARGETID)
+                                                                             over (partition by inv.ID order by twt.DAT )             as first_target,
+                                                                 first_value(rd.ID) over (partition by inv.ID order by twt.DAT desc ) as now_rd,
+                                                                 first_value(r.ID) over (partition by inv.ID order by twt.DAT desc )  as now_r,
+                                                                 first_value(rd.ID) over (partition by inv.ID order by twt.DAT )      as first_rd,
+                                                                 first_value(r.ID) over (partition by inv.ID order by twt.DAT )       as first_r
+                                                 from TBL_WARH_INVENTORY inv
+                                                          left join TBL_WARH_REMITTANCE_DETAIL rd on inv.ID = rd.F_INVENTORY_ID
+                                                          left join TBL_WARH_TOZIN twt
+                                                                    on nvl(rd.F_DESTINATION_TOZINE_ID, rd.F_SOURCE_TOZINE_ID) = twt.ID
+                                                          left join TBL_WARH_REMITTANCE r on rd.F_REMITTANCE_ID = r.ID) TWI
+                                                on TWI.inventory_id = rd.F_INVENTORY_ID
+                                      left join TBL_WARH_TOZIN twt
+                                                on nvl(rd.F_DESTINATION_TOZINE_ID, rd.F_SOURCE_TOZINE_ID) = twt.ID
+                         )) rr on r.ID = rr.F_REMITTANCE_ID
+         left join TBL_SHIPMENT s on r.F_SHIPMENT_ID = s.ID
+         left join TBL_PACKING_CONTAINER pc
+                   on r.F_PACKING_CONTAINER_ID = pc.ID
+left join (select F_REMITTANCE_ID,sum(wazn) remittance_wazn from (
+                                                     select  rd.F_REMITTANCE_ID,t.ID,t.WAZN
+                                                     from TBL_WARH_REMITTANCE_DETAIL rd
+                                                              left join TBL_WARH_TOZIN t on nvl(rd.F_DESTINATION_TOZINE_ID,rd.F_SOURCE_TOZINE_ID)=t.ID
+                                                     group by rd.F_REMITTANCE_ID, t.ID, t.WAZN order by F_REMITTANCE_ID)
+           group by F_REMITTANCE_ID) rwazn on r.id=rwazn.F_REMITTANCE_ID
+
+
+
+				]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saeb" id="rea_004">
+        <createView viewName="VIEW_REMITTANCE" replaceIfExists="true"><![CDATA[
+select r.C_CODE,
+       r.C_DESCRIPTION as remittance_description,
+       r.F_SHIPMENT_ID,
+       r.F_PACKING_CONTAINER_ID,
+       s.C_AUTOMATION_LETTER_NO,
+       s.D_AUTOMATION_LETTER_DATE,
+       rr.F_REMITTANCE_ID,
+       rr.ID,
+       rr.N_AMOUNT,
+       rr.F_DEPOT_ID,
+       rr.C_DESCRIPTION,
+       rr.F_DESTINATION_TOZINE_ID,
+       rr.F_INVENTORY_ID,
+       rr.RAIL_POLOMP_NO,
+       rr.SECURITY_POLOMP_NO,
+       rr.F_SOURCE_TOZINE_ID,
+       rr.F_UNIT_ID,
+       rr.N_WEIGHT,
+       rr.inventory_id,
+       rr.inventory_label,
+       rr.remained_bandar,
+       rr.now_target,
+       rr.has_tafkiki,
+       rr.first_target,
+       rr.now_rd,
+       rr.now_r,
+       rr.first_rd,
+       rr.first_r,
+       rr.tozin_table_id,
+       rr.CARD_ID,
+       rr.GDSCODE,
+       rr.CONTENER_NO3,
+       rr.CTRL_DESC_OUT,
+       rr.DAT,
+       rr.DRVNAME,
+       rr.HAVCODE,
+       rr.B_IS_IN_VIEW,
+       rr.PLAK,
+       rr.SOURCEID,
+       rr.TARGETID,
+       rr.TOZINE_ID,
+       rr.WAZN,
+       rr.B_IS_RAIL,
+       rr.pkg,
+       rr.amount,
+       rwazn.remittance_wazn,
+       shipmails.shipmails
+
+from TBL_WARH_REMITTANCE r
+         left join (select distinct F_REMITTANCE_ID,
+                                    first_value(ID) over (partition by F_REMITTANCE_ID order by id)           ID,
+                                    count(ID) over (partition by F_REMITTANCE_ID order by id)           pkg,
+                                    sum(N_AMOUNT) over (partition by F_REMITTANCE_ID order by id)           amount,
+                                    first_value(N_AMOUNT) over (partition by F_REMITTANCE_ID order by id)     N_AMOUNT,
+                                    first_value(F_DEPOT_ID) over (partition by F_REMITTANCE_ID order by id)   F_DEPOT_ID,
+                                    first_value(C_DESCRIPTION)
+                                                over (partition by F_REMITTANCE_ID order by id)               C_DESCRIPTION,
+                                    first_value(F_DESTINATION_TOZINE_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_DESTINATION_TOZINE_ID,
+                                    first_value(F_INVENTORY_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_INVENTORY_ID,
+                                    first_value(RAIL_POLOMP_NO)
+                                                over (partition by F_REMITTANCE_ID order by id)               RAIL_POLOMP_NO,
+                                    first_value(SECURITY_POLOMP_NO)
+                                                over (partition by F_REMITTANCE_ID order by id)               SECURITY_POLOMP_NO,
+                                    first_value(F_SOURCE_TOZINE_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_SOURCE_TOZINE_ID,
+                                    first_value(F_UNIT_ID) over (partition by F_REMITTANCE_ID order by id)    F_UNIT_ID,
+                                    first_value(N_WEIGHT) over (partition by F_REMITTANCE_ID order by id)     N_WEIGHT,
+                                    first_value(inventory_id) over (partition by F_REMITTANCE_ID order by id) inventory_id,
+                                    first_value(inventory_label)
+                                                over (partition by F_REMITTANCE_ID order by id)               inventory_label,
+                                    case
+                                        when first_value(remained_bandar)
+                                                         over (partition by F_REMITTANCE_ID order by remained_bandar desc ) > 0
+                                            then 1
+                                        else 0 end                                                            remained_bandar,
+                                    first_value(now_target) over (partition by F_REMITTANCE_ID order by id)   now_target,
+                                    case
+                                        when first_value(now_target) over (partition by F_REMITTANCE_ID order by id) =
+                                             first_value(now_target)
+                                                         over (partition by F_REMITTANCE_ID order by id desc )
+                                            then 0
+                                        else 1 end                                                            has_tafkiki,
+                                    first_value(first_target) over (partition by F_REMITTANCE_ID order by id) first_target,
+                                    first_value(now_rd) over (partition by F_REMITTANCE_ID order by id)       now_rd,
+                                    first_value(now_r) over (partition by F_REMITTANCE_ID order by id)        now_r,
+                                    first_value(first_rd) over (partition by F_REMITTANCE_ID order by id)     first_rd,
+                                    first_value(first_r) over (partition by F_REMITTANCE_ID order by id)      first_r,
+                                    first_value(tozin_table_id)
+                                                over (partition by F_REMITTANCE_ID order by id)               tozin_table_id,
+                                    first_value(CARD_ID) over (partition by F_REMITTANCE_ID order by id)      CARD_ID,
+                                    first_value(GDSCODE) over (partition by F_REMITTANCE_ID order by id)      GDSCODE,
+                                    first_value(CONTENER_NO3) over (partition by F_REMITTANCE_ID order by id) CONTENER_NO3,
+                                    first_value(CTRL_DESC_OUT)
+                                                over (partition by F_REMITTANCE_ID order by id)               CTRL_DESC_OUT,
+                                    first_value(DAT) over (partition by F_REMITTANCE_ID order by id)          DAT,
+                                    first_value(DRVNAME) over (partition by F_REMITTANCE_ID order by id)      DRVNAME,
+                                    first_value(HAVCODE) over (partition by F_REMITTANCE_ID order by id)      HAVCODE,
+                                    first_value(B_IS_IN_VIEW) over (partition by F_REMITTANCE_ID order by id) B_IS_IN_VIEW,
+                                    first_value(PLAK) over (partition by F_REMITTANCE_ID order by id)         PLAK,
+                                    first_value(SOURCEID) over (partition by F_REMITTANCE_ID order by id)     SOURCEID,
+                                    first_value(TARGETID) over (partition by F_REMITTANCE_ID order by id)     TARGETID,
+                                    first_value(TOZINE_ID) over (partition by F_REMITTANCE_ID order by id)    TOZINE_ID,
+                                    first_value(WAZN) over (partition by F_REMITTANCE_ID order by id)         WAZN,
+                                    first_value(B_IS_RAIL) over (partition by F_REMITTANCE_ID order by id)    B_IS_RAIL
+
+                    from (
+                             select rd.ID,
+                                    N_AMOUNT,
+                                    F_DEPOT_ID,
+                                    C_DESCRIPTION,
+                                    F_DESTINATION_TOZINE_ID,
+                                    F_INVENTORY_ID,
+                                    RAIL_POLOMP_NO,
+                                    F_REMITTANCE_ID,
+                                    SECURITY_POLOMP_NO,
+                                    F_SOURCE_TOZINE_ID,
+                                    F_UNIT_ID,
+                                    N_WEIGHT,
+                                    inventory_id,
+                                    inventory_label,
+                                    remained_bandar,
+                                    now_target,
+                                    first_target,
+                                    now_rd,
+                                    now_r,
+                                    first_rd,
+                                    first_r,
+                                    twt.ID tozin_table_id,
+                                    CARD_ID,
+                                    GDSCODE,
+                                    CONTENER_NO3,
+                                    CTRL_DESC_OUT,
+                                    DAT,
+                                    DRVNAME,
+                                    HAVCODE,
+                                    B_IS_IN_VIEW,
+                                    PLAK,
+                                    SOURCEID,
+                                    TARGETID,
+                                    TOZINE_ID,
+                                    WAZN,
+                                    B_IS_RAIL
+                             from TBL_WARH_REMITTANCE_DETAIL rd
+                                      left join (select distinct inv.id                                                                  inventory_id,
+                                                                 inv.C_LABEL                                                             inventory_label,
+                                                                 sum(case
+                                                                         when twt.TARGETID in (2320, 2340, 2555)
+                                                                             then rd.N_WEIGHT
+                                                                         when twt.SOURCEID in (2320, 2340, 2555)
+                                                                             then -rd.N_WEIGHT
+                                                                         else 0 end)
+                                                                     over ( partition by inv.ID )                                     as remained_bandar,
+                                                                 first_value(twt.TARGETID)
+                                                                             over (partition by inv.ID order by twt.DAT desc )        as now_target,
+                                                                 first_value(twt.TARGETID)
+                                                                             over (partition by inv.ID order by twt.DAT )             as first_target,
+                                                                 first_value(rd.ID) over (partition by inv.ID order by twt.DAT desc ) as now_rd,
+                                                                 first_value(r.ID) over (partition by inv.ID order by twt.DAT desc )  as now_r,
+                                                                 first_value(rd.ID) over (partition by inv.ID order by twt.DAT )      as first_rd,
+                                                                 first_value(r.ID) over (partition by inv.ID order by twt.DAT )       as first_r
+                                                 from TBL_WARH_INVENTORY inv
+                                                          left join TBL_WARH_REMITTANCE_DETAIL rd on inv.ID = rd.F_INVENTORY_ID
+                                                          left join TBL_WARH_TOZIN twt
+                                                                    on nvl(rd.F_DESTINATION_TOZINE_ID, rd.F_SOURCE_TOZINE_ID) = twt.ID
+                                                          left join TBL_WARH_REMITTANCE r on rd.F_REMITTANCE_ID = r.ID) TWI
+                                                on TWI.inventory_id = rd.F_INVENTORY_ID
+                                      left join TBL_WARH_TOZIN twt
+                                                on nvl(rd.F_DESTINATION_TOZINE_ID, rd.F_SOURCE_TOZINE_ID) = twt.ID
+                         )) rr on r.ID = rr.F_REMITTANCE_ID
+         left join TBL_SHIPMENT s on r.F_SHIPMENT_ID = s.ID
+         left join TBL_PACKING_CONTAINER pc
+                   on r.F_PACKING_CONTAINER_ID = pc.ID
+         left join (select F_REMITTANCE_ID,sum(wazn) remittance_wazn from (
+                                                                              select  rd.F_REMITTANCE_ID,t.ID,t.WAZN
+                                                                              from TBL_WARH_REMITTANCE_DETAIL rd
+                                                                                       left join TBL_WARH_TOZIN t on nvl(rd.F_DESTINATION_TOZINE_ID,rd.F_SOURCE_TOZINE_ID)=t.ID
+                                                                              group by rd.F_REMITTANCE_ID, t.ID, t.WAZN order by F_REMITTANCE_ID)
+                    group by F_REMITTANCE_ID) rwazn on r.id=rwazn.F_REMITTANCE_ID
+
+left join  (select id,LISTAGG(shipmails, ',') within group ( order by shipmails)  shipmails
+from (
+select r.ID,inv.shipmails
+from TBL_WARH_REMITTANCE_DETAIL rd
+         left join
+     TBL_WARH_REMITTANCE r on rd.F_REMITTANCE_ID = r.ID
+         left join TBL_SHIPMENT sh on r.F_SHIPMENT_ID = sh.ID
+         left join (
+    select *
+    from (select inv.id,
+                 LISTAGG(sh.C_AUTOMATION_LETTER_NO, ',') within group (
+                     order by sh.C_AUTOMATION_LETTER_NO
+                     ) shipmails
+          from TBL_WARH_REMITTANCE_DETAIL rd
+                   left join
+               TBL_WARH_REMITTANCE r on rd.F_REMITTANCE_ID = r.ID
+                   left join TBL_SHIPMENT sh on r.F_SHIPMENT_ID = sh.ID
+                   left join TBL_WARH_INVENTORY inv on rd.F_INVENTORY_ID = inv.ID
+          group by inv.id)
+   ) inv on rd.F_INVENTORY_ID = inv.ID
+group by inv.shipmails, r.ID)
+where shipmails is not null
+group by id) shipmails on r.ID=shipmails.id
+
+
+
+
+
+
+
+				]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saeb" id="r_004">
+        <createView viewName="VIEW_REMITTANCE" replaceIfExists="true"><![CDATA[
+select r.C_CODE,
+       r.C_DESCRIPTION as remittance_description,
+       r.F_SHIPMENT_ID,
+       r.F_PACKING_CONTAINER_ID,
+       s.C_AUTOMATION_LETTER_NO,
+       s.D_AUTOMATION_LETTER_DATE,
+       rr.F_REMITTANCE_ID,
+       rr.ID,
+       rr.N_AMOUNT,
+       rr.F_DEPOT_ID,
+       rr.C_DESCRIPTION,
+       rr.F_DESTINATION_TOZINE_ID,
+       rr.F_INVENTORY_ID,
+       rr.RAIL_POLOMP_NO,
+       rr.SECURITY_POLOMP_NO,
+       rr.F_SOURCE_TOZINE_ID,
+       rr.F_UNIT_ID,
+       rr.N_WEIGHT,
+       rr.inventory_id,
+       rr.inventory_label,
+       rr.remained_bandar,
+       rr.now_target,
+       rr.has_tafkiki,
+       rr.first_target,
+       rr.now_rd,
+       rr.now_r,
+       rr.first_rd,
+       rr.first_r,
+       rr.tozin_table_id,
+       rr.CARD_ID,
+       rr.GDSCODE,
+       rr.CONTENER_NO3,
+       rr.CTRL_DESC_OUT,
+       rr.DAT,
+       rr.DRVNAME,
+       rr.HAVCODE,
+       rr.B_IS_IN_VIEW,
+       rr.PLAK,
+       rr.SOURCEID,
+       rr.TARGETID,
+       rr.TOZINE_ID,
+       rr.WAZN,
+       rr.B_IS_RAIL,
+       rr.pkg,
+       rr.amount,
+       rwazn.remittance_wazn,
+       shipmails.shipmails
+
+from TBL_WARH_REMITTANCE r
+         left join (select distinct F_REMITTANCE_ID,
+                                    first_value(ID) over (partition by F_REMITTANCE_ID order by id)           ID,
+                                    count(ID) over (partition by F_REMITTANCE_ID order by id)           pkg,
+                                    sum(N_AMOUNT) over (partition by F_REMITTANCE_ID order by id)           amount,
+                                    first_value(N_AMOUNT) over (partition by F_REMITTANCE_ID order by id)     N_AMOUNT,
+                                    first_value(F_DEPOT_ID) over (partition by F_REMITTANCE_ID order by id)   F_DEPOT_ID,
+                                    first_value(C_DESCRIPTION)
+                                                over (partition by F_REMITTANCE_ID order by id)               C_DESCRIPTION,
+                                    first_value(F_DESTINATION_TOZINE_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_DESTINATION_TOZINE_ID,
+                                    first_value(F_INVENTORY_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_INVENTORY_ID,
+                                    first_value(RAIL_POLOMP_NO)
+                                                over (partition by F_REMITTANCE_ID order by id)               RAIL_POLOMP_NO,
+                                    first_value(SECURITY_POLOMP_NO)
+                                                over (partition by F_REMITTANCE_ID order by id)               SECURITY_POLOMP_NO,
+                                    first_value(F_SOURCE_TOZINE_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_SOURCE_TOZINE_ID,
+                                    first_value(F_UNIT_ID) over (partition by F_REMITTANCE_ID order by id)    F_UNIT_ID,
+                                    first_value(N_WEIGHT) over (partition by F_REMITTANCE_ID order by id)     N_WEIGHT,
+                                    first_value(inventory_id) over (partition by F_REMITTANCE_ID order by id) inventory_id,
+                                    first_value(inventory_label)
+                                                over (partition by F_REMITTANCE_ID order by id)               inventory_label,
+                                    case
+                                        when first_value(remained_bandar)
+                                                         over (partition by F_REMITTANCE_ID order by remained_bandar desc ) > 0
+                                            then 1
+                                        else 0 end                                                            remained_bandar,
+                                    first_value(now_target) over (partition by F_REMITTANCE_ID order by id)   now_target,
+                                    case
+                                        when first_value(now_target) over (partition by F_REMITTANCE_ID order by id) =
+                                             first_value(now_target)
+                                                         over (partition by F_REMITTANCE_ID order by id desc )
+                                            then 0
+                                        else 1 end                                                            has_tafkiki,
+                                    first_value(first_target) over (partition by F_REMITTANCE_ID order by id) first_target,
+                                    first_value(now_rd) over (partition by F_REMITTANCE_ID order by id)       now_rd,
+                                    first_value(now_r) over (partition by F_REMITTANCE_ID order by id)        now_r,
+                                    first_value(first_rd) over (partition by F_REMITTANCE_ID order by id)     first_rd,
+                                    first_value(first_r) over (partition by F_REMITTANCE_ID order by id)      first_r,
+                                    first_value(tozin_table_id)
+                                                over (partition by F_REMITTANCE_ID order by id)               tozin_table_id,
+                                    first_value(CARD_ID) over (partition by F_REMITTANCE_ID order by id)      CARD_ID,
+                                    first_value(GDSCODE) over (partition by F_REMITTANCE_ID order by id)      GDSCODE,
+                                    first_value(CONTENER_NO3) over (partition by F_REMITTANCE_ID order by id) CONTENER_NO3,
+                                    first_value(CTRL_DESC_OUT)
+                                                over (partition by F_REMITTANCE_ID order by id)               CTRL_DESC_OUT,
+                                    first_value(DAT) over (partition by F_REMITTANCE_ID order by id)          DAT,
+                                    first_value(DRVNAME) over (partition by F_REMITTANCE_ID order by id)      DRVNAME,
+                                    first_value(HAVCODE) over (partition by F_REMITTANCE_ID order by id)      HAVCODE,
+                                    first_value(B_IS_IN_VIEW) over (partition by F_REMITTANCE_ID order by id) B_IS_IN_VIEW,
+                                    first_value(PLAK) over (partition by F_REMITTANCE_ID order by id)         PLAK,
+                                    first_value(SOURCEID) over (partition by F_REMITTANCE_ID order by id)     SOURCEID,
+                                    first_value(TARGETID) over (partition by F_REMITTANCE_ID order by id)     TARGETID,
+                                    first_value(TOZINE_ID) over (partition by F_REMITTANCE_ID order by id)    TOZINE_ID,
+                                    first_value(WAZN) over (partition by F_REMITTANCE_ID order by id)         WAZN,
+                                    first_value(B_IS_RAIL) over (partition by F_REMITTANCE_ID order by id)    B_IS_RAIL
+
+                    from (
+                             select rd.ID,
+                                    N_AMOUNT,
+                                    F_DEPOT_ID,
+                                    C_DESCRIPTION,
+                                    F_DESTINATION_TOZINE_ID,
+                                    F_INVENTORY_ID,
+                                    RAIL_POLOMP_NO,
+                                    F_REMITTANCE_ID,
+                                    SECURITY_POLOMP_NO,
+                                    F_SOURCE_TOZINE_ID,
+                                    F_UNIT_ID,
+                                    N_WEIGHT,
+                                    inventory_id,
+                                    inventory_label,
+                                    remained_bandar,
+                                    now_target,
+                                    first_target,
+                                    now_rd,
+                                    now_r,
+                                    first_rd,
+                                    first_r,
+                                    twt.ID tozin_table_id,
+                                    CARD_ID,
+                                    GDSCODE,
+                                    CONTENER_NO3,
+                                    CTRL_DESC_OUT,
+                                    DAT,
+                                    DRVNAME,
+                                    HAVCODE,
+                                    B_IS_IN_VIEW,
+                                    PLAK,
+                                    SOURCEID,
+                                    TARGETID,
+                                    TOZINE_ID,
+                                    WAZN,
+                                    B_IS_RAIL
+                             from TBL_WARH_REMITTANCE_DETAIL rd
+                                      left join (select distinct inv.id                                                                  inventory_id,
+                                                                 inv.C_LABEL                                                             inventory_label,
+                                                                 sum(case
+                                                                         when twt.TARGETID in (2320, 2340, 2555)
+                                                                             then rd.N_WEIGHT
+                                                                         when twt.SOURCEID in (2320, 2340, 2555)
+                                                                             then -rd.N_WEIGHT
+                                                                         else 0 end)
+                                                                     over ( partition by inv.ID )                                     as remained_bandar,
+                                                                 first_value(twt.TARGETID)
+                                                                             over (partition by inv.ID order by twt.DAT desc )        as now_target,
+                                                                 first_value(twt.TARGETID)
+                                                                             over (partition by inv.ID order by twt.DAT )             as first_target,
+                                                                 first_value(rd.ID) over (partition by inv.ID order by twt.DAT desc ) as now_rd,
+                                                                 first_value(r.ID) over (partition by inv.ID order by twt.DAT desc )  as now_r,
+                                                                 first_value(rd.ID) over (partition by inv.ID order by twt.DAT )      as first_rd,
+                                                                 first_value(r.ID) over (partition by inv.ID order by twt.DAT )       as first_r
+                                                 from TBL_WARH_INVENTORY inv
+                                                          left join TBL_WARH_REMITTANCE_DETAIL rd on inv.ID = rd.F_INVENTORY_ID
+                                                          left join TBL_WARH_TOZIN twt
+                                                                    on nvl(rd.F_DESTINATION_TOZINE_ID, rd.F_SOURCE_TOZINE_ID) = twt.ID
+                                                          left join TBL_WARH_REMITTANCE r on rd.F_REMITTANCE_ID = r.ID) TWI
+                                                on TWI.inventory_id = rd.F_INVENTORY_ID
+                                      left join TBL_WARH_TOZIN twt
+                                                on nvl(rd.F_DESTINATION_TOZINE_ID, rd.F_SOURCE_TOZINE_ID) = twt.ID
+                         )) rr on r.ID = rr.F_REMITTANCE_ID
+         left join TBL_SHIPMENT s on r.F_SHIPMENT_ID = s.ID
+         left join (select F_REMITTANCE_ID,sum(wazn) remittance_wazn from (
+                                                                              select  rd.F_REMITTANCE_ID,t.ID,t.WAZN
+                                                                              from TBL_WARH_REMITTANCE_DETAIL rd
+                                                                                       left join TBL_WARH_TOZIN t on nvl(rd.F_DESTINATION_TOZINE_ID,rd.F_SOURCE_TOZINE_ID)=t.ID
+                                                                              group by rd.F_REMITTANCE_ID, t.ID, t.WAZN order by F_REMITTANCE_ID)
+                    group by F_REMITTANCE_ID) rwazn on rr.F_REMITTANCE_ID=rwazn.F_REMITTANCE_ID
+left join  (select id,LISTAGG(shipmails, ',') within group ( order by shipmails)  shipmails
+from (
+select r.ID,inv.shipmails
+from TBL_WARH_REMITTANCE_DETAIL rd
+         left join
+     TBL_WARH_REMITTANCE r on rd.F_REMITTANCE_ID = r.ID
+         left join TBL_SHIPMENT sh on r.F_SHIPMENT_ID = sh.ID
+         left join (
+    select *
+    from (select inv.id,
+                 LISTAGG(sh.C_AUTOMATION_LETTER_NO, ',') within group (
+                     order by sh.C_AUTOMATION_LETTER_NO
+                     ) shipmails
+          from TBL_WARH_REMITTANCE_DETAIL rd
+                   left join
+               TBL_WARH_REMITTANCE r on rd.F_REMITTANCE_ID = r.ID
+                   left join TBL_SHIPMENT sh on r.F_SHIPMENT_ID = sh.ID
+                   left join TBL_WARH_INVENTORY inv on rd.F_INVENTORY_ID = inv.ID
+          group by inv.id)
+   ) inv on rd.F_INVENTORY_ID = inv.ID
+group by inv.shipmails, r.ID)
+where shipmails is not null
+group by id) shipmails on r.ID=shipmails.id
+
+
+
+
+
+
+
+
+
+
+
+
+				]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saeb" id="r_0d04">
+        <createView viewName="VIEW_REMITTANCE" replaceIfExists="true"><![CDATA[
+select r.C_CODE,
+       r.C_DESCRIPTION as remittance_description,
+       r.F_SHIPMENT_ID,
+       r.F_PACKING_CONTAINER_ID,
+       s.C_AUTOMATION_LETTER_NO,
+       s.D_AUTOMATION_LETTER_DATE,
+       rr.F_REMITTANCE_ID,
+       rr.ID,
+       rr.N_AMOUNT,
+       rr.F_DEPOT_ID,
+       rr.C_DESCRIPTION,
+       rr.F_DESTINATION_TOZINE_ID,
+       rr.F_INVENTORY_ID,
+       rr.RAIL_POLOMP_NO,
+       rr.SECURITY_POLOMP_NO,
+       rr.F_SOURCE_TOZINE_ID,
+       rr.F_UNIT_ID,
+       rr.N_WEIGHT,
+       rr.inventory_id,
+       rr.inventory_label,
+       rr.remained_bandar,
+       rr.now_target,
+       rr.has_tafkiki,
+       rr.first_target,
+       rr.now_rd,
+       rr.now_r,
+       rr.first_rd,
+       rr.first_r,
+       rr.tozin_table_id,
+       rr.CARD_ID,
+       rr.GDSCODE,
+       rr.CONTENER_NO3,
+       rr.CTRL_DESC_OUT,
+       rr.DAT,
+       rr.DRVNAME,
+       rr.HAVCODE,
+       rr.B_IS_IN_VIEW,
+       rr.PLAK,
+       rr.SOURCEID,
+       rr.TARGETID,
+       rr.TOZINE_ID,
+       rr.WAZN,
+       rr.B_IS_RAIL,
+       rwazn.remittance_wazn,
+       shipmails.shipmails,
+       pkg.pkg,
+       pkg.amount
+
+from TBL_WARH_REMITTANCE r
+         left join (select distinct F_REMITTANCE_ID,
+                                    first_value(ID) over (partition by F_REMITTANCE_ID order by id)           ID,
+                                    first_value(N_AMOUNT) over (partition by F_REMITTANCE_ID order by id)     N_AMOUNT,
+                                    first_value(F_DEPOT_ID) over (partition by F_REMITTANCE_ID order by id)   F_DEPOT_ID,
+                                    first_value(C_DESCRIPTION)
+                                                over (partition by F_REMITTANCE_ID order by id)               C_DESCRIPTION,
+                                    first_value(F_DESTINATION_TOZINE_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_DESTINATION_TOZINE_ID,
+                                    first_value(F_INVENTORY_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_INVENTORY_ID,
+                                    first_value(RAIL_POLOMP_NO)
+                                                over (partition by F_REMITTANCE_ID order by id)               RAIL_POLOMP_NO,
+                                    first_value(SECURITY_POLOMP_NO)
+                                                over (partition by F_REMITTANCE_ID order by id)               SECURITY_POLOMP_NO,
+                                    first_value(F_SOURCE_TOZINE_ID)
+                                                over (partition by F_REMITTANCE_ID order by id)               F_SOURCE_TOZINE_ID,
+                                    first_value(F_UNIT_ID) over (partition by F_REMITTANCE_ID order by id)    F_UNIT_ID,
+                                    first_value(N_WEIGHT) over (partition by F_REMITTANCE_ID order by id)     N_WEIGHT,
+                                    first_value(inventory_id) over (partition by F_REMITTANCE_ID order by id) inventory_id,
+                                    first_value(inventory_label)
+                                                over (partition by F_REMITTANCE_ID order by id)               inventory_label,
+                                    case
+                                        when first_value(remained_bandar)
+                                                         over (partition by F_REMITTANCE_ID order by remained_bandar desc ) > 0
+                                            then 1
+                                        else 0 end                                                            remained_bandar,
+                                    first_value(now_target) over (partition by F_REMITTANCE_ID order by id)   now_target,
+                                    case
+                                        when first_value(now_target) over (partition by F_REMITTANCE_ID order by id) =
+                                             first_value(now_target)
+                                                         over (partition by F_REMITTANCE_ID order by id desc )
+                                            then 0
+                                        else 1 end                                                            has_tafkiki,
+                                    first_value(first_target) over (partition by F_REMITTANCE_ID order by id) first_target,
+                                    first_value(now_rd) over (partition by F_REMITTANCE_ID order by id)       now_rd,
+                                    first_value(now_r) over (partition by F_REMITTANCE_ID order by id)        now_r,
+                                    first_value(first_rd) over (partition by F_REMITTANCE_ID order by id)     first_rd,
+                                    first_value(first_r) over (partition by F_REMITTANCE_ID order by id)      first_r,
+                                    first_value(tozin_table_id)
+                                                over (partition by F_REMITTANCE_ID order by id)               tozin_table_id,
+                                    first_value(CARD_ID) over (partition by F_REMITTANCE_ID order by id)      CARD_ID,
+                                    first_value(GDSCODE) over (partition by F_REMITTANCE_ID order by id)      GDSCODE,
+                                    first_value(CONTENER_NO3) over (partition by F_REMITTANCE_ID order by id) CONTENER_NO3,
+                                    first_value(CTRL_DESC_OUT)
+                                                over (partition by F_REMITTANCE_ID order by id)               CTRL_DESC_OUT,
+                                    first_value(DAT) over (partition by F_REMITTANCE_ID order by id)          DAT,
+                                    first_value(DRVNAME) over (partition by F_REMITTANCE_ID order by id)      DRVNAME,
+                                    first_value(HAVCODE) over (partition by F_REMITTANCE_ID order by id)      HAVCODE,
+                                    first_value(B_IS_IN_VIEW) over (partition by F_REMITTANCE_ID order by id) B_IS_IN_VIEW,
+                                    first_value(PLAK) over (partition by F_REMITTANCE_ID order by id)         PLAK,
+                                    first_value(SOURCEID) over (partition by F_REMITTANCE_ID order by id)     SOURCEID,
+                                    first_value(TARGETID) over (partition by F_REMITTANCE_ID order by id)     TARGETID,
+                                    first_value(TOZINE_ID) over (partition by F_REMITTANCE_ID order by id)    TOZINE_ID,
+                                    first_value(WAZN) over (partition by F_REMITTANCE_ID order by id)         WAZN,
+                                    first_value(B_IS_RAIL) over (partition by F_REMITTANCE_ID order by id)    B_IS_RAIL
+
+                    from (
+                             select rd.ID,
+                                    N_AMOUNT,
+                                    F_DEPOT_ID,
+                                    C_DESCRIPTION,
+                                    F_DESTINATION_TOZINE_ID,
+                                    F_INVENTORY_ID,
+                                    RAIL_POLOMP_NO,
+                                    F_REMITTANCE_ID,
+                                    SECURITY_POLOMP_NO,
+                                    F_SOURCE_TOZINE_ID,
+                                    F_UNIT_ID,
+                                    N_WEIGHT,
+                                    inventory_id,
+                                    inventory_label,
+                                    remained_bandar,
+                                    now_target,
+                                    first_target,
+                                    now_rd,
+                                    now_r,
+                                    first_rd,
+                                    first_r,
+                                    twt.ID tozin_table_id,
+                                    CARD_ID,
+                                    GDSCODE,
+                                    CONTENER_NO3,
+                                    CTRL_DESC_OUT,
+                                    DAT,
+                                    DRVNAME,
+                                    HAVCODE,
+                                    B_IS_IN_VIEW,
+                                    PLAK,
+                                    SOURCEID,
+                                    TARGETID,
+                                    TOZINE_ID,
+                                    WAZN,
+                                    B_IS_RAIL
+                             from TBL_WARH_REMITTANCE_DETAIL rd
+                                      left join (select distinct inv.id                                                                  inventory_id,
+                                                                 inv.C_LABEL                                                             inventory_label,
+                                                                 sum(case
+                                                                         when twt.TARGETID in (2320, 2340, 2555)
+                                                                             then rd.N_WEIGHT
+                                                                         when twt.SOURCEID in (2320, 2340, 2555)
+                                                                             then -rd.N_WEIGHT
+                                                                         else 0 end)
+                                                                     over ( partition by inv.ID )                                     as remained_bandar,
+                                                                 first_value(twt.TARGETID)
+                                                                             over (partition by inv.ID order by twt.DAT desc )        as now_target,
+                                                                 first_value(twt.TARGETID)
+                                                                             over (partition by inv.ID order by twt.DAT )             as first_target,
+                                                                 first_value(rd.ID) over (partition by inv.ID order by twt.DAT desc ) as now_rd,
+                                                                 first_value(r.ID) over (partition by inv.ID order by twt.DAT desc )  as now_r,
+                                                                 first_value(rd.ID) over (partition by inv.ID order by twt.DAT )      as first_rd,
+                                                                 first_value(r.ID) over (partition by inv.ID order by twt.DAT )       as first_r
+                                                 from TBL_WARH_INVENTORY inv
+                                                          left join TBL_WARH_REMITTANCE_DETAIL rd on inv.ID = rd.F_INVENTORY_ID
+                                                          left join TBL_WARH_TOZIN twt
+                                                                    on nvl(rd.F_DESTINATION_TOZINE_ID, rd.F_SOURCE_TOZINE_ID) = twt.ID
+                                                          left join TBL_WARH_REMITTANCE r on rd.F_REMITTANCE_ID = r.ID) TWI
+                                                on TWI.inventory_id = rd.F_INVENTORY_ID
+                                      left join TBL_WARH_TOZIN twt
+                                                on nvl(rd.F_DESTINATION_TOZINE_ID, rd.F_SOURCE_TOZINE_ID) = twt.ID
+                         )) rr on r.ID = rr.F_REMITTANCE_ID
+         left join TBL_SHIPMENT s on r.F_SHIPMENT_ID = s.ID
+         left join (select F_REMITTANCE_ID,sum(wazn) remittance_wazn from (
+                                                                              select  rd.F_REMITTANCE_ID,t.ID,t.WAZN
+                                                                              from TBL_WARH_REMITTANCE_DETAIL rd
+                                                                                       left join TBL_WARH_TOZIN t on nvl(rd.F_DESTINATION_TOZINE_ID,rd.F_SOURCE_TOZINE_ID)=t.ID
+                                                                              group by rd.F_REMITTANCE_ID, t.ID, t.WAZN order by F_REMITTANCE_ID)
+                    group by F_REMITTANCE_ID) rwazn on rr.F_REMITTANCE_ID=rwazn.F_REMITTANCE_ID
+         left join  (select id,LISTAGG(shipmails, ',') within group ( order by shipmails)  shipmails
+                     from (
+                              select r.ID,inv.shipmails
+                              from TBL_WARH_REMITTANCE_DETAIL rd
+                                       left join
+                                   TBL_WARH_REMITTANCE r on rd.F_REMITTANCE_ID = r.ID
+                                       left join TBL_SHIPMENT sh on r.F_SHIPMENT_ID = sh.ID
+                                       left join (
+                                  select *
+                                  from (select inv.id,
+                                               LISTAGG(sh.C_AUTOMATION_LETTER_NO, ',') within group (
+                                                   order by sh.C_AUTOMATION_LETTER_NO
+                                                   ) shipmails
+                                        from TBL_WARH_REMITTANCE_DETAIL rd
+                                                 left join
+                                             TBL_WARH_REMITTANCE r on rd.F_REMITTANCE_ID = r.ID
+                                                 left join TBL_SHIPMENT sh on r.F_SHIPMENT_ID = sh.ID
+                                                 left join TBL_WARH_INVENTORY inv on rd.F_INVENTORY_ID = inv.ID
+                                        group by inv.id)
+                              ) inv on rd.F_INVENTORY_ID = inv.ID
+                              group by inv.shipmails, r.ID)
+                     where shipmails is not null
+                     group by id) shipmails on r.ID=shipmails.id
+         left join (select
+F_REMITTANCE_ID,
+       count(id)  pkg,
+       sum(N_AMOUNT)  amount
+from TBL_WARH_REMITTANCE_DETAIL
+group by F_REMITTANCE_ID) pkg on r.ID=pkg.F_REMITTANCE_ID
+
+
+
+				]]>
+        </createView>
+    </changeSet>
+
+
+</databaseChangeLog>

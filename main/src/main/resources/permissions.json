@@ -1517,6 +1517,10 @@
       "title": "نمایش بیجک"
     },
     {
+      "code": "R_REMITTANCE_VIEW",
+      "title": "نمایش  بیجک"
+    },
+    {
       "code": "C_REMITTANCE",
       "title": "ایجاد بیجک"
     },
