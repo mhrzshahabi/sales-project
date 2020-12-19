@@ -41,9 +41,8 @@
 
     getAttachFileList();
 
-    function checkHasAttachFile(record) {
-        let size = attachFileList.filter(q => q.recordId == record.id).size();
-        return size > 0;
+    function attachFileListSize(record) {
+        return attachFileList.filter(q => q.recordId == record.id).size();
     };
 
     nicico.FileUtil.okCallBack = function (files) {
@@ -1056,11 +1055,10 @@
         }
     }
 
-    function checkHasPrintTemplate(record) {
-        let size = printTemplateList
+    function printTemplateListSize(record) {
+        return printTemplateList
             .filter(x => x.shipmentType == record.shipmentTypeId)
             .filter(x => x.material == record.materialId).size();
-        return size > 0;
     }
 
     var ToolStripButton_Shipment_Refresh = isc.ToolStripButtonRefresh.create({
@@ -1370,15 +1368,16 @@
         createRecordComponent: function (record, colNum) {
             var fieldName = this.getFieldName(colNum);
             if (fieldName == "printIcon") {
-                let hasPrintTemplate = checkHasPrintTemplate(record);
-                if (!hasPrintTemplate)
+                let listSize = printTemplateListSize(record);
+                if (listSize == 0)
                     return null;
-                var printImg = isc.ImgButton.create({
+                let cntnt = (listSize > 1) ? "(" + listSize + ")" : "";
+                var printImg = isc.Label.create({
+                    contents: cntnt,
                     showDown: false,
                     showRollOver: false,
-                    layoutAlign: "center",
-                    src: "[SKIN]/actions/print.png",
-                    prompt: "<spring:message code='global.form.print'/>",
+                    icon: "[SKIN]/actions/print.png",
+                    cursor: "hand",
                     height: 16,
                     width: 16,
                     grid: this,
@@ -1405,16 +1404,18 @@
                 return printImg;
             } else if (fieldName == "attachIcon") {
 
-                let hasAttachFile = checkHasAttachFile(record);
-                if (!hasAttachFile)
+                let listSize = attachFileListSize(record);
+                if (listSize == 0)
                     return null;
-                var printImg = isc.ImgButton.create({
+                let cntnt = (listSize > 1) ? "(" + listSize + ")" : "";
+                var printImg = isc.Label.create({
+                    contents: cntnt,
                     showDown: false,
                     showRollOver: false,
-                    layoutAlign: "center",
-                    src: "pieces/512/attachment.png",
+                    icon: "pieces/512/attachment.png",
                     height: 16,
                     width: 16,
+                    cursor: "hand",
                     grid: this,
                     click: function () {
 
