@@ -132,11 +132,11 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
     }
 
     @Override
-    public TotalResponse<RemittanceDTO.InfoWithoutRemittanceDetail> searchLite(NICICOCriteria request) {
+    public TotalResponse<RemittanceDTO.Lite> searchLite(NICICOCriteria request) {
         List<Remittance> entities = new ArrayList<>();
-        final TotalResponse<RemittanceDTO.InfoWithoutRemittanceDetail> totalResponse = SearchUtil.search(remittanceDAO, request, entity -> {
+        final TotalResponse<RemittanceDTO.Lite> totalResponse = SearchUtil.search(remittanceDAO, request, entity -> {
 
-            RemittanceDTO.InfoWithoutRemittanceDetail eResult = modelMapper.map(entity, RemittanceDTO.InfoWithoutRemittanceDetail.class);
+            RemittanceDTO.Lite eResult = modelMapper.map(entity, RemittanceDTO.Lite.class);
             validation(entity, eResult);
             entities.add(entity);
             return eResult;

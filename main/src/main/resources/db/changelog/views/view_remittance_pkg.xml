@@ -3,6 +3,61 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
+    <!--     report_material_source_bandarabas-->
+    <changeSet id="salkljals" author="saeb">
+        <createTable tableName="REPORT_MATERIAL_SOURCE_BANDARABAS">
+            <column type="NUMBER" name="ID">
+                <constraints primaryKey="true" primaryKeyName="pk_REPORT_MATERIAL_SOURCE_BANDARABAS"/>
+            </column>
+            <column type="NUMBER" name="SOURCE_ID"/>
+            <column type="VARCHAR2(255)" name="SOURCE_NAME"/>
+            <column type="NUMBER" name="UNIT_ID"/>
+            <column type="VARCHAR2(255)" name="UNIT_NAME"/>
+            <column type="NUMBER" name="MATERIAL_ID"/>
+            <column type="VARCHAR2(255)" name="MATERIAL_NAME"/>
+            <column type="VARCHAR2(2000)" name="DESCRIPTION"/>
+        </createTable>
+        <sql>INSERT INTO SALESLOCAL.REPORT_MATERIAL_SOURCE_BANDARABAS (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME,
+            MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (8, 1021, 'خاتون‌آباد', 4, 'بسته', 10, 'کاتد لیچینگ', null)
+        </sql>
+        <sql>INSERT INTO SALESLOCAL.REPORT_MATERIAL_SOURCE_BANDARABAS (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME,
+            MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (9, 1000, 'مجتمع مس سرچشمه', 4, 'بسته', 10, 'کاتد لیچینگ',
+            null)
+        </sql>
+        <sql>INSERT INTO SALESLOCAL.REPORT_MATERIAL_SOURCE_BANDARABAS (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME,
+            MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (10, 1000, 'مجتمع مس سرچشمه', 4, 'بسته', 11, 'کاتد
+            پالایشگاه', null)
+        </sql>
+        <sql>INSERT INTO SALESLOCAL.REPORT_MATERIAL_SOURCE_BANDARABAS (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME,
+            MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (11, 1021, 'خاتون‌آباد', 4, 'بسته', 11, 'کاتد پالایشگاه',
+            null)
+        </sql>
+        <sql>INSERT INTO SALESLOCAL.REPORT_MATERIAL_SOURCE_BANDARABAS (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME,
+            MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (12, 1000, 'مجتمع مس سرچشمه', 6, 'فله', 8, 'کنسانتره', null)
+        </sql>
+        <sql>INSERT INTO SALESLOCAL.REPORT_MATERIAL_SOURCE_BANDARABAS (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME,
+            MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (13, 1541, 'مجتمع مس سونگون', 6, 'فله', 8, 'کنسانتره', null)
+        </sql>
+        <sql>INSERT INTO SALESLOCAL.REPORT_MATERIAL_SOURCE_BANDARABAS (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME,
+            MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (14, 1021, 'خاتون‌آباد', 1, 'بشکه', 97, 'اکسید مولیبدن',
+            null)
+        </sql>
+    </changeSet>
+    <changeSet id="sadlkljals" author="saeb">
+        <sql>INSERT INTO SALESLOCAL.REPORT_MATERIAL_SOURCE_BANDARABAS (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME,
+            MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (15, 1000, 'مجتمع مس سرچشمه', 6, 'فله', 82, 'ته پاتيل
+            كنورتور', null)
+        </sql>
+        <sql>INSERT INTO SALESLOCAL.REPORT_MATERIAL_SOURCE_BANDARABAS (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME,
+            MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (16, 1021, 'خاتون‌آباد', 6, 'فله', 82, 'ته پاتيل كنورتور',
+            null)
+        </sql>
+        <sql>INSERT INTO SALESLOCAL.REPORT_MATERIAL_SOURCE_BANDARABAS (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME,
+            MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (17, 1000, 'مجتمع مس سرچشمه', 6, 'فله', 1, 'مفتول مسي 8
+            ميليمتري', null)
+        </sql>
+    </changeSet>
+
     <!--     view_remittanceDetails2555-->
 
     <changeSet author="saebm" id="reasdasdasdza_0sssss05">
@@ -146,6 +201,33 @@ order by dd.date__ asc, ms.source, ms.material
     (select MATERIAL,SOURCE,max(UNIT) as unit from VIEW_REMITTANCEDETAILS2555
            where SOURCE not in (2320,2340,2555)
            group by MATERIAL,SOURCE) vv
+
+
+			]]>
+        </createView>
+    </changeSet>
+
+    <changeSet author="saebm" id="reass05">
+        <createView viewName="view_dat_source_material" replaceIfExists="true">
+            <![CDATA[
+ select dd.date__ as dat, vv.SOURCE_ID SOURCE,
+        vv.SOURCE_NAME,
+       vv.MATERIAL_ID MATERIAL,
+       vv.MATERIAL_NAME,
+       vv.UNIT_NAME unit
+from (
+         select to_char(to_date('13990101', 'yyyymmdd', 'nls_calendar=persian') + LEVEL - 1, 'yyyymmdd',
+                        'nls_calendar=persian') as date__
+         from dual
+         connect by to_date('13990101', 'yyyymmdd', 'nls_calendar=persian') + LEVEL <= current_date
+     ) dd,
+     (select * from REPORT_MATERIAL_SOURCE_BANDARABAS) vv
+order by dd.date__ desc ,vv.MATERIAL_ID,vv.SOURCE_ID
+
+
+
+
+
 
 
 			]]>
@@ -445,6 +527,209 @@ from (
                           )
 group by rows_.dat, rows_.source, rows_.material
 order by rows_.dat desc, rows_.source, rows_.material
+
+
+
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reaz5">
+        <createView viewName="view_remittance_pkg" replaceIfExists="true">
+            <![CDATA[
+             select rows_.dat,
+       rows_.source,
+       rows_.material,
+       rows_.UNIT,
+       sum(case
+               when rows_.source = vrD2555.SOURCE and rows_.dat = vrD2555.DAT then 1
+               else 0 end)               as in_pkg_day,
+       sum(case
+               when vrD2555.SOURCE = rows_.source and vrD2555.DAT <= rows_.dat
+                   and substr(vrD2555.DAT, 0, 6) = substr(rows_.DAT, 0, 6)
+                   then 1
+               else 0 end)               as in_pkg_month,
+       sum(case
+               when vrD2555.SOURCE = rows_.source and vrD2555.DAT <= rows_.dat
+                   and substr(vrD2555.DAT, 0, 4) = substr(rows_.DAT, 0, 4)
+                   then 1
+               else 0 end)               as in_pkg_year,
+
+       sum(case
+               when rows_.source = vrD2555.SOURCE and rows_.dat = vrD2555.DAT then vrD2555.AMOUNT
+               else 0 end)               as in_amount_day,
+       sum(case
+               when rows_.source = vrD2555.SOURCE and vrD2555.DAT <= rows_.dat
+                   and substr(vrD2555.DAT, 0, 6) = substr(rows_.DAT, 0, 6) then vrD2555.AMOUNT
+               else 0 end)               as in_amount_month,
+       sum(case
+               when rows_.source = vrD2555.SOURCE and vrD2555.DAT <= rows_.dat
+                   and substr(vrD2555.DAT, 0, 4) = substr(rows_.DAT, 0, 4) then vrD2555.AMOUNT
+               else 0 end)               as in_amount_year,
+
+       sum(case
+               when vrD2555.source in (2320, 2340, 2555) and rows_.dat = vrD2555.DAT then 1
+               else 0 end)               as out_pkg_day,
+       sum(case
+               when vrD2555.SOURCE = rows_.source and vrD2555.DAT <= rows_.dat
+                   and substr(vrD2555.DAT, 0, 6) = substr(rows_.DAT, 0, 6)
+                   then 1
+               else 0 end)               as out_pkg_month,
+       sum(case
+               when vrD2555.SOURCE = rows_.source and vrD2555.DAT <= rows_.dat
+                   and substr(vrD2555.DAT, 0, 4) = substr(rows_.DAT, 0, 4)
+                   then 1
+               else 0 end)               as out_pkg_year,
+
+       sum(case
+               when vrD2555.source in (2320, 2340, 2555) and rows_.dat = vrD2555.DAT then vrD2555.AMOUNT
+               else 0 end)               as out_amount_day,
+       sum(case
+               when vrD2555.source in (2320, 2340, 2555) and vrD2555.DAT <= rows_.dat
+                   and substr(vrD2555.DAT, 0, 6) = substr(rows_.DAT, 0, 6) then vrD2555.AMOUNT
+               else 0 end)               as out_amount_month,
+       sum(case
+               when vrD2555.source in (2320, 2340, 2555) and vrD2555.DAT <= rows_.dat
+                   and substr(vrD2555.DAT, 0, 4) = substr(rows_.DAT, 0, 4) then vrD2555.AMOUNT
+               else 0 end)               as out_amount_year,
+       sum(case
+               when rows_.source = vrD2555.SOURCE then 1
+               when vrD2555.source in (2320, 2340, 2555) then -1
+               else 0 end)               as remained_pkg,
+       sum(case
+               when rows_.source = vrD2555.SOURCE then vrD2555.AMOUNT
+               else -vrD2555.AMOUNT end) as remained_amount
+from VIEW_DAT_SOURCE_MATERIAL rows_
+         left join view_remittanceDetails2555 vrD2555
+                   on rows_.material = vrD2555.material and vrD2555.dat <= rows_.dat
+                       and (
+                              (rows_.source = vrD2555.source and vrD2555.target in (2320, 2340, 2555))
+                              or
+                              (vrD2555.source in (2320, 2340, 2555) and vrD2555.inventory in (
+                                  select vrD25552.inventory
+                                  from view_remittanceDetails2555 vrD25552
+                                  where vrD25552.source = rows_.source
+                                    and vrD25552.dat <= rows_.dat
+                                    and vrD25552.material = rows_.material
+                              ))
+                          )
+group by rows_.dat, rows_.source, rows_.material, rows_.UNIT
+order by rows_.dat desc, rows_.source, rows_.material
+
+
+
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reasz5yes">
+        <createView viewName="view_remittance_pkg" replaceIfExists="true">
+            <![CDATA[
+             with daily as (
+    select rows_.dat,
+           rows_.source,
+           rows_.material,
+           rows_.UNIT,
+           sum(case
+                   when rows_.source = vrD2555.SOURCE and rows_.dat = vrD2555.DAT then 1
+                   else 0 end) as in_pkg_day,
+
+           sum(case
+                   when rows_.source = vrD2555.SOURCE and rows_.dat = vrD2555.DAT then vrD2555.AMOUNT
+                   else 0 end) as in_amount_day,
+
+           sum(case
+                   when vrD2555.source in (2320, 2340, 2555) and rows_.dat = vrD2555.DAT then 1
+                   else 0 end) as out_pkg_day,
+
+
+           sum(case
+                   when vrD2555.source in (2320, 2340, 2555) and rows_.dat = vrD2555.DAT then vrD2555.AMOUNT
+                   else 0 end) as out_amount_day
+
+
+    from VIEW_DAT_SOURCE_MATERIAL rows_
+             left join view_remittanceDetails2555 vrD2555
+                       on rows_.material = vrD2555.material and vrD2555.dat = rows_.dat
+                           and (
+                                  (rows_.source = vrD2555.source and vrD2555.target in (2320, 2340, 2555))
+                                  or
+                                  (vrD2555.source in (2320, 2340, 2555) and vrD2555.inventory in (
+                                      select vrD25552.inventory
+                                      from view_remittanceDetails2555 vrD25552
+                                      where vrD25552.source = rows_.source
+                                        and vrD25552.dat = rows_.dat
+                                        and vrD25552.material = rows_.material
+                                  ))
+                              )
+    group by rows_.dat, rows_.source, rows_.material, rows_.UNIT
+    order by rows_.dat desc, rows_.source, rows_.material
+),
+     monthly as (select d.DAT,
+                        d.SOURCE,
+                        d.MATERIAL,
+                        d.UNIT,
+                        d.in_pkg_day,
+                        d.in_amount_day,
+                        d.out_pkg_day,
+                        d.out_amount_day,
+                        sum(d2.in_amount_day)  in_amount_month,
+                        sum(d2.in_pkg_day)     in_pkg_month,
+                        sum(d2.out_amount_day) out_amount_month,
+                        sum(d2.out_pkg_day)    out_pkg_month
+
+                 from daily d
+                          left join daily d2
+                                    on d.MATERIAL = d2.MATERIAL and d.SOURCE = d2.SOURCE and
+                                       substr(d.DAT, 0, 6) = substr(d2.DAT, 0, 6)
+                 group by d.DAT, d.SOURCE, d.MATERIAL, d.UNIT, d.in_pkg_day, d.in_amount_day, d.out_pkg_day,
+                          d.out_amount_day
+     ),
+     year as (
+         select m.DAT,
+                m.SOURCE,
+                m.MATERIAL,
+                m.UNIT,
+                m.in_pkg_day,
+                m.in_amount_day,
+                m.out_pkg_day,
+                m.out_amount_day,
+                m.in_amount_month,
+                m.in_pkg_month,
+                m.out_amount_month,
+                m.out_pkg_month,
+                sum(m2.in_amount_month)  in_amount_year,
+                sum(m2.in_pkg_month)     in_pkg_year,
+                sum(m2.out_amount_month) out_amount_year,
+                sum(m2.out_pkg_month)    out_pkg_year
+         from monthly m
+                  left join monthly m2
+                            on m.MATERIAL = m2.MATERIAL and m.SOURCE = m2.SOURCE and
+                               substr(m.DAT, 0, 4) = substr(m2.DAT, 0, 4)
+         group by m.DAT, m.SOURCE, m.MATERIAL, m.UNIT, m.in_pkg_day, m.in_amount_day, m.out_pkg_day, m.out_amount_day,
+                  m.in_amount_month, m.in_pkg_month, m.out_amount_month, m.out_pkg_month)
+select y.DAT,
+       y.SOURCE,
+       y.MATERIAL,
+       y.UNIT,
+       y.in_pkg_day,
+       y.in_amount_day,
+       y.out_pkg_day,
+       y.out_amount_day,
+       y.in_amount_month,
+       y.in_pkg_month,
+       y.out_amount_month,
+       y.out_pkg_month,
+       y.in_amount_year,
+       y.in_pkg_year,
+       y.out_amount_year,
+       y.out_pkg_year,
+       sum(y2.in_pkg_year) - sum(y2.out_pkg_year)       remained_pkg,
+       sum(y2.in_amount_year) - sum(y2.out_amount_year) remained_amount
+from year y
+         left join year y2 on y.MATERIAL = y2.MATERIAL and y.SOURCE = y2.SOURCE
+group by y.DAT, y.SOURCE, y.MATERIAL, y.UNIT, y.in_pkg_day, y.in_amount_day, y.out_pkg_day, y.out_amount_day,
+         y.in_amount_month, y.in_pkg_month, y.out_amount_month, y.out_pkg_month, y.in_amount_year, y.in_pkg_year,
+         y.out_amount_year, y.out_pkg_year
+
 
 
 
