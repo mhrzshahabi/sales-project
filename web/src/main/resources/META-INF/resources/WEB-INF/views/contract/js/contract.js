@@ -1702,7 +1702,7 @@ contractTab.method.createDynamicGridFields = async function (dynamicTableValues,
 
     function getDefaultFieldObject(column) {
 
-        return {
+        let defaultField = {
 
             validateOnExit: true,
             validateOnChange: true,
@@ -1725,6 +1725,10 @@ contractTab.method.createDynamicGridFields = async function (dynamicTableValues,
             regexValidator: column.regexValidator,
             initialCriteria: column.initialCriteria,
         };
+        if (dataTypeKeys.includes(column.valueType))
+            Object.assign(defaultField, getFieldProperties(column.valueType, null));
+
+        return defaultField;
     }
 
     async function getDynamicHeaders(columns) {
