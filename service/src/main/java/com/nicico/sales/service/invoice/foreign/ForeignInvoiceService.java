@@ -114,6 +114,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
             // MOAS
             Map<String, List<Object>> operationalDataOfMOASArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
             if (operationalDataOfMOASArticle.size() != 0) {
+//                List<Object> moas = operationalDataOfMOASArticle.get(EContractDetailValueKey.MOAS.getId());
                 List<Map<String, Object>> moas = (List<Map<String, Object>>) operationalDataOfMOASArticle.get(EContractDetailValueKey.MOAS.getId()).get(0);
                 List<ContractDetailDataDTO.MOASData> moasData = new ArrayList<>();
                 if (moas != null) moas.stream().forEach(moasItem -> {
