@@ -114,6 +114,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
             // MOAS
             Map<String, List<Object>> operationalDataOfMOASArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
             if (operationalDataOfMOASArticle.size() != 0) {
+//                List<Object> moas = operationalDataOfMOASArticle.get(EContractDetailValueKey.MOAS.getId());
                 List<Map<String, Object>> moas = (List<Map<String, Object>>) operationalDataOfMOASArticle.get(EContractDetailValueKey.MOAS.getId()).get(0);
                 List<ContractDetailDataDTO.MOASData> moasData = new ArrayList<>();
                 if (moas != null) moas.stream().forEach(moasItem -> {
@@ -164,13 +165,13 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
             } else contractDetailData.setRc(null);
 
             // INCOTERM
-            Map<String, List<Object>> deliveryTerms = contractDetailValueService2.get(contractId, EContractDetailTypeCode.DeliveryTerms, EContractDetailValueKey.INCOTERM, true);
-            if (deliveryTerms != null && deliveryTerms.size() != 0)
-                contractDetailData.setIncoterm(modelMapper.map(deliveryTerms.get(EContractDetailValueKey.INCOTERM.getId()).get(0), IncotermDTO.Info.class));
+            Map<String, List<Object>> incoterms = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Incoterms, EContractDetailValueKey.INCOTERM, true);
+            if (incoterms != null && incoterms.size() != 0)
+                contractDetailData.setIncoterm(modelMapper.map(incoterms.get(EContractDetailValueKey.INCOTERM.getId()).get(0), IncotermDTO.Info.class));
             else {
 //                Locale locale = LocaleContextHolder.getLocale();
                 String message = messageSource.getMessage("foreign-invoice.contract.article.delTerms.not.found", null, locale);
-                throw new SalesException2(ErrorType.NotFound, "deliveryTerm", message);
+                throw new SalesException2(ErrorType.NotFound, "incoterms", message);
             }
 
             // Discounts
