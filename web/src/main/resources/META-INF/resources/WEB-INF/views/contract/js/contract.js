@@ -4,8 +4,8 @@ var contractTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 
 contractTab.variable.contractUrl = "${contextPath}" + "/api/g-contract/";
 contractTab.variable.contractDetailTypeUrl = "${contextPath}" + "/api/contract-detail-type/";
-
 contractTab.variable.dataType = JSON.parse('${Enum_DataType}');
+contractTab.variable.contractType = "${Contract_Type_Id}";
 contractTab.variable.units = [];
 getReferenceDataSource("Unit").fetchData(null, resp => {
 
@@ -131,12 +131,9 @@ contractTab.method.getDynamicFormFields = function () {
             displayField: "titleEn",
             valueField: "id",
             required: true,
+            hidden: true,
             title: "<spring:message code='entity.contract-type'/>",
-            changed: function (form, item, value) {
-
-                contractTab.dynamicForm.valuesManager.setValue("contractType", this.getSelectedRecord());
-                return this.Super("changed", arguments);
-            }
+            defaultValue: Number(contractTab.variable.contractType)
         },
         Object.assign(getContactFieldByType("buyer"), {
             useInGrid: true,
@@ -264,7 +261,18 @@ nicico.BasicFormUtil.createDynamicForm = function (creator) {
 nicico.BasicFormUtil.createListGrid = function (creator) {
 
     creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria, {
-        sortField: 'no'
+        sortField: 'no',
+        initialCriteria: {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [
+                {
+                    fieldName: "contractTypeId",
+                    operator: "equals",
+                    value: contractTab.variable.contractType
+                }
+            ]
+        }
     });
 };
 
@@ -661,10 +669,13 @@ contractTab.button.saveButton = isc.IButtonSave.create({
             httpMethod: contractTab.variable.method,
             data: JSON.stringify(data),
             callback: function (resp) {
+
                 if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
                     contractTab.dialog.ok();
                     contractTab.method.refresh(contractTab.listGrid.main);
                     contractTab.window.main.close();
+                    if (contractTab.variable.contractTemplateForm)
+                        contractTab.variable.contractTemplateForm.windowWidget.getObject().close();
                 } else
                     contractTab.dialog.error(resp);
             }
@@ -812,6 +823,112 @@ contractTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         }
     }
 }), 3);
+// </sec:authorize>
+// <sec:authorize access="hasAuthority('CO_CONTRACT_TEMPLATE')">
+if (contractTab.variable.contractType === "1")
+    contractTab.toolStrip.main.addMember(isc.ToolStripButton.create({
+        icon: "pieces/512/draft.png",
+        title: "<spring:message code='contract.copy.contract-template'/>",
+        click: function () {
+
+            contractTab.variable.contractTemplateForm = new nicico.FormUtil();
+            contractTab.listGrid.contractTemplate = isc.ListGrid.nicico.getDefault([
+                {name: "id", primaryKey: true, title: '<spring:message code="global.id"/>'},
+                {name: "no", title: '<spring:message code="contact.no"/>', showHover: true, hoverWidth: '25%'},
+                {name: "date", title: '<spring:message code="global.date"/>', showHover: true, hoverWidth: '25%'},
+            ], contractTab.restDataSource.main, null, {
+                height: "100%",
+                wrapCells: true,
+                showFilterEditor: false,
+                fixedRecordHeights: true,
+                autoFetchData: true,
+                initialCriteria: {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [
+                        {
+                            fieldName: "contractTypeId",
+                            operator: "equals",
+                            value: 3
+                        }
+                    ]
+                },
+                cellDoubleClick: function (record, rowNum, colNum) {
+
+                    let listGridRecord = clone(record);
+                    if (listGridRecord == null || listGridRecord.id == null)
+                        contractTab.dialog.notSelected();
+                    else if (listGridRecord.editable === false)
+                        contractTab.dialog.notEditable();
+                    else if (listGridRecord.estatus.contains(Enums.eStatus2.DeActive))
+                        contractTab.dialog.inactiveRecord();
+                    else {
+
+                        if (listGridRecord.estatus.contains(Enums.eStatus2.Final))
+                            contractTab.button.saveButton.hide();
+                        else
+                            contractTab.button.saveButton.show();
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                            actionURL: 'api/g-contract/' + listGridRecord.id,
+                            httpMethod: "GET",
+                            callback: function (resp) {
+
+                                if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
+
+                                    let record = JSON.parse(resp.data);
+
+                                    contractTab.variable.method = "POST";
+                                    contractTab.dynamicForm.main.editRecord(listGridRecord);
+                                    contractTab.dynamicForm.main.setValue("date", new Date(listGridRecord.date));
+                                    contractTab.dynamicForm.main.setValue("contractTypeId", 1);
+                                    contractTab.dynamicForm.main.setValue("affectFrom", new Date(listGridRecord.affectFrom));
+                                    contractTab.dynamicForm.main.setValue("affectUpTo", new Date(listGridRecord.affectUpTo));
+
+                                    contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
+
+                                    contractTab.listGrid.contractDetailType.invalidateRecordComponents();
+                                    contractTab.listGrid.contractDetailType.setCriteria(null);
+                                    contractTab.listGrid.contractDetailType.fetchData({
+                                        operator: 'and',
+                                        criteria: [{
+                                            fieldName: 'materialId',
+                                            operator: 'equals',
+                                            value: contractTab.dynamicForm.main.getValue('materialId')
+                                        }, {
+                                            fieldName: 'estatus',
+                                            operator: 'notEqual',
+                                            value: Enums.eStatus2.DeActive
+                                        }]
+                                    }, () => record.contractDetails.sortByProperty('position').reverse().forEach(contractDetail => contractTab.method.addArticle({
+                                        isNewMode: false,
+                                        contractDetail: contractDetail,
+                                        position: contractDetail.position,
+                                        template: contractDetail.contractDetailTemplate,
+                                        contractDetailType: contractDetail.contractDetailType
+                                    })));
+
+                                    contractTab.window.main.setTitle("<spring:message code='contract.window.title.edit'/>" + "\t" + listGridRecord.material.descEN);
+                                    contractTab.window.main.show();
+                                } else
+                                    contractTab.dialog.error(resp);
+                            }
+                        }));
+                    }
+                }
+            });
+            contractTab.variable.contractTemplateForm.getButtonLayout = function () {
+
+                return isc.IButtonCancel.create({
+                    click: function () {
+
+                        contractTab.variable.contractTemplateForm.windowWidget.getObject().close();
+                    }
+                });
+            };
+            contractTab.variable.contractTemplateForm.showForm(null, "<spring:message code='entity.contract-template'/>", contractTab.listGrid.contractTemplate, null, "300");
+        }
+    }), 4);
+// </sec:authorize>
 contractTab.menu.main.data.add({
     icon: "[SKIN]/actions/print.png",
     title: '<spring:message code="global.form.print"/>',
@@ -828,9 +945,28 @@ contractTab.menu.main.data.add({
     }
 });
 contractTab.menu.main.initWidget();
-// </sec:authorize>
+
+
 nicico.BasicFormUtil.showAllToolStripActions(contractTab);
-nicico.BasicFormUtil.removeExtraActions(contractTab, [nicico.ActionType.ACTIVATE, nicico.ActionType.DEACTIVATE]);
+if (contractTab.variable.contractType === "1")
+    nicico.BasicFormUtil.removeExtraActions(contractTab, [nicico.ActionType.ACTIVATE, nicico.ActionType.DEACTIVATE]);
+else {
+    let actionTypeList = [];
+
+    // <sec:authorize access="!hasAuthority('C_CONTRACT_TEMPLATE')">
+    console.log("C_CONTRACT_TEMPLATE")
+    actionTypeList.add(nicico.ActionType.NEW);
+    // </sec:authorize>
+    // <sec:authorize access="!hasAuthority('U_CONTRACT_TEMPLATE')">
+    actionTypeList.add(nicico.ActionType.EDIT);
+    // </sec:authorize>
+    // <sec:authorize access="!hasAuthority('D_CONTRACT_TEMPLATE')">
+    actionTypeList.add(nicico.ActionType.DELETE);
+    // </sec:authorize>
+    actionTypeList.addList([nicico.ActionType.ACTIVATE,nicico.ActionType.DEACTIVATE,nicico.ActionType.FINALIZE,nicico.ActionType.DISAPPROVE]);
+    nicico.BasicFormUtil.removeExtraActions(contractTab, actionTypeList);
+}
+
 
 //*************************************************** Functions ********************************************************
 
