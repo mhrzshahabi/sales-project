@@ -887,6 +887,8 @@ rdTab.RestDataSources.Depot = {
 rdTab.Grids.Remittance = {
     // ID: rdTab.Vars.Prefix + "remittance_detail_tab_list_grid",
     showFilterEditor: true,
+    dataPageSize: 50,
+    drawAheadRatio: 4,
     canSort: true,
     expansionFieldImageShowSelected: true,
     canExpandRecords: true,
@@ -942,6 +944,8 @@ rdTab.Grids.Remittance = {
 rdTab.Grids.RemittanceDetail = _=>{return{
     fields: rdTab.Fields.RemittanceDetailFullFields(),
     showHoverComponents: true,
+    dataPageSize: 50,
+    drawAheadRatio: 4,
     getCellHoverComponent: function (record, rowNum, colNum) {
         // console.log('getCellHoverComponent', this, arguments)
         const field = this.getField(colNum);

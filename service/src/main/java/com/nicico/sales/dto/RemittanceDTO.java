@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.annotation.report.IgnoreReportField;
 import com.nicico.sales.annotation.report.ReportField;
 import com.nicico.sales.annotation.report.ReportModel;
+import com.nicico.sales.model.entities.warehouse.RemittanceView;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -33,15 +34,35 @@ public class RemittanceDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
+    @ApiModel("RemittanceLite")
+    public static class Lite extends RemittanceDTO {
+
+        private Long id;
+        private ShipmentDTO shipment;
+//        private RemittanceViewDTO.Info remittanceView;
+
+
+
+        // Auditing
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
+    }
+@Getter
+    @Setter
+    @Accessors(chain = true)
     @ApiModel("RemittanceInfo")
     public static class InfoWithoutRemittanceDetail extends RemittanceDTO {
 
         private Long id;
-        private Boolean hasRemainedInventory;
         private MaterialItemDTO.Info materialItem;
         private ShipmentDTO.Info shipment;
-        private String date;
-        private TozinTableDTO.Info tozinTable;
 
 
         // Auditing
@@ -56,6 +77,8 @@ public class RemittanceDTO {
         private List<EStatus> eStatus;
     }
 
+
+
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -67,9 +90,8 @@ public class RemittanceDTO {
         private MaterialItemDTO.Info materialItem;
         @ReportModel(type = ShipmentDTO.ReportInfo.class, jumpTo = true)
         private ShipmentDTO.ReportInfo shipment;
-        private String date;
-        @ReportModel(type = TozinTableDTO.Info.class, jumpTo = true)
-        private TozinTableDTO.Info tozinTable;
+//        @ReportModel(type = RemittanceViewDTO.Info.class, jumpTo = true)
+//        private RemittanceViewDTO.Info remittanceView;
     }
 
     @Getter

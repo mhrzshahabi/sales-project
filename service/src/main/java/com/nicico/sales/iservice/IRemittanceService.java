@@ -15,7 +15,7 @@ import java.util.List;
 public interface IRemittanceService extends IGenericService<Remittance, Long, RemittanceDTO.Create, RemittanceDTO.Info, RemittanceDTO.Update, RemittanceDTO.Delete> {
     JsonDataSource print(MultiValueMap criteria) throws JsonProcessingException, JRException;
      List<String> getLotsByShipmentId(Long id);
-    TotalResponse<RemittanceDTO.InfoWithoutRemittanceDetail> searchLite(NICICOCriteria nicicoCriteria);
+    TotalResponse<RemittanceDTO.Lite> searchLite(NICICOCriteria nicicoCriteria);
 
     TotalResponse<RemittanceDTO.ReportInfo> reportSearch(NICICOCriteria nicicoCriteria);
 

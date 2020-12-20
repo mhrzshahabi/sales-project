@@ -717,6 +717,30 @@
       "title": "چاپ قرارداد"
     },
     {
+      "code": "R_CONTRACT_TEMPLATE",
+      "title": "نمایش پیش نویس قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_TEMPLATE",
+      "title": "ایجاد پیش نویس قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_TEMPLATE",
+      "title": "حذف پیش نویس قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_TEMPLATE",
+      "title": "به روز رسانی پیش نویس قرارداد"
+    },
+    {
+      "code": "P_CONTRACT_TEMPLATE",
+      "title": "چاپ پیش نویس قرارداد"
+    },
+    {
+      "code": "CO_CONTRACT_TEMPLATE",
+      "title": "کپی از پیش نویس قرارداد"
+    },
+    {
       "code": "R_TERM",
       "title": "نمایش ترم"
     },
@@ -1515,6 +1539,10 @@
     {
       "code": "R_REMITTANCE",
       "title": "نمایش بیجک"
+    },
+    {
+      "code": "R_REMITTANCE_VIEW",
+      "title": "نمایش  بیجک"
     },
     {
       "code": "C_REMITTANCE",
