@@ -17,6 +17,7 @@ import com.nicico.sales.utility.SecurityChecker;
 import com.nicico.sales.utility.StringFormatUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,8 +34,8 @@ public class ContractFormController {
 
     private final ObjectMapper objectMapper;
 
-    @RequestMapping("/show-form")
-    public String show(HttpServletRequest request) throws JsonProcessingException {
+    @RequestMapping("/show-form/{contractType}")
+    public String show(HttpServletRequest request, @PathVariable String contractType) throws JsonProcessingException {
 
         Map<Integer, String> rateReferences = new HashMap<>();
         Map<Integer, String> priceBaseReferences = new HashMap<>();
@@ -76,6 +77,14 @@ public class ContractFormController {
         request.setAttribute("Enum_EContractDetailTypeCode", objectMapper.writeValueAsString(contractDetailTypeCodes));
         request.setAttribute("Enum_ContractDetailTypeReference", objectMapper.writeValueAsString(contractDetailTypeReferences));
 
+        if (contractType.equalsIgnoreCase("CONTRACT"))
+            request.setAttribute("Contract_Type_Id", 1);
+        else if (contractType.equalsIgnoreCase("APPENDIX"))
+            request.setAttribute("Contract_Type_Id", 2);
+        else if (contractType.equalsIgnoreCase("TEMPLATE"))
+            request.setAttribute("Contract_Type_Id", 3);
+
+
         if (SecurityUtil.isAdmin())
             SecurityChecker.addEntityPermissionToRequest(request, Contract.class);
         else {
@@ -92,19 +101,20 @@ public class ContractFormController {
             String CDTPDynamicTableValueClassName = CDTPDynamicTableValue.class.getSimpleName();
             String CDTPDynamicTableValuePermissionKey = StringFormatUtil.makeMessageKey(CDTPDynamicTableValueClassName, "_").toUpperCase();
 
-            request.setAttribute("r_entity", SecurityUtil.hasAuthority("R_" + contractPermissionKey));
+            String contractTemplatePermissionKey = contractType.equalsIgnoreCase("CONTRACT") ? "_TEMPLATE" : "";
+            request.setAttribute("r_entity", SecurityUtil.hasAuthority("R_" + contractPermissionKey + contractTemplatePermissionKey));
 
-            request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_" + contractPermissionKey) &&
+            request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_" + contractPermissionKey + contractTemplatePermissionKey) &&
                     SecurityUtil.hasAuthority("C_" + contractDetailPermissionKey) &&
                     SecurityUtil.hasAuthority("C_" + contractDetailValuePermissionKey) &&
                     SecurityUtil.hasAuthority("C_" + CDTPDynamicTableValuePermissionKey));
 
-            request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_" + contractPermissionKey) &&
+            request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_" + contractPermissionKey + contractTemplatePermissionKey) &&
                     SecurityUtil.hasAuthority("U_" + contractDetailPermissionKey) &&
                     SecurityUtil.hasAuthority("U_" + contractDetailValuePermissionKey) &&
                     SecurityUtil.hasAuthority("U_" + CDTPDynamicTableValuePermissionKey));
 
-            request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_" + contractPermissionKey) &&
+            request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_" + contractPermissionKey + contractTemplatePermissionKey) &&
                     SecurityUtil.hasAuthority("D_" + contractDetailPermissionKey) &&
                     SecurityUtil.hasAuthority("D_" + contractDetailValuePermissionKey) &&
                     SecurityUtil.hasAuthority("D_" + CDTPDynamicTableValuePermissionKey));
