@@ -277,7 +277,18 @@ nicico.BasicFormUtil.createListGrid = function (creator) {
 };
 
 contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFormItems.concat([
-    {name: "title", title: '<spring:message code="global.title-en"/>'},
+    {
+        name: "title", title: '<spring:message code="global.title-en"/>',
+        sortNormalizer: function (recordObject) {
+
+            let pattern = /\D*(\d+)\D*/;
+            let sortOrder = 0;
+            if (pattern.test(recordObject.title))
+                sortOrder = Number(pattern.exec(recordObject.titleEN)[1]);
+
+            return sortOrder;
+        }
+    },
     {width: 40, name: "addIcon", align: "center", showTitle: false, canFilter: false}
 ]), contractTab.restDataSource.contractDetailType, {
     operator: 'and',
@@ -833,9 +844,28 @@ if (contractTab.variable.contractType === "1")
 
             contractTab.variable.contractTemplateForm = new nicico.FormUtil();
             contractTab.listGrid.contractTemplate = isc.ListGrid.nicico.getDefault([
-                {name: "id", primaryKey: true, title: '<spring:message code="global.id"/>'},
-                {name: "no", title: '<spring:message code="contact.no"/>', showHover: true, hoverWidth: '25%'},
-                {name: "date", title: '<spring:message code="global.date"/>', showHover: true, hoverWidth: '25%'},
+                {name: "id", primaryKey: true, title: '<spring:message code="global.id"/>', width: "20%"},
+                {
+                    name: "no",
+                    title: '<spring:message code="contact.no"/>',
+                    showHover: true,
+                    hoverWidth: '25%',
+                    width: "20%"
+                },
+                {
+                    name: "date",
+                    title: '<spring:message code="global.date"/>',
+                    showHover: true,
+                    hoverWidth: '25%',
+                    width: "20%"
+                },
+                {
+                    name: "description",
+                    title: '<spring:message code="global.description"/>',
+                    showHover: true,
+                    hoverWidth: '25%',
+                    width: "40%"
+                }
             ], contractTab.restDataSource.main, null, {
                 height: "100%",
                 wrapCells: true,
@@ -962,7 +992,7 @@ else {
     // <sec:authorize access="!hasAuthority('D_CONTRACT_TEMPLATE')">
     actionTypeList.add(nicico.ActionType.DELETE);
     // </sec:authorize>
-    actionTypeList.addList([nicico.ActionType.ACTIVATE,nicico.ActionType.DEACTIVATE,nicico.ActionType.FINALIZE,nicico.ActionType.DISAPPROVE]);
+    actionTypeList.addList([nicico.ActionType.ACTIVATE, nicico.ActionType.DEACTIVATE, nicico.ActionType.FINALIZE, nicico.ActionType.DISAPPROVE]);
     nicico.BasicFormUtil.removeExtraActions(contractTab, actionTypeList);
 }
 
