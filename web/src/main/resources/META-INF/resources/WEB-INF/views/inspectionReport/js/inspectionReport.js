@@ -2426,7 +2426,7 @@ nicico.BasicFormUtil.createListGrid = function () {
 };
 
 nicico.BasicFormUtil.getDefaultBasicForm(inspectionReportTab, "api/inspectionReport/");
-inspectionReportTab.listGrid.main.sortFieldNum = 1;
+inspectionReportTab.listGrid.main.sortField = "inspectionNO";
 inspectionReportTab.listGrid.main.sort();
 nicico.BasicFormUtil.showAllToolStripActions(inspectionReportTab);
 nicico.BasicFormUtil.removeExtraActions(inspectionReportTab, [nicico.ActionType.DELETE]);

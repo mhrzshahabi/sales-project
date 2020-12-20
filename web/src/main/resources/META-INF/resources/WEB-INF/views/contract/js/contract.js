@@ -954,7 +954,6 @@ else {
     let actionTypeList = [];
 
     // <sec:authorize access="!hasAuthority('C_CONTRACT_TEMPLATE')">
-    console.log("C_CONTRACT_TEMPLATE")
     actionTypeList.add(nicico.ActionType.NEW);
     // </sec:authorize>
     // <sec:authorize access="!hasAuthority('U_CONTRACT_TEMPLATE')">
