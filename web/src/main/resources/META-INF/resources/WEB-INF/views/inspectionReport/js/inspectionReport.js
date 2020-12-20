@@ -681,11 +681,12 @@ inspectionReportTab.method.createWeightListGrid = function () {
                 inspectionReportTab.method.setSavedWeightData(preWeightInspection);
             }
 
-            let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => (inventoryIds.contains(q.id) || selectedInventories.contains(q.id)));
+            // let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => (inventoryIds.contains(q.id) || selectedInventories.contains(q.id)));
+            let finalInventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
             inspectionReportTab.method.setWeightElementListRows(inventoryIds);
 
             inspectionReportTab.method.setWeightElementSum();
-            inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.weightUnitSum, inventories);
+            inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.weightUnitSum, finalInventories);
         }
     }));
 };
@@ -715,11 +716,12 @@ inspectionReportTab.method.createAssayListGrid = function () {
                 inspectionReportTab.method.setSavedAssayData(preAssayInspection, preInventories);
             }
 
-            let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => (inventoryIds.contains(q.id) || selectedInventories.contains(q.id)));
+            // let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => (inventoryIds.contains(q.id) || selectedInventories.contains(q.id)));
+            let finalInventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => (inventoryIds.contains(q.id)));
             inspectionReportTab.method.setAssayElementListRows(inventoryIds);
 
             inspectionReportTab.method.setAssayElementSum();
-            inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.assayUnitSum, inventories);
+            inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.assayUnitSum, finalInventories);
         }
     }));
 };
@@ -1522,6 +1524,7 @@ inspectionReportTab.toolStrip.weightRemoveAll = isc.ToolStrip.create({
 
                 inspectionReportTab.variable.removeAllWeight = true;
                 inspectionReportTab.listGrid.weightElement.setData([]);
+                inspectionReportTab.hStack.weightUnitSum.setMembers([]);
                 inspectionReportTab.listGrid.weightElementSum.setData([]);
             }
         }),
@@ -1705,6 +1708,7 @@ inspectionReportTab.toolStrip.assayRemoveAll = isc.ToolStrip.create({
 
                 inspectionReportTab.variable.removeAllAssay = true;
                 inspectionReportTab.listGrid.assayElement.setData([]);
+                inspectionReportTab.hStack.assayUnitSum.setMembers([]);
                 inspectionReportTab.listGrid.assayElementSum.setData([]);
             }
         }),
