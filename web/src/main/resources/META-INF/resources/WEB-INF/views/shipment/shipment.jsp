@@ -97,29 +97,31 @@
     }
 
     function transformRequestPrintAttachment(req) {
-        let formValues = req.fileUploadForm.form.getValues();
         let gridValues = req.fileUploadForm.grid.getData();
-        let gridDataDeleted = oldPrintTemplateList && (oldPrintTemplateList.length > 0) && (gridValues.length < oldPrintTemplateList.length);
-        debugger
+        let gridDataDeleted = oldPrintTemplateList && (oldPrintTemplateList.length > 0)
+            && (gridValues.filter(rn => !rn.fileKey).length < oldPrintTemplateList.length);
         if (gridDataDeleted) {
             let deletedRecords = oldPrintTemplateList.filter(ro =>
                 !gridValues.map(rn => rn.fileKey).includes(ro.fileKey));
             if (deletedRecords && deletedRecords.length > 0) {
-                let remindedRecords = gridValues.filter(rn => rn.fileKey != deletedRecords.fileKey);
-                req.fileUploadForm.grid.setData(remindedRecords);
-                req.recordId = deletedRecords[0].recordId;
-                return req;
+                deletedRecords.forEach(dr => {
+                    let allRecordsOfOneIdDeleted = !gridValues.map(_ => _.recordId).includes(dr);
+                    if (allRecordsOfOneIdDeleted)
+                        gridValues.add({recordId: dr.recordId, accessLevel: dr.accessLevel, entityName: "DELETED"});
+                });
             }
+
+            req.fileUploadForm.grid.setData(gridValues);
         }
-        let dataAdded = gridValues.length > 0 && gridValues.filter(rn => !rn.recordId).length > 0;
-        if (dataAdded && formValues.shipmentType && formValues.material) {
-            req.recordId = calcRecordId(formValues);
-            return req;
-        } else {
-            req.recordId = 0;
-            req.fileUploadForm.grid.setData([]);
-            return req;
-        }
+        return req;
+    }
+
+    function afterAddItem(item, form) {
+        item.recordId = calcRecordId(form.getValues());
+        item.shipmentType = calcMaterialAndShipmentType(item.recordId).shipmentType;
+        item.material = calcMaterialAndShipmentType(item.recordId).material;
+        debugger
+        return item;
     }
 
     var RestDataSource_Contact__SHIPMENT = isc.MyRestDataSource.create({
@@ -1120,8 +1122,7 @@
                         valueField: "id",
                         optionDataSource: RestDataSource_ShipmentTypeInShipmentDcc,
                     }],
-                _ => transformRequestPrintAttachment(_),
-                _ => transformResponsePrintAttachment(_));
+                transformRequestPrintAttachment, transformResponsePrintAttachment, afterAddItem);
 
             nicico.FileUtil.show(null, "<spring:message
 	code='shipment.loading.pattern.attachment'/> ", null, null, "ShipmentPrint", null);
@@ -1389,16 +1390,19 @@
                             canAddFile: false,
                             canRemoveFile: false,
                             canDownloadFile: false,
-                            height: "300",
+                            height: "100",
                             margin: 5
                         });
                         fileUploadForm.grid.recordDoubleClick = function (viewer, printRecord, recordNum, field, fieldNum, value, rawValue) {
                             window.open('${contextPath}/shipment/print/' + record.id + "/" + printRecord.fileKey);
                         }
-                        selectReportForm.showForm(null, "<spring:message
-	code='global.form.select.print.template'/>", fileUploadForm, null, "300");
-                        selectReportForm.bodyWidget.getObject().reloadData();
-
+                        if (printTemplateListSize(record) > 1) {
+                            selectReportForm.showForm(null, "<spring:message
+    code='global.form.select.print.template'/>", fileUploadForm, null, "100", false);
+                            selectReportForm.bodyWidget.getObject().reloadData();
+                        } else {
+                            window.open('${contextPath}/shipment/print/' + record.id + "/" + printTemplateList[0].fileKey);
+                        }
                     }
                 });
                 return printImg;
