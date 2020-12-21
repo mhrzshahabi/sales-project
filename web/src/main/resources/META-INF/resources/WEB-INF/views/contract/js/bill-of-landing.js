@@ -499,7 +499,6 @@ const BlTab = {
                 return isc.VLayout.create(
                     {
                         ID: BlTab.Vars.Prefix + "vـlayoutـmain",
-                        width: "100%",
                         height: "100%",
                         members: members
                     });
