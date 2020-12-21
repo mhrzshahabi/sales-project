@@ -97,29 +97,31 @@
     }
 
     function transformRequestPrintAttachment(req) {
-        let formValues = req.fileUploadForm.form.getValues();
         let gridValues = req.fileUploadForm.grid.getData();
-        let gridDataDeleted = oldPrintTemplateList && (oldPrintTemplateList.length > 0) && (gridValues.length < oldPrintTemplateList.length);
-        debugger
+        let gridDataDeleted = oldPrintTemplateList && (oldPrintTemplateList.length > 0)
+            && (gridValues.filter(rn => !rn.fileKey).length < oldPrintTemplateList.length);
         if (gridDataDeleted) {
             let deletedRecords = oldPrintTemplateList.filter(ro =>
                 !gridValues.map(rn => rn.fileKey).includes(ro.fileKey));
             if (deletedRecords && deletedRecords.length > 0) {
-                let remindedRecords = gridValues.filter(rn => rn.fileKey != deletedRecords.fileKey);
-                req.fileUploadForm.grid.setData(remindedRecords);
-                req.recordId = deletedRecords[0].recordId;
-                return req;
+                deletedRecords.forEach(dr => {
+                    let allRecordsOfOneIdDeleted = !gridValues.map(_ => _.recordId).includes(dr);
+                    if (allRecordsOfOneIdDeleted)
+                        gridValues.add({recordId: dr.recordId, accessLevel: dr.accessLevel, entityName: "DELETED"});
+                });
             }
+
+            req.fileUploadForm.grid.setData(gridValues);
         }
-        let dataAdded = gridValues.length > 0 && gridValues.filter(rn => !rn.recordId).length > 0;
-        if (dataAdded && formValues.shipmentType && formValues.material) {
-            req.recordId = calcRecordId(formValues);
-            return req;
-        } else {
-            req.recordId = 0;
-            req.fileUploadForm.grid.setData([]);
-            return req;
-        }
+        return req;
+    }
+
+    function afterAddItem(item, form) {
+        item.recordId = calcRecordId(form.getValues());
+        item.shipmentType = calcMaterialAndShipmentType(item.recordId).shipmentType;
+        item.material = calcMaterialAndShipmentType(item.recordId).material;
+        debugger
+        return item;
     }
 
     var RestDataSource_Contact__SHIPMENT = isc.MyRestDataSource.create({
@@ -337,11 +339,6 @@
                 title: "<spring:message code='global.sendDate'/>",
                 type: 'text',
                 showHover: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
             {
                 name: "createdDate",
@@ -473,12 +470,6 @@
                 displayField: "no",
                 valueField: "id",
                 pickListHeight: "500",
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
                 pickListFields: [
                     {
                         name: "no",
@@ -511,13 +502,7 @@
                 displayField: "sendDate",
                 valueField: "id",
                 pickListHeight: "500",
-                required: true,
                 autoFetchData: false,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
                 pickListFields: [
                     {name: "loadPort.port", title: "<spring:message code='shipment.loading'/>"},
                     {name: "quantity"},
@@ -561,32 +546,19 @@
                     }
                 }],
 // defaultValue: "1399/01/01",
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
             },
             {
                 name: "automationLetterNo",
                 title: "<spring:message code='shipment.loadingLetter'/>",
                 type: 'text',
-                required: true,
                 length: "100",
                 width: "100%",
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
             {
                 name: "bookingCat",
                 title: "<spring:message code='shipment.bookingCat'/>",
                 type: 'text',
                 width: "100%",
-                required: true,
             },
 
             {
@@ -603,7 +575,6 @@
                 name: "amount",
                 title: "<spring:message code='global.amount'/>",
                 type: 'float',
-                required: true,
                 width: "100%",
                 length: 9,
                 keyPressFilter: "[0-9.]",
@@ -612,11 +583,7 @@
                     validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
-                },
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
+                }]
             },
             {
                 name: "lastDeliveryLetterDate",
@@ -633,12 +600,6 @@
                 displayField: "name",
                 valueField: "id",
                 pickListHeight: "500",
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {
@@ -657,14 +618,8 @@
                 name: "noBLs",
                 title: "<spring:message code='shipment.numberOfBLs'/>",
                 type: 'long',
-                required: true,
                 width: "100%",
                 keyPressFilter: "[0-9]",
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
             {
                 name: "shipmentTypeId",
@@ -683,12 +638,6 @@
                         align: "center"
                     }],
                 pickListHeight: "500",
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
             },
             {
                 name: "shipmentMethodId",
@@ -700,7 +649,6 @@
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_ShipmentMethodInShipment,
                 pickListHeight: "500",
-                required: true,
             },
             {
                 name: "noPackages",
@@ -776,12 +724,6 @@
                     {name: "name", align: "center"},
                     {name: "country.name", align: "center"}
                 ],
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
             {
                 name: "vesselId",
@@ -822,12 +764,6 @@
                 pickListFields: [
                     {
                         name: "port",
-                    }],
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
                     }],
             },
         ]
@@ -1106,7 +1042,6 @@
             nicico.FileUtil.addSomeFeatures(true,
                 [{
                     name: "material",
-                    required: true,
                     title: "<spring:message code='material.title'/>",
                     optionDataSource: RestDataSource_Material,
                     displayField: "descEN",
@@ -1114,14 +1049,12 @@
                 },
                     {
                         name: "shipmentType",
-                        required: true,
                         title: "<spring:message code='shipment.shipmentType'/>",
                         displayField: "shipmentType",
                         valueField: "id",
                         optionDataSource: RestDataSource_ShipmentTypeInShipmentDcc,
                     }],
-                _ => transformRequestPrintAttachment(_),
-                _ => transformResponsePrintAttachment(_));
+                transformRequestPrintAttachment, transformResponsePrintAttachment, afterAddItem);
 
             nicico.FileUtil.show(null, "<spring:message
 	code='shipment.loading.pattern.attachment'/> ", null, null, "ShipmentPrint", null);
@@ -1268,12 +1201,6 @@
                 type: 'text',
                 width: "10%",
                 showHover: true,
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
             {
                 name: "shipmentMethod.shipmentMethod",
@@ -1281,12 +1208,6 @@
                 type: 'text',
                 width: "10%",
                 showHover: true,
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
             {
                 name: "automationLetterNo",
@@ -1300,15 +1221,9 @@
                 title: "<spring:message code='global.sendDate'/>",
                 type: 'date',
                 inputFormat: "YMD",
-                required: true,
                 width: "10%",
                 align: "center",
                 showHover: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
                 formatCellValue: (value) => {
                     return new Date(Number.parseInt(value))
                 },
@@ -1317,15 +1232,9 @@
                 name: "createdDate",
                 title: "<spring:message code='global.createDate'/>",
                 type: 'text',
-                required: true,
                 width: "10%",
                 align: "center",
                 showHover: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
                 formatCellValue: (value) => {
                     return new persianDate(Number.parseInt(value)).format('YYYY/MM/DD')
                 },
@@ -1345,14 +1254,8 @@
                 name: "vessel.name",
                 title: "<spring:message code='shipment.vesselName'/>",
                 type: 'text',
-                required: true,
                 width: "10%",
                 showHover: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
                 sortNormalizer: function (recordObject) {
                     return recordObject.vessel.name
                 }
@@ -1389,16 +1292,19 @@
                             canAddFile: false,
                             canRemoveFile: false,
                             canDownloadFile: false,
-                            height: "300",
+                            height: "100",
                             margin: 5
                         });
                         fileUploadForm.grid.recordDoubleClick = function (viewer, printRecord, recordNum, field, fieldNum, value, rawValue) {
                             window.open('${contextPath}/shipment/print/' + record.id + "/" + printRecord.fileKey);
                         }
-                        selectReportForm.showForm(null, "<spring:message
-	code='global.form.select.print.template'/>", fileUploadForm, null, "300");
-                        selectReportForm.bodyWidget.getObject().reloadData();
-
+                        if (printTemplateListSize(record) > 1) {
+                            selectReportForm.showForm(null, "<spring:message
+    code='global.form.select.print.template'/>", fileUploadForm, null, "100", false);
+                            selectReportForm.bodyWidget.getObject().reloadData();
+                        } else {
+                            window.open('${contextPath}/shipment/print/' + record.id + "/" + printTemplateList[0].fileKey);
+                        }
                     }
                 });
                 return printImg;

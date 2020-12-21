@@ -6,4 +6,63 @@
     <changeSet author="abiz" id="23542351">
         <dropUniqueConstraint tableName="TBL_shipment" constraintName="UNIQUE_F_CONTRACT_SHIPMENT_ID"/>
     </changeSet>
+    <changeSet author="abiz" id="1633">
+        <sql splitStatements="false" stripComments="false">
+            <![CDATA[
+                DECLARE IX_NAME VARCHAR2(999);
+            BEGIN
+                BEGIN
+                   SELECT constraint_name INTO IX_NAME FROM user_constraints where table_name = 'TBL_SHIPMENT' and search_condition_vc like '%N_AMOUNT%IS NOT NULL';
+                   EXECUTE IMMEDIATE 'ALTER TABLE TBL_SHIPMENT DROP CONSTRAINT '|| IX_NAME;
+                   EXCEPTION WHEN NO_DATA_FOUND THEN  DBMS_OUTPUT.PUT_LINE('NOTHING HAPPENED');
+                END;
+                BEGIN
+                   SELECT constraint_name INTO IX_NAME FROM user_constraints where table_name = 'TBL_SHIPMENT' and search_condition_vc like '%F_AGENT_CONTACT_ID%IS NOT NULL';
+                   EXECUTE IMMEDIATE 'ALTER TABLE TBL_SHIPMENT DROP CONSTRAINT '|| IX_NAME;
+                   EXCEPTION WHEN NO_DATA_FOUND THEN  DBMS_OUTPUT.PUT_LINE('NOTHING HAPPENED');
+                END;
+                BEGIN
+                   SELECT constraint_name INTO IX_NAME FROM user_constraints where table_name = 'TBL_SHIPMENT' and search_condition_vc like '%F_CONTACT_ID%IS NOT NULL';
+                   EXECUTE IMMEDIATE 'ALTER TABLE TBL_SHIPMENT DROP CONSTRAINT '|| IX_NAME;
+                   EXCEPTION WHEN NO_DATA_FOUND THEN  DBMS_OUTPUT.PUT_LINE('NOTHING HAPPENED');
+                END;
+                BEGIN
+                   SELECT constraint_name INTO IX_NAME FROM user_constraints where table_name = 'TBL_SHIPMENT' and search_condition_vc like '%F_CONTRACT_SHIPMENT_ID%IS NOT NULL';
+                   EXECUTE IMMEDIATE 'ALTER TABLE TBL_SHIPMENT DROP CONSTRAINT '|| IX_NAME;
+                   EXCEPTION WHEN NO_DATA_FOUND THEN  DBMS_OUTPUT.PUT_LINE('NOTHING HAPPENED');
+                END;
+                BEGIN
+                   SELECT constraint_name INTO IX_NAME FROM user_constraints where table_name = 'TBL_SHIPMENT' and search_condition_vc like '%DISCHARGE_PORT_ID%IS NOT NULL';
+                   EXECUTE IMMEDIATE 'ALTER TABLE TBL_SHIPMENT DROP CONSTRAINT '|| IX_NAME;
+                   EXCEPTION WHEN NO_DATA_FOUND THEN  DBMS_OUTPUT.PUT_LINE('NOTHING HAPPENED');
+                END;
+                BEGIN
+                   SELECT constraint_name INTO IX_NAME FROM user_constraints where table_name = 'TBL_SHIPMENT' and search_condition_vc like '%N_NO_BLS%IS NOT NULL';
+                   EXECUTE IMMEDIATE 'ALTER TABLE TBL_SHIPMENT DROP CONSTRAINT '|| IX_NAME;
+                   EXCEPTION WHEN NO_DATA_FOUND THEN  DBMS_OUTPUT.PUT_LINE('NOTHING HAPPENED');
+                END;
+                BEGIN
+                   SELECT constraint_name INTO IX_NAME FROM user_constraints where table_name = 'TBL_SHIPMENT' and search_condition_vc like '%D_SEND_DATE%IS NOT NULL';
+                   EXECUTE IMMEDIATE 'ALTER TABLE TBL_SHIPMENT DROP CONSTRAINT '|| IX_NAME;
+                   EXCEPTION WHEN NO_DATA_FOUND THEN  DBMS_OUTPUT.PUT_LINE('NOTHING HAPPENED');
+                END;
+                BEGIN
+                   SELECT constraint_name INTO IX_NAME FROM user_constraints where table_name = 'TBL_SHIPMENT' and search_condition_vc like '%F_SHIPMENT_METHOD_ID%IS NOT NULL';
+                   EXECUTE IMMEDIATE 'ALTER TABLE TBL_SHIPMENT DROP CONSTRAINT '|| IX_NAME;
+                   EXCEPTION WHEN NO_DATA_FOUND THEN  DBMS_OUTPUT.PUT_LINE('NOTHING HAPPENED');
+                END;
+                BEGIN
+                   SELECT constraint_name INTO IX_NAME FROM user_constraints where table_name = 'TBL_SHIPMENT' and search_condition_vc like '%F_SHIPMENT_TYPE_ID%IS NOT NULL';
+                   EXECUTE IMMEDIATE 'ALTER TABLE TBL_SHIPMENT DROP CONSTRAINT '|| IX_NAME;
+                   EXCEPTION WHEN NO_DATA_FOUND THEN  DBMS_OUTPUT.PUT_LINE('NOTHING HAPPENED');
+                END;
+                BEGIN
+                   SELECT constraint_name INTO IX_NAME FROM user_constraints where table_name = 'TBL_SHIPMENT' and search_condition_vc like '%F_UNIT_ID%IS NOT NULL';
+                   EXECUTE IMMEDIATE 'ALTER TABLE TBL_SHIPMENT DROP CONSTRAINT '|| IX_NAME;
+                   EXCEPTION WHEN NO_DATA_FOUND THEN  DBMS_OUTPUT.PUT_LINE('NOTHING HAPPENED');
+                END;
+            END;
+            ]]>
+        </sql>
+    </changeSet>
 </databaseChangeLog>

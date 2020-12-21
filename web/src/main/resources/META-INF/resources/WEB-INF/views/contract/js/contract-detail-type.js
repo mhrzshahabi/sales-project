@@ -46,7 +46,16 @@ contractDetailTypeTab.dynamicForm.fields.titleEn = {
     width: "100%",
     required: true,
     keyPressFilter: "^[A-Za-z0-9-\\s\\/]",
-    title: "<spring:message code='global.title-en'/>"
+    title: "<spring:message code='global.title-en'/>",
+    sortNormalizer: function (recordObject) {
+
+        let pattern = /\D*(\d+)\D*/;
+        let sortOrder = 0;
+        if (pattern.test(recordObject.titleEN))
+            sortOrder = Number(pattern.exec(recordObject.titleEN)[1]);
+
+        return sortOrder;
+    }
 };
 
 contractDetailTypeTab.restDataSource.unit = isc.MyRestDataSource.create({
@@ -561,7 +570,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             record[contractDetailTypeTab.dynamicForm.paramFields.reference.name] = data[0]['reference'];
                             contractDetailTypeTab.listGrid.param.refreshRow(rowNumber);
                             if (contractDetailTypeTab.listGrid.param.cellChanged)
-                            contractDetailTypeTab.listGrid.param.cellChanged(record, data[0]['reference'], oldValue, rowNumber, colNumber, contractDetailTypeTab.listGrid.param);
+                                contractDetailTypeTab.listGrid.param.cellChanged(record, data[0]['reference'], oldValue, rowNumber, colNumber, contractDetailTypeTab.listGrid.param);
                         };
 
                         let dynamicForm = isc.DynamicForm.nicico.getDefault([{

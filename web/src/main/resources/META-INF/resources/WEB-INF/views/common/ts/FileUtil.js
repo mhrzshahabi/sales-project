@@ -32,7 +32,9 @@ var nicico;
                 // @ts-ignore
                 accessLevelValueMap: Enums.fileAccessLevel,
                 // @ts-ignore
-                additionalFormFields: this.additionalFormFields
+                additionalFormFields: this.additionalFormFields,
+                // @ts-ignore
+                afterAddItem: this.afterAddItem,
             });
         };
         FileUtil.createButtonLayout = function (creator) {
@@ -99,7 +101,7 @@ var nicico;
             creator.window.show();
             return creator.window;
         };
-        FileUtil.addSomeFeatures = function (showAllDataOfEntity, fields, transformRequest, transformResponse) {
+        FileUtil.addSomeFeatures = function (showAllDataOfEntity, fields, transformRequest, transformResponse, afterAddItem) {
             // @ts-ignore
             this.showAllDataOfEntity = showAllDataOfEntity;
             // @ts-ignore
@@ -108,6 +110,8 @@ var nicico;
             this.additionalFormFields = fields;
             // @ts-ignore
             this.transformResponse = transformResponse;
+            // @ts-ignore
+            this.afterAddItem = afterAddItem;
         };
         ;
         FileUtil.transformResponse = function (res) {
@@ -118,6 +122,9 @@ var nicico;
         };
         FileUtil.cancelCallBack = function () {
             return;
+        };
+        FileUtil.afterAddItem = function (item, form) {
+            return item;
         };
         FileUtil.okCallBack = function (formData) {
             return formData;
@@ -154,7 +161,10 @@ var nicico;
         FileUtil.save = function (creator, formData) {
             var This = this;
             var request = new XMLHttpRequest();
-            request.open(creator.method, creator.url);
+            if (This.showAllDataOfEntity)
+                request.open(creator.method, "api/files/updateAll");
+            else
+                request.open(creator.method, creator.url);
             request.setRequestHeader("contentType", creator.contentType);
             // @ts-ignore
             request.setRequestHeader("Authorization", BaseRPCRequest.httpHeaders.Authorization);
