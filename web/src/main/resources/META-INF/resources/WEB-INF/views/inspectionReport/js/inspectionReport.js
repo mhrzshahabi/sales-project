@@ -873,7 +873,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         mapValueToDisplay: function (value) {
             let selectedRecord = this.getSelectedRecord();
             if (!selectedRecord) return '';
-            return DateUtil.format(new Date(selectedRecord.sendDate), "YYYY/MM/dd");
+            return DateUtil.format(new Date(selectedRecord.sendDate), "YYYY/MM/dd") + " (" + selectedRecord.contractShipment.contract.no + ")";
         },
         pickListProperties:
             {
@@ -956,7 +956,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                     }]
                 });
             }
-        }
+        },
     },
     {
         name: "inspectionNO",
