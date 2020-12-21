@@ -43,8 +43,8 @@ public class Shipment extends BaseEntity {
     @JoinColumn(name = "F_CONTRACT_SHIPMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2contractShipmentByContractShipmentId"))
     private ContractShipment contractShipment;
 
-    @NotNull
-    @Column(name = "F_CONTRACT_SHIPMENT_ID", nullable = false)
+    //@NotNull
+    @Column(name = "F_CONTRACT_SHIPMENT_ID")
     private Long contractShipmentId;
 
     @Audited(targetAuditMode = NOT_AUDITED)
@@ -53,8 +53,8 @@ public class Shipment extends BaseEntity {
     @JoinColumn(name = "F_SHIPMENT_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2shipmentTypeByShipmentTypeId"))
     private ShipmentType shipmentType;
 
-    @NotNull
-    @Column(name = "F_SHIPMENT_TYPE_ID", nullable = false)
+    //@NotNull
+    @Column(name = "F_SHIPMENT_TYPE_ID")
     private Long shipmentTypeId;
 
     @Audited(targetAuditMode = NOT_AUDITED)
@@ -63,8 +63,8 @@ public class Shipment extends BaseEntity {
     @JoinColumn(name = "F_SHIPMENT_METHOD_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2shipmentMethodByShipmentMethodId"))
     private ShipmentMethod shipmentMethod;
 
-    @NotNull
-    @Column(name = "F_SHIPMENT_METHOD_ID", nullable = false)
+    //@NotNull
+    @Column(name = "F_SHIPMENT_METHOD_ID")
     private Long shipmentMethodId;
 
     @Setter(AccessLevel.NONE)
@@ -72,8 +72,8 @@ public class Shipment extends BaseEntity {
     @JoinColumn(name = "F_CONTACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2ContactByContactId"))
     private Contact contact;
 
-    @NotNull
-    @Column(name = "F_CONTACT_ID", nullable = false)
+    //@NotNull
+    @Column(name = "F_CONTACT_ID")
     private Long contactId;
 
     @Setter(AccessLevel.NONE)
@@ -81,8 +81,8 @@ public class Shipment extends BaseEntity {
     @JoinColumn(name = "F_AGENT_CONTACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2ContactByContactAgentId"))
     private Contact contactAgent;
 
-    @NotNull
-    @Column(name = "F_AGENT_CONTACT_ID", nullable = false)
+    //@NotNull
+    @Column(name = "F_AGENT_CONTACT_ID")
     private Long contactAgentId;
 
     @Audited(targetAuditMode = NOT_AUDITED)
@@ -107,21 +107,21 @@ public class Shipment extends BaseEntity {
     @JoinColumn(name = "F_UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2unitByUnitId"))
     private Unit unit;
 
-    @NotNull
-    @Column(name = "F_UNIT_ID", nullable = false)
+    //@NotNull
+    @Column(name = "F_UNIT_ID")
     private Long unitId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DISCHARGE_PORT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2portByDischargePortId"))
+    @JoinColumn(name = "DISCHARGE_PORT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2portByDischargePortId"))
     private Port dischargePort;
 
-    @NotNull
-    @Column(name = "DISCHARGE_PORT_ID", nullable = false)
+    //@NotNull
+    @Column(name = "DISCHARGE_PORT_ID")
     private Long dischargePortId;
 
-    @NotNull
-    @Column(name = "N_AMOUNT", nullable = false, scale = 3, precision = 12)
+    //@NotNull
+    @Column(name = "N_AMOUNT", scale = 3, precision = 12)
     private BigDecimal amount;
 
     @Column(name = "C_DESCRIPTION", length = 4000)
@@ -139,8 +139,8 @@ public class Shipment extends BaseEntity {
     @Column(name = "D_AUTOMATION_LETTER_DATE")
     private Date automationLetterDate;
 
-    @NotNull
-    @Column(name = "D_SEND_DATE", nullable = false)
+    //@NotNull
+    @Column(name = "D_SEND_DATE")
     private Date sendDate;
 
 //    @Column(name = "FILE_NAME")
@@ -155,8 +155,8 @@ public class Shipment extends BaseEntity {
 //    @Column(name = "SHIPMENT_METHOD")
 //    private String shipmentMethod;
 
-    @NotNull
-    @Column(name = "N_NO_BLS", nullable = false)
+    //@NotNull
+    @Column(name = "N_NO_BLS")
     private Long noBLs;
 
     @NotAudited

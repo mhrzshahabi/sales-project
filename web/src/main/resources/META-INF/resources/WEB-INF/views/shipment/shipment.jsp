@@ -337,11 +337,6 @@
                 title: "<spring:message code='global.sendDate'/>",
                 type: 'text',
                 showHover: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
             {
                 name: "createdDate",
@@ -473,12 +468,6 @@
                 displayField: "no",
                 valueField: "id",
                 pickListHeight: "500",
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
                 pickListFields: [
                     {
                         name: "no",
@@ -511,13 +500,7 @@
                 displayField: "sendDate",
                 valueField: "id",
                 pickListHeight: "500",
-                required: true,
                 autoFetchData: false,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
                 pickListFields: [
                     {name: "loadPort.port", title: "<spring:message code='shipment.loading'/>"},
                     {name: "quantity"},
@@ -561,32 +544,19 @@
                     }
                 }],
 // defaultValue: "1399/01/01",
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
             },
             {
                 name: "automationLetterNo",
                 title: "<spring:message code='shipment.loadingLetter'/>",
                 type: 'text',
-                required: true,
                 length: "100",
                 width: "100%",
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
             {
                 name: "bookingCat",
                 title: "<spring:message code='shipment.bookingCat'/>",
                 type: 'text',
                 width: "100%",
-                required: true,
             },
 
             {
@@ -603,7 +573,6 @@
                 name: "amount",
                 title: "<spring:message code='global.amount'/>",
                 type: 'float',
-                required: true,
                 width: "100%",
                 length: 9,
                 keyPressFilter: "[0-9.]",
@@ -612,11 +581,7 @@
                     validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
-                },
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
+                }]
             },
             {
                 name: "lastDeliveryLetterDate",
@@ -633,12 +598,6 @@
                 displayField: "name",
                 valueField: "id",
                 pickListHeight: "500",
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {
@@ -657,14 +616,8 @@
                 name: "noBLs",
                 title: "<spring:message code='shipment.numberOfBLs'/>",
                 type: 'long',
-                required: true,
                 width: "100%",
                 keyPressFilter: "[0-9]",
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
             {
                 name: "shipmentTypeId",
@@ -683,12 +636,6 @@
                         align: "center"
                     }],
                 pickListHeight: "500",
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
             },
             {
                 name: "shipmentMethodId",
@@ -700,7 +647,6 @@
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_ShipmentMethodInShipment,
                 pickListHeight: "500",
-                required: true,
             },
             {
                 name: "noPackages",
@@ -776,12 +722,6 @@
                     {name: "name", align: "center"},
                     {name: "country.name", align: "center"}
                 ],
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
             {
                 name: "vesselId",
@@ -822,12 +762,6 @@
                 pickListFields: [
                     {
                         name: "port",
-                    }],
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
                     }],
             },
         ]
@@ -1106,7 +1040,6 @@
             nicico.FileUtil.addSomeFeatures(true,
                 [{
                     name: "material",
-                    required: true,
                     title: "<spring:message code='material.title'/>",
                     optionDataSource: RestDataSource_Material,
                     displayField: "descEN",
@@ -1114,7 +1047,6 @@
                 },
                     {
                         name: "shipmentType",
-                        required: true,
                         title: "<spring:message code='shipment.shipmentType'/>",
                         displayField: "shipmentType",
                         valueField: "id",
@@ -1268,12 +1200,6 @@
                 type: 'text',
                 width: "10%",
                 showHover: true,
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
             {
                 name: "shipmentMethod.shipmentMethod",
@@ -1281,12 +1207,6 @@
                 type: 'text',
                 width: "10%",
                 showHover: true,
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
             {
                 name: "automationLetterNo",
@@ -1300,15 +1220,9 @@
                 title: "<spring:message code='global.sendDate'/>",
                 type: 'date',
                 inputFormat: "YMD",
-                required: true,
                 width: "10%",
                 align: "center",
                 showHover: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
                 formatCellValue: (value) => {
                     return new Date(Number.parseInt(value))
                 },
@@ -1317,15 +1231,9 @@
                 name: "createdDate",
                 title: "<spring:message code='global.createDate'/>",
                 type: 'text',
-                required: true,
                 width: "10%",
                 align: "center",
                 showHover: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
                 formatCellValue: (value) => {
                     return new persianDate(Number.parseInt(value)).format('YYYY/MM/DD')
                 },
@@ -1345,14 +1253,8 @@
                 name: "vessel.name",
                 title: "<spring:message code='shipment.vesselName'/>",
                 type: 'text',
-                required: true,
                 width: "10%",
                 showHover: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
                 sortNormalizer: function (recordObject) {
                     return recordObject.vessel.name
                 }
