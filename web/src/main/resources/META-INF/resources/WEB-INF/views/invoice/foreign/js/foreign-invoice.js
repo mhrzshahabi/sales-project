@@ -1091,6 +1091,7 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
 
     let invoicePaymentComponent = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoicePayment.Class).first();
     if (!invoicePaymentComponent) return null;
+    else invoicePaymentComponent.pane.members.filter(q => q.name === "finalPriceButton").first().click();
     let data = foreignInvoiceTab.dynamicForm.valuesManager.getValues();
     let inspectionWeightData = foreignInvoiceTab.dynamicForm.valuesManager.getValue('inspectionWeightData');
     let inspectionAssayData = foreignInvoiceTab.dynamicForm.valuesManager.getValue('inspectionAssayData');
