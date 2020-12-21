@@ -23,6 +23,7 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
     canAddFile: true,
     canRemoveFile: true,
     canDownloadFile: true,
+    afterAddItem: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -77,12 +78,16 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                     return;
                 }
                 let fileItem = document.getElementById(This.form.getItem("file").uploadItem.getElement().id);
-                This.grid.addData({
+                let data = {
                     recordId: This.recordId,
                     entityName: This.entityName,
                     accessLevel: This.form.getValue("accessLevel"),
                     fileData: fileItem.files[0]
-                });
+                }
+                if(This.afterAddItem)
+                    This.grid.addData(This.afterAddItem(data, This.form));
+                else
+                    This.grid.addData(data);
                 This.form.clearValue("file");
             }
         });

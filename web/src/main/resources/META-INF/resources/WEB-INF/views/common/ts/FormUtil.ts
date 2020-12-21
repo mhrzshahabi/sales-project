@@ -37,21 +37,21 @@ namespace nicico {
             return data;
         };
 
-        showForm(ownerWindow: isc.Window, title: string, canvas: isc.Canvas | Array<isc.Canvas>, width: string = null, height: string = null): void {
+        showForm(ownerWindow: isc.Window, title: string, canvas: isc.Canvas | Array<isc.Canvas>, width: string = null, height: string = null, showOkButton: boolean = true): void {
 
             this.owner = new ObjectHider(ownerWindow);
             this.bodyWidget = new ObjectHider(canvas);
-            this.createWindow(title, this.getButtonLayout(), width, height);
+            this.createWindow(title, this.getButtonLayout(showOkButton), width, height);
             if (ownerWindow != null)
                 ownerWindow.close();
             this.windowWidget.getObject().show();
         }
 
-        init(ownerWindow: isc.Window, title: string, canvas: isc.Canvas | Array<isc.Canvas>, width: string = null, height: string = null): void {
+        init(ownerWindow: isc.Window, title: string, canvas: isc.Canvas | Array<isc.Canvas>, width: string = null, height: string = null, showOkButton: boolean = true): void {
 
             this.owner = new ObjectHider(ownerWindow);
             this.bodyWidget = new ObjectHider(canvas);
-            this.createWindow(title, this.getButtonLayout(), width, height);
+            this.createWindow(title, this.getButtonLayout(showOkButton), width, height);
         }
 
         justShowForm(): void {
@@ -61,7 +61,7 @@ namespace nicico {
             this.windowWidget.getObject().show();
         }
 
-        public getButtonLayout(): isc.HLayout {
+        public getButtonLayout(showOkButton): isc.HLayout {
 
             let This = this;
             // @ts-ignore
@@ -76,8 +76,10 @@ namespace nicico {
                     This.cancelCallBack();
                 },
             });
+            let ok;
+            if (showOkButton) {
             // @ts-ignore
-            let ok = isc.IButtonSave.create({
+             ok = isc.IButtonSave.create({
 
                 // @ts-ignore
                 click: function () {
@@ -91,6 +93,7 @@ namespace nicico {
                     This.okCallBack(data);
                 },
             });
+        }
             return isc.HLayout.create({
 
                 width: "100%",
