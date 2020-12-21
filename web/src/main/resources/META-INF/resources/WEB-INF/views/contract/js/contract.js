@@ -133,7 +133,7 @@ contractTab.method.getDynamicFormFields = function () {
             required: true,
             hidden: true,
             title: "<spring:message code='entity.contract-type'/>",
-            defaultValue: Number(contractTab.variable.contractType)
+            value: Number(contractTab.variable.contractType)
         },
         Object.assign(getContactFieldByType("buyer"), {
             useInGrid: true,
@@ -232,7 +232,9 @@ contractTab.method.getDynamicFormFields = function () {
 contractTab.dynamicForm.fields = contractTab.method.getDynamicFormFields();
 contractTab.listGrid.fields = contractTab.method.getDynamicFormFields().filter(field => field.useInGrid || field.isBaseItem);
 contractTab.listGrid.fields.forEach(item => {
-    if (item.isBaseItem) item.hidden = false;
+
+    if (contractTab.variable.contractType === "3") return;
+    if (item.isBaseItem && item.name === "estatus") item.hidden = false;
 });
 
 //******************************************************* COMPONENTS ***************************************************
@@ -885,65 +887,8 @@ if (contractTab.variable.contractType === "1")
                 },
                 cellDoubleClick: function (record, rowNum, colNum) {
 
-                    let listGridRecord = clone(record);
-                    if (listGridRecord == null || listGridRecord.id == null)
-                        contractTab.dialog.notSelected();
-                    else if (listGridRecord.editable === false)
-                        contractTab.dialog.notEditable();
-                    else if (listGridRecord.estatus.contains(Enums.eStatus2.DeActive))
-                        contractTab.dialog.inactiveRecord();
-                    else {
-
-                        if (listGridRecord.estatus.contains(Enums.eStatus2.Final))
-                            contractTab.button.saveButton.hide();
-                        else
-                            contractTab.button.saveButton.show();
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                            actionURL: 'api/g-contract/' + listGridRecord.id,
-                            httpMethod: "GET",
-                            callback: function (resp) {
-
-                                if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
-
-                                    let record = JSON.parse(resp.data);
-
-                                    contractTab.variable.method = "POST";
-                                    contractTab.dynamicForm.main.editRecord(listGridRecord);
-                                    contractTab.dynamicForm.main.setValue("date", new Date(listGridRecord.date));
-                                    contractTab.dynamicForm.main.setValue("contractTypeId", 1);
-                                    contractTab.dynamicForm.main.setValue("affectFrom", new Date(listGridRecord.affectFrom));
-                                    contractTab.dynamicForm.main.setValue("affectUpTo", new Date(listGridRecord.affectUpTo));
-
-                                    contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
-
-                                    contractTab.listGrid.contractDetailType.invalidateRecordComponents();
-                                    contractTab.listGrid.contractDetailType.setCriteria(null);
-                                    contractTab.listGrid.contractDetailType.fetchData({
-                                        operator: 'and',
-                                        criteria: [{
-                                            fieldName: 'materialId',
-                                            operator: 'equals',
-                                            value: contractTab.dynamicForm.main.getValue('materialId')
-                                        }, {
-                                            fieldName: 'estatus',
-                                            operator: 'notEqual',
-                                            value: Enums.eStatus2.DeActive
-                                        }]
-                                    }, () => record.contractDetails.sortByProperty('position').reverse().forEach(contractDetail => contractTab.method.addArticle({
-                                        isNewMode: false,
-                                        contractDetail: contractDetail,
-                                        position: contractDetail.position,
-                                        template: contractDetail.contractDetailTemplate,
-                                        contractDetailType: contractDetail.contractDetailType
-                                    })));
-
-                                    contractTab.window.main.setTitle("<spring:message code='contract.window.title.edit'/>" + "\t" + listGridRecord.material.descEN);
-                                    contractTab.window.main.show();
-                                } else
-                                    contractTab.dialog.error(resp);
-                            }
-                        }));
-                    }
+                    contractTab.listGrid.contractDetailType.templateMode = true;
+                    contractTab.method.editForm();
                 }
             });
             contractTab.variable.contractTemplateForm.getButtonLayout = function () {
@@ -976,7 +921,6 @@ contractTab.menu.main.data.add({
 });
 contractTab.menu.main.initWidget();
 
-
 nicico.BasicFormUtil.showAllToolStripActions(contractTab);
 if (contractTab.variable.contractType === "1")
     nicico.BasicFormUtil.removeExtraActions(contractTab, [nicico.ActionType.ACTIVATE, nicico.ActionType.DEACTIVATE]);
@@ -996,12 +940,12 @@ else {
     nicico.BasicFormUtil.removeExtraActions(contractTab, actionTypeList);
 }
 
-
 //*************************************************** Functions ********************************************************
 
 contractTab.method.newForm = function () {
 
     contractTab.variable.method = "POST";
+    contractTab.listGrid.contractDetailType.show();
     contractTab.dynamicForm.main.clearValues();
     contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
     contractTab.listGrid.contractDetailType.setCriteria({
@@ -1038,8 +982,21 @@ contractTab.method.editForm = function () {
                 if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
 
                     let record = JSON.parse(resp.data);
+                    if (contractTab.variable.contractType === "1") {
+                        contractTab.variable.method = "PUT";
+                        if (contractTab.listGrid.contractDetailType.templateMode) {
+                            contractTab.listGrid.contractDetailType.hide();
+                            contractTab.listGrid.contractDetailType.setShowResizeBar(false);
+                            contractTab.listGrid.contractDetailType.templateMode = null;
+                        } else {
+                            contractTab.listGrid.contractDetailType.show();
+                            contractTab.listGrid.contractDetailType.setShowResizeBar(true);
+                        }
+                    } else {
+                        contractTab.variable.method = "POST";
+                        contractTab.dynamicForm.main.setValue("contractTypeId", 1);
+                    }
 
-                    contractTab.variable.method = "PUT";
                     contractTab.dynamicForm.main.editRecord(listGridRecord);
                     contractTab.dynamicForm.main.setValue("date", new Date(listGridRecord.date));
                     contractTab.dynamicForm.main.setValue("affectFrom", new Date(listGridRecord.affectFrom));
