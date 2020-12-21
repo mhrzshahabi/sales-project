@@ -71,7 +71,9 @@ namespace nicico {
 
             return;
         };
-
+        static afterAddItem: any = function (item, form) {
+            return item;
+        }
         static okCallBack: any = function (formData: FormData) {
 
             return formData;
@@ -112,7 +114,10 @@ namespace nicico {
 
             let This = this;
             let request = new XMLHttpRequest();
-            request.open(creator.method, creator.url);
+            if (This.showAllDataOfEntity)
+                request.open(creator.method, "api/files/updateAll");
+            else
+                request.open(creator.method, creator.url);
             request.setRequestHeader("contentType", creator.contentType);
             // @ts-ignore
             request.setRequestHeader("Authorization", BaseRPCRequest.httpHeaders.Authorization);
@@ -159,7 +164,9 @@ namespace nicico {
                 // @ts-ignore
                 accessLevelValueMap: Enums.fileAccessLevel,
                 // @ts-ignore
-                additionalFormFields: this.additionalFormFields
+                additionalFormFields: this.additionalFormFields,
+                // @ts-ignore
+                afterAddItem: this.afterAddItem,
             });
         }
 
@@ -241,7 +248,7 @@ namespace nicico {
             creator.window.show();
             return creator.window;
         }
-        static addSomeFeatures(showAllDataOfEntity:boolean, fields: isc.FormItem[],transformRequest:any, transformResponse:any){
+        static addSomeFeatures(showAllDataOfEntity: boolean, fields: isc.FormItem[], transformRequest: any, transformResponse: any, afterAddItem: any) {
             // @ts-ignore
             this.showAllDataOfEntity = showAllDataOfEntity;
             // @ts-ignore
@@ -250,6 +257,8 @@ namespace nicico {
             this.additionalFormFields = fields;
             // @ts-ignore
             this.transformResponse = transformResponse;
+            // @ts-ignore
+            this.afterAddItem = afterAddItem;
         };
     }
 

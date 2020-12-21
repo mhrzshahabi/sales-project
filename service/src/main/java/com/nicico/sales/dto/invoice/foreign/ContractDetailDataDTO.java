@@ -35,9 +35,8 @@ public class ContractDetailDataDTO {
         private String quotationalPeriodContent;
 
         private List<MOASData> MOAS;
-
+        private List<PREMIUMData> premium;
         private IncotermDTO.Info incoterm;
-
         private List<ContractDiscountDTO.Info> discount;
     }
 
@@ -65,5 +64,15 @@ public class ContractDetailDataDTO {
         private Integer workingDayBefore;
         private PriceBaseReference priceReference;
         private MaterialElementDTO.Info materialElement;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("MOASDataRq")
+    public static class PREMIUMData {
+
+        private BigDecimal premiumValue;
+        private IncotermDTO.Info incoterm;
     }
 }

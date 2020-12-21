@@ -225,10 +225,9 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
 
                     This.paymentSumPrice = 0;
                     This.shipmentCostInvoices = selectedRecords;
-                    selectedRecords.forEach(q => This.paymentSumPrice += q.conversionSumPriceBuyerShare);
+                    selectedRecords.forEach(q => This.paymentSumPrice += (q.conversionSumPrice * q.buyerShare / 100));
                     This.getMembers().filter(q => q.name === "paymentSumPrice").first().setValue(This.paymentSumPrice);
                     This.getMembers().filter(q => q.name === "paymentSumPrice").first().setUnitId(This.currency.id);
-                    This.getMembers().filter(q => q.name === "finalPriceButton").first().click();
                 };
 
                 shipmentCostButton.show();
@@ -398,11 +397,15 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                         });
                     });
                     This.shipmentCostInvoices = selectedRecords;
-                    This.getMembers().filter(q => q.name === "shipmentCostButton").first().click();
+                    This.paymentForm.okCallBack(selectedRecords);
+                    This.getMembers().filter(q => q.name === "finalPriceButton").first().click();
                 }
 
-                if (This.delayData)
+                if (This.delayData) {
+
                     This.getMembers().filter(q => q.name === "delayPenalty").first().setValue(This.delayData);
+                    This.getMembers().filter(q => q.name === "finalPriceButton").first().click();
+                }
 
             }
         }));

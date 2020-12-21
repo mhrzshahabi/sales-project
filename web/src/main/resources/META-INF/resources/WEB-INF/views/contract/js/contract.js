@@ -67,7 +67,7 @@ contractTab.method.getDynamicFormFields = function () {
             title: "<spring:message code='contract.affect.upto'/>",
             type: "date",
             width: "10%",
-            required: true,
+            // required: true,
         },
         {
             useInGrid: true,
@@ -277,7 +277,18 @@ nicico.BasicFormUtil.createListGrid = function (creator) {
 };
 
 contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFormItems.concat([
-    {name: "title", title: '<spring:message code="global.title-en"/>'},
+    {
+        name: "title", title: '<spring:message code="global.title-en"/>',
+        sortNormalizer: function (recordObject) {
+
+            let pattern = /\D*(\d+)\D*/;
+            let sortOrder = 0;
+            if (pattern.test(recordObject.title))
+                sortOrder = Number(pattern.exec(recordObject.titleEN)[1]);
+
+            return sortOrder;
+        }
+    },
     {width: 40, name: "addIcon", align: "center", showTitle: false, canFilter: false}
 ]), contractTab.restDataSource.contractDetailType, {
     operator: 'and',
@@ -833,9 +844,28 @@ if (contractTab.variable.contractType === "1")
 
             contractTab.variable.contractTemplateForm = new nicico.FormUtil();
             contractTab.listGrid.contractTemplate = isc.ListGrid.nicico.getDefault([
-                {name: "id", primaryKey: true, title: '<spring:message code="global.id"/>'},
-                {name: "no", title: '<spring:message code="contact.no"/>', showHover: true, hoverWidth: '25%'},
-                {name: "date", title: '<spring:message code="global.date"/>', showHover: true, hoverWidth: '25%'},
+                {name: "id", primaryKey: true, title: '<spring:message code="global.id"/>', width: "20%"},
+                {
+                    name: "no",
+                    title: '<spring:message code="contact.no"/>',
+                    showHover: true,
+                    hoverWidth: '25%',
+                    width: "20%"
+                },
+                {
+                    name: "date",
+                    title: '<spring:message code="global.date"/>',
+                    showHover: true,
+                    hoverWidth: '25%',
+                    width: "20%"
+                },
+                {
+                    name: "description",
+                    title: '<spring:message code="global.description"/>',
+                    showHover: true,
+                    hoverWidth: '25%',
+                    width: "40%"
+                }
             ], contractTab.restDataSource.main, null, {
                 height: "100%",
                 wrapCells: true,
@@ -946,7 +976,6 @@ contractTab.menu.main.data.add({
 });
 contractTab.menu.main.initWidget();
 
-
 nicico.BasicFormUtil.showAllToolStripActions(contractTab);
 if (contractTab.variable.contractType === "1")
     nicico.BasicFormUtil.removeExtraActions(contractTab, [nicico.ActionType.ACTIVATE, nicico.ActionType.DEACTIVATE]);
@@ -962,10 +991,9 @@ else {
     // <sec:authorize access="!hasAuthority('D_CONTRACT_TEMPLATE')">
     actionTypeList.add(nicico.ActionType.DELETE);
     // </sec:authorize>
-    actionTypeList.addList([nicico.ActionType.ACTIVATE,nicico.ActionType.DEACTIVATE,nicico.ActionType.FINALIZE,nicico.ActionType.DISAPPROVE]);
+    actionTypeList.addList([nicico.ActionType.ACTIVATE, nicico.ActionType.DEACTIVATE, nicico.ActionType.FINALIZE, nicico.ActionType.DISAPPROVE]);
     nicico.BasicFormUtil.removeExtraActions(contractTab, actionTypeList);
 }
-
 
 //*************************************************** Functions ********************************************************
 
@@ -982,6 +1010,9 @@ contractTab.method.newForm = function () {
             value: null
         }]
     });
+    let affectUpTo = new Date();
+    affectUpTo.setYear(affectUpTo.getYear() + 1);
+    contractTab.dynamicForm.main.setValue("affectUpTo", affectUpTo);
     contractTab.window.main.setTitle("<spring:message code='contract.window.title.new'/>");
     contractTab.window.main.show();
 };
@@ -1070,7 +1101,7 @@ contractTab.method.addArticle = async function (data) {
             contractDetailTemplate: data.template,
             contractDetailTypeId: data.contractDetailType.id,
             position: contractTab.sectionStack.contract.sections.length
-        }
+        };
     if (data.template == null) {
 
         if (data.contractDetailType.contractDetailTypeTemplates.length === 1) {
@@ -1740,7 +1771,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
             name: contractDetailType.code + "." + param.key,
             dataChanged: function (operationType) {
 
-                contractTab.dynamicForm.valuesManager.setValue(this.name, contractTab.method.setDisplayData(this, false));
+                contractTab.dynamicForm.valuesManager.setValue(this.name, contractTab.method.setDisplayData(this, true));
                 this.Super("dataChanged", arguments);
             },
             gridComponents: ["header", "body",
@@ -1808,7 +1839,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
         if (!isNewMode)
             dynamicGrid.setData(await contractTab.method.createDynamicGridData(param.values, fields));
 
-        contractTab.dynamicForm.valuesManager.setValue(dynamicGrid.name, contractTab.method.setDisplayData(dynamicGrid, false));
+        contractTab.dynamicForm.valuesManager.setValue(dynamicGrid.name, contractTab.method.setDisplayData(dynamicGrid, true));
         dynamicGrids.push(dynamicGrid);
     }));
 

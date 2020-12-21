@@ -22,29 +22,31 @@ var nicico;
                 return data;
             };
         }
-        FormUtil.prototype.showForm = function (ownerWindow, title, canvas, width, height) {
+        FormUtil.prototype.showForm = function (ownerWindow, title, canvas, width, height, showOkButton) {
             if (width === void 0) { width = null; }
             if (height === void 0) { height = null; }
+            if (showOkButton === void 0) { showOkButton = true; }
             this.owner = new nicico.ObjectHider(ownerWindow);
             this.bodyWidget = new nicico.ObjectHider(canvas);
-            this.createWindow(title, this.getButtonLayout(), width, height);
+            this.createWindow(title, this.getButtonLayout(showOkButton), width, height);
             if (ownerWindow != null)
                 ownerWindow.close();
             this.windowWidget.getObject().show();
         };
-        FormUtil.prototype.init = function (ownerWindow, title, canvas, width, height) {
+        FormUtil.prototype.init = function (ownerWindow, title, canvas, width, height, showOkButton) {
             if (width === void 0) { width = null; }
             if (height === void 0) { height = null; }
+            if (showOkButton === void 0) { showOkButton = true; }
             this.owner = new nicico.ObjectHider(ownerWindow);
             this.bodyWidget = new nicico.ObjectHider(canvas);
-            this.createWindow(title, this.getButtonLayout(), width, height);
+            this.createWindow(title, this.getButtonLayout(showOkButton), width, height);
         };
         FormUtil.prototype.justShowForm = function () {
             if (this.owner.getObject() != null)
                 this.owner.getObject().close();
             this.windowWidget.getObject().show();
         };
-        FormUtil.prototype.getButtonLayout = function () {
+        FormUtil.prototype.getButtonLayout = function (showOkButton) {
             var This = this;
             // @ts-ignore
             var cancel = isc.IButtonCancel.create({
@@ -56,19 +58,22 @@ var nicico;
                     This.cancelCallBack();
                 },
             });
-            // @ts-ignore
-            var ok = isc.IButtonSave.create({
+            var ok;
+            if (showOkButton) {
                 // @ts-ignore
-                click: function () {
-                    var data = This.populateData(This.bodyWidget.getObject());
-                    if (!This.validate(data))
-                        return;
-                    This.windowWidget.getObject().close();
-                    if (This.owner.getObject() != null)
-                        This.owner.getObject().show();
-                    This.okCallBack(data);
-                },
-            });
+                ok = isc.IButtonSave.create({
+                    // @ts-ignore
+                    click: function () {
+                        var data = This.populateData(This.bodyWidget.getObject());
+                        if (!This.validate(data))
+                            return;
+                        This.windowWidget.getObject().close();
+                        if (This.owner.getObject() != null)
+                            This.owner.getObject().show();
+                        This.okCallBack(data);
+                    },
+                });
+            }
             return isc.HLayout.create({
                 width: "100%",
                 padding: 10,

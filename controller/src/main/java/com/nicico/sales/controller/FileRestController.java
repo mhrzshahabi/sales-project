@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -38,6 +38,37 @@ public class FileRestController {
     @GetMapping(value = "/byEntityName")
     public ResponseEntity<List<FileDTO.FileMetaData>> getFiles(@RequestParam String entityName) {
         return new ResponseEntity<>(fileService.getFiles(entityName), HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/updateAll")
+    public ResponseEntity<Void> updateAllFiles(@RequestParam List<MultipartFile> files, @RequestParam String entityName, @RequestParam String fileMetaData) throws Exception {
+        List<FileDTO.FileData> fileDataList = objectMapper.readValue(fileMetaData, new TypeReference<List<FileDTO.FileData>>() {
+        });
+        int index = 0;
+        Map<Long, List<MultipartFile>> recordToFilesListMap = new HashMap<>();
+        Map<Long, List<FileDTO.FileData>> recordToFileMetaDataMap = new HashMap<>();
+        for (FileDTO.FileData fileData : fileDataList) {
+            Long recordId = fileData.getRecordId();
+            List<MultipartFile> l1 = recordToFilesListMap.get(recordId);
+            List<FileDTO.FileData> l2 = recordToFileMetaDataMap.get(recordId);
+            if (l1 == null) {
+                l1 = new ArrayList<>();
+                recordToFilesListMap.put(recordId, l1);
+            }
+            if (l2 == null) {
+                l2 = new ArrayList<>();
+                recordToFileMetaDataMap.put(recordId, l2);
+            }
+            if (!fileDataList.get(index).getEntityName().equals("DELETED")) {
+                l1.add(files.get(index));
+                l2.add(fileDataList.get(index));
+            }
+            index++;
+        }
+        for (Long recordId : recordToFileMetaDataMap.keySet()) {
+            fileService.updateFiles(recordId, entityName, recordToFilesListMap.get(recordId), recordToFileMetaDataMap.get(recordId));
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping(value = "/update")
