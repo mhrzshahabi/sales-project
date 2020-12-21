@@ -1100,7 +1100,7 @@ contractTab.method.addArticle = async function (data) {
             contractDetailTemplate: data.template,
             contractDetailTypeId: data.contractDetailType.id,
             position: contractTab.sectionStack.contract.sections.length
-        }
+        };
     if (data.template == null) {
 
         if (data.contractDetailType.contractDetailTypeTemplates.length === 1) {
@@ -1770,7 +1770,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
             name: contractDetailType.code + "." + param.key,
             dataChanged: function (operationType) {
 
-                contractTab.dynamicForm.valuesManager.setValue(this.name, contractTab.method.setDisplayData(this, false));
+                contractTab.dynamicForm.valuesManager.setValue(this.name, contractTab.method.setDisplayData(this, true));
                 this.Super("dataChanged", arguments);
             },
             gridComponents: ["header", "body",
@@ -1838,7 +1838,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
         if (!isNewMode)
             dynamicGrid.setData(await contractTab.method.createDynamicGridData(param.values, fields));
 
-        contractTab.dynamicForm.valuesManager.setValue(dynamicGrid.name, contractTab.method.setDisplayData(dynamicGrid, false));
+        contractTab.dynamicForm.valuesManager.setValue(dynamicGrid.name, contractTab.method.setDisplayData(dynamicGrid, true));
         dynamicGrids.push(dynamicGrid);
     }));
 
