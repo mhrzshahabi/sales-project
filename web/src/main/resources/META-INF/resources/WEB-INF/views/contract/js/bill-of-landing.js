@@ -499,7 +499,6 @@ const BlTab = {
                 return isc.VLayout.create(
                     {
                         ID: BlTab.Vars.Prefix + "vـlayoutـmain",
-                        width: "100%",
                         height: "100%",
                         members: members
                     });
@@ -1203,7 +1202,7 @@ BlTab.Methods.validateEqualsFields = _ => {
         }
     if (_.portOfDischargeId)
         if (_.portOfDischargeId == _.portOfLoadingId) {
-            isc.warn("<spring:message code='billOfLanding.port.of.landing.equal.discharge.warn'/>");
+            isc.warn("<spring:message code='billOfLanding.port.of.loading.equal.discharge.warn'/>");
             return false;
         }
     return true;
@@ -1242,7 +1241,7 @@ BlTab.Fields.BillOfLandingSwitch = function () {
         },
         {
             name: 'portOfLoadingId', ...BlTab.Methods.portOptionDataSource(),
-            title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.port.of.landing'/>",
+            title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.port.of.loading'/>",
         },
         {
             name: 'portOfDischargeId', ...BlTab.Methods.portOptionDataSource(),
@@ -1479,7 +1478,7 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
         },
         {
             name: 'portOfLoading', hidden: true,
-            title: "<spring:message code='billOfLanding.port.of.landing'/>",
+            title: "<spring:message code='billOfLanding.port.of.loading'/>",
 
         },
         {
@@ -1489,7 +1488,7 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
             width: 90,
             required: true,
             ...BlTab.Methods.portOptionDataSource(),
-            title: "<spring:message code='billOfLanding.port.of.landing'/>",
+            title: "<spring:message code='billOfLanding.port.of.loading'/>",
         },
         {
             name: 'portOfDischarge', hidden: true,
@@ -1663,7 +1662,7 @@ BlTab.Fields.BillOfLanding = _ => [
         type: 'long',
         width: 90,
         showIf: "false",
-        title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.port.of.landing'/>",
+        title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.port.of.loading'/>",
     },
     {
         name: 'billOfLadingSwitch.portOfDischargeId', ...BlTab.Methods.portOptionDataSource(),
