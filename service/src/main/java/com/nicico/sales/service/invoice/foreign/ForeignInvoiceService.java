@@ -8,10 +8,7 @@ import com.nicico.sales.dto.AccountingDTO;
 import com.nicico.sales.dto.InvoiceTypeDTO;
 import com.nicico.sales.dto.MaterialElementDTO;
 import com.nicico.sales.dto.UnitDTO;
-import com.nicico.sales.dto.contract.ContractDTO;
-import com.nicico.sales.dto.contract.ContractDetailDTO;
-import com.nicico.sales.dto.contract.ContractDiscountDTO;
-import com.nicico.sales.dto.contract.IncotermDTO;
+import com.nicico.sales.dto.contract.*;
 import com.nicico.sales.dto.invoice.foreign.*;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
@@ -25,6 +22,8 @@ import com.nicico.sales.iservice.contract.IContractDetailValueService2;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
 import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.entities.contract.Contract;
+import com.nicico.sales.model.entities.contract.Incoterm;
+import com.nicico.sales.model.entities.contract.IncotermRule;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceBillOfLading;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
@@ -32,6 +31,8 @@ import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.repository.UnitDAO;
 import com.nicico.sales.repository.contract.ContractDAO;
+import com.nicico.sales.repository.contract.IncotermDAO;
+import com.nicico.sales.repository.contract.IncotermRuleDAO;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceBillOfLadingDAO;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceDAO;
 import com.nicico.sales.repository.warehouse.MaterialElementDAO;
@@ -58,9 +59,11 @@ import java.util.stream.Collectors;
 public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, ForeignInvoiceDTO.Create, ForeignInvoiceDTO.Info, ForeignInvoiceDTO.Update, ForeignInvoiceDTO.Delete> implements IForeignInvoiceService {
 
     private final UnitDAO unitDAO;
+    private final IncotermDAO incotermDAO;
     private final ContractDAO contractDAO;
     private final ObjectMapper objectMapper;
     private final ContractService contractService;
+    private final IncotermRuleDAO incotermRuleDAO;
     private final InvoiceTypeService invoiceTypeService;
     private final InvoiceNoGenerator invoiceNoGenerator;
     private final MaterialElementDAO materialElementDAO;
@@ -111,91 +114,158 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         } else {
 
             Long materialId = contract.getMaterialId();
-            // MOAS
-            Map<String, List<Object>> operationalDataOfMOASArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
-            if (operationalDataOfMOASArticle.size() != 0) {
-//                List<Object> moas = operationalDataOfMOASArticle.get(EContractDetailValueKey.MOAS.getId());
-                List<Map<String, Object>> moas = (List<Map<String, Object>>) operationalDataOfMOASArticle.get(EContractDetailValueKey.MOAS.getId()).get(0);
-                List<ContractDetailDataDTO.MOASData> moasData = new ArrayList<>();
-                if (moas != null) moas.stream().forEach(moasItem -> {
-                    Long materialElementId = Long.valueOf(moasItem.get("materialElement").toString());
-                    MaterialElement materialElement = materialElementDAO.findById(materialElementId).orElseThrow(() -> new NotFoundException(MaterialElement.class));
-                    moasItem.put("materialElement", modelMapper.map(materialElement, MaterialElementDTO.Info.class));
-                    moasData.add(objectMapper.convertValue(moasItem, ContractDetailDataDTO.MOASData.class));
-                });
-                contractDetailData.setMOAS(moasData);
-            } else {
-//                Locale locale = LocaleContextHolder.getLocale();
-                String message = messageSource.getMessage("foreign-invoice.contract.article.qp.not.found", null, locale);
-                throw new SalesException2(ErrorType.NotFound, "MOAS", message);
-            }
 
-            // TC
-            Map<String, List<Object>> tcs = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.TC, true);
-            if (tcs != null && tcs.size() != 0)
-                contractDetailData.setTc(new BigDecimal(tcs.get(EContractDetailValueKey.TC.name()).get(0).toString()));
-            else if (materialId == 3) {
-//                Locale locale = LocaleContextHolder.getLocale();
-                String message = messageSource.getMessage("foreign-invoice.contract.article.tc.not.found", null, locale);
-                throw new SalesException2(ErrorType.NotFound, "tc", message);
-            } else contractDetailData.setTc(null);
+            // Copper Cathode
+            if (materialId == 2) {
 
-            // RC
-            Map<String, List<Object>> operationalDataOfRCArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.RC, true);
-            if (operationalDataOfRCArticle.size() != 0) {
-                List<Map<String, Object>> rcs = (List<Map<String, Object>>) operationalDataOfRCArticle.get(EContractDetailValueKey.RC.getId()).get(0);
-                List<ContractDetailDataDTO.RCData> rcData = new ArrayList<>();
-                if (rcs != null) rcs.stream().forEach(rcItem -> {
-                    Long financeUnitId = Long.valueOf(rcItem.get("financeUnit").toString());
-                    Long weightUnitId = Long.valueOf(rcItem.get("weightUnit").toString());
-                    Long materialElementId = Long.valueOf(rcItem.get("materialElement").toString());
-                    Unit financeUnit = unitDAO.findById(financeUnitId).orElseThrow(() -> new NotFoundException(UnitDTO.class));
-                    Unit weightUnit = unitDAO.findById(weightUnitId).orElseThrow(() -> new NotFoundException(UnitDTO.class));
-                    MaterialElement materialElement = materialElementDAO.findById(materialElementId).orElseThrow(() -> new NotFoundException(MaterialElement.class));
-                    rcItem.put("financeUnit", modelMapper.map(financeUnit, UnitDTO.Info.class));
-                    rcItem.put("weightUnit", modelMapper.map(weightUnit, UnitDTO.Info.class));
-                    rcItem.put("materialElement", modelMapper.map(materialElement, MaterialElementDTO.Info.class));
-                    rcData.add(objectMapper.convertValue(rcItem, ContractDetailDataDTO.RCData.class));
-                });
-                contractDetailData.setRc(rcData);
+                // ---- PAYMENT ARTICLE
+                Map<String, List<Object>> moasOfPaymentArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Payment, EContractDetailValueKey.MOAS, true);
+                if (moasOfPaymentArticle.size() != 0) {
+
+                    List<Object> moas = moasOfPaymentArticle.get(EContractDetailValueKey.MOAS.getId());
+                    List<ContractDetailDataDTO.MOASData> moasData = new ArrayList<>();
+                    if (moas != null) moas.stream().forEach(moasItem -> {
+
+                        Map<String, Object> moasItems = (Map<String, Object>) moasItem;
+                        Long materialElementId = Long.valueOf(moasItems.get("materialElement").toString());
+                        MaterialElement materialElement = materialElementDAO.findById(materialElementId).orElseThrow(() -> new NotFoundException(MaterialElement.class));
+                        moasItems.put("materialElement", modelMapper.map(materialElement, MaterialElementDTO.Info.class));
+                        moasData.add(objectMapper.convertValue(moasItems, ContractDetailDataDTO.MOASData.class));
+                    });
+                    contractDetailData.setMOAS(moasData);
+                } else {
+                    String message = messageSource.getMessage("foreign-invoice.contract.article.payment.moas.not.found", null, locale);
+                    throw new SalesException2(ErrorType.NotFound, "MOAS", message);
+                }
+
+                // ---- PRICE ARTICLE
+                Map<String, List<Object>> premiumOfPriceArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.PREMIUM, true);
+                if (premiumOfPriceArticle.size() != 0) {
+
+                    List<Object> premium = premiumOfPriceArticle.get(EContractDetailValueKey.PREMIUM.getId());
+                    List<ContractDetailDataDTO.PREMIUMData> premiumData = new ArrayList<>();
+                    if (premium != null) premium.stream().forEach(premiumItem -> {
+
+                        Map<String, Object> premiumItems = (Map<String, Object>) premiumItem;
+                        Long incotermId = Long.valueOf(premiumItems.get("incoterm").toString());
+                        IncotermRule incotermRule = incotermRuleDAO.findById(incotermId).orElseThrow(() -> new NotFoundException(IncotermRule.class));
+                        premiumItems.put("incoterm", modelMapper.map(incotermRule, IncotermRuleDTO.Info.class));
+                        premiumData.add(objectMapper.convertValue(premiumItems, ContractDetailDataDTO.PREMIUMData.class));
+                    });
+                    contractDetailData.setPremium(premiumData);
+
+                } else {
+                    String message = messageSource.getMessage("foreign-invoice.contract.article.price.premium.not.found", null, locale);
+                    throw new SalesException2(ErrorType.NotFound, "PREMIUM", message);
+                }
+
+                // ---- INCOTERMS ARTICLE
+                Map<String, List<Object>> incotermOfIncotermsArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Incoterms, EContractDetailValueKey.INCOTERM, true);
+                if (incotermOfIncotermsArticle.size() != 0) {
+
+                    Object incoterms = incotermOfIncotermsArticle.get(EContractDetailValueKey.INCOTERM.getId()).get(0);
+                    Map<String, Object> incotermItem = (Map<String, Object>) incoterms;
+                    Long incotermId = Long.valueOf(incotermItem.get("incoterm").toString());
+                    Incoterm incoterm = incotermDAO.findById(incotermId).orElseThrow(() -> new NotFoundException(Incoterm.class));
+                    contractDetailData.setIncoterm(modelMapper.map(incoterm, IncotermDTO.Info.class));
+                } else {
+                    String message = messageSource.getMessage("foreign-invoice.contract.article.incoterms.incoterm.not.found", null, locale);
+                    throw new SalesException2(ErrorType.NotFound, "incoterms", message);
+                }
+
+                // ---- QuotationalPeriod Article Content
+                ContractDetailDTO.Info quotationalPeriodDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.QuotationalPeriod);
+                if (quotationalPeriodDetail != null) {
+                    contractDetailData.setQuotationalPeriodContent(quotationalPeriodDetail.getContent());
+                }
+                // ---- Price Article Content
+                ContractDetailDTO.Info priceDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.Price);
+                if (priceDetail != null) contractDetailData.setPriceContent(priceDetail.getContent());
+
+
             } else if (materialId == 3) {
-//                Locale locale = LocaleContextHolder.getLocale();
-                String message = messageSource.getMessage("foreign-invoice.contract.article.rc.not.found", null, locale);
-                throw new SalesException2(ErrorType.NotFound, "rc", message);
-            } else contractDetailData.setRc(null);
 
-            // INCOTERM
-            Map<String, List<Object>> incoterms = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Incoterms, EContractDetailValueKey.INCOTERM, true);
-            if (incoterms != null && incoterms.size() != 0)
-                contractDetailData.setIncoterm(modelMapper.map(incoterms.get(EContractDetailValueKey.INCOTERM.getId()).get(0), IncotermDTO.Info.class));
-            else {
-//                Locale locale = LocaleContextHolder.getLocale();
-                String message = messageSource.getMessage("foreign-invoice.contract.article.delTerms.not.found", null, locale);
-                throw new SalesException2(ErrorType.NotFound, "incoterms", message);
-            }
+                // MOAS
+                Map<String, List<Object>> operationalDataOfMOASArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
+                if (operationalDataOfMOASArticle.size() != 0) {
+//                List<Object> moas = operationalDataOfMOASArticle.get(EContractDetailValueKey.MOAS.getId());
+                    List<Map<String, Object>> moas = (List<Map<String, Object>>) operationalDataOfMOASArticle.get(EContractDetailValueKey.MOAS.getId()).get(0);
+                    List<ContractDetailDataDTO.MOASData> moasData = new ArrayList<>();
+                    if (moas != null) moas.stream().forEach(moasItem -> {
+                        Long materialElementId = Long.valueOf(moasItem.get("materialElement").toString());
+                        MaterialElement materialElement = materialElementDAO.findById(materialElementId).orElseThrow(() -> new NotFoundException(MaterialElement.class));
+                        moasItem.put("materialElement", modelMapper.map(materialElement, MaterialElementDTO.Info.class));
+                        moasData.add(objectMapper.convertValue(moasItem, ContractDetailDataDTO.MOASData.class));
+                    });
+                    contractDetailData.setMOAS(moasData);
+                } else {
+                    String message = messageSource.getMessage("foreign-invoice.contract.article.qp.not.found", null, locale);
+                    throw new SalesException2(ErrorType.NotFound, "MOAS", message);
+                }
 
-            // Discounts
-            Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
-            List<Object> discounts = operationalDataOfDiscountArticle.get(EContractDetailValueKey.DISCOUNT.getId());
-            List<ContractDiscountDTO.Info> discountData = new ArrayList<>();
-            if (discounts != null && discounts.size() != 0) {
-                discounts.forEach(discount -> discountData.add(modelMapper.map(discount, ContractDiscountDTO.Info.class)));
-                contractDetailData.setDiscount(discountData);
-            } else contractDetailData.setDiscount(null);
+                // TC
+                Map<String, List<Object>> tcs = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.TC, true);
+                if (tcs != null && tcs.size() != 0)
+                    contractDetailData.setTc(new BigDecimal(tcs.get(EContractDetailValueKey.TC.name()).get(0).toString()));
+                else {
+                    String message = messageSource.getMessage("foreign-invoice.contract.article.tc.not.found", null, locale);
+                    throw new SalesException2(ErrorType.NotFound, "tc", message);
+                }
+
+                // RC
+                Map<String, List<Object>> operationalDataOfRCArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.RC, true);
+                if (operationalDataOfRCArticle.size() != 0) {
+                    List<Map<String, Object>> rcs = (List<Map<String, Object>>) operationalDataOfRCArticle.get(EContractDetailValueKey.RC.getId()).get(0);
+                    List<ContractDetailDataDTO.RCData> rcData = new ArrayList<>();
+                    if (rcs != null) rcs.stream().forEach(rcItem -> {
+                        Long financeUnitId = Long.valueOf(rcItem.get("financeUnit").toString());
+                        Long weightUnitId = Long.valueOf(rcItem.get("weightUnit").toString());
+                        Long materialElementId = Long.valueOf(rcItem.get("materialElement").toString());
+                        Unit financeUnit = unitDAO.findById(financeUnitId).orElseThrow(() -> new NotFoundException(UnitDTO.class));
+                        Unit weightUnit = unitDAO.findById(weightUnitId).orElseThrow(() -> new NotFoundException(UnitDTO.class));
+                        MaterialElement materialElement = materialElementDAO.findById(materialElementId).orElseThrow(() -> new NotFoundException(MaterialElement.class));
+                        rcItem.put("financeUnit", modelMapper.map(financeUnit, UnitDTO.Info.class));
+                        rcItem.put("weightUnit", modelMapper.map(weightUnit, UnitDTO.Info.class));
+                        rcItem.put("materialElement", modelMapper.map(materialElement, MaterialElementDTO.Info.class));
+                        rcData.add(objectMapper.convertValue(rcItem, ContractDetailDataDTO.RCData.class));
+                    });
+                    contractDetailData.setRc(rcData);
+                } else {
+                    String message = messageSource.getMessage("foreign-invoice.contract.article.rc.not.found", null, locale);
+                    throw new SalesException2(ErrorType.NotFound, "rc", message);
+                }
+
+                // INCOTERM
+                Map<String, List<Object>> incoterms = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Incoterms, EContractDetailValueKey.INCOTERM, true);
+                if (incoterms != null && incoterms.size() != 0)
+                    contractDetailData.setIncoterm(modelMapper.map(incoterms.get(EContractDetailValueKey.INCOTERM.getId()).get(0), IncotermDTO.Info.class));
+                else {
+                    String message = messageSource.getMessage("foreign-invoice.contract.article.delTerms.not.found", null, locale);
+                    throw new SalesException2(ErrorType.NotFound, "incoterms", message);
+                }
+
+                // Discounts
+                Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
+                List<Object> discounts = operationalDataOfDiscountArticle.get(EContractDetailValueKey.DISCOUNT.getId());
+                List<ContractDiscountDTO.Info> discountData = new ArrayList<>();
+                if (discounts != null && discounts.size() != 0) {
+                    discounts.forEach(discount -> discountData.add(modelMapper.map(discount, ContractDiscountDTO.Info.class)));
+                    contractDetailData.setDiscount(discountData);
+                } else contractDetailData.setDiscount(null);
 
 
-            // Price Article Content
-            if (materialId != 2) {
+                // Price Article Content
                 ContractDetailDTO.Info priceDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.Price);
                 if (priceDetail != null) {
                     contractDetailData.setPriceContent(priceDetail.getContent());
                 }
-            } else contractDetailData.setPriceContent(null);
 
-            // QuotationalPeriod Article Content
-            ContractDetailDTO.Info quotationalPeriodDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.QuotationalPeriod);
-            if (quotationalPeriodDetail != null) {
-                contractDetailData.setQuotationalPeriodContent(quotationalPeriodDetail.getContent());
+
+                // QuotationalPeriod Article Content
+                ContractDetailDTO.Info quotationalPeriodDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.QuotationalPeriod);
+                if (quotationalPeriodDetail != null) {
+                    contractDetailData.setQuotationalPeriodContent(quotationalPeriodDetail.getContent());
+                }
             }
 
             return contractDetailData;
@@ -204,7 +274,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
 
     @Override
     @Transactional
-    @Action(value = ActionType.Update , authority = "hasAuthority('E_UPDATE_DELETED_FOREIGN_INVOICE')")
+    @Action(value = ActionType.Update, authority = "hasAuthority('E_UPDATE_DELETED_FOREIGN_INVOICE')")
     public void updateDeletedDocument(List<ForeignInvoiceDTO.Info> data) {
 
         AccountingDTO.DocumentStatusRq request = new AccountingDTO.DocumentStatusRq();

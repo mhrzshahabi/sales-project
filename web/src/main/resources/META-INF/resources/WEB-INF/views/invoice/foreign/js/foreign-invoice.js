@@ -1210,7 +1210,7 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     delete data.inspectionWeightId;
     delete data.inspectionAssayData;
     delete data.inspectionWeightData;
-    debugger
+
     console.log("populate data ", data);
     return data;
 };

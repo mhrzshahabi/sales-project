@@ -193,6 +193,12 @@ priceBaseTab.listGrid.fields = BaseFormItems.concat([
     {
         name: "price",
         title: "<spring:message code='priceBase.price'/>",
+        formatCellValue: function (value, record, rowNum, colNum) {
+            if (!value)
+                return value;
+
+            return value + "";
+        },
     }
 ]);
 
