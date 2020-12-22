@@ -1018,7 +1018,7 @@ contractTab.method.newForm = function () {
         }]
     });
     let affectUpTo = new Date();
-    affectUpTo.setYear(affectUpTo.getYear() + 1);
+    affectUpTo.setFullYear(affectUpTo.getFullYear() + 1);
     contractTab.dynamicForm.main.setValue("affectUpTo", affectUpTo);
     contractTab.window.main.setTitle("<spring:message code='contract.window.title.new'/>");
     contractTab.window.main.show();
@@ -1105,7 +1105,7 @@ contractTab.method.editForm = function () {
 };
 
 contractTab.method.setDisplayData = function(grid, isDynamicGrid) {
-debugger
+
     let data = clone(grid.getData());
     for (let i = 0; i < grid.fields.length; i++)
         if ((!isDynamicGrid && grid.fields[i].templateFieldName) || (isDynamicGrid && grid.fields[i].displayField))
