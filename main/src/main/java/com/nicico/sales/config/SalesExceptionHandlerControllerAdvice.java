@@ -144,7 +144,16 @@ ConstraintViolationImpl{
         }
         if (exception instanceof FeignException) {
             final Locale locale = LocaleContextHolder.getLocale();
-            String message = messageSource.getMessage("exception.file.notfound.in.minio", null, locale);
+            String message;
+            int status = ((FeignException) exception).status();
+            if (status > 299 && status < 400)
+                message = messageSource.getMessage("exception.in.minio3XX", null, locale);
+            else if (status > 399 && status < 500)
+                message = messageSource.getMessage("exception.in.minio" + ((FeignException) exception).status(), null, locale);
+            else if (status > 499 && status < 600)
+                message = messageSource.getMessage("exception.in.minio5XX", null, locale);
+            else
+                message = messageSource.getMessage("exception.in.minioNaN", null, locale);
             return new ResponseEntity<>(createErrorResponseDTO(new SalesException2(ErrorType.Unknown, null, message)), HttpStatus.NOT_FOUND);
         }
         final Locale locale = LocaleContextHolder.getLocale();
