@@ -116,6 +116,7 @@ contractTab.method.getDynamicFormFields = function () {
             width: "100%",
             filterOperator: 'equals',
             editorType: "SelectItem",
+            editorType: "SelectItem",
             optionDataSource: isc.MyRestDataSource.create({
                 fields: [
                     {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -1078,7 +1079,12 @@ contractTab.method.newForm = function () {
 };
 contractTab.method.editForm = function () {
 
-    let listGridRecord = clone(contractTab.listGrid.main.getSelectedRecord());
+    let listGridRecord = "";
+    if (!contractTab.listGrid.contractDetailType.templateMode)
+        listGridRecord = clone(contractTab.listGrid.main.getSelectedRecord());
+    else
+        listGridRecord = contractTab.listGrid.contractTemplate.getSelectedRecord();
+
     if (listGridRecord == null || listGridRecord.id == null)
         contractTab.dialog.notSelected();
     else if (listGridRecord.editable === false)
