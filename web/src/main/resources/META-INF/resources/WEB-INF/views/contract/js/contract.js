@@ -1077,11 +1077,11 @@ contractTab.method.newForm = function () {
 };
 contractTab.method.editForm = function () {
 
-    let listGridRecord = "";
+    let listGridRecord = null;
     if (!contractTab.listGrid.contractDetailType.templateMode)
         listGridRecord = clone(contractTab.listGrid.main.getSelectedRecord());
     else
-        listGridRecord = contractTab.listGrid.contractTemplate.getSelectedRecord();
+        listGridRecord = clone(contractTab.listGrid.contractTemplate.getSelectedRecord());
 
     if (listGridRecord == null || listGridRecord.id == null)
         contractTab.dialog.notSelected();
