@@ -1077,7 +1077,12 @@ contractTab.method.newForm = function () {
 };
 contractTab.method.editForm = function () {
 
-    let listGridRecord = clone(contractTab.listGrid.main.getSelectedRecord());
+    let listGridRecord = null;
+    if (!contractTab.listGrid.contractDetailType.templateMode)
+        listGridRecord = clone(contractTab.listGrid.main.getSelectedRecord());
+    else
+        listGridRecord = clone(contractTab.listGrid.contractTemplate.getSelectedRecord());
+
     if (listGridRecord == null || listGridRecord.id == null)
         contractTab.dialog.notSelected();
     else if (listGridRecord.editable === false)
@@ -1098,9 +1103,13 @@ contractTab.method.editForm = function () {
                 if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
 
                     let record = JSON.parse(resp.data);
+                    contractTab.variable.method = "PUT";
                     if (contractTab.variable.contractType === "1") {
-                        contractTab.variable.method = "PUT";
+
                         if (contractTab.listGrid.contractDetailType.templateMode) {
+
+                            contractTab.variable.method = "POST";
+                            listGridRecord.contractTypeId = 1;
                             contractTab.listGrid.contractDetailType.hide();
                             contractTab.listGrid.contractDetailType.setShowResizeBar(false);
                             contractTab.listGrid.contractDetailType.templateMode = null;
@@ -1108,9 +1117,6 @@ contractTab.method.editForm = function () {
                             contractTab.listGrid.contractDetailType.show();
                             contractTab.listGrid.contractDetailType.setShowResizeBar(true);
                         }
-                    } else {
-                        contractTab.variable.method = "POST";
-                        contractTab.dynamicForm.main.setValue("contractTypeId", 3);
                     }
 
                     contractTab.dynamicForm.main.editRecord(listGridRecord);
@@ -1156,7 +1162,7 @@ contractTab.method.editForm = function () {
     }
 };
 
-contractTab.method.setDisplayData = function(grid, isDynamicGrid) {
+contractTab.method.setDisplayData = function (grid, isDynamicGrid) {
 
     let data = clone(grid.getData());
     for (let i = 0; i < grid.fields.length; i++)
