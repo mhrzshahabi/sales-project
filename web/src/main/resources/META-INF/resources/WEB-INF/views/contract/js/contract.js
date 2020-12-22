@@ -116,7 +116,6 @@ contractTab.method.getDynamicFormFields = function () {
             width: "100%",
             filterOperator: 'equals',
             editorType: "SelectItem",
-            editorType: "SelectItem",
             optionDataSource: isc.MyRestDataSource.create({
                 fields: [
                     {name: "id", title: "id", primaryKey: true, hidden: true},
