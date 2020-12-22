@@ -1078,8 +1078,8 @@ contractTab.method.editForm = function () {
     }
 };
 
-contractTab.method.setDisplayData = function foo(grid, isDynamicGrid) {
-
+contractTab.method.setDisplayData = async function(grid, isDynamicGrid) {
+debugger
     let data = clone(grid.getData());
     for (let i = 0; i < grid.fields.length; i++)
         if ((!isDynamicGrid && grid.fields[i].templateFieldName) || (isDynamicGrid && grid.fields[i].displayField))
@@ -1423,6 +1423,9 @@ contractTab.method.createArticle = async function (data) {
 
     await contractTab.method.createArticleBody(sectionStackSectionObj);
 
+    sectionStackSectionObj.grids.forEach(grid => contractTab.dynamicForm.valuesManager.setValue(grid.name, contractTab.method.setDisplayData(grid, false)));
+    sectionStackSectionObj.dynamicGrids.forEach(dynamicGrid => contractTab.dynamicForm.valuesManager.setValue(dynamicGrid.name, contractTab.method.setDisplayData(dynamicGrid, true)));
+
     let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
     if (contractDetailTypeData && !(contractDetailTypeData instanceof Array))
         contractDetailTypeData = contractDetailTypeData.localData;
@@ -1447,7 +1450,7 @@ contractTab.method.createArticleBody = async function (sectionStackSectionObj) {
         sectionStackSectionObj.items.push(form);
     }
 
-    let grids = contractTab.method.createArticleBodyGrid(sectionStackSectionObj.data.contractDetailType, sectionStackSectionObj.data.contractDetail, sectionStackSectionObj.data.isNewMode);
+    let grids = await contractTab.method.createArticleBodyGrid(sectionStackSectionObj.data.contractDetailType, sectionStackSectionObj.data.contractDetail, sectionStackSectionObj.data.isNewMode);
     if (grids.length) {
 
         sectionStackSectionObj.grids = grids;
@@ -1561,7 +1564,7 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
         dynamicForm.clearValues();
     return fields.length ? dynamicForm : null;
 };
-contractTab.method.createArticleBodyGrid = function (contractDetailType, contractDetail, isNewMode) {
+contractTab.method.createArticleBodyGrid = async function (contractDetailType, contractDetail, isNewMode) {
 
     let target;
     let grids = [];
@@ -1586,7 +1589,7 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
     } else
         target = contractDetailType.contractDetailTypeParams.filter(param => param.type === contractTab.variable.dataType.ListOfReference);
 
-    target.forEach(param => {
+    await Promise.all(target.map(param => {
 
         let fields = getReferenceFields(param.reference);
         // let listGridFirstField = {name: null};
@@ -1631,9 +1634,9 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
             values: !isNewMode ? param.values : [],
             contractDetailId: !isNewMode ? param.contractDetailId : null,
             name: contractDetailType.code + "." + param.key,
-            dataChanged: function (operationType) {
+            dataChanged: async function (operationType) {
 
-                contractTab.dynamicForm.valuesManager.setValue(this.name, contractTab.method.setDisplayData(this, false));
+                contractTab.dynamicForm.valuesManager.setValue(this.name, await contractTab.method.setDisplayData(this, false));
                 this.Super("dataChanged", arguments);
             },
             gridComponents: ["header", "body",
@@ -1675,9 +1678,8 @@ contractTab.method.createArticleBodyGrid = function (contractDetailType, contrac
                 criteria: [{fieldName: "id", operator: "equals", value: grid.values.map(p => p.value)}]
             }, (dsResponse, data) => grid.setData(data));
 
-        contractTab.dynamicForm.valuesManager.setValue(grid.name, contractTab.method.setDisplayData(grid, false));
         grids.push(grid);
-    });
+    }));
 
     return grids;
 };
@@ -1769,9 +1771,9 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
             reference: !isNewMode ? param.reference : param.id,
             contractDetailId: !isNewMode ? param.contractDetailId : null,
             name: contractDetailType.code + "." + param.key,
-            dataChanged: function (operationType) {
+            dataChanged: async function (operationType) {
 
-                contractTab.dynamicForm.valuesManager.setValue(this.name, contractTab.method.setDisplayData(this, true));
+                contractTab.dynamicForm.valuesManager.setValue(this.name, await contractTab.method.setDisplayData(this, true));
                 this.Super("dataChanged", arguments);
             },
             gridComponents: ["header", "body",
@@ -1839,7 +1841,6 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
         if (!isNewMode)
             dynamicGrid.setData(await contractTab.method.createDynamicGridData(param.values, fields));
 
-        contractTab.dynamicForm.valuesManager.setValue(dynamicGrid.name, contractTab.method.setDisplayData(dynamicGrid, true));
         dynamicGrids.push(dynamicGrid);
     }));
 
