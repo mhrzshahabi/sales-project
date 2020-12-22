@@ -8,7 +8,6 @@ import com.nicico.sales.dto.invoice.foreign.ContractDetailDataDTO;
 import com.nicico.sales.iservice.IPriceBaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -16,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -64,12 +62,6 @@ public class PriceBaseRestController {
     public ResponseEntity<TotalResponse<PriceBaseDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(priceBaseService.search(nicicoCriteria), HttpStatus.OK);
-    }
-
-    @Loggable
-    @GetMapping(value = "/get-avg-base-price")
-    public ResponseEntity<List<PriceBaseDTO.Info>> getBasePrice(@RequestParam("contractId") Long contractId, @RequestParam("financeUnitId") Long financeUnitId, @RequestParam("sendDate") @DateTimeFormat(pattern = "MM/dd/yyyy") Date sendDate) {
-        return new ResponseEntity<>(priceBaseService.getAverageOfElementBasePrices(contractId, financeUnitId, sendDate), HttpStatus.OK);
     }
 
     @Loggable

@@ -67,7 +67,7 @@ contractTab.method.getDynamicFormFields = function () {
             title: "<spring:message code='contract.affect.upto'/>",
             type: "date",
             width: "10%",
-            required: true,
+            // required: true,
         },
         {
             useInGrid: true,
@@ -976,7 +976,6 @@ contractTab.menu.main.data.add({
 });
 contractTab.menu.main.initWidget();
 
-
 nicico.BasicFormUtil.showAllToolStripActions(contractTab);
 if (contractTab.variable.contractType === "1")
     nicico.BasicFormUtil.removeExtraActions(contractTab, [nicico.ActionType.ACTIVATE, nicico.ActionType.DEACTIVATE]);
@@ -996,7 +995,6 @@ else {
     nicico.BasicFormUtil.removeExtraActions(contractTab, actionTypeList);
 }
 
-
 //*************************************************** Functions ********************************************************
 
 contractTab.method.newForm = function () {
@@ -1012,6 +1010,9 @@ contractTab.method.newForm = function () {
             value: null
         }]
     });
+    let affectUpTo = new Date();
+    affectUpTo.setYear(affectUpTo.getYear() + 1);
+    contractTab.dynamicForm.main.setValue("affectUpTo", affectUpTo);
     contractTab.window.main.setTitle("<spring:message code='contract.window.title.new'/>");
     contractTab.window.main.show();
 };
@@ -1100,7 +1101,7 @@ contractTab.method.addArticle = async function (data) {
             contractDetailTemplate: data.template,
             contractDetailTypeId: data.contractDetailType.id,
             position: contractTab.sectionStack.contract.sections.length
-        }
+        };
     if (data.template == null) {
 
         if (data.contractDetailType.contractDetailTypeTemplates.length === 1) {
@@ -1770,7 +1771,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
             name: contractDetailType.code + "." + param.key,
             dataChanged: function (operationType) {
 
-                contractTab.dynamicForm.valuesManager.setValue(this.name, contractTab.method.setDisplayData(this, false));
+                contractTab.dynamicForm.valuesManager.setValue(this.name, contractTab.method.setDisplayData(this, true));
                 this.Super("dataChanged", arguments);
             },
             gridComponents: ["header", "body",
@@ -1838,7 +1839,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
         if (!isNewMode)
             dynamicGrid.setData(await contractTab.method.createDynamicGridData(param.values, fields));
 
-        contractTab.dynamicForm.valuesManager.setValue(dynamicGrid.name, contractTab.method.setDisplayData(dynamicGrid, false));
+        contractTab.dynamicForm.valuesManager.setValue(dynamicGrid.name, contractTab.method.setDisplayData(dynamicGrid, true));
         dynamicGrids.push(dynamicGrid);
     }));
 

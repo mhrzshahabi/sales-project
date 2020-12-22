@@ -1115,7 +1115,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         wrapTitle: false,
         type: "float",
         width: "400",
-        editorType: "staticText",
+        //editorType: "staticText",
         validators: [
             {
                 type: "required",
@@ -1129,7 +1129,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         wrapTitle: false,
         width: "400",
         type: "float",
-        editorType: "staticText",
+        //editorType: "staticText",
         validators: [
             {
                 type: "required",

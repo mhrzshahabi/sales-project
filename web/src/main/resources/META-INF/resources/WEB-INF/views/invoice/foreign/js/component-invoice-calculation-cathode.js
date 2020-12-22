@@ -25,9 +25,9 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
             width: "100%",
         });
 
-        let unitPriceArticleElement = isc.HTMLFlow.create({
-            width: "100%",
-        });
+        // let priceArticleElement = isc.HTMLFlow.create({
+        //     width: "100%",
+        // });
 
         this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
             shipment: This.shipment,
@@ -59,6 +59,7 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
                     priceBases.forEach(priceBase => {
 
                         This.addMember(isc.Unit.create({
+                            name: "unitPrice",
                             unitHint: "PER " + priceBase.weightUnit.nameEN,
                             unitCategory: priceBase.financeUnit.categoryUnit,
                             fieldValueTitle: priceBase.element.name,
@@ -66,7 +67,6 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
                             disabledValueField: false,
                             showValueFieldTitle: true,
                             showUnitFieldTitle: false,
-                            name: priceBase.element.name,
                             weightUnit: priceBase.weightUnit,
                             financeUnit: priceBase.financeUnit,
                             elementId: priceBase.elementId,
@@ -80,8 +80,11 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
                         }
                     });
 
-                    unitPriceArticleElement.setContents("<span style='display: block; text-align: left'>" + This.contractDetailData.quotationalPeriodContent + "</span>");
-                    This.addMember(unitPriceArticleElement);
+                    QPArticleElement.setContents("<span style='display: block; text-align: left'>" + This.contractDetailData.quotationalPeriodContent + "</span>");
+                    This.addMember(QPArticleElement);
+
+                    // priceArticleElement.setContents("<span style='display: block; text-align: left'>" + This.contractDetailData.priceContent + "</span>");
+                    // This.addMember(priceArticleElement);
 
                     This.addMember(isc.HTMLFlow.create({
                         width: "100%",
@@ -127,9 +130,14 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
         if (!this.invoiceBaseWeightComponent.validate())
             isValid = false;
 
-        this.getMembers()[2].validate();
-        if (this.getMembers()[2].hasErrors())
-            isValid = false;
+        this.getMembers().filter(q => q.name === "unitPrice").forEach(member => {
+            member.validate();
+            if (member.hasErrors())
+                isValid = false;
+        });
+
+        if (!isValid)
+            isc.warn("<spring:message code='global.message.data.not.complete'/>");
 
         return isValid;
     },
