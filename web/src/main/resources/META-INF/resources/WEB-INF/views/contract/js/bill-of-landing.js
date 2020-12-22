@@ -1279,7 +1279,7 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
             pickListFields: [
                 {
                     name: "contractShipment.contract.no",
-                    title: "<spring:message code='contact.code'/>"
+                    title: "<spring:message code='contract.contractNo'/>"
 
                 },
                 {
