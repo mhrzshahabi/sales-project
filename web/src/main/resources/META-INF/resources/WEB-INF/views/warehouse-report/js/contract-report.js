@@ -392,7 +392,7 @@ const crTab = {
                         message: '<spring:message code="global.grid.record.not.selected"/> ',
                         icon: "[SKIN]warn.png",
                         title: '<spring:message code="global.message"/> ',
-                        buttons: [isc.IButtonSave.create({title: "<spring:message code='global.ok'/>"})],
+                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                         buttonClick: function (button, post) {
                             this.close();
                         }
