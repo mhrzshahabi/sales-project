@@ -813,6 +813,7 @@ contractTab.variable.contractPreviewForm.init(null, "<spring:message code='contr
     })
 ], "50%", 0.7 * innerHeight);
 
+
 nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creator) => {
     contractTab.window.main = isc.Window.nicico.getDefault(null, [
         contractTab.dynamicForm.main,
@@ -894,34 +895,57 @@ if (contractTab.variable.contractType === "1") {
         title: "<spring:message code='contract.appendix'/>",
         click: function () {
 
+            let record = contractTab.listGrid.main.getSelectedRecord();
+            if (record == null || record.id == null)
+                contractTab.dialog.notSelected();
+            else {
+                if (record.estatus.contains(Enums.eStatus2.Final) && record.estatus.contains(Enums.eStatus2.Active)) {
+
+                    contractTab.listGrid.contractDetailType.appendixMode = true;
+                    contractTab.method.editForm();
+                } else
+                    contractTab.dialog.say('<spring:message code="global.grid.record.can.not.disapprove"/>');
+            }
         }
     }), 8);
     contractTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         icon: "[SKIN]/actions/filter.png",
         title: "<spring:message code='contract.addendum.title'/>",
         click: function () {
+
             let contract = contractTab.listGrid.main.getSelectedRecord();
             if (!contract) return contractTab.dialog.notSelected();
-            let criteria = contract.parentId ? contract.parentId : contract.id;
-            contractTab.listGrid.main.setCriteria({
-                _constructor: "AdvancedCriteria",
-                operator: "or",
-                criteria:
-                    [
-                        {
-                            fieldName: "id",
-                            operator: "equals",
-                            value: criteria
-                        },
-                        {
-                            fieldName: "parentId",
-                            operator: "equals",
-                            value: criteria
-                        },
+            let crt = contract.parentId ? contract.parentId : contract.id;
 
-                    ]
-            });
-            contractTab.listGrid.main.invalidateCache()
+            let criteria = {
+                operator: 'and',
+                _constructor: "AdvancedCriteria",
+                criteria: [
+                    {
+                        fieldName: 'contractTypeId',
+                        operator: 'notEqual',
+                        value: 3
+                    },
+                    {
+                        operator: 'or',
+                        _constructor: "AdvancedCriteria",
+                        criteria: [
+                            {
+                                fieldName: 'id',
+                                operator: 'equals',
+                                value: crt
+                            },
+                            {
+                                fieldName: 'parentId',
+                                operator: 'equals',
+                                value: crt
+                            },
+                        ]
+                    }
+                ]
+            };
+            contractTab.listGrid.main.setCriteria(criteria);
+            contractTab.listGrid.main.invalidateCache();
         }
     }), 9);
 }
@@ -1035,13 +1059,14 @@ contractTab.method.editForm = function () {
                         }
                     } else {
                         contractTab.variable.method = "POST";
-                        contractTab.dynamicForm.main.setValue("contractTypeId", 1);
+                        contractTab.dynamicForm.main.setValue("contractTypeId", 3);
                     }
 
                     contractTab.dynamicForm.main.editRecord(listGridRecord);
                     contractTab.dynamicForm.main.setValue("date", new Date(listGridRecord.date));
                     contractTab.dynamicForm.main.setValue("affectFrom", new Date(listGridRecord.affectFrom));
                     contractTab.dynamicForm.main.setValue("affectUpTo", new Date(listGridRecord.affectUpTo));
+
 
                     contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
 
@@ -1058,13 +1083,19 @@ contractTab.method.editForm = function () {
                             operator: 'notEqual',
                             value: Enums.eStatus2.DeActive
                         }]
-                    }, () => record.contractDetails.sortByProperty('position').reverse().forEach(contractDetail => contractTab.method.addArticle({
-                        isNewMode: false,
-                        contractDetail: contractDetail,
-                        position: contractDetail.position,
-                        template: contractDetail.contractDetailTemplate,
-                        contractDetailType: contractDetail.contractDetailType
-                    })));
+                    }, () => {
+
+                        if (!contractTab.listGrid.contractDetailType.appendixMode)
+                            record.contractDetails.sortByProperty('position').reverse().forEach(contractDetail => contractTab.method.addArticle({
+                                isNewMode: false,
+                                contractDetail: contractDetail,
+                                position: contractDetail.position,
+                                template: contractDetail.contractDetailTemplate,
+                                contractDetailType: contractDetail.contractDetailType
+                            }));
+
+                        contractTab.listGrid.contractDetailType.appendixMode = null;
+                    });
 
                     contractTab.window.main.setTitle("<spring:message code='contract.window.title.edit'/>" + "\t" + listGridRecord.material.descEN);
                     contractTab.window.main.show();
