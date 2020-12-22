@@ -262,9 +262,32 @@ nicico.BasicFormUtil.createDynamicForm = function (creator) {
 };
 nicico.BasicFormUtil.createListGrid = function (creator) {
 
-    creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria, {
-        sortField: 'no',
-        initialCriteria: {
+    let criteria = "";
+    if (contractTab.variable.contractType === "1")
+        criteria = {
+            operator: 'and',
+            _constructor: "AdvancedCriteria",
+            criteria: [
+                {
+                    operator: 'or',
+                    _constructor: "AdvancedCriteria",
+                    criteria: [
+                        {
+                            fieldName: 'contractTypeId',
+                            operator: 'equals',
+                            value: 1
+                        },
+                        {
+                            fieldName: 'contractTypeId',
+                            operator: 'equals',
+                            value: 2
+                        },
+                    ]
+                }
+            ]
+        };
+    else
+        criteria = {
             _constructor: "AdvancedCriteria",
             operator: "and",
             criteria: [
@@ -274,6 +297,15 @@ nicico.BasicFormUtil.createListGrid = function (creator) {
                     value: contractTab.variable.contractType
                 }
             ]
+        };
+    creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria, {
+        sortField: 'no',
+        initialCriteria: criteria,
+        getCellCSSText: function (record, rowNum, colNum) {
+            if (record.parentId) {
+                return "font-weight:bold; color:#287fd6;";
+            }
+            return this.Super('getCellCSSText', arguments)
         }
     });
 };
@@ -677,6 +709,7 @@ contractTab.button.saveButton = isc.IButtonSave.create({
             if (contractDetailValue.type === contractTab.variable.dataType.DynamicTable)
                 contractDetailValue.value = Math.abs(contractDetailValue.value);
         }));
+        
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: contractTab.variable.contractUrl,
             httpMethod: contractTab.variable.method,
@@ -897,14 +930,15 @@ if (contractTab.variable.contractType === "1") {
             let record = contractTab.listGrid.main.getSelectedRecord();
             if (record == null || record.id == null)
                 contractTab.dialog.notSelected();
-            else {
-                if (record.estatus.contains(Enums.eStatus2.Final) && record.estatus.contains(Enums.eStatus2.Active)) {
+            else if (record.estatus.contains(Enums.eStatus2.Final) && record.estatus.contains(Enums.eStatus2.Active)) {
 
+                if (!record.parentId) {
                     contractTab.listGrid.contractDetailType.appendixMode = true;
                     contractTab.method.editForm();
                 } else
-                    contractTab.dialog.say('<spring:message code="global.grid.record.can.not.disapprove"/>');
-            }
+                    contractTab.dialog.say('<spring:message code="contract.is.appendix"/>');
+            } else
+                contractTab.dialog.say('<spring:message code="global.grid.record.can.not.disapprove"/>');
         }
     }), 8);
     contractTab.toolStrip.main.addMember(isc.ToolStripButton.create({
@@ -947,23 +981,41 @@ if (contractTab.variable.contractType === "1") {
             contractTab.listGrid.main.invalidateCache();
         }
     }), 9);
-}
-// <sec:authorize access="hasAuthority('P_CONTRACT')">
-contractTab.toolStrip.main.addMember(isc.ToolStripButton.create({
-    icon: "[SKIN]/actions/print.png",
-    title: "<spring:message code='global.form.print'/>",
-    click: function () {
-        let record = contractTab.listGrid.main.getSelectedRecord();
-        if (record == null || record.id == null)
-            contractTab.dialog.notSelected();
-        else {
-            contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).setContents(!record.content ? "" : record.content);
-            contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).redraw();
-            contractTab.variable.contractPreviewForm.justShowForm();
+    // <sec:authorize access="hasAuthority('P_CONTRACT')">
+    contractTab.toolStrip.main.addMember(isc.ToolStripButton.create({
+        icon: "[SKIN]/actions/print.png",
+        title: "<spring:message code='global.form.print'/>",
+        click: function () {
+            let record = contractTab.listGrid.main.getSelectedRecord();
+            if (record == null || record.id == null)
+                contractTab.dialog.notSelected();
+            else {
+                contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).setContents(!record.content ? "" : record.content);
+                contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).redraw();
+                contractTab.variable.contractPreviewForm.justShowForm();
+            }
         }
-    }
-}), 10);
-// </sec:authorize>
+    }), 10);
+    // </sec:authorize>
+} else {
+
+    // <sec:authorize access="hasAuthority('P_CONTRACT')">
+    contractTab.toolStrip.main.addMember(isc.ToolStripButton.create({
+        icon: "[SKIN]/actions/print.png",
+        title: "<spring:message code='global.form.print'/>",
+        click: function () {
+            let record = contractTab.listGrid.main.getSelectedRecord();
+            if (record == null || record.id == null)
+                contractTab.dialog.notSelected();
+            else {
+                contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).setContents(!record.content ? "" : record.content);
+                contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).redraw();
+                contractTab.variable.contractPreviewForm.justShowForm();
+            }
+        }
+    }), 7);
+    // </sec:authorize>
+}
 
 contractTab.menu.main.data.add({
     icon: "[SKIN]/actions/print.png",
