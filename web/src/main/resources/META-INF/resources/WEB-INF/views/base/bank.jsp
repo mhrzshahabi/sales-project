@@ -135,11 +135,11 @@
                     icon: "[SKIN]ask.png",
                     title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                     buttons: [
-                        isc.IButtonSave.create(
+                        isc.Button.create(
                             {
                                 title: "<spring:message code='global.yes'/>"
                             }),
-                        isc.IButtonCancel.create(
+                        isc.Button.create(
                             {
                                 title: "<spring:message code='global.no'/>"
                             })
