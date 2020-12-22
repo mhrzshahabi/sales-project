@@ -821,24 +821,9 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
     ], "85%", 0.90 * innerHeight);
 });
 
-// <sec:authorize access="hasAuthority('P_CONTRACT')">
-contractTab.toolStrip.main.addMember(isc.ToolStripButton.create({
-    icon: "[SKIN]/actions/print.png",
-    title: "<spring:message code='global.form.print'/>",
-    click: function () {
-        let record = contractTab.listGrid.main.getSelectedRecord();
-        if (record == null || record.id == null)
-            contractTab.dialog.notSelected();
-        else {
-            contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).setContents(!record.content ? "" : record.content);
-            contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).redraw();
-            contractTab.variable.contractPreviewForm.justShowForm();
-        }
-    }
-}), 3);
-// </sec:authorize>
-// <sec:authorize access="hasAuthority('CO_CONTRACT_TEMPLATE')">
-if (contractTab.variable.contractType === "1")
+if (contractTab.variable.contractType === "1") {
+
+    // <sec:authorize access="hasAuthority('CO_CONTRACT_TEMPLATE')">
     contractTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         icon: "pieces/512/draft.png",
         title: "<spring:message code='contract.copy.contract-template'/>",
@@ -902,8 +887,61 @@ if (contractTab.variable.contractType === "1")
             };
             contractTab.variable.contractTemplateForm.showForm(null, "<spring:message code='entity.contract-template'/>", contractTab.listGrid.contractTemplate, null, "300");
         }
-    }), 4);
+    }), 7);
+    // </sec:authorize>
+    contractTab.toolStrip.main.addMember(isc.ToolStripButton.create({
+        icon: "pieces/16/paperclip.png",
+        title: "<spring:message code='contract.appendix'/>",
+        click: function () {
+
+        }
+    }), 8);
+    contractTab.toolStrip.main.addMember(isc.ToolStripButton.create({
+        icon: "[SKIN]/actions/filter.png",
+        title: "<spring:message code='contract.addendum.title'/>",
+        click: function () {
+            let contract = contractTab.listGrid.main.getSelectedRecord();
+            if (!contract) return contractTab.dialog.notSelected();
+            let criteria = contract.parentId ? contract.parentId : contract.id;
+            contractTab.listGrid.main.setCriteria({
+                _constructor: "AdvancedCriteria",
+                operator: "or",
+                criteria:
+                    [
+                        {
+                            fieldName: "id",
+                            operator: "equals",
+                            value: criteria
+                        },
+                        {
+                            fieldName: "parentId",
+                            operator: "equals",
+                            value: criteria
+                        },
+
+                    ]
+            });
+            contractTab.listGrid.main.invalidateCache()
+        }
+    }), 9);
+}
+// <sec:authorize access="hasAuthority('P_CONTRACT')">
+contractTab.toolStrip.main.addMember(isc.ToolStripButton.create({
+    icon: "[SKIN]/actions/print.png",
+    title: "<spring:message code='global.form.print'/>",
+    click: function () {
+        let record = contractTab.listGrid.main.getSelectedRecord();
+        if (record == null || record.id == null)
+            contractTab.dialog.notSelected();
+        else {
+            contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).setContents(!record.content ? "" : record.content);
+            contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).redraw();
+            contractTab.variable.contractPreviewForm.justShowForm();
+        }
+    }
+}), 10);
 // </sec:authorize>
+
 contractTab.menu.main.data.add({
     icon: "[SKIN]/actions/print.png",
     title: '<spring:message code="global.form.print"/>',
