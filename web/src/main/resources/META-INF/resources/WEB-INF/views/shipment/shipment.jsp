@@ -499,7 +499,6 @@
                 width: "100%",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_pickShipmentItem,
-                displayField: "sendDate",
                 valueField: "id",
                 pickListHeight: "500",
                 autoFetchData: false,
@@ -512,6 +511,12 @@
                     let d = new Date(item.getSelectedRecord().sendDate);
                     DynamicForm_Shipment.setValue("sendDate", d);
                     DynamicForm_Shipment.setValue("loadPortId", item.getSelectedRecord().loadPortId);
+                },
+                mapValueToDisplay: function (value) {
+                    if (!value) return;
+                    let selectedRecord = this.getSelectedRecord();
+                    if (!selectedRecord) return '';
+                    return selectedRecord.loadPort.port + "&nbsp&nbsp&nbsp(" + selectedRecord.sendDate + ")&nbsp";
                 }
             },
             {
@@ -987,7 +992,8 @@
             Window_Shipment.animateShow();
             DynamicForm_Shipment.getItem("contractShipmentId").hide();
             DynamicForm_Shipment.getItem("shipmentSendDate").show();
-            DynamicForm_Shipment.getItem("shipmentSendDate").setValue(ListGrid_Shipment.getSelectedRecord().contractShipment.sendDate);
+            let displayValue = ListGrid_Shipment.getSelectedRecord().contractShipment.loadPort.port + "&nbsp&nbsp&nbsp(" + ListGrid_Shipment.getSelectedRecord().contractShipment.sendDate + ")&nbsp";
+            DynamicForm_Shipment.getItem("shipmentSendDate").setValue(displayValue);
         }
     }
 

@@ -98,7 +98,7 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
                     <td class="table-td-value">` +
                         This.billLadings.map(bl => {
                             result = "<div>" + bl.oceanVessel.name + "</div>";
-                            result += "<div>B/L NO: " + bl.documentNo;
+                            result += "<div>B/L NO./ DATE: " + bl.documentNo + " DATED " + DateUtil.format(bl.dateOfIssue, "dd MM YYYY");
                             if (bl.switchDocumentNo)
                                 result += " & SW B/L NO: " + bl.switchDocumentNo + " - DATED " + DateUtil.format(bl.dateOfIssue, "dd MM YYYY");
                             result += "</div>";

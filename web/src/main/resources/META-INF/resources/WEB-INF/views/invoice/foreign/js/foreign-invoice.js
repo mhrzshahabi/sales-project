@@ -1023,7 +1023,7 @@ foreignInvoiceTab.button.selectBillLading = isc.IButtonSave.create({
                 {name: "shipperExporter.nameEN", title: "<spring:message code='billOfLanding.shipper.exporter'/>"},
                 {name: "notifyParty.nameEN", title: "<spring:message code='billOfLanding.notify.party'/>"},
                 {name: "consignee.nameEN", title: "<spring:message code='billOfLanding.consignee'/>"},
-                {name: "portOfLoading.port", title: "<spring:message code='billOfLanding.port.of.landing'/>"},
+                {name: "portOfLoading.port", title: "<spring:message code='billOfLanding.port.of.loading'/>"},
                 {name: "portOfDischarge.port", title: "<spring:message code='billOfLanding.port.of.discharge'/>"},
                 {name: "placeOfDelivery", title: "<spring:message code='billOfLanding.place.of.delivery'/>"},
                 {name: "oceanVessel.name", title: "<spring:message code='billOfLanding.ocean.vessel'/>"},
@@ -1091,6 +1091,7 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
 
     let invoicePaymentComponent = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoicePayment.Class).first();
     if (!invoicePaymentComponent) return null;
+    else invoicePaymentComponent.pane.members.filter(q => q.name === "finalPriceButton").first().click();
     let data = foreignInvoiceTab.dynamicForm.valuesManager.getValues();
     let inspectionWeightData = foreignInvoiceTab.dynamicForm.valuesManager.getValue('inspectionWeightData');
     let inspectionAssayData = foreignInvoiceTab.dynamicForm.valuesManager.getValue('inspectionAssayData');
@@ -1210,7 +1211,7 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     delete data.inspectionWeightId;
     delete data.inspectionAssayData;
     delete data.inspectionWeightData;
-    debugger
+
     console.log("populate data ", data);
     return data;
 };
