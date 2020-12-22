@@ -1104,7 +1104,7 @@ contractTab.method.editForm = function () {
     }
 };
 
-contractTab.method.setDisplayData = async function(grid, isDynamicGrid) {
+contractTab.method.setDisplayData = function(grid, isDynamicGrid) {
 debugger
     let data = clone(grid.getData());
     for (let i = 0; i < grid.fields.length; i++)
