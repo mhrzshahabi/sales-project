@@ -133,7 +133,7 @@ contractTab.method.getDynamicFormFields = function () {
             required: true,
             hidden: true,
             title: "<spring:message code='entity.contract-type'/>",
-            value: Number(contractTab.variable.contractType)
+            defaultValue: Number(contractTab.variable.contractType)
         },
         Object.assign(getContactFieldByType("buyer"), {
             useInGrid: true,
@@ -709,7 +709,7 @@ contractTab.button.saveButton = isc.IButtonSave.create({
             if (contractDetailValue.type === contractTab.variable.dataType.DynamicTable)
                 contractDetailValue.value = Math.abs(contractDetailValue.value);
         }));
-        
+
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: contractTab.variable.contractUrl,
             httpMethod: contractTab.variable.method,
