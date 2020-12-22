@@ -1113,10 +1113,22 @@ contractTab.method.editForm = function () {
                             contractTab.listGrid.contractDetailType.hide();
                             contractTab.listGrid.contractDetailType.setShowResizeBar(false);
                             contractTab.listGrid.contractDetailType.templateMode = null;
+
+                        } else if (contractTab.listGrid.contractDetailType.appendixMode) {
+
+                            contractTab.variable.method = "POST";
+                            listGridRecord.contractTypeId = 2;
+                            listGridRecord.parentId = listGridRecord.id;
+                            contractTab.listGrid.contractDetailType.show();
+                            contractTab.listGrid.contractDetailType.setShowResizeBar(true);
+                            contractTab.button.saveButton.show();
+
                         } else {
+
                             contractTab.listGrid.contractDetailType.show();
                             contractTab.listGrid.contractDetailType.setShowResizeBar(true);
                         }
+
                     }
 
                     contractTab.dynamicForm.main.editRecord(listGridRecord);
@@ -1278,7 +1290,7 @@ contractTab.method.createArticle = async function (data) {
                 let field = Object.keys(values).filter(key => !contractTab.dynamicForm.main.getField(key))[i];
                 template = template.replace(
                     new RegExp("\\\${" + field + "_IN_CHARACTER}", "g"),
-                    numberToEnglish(values[field])
+                    () => numberToEnglish(values[field])
                 );
                 template = template.replace(
                     new RegExp("\\\${" + field + "}", "g"),
@@ -1301,23 +1313,23 @@ contractTab.method.createArticle = async function (data) {
                     if (field.unitId)
                         template = template.replace(
                             new RegExp("\\\${_" + field.unitId + "}", "g"),
-                            this.form.getField(field.name).getHint()
+                            () => this.form.getField(field.name).getHint()
                         );
 
                     template = template.replace(
                         new RegExp("\\\${" + field.key + "_IN_CHARACTER}", "g"),
-                        numberToEnglish(this.form.getValue(field.name))
+                        () => numberToEnglish(this.form.getValue(field.name))
                     );
 
                     if (field.paramType === contractTab.variable.dataType.Reference)
                         template = template.replace(
                             new RegExp("\\\${" + field.key + "}", "g"),
-                            this.form.getField(field.name).getDisplayValue()
+                            () => this.form.getField(field.name).getDisplayValue()
                         );
 
                     template = template.replace(
                         new RegExp("\\\${" + field.key + "}", "g"),
-                        this.form.getValue(field.name)
+                        () => this.form.getValue(field.name)
                     );
                 }
 
