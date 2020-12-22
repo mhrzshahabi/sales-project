@@ -2373,8 +2373,6 @@ nicico.BasicFormUtil.createListGrid = function () {
             autoFetchData: true,
             styleName: 'expandList',
             alternateRecordStyles: true,
-            canExpandRecords: true,
-            canExpandMultipleRecords: false,
             wrapCells: false,
             showRollOver: false,
             showRecordComponents: true,
