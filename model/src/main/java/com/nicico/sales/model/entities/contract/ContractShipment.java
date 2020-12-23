@@ -51,7 +51,7 @@ public class ContractShipment extends BaseEntity {
     private Date sendDate;
 
     @Column(name = "TOLORANCE")
-    private Long tolorance;
+    private Double tolerance;
 
     @Column(name = "N_PARENT_ID")
     private Long parentId;

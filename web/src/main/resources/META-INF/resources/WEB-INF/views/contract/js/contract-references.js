@@ -82,16 +82,14 @@ function getReferenceFields(referenceType) {
                     }],
                 },
                 {
-                    name: "tolorance",
-                    title: "<spring:message code='contractItemShipment.tolorance'/>",
-                    keyPressFilter: "[0-9.]",
+                    name: "tolerance",
+                    title: "<spring:message code='contractItemShipment.tolerance'/>",
                     width: "100%",
                     align: "center",
                     validators: [
                         {
-                            type: "isInteger",
+                            type: "isFloat",
                             validateOnChange: true,
-                            keyPressFilter: "[0-9.]"
                         }],
                 },
                 {

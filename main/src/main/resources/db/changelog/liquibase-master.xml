@@ -125,6 +125,7 @@
     <include file="classpath:/db/changelog/changes/tbl-cntr-contract-detail-type-param-2.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_dcc.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_cntr_cdtp_dynamic_table2.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_contract_shipment.xml"/>
     <!-- CHANGES -->
 
 </databaseChangeLog>

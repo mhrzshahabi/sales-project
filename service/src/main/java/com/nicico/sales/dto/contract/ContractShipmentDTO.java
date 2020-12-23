@@ -29,7 +29,7 @@ public class ContractShipmentDTO {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date automationDate;
-    private Long tolorance;
+    private Double tolerance;
     private Long contractId;
     private Long parentId;
 

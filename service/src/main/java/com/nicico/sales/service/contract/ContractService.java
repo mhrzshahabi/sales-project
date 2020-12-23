@@ -290,7 +290,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 //                        kal.setTime(csfa.getSendDate());
 //                        if (found[0]) continue;
 //                        final Long addendumId = csfa.getContractId();
-//                        if (!addendumId.equals(contractIdMain) && csfa.getLoadPortId().equals(csws.getLoadPortId()) && csfa.getTolorance().equals(csws.getTolorance()) && csfa.getQuantity().equals(csws.getQuantity()) && kal.get(Calendar.YEAR) == cal.get(Calendar.YEAR) && kal.get(Calendar.DAY_OF_YEAR) == cal.get(Calendar.DAY_OF_YEAR)) {
+//                        if (!addendumId.equals(contractIdMain) && csfa.getLoadPortId().equals(csws.getLoadPortId()) && csfa.getTolerance().equals(csws.getTolerance()) && csfa.getQuantity().equals(csws.getQuantity()) && kal.get(Calendar.YEAR) == cal.get(Calendar.YEAR) && kal.get(Calendar.DAY_OF_YEAR) == cal.get(Calendar.DAY_OF_YEAR)) {
 //                            found[0] = true;
 //                            if (csfa.getParentId() == null || csfa.getParentId().equals(csws.getParentId()))
 //                                csfa.setParentId(csws.getId());
@@ -579,7 +579,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 //                final ContractShipment contractShipmentFromController = contractShipments.stream().filter(contractShipment -> contractShipment.getId().equals(ocs.getId()) || contractShipment.getParentId().equals(ocs.getId())).findAny().orElseThrow(() -> new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("shipment.was.sent", null, locale)));
 //                cal.setTime(contractShipmentFromController.getSendDate());
 //                kal.setTime(ocs.getSendDate());
-//                return !contractShipmentFromController.getLoadPortId().equals(ocs.getLoadPortId()) || !contractShipmentFromController.getQuantity().equals(ocs.getQuantity()) || !contractShipmentFromController.getTolorance().equals(ocs.getTolorance()) || cal.get(Calendar.YEAR) != kal.get(Calendar.YEAR) || cal.get(Calendar.DAY_OF_YEAR) != kal.get(Calendar.DAY_OF_YEAR)
+//                return !contractShipmentFromController.getLoadPortId().equals(ocs.getLoadPortId()) || !contractShipmentFromController.getQuantity().equals(ocs.getQuantity()) || !contractShipmentFromController.getTolerance().equals(ocs.getTolerance()) || cal.get(Calendar.YEAR) != kal.get(Calendar.YEAR) || cal.get(Calendar.DAY_OF_YEAR) != kal.get(Calendar.DAY_OF_YEAR)
 //                        //|| contractShipmentFromController.getParentId() != null
 //                        ;
 //            }).collect(Collectors.toList());
