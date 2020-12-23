@@ -369,6 +369,24 @@ var nicico;
                     return prev ? prev[curr] : null;
                 }, obj || self);
             };
+            // @ts-ignore
+            String.prototype.propertyNameToCamelCaseWithSpace = function () {
+                var res = '';
+                this
+                    .replace(/\.(.)/g, function ($1) {
+                    return $1.toUpperCase();
+                })
+                    .replace(/\./g, ' ')
+                    .replace(/^(.)/, function ($1) {
+                    return $1.toUpperCase();
+                })
+                    .split('').forEach(function (l) {
+                    if (l == l.toUpperCase())
+                        res += ' ';
+                    res += l;
+                });
+                return res.replace(/  /g, ' ');
+            };
         }
         return CommonUtil;
     }());

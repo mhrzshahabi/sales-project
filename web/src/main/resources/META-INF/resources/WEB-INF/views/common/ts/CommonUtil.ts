@@ -125,7 +125,7 @@ namespace nicico {
             isc.MyRestDataSource.nicico = {};
             // @ts-ignore
             isc.MyRestDataSource.nicico.getDefault = function (fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>, transformRequest: any = null): isc.MyRestDataSource {
-            // @ts-ignore
+                // @ts-ignore
                 let restDataSourceProperties: Partial<isc.MyRestDataSource> = {};
 
                 restDataSourceProperties.jsonPrefix = "";
@@ -134,7 +134,7 @@ namespace nicico {
                 if (transformRequest != null)
                     restDataSourceProperties.transformRequest = transformRequest;
                 else
-                // @ts-ignore
+                    // @ts-ignore
                     restDataSourceProperties.transformRequest = function (dsRequest) {
 
                         // @ts-ignore
@@ -177,10 +177,10 @@ namespace nicico {
                 } else
                     formItemProperties.requiredWhen = <Criteria>required;
                 if (readonly instanceof Boolean)
-                // @ts-ignore
+                    // @ts-ignore
                     formItemProperties.readonly = <boolean>readonly;
                 else
-                // @ts-ignore
+                    // @ts-ignore
                     formItemProperties.readonlyWhen = <Criteria>readonly;
                 formItemProperties.validators = validators;
 
@@ -452,6 +452,26 @@ namespace nicico {
                     return prev ? prev[curr] : null
                 }, obj || self)
             };
+
+            // @ts-ignore
+            String.prototype.propertyNameToCamelCaseWithSpace = function () {
+
+                let res = '';
+                this
+                    .replace(/\.(.)/g, function ($1) {
+                        return $1.toUpperCase();
+                    })
+                    .replace(/\./g, ' ')
+                    .replace(/^(.)/, function ($1) {
+                        return $1.toUpperCase();
+                    })
+                    .split('').forEach(l => {
+                        if (l == l.toUpperCase()) res += ' ';
+                            res += l;
+                    });
+
+                return res.replace(/  /g, ' ');
+            }
         }
     }
 

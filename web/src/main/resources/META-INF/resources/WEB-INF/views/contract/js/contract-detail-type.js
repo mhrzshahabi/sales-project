@@ -219,6 +219,7 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
         title: "<spring:message code='global.headerType'/>",
         async editorExit(editCompletionEvent, record, newValue, rowNum, colNum) {
 
+            if (!newValue) newValue = record.headerType;
             if (!newValue) return true;
             let grid = contractDetailTypeTab.listGrid.dynamicTable;
             grid.setEditValue(rowNum, colNum + 1, '')
@@ -243,13 +244,17 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
 
                     if (response && response.response && response.response.data && response.response.data.length > 0) {
 
-                        let fields = Object.keys(response.response.data[0])
-                            .filter(_ => typeof (response.response.data[0][_]) !== 'object').map(_ => {
-                                return {name: _}
-                            });
-                        let allFields = getAllFields(response.response.data[0]);
                         let valueMap = {};
-                        allFields.forEach(_ => valueMap[_] = _);
+                        let allFields = getAllFields(response.response.data[0]);
+                        let fields = allFields.filter(_ =>
+                            !_.contains(".0") &&
+                            !_.contains("editable") &&
+                            !_.contains("version") &&
+                            !_.contains("createdBy") &&
+                            !_.contains("createdDate")).map(_ => {
+                            return {name: _, title: _.propertyNameToCamelCaseWithSpace()};
+                        });
+                        fields.forEach(_ => valueMap[_.name] = _.name);
                         headerKeyField.canEdit = true;
                         headerKeyField.required = true;
                         headerKeyField.validateOnChange = true;
@@ -290,13 +295,10 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
         canEdit: false,
         name: 'headerKey',
         title: "<spring:message code='global.headerKey'/>",
-        changed: function (form, item, value) {
+        async changed(form, item, value) {
 
-            if (!Object.values(contractDetailTypeTab.variable.dataType).includes(form.getValue("headerType"))) {
-
-                form.setValue("headerValue", '');
-                form.getField("headerValue").displayField = value;
-            }
+            contractDetailTypeTab.listGrid.dynamicTable.getSelectedRecord().headerKey = value;
+            contractDetailTypeTab.listGrid.dynamicTable.getSelectedRecord().headerValue = null;
         }
     },
     {
@@ -328,6 +330,7 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
         title: "<spring:message code='global.valueType'/>",
         async editorExit(editCompletionEvent, record, newValue, rowNum, colNum) {
 
+            if (!newValue) newValue = record.valueType;
             if (!newValue) return true;
             let grid = contractDetailTypeTab.listGrid.dynamicTable;
             grid.setEditValue(rowNum, colNum + 1, '')
@@ -348,9 +351,17 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
 
                     if (response && response.response && response.response.data && response.response.data.length > 0) {
 
-                        let allFields = getAllFields(response.response.data[0]);
                         let valueMap = {};
-                        allFields.forEach(_ => valueMap[_] = _);
+                        let allFields = getAllFields(response.response.data[0]);
+                        let fields = allFields.filter(_ =>
+                            !_.contains(".0") &&
+                            !_.contains("editable") &&
+                            !_.contains("version") &&
+                            !_.contains("createdBy") &&
+                            !_.contains("createdDate")).map(_ => {
+                            return {name: _, title: _.propertyNameToCamelCaseWithSpace()};
+                        });
+                        fields.forEach(_ => valueMap[_.name] = _.name);
                         displayField.canEdit = true;
                         displayField.required = true;
                         displayField.validateOnChange = true;
@@ -737,7 +748,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             ],
                             fields: contractDetailTypeTab.variable.dynamicTableFields
                         });
-                        contractDetailTypeTab.window.dynamicTable = isc.Window.nicico.getDefault("<spring:message code='contact.title'/>", [
+                        contractDetailTypeTab.window.dynamicTable = isc.Window.nicico.getDefault("<spring:message code='contract-detail-type.window.dynamic-table.define'/>", [
                             contractDetailTypeTab.listGrid.dynamicTable
                         ], (.9 * innerWidth) + "");
                         contractDetailTypeTab.window.dynamicTable.closeClick = function () {
