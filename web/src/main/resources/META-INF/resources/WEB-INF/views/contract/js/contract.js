@@ -493,7 +493,7 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                     return false;
                 }
 
-                let exists = section.data.contractDetail.contractDetailValues.filter(q => q.key === grid.key && !q.value);
+                let exists = section.data.contractDetail.contractDetailValues.filter(q => q.key === grid.key && !q.id);
                 if (exists && exists.length)
                     section.data.contractDetail.contractDetailValues.removeAll(exists);
 
@@ -561,11 +561,11 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                 }
 
                 let rowIndex = 1;
-                let maxRowNum = records.map(q => q.rowNum).max();
+                let maxRowNum = records.filter(q => q.rowNum).map(q => Number(q.rowNum)).max();
                 if (!maxRowNum)
                     maxRowNum = 0;
 
-                let exists = section.data.contractDetail.contractDetailValues.filter(q => q.key === dynamicGrid.key && q.value < 0);
+                let exists = section.data.contractDetail.contractDetailValues.filter(q => q.key === dynamicGrid.key && !q.id);
                 if (exists && exists.length)
                     section.data.contractDetail.contractDetailValues.removeAll(exists);
 
@@ -573,13 +573,8 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
 
                     if (record.rowNum) {
 
-                        let detailValueId = dynamicGrid.values.find(q => q.value == record.rowNum && q.id === record.contractDetailValueId).id;
-                        let detailValue = section.data.contractDetail.contractDetailValues.find(q => q.id === detailValueId);
-                        detailValue.dynamicTableValues.forEach(dynamicTableValue => {
-
-                            let fieldName = dynamicGrid.fields.find(field => field.colNum === dynamicTableValue.colNum).name;
-                            dynamicTableValue.value = record[fieldName];
-                        });
+                        let detailValue = section.data.contractDetail.contractDetailValues.find(q => q.id === record.contractDetailValueId);
+                        detailValue.dynamicTableValues.forEach(dynamicTableValue => dynamicTableValue.value = record[dynamicTableValue.fieldName]);
                     } else {
 
                         let rowNum = maxRowNum + rowIndex++;
@@ -591,7 +586,7 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
                             reference: dynamicGrid.reference,
                             unitId: dynamicGrid.unitId,
                             contractDetailId: dynamicGrid.contractDetailId,
-                            value: rowNum * -1,
+                            value: rowNum,
                             dynamicTableValues: []
                         };
                         dynamicGrid.fields.filter(field => field.colNum).forEach(field => detailValue.dynamicTableValues.add({
@@ -704,12 +699,6 @@ contractTab.button.saveButton = isc.IButtonSave.create({
             return;
         }
 
-        data.contractDetails.forEach(contractDetail => contractDetail.contractDetailValues.forEach(contractDetailValue => {
-
-            if (contractDetailValue.type === contractTab.variable.dataType.DynamicTable)
-                contractDetailValue.value = Math.abs(contractDetailValue.value);
-        }));
-
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: contractTab.variable.contractUrl,
             httpMethod: contractTab.variable.method,
@@ -719,13 +708,11 @@ contractTab.button.saveButton = isc.IButtonSave.create({
                 if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
                     contractTab.dialog.ok();
                     contractTab.method.refresh(contractTab.listGrid.main);
-                    contractTab.window.main.close();
-                    if (contractTab.variable.contractTemplateForm)
-                        contractTab.variable.contractTemplateForm.windowWidget.getObject().close();
+                    // contractTab.window.main.close();
                 } else
                     contractTab.dialog.error(resp);
             }
-        }))
+        }));
     }
 });
 contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
@@ -907,6 +894,7 @@ if (contractTab.variable.contractType === "1") {
 
                     contractTab.listGrid.contractDetailType.templateMode = true;
                     contractTab.method.editForm();
+                    contractTab.variable.contractTemplateForm.windowWidget.getObject().close();
                 }
             });
             contractTab.variable.contractTemplateForm.getButtonLayout = function () {
