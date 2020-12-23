@@ -291,12 +291,8 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
         name: 'headerKey',
         title: "<spring:message code='global.headerKey'/>",
         changed: function (form, item, value) {
-
-            if (!Object.values(contractDetailTypeTab.variable.dataType).includes(form.getValue("headerType"))) {
-
-                form.setValue("headerValue", '');
-                form.getField("headerValue").displayField = value;
-            }
+debugger
+            contractDetailTypeTab.listGrid.dynamicTable.getSelectedRecord().headerValue = null;
         }
     },
     {
@@ -304,7 +300,11 @@ contractDetailTypeTab.variable.dynamicTableFields = BaseFormItems.concat([
         required: true,
         validateOnExit: true,
         type: "string",
-        title: "<spring:message code='global.headerValue'/>"
+        title: "<spring:message code='global.headerValue'/>",
+        editorEnter: function (record, value, rowNum, colNum, grid) {
+debugger
+            this.displayField = contractDetailTypeTab.listGrid.dynamicTable.getSelectedRecord().headerKey;
+        }
     },
     {
         name: 'headerTitle',

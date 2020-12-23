@@ -78,7 +78,7 @@ public class ShipmentFormController {
         wordUtil.replacePOI(doc, "contract_amount", String.valueOf((shipment.getAmount() != null ? shipment.getAmount() : "")));
         wordUtil.replacePOI(doc, "unitNameFa", (shipment.getUnit() != null ? shipment.getUnit().getNameFA() : ""));
         wordUtil.replacePOI(doc, "descFA", (shipment.getMaterial() != null ? shipment.getMaterial().getDescFA() : ""));
-        wordUtil.replacePOI(doc, "tolorance", "-/+" + (shipment.getContractShipment() != null ? shipment.getContractShipment().getTolorance().toString() : "") + "%");
+        wordUtil.replacePOI(doc, "tolerance", "-/+" + (shipment.getContractShipment() != null ? shipment.getContractShipment().getTolerance().toString() : "") + "%");
         wordUtil.replacePOI(doc, "contract_no", (shipment.getContractShipment() != null ? shipment.getContractShipment().getContract().getNo() : ""));
         wordUtil.replacePOI(doc, "loa", (shipment.getContractShipment() != null && shipment.getContractShipment().getLoadPort() != null ? shipment.getContractShipment().getLoadPort().getLoa() : ""));
 

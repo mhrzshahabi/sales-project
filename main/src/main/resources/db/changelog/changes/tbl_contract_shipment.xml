@@ -1,0 +1,30 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+
+    <changeSet author="MShahabi" id="1799887766554-098">
+        <update tableName="TBL_CONTRACT_SHIPMENT">
+            <column name="TOLORANCE" value="null"/>
+        </update>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-099">
+        <update tableName="AUD_TBL_CONTRACT_SHIPMENT">
+            <column name="TOLORANCE" value="null"/>
+        </update>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-100">
+        <modifyDataType
+                columnName="TOLORANCE"
+                newDataType="FLOAT(24)"
+                tableName="TBL_CONTRACT_SHIPMENT"/>
+        <modifyDataType
+                columnName="TOLORANCE"
+                newDataType="FLOAT(24)"
+                tableName="AUD_TBL_CONTRACT_SHIPMENT"/>
+    </changeSet>
+
+</databaseChangeLog>
