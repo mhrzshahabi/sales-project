@@ -729,7 +729,7 @@ contractTab.button.saveButton = isc.IButtonSave.create({
                                 contractTab.dialog.error(resp);
                         }
                     }))
-                },"<spring:message code=''/>");
+                }, "<spring:message code='contract.create.appendix.ask'/>");
         else
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: contractTab.variable.contractUrl,
@@ -873,7 +873,7 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
         contractTab.hLayout.contractDetailHlayout,
         contractTab.hLayout.saveOrExitHlayout
     ], "85%", 0.90 * innerHeight);
-
+    //disapprove
     contractTab.toolStrip.main.members.get(6).click = function () {
 
         if (contractTab.listGrid.main && contractTab.listGrid.main.getSelectedRecord())
@@ -984,8 +984,34 @@ if (contractTab.variable.contractType === "1") {
             else if (record.estatus.contains(Enums.eStatus2.Final) && record.estatus.contains(Enums.eStatus2.Active)) {
 
                 if (!record.parentId) {
-                    contractTab.listGrid.contractDetailType.appendixMode = true;
-                    contractTab.method.editForm();
+
+                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                        actionURL: 'api/g-contract/spec-list',
+                        httpMethod: "GET",
+                        params: {
+                            criteria: [
+                                {
+                                    fieldName: "parentId",
+                                    operator: "equals",
+                                    value: record.id
+                                }
+                            ]
+                        },
+                        callback: function (resp) {
+
+                            if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
+
+                                let data = JSON.parse(resp.data);
+                                let disapproves = data.response.data.filter(q => !q.estatus.contains(Enums.eStatus2.Final));
+                                if (disapproves.length > 0)
+                                    contractTab.dialog.say('<spring:message code="contract.has.disapprove.appendix"/>' + disapproves.map(q => q.no));
+                                else {
+                                    contractTab.listGrid.contractDetailType.appendixMode = true;
+                                    contractTab.method.editForm();
+                                }
+                            }
+                        }
+                    }));
                 } else
                     contractTab.dialog.say('<spring:message code="contract.is.appendix"/>');
             } else
@@ -1124,6 +1150,7 @@ contractTab.method.newForm = function () {
     affectUpTo.setFullYear(affectUpTo.getFullYear() + 1);
     contractTab.dynamicForm.main.setValue("affectUpTo", affectUpTo);
     contractTab.window.main.setTitle("<spring:message code='contract.window.title.new'/>");
+    contractTab.button.saveButton.show();
     contractTab.window.main.show();
 };
 contractTab.method.editForm = function () {
@@ -1166,6 +1193,10 @@ contractTab.method.editForm = function () {
                             contractTab.listGrid.contractDetailType.setShowResizeBar(false);
                             contractTab.listGrid.contractDetailType.templateMode = null;
 
+                            contractTab.dynamicForm.main.getField("materialId").setDisabled(false);
+                            contractTab.dynamicForm.main.getField("buyerId").setDisabled(false);
+                            contractTab.dynamicForm.main.getField("sellerId").setDisabled(false);
+
                         } else if (contractTab.listGrid.contractDetailType.appendixMode) {
 
                             contractTab.variable.method = "POST";
@@ -1175,10 +1206,18 @@ contractTab.method.editForm = function () {
                             contractTab.listGrid.contractDetailType.setShowResizeBar(true);
                             contractTab.button.saveButton.show();
 
+                            contractTab.dynamicForm.main.getField("materialId").setDisabled(true);
+                            contractTab.dynamicForm.main.getField("buyerId").setDisabled(true);
+                            contractTab.dynamicForm.main.getField("sellerId").setDisabled(true);
+
                         } else {
 
                             contractTab.listGrid.contractDetailType.show();
                             contractTab.listGrid.contractDetailType.setShowResizeBar(true);
+
+                            contractTab.dynamicForm.main.getField("materialId").setDisabled(false);
+                            contractTab.dynamicForm.main.getField("buyerId").setDisabled(false);
+                            contractTab.dynamicForm.main.getField("sellerId").setDisabled(false);
                         }
 
                     }
@@ -1253,6 +1292,7 @@ contractTab.method.addArticle = async function (data) {
     if (data.template == null) {
 
         if (data.contractDetailType.contractDetailTypeTemplates.length === 1) {
+        debugger
 
             data.template = data.contractDetailType.contractDetailTypeTemplates[0].content;
             data.contractDetail.contractDetailTemplate = data.template;
