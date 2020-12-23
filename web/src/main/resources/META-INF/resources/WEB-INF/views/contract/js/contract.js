@@ -841,8 +841,9 @@ contractTab.variable.contractPreviewForm.init(null, "<spring:message code='contr
                     let header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
                         "xmlns:w='urn:schemas-microsoft-com:office:word' " +
                         "xmlns='http://www.w3.org/TR/REC-html40'>" +
-                        "<head><meta charset='utf-8'><title>CONTRACT</title></head><body>";
-                    let footer = "</body></html>";
+                        "<head><style>@page WordSection1{margin:1.7in 0.5in 1.7in 0.5in;}div.WordSection1{page:WordSection1;}</style>" +
+                        "<meta charset='utf-8'><title>CONTRACT</title></head><body><div class='WordSection1'>";
+                    let footer = "</div></body></html>";
                     let sourceHTML = header + contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).getContents() + footer;
                     let source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
                     let fileDownload = document.createElement("a");
