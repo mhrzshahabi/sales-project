@@ -710,22 +710,43 @@ contractTab.button.saveButton = isc.IButtonSave.create({
                 contractDetailValue.value = Math.abs(contractDetailValue.value);
         }));
 
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: contractTab.variable.contractUrl,
-            httpMethod: contractTab.variable.method,
-            data: JSON.stringify(data),
-            callback: function (resp) {
+        if (data.contractTypeId === 2)
+            contractTab.dialog.question(
+                () => {
+                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                        actionURL: contractTab.variable.contractUrl,
+                        httpMethod: contractTab.variable.method,
+                        data: JSON.stringify(data),
+                        callback: function (resp) {
 
-                if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
-                    contractTab.dialog.ok();
-                    contractTab.method.refresh(contractTab.listGrid.main);
-                    contractTab.window.main.close();
-                    if (contractTab.variable.contractTemplateForm)
-                        contractTab.variable.contractTemplateForm.windowWidget.getObject().close();
-                } else
-                    contractTab.dialog.error(resp);
-            }
-        }))
+                            if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
+                                contractTab.dialog.ok();
+                                contractTab.method.refresh(contractTab.listGrid.main);
+                                contractTab.window.main.close();
+                                if (contractTab.variable.contractTemplateForm)
+                                    contractTab.variable.contractTemplateForm.windowWidget.getObject().close();
+                            } else
+                                contractTab.dialog.error(resp);
+                        }
+                    }))
+                },"<spring:message code=''/>");
+        else
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: contractTab.variable.contractUrl,
+                httpMethod: contractTab.variable.method,
+                data: JSON.stringify(data),
+                callback: function (resp) {
+
+                    if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
+                        contractTab.dialog.ok();
+                        contractTab.method.refresh(contractTab.listGrid.main);
+                        contractTab.window.main.close();
+                        if (contractTab.variable.contractTemplateForm)
+                            contractTab.variable.contractTemplateForm.windowWidget.getObject().close();
+                    } else
+                        contractTab.dialog.error(resp);
+                }
+            }));
     }
 });
 contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
@@ -852,6 +873,36 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
         contractTab.hLayout.contractDetailHlayout,
         contractTab.hLayout.saveOrExitHlayout
     ], "85%", 0.90 * innerHeight);
+
+    contractTab.toolStrip.main.members.get(6).click = function () {
+
+        if (contractTab.listGrid.main && contractTab.listGrid.main.getSelectedRecord())
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: 'api/g-contract/spec-list',
+                httpMethod: "GET",
+                params: {
+                    criteria: [
+                        {
+                            fieldName: "parentId",
+                            operator: "equals",
+                            value: contractTab.listGrid.main.getSelectedRecord().id
+                        }
+                    ]
+                },
+                callback: function (resp) {
+
+                    if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
+
+                        let data = JSON.parse(resp.data);
+                        if (data.response.data.length > 0)
+                            contractTab.dialog.say('<spring:message code="contract.has.appendix.cant.disapprove"/>');
+                        else
+                            creator.method.disapprove(creator.listGrid.main);
+                    }
+                }
+            }));
+
+    };
 });
 
 if (contractTab.variable.contractType === "1") {
@@ -1091,10 +1142,11 @@ contractTab.method.editForm = function () {
         contractTab.dialog.inactiveRecord();
     else {
 
-        if (listGridRecord.estatus.contains(Enums.eStatus2.Final))
+        if (listGridRecord.estatus.contains(Enums.eStatus2.Final) || listGridRecord.parentId)
             contractTab.button.saveButton.hide();
         else
             contractTab.button.saveButton.show();
+
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: 'api/g-contract/' + listGridRecord.id,
             httpMethod: "GET",
