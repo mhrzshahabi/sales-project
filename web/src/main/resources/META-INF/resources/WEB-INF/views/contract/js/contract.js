@@ -748,19 +748,43 @@ contractTab.hLayout.contractDetailHlayout = isc.HLayout.create({
 contractTab.variable.contractDetailTypeTemplateSelectorForm = new nicico.FormUtil();
 contractTab.variable.contractDetailTypeTemplateSelectorForm.getButtonLayout = function () {
 };
-contractTab.variable.contractDetailTypeTemplateSelectorForm.init(null, "<spring:message code='contract.form.detail-type-template'/>", isc.ListGrid.nicico.getDefault([
-    {name: "id", primaryKey: true, hidden: true, title: '<spring:message code="global.id"/>'},
-    {name: "content", title: '<spring:message code="global.content"/>', showHover: true, hoverWidth: '25%'}
-], null, null, {
-    height: "100%",
-    wrapCells: true,
-    showFilterEditor: false,
-    fixedRecordHeights: true,
-    cellDoubleClick: function (record, rowNum, colNum) {
+contractTab.variable.contractDetailTypeTemplateSelectorForm.init(null, "<spring:message code='contract.form.detail-type-template'/>", isc.VLayout.create({
+    width: "100%",
+    members: [
 
-        contractTab.variable.contractDetailTypeTemplateSelectorForm.okCallBack(record.content);
-        contractTab.variable.contractDetailTypeTemplateSelectorForm.windowWidget.getObject().close();
-    }
+        isc.ListGrid.nicico.getDefault([
+            {name: "id", primaryKey: true, hidden: true, title: '<spring:message code="global.id"/>'},
+            {name: "content", title: '<spring:message code="global.content"/>', showHover: true, hoverWidth: '25%'}
+        ], null, null, {
+            height: "100%",
+            wrapCells: true,
+            showFilterEditor: false,
+            fixedRecordHeights: true,
+            bodyKeyPress: function () {
+
+                if (arguments[0].keyName === "Enter") {
+
+                    let record = contractTab.variable.contractDetailTypeTemplateSelectorForm.bodyWidget.getObject().getMember(0).getSelectedRecord();
+                    if (record) {
+                        contractTab.variable.contractDetailTypeTemplateSelectorForm.okCallBack(record.content);
+                        contractTab.variable.contractDetailTypeTemplateSelectorForm.windowWidget.getObject().close();
+                    }
+                }
+                this.Super("bodyKeyPress", arguments);
+            },
+            cellDoubleClick: function (record, rowNum, colNum) {
+
+                contractTab.variable.contractDetailTypeTemplateSelectorForm.okCallBack(record.content);
+                contractTab.variable.contractDetailTypeTemplateSelectorForm.windowWidget.getObject().close();
+            }
+        }),
+        isc.IButtonCancel.create({
+
+            click: function () {
+                contractTab.variable.contractDetailTypeTemplateSelectorForm.windowWidget.getObject().close();
+            }
+        }),
+    ]
 }), "70%", 600);
 
 contractTab.variable.contractDetailPreviewForm = new nicico.FormUtil();
@@ -1200,7 +1224,7 @@ contractTab.method.addArticle = async function (data) {
                 data.contractDetail.contractDetailTemplate = data.template;
                 await contractTab.method.createArticle(data);
             };
-            contractTab.variable.contractDetailTypeTemplateSelectorForm.bodyWidget.getObject().setData(data.contractDetailType.contractDetailTypeTemplates);
+            contractTab.variable.contractDetailTypeTemplateSelectorForm.bodyWidget.getObject().getMember(0).setData(data.contractDetailType.contractDetailTypeTemplates);
             contractTab.variable.contractDetailTypeTemplateSelectorForm.justShowForm();
         }
     } else if (!data.isNewMode)
