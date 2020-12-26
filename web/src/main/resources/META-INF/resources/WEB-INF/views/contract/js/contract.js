@@ -315,10 +315,18 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
         name: "title", title: '<spring:message code="global.title-en"/>',
         sortNormalizer: function (recordObject) {
 
-            let pattern = /\D*(\d+)\D*/;
             let sortOrder = 0;
+            if (!recordObject || !recordObject.title)
+                return sortOrder;
+
+            if (/.*footer.*/i.test(recordObject.title))
+                return Number.MAX_VALUE;
+
+            let pattern = /\D*(\d+)\D*/;
             if (pattern.test(recordObject.title))
-                sortOrder = Number(pattern.exec(recordObject.titleEN)[1]);
+                sortOrder = Number(pattern.exec(recordObject.title)[1]);
+            else if (!/.*header.*/i.test(recordObject.title))
+                return Number.MAX_VALUE - 1;
 
             return sortOrder;
         }
@@ -396,7 +404,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
                             template: null,
                             contractDetail: null,
                             contractDetailType: record,
-                            position: contractTab.sectionStack.contract.sections.length
+                            position: contractTab.listGrid.contractDetailType.getRecordIndex(record)
                         });
                     }
                 });
@@ -1552,7 +1560,7 @@ contractTab.method.createArticle = async function (data) {
 };
 contractTab.method.createArticleBody = async function (sectionStackSectionObj) {
 
-    let form = contractTab.method.createArticleForm(sectionStackSectionObj.data.contractDetailType, sectionStackSectionObj.data.contractDetail, sectionStackSectionObj.data.isNewMode);
+    let form = await contractTab.method.createArticleForm(sectionStackSectionObj.data.contractDetailType, sectionStackSectionObj.data.contractDetail, sectionStackSectionObj.data.isNewMode);
     if (form) {
 
         sectionStackSectionObj.form = form;
@@ -1572,9 +1580,10 @@ contractTab.method.createArticleBody = async function (sectionStackSectionObj) {
         sectionStackSectionObj.dynamicGrids = dynamicGrids;
         sectionStackSectionObj.items.addAll(dynamicGrids);
     }
+
     contractTab.sectionStack.contract.addSection(sectionStackSectionObj, sectionStackSectionObj.position);
 };
-contractTab.method.createArticleForm = function (contractDetailType, contractDetail, isNewMode) {
+contractTab.method.createArticleForm = async function (contractDetailType, contractDetail, isNewMode) {
 
     let target;
     let valueKey;
@@ -1601,9 +1610,9 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
         return valueStr;
     }
 
-    target.filter(param =>
+    await Promise.all(target.filter(param =>
         param.type !== contractTab.variable.dataType.ListOfReference &&
-        param.type !== contractTab.variable.dataType.DynamicTable).forEach(param => {
+        param.type !== contractTab.variable.dataType.DynamicTable).map(param => {
 
         let field = {
 
@@ -1615,7 +1624,7 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
             required: param.required,
             reference: param.reference,
             name: contractDetailType.code + "." + param.key,
-            value: getValueFromString(param.type, param[valueKey]),
+            defaultValue: getValueFromString(param.type, param[valueKey]),
             vId: !isNewMode ? param.id : null,
             version: !isNewMode ? param.version : null,
             estatus: !isNewMode ? param.estatus : null,
@@ -1641,7 +1650,7 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
         }
 
         fields.push(field);
-    });
+    }));
 
     let dynamicForm = isc.DynamicForm.create({
 
@@ -1669,8 +1678,7 @@ contractTab.method.createArticleForm = function (contractDetailType, contractDet
         }
     });
 
-    if (isNewMode)
-        dynamicForm.clearValues();
+    dynamicForm.clearValues();
     return fields.length ? dynamicForm : null;
 };
 contractTab.method.createArticleBodyGrid = async function (contractDetailType, contractDetail, isNewMode) {
@@ -2127,4 +2135,4 @@ contractTab.method.createDynamicGridFields = async function (dynamicTableValues,
     return fields.sort((_1, _2) => Number(_1.colNum) >= Number(_2.colNum));
 };
 
-//****************************************************** Extras *********************************************************
+//****************************************************** Extras ********************************************************
