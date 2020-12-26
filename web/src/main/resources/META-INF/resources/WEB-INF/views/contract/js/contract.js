@@ -7,6 +7,8 @@ contractTab.variable.contractDetailTypeUrl = "${contextPath}" + "/api/contract-d
 contractTab.variable.dataType = JSON.parse('${Enum_DataType}');
 contractTab.variable.contractType = "${Contract_Type_Id}";
 contractTab.variable.units = [];
+contractTab.variable.criteria = {};
+contractTab.variable.contractDetails = {};
 getReferenceDataSource("Unit").fetchData(null, resp => {
 
     if (resp && resp.httpResponseCode === 200 || resp.httpResponseCode === 201)
@@ -262,9 +264,8 @@ nicico.BasicFormUtil.createDynamicForm = function (creator) {
 };
 nicico.BasicFormUtil.createListGrid = function (creator) {
 
-    let criteria = "";
     if (contractTab.variable.contractType === "1")
-        criteria = {
+        contractTab.variable.criteria = {
             operator: 'and',
             _constructor: "AdvancedCriteria",
             criteria: [
@@ -287,7 +288,7 @@ nicico.BasicFormUtil.createListGrid = function (creator) {
             ]
         };
     else
-        criteria = {
+        contractTab.variable.criteria = {
             _constructor: "AdvancedCriteria",
             operator: "and",
             criteria: [
@@ -298,9 +299,9 @@ nicico.BasicFormUtil.createListGrid = function (creator) {
                 }
             ]
         };
-    creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria, {
+
+    creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, contractTab.variable.criteria, {
         sortField: 'no',
-        initialCriteria: criteria,
         getCellCSSText: function (record, rowNum, colNum) {
             if (record.parentId) {
                 return "font-weight:bold; color:#287fd6;";
@@ -390,14 +391,29 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
                             contractTab.dialog.say('<spring:message code="contract.contract-detail-type.exists"/>');
                             return;
                         }
+                        if (contractTab.variable.contractDetails)
 
-                        contractTab.method.addArticle({
-                            isNewMode: true,
-                            template: null,
-                            contractDetail: null,
-                            contractDetailType: record,
-                            position: contractTab.sectionStack.contract.sections.length
-                        });
+                            if (contractTab.variable.contractDetails.map(q => q.contractDetailTypeId).filter(p => p == record.id).length <= 0)
+                                contractTab.method.addArticle({
+                                    isNewMode: true,
+                                    template: null,
+                                    contractDetail: null,
+                                    contractDetailType: record,
+                                    position: contractTab.sectionStack.contract.sections.length
+                                });
+
+                            else {
+                                let contractDetails = contractTab.variable.contractDetails.filter(p => p.contractDetailTypeId == record.id).first();
+                                contractTab.method.addArticle({
+                                    isNewMode: false,
+                                    contractDetail: contractDetails,
+                                    position: contractDetails.position,
+                                    template: contractDetails.contractDetailTemplate,
+                                    contractDetailType: contractDetails.contractDetailType
+                                });
+
+                            }
+                       // contractTab.variable.contractDetails = null;
                     }
                 });
             // </sec:authorize>
@@ -901,8 +917,13 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
                     }
                 }
             }));
-
     };
+    //refresh
+    contractTab.toolStrip.main.members.get(7).click = function () {
+
+        contractTab.listGrid.main.setCriteria(contractTab.variable.criteria);
+        contractTab.listGrid.main.invalidateCache();
+    }
 });
 
 if (contractTab.variable.contractType === "1") {
@@ -1004,8 +1025,18 @@ if (contractTab.variable.contractType === "1") {
                                 let data = JSON.parse(resp.data);
                                 let disapproves = data.response.data.filter(q => !q.estatus.contains(Enums.eStatus2.Final));
                                 if (disapproves.length > 0)
-                                    contractTab.dialog.say('<spring:message code="contract.has.disapprove.appendix"/>' + disapproves.map(q => q.no));
+                                    contractTab.dialog.say('<spring:message code="contract.has.disapprove.appendix"/>\n' + disapproves.map(q => q.no));
                                 else {
+
+                                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                        actionURL: 'api/g-contract/' + record.id,
+                                        httpMethod: "GET",
+                                        callback: function (resp) {
+
+                                            if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200)
+                                                contractTab.variable.contractDetails = JSON.parse(resp.data).contractDetails;
+                                        }
+                                    }));
                                     contractTab.listGrid.contractDetailType.appendixMode = true;
                                     contractTab.method.editForm();
                                 }
@@ -1150,6 +1181,11 @@ contractTab.method.newForm = function () {
     affectUpTo.setFullYear(affectUpTo.getFullYear() + 1);
     contractTab.dynamicForm.main.setValue("affectUpTo", affectUpTo);
     contractTab.window.main.setTitle("<spring:message code='contract.window.title.new'/>");
+
+    contractTab.dynamicForm.main.getField("materialId").setDisabled(false);
+    contractTab.dynamicForm.main.getField("buyerId").setDisabled(false);
+    contractTab.dynamicForm.main.getField("sellerId").setDisabled(false);
+
     contractTab.button.saveButton.show();
     contractTab.window.main.show();
 };
@@ -1292,7 +1328,6 @@ contractTab.method.addArticle = async function (data) {
     if (data.template == null) {
 
         if (data.contractDetailType.contractDetailTypeTemplates.length === 1) {
-        debugger
 
             data.template = data.contractDetailType.contractDetailTypeTemplates[0].content;
             data.contractDetail.contractDetailTemplate = data.template;
@@ -1311,6 +1346,7 @@ contractTab.method.addArticle = async function (data) {
         await contractTab.method.createArticle(data);
     else
         contractTab.dialog.say('<spring:message code="incoterm.exception.required-info"/>');
+
 };
 contractTab.method.createArticle = async function (data) {
 
