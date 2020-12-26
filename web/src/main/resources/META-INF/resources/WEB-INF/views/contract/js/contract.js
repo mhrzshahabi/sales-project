@@ -391,29 +391,26 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
                             contractTab.dialog.say('<spring:message code="contract.contract-detail-type.exists"/>');
                             return;
                         }
-                        if (contractTab.variable.contractDetails)
+                        if (!contractTab.variable.contractDetails || (contractTab.variable.contractDetails && contractTab.variable.contractDetails.map(q => q.contractDetailTypeId).filter(p => p == record.id).length <= 0))
+                            contractTab.method.addArticle({
+                                isNewMode: true,
+                                template: null,
+                                contractDetail: null,
+                                contractDetailType: record,
+                                position: contractTab.sectionStack.contract.sections.length
+                            });
 
-                            if (contractTab.variable.contractDetails.map(q => q.contractDetailTypeId).filter(p => p == record.id).length <= 0)
-                                contractTab.method.addArticle({
-                                    isNewMode: true,
-                                    template: null,
-                                    contractDetail: null,
-                                    contractDetailType: record,
-                                    position: contractTab.sectionStack.contract.sections.length
-                                });
+                        else {
+                            let contractDetails = contractTab.variable.contractDetails.filter(p => p.contractDetailTypeId == record.id).first();
+                            contractTab.method.addArticle({
+                                isNewMode: false,
+                                contractDetail: contractDetails,
+                                position: contractDetails.position,
+                                template: contractDetails.contractDetailTemplate,
+                                contractDetailType: contractDetails.contractDetailType
+                            });
 
-                            else {
-                                let contractDetails = contractTab.variable.contractDetails.filter(p => p.contractDetailTypeId == record.id).first();
-                                contractTab.method.addArticle({
-                                    isNewMode: false,
-                                    contractDetail: contractDetails,
-                                    position: contractDetails.position,
-                                    template: contractDetails.contractDetailTemplate,
-                                    contractDetailType: contractDetails.contractDetailType
-                                });
-
-                            }
-                       // contractTab.variable.contractDetails = null;
+                        }
                     }
                 });
             // </sec:authorize>
@@ -714,21 +711,38 @@ contractTab.button.saveButton = isc.IButtonSave.create({
             contractTab.dialog.say('<spring:message code="contract.validation.empty-detail"/>');
             return;
         }
+        if (data.contractTypeId === 2)
+            contractTab.dialog.question(
+                () => {
+                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                        actionURL: contractTab.variable.contractUrl,
+                        httpMethod: contractTab.variable.method,
+                        data: JSON.stringify(data),
+                        callback: function (resp) {
 
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: contractTab.variable.contractUrl,
-            httpMethod: contractTab.variable.method,
-            data: JSON.stringify(data),
-            callback: function (resp) {
+                            if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
+                                contractTab.dialog.ok();
+                                contractTab.method.refresh(contractTab.listGrid.main);
+                            } else
+                                contractTab.dialog.error(resp);
+                        }
+                    }))
+                }, "<spring:message code='contract.create.appendix.ask'/>");
+        else
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: contractTab.variable.contractUrl,
+                httpMethod: contractTab.variable.method,
+                data: JSON.stringify(data),
+                callback: function (resp) {
 
-                if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
-                    contractTab.dialog.ok();
-                    contractTab.method.refresh(contractTab.listGrid.main);
-                    // contractTab.window.main.close();
-                } else
-                    contractTab.dialog.error(resp);
-            }
-        }));
+                    if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
+                        contractTab.dialog.ok();
+                        contractTab.method.refresh(contractTab.listGrid.main);
+                        // contractTab.window.main.close();
+                    } else
+                        contractTab.dialog.error(resp);
+                }
+            }));
     }
 });
 contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
@@ -1178,6 +1192,7 @@ contractTab.method.newForm = function () {
     contractTab.dynamicForm.main.getField("buyerId").setDisabled(false);
     contractTab.dynamicForm.main.getField("sellerId").setDisabled(false);
 
+    contractTab.variable.contractDetails = null;
     contractTab.button.saveButton.show();
     contractTab.window.main.show();
 };
@@ -1201,6 +1216,8 @@ contractTab.method.editForm = function () {
             contractTab.button.saveButton.hide();
         else
             contractTab.button.saveButton.show();
+
+        contractTab.variable.contractDetails = null;
 
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: 'api/g-contract/' + listGridRecord.id,
