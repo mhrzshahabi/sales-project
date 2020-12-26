@@ -895,7 +895,7 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
         contractTab.hLayout.saveOrExitHlayout
     ], "85%", 0.90 * innerHeight);
     //disapprove
-    contractTab.toolStrip.main.members.get(6).click = function () {
+    contractTab.toolStrip.main.members.filter(q => q.title === "<spring:message code='global.form.disapprove'/>").click = function () {
 
         if (contractTab.listGrid.main && contractTab.listGrid.main.getSelectedRecord())
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -924,7 +924,7 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
             }));
     };
     //refresh
-    contractTab.toolStrip.main.members.get(7).click = function () {
+    contractTab.toolStrip.main.members.filter(q => q.title === "<spring:message code='global.form.refresh'/>").click = function () {
 
         contractTab.listGrid.main.setCriteria(contractTab.variable.criteria);
         contractTab.listGrid.main.invalidateCache();
@@ -1037,10 +1037,10 @@ if (contractTab.variable.contractType === "1") {
                                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                         actionURL: 'api/g-contract/' + record.id,
                                         httpMethod: "GET",
-                                        callback: function (resp) {
+                                        callback: function (response) {
 
-                                            if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200)
-                                                contractTab.variable.contractDetails = JSON.parse(resp.data).contractDetails;
+                                            if (response.httpResponseCode === 201 || response.httpResponseCode === 200)
+                                                contractTab.variable.contractDetails = JSON.parse(response.data).contractDetails;
                                         }
                                     }));
                                     contractTab.listGrid.contractDetailType.appendixMode = true;
