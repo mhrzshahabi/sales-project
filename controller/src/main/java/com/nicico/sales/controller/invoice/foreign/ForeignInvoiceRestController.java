@@ -74,6 +74,13 @@ public class ForeignInvoiceRestController {
     }
 
     @Loggable
+    @PostMapping(value = "/back-to-unSent/{id}")
+    public ResponseEntity<ForeignInvoiceDTO.Info> toUnsent(@PathVariable Long id) {
+
+        return new ResponseEntity<>(foreignInvoiceService.toUnsent(id), HttpStatus.OK);
+    }
+
+    @Loggable
     @PutMapping
     public ResponseEntity<ForeignInvoiceDTO.Info> update(@Validated @RequestBody ForeignInvoiceDTO.Update request) {
 

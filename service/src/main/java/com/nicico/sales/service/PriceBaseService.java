@@ -68,6 +68,8 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
                 } else throw new SalesException2(ErrorType.InvalidData, "MOASValue", "Data is not Complete");
             });
             Set<Long> pricesByElementIds = pricesByElements.stream().map(PriceBase::getElementId).collect(Collectors.toSet());
+            if (pricesByElementIds.size() == 0)
+                throw new SalesException2(ErrorType.NotFound, "PriceBase", "Price Base Does not Exist");
 
             if (!pricesByElementIds.containsAll(validMaterialElements.stream().map(MaterialElement::getElementId).collect(Collectors.toList())))
                 throw new NotFoundException(PriceBase.class);
@@ -80,12 +82,6 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
                 Set<@NotNull Long> weightUnitIdSet = groupPriceBases.stream().map(PriceBase::getWeightUnitId).collect(Collectors.toSet());
                 if (weightUnitIdSet.size() > 1)
                     throw new SalesException2(ErrorType.BadRequest, "WeightUnit", "Weight unit is multiple for an Element");
-//                Set<@NotNull Long> financeUnitIdSet = groupPriceBases.stream().map(PriceBase::getFinanceUnitId).collect(Collectors.toSet());
-//                if (financeUnitIdSet.size() > 1)
-//                    throw new SalesException2(ErrorType.BadRequest, "FinanceUnit", "Finance unit is multiple.");
-
-//                if (financeUnitId != groupPriceBases.get(0).getFinanceUnitId().longValue())
-//                    throw new SalesException2(ErrorType.BadRequest, "FinanceUnit", "Finance unit is not match.");
 
                 PriceBaseDTO.Info priceBase = modelMapper.map(groupPriceBases.get(0), PriceBaseDTO.Info.class);
                 BigDecimal groupAveragePrice = groupPriceBases.stream().map(PriceBase::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add).divide(BigDecimal.valueOf(groupPriceBases.size()), MathContext.DECIMAL32);

@@ -14,7 +14,7 @@ var materialElementField = {
     optionDataSource: isc.MyRestDataSource.create({
         fields: BaseFormItems.concat([
             {
-                name: "elementName",
+                name: "element.name",
                 title: '<spring:message code="assayInspection.materialElement.name"/>'
             },
             {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
@@ -22,13 +22,13 @@ var materialElementField = {
         fetchDataURL: "${contextPath}/api/materialElement/spec-list"
     }),
     pickListFields: [
-        {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
+        {name: "element.name", title: '<spring:message code="assayInspection.materialElement.name"/>'},
         {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
     ],
     pickListProperties: {
         showFilterEditor: true
     }
-}
+};
 
 //**********************************************************************************************************************
 
