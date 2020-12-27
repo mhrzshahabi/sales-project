@@ -895,7 +895,7 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
         contractTab.hLayout.saveOrExitHlayout
     ], "85%", 0.90 * innerHeight);
     //disapprove
-    contractTab.toolStrip.main.members.filter(q => q.title === "<spring:message code='global.form.disapprove'/>").click = function () {
+    contractTab.toolStrip.main.members.find(q => q.actionType === nicico.ActionType.DISAPPROVE).click = function () {
 
         if (contractTab.listGrid.main && contractTab.listGrid.main.getSelectedRecord())
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -924,7 +924,7 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
             }));
     };
     //refresh
-    contractTab.toolStrip.main.members.filter(q => q.title === "<spring:message code='global.form.refresh'/>").click = function () {
+    contractTab.toolStrip.main.members.last().members.first().click = function () {
 
         contractTab.listGrid.main.setCriteria(contractTab.variable.criteria);
         contractTab.listGrid.main.invalidateCache();
@@ -1324,7 +1324,7 @@ contractTab.method.setDisplayData = function (grid, isDynamicGrid) {
     return data;
 };
 contractTab.method.addArticle = async function (data) {
-
+    console.log('addArticle', data.position)
     if (!data.contractDetail)
         data.contractDetail = {
             id: null,
@@ -1357,6 +1357,7 @@ contractTab.method.addArticle = async function (data) {
         contractTab.dialog.say('<spring:message code="incoterm.exception.required-info"/>');
 };
 contractTab.method.createArticle = async function (data) {
+    console.log('createArticle', data.position)
 
     let sectionStackSectionObj = {
         form: null,
@@ -1695,7 +1696,20 @@ contractTab.method.createArticleBody = async function (sectionStackSectionObj) {
         sectionStackSectionObj.dynamicGrids = dynamicGrids;
         sectionStackSectionObj.items.addAll(dynamicGrids);
     }
-    contractTab.sectionStack.contract.addSection(sectionStackSectionObj, sectionStackSectionObj.position);
+
+    if (sectionStackSectionObj.position - contractTab.sectionStack.contract.sections.length > 1)
+        contractTab.method.addSectionWithDelay(sectionStackSectionObj);
+    else
+        contractTab.sectionStack.contract.addSection(sectionStackSectionObj, sectionStackSectionObj.position);
+};
+contractTab.method.addSectionWithDelay = function (sectionStackSectionObj) {
+
+    setTimeout(() => {
+        if (sectionStackSectionObj.position - contractTab.sectionStack.contract.sections.length > 1)
+            contractTab.method.addSectionWithDelay(sectionStackSectionObj);
+        else
+            contractTab.sectionStack.contract.addSection(sectionStackSectionObj, sectionStackSectionObj.position);
+    }, 10);
 };
 contractTab.method.createArticleForm = function (contractDetailType, contractDetail, isNewMode) {
 
