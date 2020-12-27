@@ -1664,21 +1664,6 @@ contractTab.method.createArticle = async function (data) {
     };
 
     await contractTab.method.createArticleBody(sectionStackSectionObj);
-
-    let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
-    if (contractDetailTypeData && !(contractDetailTypeData instanceof Array))
-        contractDetailTypeData = contractDetailTypeData.localData;
-    if (contractDetailTypeData && contractDetailTypeData.length) {
-
-        let detailTypeRecord = contractDetailTypeData.filter(q => q.id === data.contractDetailType.id).first();
-        let recordIndex = contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord);
-        if (recordIndex >= 0) {
-
-            let addButton = contractTab.listGrid.contractDetailType.getRecordComponent(recordIndex);
-            if (addButton)
-                addButton.disable();
-        }
-    }
 };
 contractTab.method.createArticleBody = async function (sectionStackSectionObj) {
 
@@ -1705,17 +1690,40 @@ contractTab.method.createArticleBody = async function (sectionStackSectionObj) {
 
     if (sectionStackSectionObj.position - contractTab.sectionStack.contract.sections.length > 1)
         contractTab.method.addSectionWithDelay(sectionStackSectionObj);
-    else
+    else {
+
         contractTab.sectionStack.contract.addSection(sectionStackSectionObj, sectionStackSectionObj.position);
+        contractTab.method.disableDetailAddButton(sectionStackSectionObj);
+    }
 };
 contractTab.method.addSectionWithDelay = function (sectionStackSectionObj) {
 
     setTimeout(() => {
         if (sectionStackSectionObj.position - contractTab.sectionStack.contract.sections.length > 1)
             contractTab.method.addSectionWithDelay(sectionStackSectionObj);
-        else
+        else {
+
             contractTab.sectionStack.contract.addSection(sectionStackSectionObj, sectionStackSectionObj.position);
+            contractTab.method.disableDetailAddButton(sectionStackSectionObj);
+        }
     }, 10);
+};
+contractTab.method.disableDetailAddButton = function (sectionStackSectionObj) {
+
+    let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
+    if (contractDetailTypeData && !(contractDetailTypeData instanceof Array))
+        contractDetailTypeData = contractDetailTypeData.localData;
+    if (contractDetailTypeData && contractDetailTypeData.length) {
+
+        let detailTypeRecord = contractDetailTypeData.filter(q => q.id === sectionStackSectionObj.data.contractDetailType.id).first();
+        let recordIndex = contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord);
+        if (recordIndex >= 0) {
+
+            let addButton = contractTab.listGrid.contractDetailType.getRecordComponent(recordIndex);
+            if (addButton)
+                addButton.disable();
+        }
+    }
 };
 contractTab.method.createArticleForm = async function (contractDetailType, contractDetail, isNewMode) {
 
