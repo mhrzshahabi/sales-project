@@ -923,7 +923,7 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
 
                         let data = JSON.parse(resp.data);
                         if (data.response.data.length > 0)
-                            contractTab.dialog.say('<spring:message code="contract.has.appendix.cant.disapprove"/>');
+                            contractTab.dialog.say("<spring:message code='contract.has.appendix.cant.disapprove'/>");
                         else
                             creator.method.disapprove(creator.listGrid.main);
                     }
