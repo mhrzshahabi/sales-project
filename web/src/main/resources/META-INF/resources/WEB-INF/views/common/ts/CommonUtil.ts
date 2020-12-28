@@ -279,7 +279,7 @@ namespace nicico {
                     // @ts-ignore
                     closeClick: function () {
 
-                        this.Super("closeClick", arguments)
+                        this.Super("closeClick", arguments);
                     },
                     items: [
                         isc.VLayout.create({
@@ -314,7 +314,7 @@ namespace nicico {
                     // @ts-ignore
                     closeClick: function () {
 
-                        this.Super("closeClick", arguments)
+                        this.Super("closeClick", arguments);
                     }
                 });
             };
@@ -371,6 +371,7 @@ namespace nicico {
                     tag: ownerWindow,
                     // @ts-ignore
                     closeClick: function () {
+
                         this.Super("closeClick", arguments);
                         if (this.tag != null) this.tag.show();
                     }

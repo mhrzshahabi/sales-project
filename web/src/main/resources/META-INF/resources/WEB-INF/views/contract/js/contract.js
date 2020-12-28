@@ -763,6 +763,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
             width: 100,
             click: function () {
                 contractTab.window.main.close();
+                contractTab.method.destroyArticles();
             }
         })
     ]
@@ -898,6 +899,11 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
         contractTab.hLayout.contractDetailHlayout,
         contractTab.hLayout.saveOrExitHlayout
     ], "85%", 0.90 * innerHeight);
+    contractTab.window.main.closeClick = function () {
+
+        this.Super("closeClick", arguments);
+        contractTab.method.destroyArticles();
+    };
     //disapprove
     contractTab.toolStrip.main.members.find(q => q.actionType === nicico.ActionType.DISAPPROVE).click = function () {
 
@@ -1314,6 +1320,15 @@ contractTab.method.editForm = function () {
     }
 };
 
+contractTab.method.destroyArticles = function () {
+
+    contractTab.sectionStack.contract.sections.forEach(section => {
+
+        section.form?.destroy();
+        section.grids?.forEach(grid => grid.destroy());
+        section.dynamicGrids?.forEach(dynamicGrid => dynamicGrid.destroy());
+    });
+};
 contractTab.method.setDisplayData = function (grid, isDynamicGrid) {
 
     let data = clone(grid.getData());
@@ -1327,6 +1342,7 @@ contractTab.method.setDisplayData = function (grid, isDynamicGrid) {
 
     return data;
 };
+
 contractTab.method.addArticle = async function (data) {
 
     if (!data.contractDetail)
@@ -1685,7 +1701,7 @@ contractTab.method.createArticleBody = async function (sectionStackSectionObj) {
         sectionStackSectionObj.items.addAll(dynamicGrids);
     }
 
-    if (sectionStackSectionObj.position - contractTab.sectionStack.contract.sections.length > 1)
+    if (!sectionStackSectionObj.data.isNewMode && sectionStackSectionObj.position - contractTab.sectionStack.contract.sections.length > 1)
         contractTab.method.addSectionWithDelay(sectionStackSectionObj);
     else {
 
