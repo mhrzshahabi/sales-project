@@ -69,7 +69,7 @@ function getReferenceFields(referenceType) {
                     displayField: getReferenceDisplayField("Port"),
                     autoFetchData: false,
                     optionDataSource: getReferenceDataSource("Port"),
-                    templateFieldName: "loadPort." +  getReferenceDisplayField("Port"),
+                    templateFieldName: "loadPort." + getReferenceDisplayField("Port"),
                 },
                 {
                     name: "quantity",
@@ -94,11 +94,15 @@ function getReferenceFields(referenceType) {
                 },
                 {
                     forDisplayField: true,
+                    width: "100%",
                     name: "sendDate",
+                    required: false,
                     title: "<spring:message code='global.sendDate'/>",
                     type: "date",
-                    required: false,
-                    width: "100%",
+                    dateFormatter: "toJapanShortDate",
+                    formatCellValue: function (value, record, rowNum, colNum, grid) {
+                        return new Date(value);
+                    }
                 }
             ]);
         case 'Bank':
@@ -363,7 +367,10 @@ function getFieldProperties(fieldType, reference) {
             return {
                 type: "date",
                 textAlign: "center",
-                dateFormatter: "toJapanShortDate"
+                dateFormatter: "toJapanShortDate",
+                formatCellValue: function (value, record, rowNum, colNum, grid) {
+                    return new Date(value);
+                }
             };
         case 'Boolean':
             return {

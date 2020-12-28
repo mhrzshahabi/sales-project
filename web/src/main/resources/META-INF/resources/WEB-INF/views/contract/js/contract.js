@@ -50,9 +50,6 @@ contractTab.method.getDynamicFormFields = function () {
             useInGrid: true,
             name: "date",
             type: "date",
-            formatCellValue: function (value, record, rowNum, colNum, grid) {
-                return new Date(value);
-            },
             width: "100%",
             required: true,
             title: "<spring:message code='global.date'/>"
