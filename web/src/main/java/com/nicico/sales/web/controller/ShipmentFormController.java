@@ -119,7 +119,7 @@ public class ShipmentFormController {
         wordUtil.replacePOI(doc, "arrivalDateTo", shipment.getArrivalDateTo() != null ? dtf.format(shipment.getArrivalDateTo()) : "");
         wordUtil.replacePOI(doc, "letterDate", shipment.getLastDeliveryLetterDate() != null ? dtf.format(shipment.getLastDeliveryLetterDate()) : "");
 
-        response.setHeader("Content-Disposition", String.format("attachment; filename=%s.%s", retrieve.getFileName(), retrieve.getExtension()));
+        response.setHeader("Content-Disposition", retrieve.getContentDisposition().toString());
         response.setContentType("application/vnd.ms-word");
         doc.write(out);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

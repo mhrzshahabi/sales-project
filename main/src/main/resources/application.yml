@@ -82,6 +82,7 @@ nicico:
     oauth: http://staging.icico.net.ir
     accounting: http://staging.icico.net.ir/accounting
     hrm: http://staging.icico.net.ir/hrm
+    storage: http://storage.icico.net.ir/client/api
   minio:
     endpoint-url: http://minio.icico.net.ir/
     access-key: minio
@@ -95,6 +96,7 @@ storage:
   url: http://storage.icico.net.ir/client/api
   key: sales
   token: nicsales123
+
 ---
 
 spring:

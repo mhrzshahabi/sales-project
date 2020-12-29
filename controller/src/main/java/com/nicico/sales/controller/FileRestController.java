@@ -84,14 +84,14 @@ public class FileRestController {
         final FileDTO.Response response = fileService.retrieve(key);
 
         final HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentDisposition(ContentDisposition.parse("attachment; filename=\"" + response.getFileName() + "." + response.getExtension() + "\""));
+        httpHeaders.setContentDisposition(response.getContentDisposition());
 
         final ByteArrayResource resource = new ByteArrayResource(response.getContent());
 
         return ResponseEntity.ok()
                 .headers(httpHeaders)
-                .contentLength(response.getContent().length)
-                .contentType(MediaType.valueOf(response.getContentType()))
+                .contentLength(response.getContentLength())
+                .contentType(response.getContentType())
                 .body(resource);
     }
 
