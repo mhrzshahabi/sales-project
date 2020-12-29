@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
@@ -48,10 +50,10 @@ public class FileDTO {
     @ApiModel("FileResponse")
     public static class Response {
         private byte[] content;
-        private String fileName;
-        private String extension;
-        private String contentType;
-        private Map<String, String> tags;
+        private Long contentLength;
+        private MediaType contentType;
+        private ContentDisposition contentDisposition;
+        private Map<String, Object> tags;
         private EFileAccessLevel accessLevel;
         private String permissions;
     }
