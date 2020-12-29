@@ -3746,35 +3746,6 @@ foreignInvoiceTab.method.editForm = function () {
         foreignInvoiceTab.dialog.say('<spring:message code="foreign-invoice.form.completion.invoice.not.editable"/>');
     else {
 
-        foreignInvoiceTab.method.editAction(record);
-    }
-};
-// foreignInvoiceTab.method.editDeletedForm = function (title, grid) {
-//
-//     foreignInvoiceTab.variable.method = "PUT";
-//     foreignInvoiceTab.variable.completionInvoice = false;
-//     foreignInvoiceTab.dynamicForm.baseData.getField("inspectionAssayId").show();
-//     foreignInvoiceTab.dynamicForm.baseData.getField("inspectionAssayId").setRequired(true);
-//     let record = grid.getSelectedRecord();
-//     if (record == null || record.id == null)
-//         foreignInvoiceTab.dialog.notSelected();
-//     else if (record.editable === false)
-//         foreignInvoiceTab.dialog.notEditable();
-//     else if (record.estatus.contains(Enums.eStatus2.DeActive))
-//         foreignInvoiceTab.dialog.inactiveRecord();
-//     else if (record.estatus.contains(Enums.eStatus2.SendToAcc))
-//         foreignInvoiceTab.dialog.recordIsSentToAcc();
-//     else if (record.estatus.contains(Enums.eStatus2.Final))
-//         foreignInvoiceTab.dialog.finalRecord();
-//     else if (record.parentId)
-//         foreignInvoiceTab.dialog.say('<spring:message code="foreign-invoice.form.completion.invoice.not.editable"/>');
-//     else {
-//
-//         foreignInvoiceTab.method.editAction(record);
-//     }
-// };
-foreignInvoiceTab.method.editAction = function (record) {
-
         foreignInvoiceTab.variable.materialId = record.shipment.materialId;
         foreignInvoiceTab.method.jsonRPCManagerRequest({
             httpMethod: "GET",
@@ -3928,7 +3899,7 @@ foreignInvoiceTab.method.editAction = function (record) {
                     }
                 });
             }
-        });
+        });    }
 };
 foreignInvoiceTab.method.validateDeleteActionHook = function (record) {
 
