@@ -2354,15 +2354,23 @@ inspectionReportTab.listGrid.fields = BaseFormItems.concat([
     },
     {
         name: "inspectionRateValue",
-        title: "<spring:message code='inspectionReport.inspectionRateValue'/>"
+        title: "<spring:message code='inspectionReport.inspectionRateValue'/>",
+        filterOperator: "equals"
     },
     {
         name: "inspectionRateValueType",
-        title: "<spring:message code='inspectionReport.inspectionRateValueType'/>"
+        title: "<spring:message code='inspectionReport.inspectionRateValueType'/>",
+        filterEditorProperties: {
+            operator: "equals",
+            valueMap: JSON.parse('${Enum_InspectionRateValueType}')
+        }
     },
     {
         name: "unit.name",
-        title: "<spring:message code='global.unit'/>"
+        title: "<spring:message code='global.unit'/>",
+        sortNormalizer: function (recordObject) {
+            return recordObject.unit.name;
+        }
     },
     {name: "attachIcon", align: "center", width: "4%", title: "<spring:message code='global.Attachment'/>"}
 

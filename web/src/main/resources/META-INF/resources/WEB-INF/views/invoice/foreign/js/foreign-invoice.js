@@ -57,7 +57,10 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         required: true,
         showHover: true,
         name: "invoiceType.title",
-        title: "<spring:message code='foreign-invoice.form.invoice-type'/>"
+        title: "<spring:message code='foreign-invoice.form.invoice-type'/>",
+        sortNormalizer: function (recordObject) {
+            return recordObject.invoiceType.title;
+        }
     },
     {
         width: "100%",
@@ -91,7 +94,10 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         required: true,
         showHover: true,
         name: "buyer.nameEN",
-        title: "<spring:message code='foreign-invoice.form.buyer'/>"
+        title: "<spring:message code='foreign-invoice.form.buyer'/>",
+        sortNormalizer: function (recordObject) {
+            return recordObject.buyer.nameEN;
+        }
     },
     {
         width: "100%",
@@ -99,21 +105,30 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         required: true,
         showHover: true,
         name: "shipment.sendDate",
-        title: "<spring:message code='global.sendDate'/>"
+        title: "<spring:message code='global.sendDate'/>",
+        sortNormalizer: function (recordObject) {
+            return recordObject.shipment.sendDate;
+        }
     },
     {
         width: "100%",
         required: true,
         showHover: true,
         name: "shipment.material.descEN",
-        title: "<spring:message code='material.descEN'/>"
+        title: "<spring:message code='material.descEN'/>",
+        sortNormalizer: function (recordObject) {
+            return recordObject.shipment.material.descEN;
+        }
     },
     {
         width: "100%",
         required: true,
         showHover: true,
         name: "creator.fullName",
-        title: "<spring:message code='foreign-invoice.form.creator'/>"
+        title: "<spring:message code='foreign-invoice.form.creator'/>",
+        sortNormalizer: function (recordObject) {
+            return recordObject.creator.fullName;
+        }
     },
     {
         width: "100%",
@@ -125,7 +140,8 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         width: "100%",
         showHover: true,
         name: "percent",
-        title: "<spring:message code='foreign-invoice.form.percent'/>"
+        title: "<spring:message code='foreign-invoice.form.percent'/>",
+        filterOperator: "equals"
     },
     {
         hidden: true,
