@@ -254,6 +254,13 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     /******************************************************************************************************************/
 
     @Override
+    @Transactional(readOnly = true)
+    public String getContent(Long id) {
+
+        return ((ContractDAO)repository).getContent(id);
+    }
+
+    @Override
     @Transactional
     @Action(ActionType.Create)
     public ContractDTO.Info create(ContractDTO.Create request) {

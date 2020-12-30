@@ -23,7 +23,7 @@ public class ContractDTO {
     private Date date;
     private Date affectFrom;
     private Date affectUpTo;
-    private String content;
+    //    private String content;
     private String description;
 
     private Long parentId;

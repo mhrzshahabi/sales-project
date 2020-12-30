@@ -11,6 +11,8 @@ import java.util.List;
 
 public interface IContractService extends IGenericService<Contract, Long, ContractDTO.Create, ContractDTO.Info, ContractDTO.Update, ContractDTO.Delete> {
 
+    String getContent(Long id);
+
     TotalResponse<ContractDTO.ListGridInfo> refinedSearch(NICICOCriteria request);
 
     SearchDTO.SearchRs<ContractDTO.ListGridInfo> refinedSearch(SearchDTO.SearchRq request);

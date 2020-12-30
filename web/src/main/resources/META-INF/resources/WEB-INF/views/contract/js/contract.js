@@ -33,12 +33,12 @@ contractTab.restDataSource.contractDetailType = isc.MyRestDataSource.create({
 contractTab.method.getDynamicFormFields = function () {
 
     return BaseFormItems.concat([
-        {
-            useInGrid: true,
-            name: "content",
-            width: "100%",
-            hidden: true
-        },
+        // {
+        //     useInGrid: true,
+        //     name: "content",
+        //     width: "100%",
+        //     hidden: true
+        // },
         {
             useInGrid: true,
             name: "no",
@@ -859,15 +859,7 @@ contractTab.variable.contractPreviewForm.init(null, "<spring:message code='contr
             isc.ToolStripButton.create({
                 icon: "[SKIN]/actions/print.png",
                 title: "<spring:message code='global.form.print.pdf'/>",
-                click: function () {
-                    let printWindow = window.open('', '', 'height=800,width=800');
-                    printWindow.document.write('<html><head><title></title>');
-                    printWindow.document.write('</head><body>');
-                    printWindow.document.write(contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).getContents());
-                    printWindow.document.write('</body></html>');
-                    printWindow.document.close();
-                    printWindow.print();
-                }
+                click: () => window.open('${contextPath}/contract/print/pdf/' + contractTab.variable.contractPreviewForm.contractId)
             }),
             isc.ToolStripButton.create({
                 icon: "pieces/512/word.png",
@@ -1109,16 +1101,7 @@ if (contractTab.variable.contractType === "1") {
     contractTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         icon: "[SKIN]/actions/print.png",
         title: "<spring:message code='global.form.print'/>",
-        click: function () {
-            let record = contractTab.listGrid.main.getSelectedRecord();
-            if (record == null || record.id == null)
-                contractTab.dialog.notSelected();
-            else {
-                contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).setContents(!record.content ? "" : record.content);
-                contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).redraw();
-                contractTab.variable.contractPreviewForm.justShowForm();
-            }
-        }
+        click: () => contractTab.method.showPrintPreview()
     }), 10);
     // </sec:authorize>
 } else {
@@ -1127,16 +1110,7 @@ if (contractTab.variable.contractType === "1") {
     contractTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         icon: "[SKIN]/actions/print.png",
         title: "<spring:message code='global.form.print'/>",
-        click: function () {
-            let record = contractTab.listGrid.main.getSelectedRecord();
-            if (record == null || record.id == null)
-                contractTab.dialog.notSelected();
-            else {
-                contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).setContents(!record.content ? "" : record.content);
-                contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).redraw();
-                contractTab.variable.contractPreviewForm.justShowForm();
-            }
-        }
+        click: () => contractTab.method.showPrintPreview()
     }), 7);
     // </sec:authorize>
 }
@@ -1144,17 +1118,7 @@ if (contractTab.variable.contractType === "1") {
 contractTab.menu.main.data.add({
     icon: "[SKIN]/actions/print.png",
     title: '<spring:message code="global.form.print"/>',
-    click: function () {
-
-        let record = contractTab.listGrid.main.getSelectedRecord();
-        if (record == null || record.id == null)
-            contractTab.dialog.notSelected();
-        else {
-            contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).setContents(!record.content ? "" : record.content);
-            contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).redraw();
-            contractTab.variable.contractPreviewForm.justShowForm();
-        }
-    }
+    click: () => contractTab.method.showPrintPreview()
 });
 contractTab.menu.main.initWidget();
 
@@ -1320,6 +1284,24 @@ contractTab.method.editForm = function () {
     }
 };
 
+contractTab.method.showPrintPreview = function () {
+
+    let record = contractTab.listGrid.main.getSelectedRecord();
+    if (record == null || record.id == null)
+        contractTab.dialog.notSelected();
+    else
+        contractTab.method.jsonRPCManagerRequest({
+            httpMethod: "GET",
+            actionURL: contractTab.variable.contractUrl + "content/" + record.id,
+        }, (resp) => {
+
+            let content = resp.data;
+            contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).setContents(!content ? "" : content);
+            contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).redraw();
+            contractTab.variable.contractPreviewForm.contractId = record.id;
+            contractTab.variable.contractPreviewForm.justShowForm();
+        });
+};
 contractTab.method.destroyArticles = function () {
 
     contractTab.sectionStack.contract.sections.forEach(section => {

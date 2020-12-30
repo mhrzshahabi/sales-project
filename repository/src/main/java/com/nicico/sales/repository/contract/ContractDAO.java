@@ -13,10 +13,14 @@ import java.util.List;
 @Repository
 public interface ContractDAO extends JpaRepository<Contract, Long>, JpaSpecificationExecutor<Contract> {
 
+    @Query("SELECT c.content FROM Contract c where c.id=:id")
+    String getContent(Long id);
+
     @Query(value = "SELECT SEQ_CONTRACT_NO.nextval FROM dual ", nativeQuery = true)
     Long findNextContractSequence();
 
     List<Contract> findAllByEStatusAndContractTypeId(@Param("eStatus") List<EStatus> eStatus, @Param("contractTypeId") Long contractTypeId);
+
     List<Contract> findAllByParentId(Long parentId);
 
     @Query("select cdt.contract from ContractDetail cdt where cdt.contractDetailTypeId=:typeId")
