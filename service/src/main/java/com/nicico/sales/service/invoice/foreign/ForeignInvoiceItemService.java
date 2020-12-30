@@ -1,14 +1,10 @@
 package com.nicico.sales.service.invoice.foreign;
 
-import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.*;
 import com.nicico.sales.dto.contract.ContractDiscountDTO;
 import com.nicico.sales.dto.invoice.foreign.ContractDetailDataDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
-import com.nicico.sales.enumeration.ActionType;
-import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
-import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IInspectionReportService;
 import com.nicico.sales.iservice.IPriceBaseService;
 import com.nicico.sales.iservice.IUnitService;
@@ -21,7 +17,6 @@ import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import com.nicico.sales.service.GenericService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -47,42 +42,6 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
     private final IUnitService unitService;
     private final IPriceBaseService priceBaseService;
     private final IInspectionReportService inspectionReportService;
-
-    @Override
-    @Transactional
-    @Action(value = ActionType.List)
-    public ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, Date sendDate, Long financeUnitId, Long inspectionAssayDataId, Long inspectionWeightDataId, ContractDetailDataDTO.Info contractDetailDataInfo) {
-
-        InspectionReportDTO.Info inspectionAssayReportDTO = inspectionReportService.get(inspectionAssayDataId);
-        List<AssayInspectionDTO.InfoWithoutInspectionReport> assayValues = inspectionAssayReportDTO.getAssayInspections();
-
-        InspectionReportDTO.Info inspectionWeightReportDTO = inspectionReportService.get(inspectionWeightDataId);
-        List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues = inspectionWeightReportDTO.getWeightInspections();
-
-        Set<Long> materialIds = assayValues.stream().filter(q -> q.getMaterialElement().getPayable() || q.getMaterialElement().getPenalty()).map(q -> q.getMaterialElement().getMaterialId()).collect(Collectors.toSet());
-        List<Long> inventoryIds = weightValues.stream().map(WeightInspectionDTO::getInventoryId).collect(Collectors.toList());
-        if (materialIds.size() != 1)
-            throw new SalesException2(ErrorType.BadRequest, "material", "There is multiple material.");
-
-        String priceContent = contractDetailDataInfo.getPriceContent();
-        String quotationalPeriodContent = contractDetailDataInfo.getQuotationalPeriodContent();
-        List<ContractDiscountDTO.Info> discountArticle = contractDetailDataInfo.getDiscount();
-
-        List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfBasePricesByMOAS(contractId, financeUnitId, contractDetailDataInfo.getMOAS());
-
-        List<Map<String, Object>> data = new ArrayList<>();
-        List<ForeignInvoiceItemDTO.FieldData> fields = createFields(assayValues);
-        createData(inventoryIds, assayValues, weightValues, discountArticle, basePrices, financeUnitId);
-
-        ForeignInvoiceItemDTO.Calc2Data result = new ForeignInvoiceItemDTO.Calc2Data();
-        result.setData(data);
-        result.setFields(fields);
-        result.setPriceBase(basePrices);
-        result.setPriceContent(priceContent);
-        result.setQuotationalPeriodContent(quotationalPeriodContent);
-
-        return result;
-    }
 
     @Override
     public ForeignInvoiceItemDTO.Calc2Data getCalculationMolybdenumData(Long contractId, Date sendDate, Long financeUnitId, Long inspectionAssayDataId, Long inspectionWeightDataId, ContractDetailDataDTO.Info contractDetailDataInfo) {

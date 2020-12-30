@@ -51,21 +51,25 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
                     pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1 + item.getMoasValue(), materialElement.getElementId(), financeUnitId));
                 else if (item.getWorkingDayAfter() != null && item.getWorkingDayBefore() != null) {
 
-//                List<Date> workingDays = new ArrayList<>();
                     HRMDTO.BusinessDaysRq businessDaysRq = new HRMDTO.BusinessDaysRq();
                     businessDaysRq.setType(2);
                     businessDaysRq.setDate(item.getDate());
                     businessDaysRq.setAfter(item.getWorkingDayAfter());
                     businessDaysRq.setBefore(item.getWorkingDayBefore());
-                    HRMDTO.BusinessDaysInfo businessDays = hrmApiService.getBusinessDays(businessDaysRq);
+                    try {
+                        HRMDTO.BusinessDaysInfo businessDays = hrmApiService.getBusinessDays(businessDaysRq);
+                        List<HRMDTO.DayInfo> dayInfos = new ArrayList<>(businessDays.getAfter());
+                        dayInfos.add(businessDays.getToday());
+                        dayInfos.addAll(businessDays.getBefore());
 
-                    List<HRMDTO.DayInfo> dayInfos = new ArrayList<>(businessDays.getAfter());
-                    dayInfos.add(businessDays.getToday());
-                    dayInfos.addAll(businessDays.getBefore());
-
-                    List<String> workingDays = dayInfos.stream().map(dayInfo -> new SimpleDateFormat("YYYY-MM-dd").format(dayInfo.getTimestamp())).collect(Collectors.toList());
-                    pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), workingDays, materialElement.getElementId(), financeUnitId));
-                } else throw new SalesException2(ErrorType.InvalidData, "MOASValue", "Data is not Complete");
+                        List<String> workingDays = dayInfos.stream().map(dayInfo -> new SimpleDateFormat("YYYY-MM-dd").format(dayInfo.getTimestamp())).collect(Collectors.toList());
+                        pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), workingDays, materialElement.getElementId(), financeUnitId));
+                    } catch (Exception e) {
+                        throw new SalesException2(ErrorType.Forbidden, "businessDays", "No Access to HRM System");
+                    }
+                }
+                else
+                    throw new SalesException2(ErrorType.InvalidData, "MOASValue", "Data is not Complete");
             });
             Set<Long> pricesByElementIds = pricesByElements.stream().map(PriceBase::getElementId).collect(Collectors.toSet());
             if (pricesByElementIds.size() == 0)
@@ -90,7 +94,6 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
 
                 priceBases.add(priceBase);
             });
-
 
             if (priceBases.size() == 0) throw new NotFoundException(PriceBase.class);
 
