@@ -41,15 +41,6 @@ public class ForeignInvoiceItemRestController {
     }
 
     @Loggable
-    @PostMapping(value = "/get-calculation2-data")
-    public ResponseEntity<ForeignInvoiceItemDTO.Calc2Data> getCalculation2Data(@RequestParam Long contractId, @RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy") Date sendDate,
-                                                                               @RequestParam Long financeUnitId, @RequestParam Long inspectionAssayDataId,
-                                                                               @RequestParam Long inspectionWeightDataId, @RequestBody ContractDetailDataDTO.Info contractDetailDataInfo) {
-
-        return new ResponseEntity<>(foreignInvoiceItemService.getCalculation2Data(contractId, sendDate, financeUnitId, inspectionAssayDataId, inspectionWeightDataId, contractDetailDataInfo), HttpStatus.OK);
-    }
-
-    @Loggable
     @PostMapping(value = "/get-calculation-molybdenum-data")
     public ResponseEntity<ForeignInvoiceItemDTO.Calc2Data> getCalculationMolybdenumData(@RequestParam Long contractId, @RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy") Date sendDate,
                                                                                         @RequestParam Long financeUnitId, @RequestParam Long inspectionAssayDataId,
@@ -57,7 +48,6 @@ public class ForeignInvoiceItemRestController {
 
         return new ResponseEntity<>(foreignInvoiceItemService.getCalculationMolybdenumData(contractId, sendDate, financeUnitId, inspectionAssayDataId, inspectionWeightDataId, contractDetailDataInfo), HttpStatus.OK);
     }
-
 
     @Loggable
     @PostMapping
