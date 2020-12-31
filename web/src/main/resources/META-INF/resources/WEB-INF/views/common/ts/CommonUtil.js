@@ -10,16 +10,21 @@ var nicico;
     //------------------------------------------ Classes -------------------------------------------
     var CommonUtil = /** @class */ (function () {
         function CommonUtil() {
-            // @ts-ignore
-            this.getAlignByLang = function () {
+            CommonUtil.sleep = function (milis) {
+                var start = Date.now();
+                while (true) {
+                    var clock = (Date.now() - start);
+                    if (clock >= milis)
+                        break;
+                }
+            };
+            CommonUtil.getAlignByLang = function () {
                 return "left";
             };
-            // @ts-ignore
-            this.getAlignByLangReverse = function () {
+            CommonUtil.getAlignByLangReverse = function () {
                 return "right";
             };
-            // @ts-ignore
-            this.getLang = function () {
+            CommonUtil.getLang = function () {
                 return "fa";
             };
             // @ts-ignore

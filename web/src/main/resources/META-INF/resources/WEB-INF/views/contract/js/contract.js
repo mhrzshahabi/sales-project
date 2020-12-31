@@ -104,7 +104,7 @@ contractTab.method.getDynamicFormFields = function () {
                     }]
                 });
                 contractTab.dynamicForm.valuesManager.setValue("material", this.getSelectedRecord());
-                contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
+                contractTab.method.removeArticles();
 
                 return this.Super("changed", arguments);
             }
@@ -366,7 +366,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
                     src: "pieces/16/icon_add.png",
                     prompt: '<spring:message code="global.add"/>',
                     disabled: contractTab.sectionStack.contract.hasContractDetailType(record.id),
-                    click: function () {
+                    click: function (isInLoop) {
 
                         if (!contractTab.dynamicForm.main.validate())
                             return;
@@ -398,6 +398,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
                         }
                         if (!contractTab.variable.contractDetails || (contractTab.variable.contractDetails && contractTab.variable.contractDetails.map(q => q.contractDetailTypeId).filter(p => p == record.id).length <= 0))
                             contractTab.method.addArticle({
+                                isInLoop: isInLoop == null ? false : isInLoop,
                                 isNewMode: true,
                                 template: null,
                                 contractDetail: null,
@@ -407,13 +408,13 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
                         else {
                             let contractDetails = contractTab.variable.contractDetails.filter(p => p.contractDetailTypeId == record.id).first();
                             contractTab.method.addArticle({
+                                isInLoop: isInLoop == null ? false : isInLoop,
                                 isNewMode: false,
                                 contractDetail: contractDetails,
                                 position: contractDetails.position,
                                 template: contractDetails.contractDetailTemplate,
                                 contractDetailType: contractDetails.contractDetailType
                             });
-
                         }
                     }
                 });
@@ -441,7 +442,7 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
             if (!this.setContractDetailData(section))
                 return null;
 
-            section.data.contractDetail.position = i + 1;
+            section.data.contractDetail.position = i;
             result.add(section.data.contractDetail);
         }
 
@@ -765,6 +766,40 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 contractTab.window.main.close();
                 contractTab.method.destroyArticles();
             }
+        }),
+        isc.ToolStrip.create({
+            width: "100%",
+            border: '0px',
+            align: nicico.CommonUtil.getAlignByLang(),
+            members: [
+                isc.ToolStripButton.create({
+                    icon: "[SKIN]/actions/add.png",
+                    click: function () {
+
+                        let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
+                        if (contractDetailTypeData && !(contractDetailTypeData instanceof Array))
+                            contractDetailTypeData = contractDetailTypeData.localData;
+                        if (contractDetailTypeData && contractDetailTypeData.length)
+                            contractDetailTypeData.forEach((q, i) => {
+
+                                let addButton = contractTab.listGrid.contractDetailType.getRecordComponent(i);
+                                if (!addButton.disabled) addButton.click(true);
+                            });
+                    }
+                }),
+                isc.ToolStripButton.create({
+                    icon: "[SKIN]/actions/remove.png",
+                    click: function () {
+                        contractTab.method.removeArticles();
+                    }
+                }),
+                isc.ToolStripButton.create({
+                    icon: "[SKIN]/actions/sort.png",
+                    click: async function () {
+                        await contractTab.method.sortArticles();
+                    }
+                })
+            ]
         })
     ]
 });
@@ -1148,7 +1183,7 @@ contractTab.method.newForm = function () {
     contractTab.variable.method = "POST";
     contractTab.listGrid.contractDetailType.show();
     contractTab.dynamicForm.main.clearValues();
-    contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
+    contractTab.method.removeArticles();
     contractTab.listGrid.contractDetailType.setCriteria({
         operator: 'and',
         criteria: [{
@@ -1246,7 +1281,7 @@ contractTab.method.editForm = function () {
                     contractTab.dynamicForm.main.setValue("affectFrom", new Date(listGridRecord.affectFrom));
                     contractTab.dynamicForm.main.setValue("affectUpTo", new Date(listGridRecord.affectUpTo));
 
-                    contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
+                    contractTab.method.removeArticles();
 
                     contractTab.listGrid.contractDetailType.invalidateRecordComponents();
                     contractTab.listGrid.contractDetailType.setCriteria(null);
@@ -1265,6 +1300,7 @@ contractTab.method.editForm = function () {
 
                         if (!contractTab.listGrid.contractDetailType.appendixMode)
                             record.contractDetails.sortByProperty('position').reverse().forEach(contractDetail => contractTab.method.addArticle({
+                                isInLoop: true,
                                 isNewMode: false,
                                 contractDetail: contractDetail,
                                 position: contractDetail.position,
@@ -1311,6 +1347,26 @@ contractTab.method.destroyArticles = function () {
         section.dynamicGrids?.forEach(dynamicGrid => dynamicGrid.destroy());
     });
 };
+contractTab.method.removeArticles = function (articleNames) {
+
+    let sectionNames = articleNames && articleNames instanceof Array && articleNames.length ?
+        articleNames : contractTab.sectionStack.contract.getSectionNames();
+
+    let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
+    if (contractDetailTypeData && !(contractDetailTypeData instanceof Array))
+        contractDetailTypeData = contractDetailTypeData.localData;
+
+    sectionNames.forEach(sectionName => {
+
+        contractTab.sectionStack.contract.removeSection(sectionName + "")
+
+        if (contractDetailTypeData && contractDetailTypeData.length) {
+
+            let detailTypeRecord = contractDetailTypeData.filter(q => q.id === sectionName).first();
+            contractTab.listGrid.contractDetailType.getRecordComponent(contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord)).enable();
+        }
+    });
+};
 contractTab.method.setDisplayData = function (grid, isDynamicGrid) {
 
     let data = clone(grid.getData());
@@ -1324,7 +1380,34 @@ contractTab.method.setDisplayData = function (grid, isDynamicGrid) {
 
     return data;
 };
+contractTab.method.disableDetailAddButton = function (sectionStackSectionObj) {
 
+    let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
+    if (contractDetailTypeData && !(contractDetailTypeData instanceof Array))
+        contractDetailTypeData = contractDetailTypeData.localData;
+    if (contractDetailTypeData && contractDetailTypeData.length) {
+
+        let detailTypeRecord = contractDetailTypeData.filter(q => q.id === sectionStackSectionObj.data.contractDetailType.id).first();
+        let recordIndex = contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord);
+        if (recordIndex >= 0) {
+
+            let addButton = contractTab.listGrid.contractDetailType.getRecordComponent(recordIndex);
+            if (addButton)
+                addButton.disable();
+        }
+    }
+};
+contractTab.method.sortArticles = async function () {
+
+    await Promise.all(contractTab.sectionStack.contract.sections.sortByProperty('position').reverse().map((section, i) => {
+
+        try {
+            contractTab.sectionStack.contract.reorderSection(section, i);
+        } catch {
+            console.log('reorder section failure: ', i, section);
+        }
+    }));
+};
 contractTab.method.addArticle = async function (data) {
 
     if (!data.contractDetail)
@@ -1338,12 +1421,13 @@ contractTab.method.addArticle = async function (data) {
         };
     if (data.template == null) {
 
-        if (data.contractDetailType.contractDetailTypeTemplates.length === 1) {
+        if ((data.isInLoop && data.contractDetailType.contractDetailTypeTemplates.length) || data.contractDetailType.contractDetailTypeTemplates.length === 1) {
 
             data.template = data.contractDetailType.contractDetailTypeTemplates[0].content;
             data.contractDetail.contractDetailTemplate = data.template;
             await contractTab.method.createArticle(data);
         } else {
+
             contractTab.variable.contractDetailTypeTemplateSelectorForm.okCallBack = async function (templateContent) {
 
                 data.template = templateContent;
@@ -1401,17 +1485,7 @@ contractTab.method.createArticle = async function (data) {
                 src: "[SKIN]/actions/remove.png",
                 click: function () {
 
-                    contractTab.sectionStack.contract.removeSection(data.contractDetailType.id + "");
-
-                    let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
-                    if (contractDetailTypeData && !(contractDetailTypeData instanceof Array))
-                        contractDetailTypeData = contractDetailTypeData.localData;
-                    if (contractDetailTypeData && contractDetailTypeData.length) {
-
-                        let detailTypeRecord = contractDetailTypeData.filter(q => q.id === data.contractDetailType.id).first();
-                        contractTab.listGrid.contractDetailType.getRecordComponent(
-                            contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord)).enable();
-                    }
+                    contractTab.method.removeArticles([data.contractDetailType.id + ""]);
                 }
             })
             // </sec:authorize>
@@ -1667,6 +1741,7 @@ contractTab.method.createArticleBody = async function (sectionStackSectionObj) {
 
         sectionStackSectionObj.form = form;
         sectionStackSectionObj.items.push(form);
+        form.show();
     }
 
     let grids = await contractTab.method.createArticleBodyGrid(sectionStackSectionObj.data.contractDetailType, sectionStackSectionObj.data.contractDetail, sectionStackSectionObj.data.isNewMode);
@@ -1674,6 +1749,7 @@ contractTab.method.createArticleBody = async function (sectionStackSectionObj) {
 
         sectionStackSectionObj.grids = grids;
         sectionStackSectionObj.items.addAll(grids);
+        grids.forEach(grid => grid.show());
     }
 
     let dynamicGrids = await contractTab.method.createArticleBodyDynamicGrid(sectionStackSectionObj.data.contractDetailType, sectionStackSectionObj.data.contractDetail, sectionStackSectionObj.data.isNewMode);
@@ -1681,44 +1757,14 @@ contractTab.method.createArticleBody = async function (sectionStackSectionObj) {
 
         sectionStackSectionObj.dynamicGrids = dynamicGrids;
         sectionStackSectionObj.items.addAll(dynamicGrids);
+        dynamicGrids.forEach(dynamicGrid => dynamicGrid.show());
     }
 
-    if (!sectionStackSectionObj.data.isNewMode && sectionStackSectionObj.position - contractTab.sectionStack.contract.sections.length > 1)
-        contractTab.method.addSectionWithDelay(sectionStackSectionObj);
-    else {
-
-        contractTab.sectionStack.contract.addSection(sectionStackSectionObj, sectionStackSectionObj.position);
-        contractTab.method.disableDetailAddButton(sectionStackSectionObj);
-    }
-};
-contractTab.method.addSectionWithDelay = function (sectionStackSectionObj) {
-
-    setTimeout(() => {
-        if (sectionStackSectionObj.position - contractTab.sectionStack.contract.sections.length > 1)
-            contractTab.method.addSectionWithDelay(sectionStackSectionObj);
-        else {
-
-            contractTab.sectionStack.contract.addSection(sectionStackSectionObj, sectionStackSectionObj.position);
-            contractTab.method.disableDetailAddButton(sectionStackSectionObj);
-        }
-    }, 10);
-};
-contractTab.method.disableDetailAddButton = function (sectionStackSectionObj) {
-
-    let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
-    if (contractDetailTypeData && !(contractDetailTypeData instanceof Array))
-        contractDetailTypeData = contractDetailTypeData.localData;
-    if (contractDetailTypeData && contractDetailTypeData.length) {
-
-        let detailTypeRecord = contractDetailTypeData.filter(q => q.id === sectionStackSectionObj.data.contractDetailType.id).first();
-        let recordIndex = contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord);
-        if (recordIndex >= 0) {
-
-            let addButton = contractTab.listGrid.contractDetailType.getRecordComponent(recordIndex);
-            if (addButton)
-                addButton.disable();
-        }
-    }
+    let position = sectionStackSectionObj.position > contractTab.sectionStack.contract.sections.length ?
+        contractTab.sectionStack.contract.sections.length : sectionStackSectionObj.position;
+    contractTab.sectionStack.contract.addSection(sectionStackSectionObj, position);
+    contractTab.method.disableDetailAddButton(sectionStackSectionObj);
+    await contractTab.method.sortArticles();
 };
 contractTab.method.createArticleForm = async function (contractDetailType, contractDetail, isNewMode) {
 
@@ -1791,6 +1837,7 @@ contractTab.method.createArticleForm = async function (contractDetailType, contr
 
     let dynamicForm = isc.DynamicForm.create({
 
+        visibility: "hidden",
         numCols: 8,
         width: "100%",
         align: "center",
@@ -1852,6 +1899,7 @@ contractTab.method.createArticleBodyGrid = async function (contractDetailType, c
 
         let grid = isc.ListGrid.create({
 
+            visibility: "hidden",
             width: "100%",
             height: "300",
             sortField: 1,
@@ -1980,6 +2028,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
 
         let dynamicGrid = isc.ListGrid.create({
 
+            visibility: "hidden",
             width: "100%",
             height: "300",
             sortField: 1,
