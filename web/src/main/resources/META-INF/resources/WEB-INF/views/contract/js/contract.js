@@ -1362,7 +1362,7 @@ contractTab.method.removeArticles = function (articleNames) {
 
         if (contractDetailTypeData && contractDetailTypeData.length) {
 
-            let detailTypeRecord = contractDetailTypeData.filter(q => q.id === sectionName).first();
+            let detailTypeRecord = contractDetailTypeData.filter(q => q.id == sectionName).first();
             contractTab.listGrid.contractDetailType.getRecordComponent(contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord)).enable();
         }
     });
@@ -1741,7 +1741,6 @@ contractTab.method.createArticleBody = async function (sectionStackSectionObj) {
 
         sectionStackSectionObj.form = form;
         sectionStackSectionObj.items.push(form);
-        form.show();
     }
 
     let grids = await contractTab.method.createArticleBodyGrid(sectionStackSectionObj.data.contractDetailType, sectionStackSectionObj.data.contractDetail, sectionStackSectionObj.data.isNewMode);
@@ -1749,7 +1748,6 @@ contractTab.method.createArticleBody = async function (sectionStackSectionObj) {
 
         sectionStackSectionObj.grids = grids;
         sectionStackSectionObj.items.addAll(grids);
-        grids.forEach(grid => grid.show());
     }
 
     let dynamicGrids = await contractTab.method.createArticleBodyDynamicGrid(sectionStackSectionObj.data.contractDetailType, sectionStackSectionObj.data.contractDetail, sectionStackSectionObj.data.isNewMode);
@@ -1757,7 +1755,6 @@ contractTab.method.createArticleBody = async function (sectionStackSectionObj) {
 
         sectionStackSectionObj.dynamicGrids = dynamicGrids;
         sectionStackSectionObj.items.addAll(dynamicGrids);
-        dynamicGrids.forEach(dynamicGrid => dynamicGrid.show());
     }
 
     let position = sectionStackSectionObj.position > contractTab.sectionStack.contract.sections.length ?
@@ -1837,7 +1834,7 @@ contractTab.method.createArticleForm = async function (contractDetailType, contr
 
     let dynamicForm = isc.DynamicForm.create({
 
-        visibility: "hidden",
+        autoDraw: false,
         numCols: 8,
         width: "100%",
         align: "center",
@@ -1899,7 +1896,7 @@ contractTab.method.createArticleBodyGrid = async function (contractDetailType, c
 
         let grid = isc.ListGrid.create({
 
-            visibility: "hidden",
+            autoDraw: false,
             width: "100%",
             height: "300",
             sortField: 1,
@@ -2028,7 +2025,7 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
 
         let dynamicGrid = isc.ListGrid.create({
 
-            visibility: "hidden",
+            autoDraw: false,
             width: "100%",
             height: "300",
             sortField: 1,
