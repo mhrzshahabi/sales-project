@@ -1428,14 +1428,18 @@ contractTab.method.addArticle = async function (data) {
             await contractTab.method.createArticle(data);
         } else {
 
-            contractTab.variable.contractDetailTypeTemplateSelectorForm.okCallBack = async function (templateContent) {
+            if (data.contractDetailType.contractDetailTypeTemplates || data.contractDetailType.contractDetailTypeTemplates.length) {
 
-                data.template = templateContent;
-                data.contractDetail.contractDetailTemplate = data.template;
-                await contractTab.method.createArticle(data);
-            };
-            contractTab.variable.contractDetailTypeTemplateSelectorForm.bodyWidget.getObject().getMember(0).setData(data.contractDetailType.contractDetailTypeTemplates);
-            contractTab.variable.contractDetailTypeTemplateSelectorForm.justShowForm();
+                contractTab.variable.contractDetailTypeTemplateSelectorForm.okCallBack = async function (templateContent) {
+
+                    data.template = templateContent;
+                    data.contractDetail.contractDetailTemplate = data.template;
+                    await contractTab.method.createArticle(data);
+                };
+                contractTab.variable.contractDetailTypeTemplateSelectorForm.bodyWidget.getObject().getMember(0).setData(data.contractDetailType.contractDetailTypeTemplates);
+                contractTab.variable.contractDetailTypeTemplateSelectorForm.justShowForm();
+            } else if (!data.isInLoop)
+                contractTab.dialog.say('<spring:message code="incoterm.exception.required-info"/>');
         }
     } else if (!data.isNewMode)
         await contractTab.method.createArticle(data);
