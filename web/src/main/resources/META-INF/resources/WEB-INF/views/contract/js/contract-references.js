@@ -139,11 +139,23 @@ function getReferenceFields(referenceType) {
                     name: "minValue",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
                     width: "100%",
+                    align: "center",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnChange: true,
+                        }],
                 },
                 {
                     name: "maxValue",
                     title: "<spring:message code='MaterialFeature.maxValue'/>",
                     width: "100%",
+                    align: "center",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnChange: true,
+                        }],
                 },
                 {
                     name: "unitId",
@@ -180,11 +192,23 @@ function getReferenceFields(referenceType) {
                     name: "treatmentCost",
                     title: "<spring:message code='MaterialFeature.TC'/>",
                     width: "100%",
+                    align: "center",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnChange: true,
+                        }],
                 },
                 {
                     name: "refineryCost",
                     title: "<spring:message code='MaterialFeature.RC'/>",
                     width: "100%",
+                    align: "center",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnChange: true,
+                        }],
                 },
                 {
                     name: "unitId",
@@ -221,16 +245,34 @@ function getReferenceFields(referenceType) {
                     name: "lowerBound",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
                     width: "100%",
+                    align: "center",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnChange: true,
+                        }],
                 },
                 {
                     name: "upperBound",
                     title: "<spring:message code='MaterialFeature.maxValue'/>",
                     width: "100%",
+                    align: "center",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnChange: true,
+                        }],
                 },
                 {
                     name: "discount",
                     title: "<spring:message code='contract.discount'/>",
                     width: "100%",
+                    align: "center",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnChange: true,
+                        }],
                 },
                 Object.assign(materialElementField, {
                     forDisplayField: true,
