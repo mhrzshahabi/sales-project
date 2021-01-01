@@ -366,7 +366,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
                     src: "pieces/16/icon_add.png",
                     prompt: '<spring:message code="global.add"/>',
                     disabled: contractTab.sectionStack.contract.hasContractDetailType(record.id),
-                    click: function (isInLoop) {
+                    click: function () {
 
                         if (!contractTab.dynamicForm.main.validate())
                             return;
@@ -398,7 +398,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
                         }
                         if (!contractTab.variable.contractDetails || (contractTab.variable.contractDetails && contractTab.variable.contractDetails.map(q => q.contractDetailTypeId).filter(p => p == record.id).length <= 0))
                             contractTab.method.addArticle({
-                                isInLoop: isInLoop == null ? false : isInLoop,
+                                isInLoop: contractTab.variable.isInLoop == null ? false : contractTab.variable.isInLoop,
                                 isNewMode: true,
                                 template: null,
                                 contractDetail: null,
@@ -408,7 +408,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
                         else {
                             let contractDetails = contractTab.variable.contractDetails.filter(p => p.contractDetailTypeId == record.id).first();
                             contractTab.method.addArticle({
-                                isInLoop: isInLoop == null ? false : isInLoop,
+                                isInLoop: contractTab.variable.isInLoop == null ? false : contractTab.variable.isInLoop,
                                 isNewMode: false,
                                 contractDetail: contractDetails,
                                 position: contractDetails.position,
@@ -783,7 +783,12 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                             contractDetailTypeData.forEach((q, i) => {
 
                                 let addButton = contractTab.listGrid.contractDetailType.getRecordComponent(i);
-                                if (!addButton.disabled) addButton.click(true);
+                                if (!addButton.disabled) {
+
+                                    contractTab.variable.isInLoop = true;
+                                    addButton.click();
+                                    contractTab.variable.isInLoop = false;
+                                }
                             });
                     }
                 }),
