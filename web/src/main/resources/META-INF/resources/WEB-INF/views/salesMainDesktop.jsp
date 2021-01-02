@@ -530,13 +530,12 @@
 
     var languageForm = isc.DynamicForm.create({
         wrapItemTitles: true,
-        width: 120,
         height: 30,
         styleName: "header-change-lng",
         fields: [{
             name: "languageName",
             showTitle: false,
-            width: 100,
+            width: 120,
             height: "100%",
             type: "select",
             wrapHintText: false,
