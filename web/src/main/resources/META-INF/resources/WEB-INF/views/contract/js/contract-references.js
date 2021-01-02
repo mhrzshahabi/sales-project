@@ -14,7 +14,7 @@ var materialElementField = {
     optionDataSource: isc.MyRestDataSource.create({
         fields: BaseFormItems.concat([
             {
-                name: "elementName",
+                name: "element.name",
                 title: '<spring:message code="assayInspection.materialElement.name"/>'
             },
             {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
@@ -22,13 +22,13 @@ var materialElementField = {
         fetchDataURL: "${contextPath}/api/materialElement/spec-list"
     }),
     pickListFields: [
-        {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
+        {name: "element.name", title: '<spring:message code="assayInspection.materialElement.name"/>'},
         {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
     ],
     pickListProperties: {
         showFilterEditor: true
     }
-}
+};
 
 //**********************************************************************************************************************
 
@@ -69,7 +69,7 @@ function getReferenceFields(referenceType) {
                     displayField: getReferenceDisplayField("Port"),
                     autoFetchData: false,
                     optionDataSource: getReferenceDataSource("Port"),
-                    templateFieldName: "loadPort." +  getReferenceDisplayField("Port"),
+                    templateFieldName: "loadPort." + getReferenceDisplayField("Port"),
                 },
                 {
                     name: "quantity",
@@ -94,11 +94,15 @@ function getReferenceFields(referenceType) {
                 },
                 {
                     forDisplayField: true,
+                    width: "100%",
                     name: "sendDate",
+                    required: false,
                     title: "<spring:message code='global.sendDate'/>",
                     type: "date",
-                    required: false,
-                    width: "100%",
+                    dateFormatter: "toJapanShortDate",
+                    formatCellValue: function (value, record, rowNum, colNum, grid) {
+                        return new Date(value);
+                    }
                 }
             ]);
         case 'Bank':
@@ -135,11 +139,23 @@ function getReferenceFields(referenceType) {
                     name: "minValue",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
                     width: "100%",
+                    align: "center",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnChange: true,
+                        }],
                 },
                 {
                     name: "maxValue",
                     title: "<spring:message code='MaterialFeature.maxValue'/>",
                     width: "100%",
+                    align: "center",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnChange: true,
+                        }],
                 },
                 {
                     name: "unitId",
@@ -176,11 +192,23 @@ function getReferenceFields(referenceType) {
                     name: "treatmentCost",
                     title: "<spring:message code='MaterialFeature.TC'/>",
                     width: "100%",
+                    align: "center",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnChange: true,
+                        }],
                 },
                 {
                     name: "refineryCost",
                     title: "<spring:message code='MaterialFeature.RC'/>",
                     width: "100%",
+                    align: "center",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnChange: true,
+                        }],
                 },
                 {
                     name: "unitId",
@@ -217,16 +245,34 @@ function getReferenceFields(referenceType) {
                     name: "lowerBound",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
                     width: "100%",
+                    align: "center",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnChange: true,
+                        }],
                 },
                 {
                     name: "upperBound",
                     title: "<spring:message code='MaterialFeature.maxValue'/>",
                     width: "100%",
+                    align: "center",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnChange: true,
+                        }],
                 },
                 {
                     name: "discount",
                     title: "<spring:message code='contract.discount'/>",
                     width: "100%",
+                    align: "center",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnChange: true,
+                        }],
                 },
                 Object.assign(materialElementField, {
                     forDisplayField: true,
@@ -363,7 +409,10 @@ function getFieldProperties(fieldType, reference) {
             return {
                 type: "date",
                 textAlign: "center",
-                dateFormatter: "toJapanShortDate"
+                dateFormatter: "toJapanShortDate",
+                formatCellValue: function (value, record, rowNum, colNum, grid) {
+                    return new Date(value);
+                }
             };
         case 'Boolean':
             return {

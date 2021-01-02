@@ -283,7 +283,7 @@ inspectionReportTab.restDataSource.materialRest = isc.MyRestDataSource.create({
             hidden: true
         },
         {
-            name: "descFA",
+            name: "desc",
             title: "<spring:message code='material.descFA'/>"
         },
         {
@@ -816,7 +816,7 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
             autoFetchData: false,
             editorType: "SelectItem",
             valueField: "id",
-            displayField: "descFA",
+            displayField: "desc",
             pickListWidth: "400",
             pickListHeight: "300",
             optionDataSource: inspectionReportTab.restDataSource.materialRest,
@@ -826,7 +826,7 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
                 },
             pickListFields: [
                 {
-                    name: "descFA",
+                    name: "desc",
                 },
                 {
                     name: "code",
@@ -1415,6 +1415,12 @@ inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
                 {
                     type: "required",
                     validateOnChange: true
+                },
+                {
+                    type: "custom",
+                    validateOnChange: true,
+                    errorMessage: "<spring:message code='inspectionReport.validator.weight'/>",
+                    condition: "value <= record.weightGW"
                 }],
             format: "0.###",
             formatCellValue: function (value, record, rowNum, colNum) {
@@ -1854,7 +1860,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
 
     //------------- Save Inspection Data in Object -----------
     let inspectionReportObj = bodyWidget.members[0].members[1].getValues();
-    if (inspectionReportObj.shipmentId === undefined || inspectionReportObj.shipmentId.length === 0)
+    if (inspectionReportObj.shipmentId === undefined || inspectionReportObj.shipmentId === null || inspectionReportObj.shipmentId.length === 0)
         inspectionReportObj.shipmentId = null;
 
     //---------------- Save Weight Data in Object ------------
@@ -1974,6 +1980,8 @@ inspectionReportTab.window.inspecReport.validate = function (data) {
         return false;
     }
 
+    if (!inspectionReportTab.listGrid.weightElement.validateAllData() || !inspectionReportTab.listGrid.assayElement.validateAllData())
+        return false;
 
     let isValid = inspectionReportTab.listGrid.weightElement.getData().length !== 0 || inspectionReportTab.listGrid.assayElement.getData().length !== 0;
     if (!isValid)
@@ -2346,15 +2354,23 @@ inspectionReportTab.listGrid.fields = BaseFormItems.concat([
     },
     {
         name: "inspectionRateValue",
-        title: "<spring:message code='inspectionReport.inspectionRateValue'/>"
+        title: "<spring:message code='inspectionReport.inspectionRateValue'/>",
+        filterOperator: "equals"
     },
     {
         name: "inspectionRateValueType",
-        title: "<spring:message code='inspectionReport.inspectionRateValueType'/>"
+        title: "<spring:message code='inspectionReport.inspectionRateValueType'/>",
+        filterEditorProperties: {
+            operator: "equals",
+            valueMap: JSON.parse('${Enum_InspectionRateValueType}')
+        }
     },
     {
         name: "unit.name",
-        title: "<spring:message code='global.unit'/>"
+        title: "<spring:message code='global.unit'/>",
+        sortNormalizer: function (recordObject) {
+            return recordObject.unit.name;
+        }
     },
     {name: "attachIcon", align: "center", width: "4%", title: "<spring:message code='global.Attachment'/>"}
 

@@ -118,7 +118,10 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
                         width: "100%",
                         contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
                     }));
-                }
+                } else if (resp.httpResponseCode === 403) {
+                    isc.say("<spring:message code='foreign-invoice.access.to.hrm'/>");
+                } else
+                    isc.say("<spring:message code='foreign-invoice.price.base.not.found'/>");
             }
         }));
 

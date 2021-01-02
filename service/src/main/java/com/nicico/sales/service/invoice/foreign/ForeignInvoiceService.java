@@ -14,6 +14,7 @@ import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.EContractDetailValueKey;
 import com.nicico.sales.enumeration.ErrorType;
+import com.nicico.sales.exception.DeActiveRecordException;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IForeignInvoiceDocService;
@@ -21,6 +22,7 @@ import com.nicico.sales.iservice.contract.IContractDetailService;
 import com.nicico.sales.iservice.contract.IContractDetailValueService2;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
 import com.nicico.sales.model.entities.base.Unit;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.contract.Contract;
 import com.nicico.sales.model.entities.contract.Incoterm;
 import com.nicico.sales.model.entities.contract.IncotermRule;
@@ -436,5 +438,24 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         foreignInvoiceIds.forEach(item -> super.deactivate(item));
 
         return deactivate;
+    }
+
+    @Override
+    @Transactional
+    @Action(value = ActionType.Update, authority = "hasAuthority('E_BACK_TO_UNSENT_FOREIGN_INVOICE')")
+    public ForeignInvoiceDTO.Info toUnsent(Long id) {
+
+        ForeignInvoice foreignInvoice = ((ForeignInvoiceDAO) repository).findById(id).orElseThrow(() -> new NotFoundException(ForeignInvoice.class));
+
+        if (!(foreignInvoice instanceof BaseEntity)) return null;
+
+        List<EStatus> eStatus = ((BaseEntity) foreignInvoice).getEStatus();
+
+        if (eStatus.contains(EStatus.DeActive)) throw new DeActiveRecordException();
+        if (eStatus.contains(EStatus.Final)) eStatus.remove(EStatus.Final);
+        if (eStatus.contains(EStatus.RemoveFromAcc)) eStatus.remove(EStatus.RemoveFromAcc);
+
+        validation(foreignInvoice, id);
+        return save(foreignInvoice);
     }
 }

@@ -37,6 +37,12 @@ public class ContractRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/content/{id}")
+    public ResponseEntity<String> getContent(@PathVariable Long id) {
+        return new ResponseEntity<>(contractService.getContent(id), HttpStatus.OK);
+    }
+
+    @Loggable
     @GetMapping(value = "/list")
     public ResponseEntity<List<ContractDTO.Info>> list() {
 

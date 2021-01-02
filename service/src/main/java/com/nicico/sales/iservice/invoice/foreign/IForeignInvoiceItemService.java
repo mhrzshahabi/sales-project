@@ -17,8 +17,6 @@ public interface IForeignInvoiceItemService {
 
     List<ForeignInvoiceItemDTO.Info> list();
 
-    ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, Date sendDate, Long financeUnitId, Long inspectionAssayDataId, Long inspectionWeightDataId, ContractDetailDataDTO.Info contractDetailDataInfo);
-
     ForeignInvoiceItemDTO.Calc2Data getCalculationMolybdenumData(Long contractId, Date sendDate, Long financeUnitId, Long inspectionAssayDataId, Long inspectionWeightDataId, ContractDetailDataDTO.Info contractDetailDataInfo);
 
     ForeignInvoiceItemDTO.Info create(ForeignInvoiceItemDTO.Create request);

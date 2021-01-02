@@ -15,4 +15,6 @@ public interface IForeignInvoiceService extends IGenericService<ForeignInvoice, 
 
     void updateDeletedDocument(List<ForeignInvoiceDTO.Info> data);
 
+    ForeignInvoiceDTO.Info toUnsent(Long id);
+
 }

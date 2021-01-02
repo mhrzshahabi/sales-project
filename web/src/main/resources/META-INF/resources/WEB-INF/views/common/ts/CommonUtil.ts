@@ -34,6 +34,7 @@ namespace nicico {
 
     export class CommonUtil {
 
+        static sleep: any;
         static getAlignByLang: any;
         static getAlignByLangReverse: any;
 
@@ -41,18 +42,26 @@ namespace nicico {
 
         constructor() {
 
-            // @ts-ignore
-            this.getAlignByLang = function () {
+            CommonUtil.sleep = function (milis: number) {
+
+                let start = Date.now();
+                while (true) {
+
+                    let clock = (Date.now() - start);
+                    if (clock >= milis)
+                        break;
+                }
+            };
+
+            CommonUtil.getAlignByLang = function () {
                 return "left";
             };
 
-            // @ts-ignore
-            this.getAlignByLangReverse = function () {
+            CommonUtil.getAlignByLangReverse = function () {
                 return "right";
             };
 
-            // @ts-ignore
-            this.getLang = function () {
+            CommonUtil.getLang = function () {
                 return "fa";
             };
 
@@ -279,7 +288,7 @@ namespace nicico {
                     // @ts-ignore
                     closeClick: function () {
 
-                        this.Super("closeClick", arguments)
+                        this.Super("closeClick", arguments);
                     },
                     items: [
                         isc.VLayout.create({
@@ -314,7 +323,7 @@ namespace nicico {
                     // @ts-ignore
                     closeClick: function () {
 
-                        this.Super("closeClick", arguments)
+                        this.Super("closeClick", arguments);
                     }
                 });
             };
@@ -371,6 +380,7 @@ namespace nicico {
                     tag: ownerWindow,
                     // @ts-ignore
                     closeClick: function () {
+
                         this.Super("closeClick", arguments);
                         if (this.tag != null) this.tag.show();
                     }
@@ -466,9 +476,9 @@ namespace nicico {
                         return $1.toUpperCase();
                     })
                     .split('').forEach(l => {
-                        if (l == l.toUpperCase()) res += ' ';
-                            res += l;
-                    });
+                    if (l == l.toUpperCase()) res += ' ';
+                    res += l;
+                });
 
                 return res.replace(/  /g, ' ');
             }

@@ -254,6 +254,13 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     /******************************************************************************************************************/
 
     @Override
+    @Transactional(readOnly = true)
+    public String getContent(Long id) {
+
+        return ((ContractDAO)repository).getContent(id);
+    }
+
+    @Override
     @Transactional
     @Action(ActionType.Create)
     public ContractDTO.Info create(ContractDTO.Create request) {
@@ -379,10 +386,9 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
             List<ContractDetailValueDTO.Update> contractDetailValueRqs = contractDetail.getContractDetailValues();
 
             contractDetail.setContractId(id);
-//            contractDetail.setContractDetailValues(null);
+            contractDetail.setContractDetailValues(null);
             ContractDetailDTO.Info savedContractDetail = contractDetailService.update(contractDetail);
             List<ContractDetailValue> contractDetailValues = contractDetailValueDAO.getByContractDetailId(savedContractDetail.getId());
-//            contractDetailValues.forEach(contractDetailValue -> contractDetailValue.setDynamicTableValues(null));
 
             // update contractDetailValues
             List<ContractDetailValueDTO.Create> contractDetailValue4Insert = new ArrayList<>();
@@ -421,7 +427,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
                 List<CDTPDynamicTableValueDTO.Update> dynamicTableValueRqs = contractDetailValue.getDynamicTableValues();
 
                 updateContractDetailValueExtras(contractDetailValue);
-//                contractDetailValue.setDynamicTableValues(null);
+                contractDetailValue.setDynamicTableValues(null);
                 contractDetailValue.setContractDetailId(savedContractDetail.getId());
                 ContractDetailValueDTO.Info savedContractDetailValue = contractDetailValueService.update(contractDetailValue);
                 List<CDTPDynamicTableValue> dynamicTableValues = dynamicTableValueDAO.getByContractDetailValueId(savedContractDetailValue.getId());

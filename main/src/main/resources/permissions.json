@@ -2317,6 +2317,10 @@
       "title": "چاپ فاکتور فروش داخلی"
     },
     {
+      "code": "E_BACK_TO_UNSENT_FOREIGN_INVOICE",
+      "title": "ویرایش اسناد حذف شده فروش خارجی از سیستم مالی"
+    },
+    {
       "code": "E_UPDATE_DELETED_INVOICE_INTERNAL",
       "title": "به روز رسانی وضعیت اسناد فروش داخلی"
     },

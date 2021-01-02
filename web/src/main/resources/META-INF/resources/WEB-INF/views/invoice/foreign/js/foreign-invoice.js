@@ -57,7 +57,10 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         required: true,
         showHover: true,
         name: "invoiceType.title",
-        title: "<spring:message code='foreign-invoice.form.invoice-type'/>"
+        title: "<spring:message code='foreign-invoice.form.invoice-type'/>",
+        sortNormalizer: function (recordObject) {
+            return recordObject.invoiceType.title;
+        }
     },
     {
         width: "100%",
@@ -91,7 +94,10 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         required: true,
         showHover: true,
         name: "buyer.nameEN",
-        title: "<spring:message code='foreign-invoice.form.buyer'/>"
+        title: "<spring:message code='foreign-invoice.form.buyer'/>",
+        sortNormalizer: function (recordObject) {
+            return recordObject.buyer.nameEN;
+        }
     },
     {
         width: "100%",
@@ -99,21 +105,30 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         required: true,
         showHover: true,
         name: "shipment.sendDate",
-        title: "<spring:message code='global.sendDate'/>"
+        title: "<spring:message code='global.sendDate'/>",
+        sortNormalizer: function (recordObject) {
+            return recordObject.shipment.sendDate;
+        }
     },
     {
         width: "100%",
         required: true,
         showHover: true,
         name: "shipment.material.descEN",
-        title: "<spring:message code='material.descEN'/>"
+        title: "<spring:message code='material.descEN'/>",
+        sortNormalizer: function (recordObject) {
+            return recordObject.shipment.material.descEN;
+        }
     },
     {
         width: "100%",
         required: true,
         showHover: true,
         name: "creator.fullName",
-        title: "<spring:message code='foreign-invoice.form.creator'/>"
+        title: "<spring:message code='foreign-invoice.form.creator'/>",
+        sortNormalizer: function (recordObject) {
+            return recordObject.creator.fullName;
+        }
     },
     {
         width: "100%",
@@ -125,7 +140,8 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         width: "100%",
         showHover: true,
         name: "percent",
-        title: "<spring:message code='foreign-invoice.form.percent'/>"
+        title: "<spring:message code='foreign-invoice.form.percent'/>",
+        filterOperator: "equals"
     },
     {
         hidden: true,
@@ -1677,6 +1693,16 @@ nicico.BasicFormUtil.createVLayout = function () {
     foreignInvoiceTab.toolStrip.invoiceDeleted = isc.ToolStrip.create({
         width: "100%",
         members: [
+            // <sec:authorize access="hasAuthority('E_BACK_TO_UNSENT_FOREIGN_INVOICE')">
+            isc.ToolStripButton.create({
+                icon: "[SKIN]/actions/notSent.png",
+                title: "<spring:message code='foreign-invoice.back-to-not-sent'/>",
+                click: function () {
+
+                    foreignInvoiceTab.method.backToUnSent(foreignInvoiceTab.listGrid.invoiceDeleted);
+                }
+            }),
+            // </sec:authorize>
             isc.ToolStripButton.create({
                 icon: "pieces/16/icon_view.png",
                 name: "relatedInvoice",
@@ -1906,7 +1932,10 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
                     let data = JSON.parse(resp.httpResponseText).response.data;
                     let remainingPercent = 100 - (data.map(q => q.percent).sum());
                     foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.setValue("remainingPercent", remainingPercent);
-                    foreignInvoiceTab.window.invoiceCompletionForm.justShowForm();
+                    if (remainingPercent <= 0)
+                        foreignInvoiceTab.dialog.say("<spring:message code='foreign-invoice.invoice.completed'/>");
+                    else
+                        foreignInvoiceTab.window.invoiceCompletionForm.justShowForm();
                 }
             });
         }
@@ -3886,8 +3915,7 @@ foreignInvoiceTab.method.editForm = function () {
                     }
                 });
             }
-        });
-    }
+        });    }
 };
 foreignInvoiceTab.method.validateDeleteActionHook = function (record) {
 
@@ -3955,8 +3983,8 @@ foreignInvoiceTab.method.sendToAcc = function (listgrid) {
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("toCurrencyId", toCurrencyName);
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("conversionSumPrice", record.conversionSumPrice);
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("conversionSumPriceText",
-            nicico.CommonUtil.getLang() === "fa" ? String(record.conversionSumPrice).toPersianLetter() + " " + toCurrencyName:
-                numberToEnglish(record.conversionSumPrice) + " " + toCurrencyName);
+            nicico.CommonUtil.getLang() === "fa" ? String(record.conversionSumPrice).toPersianLetter() + " " + toCurrencyName :
+                numberToEnglish(NumberUtil.format(record.conversionSumPrice, "#")) + " " + toCurrencyName);
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("conversionRate", record.conversionRate);
 
         foreignInvoiceTab.window.sentToAccounting.justShowForm();
@@ -3969,6 +3997,26 @@ foreignInvoiceTab.method.print = function (listgrid) {
         foreignInvoiceTab.dialog.notSelected();
     else if (record.shipment.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
         window.open('${printUrl}' + record.id);
+    }
+};
+foreignInvoiceTab.method.backToUnSent = function (listgrid) {
+
+    let record = listgrid.getSelectedRecord();
+    if (!record || !record.id)
+        foreignInvoiceTab.dialog.notSelected();
+    else {
+
+        foreignInvoiceTab.method.jsonRPCManagerRequest({
+            httpMethod: "POST",
+            actionURL: "${contextPath}/api/foreign-invoice/back-to-unSent/" + record.id,
+            callback: function (resp) {
+                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+
+                    foreignInvoiceTab.method.refresh(foreignInvoiceTab.listGrid.invoiceDeleted);
+                    foreignInvoiceTab.method.refresh(foreignInvoiceTab.listGrid.main);
+                }
+            }
+        });
     }
 };
 

@@ -49,10 +49,18 @@ contractDetailTypeTab.dynamicForm.fields.titleEn = {
     title: "<spring:message code='global.title-en'/>",
     sortNormalizer: function (recordObject) {
 
-        let pattern = /\D*(\d+)\D*/;
         let sortOrder = 0;
-        if (pattern.test(recordObject.titleEN))
-            sortOrder = Number(pattern.exec(recordObject.titleEN)[1]);
+        if (!recordObject || !recordObject.title)
+            return sortOrder;
+
+        if (/.*footer.*/i.test(recordObject.title))
+            return Number.MAX_VALUE;
+
+        let pattern = /\D*(\d+)\D*/;
+        if (pattern.test(recordObject.title))
+            sortOrder = Number(pattern.exec(recordObject.title)[1]);
+        else if (!/.*header.*/i.test(recordObject.title))
+            return Number.MAX_VALUE - 1;
 
         return sortOrder;
     }

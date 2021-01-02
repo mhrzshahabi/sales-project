@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.core.SecurityUtil;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.EContractDetailValueKey;
+import com.nicico.sales.iservice.contract.IContractService;
 import com.nicico.sales.model.entities.contract.CDTPDynamicTableValue;
 import com.nicico.sales.model.entities.contract.Contract;
 import com.nicico.sales.model.entities.contract.ContractDetail;
@@ -16,11 +17,16 @@ import com.nicico.sales.model.enumeration.RateReference;
 import com.nicico.sales.utility.SecurityChecker;
 import com.nicico.sales.utility.StringFormatUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -33,6 +39,7 @@ import java.util.stream.Collectors;
 public class ContractFormController {
 
     private final ObjectMapper objectMapper;
+    private final IContractService contractService;
 
     @RequestMapping("/show-form/{contractType}")
     public String show(HttpServletRequest request, @PathVariable String contractType) throws JsonProcessingException {
@@ -126,5 +133,19 @@ public class ContractFormController {
         }
 
         return "contract/contract";
+    }
+
+    @RequestMapping("/print/pdf/{id}")
+    public void printPDF(HttpServletResponse response, @PathVariable Long id) throws IOException {
+
+        String content = contractService.getContent(id);
+
+        response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"contract.pdf\"");
+
+        ServletOutputStream out = response.getOutputStream();
+
+//        .write(out);
+        out.flush();
     }
 }

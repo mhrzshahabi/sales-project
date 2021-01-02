@@ -14,6 +14,15 @@ import java.util.Collections;
 @Component
 public class AuthenticationUtil {
 
+    public HttpHeaders getHttpHeaders() {
+        final OAuth2AuthenticationDetails oAuth2AuthenticationDetails = getOAuth2AuthenticationDetails();
+
+        final HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setBearerAuth(oAuth2AuthenticationDetails.getTokenValue());
+
+        return httpHeaders;
+    }
+
     public HttpHeaders getApplicationJSONHttpHeaders() {
         final OAuth2AuthenticationDetails oAuth2AuthenticationDetails = getOAuth2AuthenticationDetails();
 
@@ -31,6 +40,16 @@ public class AuthenticationUtil {
         final HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setBearerAuth(oAuth2AuthenticationDetails.getTokenValue());
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        return httpHeaders;
+    }
+
+    public HttpHeaders getMultiPartFormDataHttpHeaders() {
+        final OAuth2AuthenticationDetails oAuth2AuthenticationDetails = getOAuth2AuthenticationDetails();
+
+        final HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setBearerAuth(oAuth2AuthenticationDetails.getTokenValue());
+        httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         return httpHeaders;
     }
