@@ -899,7 +899,14 @@ contractTab.variable.contractPreviewForm.init(null, "<spring:message code='contr
             isc.ToolStripButton.create({
                 icon: "[SKIN]/actions/print.png",
                 title: "<spring:message code='global.form.print.pdf'/>",
-                click: () => window.open('${contextPath}/contract/print/pdf/' + contractTab.variable.contractPreviewForm.contractId)
+                click: () => {
+                    let fileDownload = document.createElement("a");
+                    document.body.appendChild(fileDownload);
+                    fileDownload.href = "${contextPath}/contract/print/pdf/"+contractTab.variable.contractPreviewForm.contractId;
+                    fileDownload.download = 'contract.pdf';
+                    fileDownload.click();
+                    document.body.removeChild(fileDownload);
+                }
             }),
             isc.ToolStripButton.create({
                 icon: "pieces/512/word.png",

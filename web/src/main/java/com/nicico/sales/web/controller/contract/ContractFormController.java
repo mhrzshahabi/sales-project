@@ -2,6 +2,8 @@ package com.nicico.sales.web.controller.contract;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.kernel.pdf.PdfWriter;
 import com.nicico.copper.core.SecurityUtil;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.EContractDetailValueKey;
@@ -23,7 +25,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -137,15 +138,12 @@ public class ContractFormController {
 
     @RequestMapping("/print/pdf/{id}")
     public void printPDF(HttpServletResponse response, @PathVariable Long id) throws IOException {
-
-        String content = contractService.getContent(id);
-
-        response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF.getSubtype());
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"contract.pdf\"");
-
-        ServletOutputStream out = response.getOutputStream();
-
-//        .write(out);
-        out.flush();
+        PdfWriter writer = new PdfWriter(response.getOutputStream());
+        StringBuffer content = new StringBuffer("<html><head><style> @page {margin-top: 1.7in;margin-bottom: 1.7in;}</style></head><body>");
+        content.append(contractService.getContent(id));
+        content.append("</body></html>");
+        HtmlConverter.convertToPdf(content.toString(), writer);
     }
 }
