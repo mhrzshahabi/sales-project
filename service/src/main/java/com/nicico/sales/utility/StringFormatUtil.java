@@ -13,6 +13,6 @@ public class StringFormatUtil {
 
         return makeMessageKey(name.replaceAll("(\\s+)(\\S)", separator + "$2").
                 replaceFirst("^(" + separator + "*)(.*)", "$2").
-                trim(), separator);
+                trim(), separator).replaceAll(separator + separator, separator);
     }
 }

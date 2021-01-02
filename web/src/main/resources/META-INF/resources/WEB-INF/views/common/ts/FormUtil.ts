@@ -78,22 +78,22 @@ namespace nicico {
             });
             let ok;
             if (showOkButton) {
-            // @ts-ignore
-             ok = isc.IButtonSave.create({
-
                 // @ts-ignore
-                click: function () {
+                ok = isc.IButtonSave.create({
 
-                    let data = This.populateData(This.bodyWidget.getObject());
-                    if (!This.validate(data)) return;
+                    // @ts-ignore
+                    click: function () {
 
-                    This.windowWidget.getObject().close();
-                    if (This.owner.getObject() != null)
-                        This.owner.getObject().show();
-                    This.okCallBack(data);
-                },
-            });
-        }
+                        let data = This.populateData(This.bodyWidget.getObject());
+                        if (!This.validate(data)) return;
+
+                        This.windowWidget.getObject().close();
+                        if (This.owner.getObject() != null)
+                            This.owner.getObject().show();
+                        This.okCallBack(data);
+                    },
+                });
+            }
             return isc.HLayout.create({
 
                 width: "100%",
@@ -112,7 +112,7 @@ namespace nicico {
             width = width == null ? "50%" : width;
             let items = [];
             if (This.bodyWidget.getObject().constructor === Array)
-                // @ts-ignore
+            // @ts-ignore
                 items.addAll(This.bodyWidget.getObject());
             else
                 items.add(This.bodyWidget.getObject());

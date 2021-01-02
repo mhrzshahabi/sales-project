@@ -7,7 +7,6 @@ import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.GridResponse;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
-import com.nicico.copper.core.SecurityUtil;
 import com.nicico.copper.oauth.common.dto.OAPermissionDTO;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.annotation.report.IgnoreReportField;
@@ -28,10 +27,7 @@ import com.nicico.sales.iservice.report.IReportFieldService;
 import com.nicico.sales.iservice.report.IReportService;
 import com.nicico.sales.model.enumeration.ReportSource;
 import com.nicico.sales.service.GenericService;
-import com.nicico.sales.utility.AuthenticationUtil;
-import com.nicico.sales.utility.StringFormatUtil;
-import com.nicico.sales.utility.UpdateUtil;
-import com.nicico.sales.utility.WhereClauseUtil;
+import com.nicico.sales.utility.*;
 import io.minio.errors.ErrorResponseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -143,7 +139,6 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     private final ModelMapper modelMapper;
     private final ObjectMapper objectMapper;
-//    private final RestTemplate restTemplate;
     private final EntityManager entityManager;
     private final ResourceBundleMessageSource messageSource;
 
@@ -527,7 +522,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
         ReportDTO.Info report = get(reportId);
         String authority = permissionKeyPrefix + report.getPermissionBaseKey();
-        if (!SecurityUtil.hasAuthority(authority))
+        if (!SecurityChecker.check("hasAuthority('" + authority + "')"))
             throw new UnAuthorizedException(authority);
 
         return report;
@@ -599,9 +594,9 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         TotalResponse<ReportDTO.InfoWithAccess> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
 
             ReportDTO.InfoWithAccess eResult = modelMapper.map(entity, ReportDTO.InfoWithAccess.class);
-            eResult.setExcelAccess(SecurityUtil.hasAuthority("RG_E_" + eResult.getPermissionBaseKey()));
-            eResult.setPrintAccess(SecurityUtil.hasAuthority("RG_P_" + eResult.getPermissionBaseKey()));
-            eResult.setViewAccess(SecurityUtil.hasAuthority("RG_V_" + eResult.getPermissionBaseKey()));
+            eResult.setExcelAccess(SecurityChecker.check("hasAuthority('RG_E_" + eResult.getPermissionBaseKey() + "')"));
+            eResult.setPrintAccess(SecurityChecker.check("hasAuthority('RG_P_" + eResult.getPermissionBaseKey() + "')"));
+            eResult.setViewAccess(SecurityChecker.check("hasAuthority('RG_V_" + eResult.getPermissionBaseKey() + "')"));
             validation(entity, eResult);
             entities.add(entity);
             return eResult;

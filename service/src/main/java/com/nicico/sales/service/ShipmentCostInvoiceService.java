@@ -5,11 +5,14 @@ import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.*;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
+import com.nicico.sales.exception.DeActiveRecordException;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.*;
 import com.nicico.sales.model.entities.base.ShipmentCostInvoice;
 import com.nicico.sales.model.entities.base.ShipmentCostInvoiceDetail;
+import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.utility.InvoiceNoGenerator;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
@@ -114,5 +117,17 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
         if (!shipmentCostInvoiceDetail4Delete.getIds().isEmpty())
             shipmentCostInvoiceDetailService.deleteAll(shipmentCostInvoiceDetail4Delete);
 
+    }
+
+    @Override
+    @Transactional
+    @Action(value = ActionType.Update, authority = "hasAuthority('E_BACK_TO_UNSENT_SHIPMENT_COST_INVOICE')")
+    public ShipmentCostInvoiceDTO.Info toUnsent(Long id) {
+
+        ShipmentCostInvoice shipmentCostInvoice = repository.findById(id).orElseThrow(() -> new NotFoundException(ShipmentCostInvoice.class));
+        shipmentCostInvoice.getEStatus().remove(EStatus.RemoveFromAcc);
+
+        validation(shipmentCostInvoice, id);
+        return save(shipmentCostInvoice);
     }
 }

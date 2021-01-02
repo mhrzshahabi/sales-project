@@ -87,6 +87,13 @@ public class ShipmentCostInvoiceRestController {
     }
 
     @Loggable
+    @PostMapping(value = "/back-to-unSent/{id}")
+    public ResponseEntity<ShipmentCostInvoiceDTO.Info> toUnsent(@PathVariable Long id) {
+
+        return new ResponseEntity<>(iShipmentCostInvoiceService.toUnsent(id), HttpStatus.OK);
+    }
+
+    @Loggable
     @GetMapping(value = "/update-deleted-document")
     public ResponseEntity<Void> updateDeletedDocument(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
