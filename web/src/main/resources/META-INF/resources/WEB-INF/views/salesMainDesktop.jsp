@@ -816,8 +816,8 @@
                             title: "<spring:message code='entity.contract'/>",
                             click: function () {
 
-								mainTabSet.removeTabs(mainTabSet.tabs.filter(q => q.title === "<spring:message code='entity.contract-template'/>"))
-								createTab("<spring:message code='entity.contract'/>", "<spring:url value="/contract/show-form/" />" + "CONTRACT")
+                                mainTabSet.removeTabs(mainTabSet.tabs.filter(q => q.title === "<spring:message code='entity.contract-template'/>"))
+                                createTab("<spring:message code='entity.contract'/>", "<spring:url value="/contract/show-form/" />" + "CONTRACT")
                             }
                         },
                         </sec:authorize>
@@ -827,8 +827,8 @@
                             title: "<spring:message code='entity.contract-template'/>",
                             click: function () {
 
-								mainTabSet.removeTabs(mainTabSet.tabs.filter(q => q.title === "<spring:message code='entity.contract'/>"))
-								createTab("<spring:message code='entity.contract-template'/>", "<spring:url value="/contract/show-form/" />" + "TEMPLATE")
+                                mainTabSet.removeTabs(mainTabSet.tabs.filter(q => q.title === "<spring:message code='entity.contract'/>"))
+                                createTab("<spring:message code='entity.contract-template'/>", "<spring:url value="/contract/show-form/" />" + "TEMPLATE")
                             }
                         },
                         </sec:authorize>
@@ -1095,7 +1095,7 @@
             cellPadding: 11,
             placement: "none",
             data: [
-                <sec:authorize access="hasAuthority('R_REPORT_GROUP')">
+                <c:if test="<%= SecurityUtil.isAdmin()%>">
                 {
                     title: "<spring:message code='report.menu.report-group'/>",
                     click: function () {
@@ -1103,8 +1103,8 @@
                     }
                 },
                 {isSeparator: true},
-                </sec:authorize>
-                <sec:authorize access="hasAuthority('R_REPORT')">
+                </c:if>
+                <c:if test="<%= SecurityUtil.isAdmin()%>">
                 {
                     title: "<spring:message code='report.menu.pattern'/>",
                     click: function () {
@@ -1112,7 +1112,7 @@
                     }
                 },
                 {isSeparator: true},
-                </sec:authorize>
+                </c:if>
                 <sec:authorize access="hasAuthority('RG_EXECUTE')">
                 {
                     title: "<spring:message code='report.menu.execute'/>",
