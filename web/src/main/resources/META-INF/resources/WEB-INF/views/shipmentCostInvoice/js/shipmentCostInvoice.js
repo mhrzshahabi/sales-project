@@ -467,6 +467,7 @@ shipmentCostInvoiceTab.method.sendToAccounting = function () {
         isc.say("<spring:message code='accounting.document.check.status'/>");
     else if (record.documentId == null) {
 
+        let toCurrencyName = record.conversionRef !== undefined ? record.conversionRef.unitTo.nameFA : "";
         shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("invoiceDate", new Date(record.invoiceDate));
         shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("invoiceNoPaper", record.invoiceNoPaper);
         shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("invoiceType.title", record.invoiceType.title);
@@ -476,8 +477,11 @@ shipmentCostInvoiceTab.method.sendToAccounting = function () {
         shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("sumPrice", record.sumPrice);
         shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("sumPriceWithDiscount", record.sumPriceWithDiscount);
         shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("sumPriceWithVat", record.sumPriceWithVat);
+        shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("conversionSumPriceText",
+            nicico.CommonUtil.getLang() === "fa" ? String(record.conversionSumPrice).toPersianLetter() + " " + toCurrencyName :
+                numberToEnglish(NumberUtil.format(record.conversionSumPrice, "#")) + " " + toCurrencyName);
 
-        shipmentCostInvoiceTab.window.invoiceInfoWindow.show();
+        shipmentCostInvoiceTab.window.invoiceInfo.justShowForm();
     } else isc.say("<spring:message code='accounting.create.document.sent'/>");
 };
 shipmentCostInvoiceTab.method.changeStatus = function () {
@@ -526,19 +530,43 @@ shipmentCostInvoiceTab.method.attachFileList();
 shipmentCostInvoiceTab.method.attachFileListSize = function checkHasPrintTemplate(record) {
     return shipmentCostInvoiceTab.variable.attachFileList.filter(q => q.recordId == record.id).size();
 };
+shipmentCostInvoiceTab.method.backToUnSent = function (listgrid) {
+
+    let record = listgrid.getSelectedRecord();
+    if (!record || !record.id)
+        shipmentCostInvoiceTab.dialog.notSelected();
+    else {
+
+        shipmentCostInvoiceTab.method.jsonRPCManagerRequest({
+            httpMethod: "POST",
+            actionURL: "${contextPath}/api/shipmentCostInvoice/back-to-unSent/" + record.id,
+            callback: function (resp) {
+                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+
+                    shipmentCostInvoiceTab.method.refresh();
+                    shipmentCostInvoiceTab.listGrid.main.invalidateCache();
+                }
+            }
+        });
+    }
+};
 
 //***************************************************** MAINWINDOW *************************************************
 
 shipmentCostInvoiceTab.dynamicForm.valuesManager = isc.ValuesManager.create({});
 shipmentCostInvoiceTab.dynamicForm.mainInvoiceInfo = isc.DynamicForm.create({
-    width: "90%",
-    height: "100%",
-    autoDraw: false,
-    canEdit: true,
-    autoFetchData: false,
+    margin: 10,
     numCols: 4,
-    margin: 15,
-    wrapItemTitles: false,
+    padding: 10,
+    width: "95%",
+    titleWidth: 130,
+    align: "center",
+    borderRadius: 5,
+    border: "1px solid black",
+    showErrorText: true,
+    showErrorStyle: true,
+    showInlineErrors: true,
+    errorOrientation: "bottom",
     valuesManager: shipmentCostInvoiceTab.dynamicForm.valuesManager,
     fields: [
         {
@@ -546,39 +574,52 @@ shipmentCostInvoiceTab.dynamicForm.mainInvoiceInfo = isc.DynamicForm.create({
             title: "<spring:message code='shipmentCostInvoice.invoiceDate'/>",
             type: 'date',
             canEdit: false,
-            width: "10%"
+            width: "100%",
+            editorType: "staticText"
         },
         {
             name: "invoiceNoPaper",
             title: "<spring:message code='shipmentCostInvoice.invoiceNoPaper'/>",
             canEdit: false,
-            type: 'text'
+            type: 'text',
+            width: "100%",
+            editorType: "staticText"
         },
         {
             name: "invoiceType.title",
             title: "<spring:message code='shipmentCostInvoice.invoiceType'/>",
-            canEdit: false
+            canEdit: false,
+            width: "100%",
+            editorType: "staticText"
         },
         {
             name: "sellerContact.name",
             title: "<spring:message code='shipmentCostInvoice.sellerContact'/>",
-            canEdit: false
+            canEdit: false,
+            width: "100%",
+            editorType: "staticText"
         },
         {
             name: "buyerContact.name",
             title: "<spring:message code='shipmentCostInvoice.buyerContact'/>",
-            canEdit: false
+            canEdit: false,
+            width: "100%",
+            editorType: "staticText"
         },
         {
             name: "financeUnit.name",
             title: "<spring:message code='shipmentCostInvoice.financeUnit'/>",
-            canEdit: false
+            canEdit: false,
+            width: "100%",
+            editorType: "staticText"
         },
         {
             name: "sumPrice",
             title: "<spring:message code='shipmentCostInvoice.sumPrice'/>",
             filterOperator: "equals",
             canEdit: false,
+            width: "100%",
+            editorType: "staticText",
             formatCellValue: function (value, record, rowNum, colNum) {
                 if (!value)
                     return value;
@@ -592,6 +633,8 @@ shipmentCostInvoiceTab.dynamicForm.mainInvoiceInfo = isc.DynamicForm.create({
             title: "<spring:message code='shipmentCostInvoice.sumPriceWithDiscount'/>",
             filterOperator: "equals",
             canEdit: false,
+            width: "100%",
+            editorType: "staticText",
             formatCellValue: function (value, record, rowNum, colNum) {
                 if (!value)
                     return value;
@@ -605,6 +648,8 @@ shipmentCostInvoiceTab.dynamicForm.mainInvoiceInfo = isc.DynamicForm.create({
             title: "<spring:message code='shipmentCostInvoice.sumPriceWithVat'/>",
             filterOperator: "equals",
             canEdit: false,
+            width: "100%",
+            editorType: "staticText",
             formatCellValue: function (value, record, rowNum, colNum) {
                 if (!value)
                     return value;
@@ -613,17 +658,25 @@ shipmentCostInvoiceTab.dynamicForm.mainInvoiceInfo = isc.DynamicForm.create({
             },
             // type: 'float'
         }
+        ,
+        {
+            name: "conversionSumPriceText",
+            title: "<spring:message code='shipmentCostInvoice.conversionSumPriceText'/>",
+            width: "100%",
+            editorType: "staticText",
+        }
 
     ]
 });
 shipmentCostInvoiceTab.dynamicForm.mainDocumentInfoForm = isc.DynamicForm.create({
-    width: "90%",
-    height: "100%",
-    autoDraw: false,
-    canEdit: true,
-    autoFetchData: false,
+    margin: 10,
     numCols: 4,
-    margin: 15,
+    width: "100%",
+    align: "center",
+    showErrorText: true,
+    showErrorStyle: true,
+    showInlineErrors: true,
+    errorOrientation: "bottom",
     valuesManager: shipmentCostInvoiceTab.dynamicForm.valuesManager,
     fields: [
         {
@@ -635,7 +688,7 @@ shipmentCostInvoiceTab.dynamicForm.mainDocumentInfoForm = isc.DynamicForm.create
             valueField: "id",
             displayField: "departmentName",
             width: "100%",
-            pickListWidth: "250",
+            pickListWidth: "370",
             allowAdvancedCriteria: false,
             autoFetchData: false,
             pickListFields: [
@@ -675,111 +728,84 @@ shipmentCostInvoiceTab.dynamicForm.mainDocumentInfoForm = isc.DynamicForm.create
         },
     ]
 });
-shipmentCostInvoiceTab.button.save = isc.IButtonSave.create({
-    click: function () {
-
-        shipmentCostInvoiceTab.dynamicForm.valuesManager.validate();
-        if (shipmentCostInvoiceTab.dynamicForm.valuesManager.hasErrors()) {
-            return;
-        }
-        let grid = shipmentCostInvoiceTab.tab.costInvoiceTabs.getTab(shipmentCostInvoiceTab.tab.costInvoiceTabs.selectedTab).pane.members.get(1);
-        let record = grid.getSelectedRecord();
-        if (!record || !record.id) {
-            let ERROR = isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-            setTimeout(function () {
-                ERROR.hide();
-            }, 3000);
-            return;
-        }
-        let data = isc.clone(shipmentCostInvoiceTab.dynamicForm.valuesManager.getValues());
-        data.department = data.department.id;
-        shipmentCostInvoiceTab.method.jsonRPCManagerRequest({
-            actionURL: "${contextPath}/api/accounting/documents/cost/" + record.id,
-            httpMethod: "POST",
-            data: JSON.stringify(data),
-        }, (resp) => {
-            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                let data = JSON.stringify(resp.data).split("@");
-                record.documentId = data[1].replace("\"", "");
-                record.estatus.add(Enums.eStatus2.SendToAcc);
-                isc.say(data[0]);
-                shipmentCostInvoiceTab.window.invoiceInfoWindow.close();
-                grid.getCellCSSText(record);
-                grid.refreshRow(grid.getRowNum(record));
-                shipmentCostInvoiceTab.listGrid.costInvoiceSent.invalidateCache();
-            } else {
-
-                shipmentCostInvoiceTab.window.invoiceInfoWindow.close();
-                record.documentId = -1;
-                grid.getCellCSSText(record);
-                grid.refreshRow(grid.getRowNum(record));
-                isc.RPCManager.handleError(resp, null);
-            }
-        });
-    }
-});
-shipmentCostInvoiceTab.button.cancel = isc.IButtonCancel.create({
-    click: function () {
-        shipmentCostInvoiceTab.window.invoiceInfoWindow.close();
-    }
-});
-shipmentCostInvoiceTab.hLayout.windowButtonHLayout = isc.HLayout.create({
+shipmentCostInvoiceTab.window.invoiceInfo = new nicico.FormUtil();
+shipmentCostInvoiceTab.window.invoiceInfo.init(null, '<spring:message code="accounting.document.create"/>', isc.HLayout.create({
     width: "100%",
-    height: "10",
-    margin: 10,
-    membersMargin: 10,
-    members: [
-        shipmentCostInvoiceTab.button.save,
-        shipmentCostInvoiceTab.button.cancel
-    ]
-});
-shipmentCostInvoiceTab.window.invoiceInfoWindow = isc.Window.create({
-    title: "<spring:message code='accounting.document.create'/>",
-    width: 800,
-    height: 600,
-    autoCenter: true,
-    isModal: true,
-    showModalMask: true,
+    height: "450",
     align: "center",
-    autoDraw: false,
-    dismissOnEscape: true,
-    showMinimizeButton: false,
-    closeClick: function () {
-        this.Super("closeClick", arguments)
-    },
-    items: [
-        {type: "SpacerItem", height: "15"},
-        isc.Label.create({
-            height: 5,
-            contents: "<h3 style='padding-left:20px;padding-right:20px;'><spring:message code='invoice.invoiceInfo'/></h3>"
-        }),
-        isc.HTMLFlow.create({
+    members: [
+        isc.VLayout.create({
             width: "100%",
-            contents: "<span style='width: 100%; display: block; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
-        }),
-        shipmentCostInvoiceTab.dynamicForm.mainInvoiceInfo,
-        {type: "SpacerItem", height: "20"},
-        isc.Label.create({
-            height: 5,
-            contents: "<h3 style='padding-left:20px;padding-right:20px;'><spring:message code='invoice.documentInfo'/></h3>"
-        }),
-        isc.HTMLFlow.create({
-            width: "100%",
-            contents: "<span style='width: 100%; display: block; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
-        }),
-        shipmentCostInvoiceTab.dynamicForm.mainDocumentInfoForm,
-        shipmentCostInvoiceTab.hLayout.windowButtonHLayout
-    ]
-});
+            members: [
 
+                isc.Label.create({
+                    margin: 10,
+                    height: 5,
+                    align: "right",
+                    contents: "<h3 style='text-align: right;padding-right:20px'>"
+                        + "<spring:message code='invoice.invoiceInfo'/>" +
+                        "</h3>"
+                }),
+                isc.HTMLFlow.create({
+                    width: "100%",
+                    contents: "<span style='width: 100%; display: block; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                }),
+                shipmentCostInvoiceTab.dynamicForm.mainInvoiceInfo,
+                isc.Label.create({
+                    margin: 10,
+                    height: 5,
+                    align: "right",
+                    contents: "<h3 style='text-align: right;padding-right:20px'>"
+                        + "<spring:message code='invoice.documentInfo'/>" +
+                        "</h3>"
+                }),
+                isc.HTMLFlow.create({
+                    width: "100%",
+                    contents: "<span style='width: 100%; display: block; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                }),
+                shipmentCostInvoiceTab.dynamicForm.mainDocumentInfoForm
+            ]
+        })
+    ]
+}), "1000", "40%");
+shipmentCostInvoiceTab.window.invoiceInfo.validate = function (date) {
+
+    shipmentCostInvoiceTab.dynamicForm.mainDocumentInfoForm.validate();
+    return !shipmentCostInvoiceTab.dynamicForm.mainDocumentInfoForm.hasErrors();
+};
+shipmentCostInvoiceTab.window.invoiceInfo.populateData = function (data) {
+
+    return shipmentCostInvoiceTab.dynamicForm.valuesManager.getValues();
+};
+shipmentCostInvoiceTab.window.invoiceInfo.okCallBack = function (data) {
+
+    let grid = shipmentCostInvoiceTab.tab.costInvoiceTabs.getTab(shipmentCostInvoiceTab.tab.costInvoiceTabs.selectedTab).pane.members.get(1);
+    let record = grid.getSelectedRecord();
+    data.department = data.department.id;
+    shipmentCostInvoiceTab.method.jsonRPCManagerRequest({
+        actionURL: "${contextPath}/api/accounting/documents/cost/" + record.id,
+        httpMethod: "POST",
+        data: JSON.stringify(data),
+    }, (resp) => {
+        debugger
+        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+
+            let data = JSON.stringify(resp.data).split("@");
+            record.documentId = data[1].replace("\"", "");
+            record.estatus.add(Enums.eStatus2.SendToAcc);
+            isc.say(data[0]);
+            grid.getCellCSSText(record);
+            grid.refreshRow(grid.getRowNum(record));
+            shipmentCostInvoiceTab.listGrid.costInvoiceSent.invalidateCache();
+        } else {
+
+            record.documentId = -1;
+            grid.getCellCSSText(record);
+            grid.refreshRow(grid.getRowNum(record));
+            isc.RPCManager.handleError(resp, null);
+        }
+    });
+};
 shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "id",
@@ -2373,17 +2399,27 @@ nicico.BasicFormUtil.createVLayout = function () {
         width: "100%",
         members: [
 
+            // <sec:authorize access="hasAuthority('E_BACK_TO_UNSENT_SHIPMENT_COST_INVOICE')">
+            isc.ToolStripButton.create({
+                icon: "[SKIN]/actions/notSent.png",
+                title: "<spring:message code='shipmentCostInvoice.back-to-not-sent'/>",
+                click: function () {
+
+                    shipmentCostInvoiceTab.method.backToUnSent(shipmentCostInvoiceTab.listGrid.costInvoiceDeleted);
+                }
+            }),
+            // </sec:authorize>
             //  <sec:authorize access="hasAuthority('E_SEND_SHIPMENT_COST_INVOICE_TO_ACC')">
-            isc.ToolStripButtonPrint.create({
+            isc.ToolStripButton.create({
                 title: "<spring:message code='accounting.document.create'/>",
                 icon: "pieces/receipt.png",
                 click: function () {
+                    //  </sec:authorize>
+                    //  <sec:authorize access="hasAuthority('E_UPDATE_DELETED_SHIPMENT_COST_INVOICE')">
                     shipmentCostInvoiceTab.method.sendToAccounting();
                 }
             }),
-            //  </sec:authorize>
-            //  <sec:authorize access="hasAuthority('E_UPDATE_DELETED_SHIPMENT_COST_INVOICE')">
-            isc.ToolStripButtonPrint.create({
+            isc.ToolStripButton.create({
                 title: "<spring:message code='accounting.document.change.status'/>",
                 icon: "pieces/16/refresh.png",
                 click: function () {
@@ -2637,7 +2673,7 @@ shipmentCostInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     }
 }), 8);
 // </sec:authorize>
-shipmentCostInvoiceTab.toolStrip.main.getCellCSSText = function (record) {
+shipmentCostInvoiceTab.listGrid.main.getCellCSSText = function (record) {
     if (record.documentId > 0)
         return "font-weight:bold; color:green;";
     else if (record.documentId == -1)

@@ -445,15 +445,8 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
     @Action(value = ActionType.Update, authority = "hasAuthority('E_BACK_TO_UNSENT_FOREIGN_INVOICE')")
     public ForeignInvoiceDTO.Info toUnsent(Long id) {
 
-        ForeignInvoice foreignInvoice = ((ForeignInvoiceDAO) repository).findById(id).orElseThrow(() -> new NotFoundException(ForeignInvoice.class));
-
-        if (!(foreignInvoice instanceof BaseEntity)) return null;
-
-        List<EStatus> eStatus = ((BaseEntity) foreignInvoice).getEStatus();
-
-        if (eStatus.contains(EStatus.DeActive)) throw new DeActiveRecordException();
-        if (eStatus.contains(EStatus.Final)) eStatus.remove(EStatus.Final);
-        if (eStatus.contains(EStatus.RemoveFromAcc)) eStatus.remove(EStatus.RemoveFromAcc);
+        ForeignInvoice foreignInvoice = repository.findById(id).orElseThrow(() -> new NotFoundException(ForeignInvoice.class));
+        foreignInvoice.getEStatus().remove(EStatus.RemoveFromAcc);
 
         validation(foreignInvoice, id);
         return save(foreignInvoice);

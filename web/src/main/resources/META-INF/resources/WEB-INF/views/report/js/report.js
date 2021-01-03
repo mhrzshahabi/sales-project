@@ -105,8 +105,12 @@ reportGeneratorTab.restDataSource.reportSourceFields = isc.MyRestDataSource.crea
 
 reportGeneratorTab.listGrid.fields = BaseFormItems.concat([
     {
-        name: "title",
-        title: "<spring:message code='report.title'/>"
+        name: "titleFA",
+        title: "<spring:message code='report.titleFA'/>"
+    },
+    {
+        name: "titleEN",
+        title: "<spring:message code='report.titleEN'/>"
     },
     {
         name: "name",

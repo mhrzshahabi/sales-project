@@ -252,6 +252,10 @@ var nicico;
                     margin: 5
                 }), null, "300");
                 // @ts-ignore
+                selectReportForm.actionWidget.getObject().getMember(0).setTitle("<spring:message code='global.form.print'/>");
+                // @ts-ignore
+                selectReportForm.actionWidget.getObject().getMember(0).setIcon("[SKIN]/actions/print.png");
+                // @ts-ignore
                 selectReportForm.bodyWidget.getObject().reloadData();
             };
             // @ts-ignore

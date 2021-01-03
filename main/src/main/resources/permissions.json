@@ -2341,6 +2341,10 @@
       "title": "ایجاد سند حسابداری فاکتور فروش خارجی"
     },
     {
+      "code": "E_BACK_TO_UNSENT_SHIPMENT_COST_INVOICE",
+      "title": "ویرایش اسناد حذف شده صورتحساب هزینه های حمل از سیستم مالی"
+    },
+    {
       "code": "E_SEND_SHIPMENT_COST_INVOICE_TO_ACC",
       "title": "ایجاد سند حسابداری فاکتور هزینه حمل"
     },
