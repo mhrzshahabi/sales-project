@@ -801,6 +801,22 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 isc.ToolStripButton.create({
                     icon: "[SKIN]/actions/sort.png",
                     click: async function () {
+
+                        let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
+                        if (contractDetailTypeData && !(contractDetailTypeData instanceof Array))
+                            contractDetailTypeData = contractDetailTypeData.localData;
+                        if (contractDetailTypeData && contractDetailTypeData.length) {
+
+                            let orders = contractDetailTypeData.map((record, i) => {
+                                return {name: record.id + "", position: i};
+                            });
+                            await Promise.all(contractTab.sectionStack.contract.sections.map(section => {
+
+                                let order = orders.find(q => q.name == section.name);
+                                if (order)
+                                    section.position = order.position;
+                            }));
+                        }
                         await contractTab.method.sortArticles();
                     }
                 })
