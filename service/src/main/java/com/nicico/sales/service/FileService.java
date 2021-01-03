@@ -1,6 +1,5 @@
 package com.nicico.sales.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.core.SecurityUtil;
 import com.nicico.copper.core.service.minio.EFileAccessLevel;
 import com.nicico.sales.dto.FileDTO;
@@ -35,9 +34,7 @@ import java.util.stream.Collectors;
 public class FileService implements IFileService {
 
     private final ModelMapper modelMapper;
-    private final ObjectMapper objectMapper;
     private final IStorageApiService storageApiService;
-//    private final StorageClient storageClient;
 
     private final FileDAO fileDAO;
 
