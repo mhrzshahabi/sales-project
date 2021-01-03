@@ -166,7 +166,7 @@ namespace nicico {
                             ThisForm.windowWidget.getObject().close();
                             // @ts-ignore
                             if (ThisForm.owner.getObject() != null)
-                            // @ts-ignore
+                                // @ts-ignore
                                 ThisForm.owner.getObject().show();
 
                             ThisForm.cancelCallBack();
@@ -186,7 +186,7 @@ namespace nicico {
                             ThisForm.windowWidget.getObject().close();
                             // @ts-ignore
                             if (ThisForm.owner.getObject() != null)
-                            // @ts-ignore
+                                // @ts-ignore
                                 ThisForm.owner.getObject().show();
 
                             ThisForm.okCallBack(data);
@@ -263,67 +263,28 @@ namespace nicico {
                     creator.dynamicForm.print.action = creator.variable.contextPath + "report-execute/print";
                     // @ts-ignore
                     creator.dynamicForm.print.submitForm();
-
                 };
-
                 // @ts-ignore
-                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-
-                    httpMethod: "GET",
-                    actionURL: "${contextPath}/api/files",
-                    params: {
+                selectReportForm.showForm(creator.window.main, "<spring:message code='global.form.print'/>" + " - " + report.title,
+                    // @ts-ignore
+                    isc.FileUploadForm.create({
+                        accept: ".jasper",
+                        entityName: "Report",
                         recordId: report.id,
-                        entityName: "Report"
-                    },
-                    callback: function (resp) {
-
-                        let data = JSON.parse(resp.httpResponseText);
-                        data = data.filter(q => q.fileStatus !== "DELETED");
-
-                        if (data.length > 1) {
-
-                            // @ts-ignore
-                            selectReportForm.showForm(creator.window.main, "<spring:message code='global.form.print'/>" + " - " + report.title,
-                                // @ts-ignore
-                                isc.FileUploadForm.create({
-                                    canAddFile: false,
-                                    canRemoveFile: false,
-                                    canDownloadFile: false,
-                                    height: "300",
-                                    margin: 5
-                                }),
-                                null, "300"
-                            );
-                            // @ts-ignore
-                            selectReportForm.actionWidget.getObject().getMember(0).setTitle("<spring:message code='global.form.print'/>");
-                            // @ts-ignore
-                            selectReportForm.actionWidget.getObject().getMember(0).setIcon("[SKIN]/actions/print.png");
-                            // @ts-ignore
-                            selectReportForm.bodyWidget.getObject().getMember(1).setData(data);
-
-                        } else if (data.length === 1) {
-                            // @ts-ignore
-                            fetch("${contextPath}/api/files/" + data.get(0).fileKey, {headers: SalesConfigs.httpHeaders}).then(
-                                response => {
-
-                                    if (response.ok)
-                                        response.blob().then(file => {
-
-                                            const url = URL.createObjectURL(file);
-                                            const linkElement = document.createElement('a');
-                                            const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                                            const fileName = filenameRegex.exec(response.headers.get("content-disposition"))[1].replace(/['"]/g, '');
-
-                                            linkElement.setAttribute('download', fileName);
-                                            linkElement.href = url;
-                                            linkElement.click();
-                                        });
-                                    else response.json().then(r => isc.warn(r.errors.map(q => q.message).join('<br>'), {title: "<spring:message code='dialog_WarnTitle'/>"}));
-                                }
-                            );
-                        } else creator.dialog.say("<spring:message code='report.not-attached.jasper-file'/>");
-                    }
-                }));
+                        canAddFile: false,
+                        canRemoveFile: false,
+                        canDownloadFile: false,
+                        height: "300",
+                        margin: 5
+                    }),
+                    null, "300"
+                );
+                // @ts-ignore
+                selectReportForm.actionWidget.getObject().getMember(0).setTitle("<spring:message code='global.form.print'/>");
+                // @ts-ignore
+                selectReportForm.actionWidget.getObject().getMember(0).setIcon("[SKIN]/actions/print.png");
+                // @ts-ignore
+                selectReportForm.bodyWidget.getObject().reloadData();
             };
             // @ts-ignore
             creator.method.showFilterBuilder = function (): void {
@@ -477,13 +438,13 @@ namespace nicico {
             let layout = BasicFormUtil.getDefaultBasicForm(creator, 'report-data/' + report.id);
 
             if (report.reportType === "OneRecord")
-            // @ts-ignore
+                // @ts-ignore
                 creator.listGrid.main.setSelectionType("single");
             if (report.reportType === "SelectedRecords")
-            // @ts-ignore
+                // @ts-ignore
                 creator.listGrid.main.setSelectionType("simple");
             if (report.reportType === "All")
-            // @ts-ignore
+                // @ts-ignore
                 creator.listGrid.main.setSelectionType("none");
 
             return layout;

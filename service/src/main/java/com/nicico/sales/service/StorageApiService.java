@@ -26,17 +26,15 @@ import java.util.Collections;
 @Service
 public class StorageApiService implements IStorageApiService {
 
-    @Value("${spring.application.name}")
-    private String appId;
-
-    @Value("${nicico.apps.storage}")
-    private String storageUrl;
-
-    // ---------------
-
     private final ModelMapper modelMapper;
     private final ObjectMapper objectMapper;
+
+    // ---------------
     private final AuthenticationUtil authenticationUtil;
+    @Value("${spring.application.name}")
+    private String appId;
+    @Value("${nicico.apps.storage}")
+    private String storageUrl;
 
     // ------------------------------
 
