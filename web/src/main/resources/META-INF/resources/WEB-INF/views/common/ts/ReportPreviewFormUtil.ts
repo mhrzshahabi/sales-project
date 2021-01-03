@@ -145,6 +145,8 @@ namespace nicico {
                 };
                 if (criteria)
                     cr.criteria.add(criteria);
+                // @ts-ignore
+                selectedIds.removeEmpty();
                 if (selectedIds && selectedIds.length)
                     cr.criteria.add({
                         fieldName: "id",
