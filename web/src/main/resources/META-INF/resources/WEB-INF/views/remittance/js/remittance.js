@@ -448,7 +448,7 @@ function remittance(targetIdValueMap = {}) {
                         showEdges: false,
                         edgeImage: "",
                         width: "100%",
-                        alignLayout: "center",
+                        layoutAlign: "center",
                         padding: 10,
                         membersMargin: 10,
                         members: [

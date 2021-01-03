@@ -985,7 +985,7 @@ contractDetailTypeTab.dynamicForm.detailType = isc.DynamicForm.create({
 contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
     width: "100%",
     showEdges: false,
-    alignLayout: "center",
+    layoutAlign: "center",
     padding: 10,
     layoutMargin: 5,
     membersMargin: 10,
