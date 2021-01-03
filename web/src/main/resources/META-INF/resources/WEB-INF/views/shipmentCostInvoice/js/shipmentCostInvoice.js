@@ -481,7 +481,7 @@ shipmentCostInvoiceTab.method.sendToAccounting = function () {
         shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("sumPriceWithVat", record.sumPriceWithVat);
         shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("conversionSumPriceText",
             nicico.CommonUtil.getLang() === "fa" ? String(record.conversionSumPrice).toPersianLetter() + " " + toCurrencyName :
-                numberToEnglish(NumberUtil.format(record.conversionSumPrice, "#")) + " " + toCurrencyName);
+                numberToEnglish(NumberUtil.format(record.conversionSumPrice, "#.##")) + " " + toCurrencyName);
 
         shipmentCostInvoiceTab.window.invoiceInfo.justShowForm();
     } else isc.say("<spring:message code='accounting.create.document.sent'/>");
