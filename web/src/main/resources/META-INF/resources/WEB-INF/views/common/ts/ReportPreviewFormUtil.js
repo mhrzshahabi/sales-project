@@ -79,7 +79,6 @@ var nicico;
                 // @ts-ignore
                 creator.dynamicForm.excel.submitForm();
             };
-            
             // @ts-ignore
             creator.dynamicForm.print = isc.DynamicForm.create({
                 method: "POST",
