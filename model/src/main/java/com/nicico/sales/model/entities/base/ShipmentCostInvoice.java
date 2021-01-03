@@ -38,8 +38,7 @@ public class ShipmentCostInvoice extends BaseEntity {
     @Column(name = "D_INVOICE_DATE", nullable = false)
     private Date invoiceDate;
 
-    @NotNull
-    @Column(name = "C_INVOICE_NO_PAPER", nullable = false)
+    @Column(name = "C_INVOICE_NO_PAPER")
     private String invoiceNoPaper;
 
     @Column(name = "C_INVOICE_NO")

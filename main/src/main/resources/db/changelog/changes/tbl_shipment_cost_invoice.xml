@@ -51,4 +51,8 @@
 				tableName="TBL_SHIPMENT_COST_INVOICE"/>
 	</changeSet>
 
+	<changeSet author="MShahabi" id="1799887766554-101">
+		<dropNotNullConstraint columnDataType="VARCHAR2(255 CHAR)" columnName="C_INVOICE_NO_PAPER" tableName="TBL_SHIPMENT_COST_INVOICE"/>
+	</changeSet>
+
 </databaseChangeLog>

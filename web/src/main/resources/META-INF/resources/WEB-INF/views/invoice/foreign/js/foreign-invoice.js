@@ -3984,7 +3984,7 @@ foreignInvoiceTab.method.sendToAcc = function (listgrid) {
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("conversionSumPrice", record.conversionSumPrice);
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("conversionSumPriceText",
             nicico.CommonUtil.getLang() === "fa" ? String(record.conversionSumPrice).toPersianLetter() + " " + toCurrencyName :
-                numberToEnglish(NumberUtil.format(record.conversionSumPrice, "#")) + " " + toCurrencyName);
+                numberToEnglish(NumberUtil.format(record.conversionSumPrice, "#.##")) + " " + toCurrencyName);
         foreignInvoiceTab.dynamicForm.sentToAccountingValuesManager.setValue("conversionRate", record.conversionRate);
 
         foreignInvoiceTab.window.sentToAccounting.justShowForm();

@@ -239,24 +239,55 @@ var nicico;
                     creator.dynamicForm.print.submitForm();
                 };
                 // @ts-ignore
-                selectReportForm.showForm(creator.window.main, "<spring:message code='global.form.print'/>" + " - " + report.title, 
-                // @ts-ignore
-                isc.FileUploadForm.create({
-                    accept: ".jasper",
-                    entityName: "Report",
-                    recordId: report.id,
-                    canAddFile: false,
-                    canRemoveFile: false,
-                    canDownloadFile: false,
-                    height: "300",
-                    margin: 5
-                }), null, "300");
-                // @ts-ignore
-                selectReportForm.actionWidget.getObject().getMember(0).setTitle("<spring:message code='global.form.print'/>");
-                // @ts-ignore
-                selectReportForm.actionWidget.getObject().getMember(0).setIcon("[SKIN]/actions/print.png");
-                // @ts-ignore
-                selectReportForm.bodyWidget.getObject().reloadData();
+                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    httpMethod: "GET",
+                    actionURL: "${contextPath}/api/files",
+                    params: {
+                        recordId: report.id,
+                        entityName: "Report"
+                    },
+                    callback: function (resp) {
+                        var data = JSON.parse(resp.httpResponseText);
+                        data = data.filter(function (q) { return q.fileStatus !== "DELETED"; });
+                        if (data.length > 1) {
+                            // @ts-ignore
+                            selectReportForm.showForm(creator.window.main, "<spring:message code='global.form.print'/>" + " - " + report.title, 
+                            // @ts-ignore
+                            isc.FileUploadForm.create({
+                                canAddFile: false,
+                                canRemoveFile: false,
+                                canDownloadFile: false,
+                                height: "300",
+                                margin: 5
+                            }), null, "300");
+                            // @ts-ignore
+                            selectReportForm.actionWidget.getObject().getMember(0).setTitle("<spring:message code='global.form.print'/>");
+                            // @ts-ignore
+                            selectReportForm.actionWidget.getObject().getMember(0).setIcon("[SKIN]/actions/print.png");
+                            // @ts-ignore
+                            selectReportForm.bodyWidget.getObject().getMember(1).setData(data);
+                        }
+                        else if (data.length === 1) {
+                            // @ts-ignore
+                            fetch("${contextPath}/api/files/" + data.get(0).fileKey, { headers: SalesConfigs.httpHeaders }).then(function (response) {
+                                if (response.ok)
+                                    response.blob().then(function (file) {
+                                        var url = URL.createObjectURL(file);
+                                        var linkElement = document.createElement('a');
+                                        var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                                        var fileName = filenameRegex.exec(response.headers.get("content-disposition"))[1].replace(/['"]/g, '');
+                                        linkElement.setAttribute('download', fileName);
+                                        linkElement.href = url;
+                                        linkElement.click();
+                                    });
+                                else
+                                    response.json().then(function (r) { return isc.warn(r.errors.map(function (q) { return q.message; }).join('<br>'), { title: "<spring:message code='dialog_WarnTitle'/>" }); });
+                            });
+                        }
+                        else
+                            creator.dialog.say("<spring:message code='report.not-attached.jasper-file'/>");
+                    }
+                }));
             };
             // @ts-ignore
             creator.method.showFilterBuilder = function () {
