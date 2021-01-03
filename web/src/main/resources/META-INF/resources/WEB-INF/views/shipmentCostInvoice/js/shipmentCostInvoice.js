@@ -57,7 +57,7 @@ shipmentCostInvoiceTab.restDataSource.contactRest = isc.MyRestDataSource.create(
         {name: "id", primaryKey: true, canEdit: false, hidden: true},
         {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
         {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-        {name: "name"},
+        {name: "name", title: "<spring:message code='shipmentCostInvoice.contactName'/>"},
         {name: "phone", title: "<spring:message code='contact.phone'/>"},
         {name: "fax", title: "<spring:message code='contact.fax'/>"},
         {name: "address", title: "<spring:message code='contact.address'/>"},
@@ -439,6 +439,8 @@ shipmentCostInvoiceTab.method.setVATs = function (year) {
 
 };
 shipmentCostInvoiceTab.method.toLocalLetters = function (nbmr) {
+
+    // let persianLetter = String(nbmr).toPersianLetter().contains("صدم") ? String(nbmr).toPersianLetter().replace("صدم", "") : String(nbmr).toPersianLetter();
     return (languageForm.getValue("languageName") === 'en') ? numberToEnglish(nbmr) : String(nbmr).toPersianLetter();
 };
 shipmentCostInvoiceTab.method.clearListGrid = function () {
@@ -469,7 +471,7 @@ shipmentCostInvoiceTab.method.sendToAccounting = function () {
 
         let toCurrencyName = record.conversionRef !== undefined ? record.conversionRef.unitTo.nameFA : "";
         shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("invoiceDate", new Date(record.invoiceDate));
-        shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("invoiceNoPaper", record.invoiceNoPaper);
+        shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("invoiceNo", record.invoiceNo);
         shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("invoiceType.title", record.invoiceType.title);
         shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("sellerContact.name", record.sellerContact.name);
         shipmentCostInvoiceTab.dynamicForm.valuesManager.setValue("buyerContact.name", record.buyerContact.name);
@@ -578,8 +580,8 @@ shipmentCostInvoiceTab.dynamicForm.mainInvoiceInfo = isc.DynamicForm.create({
             editorType: "staticText"
         },
         {
-            name: "invoiceNoPaper",
-            title: "<spring:message code='shipmentCostInvoice.invoiceNoPaper'/>",
+            name: "invoiceNo",
+            title: "<spring:message code='shipmentCostInvoice.invoiceNo'/>",
             canEdit: false,
             type: 'text',
             width: "100%",
@@ -743,8 +745,8 @@ shipmentCostInvoiceTab.window.invoiceInfo.init(null, '<spring:message code="acco
                     height: 5,
                     align: "right",
                     contents: "<h3 style='text-align: right;padding-right:20px'>"
-                        + "<spring:message code='invoice.invoiceInfo'/>" +
-                        "</h3>"
+                    + "<spring:message code='invoice.invoiceInfo'/>" +
+                    "</h3>"
                 }),
                 isc.HTMLFlow.create({
                     width: "100%",
@@ -756,8 +758,8 @@ shipmentCostInvoiceTab.window.invoiceInfo.init(null, '<spring:message code="acco
                     height: 5,
                     align: "right",
                     contents: "<h3 style='text-align: right;padding-right:20px'>"
-                        + "<spring:message code='invoice.documentInfo'/>" +
-                        "</h3>"
+                    + "<spring:message code='invoice.documentInfo'/>" +
+                    "</h3>"
                 }),
                 isc.HTMLFlow.create({
                     width: "100%",
@@ -847,6 +849,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             }],
         changed: function (form, item, value) {
             form.getItem("referenceId").setValue(null);
+            form.getItem("shipmentId").setValue(null);
             let referenceIdFetchDataURL = "";
             let referenceIdPickListFields = [];
             switch (value) {
@@ -939,7 +942,58 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         width: "400",
-        optionDataSource: null
+        optionDataSource: null,
+        changed: function (form, item, value) {
+
+            let invoiceTypeId = form.getValue("invoiceTypeId");
+            form.getItem("shipmentId").enable();
+            let shipmentId;
+            let refCriteria = {
+                _constructor: "AdvancedCriteria",
+                operator: "and",
+                criteria: [
+                    {fieldName: "id", operator: "equals", value: value}
+                ]
+            };
+            switch (invoiceTypeId) {
+                case ImportantIDs.invoiceType.INSPECTION:
+                    this.optionDataSource.fetchData(refCriteria, function (dsResponse, data, dsRequest) {
+                        if (data.length) {
+                            if (data[0].weightInspections[0])
+                                shipmentId = data[0].weightInspections[0].shipmentId;
+                            if (data[0].assayInspections[0])
+                                shipmentId = data[0].assayInspections[0].shipmentId;
+                            form.setValue("shipmentId", shipmentId);
+                            if (shipmentId)
+                                form.getItem("shipmentId").disable();
+                        }
+                    });
+                    break;
+                case ImportantIDs.invoiceType.THC:
+                    this.optionDataSource.fetchData(refCriteria, function (dsResponse, data, dsRequest) {
+                        if (data.length) {
+                            shipmentId = data[0].shipmentId;
+                            form.setValue("shipmentId", shipmentId);
+                            if (shipmentId)
+                                form.getItem("shipmentId").disable();
+                        }
+                    });
+                    break;
+                case ImportantIDs.invoiceType.BLFEE:
+                    this.optionDataSource.fetchData(refCriteria, function (dsResponse, data, dsRequest) {
+                        if (data.length) {
+                            shipmentId = data[0].shipmentId;
+                            form.setValue("shipmentId", shipmentId);
+                            if (shipmentId)
+                                form.getItem("shipmentId").disable();
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
+
+        }
     },
     {
         name: "shipmentId",
@@ -975,30 +1029,6 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             if (!selectedRecord) return '';
             return DateUtil.format(new Date(selectedRecord.sendDate), "YYYY/MM/dd");
         },
-        changed: function (form, item, value) {
-            let contractId = this.getSelectedRecord().contractShipment.contractId;
-            let criteria = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{
-                    fieldName: "id",
-                    operator: "equals",
-                    value: contractId
-                }]
-            };
-            shipmentCostInvoiceTab.restDataSource.contractRest.fetchData(criteria, function (conDsResponse, conData, conDsRequest) {
-                if (conData.length) {
-                    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("sellerContactId").setValue([]);
-                    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("buyerContactId").setValue([]);
-                    let buyerId = conData[0].contractContacts.filter(q => q.commercialRole === "Buyer").first().contactId;
-                    let sellerId = conData[0].contractContacts.filter(q => q.commercialRole === "Seller").first().contactId;
-                    shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("buyerContactId", buyerId);
-                    shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("sellerContactId", sellerId);
-                    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("buyerContactId").disable();
-                    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("sellerContactId").disable();
-                }
-            });
-        }
     },
     {
         name: "invoiceDate",
@@ -1034,15 +1064,9 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "invoiceNoPaper",
         title: "<spring:message code='shipmentCostInvoice.invoiceNoPaper'/>",
-        required: true,
         type: 'text',
         width: "400",
         wrapTitle: false,
-        validators: [
-            {
-                type: "required",
-                validateOnChange: true
-            }]
     },
     {
         name: "sellerContactId",
@@ -1053,7 +1077,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         valueField: "id",
         displayField: "name",
         width: "400",
-        pickListWidth: "700",
+        pickListWidth: "400",
         pickListHeight: "300",
         optionDataSource: shipmentCostInvoiceTab.restDataSource.contactRest,
         optionCriteria: shipmentCostInvoiceTab.variable.sellerCriteria,
@@ -1063,24 +1087,19 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             },
         pickListFields: [
             {
-                name: "nameFA",
+                name: "name",
                 align: "center",
-                width: "200"
-            },
-            {
-                name: "nameEN",
-                align: "center",
-                width: "200"
+                width: "10%"
             },
             {
                 name: "nationalCode",
                 align: "center",
-                width: "150"
+                width: "10%"
             },
             {
                 name: "economicalCode",
                 align: "center",
-                width: "150"
+                width: "10%"
             }
         ],
         validators: [
@@ -1098,7 +1117,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         valueField: "id",
         displayField: "name",
         width: "400",
-        pickListWidth: "700",
+        pickListWidth: "400",
         pickListHeight: "300",
         optionDataSource: shipmentCostInvoiceTab.restDataSource.contactRest,
         optionCriteria: shipmentCostInvoiceTab.variable.buyerCriteria,
@@ -1108,24 +1127,19 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             },
         pickListFields: [
             {
-                name: "nameFA",
+                name: "name",
                 align: "center",
-                width: "200"
-            },
-            {
-                name: "nameEN",
-                align: "center",
-                width: "200"
+                width: "10%"
             },
             {
                 name: "nationalCode",
                 align: "center",
-                width: "150"
+                width: "10%"
             },
             {
                 name: "economicalCode",
                 align: "center",
-                width: "150"
+                width: "10%"
             }
         ],
         validators: [
@@ -2005,9 +2019,8 @@ shipmentCostInvoiceTab.window.shipmentCost.okCallBack = function (shipmentCostOb
             data: JSON.stringify(shipmentCostObj),
             callback: function (resp) {
                 if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                    isc.say("<spring:message code='global.form.request.successful'/>");
+                    shipmentCostInvoiceTab.dialog.ok();
                     shipmentCostInvoiceTab.method.refresh();
-                    // shipmentCostInvoiceTab.window.shipmentCost.close();
                 } else
                     isc.say(RpcResponse_o.data);
             }
@@ -2038,15 +2051,11 @@ shipmentCostInvoiceTab.method.newForm = function () {
     shipmentCostInvoiceTab.window.shipmentCost.justShowForm();
     shipmentCostInvoiceTab.method.setVATs(shipmentCostInvoiceTab.variable.year)
     shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(0).members.get(2).members.get(0).hide();
-    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("buyerContactId").enable();
-    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("sellerContactId").enable();
 };
 shipmentCostInvoiceTab.method.editForm = function () {
 
     shipmentCostInvoiceTab.variable.method = "PUT";
     shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(0).members.get(2).members.get(0).hide();
-    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("buyerContactId").disable();
-    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("sellerContactId").disable();
 
     let record = shipmentCostInvoiceTab.listGrid.main.getSelectedRecord();
     if (record == null || record.id == null)
@@ -2069,7 +2078,9 @@ shipmentCostInvoiceTab.method.editForm = function () {
             shipmentCostInvoiceTab.dynamicForm.shipmentCost,
             shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("invoiceTypeId"),
             shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("invoiceTypeId").getValue());
-        shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("referenceId").setValue(record.referenceId);
+        shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("referenceId", record.referenceId);
+        shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("shipmentId", record.shipmentId);
+        shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("shipmentId").disable();
 
         // Set toFinanceUnitId
         if (record.conversionRef != null)
@@ -2102,8 +2113,8 @@ shipmentCostInvoiceTab.listGrid.fields = BaseFormItems.concat([
         width: "10%"
     },
     {
-        name: "invoiceNoPaper",
-        title: "<spring:message code='shipmentCostInvoice.invoiceNoPaper'/>",
+        name: "invoiceNo",
+        title: "<spring:message code='shipmentCostInvoice.invoiceNo'/>",
         type: 'text'
     },
     {
