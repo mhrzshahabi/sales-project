@@ -263,8 +263,8 @@ namespace nicico {
                     creator.dynamicForm.print.action = creator.variable.contextPath + "report-execute/print";
                     // @ts-ignore
                     creator.dynamicForm.print.submitForm();
-
                 };
+
                 // @ts-ignore
                 selectReportForm.showForm(creator.window.main, "<spring:message code='global.form.print'/>" + " - " + report.title,
                     // @ts-ignore

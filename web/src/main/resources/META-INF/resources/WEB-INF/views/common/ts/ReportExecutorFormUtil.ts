@@ -289,6 +289,7 @@ namespace nicico {
                                         }),
                                         null, "300"
                                     );
+
                                     // @ts-ignore
                                     selectReportForm.actionWidget.getObject().getMember(0).setTitle("<spring:message code='global.form.print'/>");
                                     // @ts-ignore
