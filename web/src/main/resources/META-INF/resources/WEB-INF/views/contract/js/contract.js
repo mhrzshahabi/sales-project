@@ -754,7 +754,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
     height: "5%",
     width: "100%",
     showEdges: false,
-    alignLayout: "center",
+    layoutAlign: "center",
     padding: 10,
     layoutMargin: 5,
     membersMargin: 10,
@@ -887,28 +887,23 @@ contractTab.variable.contractPreviewForm.init(null, "<spring:message code='contr
         height: "95%",
         padding: 20,
     }),
+    isc.HTMLFlow.create({
+        height: 10,
+        width: "100%",
+        color: "#000000",
+        overflow: "hidden",
+        contents: "<div style='border-bottom: 1px solid #000000;height: 9px;'></div>"
+    }),
     isc.HLayout.create({
-        height: "5%",
+        height: "50",
         width: "100%",
         showEdges: false,
-        alignLayout: "center",
         padding: 10,
-        layoutMargin: 5,
         membersMargin: 10,
         members: [
             isc.ToolStripButton.create({
-                icon: "[SKIN]/actions/print.png",
-                title: "<spring:message code='global.form.print.pdf'/>",
-                click: () => {
-                    let fileDownload = document.createElement("a");
-                    document.body.appendChild(fileDownload);
-                    fileDownload.href = "${contextPath}/contract/print/pdf/"+contractTab.variable.contractPreviewForm.contractId;
-                    fileDownload.download = 'contract.pdf';
-                    fileDownload.click();
-                    document.body.removeChild(fileDownload);
-                }
-            }),
-            isc.ToolStripButton.create({
+                height: 35,
+                layoutAlign: "bottom",
                 icon: "pieces/512/word.png",
                 title: "<spring:message code='global.form.print.contract.word'/>",
                 click: function () {
@@ -927,10 +922,38 @@ contractTab.variable.contractPreviewForm.init(null, "<spring:message code='contr
                     fileDownload.click();
                     document.body.removeChild(fileDownload);
                 }
+            }),
+            isc.ToolStripButton.create({
+                height: 35,
+                layoutAlign: "bottom",
+                icon: "[SKIN]/actions/pdf.png",
+                title: "<spring:message code='global.form.print.pdf'/>",
+                click: () => {
+                    let fileDownload = document.createElement("a");
+                    document.body.appendChild(fileDownload);
+                    fileDownload.href = "${contextPath}/contract/print/pdf/" + contractTab.variable.contractPreviewForm.contractId;
+                    fileDownload.download = 'contract.pdf';
+                    fileDownload.click();
+                    document.body.removeChild(fileDownload);
+                }
+            }),
+            isc.ToolStripButton.create({
+                height: 35,
+                layoutAlign: "bottom",
+                icon: "[SKIN]/actions/print.png",
+                title: "<spring:message code='global.form.print.printer'/>",
+                click: () => {
+                    let printWindow = window.open('', '', 'height=800,width=800');
+                    printWindow.document.write('<html><head><title></title><style> @page {margin-top: 1.7in;margin-bottom: 1.7in;}</style></head><body>');
+                    printWindow.document.write(contractTab.variable.contractPreviewForm.bodyWidget.getObject().get(0).getContents());
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+                    printWindow.print();
+                }
             })
         ]
     })
-], "50%", 0.7 * innerHeight);
+], "70%", 0.85 * innerHeight);
 
 nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creator) => {
     contractTab.window.main = isc.Window.nicico.getDefault(null, [

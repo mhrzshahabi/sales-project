@@ -474,7 +474,7 @@ const crTab = {
                     edgeImage: "",
                     width: "100%",
                     height: "100%",
-                    alignLayout: "bottom",
+                    layoutAlign: "bottom",
                     padding: 10,
                     membersMargin: 10,
                     members: [

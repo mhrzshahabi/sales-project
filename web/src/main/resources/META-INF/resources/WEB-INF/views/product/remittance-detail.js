@@ -449,7 +449,7 @@ const rdTab = {
                     edgeImage: "",
                     width: "100%",
                     height: "5%",
-                    alignLayout: "bottom",
+                    layoutAlign: "bottom",
                     padding: 10,
                     membersMargin: 10,
                     members: [

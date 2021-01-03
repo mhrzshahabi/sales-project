@@ -444,7 +444,7 @@ const BlTab = {
                     edgeImage: "",
                     width: "100%",
                     height: 1,
-                    alignLayout: "bottom",
+                    layoutAlign: "bottom",
                     padding: 10,
                     membersMargin: 10,
                     members: [

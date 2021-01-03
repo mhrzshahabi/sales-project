@@ -71,7 +71,7 @@ isc.defineClass("IncotermTable", isc.VLayout).addProperties({
             height: "5%",
             width: "100%",
             showEdges: false,
-            alignLayout: "center",
+            layoutAlign: "center",
             padding: 10,
             layoutMargin: 5,
             membersMargin: 10,
