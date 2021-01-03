@@ -283,7 +283,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
 
                         This.getMembers().filter(q => q.name === "conversionSumPrice").first().setValue(This.conversionSumPrice);
                         This.getMembers().filter(q => q.name === "conversionSumPrice").first().setUnitId(This.conversionRef ? This.conversionRef.unitToId : This.currency.id);
-                        This.getMembers().filter(q => q.role === "conversionSumPriceText").first().setValue("conversionSumPriceText", numberToEnglish(NumberUtil.format(This.conversionSumPrice, "#")));
+                        This.getMembers().filter(q => q.role === "conversionSumPriceText").first().setValue("conversionSumPriceText", numberToEnglish(NumberUtil.format(This.conversionSumPrice, "#.##")));
                     }
                 });
                 finalPriceButton.show();
