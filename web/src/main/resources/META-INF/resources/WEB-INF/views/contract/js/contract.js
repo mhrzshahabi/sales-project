@@ -2024,7 +2024,8 @@ contractTab.method.createArticleBodyGrid = async function (contractDetailType, c
                                         if (!grid.validateAllData()) return;
                                         grid.saveAllEdits();
                                     }
-                                })]
+                                })
+                            ]
                         })
                     ]
                 })]
@@ -2196,7 +2197,8 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
                                         if (!dynamicGrid.validateAllData()) return;
                                         dynamicGrid.saveAllEdits();
                                     }
-                                })]
+                                })
+                            ]
                         })
                     ]
                 })]
