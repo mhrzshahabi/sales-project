@@ -84,6 +84,8 @@ function getReferenceFields(referenceType) {
 
                         if (value != null)
                             return value.toString();
+
+                        return value;
                     }
                 },
                 {
@@ -100,6 +102,8 @@ function getReferenceFields(referenceType) {
 
                         if (value != null)
                             return value.toString();
+
+                        return value;
                     }
                 },
                 {
@@ -159,6 +163,8 @@ function getReferenceFields(referenceType) {
 
                         if (value != null)
                             return value.toString();
+
+                        return value;
                     }
                 },
                 {
@@ -175,6 +181,8 @@ function getReferenceFields(referenceType) {
 
                         if (value != null)
                             return value.toString();
+
+                        return value;
                     }
                 },
                 {
@@ -222,6 +230,8 @@ function getReferenceFields(referenceType) {
 
                         if (value != null)
                             return value.toString();
+
+                        return value;
                     }
                 },
                 {
@@ -238,6 +248,8 @@ function getReferenceFields(referenceType) {
 
                         if (value != null)
                             return value.toString();
+
+                        return value;
                     }
                 },
                 {
@@ -285,6 +297,8 @@ function getReferenceFields(referenceType) {
 
                         if (value != null)
                             return value.toString();
+
+                        return value;
                     }
                 },
                 {
@@ -301,6 +315,8 @@ function getReferenceFields(referenceType) {
 
                         if (value != null)
                             return value.toString();
+
+                        return value;
                     }
                 },
                 {
@@ -317,6 +333,8 @@ function getReferenceFields(referenceType) {
 
                         if (value != null)
                             return value.toString();
+
+                        return value;
                     }
                 },
                 Object.assign(materialElementField, {
