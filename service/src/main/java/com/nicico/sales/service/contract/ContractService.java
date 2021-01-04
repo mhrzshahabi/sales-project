@@ -44,7 +44,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 
     /******************************************************************************************************************/
 
-    public static final String CONTRACT_DETAIL_EXCEPTION_UPDATE = "contract-detail.exception.update";
+    private static final String CONTRACT_DETAIL_EXCEPTION_UPDATE = "contract-detail.exception.update";
 
     /******************************************************************************************************************/
 

@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -20,11 +21,11 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContractDiscountDTO {
 
-    private Double discount;
+    private BigDecimal discount;
     /*  discount contains upperBound */
-    private Double upperBound;
+    private BigDecimal upperBound;
     /*  discount does NOT contain lowerBound */
-    private Double lowerBound;
+    private BigDecimal lowerBound;
     private Long contractId;
     private Long materialElementId;
 
