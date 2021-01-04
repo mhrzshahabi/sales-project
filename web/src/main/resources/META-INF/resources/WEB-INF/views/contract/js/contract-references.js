@@ -80,6 +80,11 @@ function getReferenceFields(referenceType) {
                         type: "isFloat",
                         validateOnChange: true
                     }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+                    }
                 },
                 {
                     name: "tolerance",
@@ -91,6 +96,11 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+                    }
                 },
                 {
                     forDisplayField: true,
@@ -145,6 +155,11 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+                    }
                 },
                 {
                     name: "maxValue",
@@ -156,6 +171,11 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+                    }
                 },
                 {
                     name: "unitId",
@@ -198,6 +218,11 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+                    }
                 },
                 {
                     name: "refineryCost",
@@ -209,6 +234,11 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+                    }
                 },
                 {
                     name: "unitId",
@@ -251,6 +281,11 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+                    }
                 },
                 {
                     name: "upperBound",
@@ -262,6 +297,11 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+                    }
                 },
                 {
                     name: "discount",
@@ -273,6 +313,11 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+                    }
                 },
                 Object.assign(materialElementField, {
                     forDisplayField: true,
