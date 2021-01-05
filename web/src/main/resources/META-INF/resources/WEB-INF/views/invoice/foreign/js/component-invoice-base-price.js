@@ -18,6 +18,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
         this.Super("initWidget", arguments);
 
         let This = this;
+        let sendDate = new Date(This.shipment.sendDate);
 
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             httpMethod: "POST",
@@ -26,6 +27,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
             actionURL: "${contextPath}/api/price-base/get-avg-base-price-by-moas",
             params: {
                 contractId: This.contract.id,
+                sendDate: sendDate.toLocaleDateString(),
                 financeUnitId: This.currency.id,
             },
             callback: function (resp) {

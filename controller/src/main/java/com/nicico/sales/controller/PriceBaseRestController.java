@@ -8,6 +8,7 @@ import com.nicico.sales.dto.invoice.foreign.ContractDetailDataDTO;
 import com.nicico.sales.iservice.IPriceBaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -15,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -66,7 +68,8 @@ public class PriceBaseRestController {
 
     @Loggable
     @PostMapping(value = "/get-avg-base-price-by-moas")
-    public ResponseEntity<List<PriceBaseDTO.Info>> getBasePriceByMOAS(@RequestParam Long contractId, @RequestParam Long financeUnitId, @RequestBody List<ContractDetailDataDTO.MOASData> moasData) {
-        return new ResponseEntity<>(priceBaseService.getAverageOfBasePricesByMOAS(contractId, financeUnitId, moasData), HttpStatus.OK);
+    public ResponseEntity<List<PriceBaseDTO.Info>> getBasePriceByMOAS(@RequestParam Long contractId, @RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy") Date sendDate,
+                                                                      @RequestParam Long financeUnitId, @RequestBody List<ContractDetailDataDTO.MOASData> moasData) {
+        return new ResponseEntity<>(priceBaseService.getAverageOfBasePricesByMOAS(contractId, sendDate, financeUnitId, moasData), HttpStatus.OK);
     }
 }
