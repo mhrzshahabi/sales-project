@@ -67,26 +67,26 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         required: true,
         showHover: true,
         name: "sumPrice",
-        filterOperator: "equals",
+        canFilter: false,
         title: "<spring:message code='foreign-invoice.form.sum-price'/>",
         formatCellValue: function (value, record, rowNum, colNum) {
             if (!value)
                 return value;
 
-            return value + "";
+            return NumberUtil.format(value, "0.##");
         },
     },
     {
         width: "100%",
         showHover: true,
         name: "conversionSumPrice",
-        filterOperator: "equals",
+        canFilter: false,
         title: "<spring:message code='foreign-invoice.form.conversion-sum-price'/>",
         formatCellValue: function (value, record, rowNum, colNum) {
             if (!value)
                 return value;
 
-            return value + "";
+            return NumberUtil.format(value, "0.##");
         },
     },
     {
@@ -3917,12 +3917,6 @@ foreignInvoiceTab.method.editForm = function () {
             }
         });    }
 };
-foreignInvoiceTab.method.validateDeleteActionHook = function (record) {
-
-    if (!record.parentId)
-        foreignInvoiceTab.dialog.say('<spring:message code="global.grid.record.not.removable"/>');
-    return record.parentId;
-};
 foreignInvoiceTab.method.addTab = function (pane, title) {
     foreignInvoiceTab.tab.invoice.addTab({
         pane: pane,
@@ -4043,8 +4037,11 @@ foreignInvoiceTab.listGrid.main.rowClick = function (record, recordNum, fieldNum
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "invoiceCompletion").first().hide();
         // </sec:authorize>
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "relatedInvoice").first().show();
-    } else
+    }
+    else
+        // <c:if test="<%= !com.nicico.copper.core.SecurityUtil.isAdmin()%>">
         foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DELETE).first().hide();
+        // </c:if>
 
     this.Super("rowClick", arguments);
 };

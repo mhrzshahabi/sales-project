@@ -31,7 +31,10 @@ public class ContractDetailDataDTO {
         private BigDecimal tc;
         private List<RCData> rc;
 
+        private BigDecimal paymentPercentage;
+
         private String priceContent;
+        private String packingContent;
         private String quotationalPeriodContent;
 
         private List<MOASData> MOAS;

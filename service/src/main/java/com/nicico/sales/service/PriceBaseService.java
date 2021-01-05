@@ -28,11 +28,14 @@ import java.util.stream.Collectors;
 @Service
 public class PriceBaseService extends GenericService<com.nicico.sales.model.entities.base.PriceBase, Long, com.nicico.sales.dto.PriceBaseDTO.Create, com.nicico.sales.dto.PriceBaseDTO.Info, com.nicico.sales.dto.PriceBaseDTO.Update, com.nicico.sales.dto.PriceBaseDTO.Delete> implements IPriceBaseService {
 
+    private int year;
+    private int month;
+
     private final ContractDAO contractDAO;
     private final IHRMApiService hrmApiService;
     private final MaterialElementDAO materialElementDAO;
 
-    public List<PriceBaseDTO.Info> getAverageOfBasePricesByMOAS(Long contractId, Long financeUnitId, List<ContractDetailDataDTO.MOASData> moasData) {
+    public List<PriceBaseDTO.Info> getAverageOfBasePricesByMOAS(Long contractId, Date sendDate, Long financeUnitId, List<ContractDetailDataDTO.MOASData> moasData) {
 
         Contract contract = contractDAO.findById(contractId).orElseThrow(() -> new NotFoundException(Contract.class));
         List<MaterialElement> materialElements = materialElementDAO.findAllByMaterialId(contract.getMaterialId());
@@ -45,10 +48,20 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
             validMOASData.forEach(item -> {
 
                 Calendar calendar = Calendar.getInstance();
-                calendar.setTime(item.getDate());
+                calendar.setTime(sendDate);
                 MaterialElement materialElement = validMaterialElements.stream().filter(q -> q.getId().longValue() == item.getMaterialElement().getId()).findFirst().get();
-                if (item.getMoasValue() != null)
-                    pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1 + item.getMoasValue(), materialElement.getElementId(), financeUnitId));
+                if (item.getMoasValue() != null) {
+
+                    if (calendar.get(Calendar.MONTH) + 1 + item.getMoasValue() > 12) {
+                        month = calendar.get(Calendar.MONTH) + 1 + item.getMoasValue() - 12;
+                        year = calendar.get(Calendar.YEAR) + 1;
+                    } else {
+                        month = calendar.get(Calendar.MONTH) + 1 + item.getMoasValue();
+                        year = calendar.get(Calendar.YEAR);
+                    }
+                    pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), year,
+                            month, materialElement.getElementId(), financeUnitId));
+                }
                 else if (item.getWorkingDayAfter() != null && item.getWorkingDayBefore() != null) {
 
                     HRMDTO.BusinessDaysRq businessDaysRq = new HRMDTO.BusinessDaysRq();
@@ -98,7 +111,7 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
             if (priceBases.size() == 0) throw new NotFoundException(PriceBase.class);
 
             return priceBases;
-        } else throw new SalesException2(ErrorType.NotFound, "MOAS", "Payment Article is not Complete");
+        } else throw new SalesException2(ErrorType.NotFound, "MOAS", "MOAS Data in Contract is not Complete");
 
     }
 }

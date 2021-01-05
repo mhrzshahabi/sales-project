@@ -12,6 +12,7 @@ public enum ErrorType {
     Forbidden(403),
     NotFound(404),
     NotEditable(404),
+    NotRemovable(404),
     FinalRecord(404),
     DeActiveRecord(404),
     Send2AccRecord(404),

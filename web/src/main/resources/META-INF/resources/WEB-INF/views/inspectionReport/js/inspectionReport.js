@@ -1914,7 +1914,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
             assayInspectionObj.labPlace = bodyWidget.members[1].members[0].tabs[1].pane.members[0].getItem("labPlace").getValue();
             assayInspectionObj.id = bodyWidget.members[1].members[0].tabs[1].pane.members[1].getField(i).ids[index];
             assayInspectionObj.version = bodyWidget.members[1].members[0].tabs[1].pane.members[1].getField(i).versions[index];
-            assayInspectionObj.value = NumberUtil.parseInt(bodyWidget.members[1].members[0].tabs[1].pane.members[1].getCellValue(assayRecord, index, i));
+            assayInspectionObj.value = NumberUtil.parseFloat(bodyWidget.members[1].members[0].tabs[1].pane.members[1].getCellValue(assayRecord, index, i));
             assayInspectionObj.materialElementId = bodyWidget.members[1].members[0].tabs[1].pane.members[1].fields.get(i).meId;
             assayInspectionObj.shipmentId = inspectionReportObj.shipmentId !== null ? inspectionReportObj.shipmentId : null;
             assayInspectionObj.inventoryId = assayRecord.inventoryId;
@@ -1936,7 +1936,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
             let assayInspectionTotalValuesObj = {};
             assayInspectionTotalValuesObj.id = assaySum[0].id;
             assayInspectionTotalValuesObj.version = assaySum[0].version;
-            assayInspectionTotalValuesObj.value = NumberUtil.parseInt(bodyWidget.members[1].members[0].tabs[1].pane.members[2].members[0].getCellValue(assaySum[0], 0, i));
+            assayInspectionTotalValuesObj.value = NumberUtil.parseFloat(bodyWidget.members[1].members[0].tabs[1].pane.members[2].members[0].getCellValue(assaySum[0], 0, i));
             assayInspectionTotalValuesObj.materialElementId = bodyWidget.members[1].members[0].tabs[1].pane.members[1].fields.get(i + 1).meId;
 
             assayInspectionTotalValuesList.push(assayInspectionTotalValuesObj);

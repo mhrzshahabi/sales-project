@@ -127,7 +127,6 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
         ShipmentCostInvoice shipmentCostInvoice = repository.findById(id).orElseThrow(() -> new NotFoundException(ShipmentCostInvoice.class));
         shipmentCostInvoice.getEStatus().remove(EStatus.RemoveFromAcc);
 
-        validation(shipmentCostInvoice, id);
         return save(shipmentCostInvoice);
     }
 }
