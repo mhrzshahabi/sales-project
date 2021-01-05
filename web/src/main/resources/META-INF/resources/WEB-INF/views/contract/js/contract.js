@@ -743,7 +743,7 @@ contractTab.button.saveButton = isc.IButtonSave.create({
                     if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
                         contractTab.dialog.ok();
                         contractTab.method.refresh(contractTab.listGrid.main);
-                        // contractTab.window.main.close();
+                        contractTab.window.main.close();
                     } else
                         contractTab.dialog.error(resp);
                 }
@@ -1513,6 +1513,7 @@ contractTab.method.createArticle = async function (data) {
                 width: 16,
                 height: 16,
                 header: this,
+                autoDraw: false,
                 showDown: false,
                 showRollOver: false,
                 layoutAlign: "center",
@@ -1531,6 +1532,7 @@ contractTab.method.createArticle = async function (data) {
                 width: 16,
                 height: 16,
                 header: this,
+                autoDraw: false,
                 showDown: false,
                 showRollOver: false,
                 layoutAlign: "center",
@@ -1881,6 +1883,8 @@ contractTab.method.createArticleForm = async function (contractDetailType, contr
             field.height = "300";
         }
 
+        field.autoDraw = false;
+
         fields.push(field);
     }));
 
@@ -1994,8 +1998,10 @@ contractTab.method.createArticleBodyGrid = async function (contractDetailType, c
                 isc.ToolStrip.create({
                     width: "100%",
                     height: 24,
+                    autoDraw: false,
                     members: [
                         isc.ToolStripButton.create({
+                            autoDraw: false,
                             icon: "pieces/16/icon_add.png",
                             title: "<spring:message code='global.add'/>",
                             click: function () {
@@ -2003,12 +2009,14 @@ contractTab.method.createArticleBodyGrid = async function (contractDetailType, c
                             }
                         }),
                         isc.ToolStrip.create({
-                            width: "100%",
-                            height: 24,
-                            align: nicico.CommonUtil.getAlignByLang(),
                             border: 0,
+                            height: 24,
+                            width: "100%",
+                            autoDraw: false,
+                            align: nicico.CommonUtil.getAlignByLang(),
                             members: [
                                 isc.ToolStripButton.create({
+                                    autoDraw: false,
                                     icon: "pieces/16/save.png",
                                     title: "<spring:message code='global.form.save.temporary'/>",
                                     click: function () {
@@ -2016,7 +2024,8 @@ contractTab.method.createArticleBodyGrid = async function (contractDetailType, c
                                         if (!grid.validateAllData()) return;
                                         grid.saveAllEdits();
                                     }
-                                })]
+                                })
+                            ]
                         })
                     ]
                 })]
@@ -2130,10 +2139,12 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
             },
             gridComponents: ["header", "body",
                 isc.ToolStrip.create({
-                    width: "100%",
                     height: 24,
+                    width: "100%",
+                    autoDraw: false,
                     members: [
                         isc.ToolStripButton.create({
+                            autoDraw: false,
                             icon: "pieces/16/icon_add.png",
                             title: "<spring:message code='global.add'/>",
                             click: function () {
@@ -2171,12 +2182,14 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
                             }
                         }),
                         isc.ToolStrip.create({
-                            width: "100%",
-                            height: 24,
-                            align: nicico.CommonUtil.getAlignByLang(),
                             border: 0,
+                            height: 24,
+                            width: "100%",
+                            autoDraw: false,
+                            align: nicico.CommonUtil.getAlignByLang(),
                             members: [
                                 isc.ToolStripButton.create({
+                                    autoDraw: false,
                                     icon: "pieces/16/save.png",
                                     title: "<spring:message code='global.form.save.temporary'/>",
                                     click: function () {
@@ -2184,7 +2197,8 @@ contractTab.method.createArticleBodyDynamicGrid = async function (contractDetail
                                         if (!dynamicGrid.validateAllData()) return;
                                         dynamicGrid.saveAllEdits();
                                     }
-                                })]
+                                })
+                            ]
                         })
                     ]
                 })]

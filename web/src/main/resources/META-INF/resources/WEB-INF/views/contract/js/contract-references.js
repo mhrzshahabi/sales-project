@@ -80,6 +80,13 @@ function getReferenceFields(referenceType) {
                         type: "isFloat",
                         validateOnChange: true
                     }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+
+                        return value;
+                    }
                 },
                 {
                     name: "tolerance",
@@ -91,6 +98,13 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+
+                        return value;
+                    }
                 },
                 {
                     forDisplayField: true,
@@ -145,6 +159,13 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+
+                        return value;
+                    }
                 },
                 {
                     name: "maxValue",
@@ -156,6 +177,13 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+
+                        return value;
+                    }
                 },
                 {
                     name: "unitId",
@@ -198,6 +226,13 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+
+                        return value;
+                    }
                 },
                 {
                     name: "refineryCost",
@@ -209,6 +244,13 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+
+                        return value;
+                    }
                 },
                 {
                     name: "unitId",
@@ -251,6 +293,13 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+
+                        return value;
+                    }
                 },
                 {
                     name: "upperBound",
@@ -262,6 +311,13 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+
+                        return value;
+                    }
                 },
                 {
                     name: "discount",
@@ -273,6 +329,13 @@ function getReferenceFields(referenceType) {
                             type: "isFloat",
                             validateOnChange: true,
                         }],
+                    formatCellValue: function (value, record, rowNum, colNum) {
+
+                        if (value != null)
+                            return value.toString();
+
+                        return value;
+                    }
                 },
                 Object.assign(materialElementField, {
                     forDisplayField: true,
