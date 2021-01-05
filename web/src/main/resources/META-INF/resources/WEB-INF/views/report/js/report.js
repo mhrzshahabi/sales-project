@@ -73,14 +73,14 @@ reportGeneratorTab.restDataSource.reportSource = isc.MyRestDataSource.create({
 reportGeneratorTab.restDataSource.reportSourceFields = isc.MyRestDataSource.create({
 
     fields: [
-        {name: "name", primaryKey: true, type: 'text'},
-        {name: "titleFA", canEdit: true, type: 'text'},
-        {name: "titleEN", canEdit: true, type: 'text'},
-        {name: "className", foreignKey: "name", type: 'text'},
-        {name: "hidden", canEdit: true, type: 'text'},
-        {name: "dataIsList", type: 'text'},
-        {name: "type", type: 'text'},
-        {name: "canFilter", canEdit: true, type: 'text'},
+        {name: "name", primaryKey: true},
+        {name: "titleFA", canEdit: true},
+        {name: "titleEN", canEdit: true},
+        {name: "className", foreignKey: "name"},
+        {name: "hidden", canEdit: true},
+        {name: "dataIsList"},
+        {name: "type"},
+        {name: "canFilter", canEdit: true},
     ],
     fetchDataURL: reportGeneratorTab.variable.reportSourceFieldsUrl,
     transformRequest: function (dsRequest) {
@@ -363,7 +363,6 @@ reportGeneratorTab.listGrid.reportFields = isc.ListGrid.nicico.getDefault(BaseFo
 });
 
 reportGeneratorTab.window.report = new nicico.FormUtil();
-reportGeneratorTab.window.ReportExecutorFormUtil = new nicico.ReportExecutorFormUtil();
 reportGeneratorTab.variable.fileUploadForm = isc.FileUploadForm.create({
     height: "200",
     accept: ".jasper",
