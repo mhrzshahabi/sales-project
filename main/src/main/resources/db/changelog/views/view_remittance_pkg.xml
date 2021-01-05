@@ -121,17 +121,20 @@
         </sql>
     </changeSet>
     <changeSet id="sadlkljals1" author="saeb">
-        <sql>INSERT INTO REPORT_MATERIAL_SOURCE_BANDARABAS (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME,
-            MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (15, 1000, 'مجتمع مس سرچشمه', 6, 'فله', 82, 'ته پاتيل
-            كنورتور', null)
+        <sql>
+            MERGE INTO REPORT_MATERIAL_SOURCE_BANDARABAS d
+            USING (SELECT 15 AS ID FROM dual) s ON (d.ID = s.ID)
+            WHEN NOT MATCHED THEN INSERT (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME, MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (15, 1000, 'مجتمع مس سرچشمه', 6, 'فله', 82, 'ته پاتيل كنورتور', null)
         </sql>
-        <sql>INSERT INTO REPORT_MATERIAL_SOURCE_BANDARABAS (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME,
-            MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (16, 1021, 'خاتون‌آباد', 6, 'فله', 82, 'ته پاتيل كنورتور',
-            null)
+        <sql>
+            MERGE INTO REPORT_MATERIAL_SOURCE_BANDARABAS d
+            USING (SELECT 16 AS ID FROM dual) s ON (d.ID = s.ID)
+            WHEN NOT MATCHED THEN INSERT (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME, MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (16, 1021, 'خاتون‌آباد', 6, 'فله', 82, 'ته پاتيل كنورتور', null)
         </sql>
-        <sql>INSERT INTO REPORT_MATERIAL_SOURCE_BANDARABAS (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME,
-            MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (17, 1000, 'مجتمع مس سرچشمه', 6, 'فله', 1, 'مفتول مسي 8
-            ميليمتري', null)
+        <sql>
+            MERGE INTO REPORT_MATERIAL_SOURCE_BANDARABAS d
+            USING (SELECT 17 AS ID FROM dual) s ON (d.ID = s.ID)
+            WHEN NOT MATCHED THEN INSERT (ID, SOURCE_ID, SOURCE_NAME, UNIT_ID, UNIT_NAME, MATERIAL_ID, MATERIAL_NAME, DESCRIPTION) VALUES (17, 1000, 'مجتمع مس سرچشمه', 6, 'فله', 1, 'مفتول مسي 8ميليمتري', null)
         </sql>
     </changeSet>
 
