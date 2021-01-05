@@ -1,190 +1,195 @@
 interface Inventory {
-    id:number;
+    id: number;
 }
 
 interface Depot {
-    id:number;
+    id: number;
 
 }
 
 ///<reference path="Contract1.ts"/>
 interface RemittanceDetail {
-      id: number;
+    id: number;
 
-      amount: number;
+    amount: number;
 
     // @ts-ignore
     unit: Unit;
 
-      unitId: number;
+    unitId: number;
 
-      remittance: Remittance;
+    remittance: Remittance;
 
-      remittanceId: number;
+    remittanceId: number;
 
-      inventory: Inventory;
+    inventory: Inventory;
 
-      inventoryId: number;
+    inventoryId: number;
 
-      depot: Depot;
+    depot: Depot;
 
-      depotId: number;
+    depotId: number;
 
-      sourceTozin: TozinTable;
+    sourceTozin: TozinTable;
 
-      sourceTozinId: number;
+    sourceTozinId: number;
 
-      destinationTozin: TozinTable;
+    destinationTozin: TozinTable;
 
-      destinationTozinId: number;
+    destinationTozinId: number;
 
-      railPolompNo: string;
+    railPolompNo: string;
 
-      securityPolompNo: string;
+    securityPolompNo: string;
 
-      description: string;
+    description: string;
 
-      weight: number;
+    weight: number;
 
-      date: string;
+    date: string;
 
-      inputRemittance: boolean;
+    inputRemittance: boolean;
 
-      tozin: TozinTable;
+    tozin: TozinTable;
 
 }
 
 interface Shipment {
-      id: number;
+    id: number;
 
 }
 
 interface WeightInspection {
-    id:number
+    id: number
 
 }
 
 interface AssayInspection {
-    id:number
+    id: number
 
 }
 
 interface Inventory {
-      id: number;
+    id: number;
 
-      materialItem: MaterialItem;
+    materialItem: MaterialItem;
 
-      materialItemId: number;
+    materialItemId: number;
 
-      label: string;
+    label: string;
 
-      remittanceDetails: RemittanceDetail[];
+    remittanceDetails: RemittanceDetail[];
 
 
-      assayInspections: AssayInspection[];
+    assayInspections: AssayInspection[];
 
-      weightInspection: WeightInspection;
+    weightInspection: WeightInspection;
 
-      weightInspections: WeightInspection[];
+    weightInspections: WeightInspection[];
 
-      weight: number;
+    weight: number;
 
-      amount: number;
+    amount: number;
 
     // @ts-ignore
     contract: Contract1;
 
-      contractId: number;
+    contractId: number;
 
 }
 
 interface MaterialItem {
-    id:number
+    id: number
 
 }
 
 interface Warehouse {
-    id:number
+    id: number
 
 }
 
 interface TozinTable {
-      id: number;
+    id: number;
 
-      tozinId: string;
+    tozinId: string;
 
-      isInView : boolean;
+    isInView: boolean;
 
-      sourceId: number;
+    sourceId: number;
 
-      sourceWarehouse: Warehouse;
+    sourceWarehouse: Warehouse;
 
-      targetId: number;
+    targetId: number;
 
-      targetWarehouse: Warehouse;
+    targetWarehouse: Warehouse;
 
-      cardId: string;
+    cardId: string;
 
-      haveCode: string;
+    haveCode: string;
 
-      vazn: number;
+    vazn: number;
 
-      date: string;
+    date: string;
 
-      ctrlDescOut: string;
+    ctrlDescOut: string;
 
-      plak: string;
+    plak: string;
 
-      driverName: string;
+    driverName: string;
 
-      codeKala: number;
+    codeKala: number;
 
-      materialItem: MaterialItem;
+    materialItem: MaterialItem;
 
-      containerNo3: string;
+    containerNo3: string;
 
-      remittanceDetailsAsDestination: RemittanceDetail[];
+    remittanceDetailsAsDestination: RemittanceDetail[];
 
-      remittanceDetailsAsSource: RemittanceDetail[];
+    remittanceDetailsAsSource: RemittanceDetail[];
 
 }
 
 interface Remittance {
-      id: number;
+    id: number;
 
-      code: string;
+    code: string;
 
-      remittanceDetails: RemittanceDetail[];
+    remittanceDetails: RemittanceDetail[];
 
-      description: string;
+    description: string;
 
-      shipment: Shipment;
+    shipment: Shipment;
 
-      shipmentId: number;
+    shipmentId: number;
 
-      date: string;
+    date: string;
 
-      tozinTable: TozinTable;
+    tozinTable: TozinTable;
 
 }
 
 interface BillOfLanding {
-    id:number;
+    id: number;
 }
 
 interface PackingList {
-      id:number;
+    id: number;
 
-      billOfLanding:BillOfLanding;
+    billOfLanding: BillOfLanding;
 
-      billOfLandingId:number;
+    billOfLandingId: number;
 
-      shipment:Shipment;
+    shipment: Shipment;
 
-      shipmentId:number;
+    shipmentId: number;
 
-      bookingNo:string;
+    bookingNo: string;
 
-      description:string;
+    description: string;
 
+}
+
+interface InRemittance {
+    remittance: string,
+    remittanceDetails: RemittanceDetail[]
 }

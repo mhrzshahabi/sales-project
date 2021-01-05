@@ -12,6 +12,7 @@ public interface IRemittanceDetailService extends IGenericService<RemittanceDeta
     List<RemittanceDetailDTO.Info> batchUpdate(RemittanceDetailDTO.WithRemittanceAndInventory request);
 
     List<RemittanceDetailDTO.Info> out(RemittanceDetailDTO.OutRemittance request);
+    List<Long> outWeight(RemittanceDetailDTO.OutRemittanceWeight request);
 
     TotalResponse<RemittanceDetailDTO.ReportInfo> reportSearch(NICICOCriteria nicicoCriteria);
 

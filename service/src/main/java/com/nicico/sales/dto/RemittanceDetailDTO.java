@@ -206,5 +206,16 @@ public class RemittanceDetailDTO {
         public NICICOCriteria nicicoCriteria;
         public Boolean doesNotNeedFetch = true;
     }
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    public static class OutRemittanceWeight {
+        public RemittanceDTO.Create remittance;
+        public TozinTableDTO.Create tozin;
+        public List<Long> sourceList;
+        public  Long targetId;
+    }
+
+
 
 }
