@@ -9,6 +9,7 @@ reportGeneratorTab.variable.reportGroupUrl = "${contextPath}" + "/api/report-gro
 
 //***************************************************** DATASOURCE *****************************************************
 
+reportGeneratorTab.restDataSource.filterReport = "";
 reportGeneratorTab.restDataSource.report = isc.MyRestDataSource.create({
 
     fields: [
@@ -67,19 +68,19 @@ reportGeneratorTab.restDataSource.reportSource = isc.MyRestDataSource.create({
         };
 
         this.Super("transformRequest", arguments);
-    },
+    }
 });
 reportGeneratorTab.restDataSource.reportSourceFields = isc.MyRestDataSource.create({
 
     fields: [
-        {name: "name", primaryKey: true},
-        {name: "titleFA", canEdit: true},
-        {name: "titleEN", canEdit: true},
-        {name: "className", foreignKey: "name"},
-        {name: "hidden", canEdit: true},
-        {name: "dataIsList"},
-        {name: "type"},
-        {name: "canFilter", canEdit: true},
+        {name: "name", primaryKey: true, type: 'text'},
+        {name: "titleFA", canEdit: true, type: 'text'},
+        {name: "titleEN", canEdit: true, type: 'text'},
+        {name: "className", foreignKey: "name", type: 'text'},
+        {name: "hidden", canEdit: true, type: 'text'},
+        {name: "dataIsList", type: 'text'},
+        {name: "type", type: 'text'},
+        {name: "canFilter", canEdit: true, type: 'text'},
     ],
     fetchDataURL: reportGeneratorTab.variable.reportSourceFieldsUrl,
     transformRequest: function (dsRequest) {
@@ -362,6 +363,7 @@ reportGeneratorTab.listGrid.reportFields = isc.ListGrid.nicico.getDefault(BaseFo
 });
 
 reportGeneratorTab.window.report = new nicico.FormUtil();
+reportGeneratorTab.window.ReportExecutorFormUtil = new nicico.ReportExecutorFormUtil();
 reportGeneratorTab.variable.fileUploadForm = isc.FileUploadForm.create({
     height: "200",
     accept: ".jasper",
@@ -369,6 +371,74 @@ reportGeneratorTab.variable.fileUploadForm = isc.FileUploadForm.create({
     fileStatusValueMap: Enums.fileStatus,
     accessLevelValueMap: Enums.fileAccessLevel
 });
+reportGeneratorTab.window.report.getButtonLayout = function () {
+
+    let ThisForm = reportGeneratorTab.window.report;
+
+    let cancel = isc.IButtonCancel.create({
+
+        click: function () {
+
+            ThisForm.windowWidget.getObject().close();
+            if (ThisForm.owner.getObject() != null)
+                ThisForm.owner.getObject().show();
+
+            ThisForm.cancelCallBack();
+        }
+    });
+    let ok = isc.IButtonSave.create({
+
+        click: function () {
+
+            let data = ThisForm.populateData(ThisForm.bodyWidget.getObject());
+            if (!ThisForm.validate(data)) return;
+
+            ThisForm.windowWidget.getObject().close();
+            if (ThisForm.owner.getObject() != null)
+                ThisForm.owner.getObject().show();
+
+            ThisForm.okCallBack(data);
+        },
+    });
+    let filter = isc.ToolStrip.create(
+        {
+            width: "100%",
+            border: '0px',
+            align: nicico.CommonUtil.getAlignByLang(),
+            members: [
+                isc.IButtonSave.create({
+                    icon: "[SKIN]/actions/filter.png",
+                    title: "<spring:message code='global.form.filter'/>",
+                    click: function () {
+
+                        let data = reportGeneratorTab.listGrid.reportFields.getOriginalData();
+                        if (data && !(data instanceof Array))
+                            data = data.localData;
+                        reportGeneratorTab.restDataSource.filterReport = isc.MyRestDataSource.nicico.getDefault(null, data.map(p => {
+                            return {
+                                name: p.name,
+                                type: p.type,
+                                hidden: false,
+                                title: p["title" + nicico.CommonUtil.getLang().toUpperCase()]
+                            }
+                        }));
+                        nicico.FilterFormUtil.show(null, '<spring:message code="global.form.filter"/>', reportGeneratorTab.restDataSource.filterReport);
+                    }
+                })
+            ]
+        });
+
+    return isc.HLayout.create({
+
+        width: "100%",
+        padding: 10,
+        layoutMargin: 10,
+        membersMargin: 10,
+        edgeImage: "",
+        showEdges: false,
+        members: [ok, cancel, filter]
+    });
+};
 reportGeneratorTab.window.report.init(null, '<spring:message code="entity.report"/>', isc.VLayout.create({
     width: "100%",
     height: "750",
