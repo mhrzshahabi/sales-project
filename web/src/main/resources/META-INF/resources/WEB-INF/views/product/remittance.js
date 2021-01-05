@@ -1160,12 +1160,21 @@ remittanceTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
         newOutRemittance(remittanceTab,selectedData,materialItemId);
     }
 });
+remittanceTab.Layouts.ToolStripButtons.NewWeight = isc.ToolStripButtonAdd.create({
+    // visibility: "hidden",
+    ID: "new_bijak_w" + Math.random().toString().substr(3, 5),
+    title: '<spring:message code="remittance.new.out.weight"/> ',
+    async click() {
+        newOutRamittanceWeight(remittanceTab)
+    }
+});
 isc.VLayout.create({
     members: [
         isc.ToolStrip.create({
             members: [
                 remittanceTab.Layouts.ToolStripButtons.Delete,
                 remittanceTab.Layouts.ToolStripButtons.New,
+                remittanceTab.Layouts.ToolStripButtons.NewWeight,
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",

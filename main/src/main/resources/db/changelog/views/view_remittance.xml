@@ -1285,6 +1285,177 @@ group by F_REMITTANCE_ID) pkg on r.ID=pkg.F_REMITTANCE_ID
 				]]>
         </createView>
     </changeSet>
+    <changeSet author="saeb" id="r_0f04">
+        <createView viewName="TMP_RD_INV_T" replaceIfExists="true"><![CDATA[
+with inv as (select inv.ID,
+                    F_CONTRACT_ID,
+                    C_LABEL,
+                    F_MATERIAL_ITEM_ID,
+                    rd.ID rd_id,
+                    N_AMOUNT,
+                    F_DEPOT_ID,
+                    C_DESCRIPTION,
+                    F_DESTINATION_TOZINE_ID,
+                    RAIL_POLOMP_NO,
+                    F_REMITTANCE_ID,
+                    SECURITY_POLOMP_NO,
+                    F_SOURCE_TOZINE_ID,
+                    F_UNIT_ID,
+                    N_WEIGHT,
+                    t_id,
+                    CARD_ID,
+                    GDSCODE,
+                    CONTENER_NO3,
+                    CTRL_DESC_OUT,
+                    DAT,
+                    DRVNAME,
+                    HAVCODE,
+                    B_IS_IN_VIEW,
+                    PLAK,
+                    SOURCEID,
+                    first_sourceid,
+                    TARGETID,
+                    TOZINE_ID,
+                    WAZN,
+                    B_IS_RAIL
+             from
+                 (
+                     select distinct F_INVENTORY_ID,
+                                     first_value(rd.id)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) id,
+                                     first_value(n_amount)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) n_amount,
+                                     first_value(f_depot_id)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) f_depot_id,
+                                     first_value(c_description)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) c_description,
+                                     first_value(f_destination_tozine_id)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) f_destination_tozine_id,
+                                     first_value(rail_polomp_no)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) rail_polomp_no,
+                                     first_value(f_remittance_id)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) f_remittance_id,
+                                     first_value(security_polomp_no)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) security_polomp_no,
+                                     first_value(f_source_tozine_id)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) f_source_tozine_id,
+                                     first_value(f_unit_id)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) f_unit_id,
+                                     first_value(n_weight)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) n_weight,
+                                     first_value(t.id)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) t_id,
+                                     first_value(card_id)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) card_id,
+                                     first_value(gdscode)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) gdscode,
+                                     first_value(contener_no3)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) contener_no3,
+                                     first_value(ctrl_desc_out)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) ctrl_desc_out,
+                                     first_value(dat)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) dat,
+                                     first_value(drvname)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) drvname,
+                                     first_value(havcode)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) havcode,
+                                     first_value(b_is_in_view)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) b_is_in_view,
+                                     first_value(plak)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) plak,
+                                     first_value(sourceid)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) sourceid,
+                                     first_value(sourceid)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat , rd.id )         first_sourceid,
+                                     first_value(targetid)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) targetid,
+                                     first_value(tozine_id)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) tozine_id,
+                                     first_value(wazn)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) wazn,
+                                     first_value(b_is_rail)
+                                                 over (partition by rd.F_INVENTORY_ID order by t.dat desc, rd.id desc) b_is_rail
+                     from TBL_WARH_REMITTANCE_DETAIL rd
+                               join TBL_WARH_TOZIN t on nvl(rd.F_DESTINATION_TOZINE_ID,
+                                                                rd.F_SOURCE_TOZINE_ID) = t.ID
+                     where GDSCODE=8
+                 ) rd
+
+                      left join TBL_WARH_INVENTORY inv on inv.id = rd.F_INVENTORY_ID
+             order by dat)
+select v1.dat,
+       v1.F_MATERIAL_ITEM_ID,
+       v1.first_sourceid,
+       v1.n_amount,
+       sum(v2.n_weight) sum_weight,
+       sum(v2.n_amount) sum_amount,
+       v1.n_weight,
+       v1.wazn,
+       v1.ID,
+       v1.rd_id,
+       v1.sourceid,
+       v1.targetid,
+       v1.t_id,
+       v1.F_CONTRACT_ID,
+       v1.C_LABEL,
+       v1.f_source_tozine_id,
+       v1.f_destination_tozine_id,
+       v1.tozine_id,
+       v1.f_depot_id,
+       v1.c_description,
+       v1.rail_polomp_no,
+       v1.f_remittance_id,
+       v1.security_polomp_no,
+       v1.f_unit_id,
+       v1.card_id,
+       v1.gdscode,
+       v1.contener_no3,
+       v1.ctrl_desc_out,
+       v1.drvname,
+       v1.havcode,
+       v1.b_is_in_view,
+       v1.plak,
+       v1.b_is_rail
+
+from inv v1
+         left join inv v2
+                   on v1.F_MATERIAL_ITEM_ID = v2.F_MATERIAL_ITEM_ID and v1.first_sourceid = v2.first_sourceid
+                       and v1.targetid = v2.targetid and v1.dat >= v2.dat
+group by v1.ID,
+         v1.F_CONTRACT_ID,
+         v1.C_LABEL,
+         v1.F_MATERIAL_ITEM_ID,
+         v1.rd_id,
+         v1.n_amount,
+         v1.f_depot_id,
+         v1.c_description,
+         v1.f_destination_tozine_id,
+         v1.rail_polomp_no,
+         v1.f_remittance_id,
+         v1.security_polomp_no,
+         v1.f_source_tozine_id,
+         v1.f_unit_id,
+         v1.n_weight,
+         v1.t_id,
+         v1.card_id,
+         v1.gdscode,
+         v1.contener_no3,
+         v1.ctrl_desc_out,
+         v1.dat,
+         v1.drvname,
+         v1.havcode,
+         v1.b_is_in_view,
+         v1.plak,
+         v1.sourceid,
+         v1.first_sourceid,
+         v1.targetid,
+         v1.tozine_id,
+         v1.wazn,
+         v1.b_is_rail
+
+				]]>
+        </createView>
+    </changeSet>
 
 
 </databaseChangeLog>

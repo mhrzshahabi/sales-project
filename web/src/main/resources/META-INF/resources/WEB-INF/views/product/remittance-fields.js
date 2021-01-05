@@ -237,7 +237,7 @@ function getRemittanceFields(objTab) {
                 },
                 validators: [{
                     type: "regexp",
-                    expression: "(^[1-9][0-9]{3}((0[1-9])|(1[1-2]))(0[1-9]|[1-2][0-9]|30|31)$)|(^[1-9][0-9]{3}\\/[0-1][0-9]\\/[0-3][0-9]$)"
+                    expression: "^[1-9][0-9]{3}/*((0[1-9])|10|11|12)/*(([0][1-9])|([1-2][0-9])|30|31)$"
                 }]
             },
             {
@@ -1742,31 +1742,35 @@ function getRemittanceFields(objTab) {
 }
 
 // if(!newOutRemittance)
-function newOutRemittance(objTab, selectedData, materialItemId) {
-    async function remittanceCodeSet() {
-        const __material = SalesBaseParameters.getSavedMaterialItemParameter().find(_ => _.id === materialItemId)
-        dbg(__material)
-        let remittanceCode = "O-" + (__material.shortName ? __material.shortName :  __material.id.toString());
-        const __sourceId = objTab.DynamicForms.Forms.TozinTable.getValue('sourceId');
-        if (__sourceId) {
-            const __source = SalesBaseParameters.getSavedWarehouseParameter().find(_ => _.id === __sourceId);
-            if (__source)
-                remittanceCode += __source.shortName ? __source.shortName : __source.id.toString();
-        }
-
-        remittanceCode += "ship";
-        remittanceCode += new Date().toLocaleString('fa', {
-            numberingSystem: 'latn',
-            month: "2-digit",
-            day: '2-digit',
-            year: 'numeric'
-        })
-            .replaceAll("/", "");
-        const res = await fetch('api/remittance/spec-list?_startRow=0&_endRow=1&_sortBy=-id', {headers: SalesConfigs.httpHeaders});
-        const _json = await res.json();
-        remittanceCode += (++_json.response.data.pop().id).toString();
-        objTab.DynamicForms.Forms.OutRemittance.setValue('code', remittanceCode);
+async function remittanceCodeSet(objTab) {
+    const materialItemId = Number(objTab.DynamicForms.Forms.OutRemittance.getValue('materialItemId'))
+    dbg('materialItemId', materialItemId)
+    if (isNaN(materialItemId)) return;
+    const __material = SalesBaseParameters.getSavedMaterialItemParameter().find(_ => _.id === materialItemId)
+    dbg('__material',__material)
+    let remittanceCode = "O-" + (__material.shortName ? __material.shortName : __material.id.toString());
+    const __sourceId = objTab.DynamicForms.Forms.TozinTable.getValue('sourceId');
+    if (__sourceId) {
+        const __source = SalesBaseParameters.getSavedWarehouseParameter().find(_ => _.id === __sourceId);
+        if (__source)
+            remittanceCode += __source.shortName ? __source.shortName : __source.id.toString();
     }
+
+    remittanceCode += "ship";
+    remittanceCode += new Date().toLocaleString('fa', {
+        numberingSystem: 'latn',
+        month: "2-digit",
+        day: '2-digit',
+        year: 'numeric'
+    })
+        .replaceAll("/", "");
+    const res = await fetch('api/remittance/spec-list?_startRow=0&_endRow=1&_sortBy=-id', {headers: SalesConfigs.httpHeaders});
+    const _json = await res.json();
+    remittanceCode += (++_json.response.data.pop().id).toString();
+    objTab.DynamicForms.Forms.OutRemittance.setValue('code', remittanceCode);
+}
+
+function newOutRemittance(objTab, selectedData, materialItemId) {
 
     objTab.DynamicForms.Forms.OutRemittance = isc.DynamicForm.create({
         selectOnFocus: true,
@@ -1795,7 +1799,7 @@ function newOutRemittance(objTab, selectedData, materialItemId) {
                         objTab.DynamicForms.Forms.TozinTable.setValue('codeKala', value);
                         objTab.Methods.setShipmentCriteria();
                         try {
-                            remittanceCodeSet()
+                            remittanceCodeSet(objTab)
                         } catch (e) {
                             console.warn(e)
                         }
@@ -1847,7 +1851,7 @@ function newOutRemittance(objTab, selectedData, materialItemId) {
                 if (a.name === "sourceId") {
                     StorageUtil.save("out_remittance_defaultSourceId", value)
                     try {
-                        remittanceCodeSet();
+                        remittanceCodeSet(objTab);
                     } catch (e) {
                         console.warn(e);
                     }
@@ -2236,8 +2240,236 @@ function newOutRemittance(objTab, selectedData, materialItemId) {
         const ___item = objTab.DynamicForms.Forms.OutRemittance.getField("materialItemId");
         const ___value = materialItemId;
         ___item.changed(___form, ___item, ___value);
-        remittanceCodeSet()
+
+        remittanceCodeSet(objTab)
     }
 
+
+}
+
+function newOutRamittanceWeight(objTab) {
+    objTab.DynamicForms.Forms.OutRemittance = isc.DynamicForm.create({
+        selectOnFocus: true,
+        autoFetchData: false,
+        shouldSaveValue: true,
+        stopOnError: true,
+        showErrorIcon: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        validateOnExit: true,
+        errorOrientation: "bottom",
+        align: "right",
+        textAlign: "right",
+        titleAlign: "right",
+        numCols: 6,
+        wrapItemTitles: false,
+        fields: [
+            {
+                name: "materialItemId",
+                title: "<spring:message code='goods.title'/>",
+                editorType: "ComboBoxItem",
+                textMatchStyle: "substring",
+                addUnknownValues: false,
+                defaultValue: 8,
+                valueMap: {8: "کنسانتره مس"},
+            },
+            ...objTab.Fields.Remittance().filter(_ => !["date", "hasRemainedInventory".toLowerCase()].includes(_.name.toLowerCase())).map(_ => {
+                if (['shipmentId'.toLowerCase(), "packingContainerId".toLowerCase()]
+                    .includes(_.name.toLowerCase())) {
+                    if (_.name.toLowerCase() === 'packingContainerId') {
+
+                    }
+                    if (_.name.toLowerCase() === 'shipmentId') {
+                    }
+                    _.hidden = false;
+                    _.disabled = false;
+                }
+
+                return _;
+            }),
+
+
+        ]
+    });
+    objTab.DynamicForms.Forms.TozinTable = isc.DynamicForm.create({
+        selectOnFocus: true,
+        shouldSaveValue: true,
+        stopOnError: true,
+        showErrorIcon: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        validateOnExit: true,
+        errorOrientation: "bottom",
+        wrapItemTitles: false,
+        align: "right",
+        textAlign: "right",
+        titleAlign: "right",
+        numCols: 6,
+        fields: objTab.Fields.TozinTable().map(a => {
+            const oldChanged = a.changed;
+            a.changed = (form, item, value) => {
+                if (typeof (oldChanged) === "function") oldChanged(form, item, value)
+                const _item = form.getItem('isInView');
+                _item.setValue(false);
+                _item.disable();
+                if (a.name === "sourceId") {
+                    StorageUtil.save("out_remittance_defaultSourceId", value)
+                    try {
+                        remittanceCodeSet(objTab);
+                    } catch (e) {
+                        console.warn(e);
+                    }
+                }
+            };
+            if (a.name === 'codeKala') a.hidden = true;
+            if (a.name === 'isInView') a.disabled = true;
+            return a
+        })
+    });
+    objTab.Layouts.ToolStripButtons.OutRemittanceAddTozin = isc.ToolStripButtonAdd.create({
+        disabled: false,
+        align: "center",
+        title: "<spring:message code='remittance.select.from.logistic'/>",
+        click() {
+            objTab.Grids.TozinLite = isc.ListGrid.create({
+                fields: objTab.Fields.TozinLite().map(_ => {
+                    if (_.defaultValue) delete _.defaultValue;
+                    return _;
+                }),
+                initialCriteria: {
+                    operator: "and",
+                    criteria: [
+                        {
+                            fieldName: "sourceId",
+                            operator: "equals",
+                            value: 2555
+                        },
+                        {
+                            fieldName: "tozinId",
+                            operator: "iStartsWith",
+                            value: "3"
+                        },
+                        {
+                            fieldName: "codeKala",
+                            operator: "equals",
+                            value: 8
+                        },
+                        {
+                            fieldName: "date",
+                            operator: "greaterOrEqual",
+                            value: new persianDate().subtract('d', 10).format('YYYYMMDD')
+                        },
+                        {
+                            fieldName: "tozinTable",
+                            operator: "isNull",
+                        },
+
+
+                    ],
+                },
+                showHoverComponents: false,
+                height: "100%",
+                showRowNumbers: true,
+                selectionType: "single",
+                autoFetchData: true,
+                allowAdvancedCriteria: true,
+                showFilterEditor: true,
+                sortField: 'date',
+                recordDoubleClick(viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                    if (!record) return isc.warn('<spring:message code="global.grid.record.not.selected"/>')
+                    // console.log("objTab.DynamicForms.Forms.TozinTable", objTab.DynamicForms.Forms.TozinTable);
+                    objTab.DynamicForms.Forms.TozinTable.setValues({
+                        ...record,
+                        isInView: true
+                    });
+                    win.destroy();
+                    // viewer.deselectAllRecords();
+                },
+                dataSource: isc.MyRestDataSource.create(objTab.RestDataSources.TozinLite)
+            });
+            const win = isc.Window.create({
+                ...objTab.Vars.defaultWindowConfig,
+                members: [
+                    isc.ToolStrip.create({
+                        members: [
+                            isc.ToolStripButtonAdd.create({
+                                title: "<spring:message code='global.add'/>",
+                                click: _ => objTab.Grids.TozinLite.recordDoubleClick(objTab.Grids.TozinLite, objTab.Grids.TozinLite.getSelectedRecord())
+                            }),
+                        ]
+                    }),
+                    objTab.Grids.TozinLite,],
+            })
+        }
+    });
+    objTab.Layouts.Window.OutRemittance = isc.Window.create({
+        ...objTab.Vars.defaultWindowConfig,
+        height: 300,
+        members: [
+            isc.VLayout.create({
+                // height: "100%",
+                members: [
+                    objTab.DynamicForms.Forms.OutRemittance,
+                    isc.Label.create({
+                        height: .06 * innerHeight,
+                        align: "right",
+                        contents: "<h3 style='text-align: right;padding-right:20px'>"
+                            + "<spring:message code='remittance.dest.info'/>" +
+                            "</h3>"
+                    }),
+                    isc.HLayout.create({
+                        height: "15%",
+                        members: [
+                            isc.VLayout.create({
+                                width: "85%",
+                                members: [objTab.DynamicForms.Forms.TozinTable,]
+                            }),
+                            isc.VLayout.create({
+                                members: [objTab.Layouts.ToolStripButtons.OutRemittanceAddTozin,]
+                            }),
+                            isc.VLayout.create({
+                                members: [objTab.Layouts.ToolStripButtons.OutRemittanceAddTozin,]
+                            }),
+                        ]
+                    }),
+
+                ]
+            })]
+    });
+    objTab.Methods.OutRemittanceSave = async function () {
+        if (!objTab.DynamicForms.Forms.OutRemittance.validate()) return;
+        if (!objTab.DynamicForms.Forms.TozinTable.validate()) return;
+        const remittance = objTab.DynamicForms.Forms.OutRemittance.getValues();
+        const dataForSave = {
+            tozin: objTab.DynamicForms.Forms.TozinTable.getValues(),
+            remittance: remittance,
+            targetId: 2555,
+            sourceList: [1000, 1540, 1541]
+        };
+        // objTab.Methods.Save(dataForSave, 'api/remittance-detail/out');
+        const pleaseWait = isc.Dialog.create({message: "<spring:message code='global.please.wait'/>"})
+        const __response = await fetch('api/remittance-detail/out-weight', {
+            headers: SalesConfigs.httpHeaders,
+            method: "POST",
+            body: JSON.stringify(dataForSave)
+        })
+        const response = await __response.text();
+        pleaseWait.destroy();
+        if (!__response.ok) {
+            return isc.warn('<spring:message code="global.form.response.error"/>\n' + response)
+        }
+        if (__response.ok) {
+            isc.say('<spring:message code="global.form.request.successful"/>', _ => {
+            })
+
+        }
+
+    }
+    objTab.Layouts.Window.OutRemittance.addMember(
+        objTab.Methods.HlayoutSaveOrExit(objTab.Methods.OutRemittanceSave,
+            objTab.Layouts.Window.OutRemittance.ID))
+
+    materialItemId = 8
+    remittanceCodeSet(objTab)
 
 }
