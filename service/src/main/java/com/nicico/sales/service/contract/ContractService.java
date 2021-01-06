@@ -257,7 +257,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     @Transactional(readOnly = true)
     public String getContent(Long id) {
 
-        return ((ContractDAO)repository).getContent(id);
+        return ((ContractDAO) repository).getContent(id);
     }
 
     @Override
