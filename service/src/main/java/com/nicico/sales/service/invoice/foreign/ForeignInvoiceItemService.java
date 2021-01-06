@@ -159,9 +159,9 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
                 PriceBaseDTO.Info priceBaseDTO = basePrices.stream().filter(q -> q.getElementId().longValue() == element.getId()).findFirst().orElseThrow(() -> new NotFoundException(PriceBase.class));
                 if (a.getMaterialElement().getPenalty()) {
 
-                    if (contractDiscount.isPresent() && a.getValue().compareTo(BigDecimal.valueOf(contractDiscount.get().getLowerBound())) > 0 && a.getValue().compareTo(BigDecimal.valueOf(contractDiscount.get().getUpperBound())) <= 0) {
+                    if (contractDiscount.isPresent() && a.getValue().compareTo(contractDiscount.get().getLowerBound()) > 0 && a.getValue().compareTo(contractDiscount.get().getUpperBound()) <= 0) {
 
-                        discount[0] = discount[0].add(BigDecimal.valueOf(contractDiscount.get().getDiscount()));
+                        discount[0] = discount[0].add(contractDiscount.get().getDiscount());
                         record.put(element.getName() + "Discount", contractDiscount.get().getDiscount());
                     } else record.put(element.getName() + "Discount", new BigDecimal(0));
                 }

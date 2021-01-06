@@ -172,6 +172,11 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
         changed: function (form, item, value) {
 
             reportGeneratorTab.restDataSource.reportSourceFields.fetchData(null, resp => reportGeneratorTab.listGrid.reportFields.setData(resp.data.filter(q => q.type)));
+            if (reportGeneratorTab.dynamicForm.report.getValue("criteria")) {
+
+                reportGeneratorTab.dynamicForm.report.setValue("criteria", null);
+                if (reportGeneratorTab.variable.method === "PUT") reportGeneratorTab.dialog.say("<spring:message code='report.form.filter.clear'/>")
+            }
         }
     },
     {
@@ -253,6 +258,10 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
         showIf: function (item, value, form, values) {
             return reportGeneratorTab.variable.method === "POST";
         }
+    },
+    {
+        name: "criteria",
+        hidden: true
     },
     {type: "SpacerItem", width: "100%", height: "50", colSpan: 4},
 ]);
@@ -421,7 +430,14 @@ reportGeneratorTab.window.report.getButtonLayout = function () {
                                 title: p["title" + nicico.CommonUtil.getLang().toUpperCase()]
                             }
                         }));
-                        nicico.FilterFormUtil.show(null, '<spring:message code="global.form.filter"/>', reportGeneratorTab.restDataSource.filterReport);
+                        nicico.FilterFormUtil.show(null,
+                            '<spring:message code="global.form.filter"/>',
+                            reportGeneratorTab.restDataSource.filterReport,
+                            JSON.parse(reportGeneratorTab.dynamicForm.report.getValue("criteria")));
+                        nicico.FilterFormUtil.okCallBack = function (criteria) {
+
+                            reportGeneratorTab.dynamicForm.report.setValue("criteria", JSON.stringify(criteria));
+                        }
                     }
                 })
             ]

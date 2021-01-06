@@ -82,4 +82,10 @@
                              tableName="TBL_REPORT"/>
     </changeSet>
 
+    <changeSet author="emami" id="1602793241547-241-01">
+        <addColumn tableName="TBL_REPORT">
+            <column name="C_CRITERIA" type="VARCHAR2(4000 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

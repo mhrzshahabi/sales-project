@@ -18,10 +18,124 @@ namespace nicico {
 
     export class ReportPreviewFormUtil {
 
-        public create(): isc.VLayout {
+        private createFields(report, reportCriteria: Array<isc.Criteria>): Array<isc.FormItem> {
 
-            let report = JSON.parse('${Data_Report}');
-            let creator = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
+            let fields = [];
+            for (let i = 0; i < reportCriteria.length; i++) {
+
+                // @ts-ignore
+                if (!reportCriteria[i])
+                    break;
+                // @ts-ignore
+                else if (reportCriteria[i]._constructor === "AdvancedCriteria")
+                // @ts-ignore
+                    fields.addAll(this.createFields(report, reportCriteria[i].criteria));
+                // @ts-ignore
+                else if (reportCriteria[i].value === "?") {
+                    // @ts-ignore
+                    reportCriteria[i].value = null;
+                    // @ts-ignore
+                    let findField = report.reportFields.find(p => p.name === reportCriteria[i].fieldName);
+                    if (findField)
+                        fields.add({
+                            width: "100%",
+                            required: true,
+                            // @ts-ignore
+                            name: findField.name,
+                            // @ts-ignore
+                            title: findField.title,
+                            // @ts-ignore
+                            type: findField.type,
+                            // @ts-ignore
+                            criteria: reportCriteria[i],
+                            changed: function (form, item, value) {
+
+                                this.criteria.value = value;
+                            }
+                        });
+                }
+            }
+
+            return fields;
+        }
+
+        private showParamForm(creator: JSPTabVariable, report: any, reportCriteria: isc.AdvancedCriteria): void {
+
+            let This = this;
+            let fields = this.createFields(report, reportCriteria.criteria);
+            if (fields && fields.length) {
+
+                // @ts-ignore
+                creator.window.param = new nicico.FormUtil();
+
+                // @ts-ignore
+                creator.window.param.getButtonLayout = function () {
+
+                    let This = this;
+                    // @ts-ignore
+                    let ok = isc.IButtonSave.create({
+                        icon: null,
+                        title: "<spring:message code='global.ok'/>",
+                        // @ts-ignore
+                        click: function () {
+
+                            let data = This.populateData(This.bodyWidget.getObject());
+                            if (!This.validate(data)) return;
+
+                            This.windowWidget.getObject().close();
+                            if (This.owner.getObject() != null)
+                                This.owner.getObject().show();
+                            This.okCallBack(data);
+                        },
+                    });
+                    return isc.HLayout.create({
+
+                        width: "100%",
+                        padding: 10,
+                        layoutMargin: 10,
+                        membersMargin: 10,
+                        edgeImage: "",
+                        showEdges: false,
+                        members: [ok]
+                    });
+                };
+                // @ts-ignore
+                creator.window.param.init(null, '<spring:message code="report.form.parameter"/>',
+                    isc.DynamicForm.create({
+                        width: "100%",
+                        height: "400",
+                        margin: 10,
+                        numCols: 4,
+                        padding: 10,
+                        titleWidth: 130,
+                        showErrorText: true,
+                        showErrorStyle: true,
+                        showInlineErrors: true,
+                        errorOrientation: "bottom",
+                        autoDraw: false,
+                        fields: fields
+                    }),
+                    "800", "400");
+                // @ts-ignore
+                creator.window.param.validate = function () {
+
+                    return this.bodyWidget.getObject().validate();
+                };
+                // @ts-ignore
+                creator.window.param.okCallBack = function (data) {
+
+                    // @ts-ignore
+                    mainTabSet.getTab(mainTabSet.selectedTab).setPane(This.createVLayout(creator, report, reportCriteria));
+                    // @ts-ignore
+                    creator.window.param.windowWidget.getObject().destroy();
+                };
+
+            } else
+                this.createVLayout(creator, report, reportCriteria);
+        }
+
+        private createVLayout(creator: JSPTabVariable, report: any, reportCriteria: isc.AdvancedCriteria = null): isc.VLayout {
+
             // @ts-ignore
             creator.variable.contextPath = creator.variable.url;
             // @ts-ignore
@@ -61,9 +175,27 @@ namespace nicico {
             creator.method.exportExcel = function () {
 
                 // @ts-ignore
-                let criteria = creator.listGrid.main.getInitialCriteria();
-                if (!Object.keys(criteria).length)
-                    criteria = null;
+                let initialcriteria = creator.listGrid.main.getInitialCriteria();
+
+                // @ts-ignore
+                let imlicitcriteria = creator.listGrid.main.getImplicitCriteria();
+
+                let criteria = {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: []
+                };
+
+                if (!Object.keys(initialcriteria).length)
+                    initialcriteria = null;
+                if (initialcriteria)
+                    criteria.criteria.add(initialcriteria);
+
+                if (!Object.keys(imlicitcriteria).length)
+                    imlicitcriteria = null;
+                if (imlicitcriteria)
+                    criteria.criteria.add(imlicitcriteria);
+
                 // @ts-ignore
                 var fields = creator.listGrid.main.getFields().filter(q =>
                     q.name !== "groupTitle" &&
@@ -111,9 +243,15 @@ namespace nicico {
             creator.method.print = function () {
 
                 // @ts-ignore
-                let criteria = creator.listGrid.main.getInitialCriteria();
-                if (!Object.keys(criteria).length)
-                    criteria = null;
+                let initialCriteria = creator.listGrid.main.getInitialCriteria();
+                if (!Object.keys(initialCriteria).length)
+                    initialCriteria = null;
+
+                // @ts-ignore
+                let implicitCriteria = creator.listGrid.main.getImplicitCriteria();
+                if (!Object.keys(implicitCriteria).length)
+                    implicitCriteria = null;
+
                 let selectedIds = [];
                 if (report.reportType === "OneRecord") {
                     // @ts-ignore
@@ -138,13 +276,16 @@ namespace nicico {
                     selectedIds.addAll(records.map(q => q.id));
                 }
 
+
                 let cr = {
                     _constructor: "AdvancedCriteria",
                     operator: "and",
                     criteria: []
                 };
-                if (criteria)
-                    cr.criteria.add(criteria);
+                if (initialCriteria)
+                    cr.criteria.add(initialCriteria);
+                if (implicitCriteria)
+                    cr.criteria.add(implicitCriteria);
                 // @ts-ignore
                 selectedIds.removeEmpty();
                 if (selectedIds && selectedIds.length)
@@ -168,7 +309,7 @@ namespace nicico {
                             ThisForm.windowWidget.getObject().close();
                             // @ts-ignore
                             if (ThisForm.owner.getObject() != null)
-                                // @ts-ignore
+                            // @ts-ignore
                                 ThisForm.owner.getObject().show();
 
                             ThisForm.cancelCallBack();
@@ -188,7 +329,7 @@ namespace nicico {
                             ThisForm.windowWidget.getObject().close();
                             // @ts-ignore
                             if (ThisForm.owner.getObject() != null)
-                                // @ts-ignore
+                            // @ts-ignore
                                 ThisForm.owner.getObject().show();
 
                             ThisForm.okCallBack(data);
@@ -314,6 +455,7 @@ namespace nicico {
                 let listGridFirstField = {name: null};
                 if (creator.listGrid.fields && creator.listGrid.fields.length)
                     listGridFirstField = creator.listGrid.fields[0];
+
                 // @ts-ignore
                 creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria, {
                     canHover: true,
@@ -322,6 +464,7 @@ namespace nicico {
                     autoFitWidthApproach: "both",
                     autoFitFieldsFillViewport: true,
                     autoFitExpandField: listGridFirstField.name,
+                    implicitCriteria: reportCriteria,
                     dataArrived: function (startRow: number, endRow: number): void {
 
                         this.autoFitFields();
@@ -440,16 +583,29 @@ namespace nicico {
             let layout = BasicFormUtil.getDefaultBasicForm(creator, 'report-data/' + report.id);
 
             if (report.reportType === "OneRecord")
-                // @ts-ignore
+            // @ts-ignore
                 creator.listGrid.main.setSelectionType("single");
             if (report.reportType === "SelectedRecords")
-                // @ts-ignore
+            // @ts-ignore
                 creator.listGrid.main.setSelectionType("simple");
             if (report.reportType === "All")
-                // @ts-ignore
+            // @ts-ignore
                 creator.listGrid.main.setSelectionType("none");
 
             return layout;
+        }
+
+        public create(): isc.VLayout {
+            let creator = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
+            let report = JSON.parse('${Data_Report}');
+            let reportCriteria;
+            if ('${Report_Criteria}') {
+
+                reportCriteria = JSON.parse('${Report_Criteria}');
+                this.showParamForm(creator, report, reportCriteria);
+                return;
+            } else
+                return this.createVLayout(creator, report);
         };
     }
 
