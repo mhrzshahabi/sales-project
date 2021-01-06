@@ -14,6 +14,8 @@ var nicico;
         function ReportPreviewFormUtil() {
         }
         ReportPreviewFormUtil.prototype.createFields = function (report, reportCriteria) {
+            if (!reportCriteria || !reportCriteria.length)
+                return [];
             var fields = [];
             var _loop_1 = function (i) {
                 // @ts-ignore
@@ -165,11 +167,11 @@ var nicico;
                     operator: "and",
                     criteria: []
                 };
-                if (!Object.keys(initialcriteria).length)
+                if (initialcriteria && !Object.keys(initialcriteria).length)
                     initialcriteria = null;
                 if (initialcriteria)
                     criteria.criteria.add(initialcriteria);
-                if (!Object.keys(imlicitcriteria).length)
+                if (imlicitcriteria && !Object.keys(imlicitcriteria).length)
                     imlicitcriteria = null;
                 if (imlicitcriteria)
                     criteria.criteria.add(imlicitcriteria);
@@ -220,11 +222,11 @@ var nicico;
             creator.method.print = function () {
                 // @ts-ignore
                 var initialCriteria = creator.listGrid.main.getInitialCriteria();
-                if (!Object.keys(initialCriteria).length)
+                if (initialCriteria && !Object.keys(initialCriteria).length)
                     initialCriteria = null;
                 // @ts-ignore
                 var implicitCriteria = creator.listGrid.main.getImplicitCriteria();
-                if (!Object.keys(implicitCriteria).length)
+                if (implicitCriteria && !Object.keys(implicitCriteria).length)
                     implicitCriteria = null;
                 var selectedIds = [];
                 if (report.reportType === "OneRecord") {

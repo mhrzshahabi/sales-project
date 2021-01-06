@@ -20,6 +20,9 @@ namespace nicico {
 
         private createFields(report, reportCriteria: Array<isc.Criteria>): Array<isc.FormItem> {
 
+            if (!reportCriteria || !reportCriteria.length)
+                return [];
+
             let fields = [];
             for (let i = 0; i < reportCriteria.length; i++) {
 
@@ -186,12 +189,12 @@ namespace nicico {
                     criteria: []
                 };
 
-                if (!Object.keys(initialcriteria).length)
+                if (initialcriteria && !Object.keys(initialcriteria).length)
                     initialcriteria = null;
                 if (initialcriteria)
                     criteria.criteria.add(initialcriteria);
 
-                if (!Object.keys(imlicitcriteria).length)
+                if (imlicitcriteria && !Object.keys(imlicitcriteria).length)
                     imlicitcriteria = null;
                 if (imlicitcriteria)
                     criteria.criteria.add(imlicitcriteria);
@@ -244,12 +247,12 @@ namespace nicico {
 
                 // @ts-ignore
                 let initialCriteria = creator.listGrid.main.getInitialCriteria();
-                if (!Object.keys(initialCriteria).length)
+                if (initialCriteria && !Object.keys(initialCriteria).length)
                     initialCriteria = null;
 
                 // @ts-ignore
                 let implicitCriteria = creator.listGrid.main.getImplicitCriteria();
-                if (!Object.keys(implicitCriteria).length)
+                if (implicitCriteria && !Object.keys(implicitCriteria).length)
                     implicitCriteria = null;
 
                 let selectedIds = [];

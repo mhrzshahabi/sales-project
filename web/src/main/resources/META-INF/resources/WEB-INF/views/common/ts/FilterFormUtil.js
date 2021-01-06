@@ -88,6 +88,9 @@ var nicico;
                 // @ts-ignore
                 click: function () {
                     // @ts-ignore
+                    if (!This.validate(creator.filterBuilder.main.getCriteria()))
+                        return;
+                    // @ts-ignore
                     creator.window.main.close();
                     // @ts-ignore
                     if (creator.variable.owner != null)
@@ -144,6 +147,9 @@ var nicico;
         };
         FilterFormUtil.cancelCallBack = function () {
             return;
+        };
+        FilterFormUtil.validate = function (criteria) {
+            return true;
         };
         FilterFormUtil.okCallBack = function (criteria) {
             return criteria;
