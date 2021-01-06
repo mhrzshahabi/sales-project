@@ -80,6 +80,26 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
 
 
     @Override
+    public ForeignInvoiceDTO.AccInfo getAccInfo(Long id) {
+
+        ForeignInvoice foreignInvoice = repository.findById(id).orElseThrow(() -> new NotFoundException(ForeignInvoice.class));
+        ForeignInvoiceDTO.AccInfo accInfo = modelMapper.map(foreignInvoice, ForeignInvoiceDTO.AccInfo.class);
+
+        validation(foreignInvoice, accInfo);
+        return accInfo;
+    }
+
+    @Override
+    public ForeignInvoiceDTO.HeavyInfo getHeavyInfo(Long id) {
+
+        ForeignInvoice foreignInvoice = repository.findById(id).orElseThrow(() -> new NotFoundException(ForeignInvoice.class));
+        ForeignInvoiceDTO.HeavyInfo heavyInfo = modelMapper.map(foreignInvoice, ForeignInvoiceDTO.HeavyInfo.class);
+
+        validation(foreignInvoice, heavyInfo);
+        return heavyInfo;
+    }
+
+    @Override
     @Transactional
     @Action(ActionType.Get)
     public List<ForeignInvoiceDTO.Info> getByShipment(Long invoiceTypeId, Long shipmentId, Long currencyId) {

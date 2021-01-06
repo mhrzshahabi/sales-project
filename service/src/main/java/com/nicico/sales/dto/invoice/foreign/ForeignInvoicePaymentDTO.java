@@ -39,8 +39,6 @@ public class ForeignInvoicePaymentDTO {
     public static class Info extends ForeignInvoicePaymentDTO {
 
         private Long id;
-        private CurrencyRateDTO.Info conversionRef;
-        private ForeignInvoiceDTO.Info foreignInvoice;
 
         // Auditing
         private Date createdDate;
