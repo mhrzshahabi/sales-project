@@ -21,6 +21,8 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
         this.Super("initWidget", arguments);
 
         let This = this;
+        let sendDate = new Date(This.shipment.sendDate);
+
         let QPArticleElement = isc.HTMLFlow.create({
             width: "100%",
         });
@@ -49,6 +51,7 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
             actionURL: "${contextPath}/api/price-base/get-avg-base-price-by-moas",
             params: {
                 contractId: This.contract.id,
+                sendDate: sendDate.toLocaleDateString(),
                 financeUnitId: This.currency.id,
             },
             callback: function (resp) {

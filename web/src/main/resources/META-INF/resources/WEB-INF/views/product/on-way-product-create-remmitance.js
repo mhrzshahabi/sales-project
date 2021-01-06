@@ -133,15 +133,16 @@ function onWayProductCreateRemittance() {
                         return this.Super("recordClick", arguments);
                     }
                 },
-                defaultValue:(_=>{
+                defaultValue: (_ => {
                     const selectedRecord = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord();
-                    const defaultValue = StorageUtil.get("defaultDepotForCodeKala"+selectedRecord['codeKala'].toString()
-                        +"AndSource"+selectedRecord['sourceId'].toString());
-                    return defaultValue?defaultValue:null})(),
+                    const defaultValue = StorageUtil.get("defaultDepotForCodeKala" + selectedRecord['codeKala'].toString()
+                        + "AndSource" + selectedRecord['sourceId'].toString());
+                    return defaultValue ? defaultValue : null
+                })(),
                 editorExit(form, item, value) {
                     const selectedRecord = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord();
-                    StorageUtil.save("defaultDepotForCodeKala"+selectedRecord['codeKala'].toString()
-                                            +"AndSource"+selectedRecord['sourceId'].toString(),value)
+                    StorageUtil.save("defaultDepotForCodeKala" + selectedRecord['codeKala'].toString()
+                        + "AndSource" + selectedRecord['sourceId'].toString(), value)
                     return true;
                 }
 
@@ -166,7 +167,11 @@ function onWayProductCreateRemittance() {
                 }
             },
             {
-                name: "depotName", type: "staticText", title: '<spring:message code="person.fullName"/> <spring:message code="warehouseCad.yard"/>', colSpan: 4, shouldSaveValue: false,
+                name: "depotName",
+                type: "staticText",
+                title: '<spring:message code="person.fullName"/> <spring:message code="warehouseCad.yard"/>',
+                colSpan: 4,
+                shouldSaveValue: false,
             },
             {
                 type: "staticText",
@@ -182,7 +187,7 @@ function onWayProductCreateRemittance() {
             },
             {
                 type: "staticText",
-                name:"s_driver",
+                name: "s_driver",
                 title: "<b><spring:message code='Tozin.driver'/></b>",
                 wrapTitle: false,
                 width: 90,
@@ -190,27 +195,27 @@ function onWayProductCreateRemittance() {
             },
             {
                 type: "staticText",
-                name:"d_driver",
+                name: "d_driver",
                 title: "<b><spring:message code='Tozin.driver'/></b>",
                 wrapTitle: false,
                 width: 90,
             },
-    {
-                    type: "staticText",
-                    name:"s_plak",
-                    title: "<b><spring:message code='Tozin.plak.container'/></b>",
-                    wrapTitle: false,
-                    width: 90,
-                    defaultValue: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().plak
-                },
+            {
+                type: "staticText",
+                name: "s_plak",
+                title: "<b><spring:message code='Tozin.plak.container'/></b>",
+                wrapTitle: false,
+                width: 90,
+                defaultValue: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().plak
+            },
 
-    {
-                    type: "staticText",
-                    name:"d_plak",
-                    title: "<b><spring:message code='Tozin.plak.container'/></b>",
-                    wrapTitle: false,
-                    width: 90,
-                },
+            {
+                type: "staticText",
+                name: "d_plak",
+                title: "<b><spring:message code='Tozin.plak.container'/></b>",
+                wrapTitle: false,
+                width: 90,
+            },
 
 
             {
@@ -262,184 +267,282 @@ function onWayProductCreateRemittance() {
                 width: "100%",
                 height: 80,
                 editorType: "TextAreaItem",
-                title:  "<spring:message code='remittance.description'/>",
+                title: "<spring:message code='remittance.description'/>",
                 colSpan: 4
             }
         ]
     });
     const IButton_warehouseCAD_Save = isc.IButtonSave.create({
-        top: 260,
-        visibility: "hidden",
-        click: function () {
-            function dialog(message, okClick = function () {
-            }, title =  "<spring:message code='incoterm.exception.required-info'/>",) {
+            top: 260,
+            visibility: "hidden",
+            click: function () {
+                function dialog(message, okClick = function () {
+                }, title = "<spring:message code='incoterm.exception.required-info'/>",) {
+                    isc.Dialog.create({
+                        title: title,
+                        message: message,
+                        buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
+                        okClick() {
+                            this.close();
+                            if (typeof (okClick) === 'function') okClick();
+                        }
+                    })
+                }
+
                 isc.Dialog.create({
-                    title: title,
-                    message: message,
+                    title: "<spring:message code='global.warning'/>",
+                    message: "<spring:message code='warehouseCad.warning.save'/>",
                     buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
                     okClick() {
                         this.close();
-                        if (typeof (okClick) === 'function') okClick();
+                        if (!DynamicForm_warehouseCAD.validate()) return;
+                        const grid = window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']]
+                        const remittanceDetail = grid.getData();
+                        const recordWithoutDestTozinId = remittanceDetail.find(d => {
+                            if (!d['destTozinId']) {
+                                return true
+                            }
+                            return false
+                        })
+                        if (recordWithoutDestTozinId) {
+                            isc.Dialog.create({
+                                title: "<spring:message code='Tozin.destination.tozin.problem'/>",
+                                message: "<spring:message code='Tozin.destination.target.tozin.not.found'/>",
+                                buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
+                                okClick() {
+                                    this.close();
+                                    const rowNum = grid.getRecordIndex(recordWithoutDestTozinId);
+                                    grid.startEditing(rowNum);
+                                    window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
+                                }
+                            })
+                            return;
+                        }
+                        const withoutPkg = remittanceDetail.find(tz => {
+                            if (!tz['packages'] || tz['packages'].length === 0) return true;
+                            return false
+                        })
+                        if (withoutPkg) return dialog("<spring:message code='Tozin.package.not.found'/>", function () {
+                            grid.expandRecord(withoutPkg);
+                            window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
+                        })
+                        const withoutTedad = remittanceDetail.find(tz => {
+
+                            const pkg = tz['packages'].find(p => {
+                                if (!p.tedad || isNaN(p.tedad) || p.tedad < 1) {
+                                    return true
+                                }
+                                return false;
+                            })
+                            if (pkg) {
+                                // //console.log(tz)
+                                if (tz.codeKala === 8 && DynamicForm_warehouseCAD.getValues().unit !== 3) return false;
+                                return true;
+                            }
+                            return false
+                        })
+                        const withoutLabel = remittanceDetail.find(tz => {
+
+                            const pkg = tz['packages'].find(p => {
+                                if (!p.label) {
+                                    return true
+                                }
+                                return false;
+                            })
+                            return pkg;
+                        })
+
+                        if (withoutTedad) return dialog("<spring:message code='Tozin.package.bigger.zero'/>",
+                            function () {
+                                grid.expandRecord(withoutTedad);
+                                window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
+                            })
+
+                        if (withoutLabel) return dialog("<spring:message code='Tozin.inventory.label.not.saved'/>",
+                            function () {
+                                grid.expandRecord(withoutLabel);
+                                window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
+                            })
+
+                        /**@type {InRemittance}****/
+                        const dataForSave = {
+                            remittance: DynamicForm_warehouseCAD.getValues(),
+                            remittanceDetails: []
+                        };
+                        if (!dataForSave.remittance.description)
+                            dataForSave.remittance.description = ' ';
+                        if (modifiedPackages.add > 0)
+                            dataForSave.remittance.description += " تعداد" +
+                                modifiedPackages.add.toString() +
+                                " بسته نسبت به بسته‌های لجستیک اضافه شد "
+                        if (modifiedPackages.remove > 0)
+                            dataForSave.remittance.description += " تعداد" +
+                                modifiedPackages.remove.toString() +
+                                " بسته نسبت به بسته‌های لجستیک حذف  شد "
+
+
+                        remittanceDetail.forEach(a => {
+                            a.packages.forEach(b => {
+                                const inventory = {...b, materialItemId: a['codeKala']};
+                                /**@type {RemittanceDetail} remittanceDetail***/
+                                const remittanceDetail = {inventory: inventory,}
+                                if (!b['description']) remittanceDetail['description'] = null;
+                                else {
+                                    remittanceDetail['description'] = inventory['description'];
+                                    delete inventory['description'];
+                                }
+                                remittanceDetail['unitId'] = Number(dataForSave.remittance['unit']);
+                                remittanceDetail['amount'] = Number(inventory['tedad']);
+                                remittanceDetail['weight'] = Number(inventory['wazn']);
+                                remittanceDetail['depotId'] = Number(dataForSave.remittance['depotId']);
+                                remittanceDetail['destinationTozin'] = {...a['destTozin']};
+                                remittanceDetail['sourceTozin'] = {...a};
+                                if (a['railPolompNo']) remittanceDetail['railPolompNo'] = a['railPolompNo'];
+                                if (a['securityPolompNo']) remittanceDetail['securityPolompNo'] = a['securityPolompNo'];
+                                delete remittanceDetail['sourceTozin']['packages'];
+                                delete remittanceDetail['sourceTozin']['destTozin'];
+                                delete remittanceDetail['sourceTozin']['destTozinId'];
+                                delete inventory['tedad'];
+                                delete inventory['wazn'];
+                                dataForSave.remittanceDetails.add(remittanceDetail);
+                            })
+                        })
+                        // //console.log('data for send', dataForSave)
+                        const cathodeTozin = {}
+                        dataForSave.remittanceDetails
+                            .filter(r =>/**@type {RemittanceDetail}*/ r.inventory.materialItemId === 8
+                            ).forEach(r => {
+                                if (!Object.keys(cathodeTozin).includes(r.destinationTozin.tozinId))
+                                    cathodeTozin[r.destinationTozin.tozinId] = []
+                                cathodeTozin[r.destinationTozin.tozinId].add(r)
+                            }
+                        )
+                        const remittanceDetailNeedToChange = Object.keys(cathodeTozin).filter(r => cathodeTozin[r].length === 1)
+                            .map(r => cathodeTozin[r])
+                        const remittanceDetailDoesNotNeedToChange = dataForSave.remittanceDetails.filter(r => {
+                            const tozin = r.destinationTozin
+                            return tozin.codeKala !== 8 ||
+                                !Object.keys(cathodeTozin).filter(r => cathodeTozin[r].length === 1).includes(tozin.tozinId)
+                        })
+
+                        /**@param {RemittanceDetail} remittanceDetail***/
+                        function sliceCathodeRemittanceDetail(remittanceDetail) {
+                            /**
+                             * @param {number} _weight**
+                             * @param {number} _number**
+                             * @param {Object}_pkg_sum
+                             * @param {RemittanceDetail[]} _array**/
+                            function weight_number(_weight, _number, _array, _pkg_sum) {
+                                if (isNaN(_number)) return
+                                const amount_all = remittanceDetail.amount
+                                let first_amount = 1
+                                let amount = 1
+                                if (amount_all > 1 && _weight === 10000) {
+                                    dbg(arguments)
+                                    const _all_amount = amount_all + _number - _pkg_sum._sum
+                                    amount = Math.floor(_all_amount / _number)
+                                    const remained_amount = _all_amount - (amount * _number)
+                                    first_amount = amount + remained_amount
+                                }
+                                for (let i = 0; i < _number; i++) {
+
+                                    /**@type {RemittanceDetail} rd*/
+                                    const rd = {
+                                        sourceTozin: sourceTozin,
+                                        destinationTozin: destinationTozin,
+                                        inventory: {label: giveMeAName(), materialItemId: 8},
+                                        unitId: remittanceDetail.unitId,
+                                        weight: _weight,
+                                        amount: _weight !== 10000 ? amount : i !== 0 ? amount : first_amount
+                                    }
+                                    _array.add(rd)
+                                }
+                            }
+
+                            const weight = remittanceDetail.destinationTozin.vazn
+                            const sourceTozin = remittanceDetail.sourceTozin;
+                            const destinationTozin = remittanceDetail.destinationTozin;
+                            const pkg_10t = Math.floor(weight / 10000)
+                            const pkg_2t = Math.floor((weight % 10000) / 2000)
+                            const pkg_500k = Math.floor((weight % 2000) / 500)
+                            const under_500k = weight % 500
+                            const pkg_sum = {
+                                _sum: 0,
+                                pkg: [],
+                            }
+                            const j=pkg_sum.pkg
+                            if (!isNaN(under_500k)) {
+                                pkg_sum._sum += 1;
+                                j.add('under_500k')
+                            }
+                            if (!isNaN(pkg_10t)) {
+                                pkg_sum._sum += pkg_10t;
+                                j.add('pkg_10t')
+                            }
+                            if (!isNaN(pkg_2t)) {
+                                pkg_sum._sum += pkg_2t;
+                                j.add('pkg_2t')
+                            }
+                            if (!isNaN(pkg_500k)) {
+                                pkg_sum._sum += pkg_500k;
+                                j.add('pkg_500k')
+                            }
+                            weight_number(10000, pkg_10t, remittanceDetailDoesNotNeedToChange, pkg_sum)
+                            weight_number(2000, pkg_2t, remittanceDetailDoesNotNeedToChange, pkg_sum)
+                            weight_number(500, pkg_500k, remittanceDetailDoesNotNeedToChange, pkg_sum)
+                            weight_number(under_500k, 1, remittanceDetailDoesNotNeedToChange, pkg_sum)
+
+                        }
+
+                        remittanceDetailNeedToChange
+                            .forEach(_remittanceDetail => sliceCathodeRemittanceDetail(_remittanceDetail[0]))
+                        dataForSave.remittanceDetails = remittanceDetailDoesNotNeedToChange
+                        fetch('api/remittance-detail/batch',
+                            {
+                                headers: {
+                                    ...
+                                        SalesConfigs.httpHeaders, "content-type":
+                                        "application/json;charset=UTF-8",
+                                }
+                                ,
+                                method: "POST",
+                                body: JSON.stringify(dataForSave)
+                            }
+                        ).then(r => {
+                            //console.log('saved response', r)
+                            if (r.status === 201) {
+                                isc.say("<spring:message code='global.form.request.successful'/>",
+                                    () => {
+                                        windowRemittance.hide();
+                                        ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();
+                                    })
+                            } else {
+                                r.json().then(
+                                    j =>
+                                        isc.warn("<spring:message code='Tozin.error.message'/>", +
+                                                '\n' +
+                                            JSON.stringify(j)
+                                        )
+                                )
+
+
+                            }
+                            r.json().then(j => {
+                            })////console.log('saved json response', j)
+
+                        }).catch(
+                            reject => {
+                                isc.say("<spring:message code='global.form.response.error'/>")
+                            }
+                        ).finally(
+                            // () => criteriaBuildForListGrid()
+                        )
                     }
                 })
+
             }
-
-            isc.Dialog.create({
-                title: "<spring:message code='global.warning'/>",
-                message: "<spring:message code='warehouseCad.warning.save'/>",
-                buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
-                okClick() {
-                    this.close();
-                    if (!DynamicForm_warehouseCAD.validate()) return;
-                    const grid = window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']]
-                    const remittanceDetail = grid.getData();
-                    const recordWithoutDestTozinId = remittanceDetail.find(d => {
-                        if (!d['destTozinId']) {
-                            return true
-                        }
-                        return false
-                    })
-                    if (recordWithoutDestTozinId) {
-                        isc.Dialog.create({
-                            title:  "<spring:message code='Tozin.destination.tozin.problem'/>",
-                            message:  "<spring:message code='Tozin.destination.target.tozin.not.found'/>",
-                            buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
-                            okClick() {
-                                this.close();
-                                const rowNum = grid.getRecordIndex(recordWithoutDestTozinId);
-                                grid.startEditing(rowNum);
-                                window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
-                            }
-                        })
-                        return;
-                    }
-                    const withoutPkg = remittanceDetail.find(tz => {
-                        if (!tz['packages'] || tz['packages'].length === 0) return true;
-                        return false
-                    })
-                    if (withoutPkg) return dialog( "<spring:message code='Tozin.package.not.found'/>", function () {
-                        grid.expandRecord(withoutPkg);
-                        window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
-                    })
-                    const withoutTedad = remittanceDetail.find(tz => {
-
-                        const pkg = tz['packages'].find(p => {
-                            if (!p.tedad || isNaN(p.tedad) || p.tedad < 1) {
-                                return true
-                            }
-                            return false;
-                        })
-                        if (pkg) {
-                            // //console.log(tz)
-                            if (tz.codeKala === 8 && DynamicForm_warehouseCAD.getValues().unit !== 3) return false;
-                            return true;
-                        }
-                        return false
-                    })
-                    const withoutLabel = remittanceDetail.find(tz => {
-
-                        const pkg = tz['packages'].find(p => {
-                            if (!p.label ) {
-                                return true
-                            }
-                            return false;
-                        })
-                     return pkg;
-                    })
-
-                    if (withoutTedad) return dialog( "<spring:message code='Tozin.package.bigger.zero'/>",
-                        function () {
-                        grid.expandRecord(withoutTedad);
-                        window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
-                    })
-
-                     if (withoutLabel) return dialog( "<spring:message code='Tozin.inventory.label.not.saved'/>",
-                        function () {
-                        grid.expandRecord(withoutLabel);
-                        window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
-                    })
-
-
-                    const dataForSave = {
-                        remittance: DynamicForm_warehouseCAD.getValues(),
-                        remittanceDetails: []
-                    };
-                     if(!dataForSave.remittance.description)
-                         dataForSave.remittance.description=' ';
-                     if (modifiedPackages.add>0)
-                         dataForSave.remittance.description+=" تعداد" +
-                             modifiedPackages.add.toString() +
-                             " بسته نسبت به بسته‌های لجستیک اضافه شد "
-                    if (modifiedPackages.remove>0)
-                         dataForSave.remittance.description+=" تعداد" +
-                             modifiedPackages.remove.toString() +
-                             " بسته نسبت به بسته‌های لجستیک حذف  شد "
-
-
-                    remittanceDetail.forEach(a => {
-                        a.packages.forEach(b => {
-                            const inventory = {...b, materialItemId: a['codeKala']};
-                            const remittanceDetail = {inventory: inventory,}
-                            if (!b['description']) remittanceDetail['description'] = null;
-                            else {
-                                remittanceDetail['description'] = inventory['description'];
-                                delete inventory['description'];
-                            }
-                            remittanceDetail['unitId'] = Number(dataForSave.remittance['unit']);
-                            remittanceDetail['amount'] = Number(inventory['tedad']);
-                            remittanceDetail['weight'] = Number(inventory['wazn']);
-                            remittanceDetail['depotId'] = Number(dataForSave.remittance['depotId']);
-                            remittanceDetail['destinationTozin'] = {...a['destTozin']};
-                            remittanceDetail['sourceTozin'] = {...a};
-                            if (a['railPolompNo']) remittanceDetail['railPolompNo'] = a['railPolompNo'];
-                            if (a['securityPolompNo']) remittanceDetail['securityPolompNo'] = a['securityPolompNo'];
-                            delete remittanceDetail['sourceTozin']['packages'];
-                            delete remittanceDetail['sourceTozin']['destTozin'];
-                            delete remittanceDetail['sourceTozin']['destTozinId'];
-                            delete inventory['tedad'];
-                            delete inventory['wazn'];
-                            dataForSave.remittanceDetails.add(remittanceDetail);
-                        })
-                    })
-                    // //console.log('data for send', dataForSave)
-                    fetch('api/remittance-detail/batch', {
-                        headers: {...SalesConfigs.httpHeaders, "content-type": "application/json;charset=UTF-8",},
-                        method: "POST",
-                        body: JSON.stringify(dataForSave)
-                    }).then(r => {
-                        //console.log('saved response', r)
-                        if (r.status === 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>",
-                                () => {
-                                    windowRemittance.hide();
-                                    ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();
-                                })
-                        } else {
-                            r.json().then(
-                                j =>
-                                    isc.warn( "<spring:message code='Tozin.error.message'/>", +
-                                        '\n' +
-                                        JSON.stringify(j)
-                                    )
-                            )
-
-
-                        }
-                        r.json().then(j => {
-                        })////console.log('saved json response', j)
-
-                    }).catch(
-                        reject => {
-                            isc.say("<spring:message code='global.form.response.error'/>")
-                        }
-                    ).finally(
-                        // () => criteriaBuildForListGrid()
-                    )
-                }
-            })
-
-        }
-    });
+        })
+    ;
     const packages_button = isc.IButtonSave.create({
         title: "<spring:message code='Tozin.package.details'/>",
         // width: 100,
@@ -528,7 +631,7 @@ function onWayProductCreateRemittance() {
     const target = SalesBaseParameters.getSavedWarehouseParameter()
         .find(pp => pp.id === ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['targetId'])
 
-    // //console.log(source, 'source')
+// //console.log(source, 'source')
     DynamicForm_warehouseCAD.setValue("plant", source['name']);
 
     DynamicForm_warehouseCAD.setValue("warehouseNo", target['name']);
@@ -537,7 +640,7 @@ function onWayProductCreateRemittance() {
 
     DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().containerId);
     const modifiedPackages = {
-        add:0,remove:0
+        add: 0, remove: 0
     }
     const windowDestinationTozinList = (function () {
         const datasource = isc.DataSource.create({
@@ -577,9 +680,10 @@ function onWayProductCreateRemittance() {
                 win.hide();
             }
         }
-        const grid = isc.ListGrid.create({...extraGridConfigs, ...gridConfigs,
-            showRowNumbers:true,
-});
+        const grid = isc.ListGrid.create({
+            ...extraGridConfigs, ...gridConfigs,
+            showRowNumbers: true,
+        });
         const win = isc.Window.create({
             title: "<spring:message code='contact.title'/>",
             width: .7 * innerWidth,
@@ -614,7 +718,7 @@ function onWayProductCreateRemittance() {
         const grid_source = isc.ListGrid.create({
             ...windowDestinationTozinList['gc'],
             ...{
-                alternateRecordStyles: true,                        showRowNumbers:true,
+                alternateRecordStyles: true, showRowNumbers: true,
 
                 expansionFieldImageShowSelected: true,
                 canExpandRecords: true,
@@ -661,7 +765,7 @@ function onWayProductCreateRemittance() {
                                     this.hide();
 
                                     if (index == 0) {
-                                        modifiedPackages.remove = modifiedPackages.remove +1;
+                                        modifiedPackages.remove = modifiedPackages.remove + 1;
                                         ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.data.remove(record);
                                     }
 
@@ -717,7 +821,7 @@ function onWayProductCreateRemittance() {
                             },
                             {
                                 name: "wazn",
-                                canEdit:canEditVazTedad,
+                                canEdit: canEditVazTedad,
                                 headerTitle: "<spring:message code='warehouseCadItem.weightKg'/>",
                                 width: "20%",
                                 validators: [{
@@ -731,11 +835,15 @@ function onWayProductCreateRemittance() {
                                 editorProperties: {
                                     keyPressFilter: "[0-9]",
                                 },
-                                summaryFunction: function (records,field) {
+                                summaryFunction: function (records, field) {
                                     const prefix = "<spring:message code='billOfLanding.total.net.weight' /> " +
                                         "<spring:message code='invoice.shomarehSoratHesab' />: ";
-                                    if(!records || records.length ===0 )return prefix + "0";
-                                    try{return prefix +records.map(record=>Number(record[field.name])).reduce((_1,_2)=>_1+_2)}catch(e){return 0}
+                                    if (!records || records.length === 0) return prefix + "0";
+                                    try {
+                                        return prefix + records.map(record => Number(record[field.name])).reduce((_1, _2) => _1 + _2)
+                                    } catch (e) {
+                                        return 0
+                                    }
                                 }
                             },
                             {
@@ -749,9 +857,9 @@ function onWayProductCreateRemittance() {
                     });
                     const add_bundle_button = isc.IButton.create({
                         title: "<spring:message code='warehouseCad.addBundle'/>",
-                        visibility:"hidden",
+                        visibility: "hidden",
                         // <sec:authorize access="hasAuthority('C_E_REMITTANCE_DETAIL')">
-                        visibility:"visible",
+                        visibility: "visible",
                         // </sec:authorize>
 
                         // width: 150,
@@ -767,8 +875,8 @@ function onWayProductCreateRemittance() {
                                 uid: uid,
                                 wazn: 1
                             });
-                            modifiedPackages.add = modifiedPackages.add +1;
-                            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getField('wazn').canEdit=true;
+                            modifiedPackages.add = modifiedPackages.add + 1;
+                            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getField('wazn').canEdit = true;
 
                         }
                     });
@@ -789,7 +897,7 @@ function onWayProductCreateRemittance() {
                 if (!tozinId) return false;
                 this.rowHoverComponent = isc.DetailViewer.create({
                     dataSource: isc.MyRestDataSource.create({
-                        fields: [...tozinFields().filter(_=>[
+                        fields: [...tozinFields().filter(_ => [
                             "source",
                             "nameKala",
                             "target",
@@ -918,31 +1026,31 @@ function onWayProductCreateRemittance() {
                     //     return record['destTozin']['wazn'];
                     // },
                     editorProperties: {
-                        addUnknownValues:false,
+                        addUnknownValues: false,
                         // allowEmptyValue:false,
-                        textMatchStyle:"substring",
+                        textMatchStyle: "substring",
                         icons: [{
                             src: "pieces/16/icon_add.png",
                             click() {
                                 window[windowDestinationTozinList['w']].show()
                                 if (grid_source.getSelectedRecord().plak)
-                                window[windowDestinationTozinList['g']].setFilterEditorCriteria({
-                                    fieldName:'plak',
-                                    operator:"contains",
-                                    value:grid_source.getSelectedRecord().plak
-                                })
+                                    window[windowDestinationTozinList['g']].setFilterEditorCriteria({
+                                        fieldName: 'plak',
+                                        operator: "contains",
+                                        value: grid_source.getSelectedRecord().plak
+                                    })
                             }
                         }]
                     },
                     editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
-                        if(!newValue)return true;
+                        if (!newValue) return true;
                         const grid_available_tozins_string = windowDestinationTozinList['g'];
                         const grid_available_tozins = window[grid_available_tozins_string];
                         const destTozin = grid_available_tozins.getData().find(g => g['tozinId'] === newValue);
                         if (newValue !== undefined && newValue !== null && newValue !== '' && destTozin) {
                             record['destTozin'] = destTozin;
-                            DynamicForm_warehouseCAD.setValue("d_plak",destTozin.plak);
-                            DynamicForm_warehouseCAD.setValue("d_d_driver",destTozin.driverName);
+                            DynamicForm_warehouseCAD.setValue("d_plak", destTozin.plak);
+                            DynamicForm_warehouseCAD.setValue("d_d_driver", destTozin.driverName);
                             // //console.log('updated destination Id', record, grid);
                             record['destTozinId'] = newValue;
                             return true
@@ -954,7 +1062,11 @@ function onWayProductCreateRemittance() {
                     }
                     // valueMap: window[windowDestinationTozinList['g']].getData().getValueMap('tozinId', 'tozinId')
                 },
-                {name:'destTozin.vazn',canEdit:false,headerTitle:"<spring:message code='warehouseCad.destinationWeight'/>"},
+                {
+                    name: 'destTozin.vazn',
+                    canEdit: false,
+                    headerTitle: "<spring:message code='warehouseCad.destinationWeight'/>"
+                },
                 {
                     name: "securityPolompNo",
                     canFilter: false,
@@ -1065,10 +1177,10 @@ function onWayProductCreateRemittance() {
     [...createdTozinList].filter(c => c.tozinId.startsWith('3')).forEach(c => {
         destinationTozinCriteria.criteria.add({fieldName: "tozinId", operator: "notEqual", value: c.tozinId})
     })
-    // Promise.all([
-    //     onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria),
-    //     onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria),
-    // ])
+// Promise.all([
+//     onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria),
+//     onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria),
+// ])
     onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria).then((tozin) => {
             if (tozin && tozin.response && tozin.response.data && tozin.response.data.length === 0) {
                 isc.warn('<spring:message code="Tozin.no.tozin"/>', _ => {
@@ -1144,28 +1256,28 @@ function onWayProductCreateRemittance() {
                 tzn['pkgNum_destination'] = 0;
                 tzn['tedad_source'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
                 tzn['tedad_destination'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
-                if(tzn.codeKala === 11 && !isNaN(tzn['tedad']) && Number(tzn['tedad']) > 1 ){
-                    DynamicForm_warehouseCAD.setValue("sourceBundleSum",tzn["tedad"])
+                if (tzn.codeKala === 11 && !isNaN(tzn['tedad']) && Number(tzn['tedad']) > 1) {
+                    DynamicForm_warehouseCAD.setValue("sourceBundleSum", tzn["tedad"])
                     canEditVazTedad = true;
                     const _packages = [];
                     //dbg(true,tzn)
-                    const _tedadString = 'remitance_inventory_default_tedad_'+ tzn.codeKala.toString()
+                    const _tedadString = 'remitance_inventory_default_tedad_' + tzn.codeKala.toString()
                         + '_' +
                         tzn.sourceId.toString();
                     let _tedad = 34;//StorageUtil.get(_tedadString);
-                    if(!_tedad || Number(_tedad)<3)
-                        _tedad=18
+                    if (!_tedad || Number(_tedad) < 3)
+                        _tedad = 18
                     const _vazn = 1;//Number(tzn['vazn'])/Number(tzn['tedad']);
 
-                    Array.from({length:Number(tzn['tedad'])},(_,i)=>{
-                    _packages.add({
-                        uid: giveMeAName(),
-                        label: giveMeAName(),
-                        productId: null,
-                        wazn: _vazn,
-                        tedad: _tedad,
-                        description: '',
-                    })
+                    Array.from({length: Number(tzn['tedad'])}, (_, i) => {
+                        _packages.add({
+                            uid: giveMeAName(),
+                            label: giveMeAName(),
+                            productId: null,
+                            wazn: _vazn,
+                            tedad: _tedad,
+                            description: '',
+                        })
                     })
                     tzn['packages'] = _packages;
                 }
@@ -1173,23 +1285,22 @@ function onWayProductCreateRemittance() {
 
                 return tzn;
             })
-            // dbg(true,selectedTozinList)
+            //dbg(true,selectedTozinList)
             // //console.log('selectedTozinList',selectedTozinList)
             grid.setData(selectedTozinList)
             DynamicForm_warehouseCAD.setValue('sourceBundleSum', 0)
-            dbg(true,selectedTozinList)
-            const tedadList = selectedTozinList.filter(tzn=>tzn['tedad']&&!isNaN(tzn['tedad'])&&tzn['codeKala']===11)
-                .map(tzn=>Number(tzn['tedad']));
-            const boshkehList = selectedTozinList.filter(tzn=>tzn['tedad']&&!isNaN(tzn['tedad'])&&tzn['codeKala']===97)
-                .map(tzn=>Number(tzn['tedad']));
+            //dbg(true, selectedTozinList)
+            const tedadList = selectedTozinList.filter(tzn => tzn['tedad'] && !isNaN(tzn['tedad']) && tzn['codeKala'] === 11)
+                .map(tzn => Number(tzn['tedad']));
+            const boshkehList = selectedTozinList.filter(tzn => tzn['tedad'] && !isNaN(tzn['tedad']) && tzn['codeKala'] === 97)
+                .map(tzn => Number(tzn['tedad']));
 
-            const __sourceBundleSum = tedadList.length>0? tedadList.reduce((_1, _2)=>_1+_2):0;
-            const __sourceBoshkehSum = boshkehList.length>0? boshkehList.reduce((_1, _2)=>_1+_2):0;
-            if(__sourceBundleSum && !isNaN(__sourceBundleSum) && __sourceBundleSum>0)
-                DynamicForm_warehouseCAD.setValue("sourceBundleSum",__sourceBundleSum)
-            if(__sourceBoshkehSum && !isNaN(__sourceBoshkehSum) && __sourceBoshkehSum>0)
-                        DynamicForm_warehouseCAD.setValue("sourceSheetSum",__sourceBoshkehSum)
-
+            const __sourceBundleSum = tedadList.length > 0 ? tedadList.reduce((_1, _2) => _1 + _2) : 0;
+            const __sourceBoshkehSum = boshkehList.length > 0 ? boshkehList.reduce((_1, _2) => _1 + _2) : 0;
+            if (__sourceBundleSum && !isNaN(__sourceBundleSum) && __sourceBundleSum > 0)
+                DynamicForm_warehouseCAD.setValue("sourceBundleSum", __sourceBundleSum)
+            if (__sourceBoshkehSum && !isNaN(__sourceBoshkehSum) && __sourceBoshkehSum > 0)
+                DynamicForm_warehouseCAD.setValue("sourceSheetSum", __sourceBoshkehSum)
 
 
             if (tozinPackagesData && tozinPackagesData.response && tozinPackagesData.response.data && tozinPackagesData.response.data.length > 0) {
@@ -1240,7 +1351,7 @@ function onWayProductCreateRemittance() {
                                     productId: p['productId'],
                                     uid: p['productId'],
                                     wazn: p['wazn'],
-                                    tedad: p['sheetNumber']*2
+                                    tedad: p['sheetNumber'] * 2
                                 }
                             })
                             tz['packages'] = updated_packages;
@@ -1261,7 +1372,8 @@ function onWayProductCreateRemittance() {
                 // //console.log('updatedSelectedTozinList', updatedSelectedTozinList, selectedTozinList)
                 grid.setData(updatedSelectedTozinList)
             }
-            if(tozinPackagesData && tozinPackagesData.response){}
+            if (tozinPackagesData && tozinPackagesData.response) {
+            }
 
         }
         packages_button.show();
@@ -1273,25 +1385,30 @@ function onWayProductCreateRemittance() {
 
 
     DynamicForm_warehouseCAD.getItem('depotId').setOptionDataSource(RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT)
-    const __material = SalesBaseParameters.getSavedMaterialItemParameter().find(materialItem=>materialItem.id === selectedSourceTozins[0].codeKala);
-    const __source = SalesBaseParameters.getSavedWarehouseParameter().find(warehouse=>warehouse.id===selectedSourceTozins[0].sourceId);
-    let remittanceCode = "i-" + __material.shortName?__material.shortName:__material.id.toString();
-    remittanceCode+=__source.shortName?__source.shortName:__source.id.toString();
-    remittanceCode+=selectedSourceTozins[0].isRail?"RAIL":"ROAD";
-    remittanceCode+=  new Date().toLocaleString('fa',{numberingSystem:'latn',month:"2-digit",day:'2-digit',year:'numeric'})
-            .replaceAll("/","");
-    fetch('api/remittance/spec-list?_startRow=0&_endRow=1&_sortBy=-id',{headers:SalesConfigs.httpHeaders})
-        .then(res=>{
+    const __material = SalesBaseParameters.getSavedMaterialItemParameter().find(materialItem => materialItem.id === selectedSourceTozins[0].codeKala);
+    const __source = SalesBaseParameters.getSavedWarehouseParameter().find(warehouse => warehouse.id === selectedSourceTozins[0].sourceId);
+    let remittanceCode = "i-" + __material.shortName ? __material.shortName : __material.id.toString();
+    remittanceCode += __source.shortName ? __source.shortName : __source.id.toString();
+    remittanceCode += selectedSourceTozins[0].isRail ? "RAIL" : "ROAD";
+    remittanceCode += new Date().toLocaleString('fa', {
+        numberingSystem: 'latn',
+        month: "2-digit",
+        day: '2-digit',
+        year: 'numeric'
+    })
+        .replaceAll("/", "");
+    fetch('api/remittance/spec-list?_startRow=0&_endRow=1&_sortBy=-id', {headers: SalesConfigs.httpHeaders})
+        .then(res => {
             res.json().then(
-                _json=>{
-                    remittanceCode+=(++_json.response.data.pop().id).toString();
-                    DynamicForm_warehouseCAD.setValue('code',remittanceCode
+                _json => {
+                    remittanceCode += (++_json.response.data.pop().id).toString();
+                    DynamicForm_warehouseCAD.setValue('code', remittanceCode
                     )
                 }
             )
         })
 
-    DynamicForm_warehouseCAD.setValue('code','i-'+selectedSourceTozins[0].codeKala
+    DynamicForm_warehouseCAD.setValue('code', 'i-' + selectedSourceTozins[0].codeKala
         + '-'
         + selectedSourceTozins.length
         + '-'

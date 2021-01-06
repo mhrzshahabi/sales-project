@@ -2136,38 +2136,35 @@ shipmentCostInvoiceTab.listGrid.fields = BaseFormItems.concat([
     {
         name: "sumPrice",
         title: "<spring:message code='shipmentCostInvoice.sumPrice'/>",
-        filterOperator: "equals",
+        canFilter: false,
         formatCellValue: function (value, record, rowNum, colNum) {
             if (!value)
                 return value;
 
             return value + "";
         },
-        // type: 'float'
     },
     {
         name: "sumPriceWithDiscount",
         title: "<spring:message code='shipmentCostInvoice.sumPriceWithDiscount'/>",
-        filterOperator: "equals",
+        canFilter: false,
         formatCellValue: function (value, record, rowNum, colNum) {
             if (!value)
                 return value;
 
             return value + "";
         },
-        // type: 'float'
     },
     {
         name: "sumPriceWithVat",
         title: "<spring:message code='shipmentCostInvoice.sumPriceWithVat'/>",
-        filterOperator: "equals",
+        canFilter: false,
         formatCellValue: function (value, record, rowNum, colNum) {
             if (!value)
                 return value;
 
             return value + "";
         },
-        // type: 'float'
     },
     {
         name: "documentId",

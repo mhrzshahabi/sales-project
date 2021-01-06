@@ -1,0 +1,4 @@
+begin RPRT_PR_UPDATE_FACT_LOGESTICTOZIN; end;
+
+
+select count(*) from RPRT_TB_FACT_LOGESTIC_TOZIN;  
