@@ -5,8 +5,130 @@
 
     <!-- erfan -->
     <changeSet id="erfan1" author="saeb">
-        <sqlFile stripComments="true" relativeToChangelogFile="true" encoding="UTF-8"  path="remittance/1.sql"/>
-        <sqlFile stripComments="true" relativeToChangelogFile="true" encoding="UTF-8"  path="remittance/2_1.sql"/>
+<!--        <sqlFile stripComments="true" relativeToChangelogFile="true" encoding="UTF-8"  path="remittance/1.sql"/>-->
+        <sql splitStatements="false" stripComments="false">
+            <![CDATA[
+                DECLARE i INTEGER;
+                BEGIN
+
+                SELECT COUNT(*) INTO i FROM user_indexes WHERE upper(index_name) = 'IDX_DBA_REMITTANCE_DET_INVID';
+                IF i = 0 THEN
+                    EXECUTE IMMEDIATE 'create index IDX_DBA_REMITTANCE_DET_INVID on TBL_WARH_REMITTANCE_DETAIL (f_inventory_id)';
+                END IF;
+
+                SELECT COUNT(*) INTO i FROM user_indexes WHERE upper(index_name) = 'IDX_DBA_REMITTANCE_DESTOZINID';
+                IF i = 0 THEN
+                    EXECUTE IMMEDIATE 'create index IDX_DBA_REMITTANCE_DESTOZINID on TBL_WARH_REMITTANCE_DETAIL (f_destination_tozine_id)';
+                END IF;
+
+                SELECT COUNT(*) INTO i FROM user_indexes WHERE upper(index_name) = 'IDX_DBA_REMITTANCE_SRCTOZINID';
+                IF i = 0 THEN
+                    EXECUTE IMMEDIATE 'create index IDX_DBA_REMITTANCE_SRCTOZINID on TBL_WARH_REMITTANCE_DETAIL (f_source_tozine_id)';
+                END IF;
+
+                SELECT COUNT(*) INTO i FROM user_indexes WHERE upper(index_name) = 'IDX_DBA_REMITTANCE_UNITID';
+                IF i = 0 THEN
+                    EXECUTE IMMEDIATE 'create index IDX_DBA_REMITTANCE_UNITID on TBL_WARH_REMITTANCE_DETAIL (f_unit_id)';
+                END IF;
+
+                SELECT COUNT(*) INTO i FROM user_indexes WHERE upper(index_name) = 'IDX_DBA_WARHTOZIN_FADATE';
+                IF i = 0 THEN
+                    EXECUTE IMMEDIATE 'create index IDX_DBA_WARHTOZIN_FADATE on TBL_WARH_TOZIN(DAT)';
+                END IF;
+                END;
+            ]]>
+        </sql>
+        <sql splitStatements="false" stripComments="false">
+            <![CDATA[
+                DECLARE
+                    j INTEGER;
+                BEGIN
+                    SELECT
+                        COUNT(*)
+                    INTO j
+                    FROM
+                        user_tables
+                    WHERE
+                        upper(table_name) = 'RPRT_TB_FACT_LOGESTIC_TOZIN';
+
+                    IF j = 0 THEN
+                        EXECUTE IMMEDIATE 'create table RPRT_TB_FACT_LOGESTIC_TOZIN
+                                        (
+                                          dat       varchar2(10),
+                                          tozine_id varchar2(60) not null,
+                                          sourceid  number,
+                                          targetid  number,
+                                          material  number not null,
+                                          wazn      number,
+                                          pkg       number,
+                                          is_rail   number not null,
+                                          key_1     varchar2(100),
+                                          dat_ym    as (substr(dat,1,6)),
+                                          dat_y     as (substr(dat,1,4)),
+                                          constraint pk_fact_logestic_tozin primary key (tozine_id)
+                                        )'
+                        ;
+                    END IF;
+                    SELECT
+                        COUNT(*)
+                    INTO j
+                    FROM
+                        user_indexes
+                    WHERE
+                        lower(index_name) = 'idx_logstictozin_key1';
+
+                    IF j = 0 THEN
+                        EXECUTE IMMEDIATE 'create index idx_logstictozin_key1 on RPRT_TB_FACT_LOGESTIC_TOZIN (key_1)';
+                    END IF;
+                    SELECT
+                        COUNT(*)
+                    INTO j
+                    FROM
+                        user_indexes
+                    WHERE
+                        lower(index_name) = 'idx_logstictozin_dat';
+
+                    IF j = 0 THEN
+                        EXECUTE IMMEDIATE 'create index idx_logstictozin_dat on RPRT_TB_FACT_LOGESTIC_TOZIN (DAT)';
+                    END IF;
+
+                                SELECT
+                        COUNT(*)
+                    INTO j
+                    FROM
+                        user_indexes
+                    WHERE
+                        lower(index_name) = 'idx_fn_logstictozin_dat_date';
+
+                    IF j = 0 THEN
+                        EXECUTE IMMEDIATE 'create index idx_FN_logstictozin_dat_date on RPRT_TB_FACT_LOGESTIC_TOZIN (to_date(dat, ''yyyymmdd'', ''nls_calendar=persian''))';
+                    END IF;
+                    SELECT
+                        COUNT(*)
+                    INTO j
+                    FROM
+                        user_indexes
+                    WHERE
+                        lower(index_name) = 'idx_logstictozin_srcid';
+
+                    IF j = 0 THEN
+                        EXECUTE IMMEDIATE 'create index idx_logstictozin_srcid on RPRT_TB_FACT_LOGESTIC_TOZIN (SOURCEID)';
+                    END IF;
+                    SELECT
+                        COUNT(*)
+                    INTO j
+                    FROM
+                        user_indexes
+                    WHERE
+                        lower(index_name) = 'idx_logstictozin_tgtid';
+
+                    IF j = 0 THEN
+                        EXECUTE IMMEDIATE 'create index idx_logstictozin_tgtid on RPRT_TB_FACT_LOGESTIC_TOZIN (TARGETID)';
+                    END IF;
+                END;
+            ]]>
+        </sql>
+<!--        <sqlFile stripComments="true" relativeToChangelogFile="true" encoding="UTF-8"  path="remittance/2_1.sql"/>-->
         <sqlFile stripComments="true" relativeToChangelogFile="true" encoding="UTF-8"  path="remittance/2_2.sql"/>
         <sqlFile stripComments="true" relativeToChangelogFile="true" encoding="UTF-8"  path="remittance/3_1.sql"/>
         <sqlFile stripComments="true" relativeToChangelogFile="true" encoding="UTF-8"  path="remittance/3_2.sql"/>
