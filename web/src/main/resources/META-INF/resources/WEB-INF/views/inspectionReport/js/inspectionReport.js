@@ -337,13 +337,9 @@ inspectionReportTab.restDataSource.unitRest = isc.MyRestDataSource.create({
             hidden: true
         },
         {
-            name: "nameFA",
-            title: "<spring:message code='unit.nameFa'/>"
-        },
-        {
-            name: "nameEN",
-            title: "<spring:message code='unit.nameEN'/>"
-        },
+            name: "name",
+            title: "<spring:message code='unit.name'/>"
+        }
     ],
     fetchDataURL: "${contextPath}/api/unit/spec-list"
 });
@@ -794,11 +790,11 @@ inspectionReportTab.variable.currencyInUnitCriteria = {
 };
 
 inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
-    margin: 10,
     height: "10%",
+    margin: 10,
     numCols: 3,
     align: "center",
-    titleWidth: 150,
+    titleWidth: 160,
     canSubmit: true,
     showErrorText: true,
     showErrorStyle: true,
@@ -1276,7 +1272,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         editorType: "SelectItem",
         valueField: "id",
         displayField: "name",
-        pickListWidth: "400",
+        pickListWidth: "300",
         pickListHeight: "300",
         optionDataSource: inspectionReportTab.restDataSource.unitRest,
         optionCriteria: inspectionReportTab.variable.currencyInUnitCriteria,
@@ -1286,13 +1282,9 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             },
         pickListFields: [
             {
-                name: "nameFA",
+                name: "name",
                 align: "center"
-            },
-            {
-                name: "nameEN",
-                align: "center"
-            },
+            }
         ],
         validators: [
             {
@@ -1313,8 +1305,8 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
 
 inspectionReportTab.dynamicForm.inspecReport = isc.DynamicForm.create({
     height: "90%",
-    numCols: 3,
     margin: 10,
+    numCols: 3,
     align: "center",
     titleWidth: 150,
     canSubmit: true,

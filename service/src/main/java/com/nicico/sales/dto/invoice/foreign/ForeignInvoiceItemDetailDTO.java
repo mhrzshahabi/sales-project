@@ -43,30 +43,8 @@ public class ForeignInvoiceItemDetailDTO {
     public static class Info extends ForeignInvoiceItemDetailDTO {
 
         private Long id;
-        private MaterialElementDTO.Info materialElement;
-        private ForeignInvoiceItemDTO.Info foreignInvoiceItem;
-        private UnitDTO.Info basePriceFinanceUnit;
         private UnitDTO.Info basePriceWeightUnit;
-
-        // Auditing
-        private Date createdDate;
-        private String createdBy;
-        private Date lastModifiedDate;
-        private String lastModifiedBy;
-        private Integer version;
-
-        // BaseEntity
-        private Boolean editable;
-        private List<EStatus> eStatus;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("ForeignInvoiceItemDetailInfo")
-    public static class InfoWithoutForeignInvoiceItem extends ForeignInvoiceItemDetailDTO {
-
-        private Long id;
+        private UnitDTO.Info basePriceFinanceUnit;
         private MaterialElementDTO.Info materialElement;
 
         // Auditing

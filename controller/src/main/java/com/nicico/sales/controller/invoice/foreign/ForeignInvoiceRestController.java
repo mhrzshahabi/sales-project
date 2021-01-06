@@ -104,6 +104,20 @@ public class ForeignInvoiceRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/acc-info/{id}")
+    public ResponseEntity<ForeignInvoiceDTO.AccInfo> getAccInfo(@PathVariable Long id) {
+
+        return new ResponseEntity<>(foreignInvoiceService.getAccInfo(id), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/heavy-info/{id}")
+    public ResponseEntity<ForeignInvoiceDTO.HeavyInfo> getHeavyInfo(@PathVariable Long id) {
+
+        return new ResponseEntity<>(foreignInvoiceService.getHeavyInfo(id), HttpStatus.OK);
+    }
+
+    @Loggable
     @GetMapping(value = "/get-by-shipment")
     public ResponseEntity<List<ForeignInvoiceDTO.Info>> getByShipment(@RequestParam Long invoiceTypeId, @RequestParam Long shipmentId, @RequestParam Long currencyId) {
 
