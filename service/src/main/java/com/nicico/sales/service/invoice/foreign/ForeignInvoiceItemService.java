@@ -37,7 +37,6 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
     private static final String DISCOUNT = "discount";
     private static final String WEIGHT_ND = "weightND";
     private static final String WEIGHT_GW = "weightGW";
-    private static final String WEIGHT_DIFF = "weightDiff";
     private static final String UNIT_CONVERSION_RATE = "unitConversionRate";
     private final IUnitService unitService;
     private final IPriceBaseService priceBaseService;
@@ -54,20 +53,20 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
         List<Long> inventoryIds = weightValues.stream().map(WeightInspectionDTO::getInventoryId).collect(Collectors.toList());
 
         String priceContent = contractDetailDataInfo.getPriceContent();
-        String quotationalPeriodContent = contractDetailDataInfo.getQuotationalPeriodContent();
+//        String quotationalPeriodContent = contractDetailDataInfo.getQuotationalPeriodContent();
         List<ContractDiscountDTO.Info> discountArticle = contractDetailDataInfo.getDiscount();
 
-        List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfBasePricesByMOAS(contractId, financeUnitId, contractDetailDataInfo.getMOAS());
+        List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfBasePricesByMOAS(contractId, sendDate, financeUnitId, contractDetailDataInfo.getMOAS());
 
         ForeignInvoiceItemDTO.Calc2Data result = new ForeignInvoiceItemDTO.Calc2Data();
         List<ForeignInvoiceItemDTO.FieldData> fields = createFields(assayValues);
-        List<Map<String, Object>> data = createData(inventoryIds, assayValues, weightValues, discountArticle, basePrices, financeUnitId);
+        List<Map<String, Object>> data = createData(inventoryIds, assayValues, weightValues, discountArticle);
 
         result.setData(data);
         result.setFields(fields);
         result.setPriceBase(basePrices);
         result.setPriceContent(priceContent);
-        result.setQuotationalPeriodContent(quotationalPeriodContent);
+//        result.setQuotationalPeriodContent(quotationalPeriodContent);
 
         return result;
     }
@@ -127,7 +126,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
 //    }
 
     // Mine
-    private List<Map<String, Object>> createData(List<Long> inventoryIds, List<AssayInspectionDTO.InfoWithoutInspectionReport> assayValues, List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues, List<ContractDiscountDTO.Info> discountArticle, List<PriceBaseDTO.Info> basePrices, Long financeUnitId) {
+    private List<Map<String, Object>> createData(List<Long> inventoryIds, List<AssayInspectionDTO.InfoWithoutInspectionReport> assayValues, List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues, List<ContractDiscountDTO.Info> discountArticle) {
 
         List<Map<String, Object>> data = new ArrayList<>();
         inventoryIds.forEach(inventoryId -> {
@@ -155,16 +154,17 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
                 if (!a.getMaterialElement().getPayable() && !a.getMaterialElement().getPenalty()) return;
 
                 record.put(element.getName(), a.getValue());
-                Optional<ContractDiscountDTO.Info> contractDiscount = discountArticle.stream().filter(q -> q.getMaterialElementId().longValue() == a.getMaterialElementId()).findFirst();
-                PriceBaseDTO.Info priceBaseDTO = basePrices.stream().filter(q -> q.getElementId().longValue() == element.getId()).findFirst().orElseThrow(() -> new NotFoundException(PriceBase.class));
-                if (a.getMaterialElement().getPenalty()) {
+                discountArticle.stream().filter(q -> q.getMaterialElementId().longValue() == a.getMaterialElementId()).forEach(contractDiscount -> {
+                    if (a.getMaterialElement().getPenalty()) {
 
-                    if (contractDiscount.isPresent() && a.getValue().compareTo(contractDiscount.get().getLowerBound()) > 0 && a.getValue().compareTo(contractDiscount.get().getUpperBound()) <= 0) {
+                        if (a.getValue().compareTo(contractDiscount.getLowerBound()) > 0 && a.getValue().compareTo(contractDiscount.getUpperBound()) <= 0) {
 
-                        discount[0] = discount[0].add(contractDiscount.get().getDiscount());
-                        record.put(element.getName() + "Discount", contractDiscount.get().getDiscount());
-                    } else record.put(element.getName() + "Discount", new BigDecimal(0));
-                }
+                            discount[0] = discount[0].add(contractDiscount.getDiscount());
+                            record.put(element.getName() + "Discount", contractDiscount.getDiscount());
+                        }
+                    }
+                });
+
                 if (a.getMaterialElement().getPayable()) {
 
                     BigDecimal content = weight.getWeightND().multiply(a.getValue()).divide(new BigDecimal(100), MathContext.DECIMAL32);

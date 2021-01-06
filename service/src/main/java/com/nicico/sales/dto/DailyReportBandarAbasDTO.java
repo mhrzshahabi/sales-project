@@ -182,13 +182,20 @@ public class DailyReportBandarAbasDTO {
     private Long tadil;
 
 
+    @ReportField(titleMessageKey = "tadil.year.precent") //new
     private Double tadilYearPrecent;
 
+    @ReportField(titleMessageKey = "sum.first.remained.weight.day") //new
     private Long sumFirstRemainedWeightDay;
+    @ReportField(titleMessageKey = "sum.first.remained.weight.month") //new
     private Long sumFirstRemainedWeightMonth;
+    @ReportField(titleMessageKey = "sum.first.remained.weight.year") //new
     private Long sumFirstRemainedWeightYear;
+    @ReportField(titleMessageKey = "first.remained.weight.day") //new
     private Long firstRemainedWeightDay;
+    @ReportField(titleMessageKey = "first.remained.weight.month") //new
     private Long firstRemainedWeightMonth;
+    @ReportField(titleMessageKey = "first.remained.weight.year") //new
     private Long firstRemainedWeightYear;
     @ReportField(titleMessageKey = "Daily-report.owp.day.arrived.tozin.rail")
     private long owpDayArrivedTozinRail;
@@ -332,13 +339,19 @@ public class DailyReportBandarAbasDTO {
     private long owpYearNotArrivedWeightAllMaterial;
     @ReportField(titleMessageKey = "Daily-report.owp.total.not.arrived.weight")
     private long owpTotalNotArrivedWeight;
-    @ReportField(titleMessageKey = "Daily-report.owp.total.not.arrived.tozin")
+    @ReportField(titleMessageKey = "owp.total.not.arrived.tozin") //new
     private long owpTotalNotArrivedTozin;
+    @ReportField(titleMessageKey = "sum.first.remained.pkg.day") //new
     private Long sumFirstRemainedPkgDay;
+    @ReportField(titleMessageKey = "sum.first.remained.pkg.month") //new
     private Long sumFirstRemainedPkgMonth;
+    @ReportField(titleMessageKey = "sum.first.remained.pkg.year") //new
     private Long sumFirstRemainedPkgYear;
+    @ReportField(titleMessageKey = "first.remained.pkg.day") //new
     private Long firstRemainedPkgDay;
+    @ReportField(titleMessageKey = "first.remained.pkg.month") //new
     private Long firstRemainedPkgMonth;
+    @ReportField(titleMessageKey = "first.remained.pkg.year") //new
     private Long firstRemainedPkgYear;
 
     public Long getSumFirstRemainedWeightDay() {
@@ -393,39 +406,73 @@ public class DailyReportBandarAbasDTO {
 
 
 
+    @ReportField(titleMessageKey = "owp.day.sent.tozin.rail") //new
     private long owpDaySentTozinRail;
+    @ReportField(titleMessageKey = "owp.day.sent.weight.rail") //new
     private long owpDaySentWeightRail;
+    @ReportField(titleMessageKey = "owp.day.sent.tozin.road") //new
     private long owpDaySentTozinRoad;
+    @ReportField(titleMessageKey = "owp.day.sent.weight.road") //new
     private long owpDaySentWeightRoad;
+    @ReportField(titleMessageKey = "owp.month.sent.tozin.rail") //new
     private long owpMonthSentTozinRail;
+    @ReportField(titleMessageKey = "owp.month.sent.weight.rail") //new
     private long owpMonthSentWeightRail;
+    @ReportField(titleMessageKey = "owp.month.sent.tozin.road") //new
     private long owpMonthSentTozinRoad;
+    @ReportField(titleMessageKey = "owp.month.sent.weight.road") //new
     private long owpMonthSentWeightRoad;
+    @ReportField(titleMessageKey = "owp.year.sent.tozin.rail") //new
     private long owpYearSentTozinRail;
+    @ReportField(titleMessageKey = "owp.year.sent.weight.rail") //new
     private long owpYearSentWeightRail;
+    @ReportField(titleMessageKey = "owp.year.sent.tozin.road") //new
     private long owpYearSentTozinRoad;
+    @ReportField(titleMessageKey = "owp.year.sent.weight.road") //new
     private long owpYearSentWeightRoad;
+    @ReportField(titleMessageKey = "owp.day.sent.tozin.rail.all.material") //new
     private long owpDaySentTozinRailAllMaterial;
+    @ReportField(titleMessageKey = "owp.day.sent.weight.rail.all.material") //new
     private long owpDaySentWeightRailAllMaterial;
+    @ReportField(titleMessageKey = "owp.total.sent.weight.rail.all.material") //new
     private long owpTotalSentWeightRailAllMaterial;
+    @ReportField(titleMessageKey = "owp.total.sent.tozin.rail.all.material") //new
     private long owpTotalSentTozinRailAllMaterial;
+    @ReportField(titleMessageKey = "owp.month.sent.tozin.rail.all.material") //new
     private long owpMonthSentTozinRailAllMaterial;
+    @ReportField(titleMessageKey = "owp.month.sent.weight.rail.all.material") //new
     private long owpMonthSentWeightRailAllMaterial;
+    @ReportField(titleMessageKey = "owp.year.sent.tozin.rail.all.material") //new
     private long owpYearSentTozinRailAllMaterial;
+    @ReportField(titleMessageKey = "owp.year.sent.weight.rail.all.material") //new
     private long owpYearSentWeightRailAllMaterial;
+    @ReportField(titleMessageKey = "owp.day.sent.tozin.road.all.material") //new
     private long owpDaySentTozinRoadAllMaterial;
+    @ReportField(titleMessageKey = "owp.day.sent.weight.road.all.material") //new
     private long owpDaySentWeightRoadAllMaterial;
+    @ReportField(titleMessageKey = "owp.total.sent.weight.road.all.material") //new
     private long owpTotalSentWeightRoadAllMaterial;
+    @ReportField(titleMessageKey = "owp.total.sent.tozin.road.all.material") //new
     private long owpTotalSentTozinRoadAllMaterial;
+    @ReportField(titleMessageKey = "owp.month.sent.tozin.road.all.material") //new
     private long owpMonthSentTozinRoadAllMaterial;
+    @ReportField(titleMessageKey = "owp.month.sent.weight.road.all.material") //new
     private long owpMonthSentWeightRoadAllMaterial;
+    @ReportField(titleMessageKey = "owp.year.sent.tozin.road.all.material") //new
     private long owpYearSentTozinRoadAllMaterial;
+    @ReportField(titleMessageKey = "owp.year.sent.weight.road.all.material") //new
     private long owpYearSentWeightRoadAllMaterial;
+    @ReportField(titleMessageKey = "owp.day.sent.tozin.all.material") //new
     private long owpDaySentTozinAllMaterial;
+    @ReportField(titleMessageKey = "owp.day.sent.weight.all.material") //new
     private long owpDaySentWeightAllMaterial;
+    @ReportField(titleMessageKey = "owp.month.sent.tozin.all.material") //new
     private long owpMonthSentTozinAllMaterial;
+    @ReportField(titleMessageKey = "owp.month.sent.weight.all.material") //new
     private long owpMonthSentWeightAllMaterial;
+    @ReportField(titleMessageKey = "owp.year.sent.tozin.all.material") //new
     private long owpYearSentTozinAllMaterial;
+    @ReportField(titleMessageKey = "owp.year.sent.weight.all.material") //new
     private long owpYearSentWeightAllMaterial;
 
     public Long getOwpDaySentTozinRail(){

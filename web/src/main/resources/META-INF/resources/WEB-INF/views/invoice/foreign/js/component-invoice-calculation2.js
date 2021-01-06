@@ -71,9 +71,9 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
         let priceArticleElement = isc.HTMLFlow.create({
             width: "100%"
         });
-        let priceBaseArticleElement = isc.HTMLFlow.create({
-            width: "100%"
-        });
+        // let priceBaseArticleElement = isc.HTMLFlow.create({
+        //     width: "100%"
+        // });
 
         let gridFirstFields = [{
             name: "lotNo",
@@ -100,6 +100,12 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                     min: 0,
                     validateOnChange: true
                 }],
+            formatCellValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return NumberUtil.format(value, "0.##");
+            },
             cellChanged: function (record, newValue, oldValue, rowNum, colNum, grid) {
 
                 // debugger;
@@ -116,9 +122,15 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
             name: "weightND",
             type: "float",
             title: "Net Weight",
-            format: "0.###",
+            format: "0.##",
             canEdit: "false",
             required: "false",
+            formatCellValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return NumberUtil.format(value, "0.##");
+            },
             cellChanged: function (record, newValue, oldValue, rowNum, colNum, grid) {
 
                 This.updateGridData(record, newValue, oldValue, rowNum, colNum, grid);
@@ -127,9 +139,15 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
             name: "weightGW",
             type: "float",
             title: "Gross Weight",
-            format: "0.###",
+            format: "0.##",
             canEdit: "false",
-            required: "false"
+            required: "false",
+            formatCellValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return NumberUtil.format(value, "0.##");
+            }
         }];
 
         let gridLastFields = [{
@@ -138,21 +156,45 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
             title: "Price",
             format: "0.##",
             canEdit: "false",
-            required: "false"
+            required: "false",
+            formatCellValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return NumberUtil.format(value, "0.##");
+            }
         }, {
             name: "discount",
             type: "float",
             title: "Discount",
             format: "0.##",
             canEdit: "false",
-            required: "false"
+            required: "false",
+            formatCellValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return NumberUtil.format(value, "0.##");
+            }
         }, {
             name: "unitConversionRate",
             type: "float",
             title: "Conversion Rate",
-            format: "0.###",
+            format: "0.##",
             canEdit: "true",
             required: "true",
+            formatCellValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return NumberUtil.format(value, "0.##");
+            },
+            formatEditorValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return NumberUtil.format(value, "0.##");
+            },
             cellChanged: function (record, newValue, oldValue, rowNum, colNum, grid) {
 
                 This.updateGridData(record, newValue, oldValue, rowNum, colNum, grid);
@@ -161,9 +203,15 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
             name: "amount",
             type: "float",
             title: "Value Amount",
-            format: "0.###",
+            format: "0.##",
             canEdit: "false",
-            required: "false"
+            required: "false",
+            formatCellValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return NumberUtil.format(value, "0.##");
+            }
         }];
 
 
@@ -193,6 +241,12 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                         });
                     });
 
+                    gridFields.forEach(field => field.formatCellValue = function (value, record, rowNum, colNum) {
+                        if (!value)
+                            return value;
+
+                        return NumberUtil.format(value, "0.##");
+                    });
                     gridFields.forEach(field => gridFirstFields.add(field));
                     gridLastFields.forEach(field => gridFirstFields.add(field));
                     let grid = isc.ListGrid.create({
@@ -204,7 +258,7 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                     grid.setData(gridData);
 
                     priceArticleElement.setContents("<b>" + data.priceContent + "</b>");
-                    priceBaseArticleElement.setContents("<b>" + data.quotationalPeriodContent + "</b>");
+                    // priceBaseArticleElement.setContents("<b>" + data.quotationalPeriodContent + "</b>");
 
                     for (let i = 0; i < data.priceBase.length; i++) {
 
@@ -268,7 +322,7 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                     This.addMember(priceBaseLayout);
                     This.addMember(percentElement);
                     This.addMember(priceArticleElement);
-                    This.addMember(priceBaseArticleElement);
+                    // This.addMember(priceBaseArticleElement);
                     This.getMember(1).getMembers().forEach(member => member.valueFieldIcons[0].click());
 
                     This.addMember(isc.HTMLFlow.create({

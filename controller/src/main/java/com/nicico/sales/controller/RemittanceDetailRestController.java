@@ -59,6 +59,12 @@ public class RemittanceDetailRestController {
     public ResponseEntity<List<RemittanceDetailDTO.Info>> outRemittance(@Validated @RequestBody RemittanceDetailDTO.OutRemittance request) {
         return new ResponseEntity<>(iRemittanceDetailService.out(request), HttpStatus.CREATED);
     }
+    @Loggable
+    @PostMapping("/out-weight")
+    public ResponseEntity<List<Long>> outWeightRemittance(@Validated @RequestBody RemittanceDetailDTO.OutRemittanceWeight request) {
+        return new ResponseEntity<>(iRemittanceDetailService.outWeight(request), HttpStatus.CREATED);
+    }
+
 
     @Loggable
     @PutMapping
