@@ -558,6 +558,8 @@
         filterUsingText: '<spring:message code="global.grid.filterUsingText" />',
         groupByText: '<spring:message code="global.grid.groupByText" />',
         freezeFieldText: '<spring:message code="global.grid.freezeFieldText" />',
+        sortField: "id",
+        sortDirection: "descending",
         validateAllData: function () {
 
             for (let i = 0; i < this.getData().length; i++)
