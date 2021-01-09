@@ -21,7 +21,11 @@ namespace nicico {
             return;
         };
 
-        static okCallBack: any = function (criteria: isc.Criteria) {
+        static validate: any = function (criteria: isc.AdvancedCriteria) {
+
+            return true;
+        };
+        static okCallBack: any = function (criteria: isc.AdvancedCriteria) {
 
             return criteria;
         };
@@ -116,6 +120,9 @@ namespace nicico {
                 click: function () {
 
                     // @ts-ignore
+                    if (!This.validate(creator.filterBuilder.main.getCriteria())) return;
+
+                    // @ts-ignore
                     creator.window.main.close();
                     // @ts-ignore
                     if (creator.variable.owner != null)
@@ -152,6 +159,7 @@ namespace nicico {
                 creator.filterBuilder.main, creator.hLayout.main
             ], width, height);
         }
+
         // @ts-ignore
         static show(owner: isc.Window, title: string, restDataSource: isc.MyRestDataSource, criteria: isc.AdvancedCriteria, width: string = null, height: string = null) {
 

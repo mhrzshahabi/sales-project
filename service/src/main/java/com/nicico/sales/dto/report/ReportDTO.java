@@ -27,6 +27,7 @@ public class ReportDTO {
     private String nameFA;
     private String nameEN;
     private String name;
+    private String criteria;
     private String source;
     private String restMethod;
     private String permissionBaseKey;

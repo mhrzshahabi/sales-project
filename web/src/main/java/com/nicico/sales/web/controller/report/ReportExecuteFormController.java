@@ -47,6 +47,8 @@ public class ReportExecuteFormController {
     public String showReport(@PathVariable Long reportId, HttpServletRequest request) throws JsonProcessingException {
 
         ReportDTO.Info report = reportService.get(reportId);
+        request.setAttribute("Report_Criteria", report.getCriteria());
+        report.setCriteria(null);
         request.setAttribute("Data_Report", objectMapper.writeValueAsString(report));
         request.setAttribute("Excel_Access", SecurityUtil.hasAuthority("RG_E_" + report.getPermissionBaseKey()));
         request.setAttribute("Print_Access", SecurityUtil.hasAuthority("RG_P_" + report.getPermissionBaseKey()));

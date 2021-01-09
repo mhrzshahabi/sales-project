@@ -100,10 +100,12 @@ namespace nicico {
             this.windowWidget.getObject().show();
         }
 
+        // @ts-ignore
         showFindFormByRestDataSource(ownerWindow: isc.Window, width: string, height: string, title: string, currentData: Array<any>, restDataSource: isc.MyRestDataSource, dataArrivedCallback?: any, criteria: Criteria = null, selectionMultiplicityValue: number = 1): void {
 
             this.owner = new ObjectHider(ownerWindow);
             this.selectionMultiplicity = new ObjectHider(selectionMultiplicityValue);
+            // @ts-ignore
             this.createListGrid(isc.MyRestDataSource.create(restDataSource), criteria, currentData, dataArrivedCallback);
             this.createWindow(title, this.getButtonLayout(), this.listGridWidget.getObject(), width, height);
             if (ownerWindow != null)
@@ -193,12 +195,14 @@ namespace nicico {
             });
         }
 
+        // @ts-ignore
         public getRestDataSource(restApiUrl: string, fields: Array<Partial<isc.DataSourceField>>): isc.MyRestDataSource {
 
             // @ts-ignore
             return isc.MyRestDataSource.nicico.getDefault(restApiUrl, fields);
         }
 
+        // @ts-ignore
         public createListGrid(restDataSource: isc.MyRestDataSource, criteria: Criteria, currentData: Array<any>, dataArrivedCallback?: any): void {
 
             let This = this;

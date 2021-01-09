@@ -9,6 +9,7 @@ reportGeneratorTab.variable.reportGroupUrl = "${contextPath}" + "/api/report-gro
 
 //***************************************************** DATASOURCE *****************************************************
 
+reportGeneratorTab.restDataSource.filterReport = "";
 reportGeneratorTab.restDataSource.report = isc.MyRestDataSource.create({
 
     fields: [
@@ -67,7 +68,7 @@ reportGeneratorTab.restDataSource.reportSource = isc.MyRestDataSource.create({
         };
 
         this.Super("transformRequest", arguments);
-    },
+    }
 });
 reportGeneratorTab.restDataSource.reportSourceFields = isc.MyRestDataSource.create({
 
@@ -171,6 +172,11 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
         changed: function (form, item, value) {
 
             reportGeneratorTab.restDataSource.reportSourceFields.fetchData(null, resp => reportGeneratorTab.listGrid.reportFields.setData(resp.data.filter(q => q.type)));
+            if (reportGeneratorTab.dynamicForm.report.getValue("criteria")) {
+
+                reportGeneratorTab.dynamicForm.report.setValue("criteria", null);
+                if (reportGeneratorTab.variable.method === "PUT") reportGeneratorTab.dialog.say("<spring:message code='report.form.filter.clear'/>")
+            }
         }
     },
     {
@@ -252,6 +258,10 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
         showIf: function (item, value, form, values) {
             return reportGeneratorTab.variable.method === "POST";
         }
+    },
+    {
+        name: "criteria",
+        hidden: true
     },
     {type: "SpacerItem", width: "100%", height: "50", colSpan: 4},
 ]);
@@ -369,6 +379,81 @@ reportGeneratorTab.variable.fileUploadForm = isc.FileUploadForm.create({
     fileStatusValueMap: Enums.fileStatus,
     accessLevelValueMap: Enums.fileAccessLevel
 });
+reportGeneratorTab.window.report.getButtonLayout = function () {
+
+    let ThisForm = reportGeneratorTab.window.report;
+
+    let cancel = isc.IButtonCancel.create({
+
+        click: function () {
+
+            ThisForm.windowWidget.getObject().close();
+            if (ThisForm.owner.getObject() != null)
+                ThisForm.owner.getObject().show();
+
+            ThisForm.cancelCallBack();
+        }
+    });
+    let ok = isc.IButtonSave.create({
+
+        click: function () {
+
+            let data = ThisForm.populateData(ThisForm.bodyWidget.getObject());
+            if (!ThisForm.validate(data)) return;
+
+            ThisForm.windowWidget.getObject().close();
+            if (ThisForm.owner.getObject() != null)
+                ThisForm.owner.getObject().show();
+
+            ThisForm.okCallBack(data);
+        },
+    });
+    let filter = isc.ToolStrip.create(
+        {
+            width: "100%",
+            border: '0px',
+            align: nicico.CommonUtil.getAlignByLang(),
+            members: [
+                isc.IButtonSave.create({
+                    icon: "[SKIN]/actions/filter.png",
+                    title: "<spring:message code='global.form.filter'/>",
+                    click: function () {
+
+                        let data = reportGeneratorTab.listGrid.reportFields.getOriginalData();
+                        if (data && !(data instanceof Array))
+                            data = data.localData;
+                        reportGeneratorTab.restDataSource.filterReport = isc.MyRestDataSource.nicico.getDefault(null, data.map(p => {
+                            return {
+                                name: p.name,
+                                type: p.type,
+                                hidden: false,
+                                title: p["title" + nicico.CommonUtil.getLang().toUpperCase()]
+                            }
+                        }));
+                        nicico.FilterFormUtil.show(null,
+                            '<spring:message code="global.form.filter"/>',
+                            reportGeneratorTab.restDataSource.filterReport,
+                            JSON.parse(reportGeneratorTab.dynamicForm.report.getValue("criteria")));
+                        nicico.FilterFormUtil.okCallBack = function (criteria) {
+
+                            reportGeneratorTab.dynamicForm.report.setValue("criteria", JSON.stringify(criteria));
+                        }
+                    }
+                })
+            ]
+        });
+
+    return isc.HLayout.create({
+
+        width: "100%",
+        padding: 10,
+        layoutMargin: 10,
+        membersMargin: 10,
+        edgeImage: "",
+        showEdges: false,
+        members: [ok, cancel, filter]
+    });
+};
 reportGeneratorTab.window.report.init(null, '<spring:message code="entity.report"/>', isc.VLayout.create({
     width: "100%",
     height: "750",

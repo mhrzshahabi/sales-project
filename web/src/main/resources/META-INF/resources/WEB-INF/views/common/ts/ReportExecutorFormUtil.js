@@ -13,7 +13,54 @@ var nicico;
     var ReportExecutorFormUtil = /** @class */ (function () {
         function ReportExecutorFormUtil() {
         }
-        ReportExecutorFormUtil.showFilterBuilder = function (owner, creator, record, okCallBack) {
+        ReportExecutorFormUtil.createFields = function (recordCriteria, report) {
+            // @ts-ignore
+            if (!recordCriteria || !recordCriteria.length)
+                return [];
+            var fields = [];
+            var _loop_1 = function (i) {
+                // @ts-ignore
+                if (!recordCriteria[i])
+                    return "break";
+                else if (recordCriteria[i]._constructor === "AdvancedCriteria")
+                    // @ts-ignore
+                    fields.addAll(this_1.createFields(recordCriteria[i].criteria, report));
+                // @ts-ignore
+                else if (recordCriteria[i].value === "?") {
+                    // @ts-ignore
+                    recordCriteria[i].value = null;
+                    // @ts-ignore
+                    var findField = report.reportFields.find(function (p) { return p.name === recordCriteria[i].fieldName; });
+                    if (findField)
+                        fields.add({
+                            width: "100%",
+                            required: true,
+                            // @ts-ignore
+                            name: findField.name,
+                            // @ts-ignore
+                            title: findField.title,
+                            // @ts-ignore
+                            type: findField.type,
+                            // @ts-ignore
+                            hint: FilterBuilderOperator[recordCriteria[i].operator],
+                            // @ts-ignore
+                            criteria: recordCriteria[i],
+                            changed: function (form, item, value) {
+                                this.criteria.value = value;
+                            }
+                        });
+                }
+            };
+            var this_1 = this;
+            // @ts-ignore
+            for (var i = 0; i < recordCriteria.length; i++) {
+                var state_1 = _loop_1(i);
+                if (state_1 === "break")
+                    break;
+            }
+            return fields;
+        };
+        ReportExecutorFormUtil.showFilterBuilder = function (allowCreateForm, owner, creator, record, okCallBack) {
             // @ts-ignore
             var fetchDataUrl = creator.variable.contextPath + record.source.replaceAll(new RegExp("^/|/$"), '') + '/';
             // @ts-ignore
@@ -21,8 +68,54 @@ var nicico;
                 return { name: p.name, title: p.title, type: p.type, hidden: false };
             }));
             nicico.FilterFormUtil.okCallBack = okCallBack;
+            nicico.FilterFormUtil.validate = function (criteria) {
+                // @ts-ignore
+                return !creator.dynamicForm.param || creator.dynamicForm.param.validate();
+            };
+            nicico.FilterFormUtil.createWindow = function (creatorFilterForm, title) {
+                // @ts-ignore
+                if (ReportExecutorFormUtil.createDynamicForm(allowCreateForm, creator, record)) {
+                    // @ts-ignore
+                    creatorFilterForm.window.main = isc.Window.nicico.getDefault(title, [
+                        // @ts-ignore
+                        creatorFilterForm.filterBuilder.main, creator.dynamicForm.param, creatorFilterForm.hLayout.main
+                    ], "70%", "600");
+                }
+                else
+                    // @ts-ignore
+                    creatorFilterForm.window.main = isc.Window.nicico.getDefault(title, [
+                        // @ts-ignore
+                        creatorFilterForm.filterBuilder.main, creatorFilterForm.hLayout.main
+                    ], null, "300");
+            };
             // @ts-ignore
             nicico.FilterFormUtil.show(owner, '<spring:message code="global.form.filter"/>' + " - " + record.title, dataSource);
+        };
+        ReportExecutorFormUtil.createDynamicForm = function (allowCreateForm, creator, record) {
+            // @ts-ignore
+            creator.dynamicForm.param = null;
+            // @ts-ignore
+            creator.variable.recordCriteria = record.criteria != null ? JSON.parse(record.criteria) : null;
+            // @ts-ignore
+            var fields = ReportExecutorFormUtil.createFields(creator.variable.recordCriteria ? creator.variable.recordCriteria.criteria : [], record);
+            if (allowCreateForm && fields && fields.length) {
+                // @ts-ignore
+                creator.dynamicForm.param = isc.DynamicForm.create({
+                    width: "100%",
+                    margin: 10,
+                    numCols: 4,
+                    padding: 10,
+                    titleWidth: 130,
+                    showErrorText: true,
+                    showErrorStyle: true,
+                    showInlineErrors: true,
+                    errorOrientation: "bottom",
+                    autoDraw: false,
+                    fields: fields
+                });
+            }
+            // @ts-ignore
+            return creator.dynamicForm.param;
         };
         ReportExecutorFormUtil.createRestDataSource = function (creator) {
             // @ts-ignore
@@ -73,7 +166,24 @@ var nicico;
                                         return;
                                     }
                                     // @ts-ignore
-                                    ReportExecutorFormUtil.showFilterBuilder(creator.window.main, creator, record, function (criteria) {
+                                    ReportExecutorFormUtil.showFilterBuilder(true, creator.window.main, creator, record, function (criteria) {
+                                        var crt = {
+                                            _constructor: "AdvancedCriteria",
+                                            operator: "and",
+                                            criteria: []
+                                        };
+                                        if (criteria && !Object.keys(criteria).length)
+                                            criteria = null;
+                                        if (criteria)
+                                            crt.criteria.add(criteria);
+                                        // @ts-ignore
+                                        if (creator.variable.recordCriteria && !Object.keys(creator.variable.recordCriteria).length)
+                                            // @ts-ignore
+                                            creator.variable.recordCriteria = null;
+                                        // @ts-ignore
+                                        if (creator.variable.recordCriteria)
+                                            // @ts-ignore
+                                            crt.criteria.add(creator.variable.recordCriteria);
                                         var fields = record.reportFields.filter(function (q) { return !q.hidden; });
                                         // @ts-ignore
                                         creator.dynamicForm.excel.setValue("reportId", record.id);
@@ -82,7 +192,7 @@ var nicico;
                                         // @ts-ignore
                                         creator.dynamicForm.excel.setValue("headers", fields.map(function (q) { return q.title; }));
                                         // @ts-ignore
-                                        creator.dynamicForm.excel.setValue("criteria", JSON.stringify(criteria));
+                                        creator.dynamicForm.excel.setValue("criteria", JSON.stringify(crt));
                                         // @ts-ignore
                                         creator.dynamicForm.excel.method = "GET";
                                         // @ts-ignore
@@ -145,9 +255,9 @@ var nicico;
                                             // @ts-ignore
                                             click: function () {
                                                 // @ts-ignore
-                                                ReportExecutorFormUtil.showFilterBuilder(ThisForm.windowWidget.getObject(), creator, record, function (criteria) {
+                                                ReportExecutorFormUtil.showFilterBuilder(false, ThisForm.windowWidget.getObject(), creator, record, function (criteria) {
                                                     // @ts-ignore
-                                                    ThisForm.bodyWidget.getObject().criteria = criteria;
+                                                    ThisForm.bodyWidget.getObject()[0].criteria = criteria;
                                                 });
                                             },
                                             icon: "[SKIN]/actions/filter.png",
@@ -169,7 +279,7 @@ var nicico;
                                             valueChanged: function (value) {
                                                 this.Super('valueChanged', arguments);
                                                 // @ts-ignore
-                                                ThisForm.bodyWidget.getObject().slider = value;
+                                                ThisForm.bodyWidget.getObject()[0].slider = value;
                                                 this.setTitle(value === 1 ? "PDF" : "EXCEL");
                                             }
                                         });
@@ -193,35 +303,50 @@ var nicico;
                                     };
                                     selectReportForm.populateData = function (bodyWidget) {
                                         // @ts-ignore
-                                        var data = bodyWidget.getSelectedValue();
+                                        var data = bodyWidget[0].getSelectedValue();
                                         return data ? {
                                             fileId: data.id,
                                             fileKey: data.fileKey,
                                             // @ts-ignore
-                                            type: bodyWidget.slider === 2 ? "EXCEL" : "PDF",
+                                            type: bodyWidget[0].slider === 2 ? "EXCEL" : "PDF",
                                             // @ts-ignore
-                                            criteria: bodyWidget.criteria,
+                                            criteria: bodyWidget[0].criteria,
                                         } : null;
                                     };
                                     selectReportForm.validate = function (data) {
                                         var isValid = data && data.fileKey;
                                         if (!isValid)
                                             creator.dialog.notSelected();
+                                        // @ts-ignore
+                                        isValid = !!isValid && (!creator.dynamicForm.param || creator.dynamicForm.param.validate());
                                         return isValid;
                                     };
                                     selectReportForm.okCallBack = function (data) {
+                                        var crt = {
+                                            _constructor: "AdvancedCriteria",
+                                            operator: "and",
+                                            criteria: []
+                                        };
+                                        if (data.criteria && !Object.keys(data.criteria).length)
+                                            data.criteria = null;
+                                        if (data.criteria)
+                                            crt.criteria.add(data.criteria);
+                                        // @ts-ignore
+                                        if (creator.variable.recordCriteria && !Object.keys(creator.variable.recordCriteria).length)
+                                            // @ts-ignore
+                                            creator.variable.recordCriteria = null;
+                                        // @ts-ignore
+                                        if (creator.variable.recordCriteria)
+                                            // @ts-ignore
+                                            crt.criteria.add(creator.variable.recordCriteria);
                                         // @ts-ignore
                                         creator.dynamicForm.print.setValue("reportId", record.id);
                                         // @ts-ignore
                                         creator.dynamicForm.print.setValue("fileKey", data.fileKey);
                                         // @ts-ignore
                                         creator.dynamicForm.print.setValue("type", data.type);
-                                        if (data.criteria && Object.keys(data.criteria).length)
-                                            // @ts-ignore
-                                            creator.dynamicForm.print.setValue("criteria", JSON.stringify(data.criteria));
-                                        else
-                                            // @ts-ignore
-                                            creator.dynamicForm.print.setValue("criteria", JSON.stringify(null));
+                                        // @ts-ignore
+                                        creator.dynamicForm.print.setValue("criteria", JSON.stringify(crt));
                                         // @ts-ignore
                                         creator.dynamicForm.print.method = "GET";
                                         // @ts-ignore
@@ -232,24 +357,44 @@ var nicico;
                                         creator.window.main.close();
                                     };
                                     // @ts-ignore
-                                    selectReportForm.showForm(creator.window.main, "<spring:message code='global.form.print'/>" + " - " + record.title, 
-                                    // @ts-ignore
-                                    isc.FileUploadForm.create({
-                                        accept: ".jasper",
-                                        entityName: "Report",
-                                        recordId: record.id,
-                                        canAddFile: false,
-                                        canRemoveFile: false,
-                                        canDownloadFile: false,
-                                        height: "300",
-                                        margin: 5
-                                    }), null, "300");
+                                    if (ReportExecutorFormUtil.createDynamicForm(true, creator, record))
+                                        // @ts-ignore
+                                        selectReportForm.showForm(creator.window.main, "<spring:message code='global.form.print'/>" + " - " + record.title, [
+                                            // @ts-ignore
+                                            isc.FileUploadForm.create({
+                                                accept: ".jasper",
+                                                entityName: "Report",
+                                                recordId: record.id,
+                                                canAddFile: false,
+                                                canRemoveFile: false,
+                                                canDownloadFile: false,
+                                                height: "100%",
+                                                margin: 5
+                                            }),
+                                            // @ts-ignore
+                                            creator.dynamicForm.param
+                                        ], "70%", "500");
+                                    else
+                                        // @ts-ignore
+                                        selectReportForm.showForm(creator.window.main, "<spring:message code='global.form.print'/>" + " - " + record.title, [
+                                            // @ts-ignore
+                                            isc.FileUploadForm.create({
+                                                accept: ".jasper",
+                                                entityName: "Report",
+                                                recordId: record.id,
+                                                canAddFile: false,
+                                                canRemoveFile: false,
+                                                canDownloadFile: false,
+                                                height: "300",
+                                                margin: 5
+                                            })
+                                        ], null, "300");
                                     // @ts-ignore
                                     selectReportForm.actionWidget.getObject().getMember(0).setTitle("<spring:message code='global.form.print'/>");
                                     // @ts-ignore
                                     selectReportForm.actionWidget.getObject().getMember(0).setIcon("[SKIN]/actions/print.png");
                                     // @ts-ignore
-                                    selectReportForm.bodyWidget.getObject().reloadData();
+                                    selectReportForm.bodyWidget.getObject()[0].reloadData();
                                 }
                             }),
                             isc.ToolStripButton.create({

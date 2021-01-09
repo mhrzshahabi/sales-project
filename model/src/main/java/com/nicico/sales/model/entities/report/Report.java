@@ -63,6 +63,9 @@ public class Report extends BaseEntity {
     @Column(name = "C_REST_METHOD")
     private String restMethod;
 
+    @Column(name = "C_CRITERIA")
+    private String criteria;
+
     @NotNull
     @Column(name = "C_REPORT_SOURCE", nullable = false)
     private ReportSource reportSource;

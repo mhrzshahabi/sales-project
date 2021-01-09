@@ -13,9 +13,117 @@ var nicico;
     var ReportPreviewFormUtil = /** @class */ (function () {
         function ReportPreviewFormUtil() {
         }
-        ReportPreviewFormUtil.prototype.create = function () {
-            var report = JSON.parse('${Data_Report}');
-            var creator = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
+        ReportPreviewFormUtil.prototype.createFields = function (report, reportCriteria) {
+            if (!reportCriteria || !reportCriteria.length)
+                return [];
+            var fields = [];
+            var _loop_1 = function (i) {
+                // @ts-ignore
+                if (!reportCriteria[i])
+                    return "break";
+                else if (reportCriteria[i]._constructor === "AdvancedCriteria")
+                    // @ts-ignore
+                    fields.addAll(this_1.createFields(report, reportCriteria[i].criteria));
+                // @ts-ignore
+                else if (reportCriteria[i].value === "?") {
+                    // @ts-ignore
+                    reportCriteria[i].value = null;
+                    // @ts-ignore
+                    var findField = report.reportFields.find(function (p) { return p.name === reportCriteria[i].fieldName; });
+                    if (findField)
+                        fields.add({
+                            width: "100%",
+                            required: true,
+                            // @ts-ignore
+                            name: findField.name,
+                            // @ts-ignore
+                            title: findField.title,
+                            // @ts-ignore
+                            type: findField.type,
+                            // @ts-ignore
+                            criteria: reportCriteria[i],
+                            // @ts-ignore
+                            hint: FilterBuilderOperator[reportCriteria[i].operator],
+                            changed: function (form, item, value) {
+                                this.criteria.value = value;
+                            }
+                        });
+                }
+            };
+            var this_1 = this;
+            for (var i = 0; i < reportCriteria.length; i++) {
+                var state_1 = _loop_1(i);
+                if (state_1 === "break")
+                    break;
+            }
+            return fields;
+        };
+        ReportPreviewFormUtil.prototype.showParamForm = function (creator, report, reportCriteria) {
+            var This = this;
+            var fields = this.createFields(report, reportCriteria.criteria);
+            if (fields && fields.length) {
+                // @ts-ignore
+                creator.window.param = new nicico.FormUtil();
+                // @ts-ignore
+                creator.window.param.getButtonLayout = function () {
+                    var This = this;
+                    // @ts-ignore
+                    var ok = isc.IButtonSave.create({
+                        icon: null,
+                        title: "<spring:message code='global.ok'/>",
+                        // @ts-ignore
+                        click: function () {
+                            var data = This.populateData(This.bodyWidget.getObject());
+                            if (!This.validate(data))
+                                return;
+                            This.windowWidget.getObject().close();
+                            if (This.owner.getObject() != null)
+                                This.owner.getObject().show();
+                            This.okCallBack(data);
+                        },
+                    });
+                    return isc.HLayout.create({
+                        width: "100%",
+                        padding: 10,
+                        layoutMargin: 10,
+                        membersMargin: 10,
+                        edgeImage: "",
+                        showEdges: false,
+                        members: [ok]
+                    });
+                };
+                // @ts-ignore
+                creator.window.param.init(null, '<spring:message code="report.form.parameter"/>', isc.DynamicForm.create({
+                    width: "100%",
+                    height: "400",
+                    margin: 10,
+                    numCols: 4,
+                    padding: 10,
+                    titleWidth: 130,
+                    showErrorText: true,
+                    showErrorStyle: true,
+                    showInlineErrors: true,
+                    errorOrientation: "bottom",
+                    autoDraw: false,
+                    fields: fields
+                }), "800", "400");
+                // @ts-ignore
+                creator.window.param.validate = function () {
+                    return this.bodyWidget.getObject().validate();
+                };
+                // @ts-ignore
+                creator.window.param.okCallBack = function (data) {
+                    // @ts-ignore
+                    mainTabSet.getTab(mainTabSet.selectedTab).setPane(This.createVLayout(creator, report, reportCriteria));
+                    // @ts-ignore
+                    creator.window.param.windowWidget.getObject().destroy();
+                };
+            }
+            else
+                this.createVLayout(creator, report, reportCriteria);
+        };
+        ReportPreviewFormUtil.prototype.createVLayout = function (creator, report, reportCriteria) {
+            if (reportCriteria === void 0) { reportCriteria = null; }
             // @ts-ignore
             creator.variable.contextPath = creator.variable.url;
             // @ts-ignore
@@ -53,9 +161,22 @@ var nicico;
             // @ts-ignore
             creator.method.exportExcel = function () {
                 // @ts-ignore
-                var criteria = creator.listGrid.main.getInitialCriteria();
-                if (!Object.keys(criteria).length)
-                    criteria = null;
+                var initialcriteria = creator.listGrid.main.getInitialCriteria();
+                // @ts-ignore
+                var imlicitcriteria = creator.listGrid.main.getImplicitCriteria();
+                var criteria = {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: []
+                };
+                if (initialcriteria && !Object.keys(initialcriteria).length)
+                    initialcriteria = null;
+                if (initialcriteria)
+                    criteria.criteria.add(initialcriteria);
+                if (imlicitcriteria && !Object.keys(imlicitcriteria).length)
+                    imlicitcriteria = null;
+                if (imlicitcriteria)
+                    criteria.criteria.add(imlicitcriteria);
                 // @ts-ignore
                 var fields = creator.listGrid.main.getFields().filter(function (q) {
                     return q.name !== "groupTitle" &&
@@ -102,9 +223,13 @@ var nicico;
             // @ts-ignore
             creator.method.print = function () {
                 // @ts-ignore
-                var criteria = creator.listGrid.main.getInitialCriteria();
-                if (!Object.keys(criteria).length)
-                    criteria = null;
+                var initialCriteria = creator.listGrid.main.getInitialCriteria();
+                if (initialCriteria && !Object.keys(initialCriteria).length)
+                    initialCriteria = null;
+                // @ts-ignore
+                var implicitCriteria = creator.listGrid.main.getImplicitCriteria();
+                if (implicitCriteria && !Object.keys(implicitCriteria).length)
+                    implicitCriteria = null;
                 var selectedIds = [];
                 if (report.reportType === "OneRecord") {
                     // @ts-ignore
@@ -131,8 +256,10 @@ var nicico;
                     operator: "and",
                     criteria: []
                 };
-                if (criteria)
-                    cr.criteria.add(criteria);
+                if (initialCriteria)
+                    cr.criteria.add(initialCriteria);
+                if (implicitCriteria)
+                    cr.criteria.add(implicitCriteria);
                 // @ts-ignore
                 selectedIds.removeEmpty();
                 if (selectedIds && selectedIds.length)
@@ -291,6 +418,7 @@ var nicico;
                     autoFitWidthApproach: "both",
                     autoFitFieldsFillViewport: true,
                     autoFitExpandField: listGridFirstField.name,
+                    implicitCriteria: reportCriteria,
                     dataArrived: function (startRow, endRow) {
                         this.autoFitFields();
                         this.Super("dataArrived", arguments);
@@ -410,6 +538,18 @@ var nicico;
                 // @ts-ignore
                 creator.listGrid.main.setSelectionType("none");
             return layout;
+        };
+        ReportPreviewFormUtil.prototype.create = function () {
+            var creator = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
+            var report = JSON.parse('${Data_Report}');
+            var reportCriteria;
+            if ('${Report_Criteria}') {
+                reportCriteria = JSON.parse('${Report_Criteria}');
+                this.showParamForm(creator, report, reportCriteria);
+                return;
+            }
+            else
+                return this.createVLayout(creator, report);
         };
         ;
         return ReportPreviewFormUtil;

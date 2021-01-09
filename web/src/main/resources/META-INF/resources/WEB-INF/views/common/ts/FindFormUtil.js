@@ -81,11 +81,13 @@ var nicico;
                 ownerWindow.close();
             this.windowWidget.getObject().show();
         };
+        // @ts-ignore
         FindFormUtil.prototype.showFindFormByRestDataSource = function (ownerWindow, width, height, title, currentData, restDataSource, dataArrivedCallback, criteria, selectionMultiplicityValue) {
             if (criteria === void 0) { criteria = null; }
             if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
             this.owner = new nicico.ObjectHider(ownerWindow);
             this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicityValue);
+            // @ts-ignore
             this.createListGrid(isc.MyRestDataSource.create(restDataSource), criteria, currentData, dataArrivedCallback);
             this.createWindow(title, this.getButtonLayout(), this.listGridWidget.getObject(), width, height);
             if (ownerWindow != null)
@@ -159,10 +161,12 @@ var nicico;
                 members: [ok, cancel]
             });
         };
+        // @ts-ignore
         FindFormUtil.prototype.getRestDataSource = function (restApiUrl, fields) {
             // @ts-ignore
             return isc.MyRestDataSource.nicico.getDefault(restApiUrl, fields);
         };
+        // @ts-ignore
         FindFormUtil.prototype.createListGrid = function (restDataSource, criteria, currentData, dataArrivedCallback) {
             var This = this;
             // @ts-ignore
