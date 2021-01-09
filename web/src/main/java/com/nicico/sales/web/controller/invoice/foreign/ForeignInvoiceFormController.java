@@ -92,7 +92,7 @@ public class ForeignInvoiceFormController {
     @RequestMapping("/print/{foreignInvoiceId}")
     public void printDocx(HttpServletResponse response, @PathVariable Long foreignInvoiceId) throws IOException {
 
-        ForeignInvoiceDTO.Info foreignInvoice = foreignInvoiceService.get(foreignInvoiceId);
+        ForeignInvoiceDTO.HeavyInfo foreignInvoice = foreignInvoiceService.getHeavyInfo(foreignInvoiceId);
 
         Long contractId = foreignInvoice.getShipment().getContractShipment().getContractId();
         Map<String, List<Object>> deliveryTerms = contractDetailValueService2.get(contractId, EContractDetailTypeCode.DeliveryTerms, EContractDetailValueKey.INCOTERM, true);
@@ -121,7 +121,7 @@ public class ForeignInvoiceFormController {
             wordUtil.replacePOI(doc, "QP_CONTENT", "AVERAGE " + sendDate + "(MOAS" + moasValue + ")");
         }
 
-        List<ForeignInvoiceBillOfLandingDTO.InfoWithoutForeignInvoice> billOfLanding = foreignInvoice.getBillLadings();
+        List<ForeignInvoiceBillOfLandingDTO.Info> billOfLanding = foreignInvoice.getBillLadings();
         billOfLanding.forEach(q -> {
             wordUtil.replacePOI(doc, "SWITCH_DOC_NO", q.getBillOfLanding().getBillOfLadingSwitch() == null ?
                     null : q.getBillOfLanding().getBillOfLadingSwitch().getDocumentNo());
@@ -129,9 +129,9 @@ public class ForeignInvoiceFormController {
             wordUtil.replacePOI(doc, "PORT_OF_LOADING", q.getBillOfLanding().getPortOfLoading().getPort());
             wordUtil.replacePOI(doc, "PORT_OF_DISCHARGE", q.getBillOfLanding().getPortOfDischarge().getPort());
         });
-        InspectionReportDTO.Info inspectionWeightReport = foreignInvoice.getInspectionWeightReport();
-        InspectionReportDTO.Info inspectionAssayReport = foreignInvoice.getInspectionAssayReport();
-        ForeignInvoiceItemDTO.InfoWithoutForeignInvoice foreignInvoiceItem = foreignInvoice.getForeignInvoiceItems().get(0);
+        InspectionReportDTO inspectionWeightReport = foreignInvoice.getInspectionWeightReport();
+        InspectionReportDTO inspectionAssayReport = foreignInvoice.getInspectionAssayReport();
+        ForeignInvoiceItemDTO.Info foreignInvoiceItem = foreignInvoice.getForeignInvoiceItems().get(0);
 
         BigDecimal weightGW = inspectionWeightReport.getWeightGW().multiply(new BigDecimal(foreignInvoice.getPercent()));
         BigDecimal weightND = inspectionWeightReport.getWeightND().multiply(new BigDecimal(foreignInvoice.getPercent()));
@@ -146,10 +146,10 @@ public class ForeignInvoiceFormController {
             wordUtil.replacePOI(doc, "INCOTERM_TITLE_EN", map.getIncotermRules().get(0).getIncotermRule().getTitleEn());
             wordUtil.replacePOI(doc, "INCOTERM_VERSION", map.getIncotermVersion().getIncotermVersion().toString());
         }
-        List<ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem> foreignInvoiceItemDetails = foreignInvoiceItem.getForeignInvoiceItemDetails();
-        ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem cu_detial = foreignInvoiceItemDetails.stream().filter(q -> q.getMaterialElementId() == 1).findFirst().orElse(new ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem());
-        ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem ag_detial = foreignInvoiceItemDetails.stream().filter(q -> q.getMaterialElementId() == 2).findFirst().orElse(new ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem());
-        ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem au_detial = foreignInvoiceItemDetails.stream().filter(q -> q.getMaterialElementId() == 3).findFirst().orElse(new ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem());
+        List<ForeignInvoiceItemDetailDTO.Info> foreignInvoiceItemDetails = foreignInvoiceItem.getForeignInvoiceItemDetails();
+        ForeignInvoiceItemDetailDTO.Info cu_detial = foreignInvoiceItemDetails.stream().filter(q -> q.getMaterialElementId() == 1).findFirst().orElse(new ForeignInvoiceItemDetailDTO.Info());
+        ForeignInvoiceItemDetailDTO.Info ag_detial = foreignInvoiceItemDetails.stream().filter(q -> q.getMaterialElementId() == 2).findFirst().orElse(new ForeignInvoiceItemDetailDTO.Info());
+        ForeignInvoiceItemDetailDTO.Info au_detial = foreignInvoiceItemDetails.stream().filter(q -> q.getMaterialElementId() == 3).findFirst().orElse(new ForeignInvoiceItemDetailDTO.Info());
 
         BigDecimal cuDedRate = cu_detial.getDeductionUnitConversionRate();
         BigDecimal agDedRate = ag_detial.getDeductionUnitConversionRate();

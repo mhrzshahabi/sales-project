@@ -416,9 +416,17 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     }
 
     @Override
+    public R saveWithoutFlush(T entity) {
+
+        return modelMapper.map(repository.save(entity), rType);
+    }
+
+    @Override
     public List<R> saveAll(List<T> entities) {
 
-        return repository.saveAll(entities).stream().map(q -> modelMapper.map(q, rType)).collect(Collectors.toList());
+        List<R> result = repository.saveAll(entities).stream().map(q -> modelMapper.map(q, rType)).collect(Collectors.toList());
+        repository.flush();
+        return result;
     }
 
     @Override

@@ -47,6 +47,8 @@ public interface IGenericService<T, ID extends Serializable, C, R, U, D> {
 
     List<R> saveAll(List<T> entities);
 
+    R saveWithoutFlush(T entity);
+
     void flush();
 
     Boolean validation(T entity, Object... request);
