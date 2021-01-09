@@ -101,8 +101,8 @@ namespace nicico {
                 listGridProperties.alternateRecordStyles = true;
 
                 listGridProperties.selectionType = "single";
-                listGridProperties.sortDirection = "ascending";
-
+                listGridProperties.sortDirection = "descending";
+                listGridProperties.sortField = "id";
                 listGridProperties.groupByText = '<spring:message code="global.grid.groupByText" />';
                 listGridProperties.autoFitAllText = '<spring:message code="global.grid.autoFitAllText" />';
                 listGridProperties.freezeFieldText = '<spring:message code="global.grid.freezeFieldText" />';
