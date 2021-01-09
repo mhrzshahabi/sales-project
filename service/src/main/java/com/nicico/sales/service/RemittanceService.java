@@ -2,6 +2,7 @@ package com.nicico.sales.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Sets;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -26,6 +27,9 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JsonDataSource;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
@@ -47,24 +51,25 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
     private final SpecListUtil specListUtil;
     private final ObjectMapper objectMapper;
     private final ModelMapper modelMapper;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
     @Action(value = ActionType.DeleteAll)
     @Transactional
     public void deleteAll(RemittanceDTO.Delete request) {
-        final List<RemittanceDetail> allByRemittanceIdIsIn = remittanceDetailDAO.findAllByRemittanceIdIsIn(request.getIds());
-        Set<Long> inventoryIdList = new HashSet<>();
-        Set<Long> tozinIdList = new HashSet<>();
-        allByRemittanceIdIsIn.stream().forEach(rd -> {
-            inventoryIdList.add(rd.getInventoryId());
-            tozinIdList.add(rd.getDestinationTozinId());
-            tozinIdList.add(rd.getSourceTozinId());
-        });
-        remittanceDetailDAO.deleteAllByIdIn(allByRemittanceIdIsIn.stream().map(rd -> rd.getId()).collect(Collectors.toList()));
-        tozinTableDAO.deleteAllByIdIn(tozinIdList);
-        if (allByRemittanceIdIsIn.size() > 0 && allByRemittanceIdIsIn.get(0).getDestinationTozinId() != null)
-            inventoryDAO.deleteAllByIdIn(inventoryIdList);
+        jdbcTemplate.update("DELETE FROM TBL_WARH_REMITTANCE_DETAIL WHERE F_REMITTANCE_ID in (:ids)",
+                new HashMap() {{
+                    put("ids", request.getIds());
+                }});
+        jdbcTemplate.update("DELETE FROM TBL_WARH_INVENTORY where id not in (SELECT DISTINCT F_INVENTORY_ID from " +
+                "TBL_WARH_REMITTANCE_DETAIL)", new HashMap());
+
+        jdbcTemplate.update("DELETE FROM TBL_WARH_TOZIN where id not in (SELECT DISTINCT F_SOURCE_TOZINE_ID tzn from " +
+                "TBL_WARH_REMITTANCE_DETAIL UNION  SELECT DISTINCT F_DESTINATION_TOZINE_ID tzn" +
+                " FROM TBL_WARH_REMITTANCE_DETAIL)", new HashMap());
         super.deleteAll(request);
+
+
     }
 
     @Action(value = ActionType.Get)

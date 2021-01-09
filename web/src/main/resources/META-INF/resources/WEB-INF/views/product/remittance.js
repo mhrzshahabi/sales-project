@@ -258,8 +258,8 @@ const remittanceTab = {
             let defaultResponse = function (response) {
                 remittanceTab.Logs.add(["return status:", response]);
                 if (response.status === 400 || response.status == 500) {
-                    response.json().then(error=>{
-                        if (error.error ) {
+                    response.json().then(error => {
+                        if (error.error) {
                             const er = error.error;
                             if (er && er.toString().toLowerCase().includes("Unique".toLowerCase())) {
                                 return isc.warn("<spring:message code='exception.unique' />:\n" + JSON.stringify(error));
@@ -845,26 +845,28 @@ remittanceTab.Methods.setShipmentCriteria = async function () {
         remittanceTab.DynamicForms.Forms.OutRemittance.getField('shipmentId').enable();
     }
 }
-remittanceTab.Methods.setRemittanceCode =  function () {
-    if(remittanceTab.DynamicForms.Forms.OutRemittance.getValue('code')
-        && remittanceTab.DynamicForms.Forms.OutRemittance.getValue('code').length>5)return;
+remittanceTab.Methods.setRemittanceCode = function () {
+    if (remittanceTab.DynamicForms.Forms.OutRemittance.getValue('code')
+        && remittanceTab.DynamicForms.Forms.OutRemittance.getValue('code').length > 5) return;
     let code = 'o-'
-    code+=remittanceTab.DynamicForms.Forms.OutRemittance.getValue('materialItemId');
-    code+='-';
-    code+=remittanceTab.DynamicForms.Forms.TozinTable.getValue('tozinId')
-    code+='-';
-    code+=remittanceTab.DynamicForms.Forms.TozinTable.getValue('date')
-    remittanceTab.DynamicForms.Forms.OutRemittance.setValue('code',code.replaceAll("/",""))
+    code += remittanceTab.DynamicForms.Forms.OutRemittance.getValue('materialItemId');
+    code += '-';
+    code += remittanceTab.DynamicForms.Forms.TozinTable.getValue('tozinId')
+    code += '-';
+    code += remittanceTab.DynamicForms.Forms.TozinTable.getValue('date')
+    remittanceTab.DynamicForms.Forms.OutRemittance.setValue('code', code.replaceAll("/", ""))
 
 }
 ////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
 getRemittanceFields(remittanceTab)
 ////////////////////////////////////////////////////////DS//////////////////////////////////////////////////////////////
-remittanceTab.RestDataSources.RemittanceDetail = _=>{return {
-    fetchDataURL: "api/remittance-detail/spec-list",
-    updateDataURL: "api/remittance-detail/update",
-    fields: remittanceTab.Fields.RemittanceDetailFullFields()
-}};
+remittanceTab.RestDataSources.RemittanceDetail = _ => {
+    return {
+        fetchDataURL: "api/remittance-detail/spec-list",
+        updateDataURL: "api/remittance-detail/update",
+        fields: remittanceTab.Fields.RemittanceDetailFullFields()
+    }
+};
 remittanceTab.RestDataSources.Remittance = {
     fetchDataURL: "api/remittance/spec-list?distinct=true&",
     fetchDataURL: "api/remittance/spec-list",
@@ -899,7 +901,7 @@ remittanceTab.Grids.Remittance = {
     // ID: remittanceTab.Vars.Prefix + "remittance_detail_tab_list_grid",
     showFilterEditor: true,
     canSort: true,
-    dataPageSize:100,
+    dataPageSize: 100,
     expansionFieldImageShowSelected: true,
     canExpandRecords: true,
     canExpandMultipleRecords: false,
@@ -932,9 +934,12 @@ remittanceTab.Grids.Remittance = {
                 //
                 // }),
                 remittanceTab.Grids.RemittanceDetailObj = isc.ListGrid.create({
-                    ...Object.assign({},remittanceTab.Grids.RemittanceDetail()),
-                    initialCriteria:{operator:"and",criteria:[{fieldName:"remittanceId",operator:"equals",value:record.id}]},
-                    autoFetchData:true,
+                    ...Object.assign({}, remittanceTab.Grids.RemittanceDetail()),
+                    initialCriteria: {
+                        operator: "and",
+                        criteria: [{fieldName: "remittanceId", operator: "equals", value: record.id}]
+                    },
+                    autoFetchData: true,
                     dataSource: isc.MyRestDataSource.create(remittanceTab.RestDataSources.RemittanceDetail()),
                 })
             ]
@@ -947,9 +952,9 @@ remittanceTab.Grids.Remittance = {
     // groupByField: "remittance.code",
     dataSource: remittanceTab.RestDataSources.RemittanceLite,
     autoFetchData: true,
-    showGridSummary:true,
+    showGridSummary: true,
     sortField: "tozinTable.date",
-    filterOnKeypress:false,
+    filterOnKeypress: false,
     sortDirection: "descending",
     fields: remittanceTab.Fields.RemittanceFull(),
     getCellCSSText(record, rowNum, colNum) {
@@ -968,12 +973,12 @@ remittanceTab.Grids.RemittanceView = {
     showFilterEditor: true,
     autoFitFieldWidths: true,
     // autoFitData:"both",
-    autoFitWidthApproach:"both",
-    virtualScrolling:true,
-    alwaysShowScrollbars:true,
-    autoFitWidth:true,
+    autoFitWidthApproach: "both",
+    virtualScrolling: true,
+    alwaysShowScrollbars: true,
+    autoFitWidth: true,
     canSort: true,
-    dataPageSize:100,
+    dataPageSize: 100,
     expansionFieldImageShowSelected: true,
     canExpandRecords: true,
     canExpandMultipleRecords: false,
@@ -1006,9 +1011,12 @@ remittanceTab.Grids.RemittanceView = {
                 //
                 // }),
                 remittanceTab.Grids.RemittanceDetailObj = isc.ListGrid.create({
-                    ...Object.assign({},remittanceTab.Grids.RemittanceDetail()),
-                    initialCriteria:{operator:"and",criteria:[{fieldName:"remittanceId",operator:"equals",value:record.remittanceId}]},
-                    autoFetchData:true,
+                    ...Object.assign({}, remittanceTab.Grids.RemittanceDetail()),
+                    initialCriteria: {
+                        operator: "and",
+                        criteria: [{fieldName: "remittanceId", operator: "equals", value: record.remittanceId}]
+                    },
+                    autoFetchData: true,
                     dataSource: isc.MyRestDataSource.create(remittanceTab.RestDataSources.RemittanceDetail()),
                 })
             ]
@@ -1021,59 +1029,61 @@ remittanceTab.Grids.RemittanceView = {
     // groupByField: "remittance.code",
     dataSource: remittanceTab.RestDataSources.RemittanceView,
     autoFetchData: false,
-    showGridSummary:true,
+    showGridSummary: true,
     sortField: "dat",
-    filterOnKeypress:false,
+    filterOnKeypress: false,
     sortDirection: "descending",
     fields: remittanceTab.Fields.RemittanceView(),
     getCellCSSText(record, rowNum, colNum) {
-        if (!record.shipmentId) {
-            return "font-weight:bold; color:red;";
-        } else  {
+        if (record.shipmentId) {
+            return "font-weight:bold; color:blue;";
+        } else {
+            return this.Super('getCellCSSText', arguments)
             return "font-weight:bold; color:#287fd6;";
         }
 
-        return this.Super('getCellCSSText', arguments)
     }
 
 }
-remittanceTab.Grids.RemittanceDetail = _=>{return{
-    fields: remittanceTab.Fields.RemittanceDetailFullFields(),
-    dataPageSize: 50,
-    drawAheadRatio: 4,
-    showHoverComponents: true,
-    getCellHoverComponent: function (record, rowNum, colNum) {
-        // console.log('getCellHoverComponent', this, arguments)
-        const field = this.getField(colNum);
-        if(!field.name.toString().startsWith("sourceTozin.vazn")&&!field.name.toString().startsWith("destinationTozin.vazn")) return;
-        this.rowHoverComponent = isc.DetailViewer.create({
-            //   <sec:authorize access="hasAuthority('U_REMITTANCE') and hasAuthority('U_REMITTANCE_DETAIL') and hasAuthority('U_INVENTORY') and hasAuthority('R_TOZIN')">
-            dataSource: isc.MyRestDataSource.create({
-                fields: remittanceTab.Fields.TozinFull(),
-                fetchDataURL: 'api/tozin/spec-list'
-            }),
-            width: 250
-            //   </sec:authorize>
-        });
+remittanceTab.Grids.RemittanceDetail = _ => {
+    return {
+        fields: remittanceTab.Fields.RemittanceDetailFullFields(),
+        dataPageSize: 50,
+        drawAheadRatio: 4,
+        showHoverComponents: true,
+        getCellHoverComponent: function (record, rowNum, colNum) {
+            // console.log('getCellHoverComponent', this, arguments)
+            const field = this.getField(colNum);
+            if (!field.name.toString().startsWith("sourceTozin.vazn") && !field.name.toString().startsWith("destinationTozin.vazn")) return;
+            this.rowHoverComponent = isc.DetailViewer.create({
+                //   <sec:authorize access="hasAuthority('U_REMITTANCE') and hasAuthority('U_REMITTANCE_DETAIL') and hasAuthority('U_INVENTORY') and hasAuthority('R_TOZIN')">
+                dataSource: isc.MyRestDataSource.create({
+                    fields: remittanceTab.Fields.TozinFull(),
+                    fetchDataURL: 'api/tozin/spec-list'
+                }),
+                width: 250
+                //   </sec:authorize>
+            });
 
-        this.rowHoverComponent.fetchData({
-            criteria: {
-                fieldName: "tozinId",
-                operator: "equals",
-                value: eval('record.' + field.name.split(".").reverse().pop()+'.tozinId')
-            }
-        }, null, {showPrompt: false});
+            this.rowHoverComponent.fetchData({
+                criteria: {
+                    fieldName: "tozinId",
+                    operator: "equals",
+                    value: eval('record.' + field.name.split(".").reverse().pop() + '.tozinId')
+                }
+            }, null, {showPrompt: false});
 
-        return this.rowHoverComponent;
-    },
-    showFilterEditor: true,
-    autoSaveEdits: false,
-    sortField:'id',
-    sortDirection: "descending",
-    allowAdvancedCriteria: true,
-    // groupByField: "remittance.code",
-    autoFetchData: false,
-}}
+            return this.rowHoverComponent;
+        },
+        showFilterEditor: true,
+        autoSaveEdits: false,
+        sortField: 'id',
+        sortDirection: "descending",
+        allowAdvancedCriteria: true,
+        // groupByField: "remittance.code",
+        autoFetchData: false,
+    }
+}
 ////////////////////////////////////////////////////////COMPONENT HOLDERS///////////////////////////////////////////////
 remittanceTab.DynamicForms.Forms.PDF = isc.DynamicForm.create({
     method: "POST",
@@ -1117,11 +1127,11 @@ remittanceTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
     ID: "new_bijak" + Math.random().toString().substr(3, 5),
     title: '<spring:message code="global.form.new"/> <spring:message code="bijack"/> <spring:message code="dailyReport.output"/>',
     async click() {
-        const dialog = isc.Dialog.create({message:'<spring:message code="global.server.contacting" />'})
+        const dialog = isc.Dialog.create({message: '<spring:message code="global.server.contacting" />'})
         const remittanceViewList = remittanceTab.Grids.RemittanceViewobj.getSelectedRecords();
-        const remittanceIdList = remittanceViewList.map(_=>_.remittanceId);
+        const remittanceIdList = remittanceViewList.map(_ => _.remittanceId);
         const remittanceList = [];
-        if (remittanceIdList && remittanceIdList.length>0) {
+        if (remittanceIdList && remittanceIdList.length > 0) {
             const remittanceListRes = await fetch('api/remittance/spec-list?operator=and&criteria=' + JSON.stringify(
                 {fieldName: "id", operator: 'inSet', value: remittanceIdList}
             ), {headers: SalesConfigs.httpHeaders});
@@ -1129,7 +1139,7 @@ remittanceTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
             remittanceList.addList(remittanceListResponse.response.data)
         }
         const selectedData = [];
-        let materialItemId = remittanceViewList.length>0?remittanceViewList[0]['gdscode']: null
+        let materialItemId = remittanceViewList.length > 0 ? remittanceViewList[0]['gdscode'] : null
         let multipleMaterialItem = false;
         let hasOutRemittance = false;
         remittanceList
@@ -1157,7 +1167,7 @@ remittanceTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
         //  let _form;
         //let _addBtn;
         dialog.destroy()
-        newOutRemittance(remittanceTab,selectedData,materialItemId);
+        newOutRemittance(remittanceTab, selectedData, materialItemId);
     }
 });
 remittanceTab.Layouts.ToolStripButtons.NewWeight = isc.ToolStripButtonAdd.create({
@@ -1181,7 +1191,7 @@ isc.VLayout.create({
                     border: '0px',
                     members: [
                         isc.ToolStripButtonRefresh.create({
-                            title:"<spring:message code='global.form.refresh'/>",
+                            title: "<spring:message code='global.form.refresh'/>",
                             click() {
                                 remittanceTab.Grids.RemittanceViewobj.invalidateCache()
                             }
@@ -1204,6 +1214,7 @@ remittanceTab.Layouts.ToolStripButtons.Delete.hide();
 // </sec:authorize>
 // <sec:authorize access="!hasAuthority('C_REMITTANCE')">
 remittanceTab.Layouts.ToolStripButtons.New.hide();
+
 // </sec:authorize>
 
 function hasPermission(url) {

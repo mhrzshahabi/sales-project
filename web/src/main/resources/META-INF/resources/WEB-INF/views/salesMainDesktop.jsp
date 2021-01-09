@@ -1333,8 +1333,7 @@
         userFullName: '<%= SecurityUtil.getFullName()%>',
         valuemanager: {}
     }
-    SalesConfigs.debugger = SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080') ||
-        SalesConfigs.Urls.completeUrl.toLowerCase().includes('127.0.0.1:8080')
+    SalesConfigs.debugger = SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080')
 
     SalesBaseParameters.deleteAllSavedParametersAndFetchAgain();
     const EnumCategoryUnit = {string: {}, index: {}}
@@ -1349,7 +1348,7 @@
 
     function dbg(...args) {
         console.debug(...args)
-        if (SalesConfigs.debugger ) debugger;
+        if (SalesConfigs.debugger && SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080')) debugger;
     }
 
     const itemChangedManage = {
@@ -1521,15 +1520,8 @@
 
         return result;
     }
-    //
-    // function keepItAlive() {
-    //     setTimeout(_ => {
-    //         fetch("http://127.0.0.1:8080/sales/api/materialItem/1", {"headers": SalesConfigs.httpHeaders,},).then(_ => {
-    //             keepItAlive()
-    //         })
-    //     }, 20000)
-    // }
 
+    // function keepItAlive(){setTimeout(_=>{fetch("http://127.0.0.1:8080/sales/api/materialItem/1", {"headers": SalesConfigs.httpHeaders,},).then(_=>{keepItAlive()})},20000)}
     // keepItAlive()
 
 </script>

@@ -1744,10 +1744,8 @@ function getRemittanceFields(objTab) {
 // if(!newOutRemittance)
 async function remittanceCodeSet(objTab) {
     const materialItemId = Number(objTab.DynamicForms.Forms.OutRemittance.getValue('materialItemId'))
-    dbg('materialItemId', materialItemId)
     if (isNaN(materialItemId)) return;
     const __material = SalesBaseParameters.getSavedMaterialItemParameter().find(_ => _.id === materialItemId)
-    dbg('__material',__material)
     let remittanceCode = "O-" + (__material.shortName ? __material.shortName : __material.id.toString());
     const __sourceId = objTab.DynamicForms.Forms.TozinTable.getValue('sourceId');
     if (__sourceId) {
