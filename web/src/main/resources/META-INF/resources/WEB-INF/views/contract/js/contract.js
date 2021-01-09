@@ -297,8 +297,9 @@ nicico.BasicFormUtil.createListGrid = function (creator) {
             ]
         };
 
-    creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, contractTab.variable.criteria, {
+    creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, null, {
         sortField: 'no',
+        implicitCriteria: contractTab.variable.criteria,
         getCellCSSText: function (record, rowNum, colNum) {
             if (record.parentId) {
                 return "font-weight:bold; color:#287fd6;";
@@ -1011,12 +1012,6 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
                 }
             }));
     };
-    //refresh
-    contractTab.toolStrip.main.members.last().members.first().click = function () {
-
-        contractTab.listGrid.main.setCriteria(contractTab.variable.criteria);
-        contractTab.listGrid.main.invalidateCache();
-    }
 });
 
 if (contractTab.variable.contractType === "1") {
