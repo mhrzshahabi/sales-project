@@ -19,7 +19,7 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@EqualsAndHashCode(of = {"id"}, callSuper = false)
+@EqualsAndHashCode(of = {"id", "discount", "upperBound", "lowerBound", "materialElementId", "contractId"}, callSuper = false)
 @Immutable
 @Entity
 @Table(name = "TBL_CONTRACT_DISCOUNT")

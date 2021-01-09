@@ -59,6 +59,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     private final IContractContactService contractContactService;
     private final IContractDetailValueService contractDetailValueService;
     private final ICDTPDynamicTableValueService dynamicTableValueService;
+    private final ContractDiscountDAO contractDiscountDAO;
 
     /******************************************************************************************************************/
 
@@ -201,8 +202,15 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     /******************************************************************************************************************/
 
     private void updateDiscount(ContractDetailValueDTO.Update contractDetailValue) {
-        ContractDiscountDTO.Update contractDiscountDto = gson.fromJson(contractDetailValue.getReferenceJsonValue(), ContractDiscountDTO.Update.class);
-        contractDiscountService.update(contractDiscountDto.getId(), contractDiscountDto);
+
+        ContractDiscountDTO.Update request = gson.fromJson(contractDetailValue.getReferenceJsonValue(), ContractDiscountDTO.Update.class);
+        ContractDiscount entity = modelMapper.map(request, ContractDiscount.class);
+        ContractDiscount byId = contractDiscountDAO.findById(entity.getId()).orElseThrow(() -> new NotFoundException(ContractDiscount.class));
+        if (!entity.equals(byId)) {
+            contractDiscountDAO.delete(byId);
+            ContractDiscount saved = contractDiscountDAO.saveAndFlush(entity);
+            contractDetailValue.setValue(saved.getId().toString());
+        }
     }
 
     private void updateDeduction(ContractDetailValueDTO.Update contractDetailValue) {

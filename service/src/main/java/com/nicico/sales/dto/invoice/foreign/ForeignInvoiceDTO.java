@@ -52,16 +52,65 @@ public class ForeignInvoiceDTO {
     public static class Info extends ForeignInvoiceDTO {
 
         private Long id;
+        private ContactDTO buyer;
+        private PersonDTO creator;
+        private InvoiceTypeDTO invoiceType;
+        private ShipmentDTO.ShipmentLightFIInfo shipment;
+
+        // Auditing
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ForeignInvoiceAccInfo")
+    public static class AccInfo extends ForeignInvoiceDTO {
+
+        private Long id;
+        private UnitDTO currency;
+        private PersonDTO creator;
+        private InvoiceTypeDTO invoiceType;
+        private CurrencyRateDTO conversionRef;
+        private ShipmentDTO.ShipmentLightFIInfo shipment;
+
+        // Auditing
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ForeignInvoiceHeavyInfo")
+    public static class HeavyInfo extends ForeignInvoiceDTO {
+
+        private Long id;
         private CurrencyRateDTO.Info conversionRef;
         private UnitDTO.Info currency;
         private ContactDTO.Info buyer;
         private InvoiceTypeDTO.Info invoiceType;
         private ShipmentDTO.ShipmentFIInfo shipment;
         private PersonDTO.Info creator;
-        private InspectionReportDTO.Info inspectionWeightReport;
-        private InspectionReportDTO.Info inspectionAssayReport;
-        private List<ForeignInvoiceItemDTO.InfoWithoutForeignInvoice> foreignInvoiceItems;
-        private List<ForeignInvoiceBillOfLandingDTO.InfoWithoutForeignInvoice> billLadings;
+        private InspectionReportDTO inspectionWeightReport;
+        private InspectionReportDTO inspectionAssayReport;
+        private List<ForeignInvoiceItemDTO.Info> foreignInvoiceItems;
+        private List<ForeignInvoiceBillOfLandingDTO.Info> billLadings;
 
 
         // Auditing

@@ -87,7 +87,7 @@ public class ShipmentDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("WithoutBLs")
+    @ApiModel("ShipmentFIInfo")
     public static class ShipmentFIInfo extends ShipmentDTO {
 
         private Long id;
@@ -111,6 +111,29 @@ public class ShipmentDTO {
         private MaterialDTO.Info material;
         private ShipmentTypeDTO.Info shipmentType;
         private ShipmentMethodDTO.Info shipmentMethod;
+        private ContractShipmentDTO.ContractShipmentFIInfo contractShipment;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ShipmentLightFIInfo")
+    public static class ShipmentLightFIInfo extends ShipmentDTO {
+
+        private Long id;
+
+        // Auditing
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
+
+        private MaterialDTO.Info material;
         private ContractShipmentDTO.ContractShipmentFIInfo contractShipment;
     }
 
