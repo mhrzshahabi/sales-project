@@ -118,6 +118,11 @@ namespace nicico {
                 items.add(This.bodyWidget.getObject());
             items.add(buttonLayout);
             This.actionWidget = new ObjectHider(buttonLayout);
+
+            if (!height)
+            // @ts-ignore
+                height = This.bodyWidget.getObject().getHeight() + This.actionWidget.getObject().getHeight();
+
             // @ts-ignore
             This.windowWidget = new ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, items, width, height), {
 

@@ -108,7 +108,6 @@ namespace nicico {
                 creator.window.param.init(null, '<spring:message code="report.form.parameter"/>',
                     isc.DynamicForm.create({
                         width: "100%",
-                        height: "400",
                         margin: 10,
                         numCols: 4,
                         padding: 10,
@@ -120,7 +119,7 @@ namespace nicico {
                         autoDraw: false,
                         fields: fields
                     }),
-                    "800", "400");
+                    "800");
                 // @ts-ignore
                 creator.window.param.validate = function () {
 
