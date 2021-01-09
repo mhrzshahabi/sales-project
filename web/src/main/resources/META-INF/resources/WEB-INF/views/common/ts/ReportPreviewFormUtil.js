@@ -42,6 +42,8 @@ var nicico;
                             type: findField.type,
                             // @ts-ignore
                             criteria: reportCriteria[i],
+                            // @ts-ignore
+                            hint: FilterBuilderOperator[reportCriteria[i].operator],
                             changed: function (form, item, value) {
                                 this.criteria.value = value;
                             }

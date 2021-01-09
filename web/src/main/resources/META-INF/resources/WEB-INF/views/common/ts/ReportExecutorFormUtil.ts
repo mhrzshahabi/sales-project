@@ -39,6 +39,7 @@ namespace nicico {
                 else if (recordCriteria[i].value === "?") {
                     // @ts-ignore
                     recordCriteria[i].value = null;
+
                     // @ts-ignore
                     let findField = report.reportFields.find(p => p.name === recordCriteria[i].fieldName);
                     if (findField)
@@ -52,6 +53,8 @@ namespace nicico {
                             // @ts-ignore
                             type: findField.type,
                             // @ts-ignore
+                            hint: FilterBuilderOperator[recordCriteria[i].operator],
+                            // @ts-ignore
                             criteria: recordCriteria[i],
                             changed: function (form, item, value) {
 
@@ -62,45 +65,6 @@ namespace nicico {
             }
 
             return fields;
-        }
-
-        private static excelOutput(creator: JSPTabVariable, record, criteria: isc.AdvancedCriteria): void {
-
-            let crt = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: []
-            };
-
-            if (criteria && !Object.keys(criteria).length)
-                criteria = null;
-            if (criteria)
-                crt.criteria.add(criteria);
-
-            // @ts-ignore
-            if (creator.variable.recordCriteria && !Object.keys(creator.variable.recordCriteria).length)
-            // @ts-ignore
-                creator.variable.recordCriteria = null;
-            // @ts-ignore
-            if (creator.variable.recordCriteria)
-            // @ts-ignore
-                crt.criteria.add(creator.variable.recordCriteria);
-
-            let fields = record.reportFields.filter(q => !q.hidden);
-            // @ts-ignore
-            creator.dynamicForm.excel.setValue("reportId", record.id);
-            // @ts-ignore
-            creator.dynamicForm.excel.setValue("fields", fields.map(q => q.name));
-            // @ts-ignore
-            creator.dynamicForm.excel.setValue("headers", fields.map(q => q.title));
-            // @ts-ignore
-            creator.dynamicForm.excel.setValue("criteria", JSON.stringify(crt));
-            // @ts-ignore
-            creator.dynamicForm.excel.method = "GET";
-            // @ts-ignore
-            creator.dynamicForm.excel.action = creator.variable.contextPath + "report-execute/excel";
-            // @ts-ignore
-            creator.dynamicForm.excel.submitForm();
         }
 
         private static showFilterBuilder(allowCreateForm: boolean, owner: isc.Window, creator: JSPTabVariable, record: Object, okCallBack: any): void {
@@ -146,7 +110,7 @@ namespace nicico {
             // @ts-ignore
             creator.variable.recordCriteria = record.criteria != null ? JSON.parse(record.criteria) : null;
             // @ts-ignore
-            let fields = ReportExecutorFormUtil.createFields(creator.variable.recordCriteria.criteria, record);
+            let fields = ReportExecutorFormUtil.createFields(creator.variable.recordCriteria ? creator.variable.recordCriteria.criteria : [], record);
             if (allowCreateForm && fields && fields.length) {
                 // @ts-ignore
                 creator.dynamicForm.param = isc.DynamicForm.create({
@@ -231,7 +195,42 @@ namespace nicico {
 
                                     // @ts-ignore
                                     ReportExecutorFormUtil.showFilterBuilder(true, creator.window.main, creator, record, (criteria) => {
-                                        ReportExecutorFormUtil.excelOutput(creator, record, criteria);
+
+                                        let crt = {
+                                            _constructor: "AdvancedCriteria",
+                                            operator: "and",
+                                            criteria: []
+                                        };
+
+                                        if (criteria && !Object.keys(criteria).length)
+                                            criteria = null;
+                                        if (criteria)
+                                            crt.criteria.add(criteria);
+
+                                        // @ts-ignore
+                                        if (creator.variable.recordCriteria && !Object.keys(creator.variable.recordCriteria).length)
+                                        // @ts-ignore
+                                            creator.variable.recordCriteria = null;
+                                        // @ts-ignore
+                                        if (creator.variable.recordCriteria)
+                                        // @ts-ignore
+                                            crt.criteria.add(creator.variable.recordCriteria);
+
+                                        let fields = record.reportFields.filter(q => !q.hidden);
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.setValue("reportId", record.id);
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.setValue("fields", fields.map(q => q.name));
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.setValue("headers", fields.map(q => q.title));
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.setValue("criteria", JSON.stringify(crt));
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.method = "GET";
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.action = creator.variable.contextPath + "report-execute/excel";
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.submitForm();
                                     });
                                 }
                             }),
@@ -375,18 +374,33 @@ namespace nicico {
                                     };
                                     selectReportForm.okCallBack = function (data) {
 
+                                        let crt = {
+                                            _constructor: "AdvancedCriteria",
+                                            operator: "and",
+                                            criteria: []
+                                        };
+
+                                        if (data.criteria && !Object.keys(data.criteria).length)
+                                            data.criteria = null;
+                                        if (data.criteria)
+                                            crt.criteria.add(data.criteria);
+
+                                        // @ts-ignore
+                                        if (creator.variable.recordCriteria && !Object.keys(creator.variable.recordCriteria).length)
+                                        // @ts-ignore
+                                            creator.variable.recordCriteria = null;
+                                        // @ts-ignore
+                                        if (creator.variable.recordCriteria)
+                                        // @ts-ignore
+                                            crt.criteria.add(creator.variable.recordCriteria);
                                         // @ts-ignore
                                         creator.dynamicForm.print.setValue("reportId", record.id);
                                         // @ts-ignore
                                         creator.dynamicForm.print.setValue("fileKey", data.fileKey);
                                         // @ts-ignore
                                         creator.dynamicForm.print.setValue("type", data.type);
-                                        if (data.criteria && Object.keys(data.criteria).length)
                                         // @ts-ignore
-                                            creator.dynamicForm.print.setValue("criteria", JSON.stringify(data.criteria));
-                                        else
-                                        // @ts-ignore
-                                            creator.dynamicForm.print.setValue("criteria", JSON.stringify(null));
+                                        creator.dynamicForm.print.setValue("criteria", JSON.stringify(crt));
                                         // @ts-ignore
                                         creator.dynamicForm.print.method = "GET";
                                         // @ts-ignore
