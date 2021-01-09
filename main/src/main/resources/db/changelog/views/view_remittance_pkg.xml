@@ -187,6 +187,17 @@
 
 <!--        <sqlFile stripComments="true" relativeToChangelogFile="true" encoding="UTF-8"  path="remittance/7.sql"/>-->
     </changeSet>
+    <changeSet id="saeblsl" author="saeb">
+        <createProcedure>
+            create or replace procedure RPRT_PR_UPDATE_REPORT as
+            begin
+            RPRT_PR_UPDATE_FACT_LOGESTICTOZIN;
+            dbms_mview.refresh('RPRT_MV_FACT_REMITTANCE');
+            dbms_mview.refresh('RPRT_MV_MATERIAL_IO_SUMMARY');
+            dbms_mview.refresh('RPRT_MV_MATERIAL_SHIPMENT_SUMMARY');
+            end;
+        </createProcedure>
+    </changeSet>
     <changeSet id="erfan222" author="saeb">
         <sql>
             CALL RPRT_PR_UPDATE_FACT_LOGESTICTOZIN();
