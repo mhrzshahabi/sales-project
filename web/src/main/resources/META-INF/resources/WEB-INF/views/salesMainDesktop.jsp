@@ -111,16 +111,10 @@
         },
         applyFilter: function (data, criteria, requestProperties, startPos, endPos) {
 
-            if (criteria) {
+            if (requestProperties && requestProperties.componentId) {
 
-                this.filterData(criteria, resp => {
-
-                    if ((resp.httpResponseCode === 200 || resp.httpResponseCode === 201) && requestProperties && requestProperties.componentId) {
-
-                        let grid = window[requestProperties.componentId];
-                        grid.setData(JSON.parse(resp.httpResponseText).response.data);
-                    }
-                }, requestProperties);
+                let grid = window[requestProperties.componentId];
+                grid.refreshData();
             }
 
             return data;
