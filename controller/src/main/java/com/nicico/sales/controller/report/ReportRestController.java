@@ -40,7 +40,7 @@ public class ReportRestController {
 
     @Loggable
     @GetMapping("/sources-fields")
-    public ResponseEntity<Map<String, Object>> getSourceFields(@RequestParam String reportSource, @RequestParam String source) throws ClassNotFoundException {
+    public ResponseEntity<Map<String, Object>> getSourceFields(@RequestParam String reportSource, @RequestParam String source) throws ClassNotFoundException, IOException {
 
         ReportSource reportSourceEnum = Enums.getIfPresent(ReportSource.class, reportSource).or(ReportSource.View);
         List<ReportDTO.FieldData> sourceFields = reportService.getSourceFields(reportSourceEnum, source);

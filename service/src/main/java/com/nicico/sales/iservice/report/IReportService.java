@@ -17,9 +17,9 @@ public interface IReportService extends IGenericService<Report, Long, ReportDTO.
 
     ReportDTO.Info checkAccess(String permissionKeyPrefix, String reportIdStr);
 
-    List<ReportDTO.SourceData> getSourceData(ReportSource reportSource);
+    List<ReportDTO.SourceData> getSourceData(ReportSource reportSource) throws IOException;
 
-    List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source) throws ClassNotFoundException;
+    List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source) throws ClassNotFoundException, IOException;
 
     TotalResponse<Map<String, Object>> getReportData(Long reportId, String baseUrl, MultiValueMap<String, String> criteria) throws IOException;
 
@@ -29,5 +29,5 @@ public interface IReportService extends IGenericService<Report, Long, ReportDTO.
 
     ReportDTO.Info update(List<MultipartFile> files, String fileMetaData, String request) throws Exception;
 
-    Class<?> getReturnType(ReportDTO.Info report) throws ClassNotFoundException;
+    Class<?> getReturnType(ReportDTO.Info report) throws ClassNotFoundException, IOException;
 }

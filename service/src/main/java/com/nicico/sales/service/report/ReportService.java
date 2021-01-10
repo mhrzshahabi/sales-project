@@ -51,7 +51,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.IOException;
@@ -147,18 +146,6 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    private List<ReportMethodDTO> methods;
-
-    // -----------------------------------------------------------------------------------------------------------------
-
-    @PostConstruct
-    private void initial() throws IOException {
-
-        methods = apiService.getReportMethod();
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
-
     private List<ReportDTO.SourceData> getViewData() {
 
         Query viewNameQuery = entityManager.createNativeQuery(VIEW_NAME_QUERY_TEXT);
@@ -182,9 +169,10 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         return viewDataList;
     }
 
-    private List<ReportDTO.SourceData> getRestData() {
+    private List<ReportDTO.SourceData> getRestData() throws IOException {
 
         List<ReportDTO.SourceData> restDataList = new ArrayList<>();
+        List<ReportMethodDTO> methods = apiService.getReportMethod();
         methods.forEach(method -> {
 
             ReportDTO.SourceData restData = new ReportDTO.SourceData();
@@ -223,8 +211,9 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         }.getType());
     }
 
-    private List<ReportDTO.FieldData> getRestFields(String source) throws ClassNotFoundException {
+    private List<ReportDTO.FieldData> getRestFields(String source) throws ClassNotFoundException, IOException {
 
+        List<ReportMethodDTO> methods = apiService.getReportMethod();
         ReportMethodDTO sourceMethod = methods.stream().filter(method -> method.getApiUrl().equals(source)).findFirst().orElseThrow(() -> new NotFoundException("متد مورد نظر یافت نشد."));
 
         Class<?> returnType = Class.forName(sourceMethod.getAnnotationReturnType(), true, getClass().getClassLoader());
@@ -427,11 +416,12 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     @Override
     @Transactional(readOnly = true)
-    public Class<?> getReturnType(ReportDTO.Info report) throws ClassNotFoundException {
+    public Class<?> getReturnType(ReportDTO.Info report) throws ClassNotFoundException, IOException {
 
         if (report.getReportSource() == ReportSource.View)
             return Map.class;
 
+        List<ReportMethodDTO> methods = apiService.getReportMethod();
         ReportMethodDTO sourceMethod = methods.stream().filter(method -> method.getApiUrl().equals(report.getSource())).findFirst().orElseThrow(() -> new NotFoundException("متد مورد نظر یافت نشد."));
         return Class.forName(sourceMethod.getAnnotationReturnType(), true, getClass().getClassLoader());
     }
@@ -457,7 +447,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
     @Override
     @Transactional(readOnly = true)
     @Action(value = ActionType.List, authority = "hasAuthority('R_REPORT_SOURCE')")
-    public List<ReportDTO.SourceData> getSourceData(ReportSource reportSource) {
+    public List<ReportDTO.SourceData> getSourceData(ReportSource reportSource) throws IOException {
 
         return reportSource == ReportSource.Rest ? getRestData() : getViewData();
     }
@@ -465,7 +455,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
     @Override
     @Transactional(readOnly = true)
     @Action(value = ActionType.List, authority = "hasAuthority('R_REPORT_FIELD')")
-    public List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source) throws ClassNotFoundException {
+    public List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source) throws ClassNotFoundException, IOException {
 
         return reportSource == ReportSource.Rest ? getRestFields(source) : getViewFields(source);
     }

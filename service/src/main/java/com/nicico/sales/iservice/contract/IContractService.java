@@ -7,6 +7,7 @@ import com.nicico.sales.dto.contract.ContractDTO;
 import com.nicico.sales.iservice.IGenericService;
 import com.nicico.sales.model.entities.contract.Contract;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface IContractService extends IGenericService<Contract, Long, ContractDTO.Create, ContractDTO.Info, ContractDTO.Update, ContractDTO.Delete> {
@@ -21,5 +22,5 @@ public interface IContractService extends IGenericService<Contract, Long, Contra
 
     List<Object> getOperationalDataOfContractArticle(Long contractId, String articleCode, String articleKey);
 
-    List<String> getRestApis();
+    List<String> getRestApis() throws IOException;
 }

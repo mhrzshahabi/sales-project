@@ -9,7 +9,6 @@ import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.annotation.CheckCriteria;
 import com.nicico.sales.dto.contract.*;
-import com.nicico.sales.dto.report.ReportMethodDTO;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.EContractDetailValueKey;
@@ -34,7 +33,6 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -80,18 +78,12 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 
     private final Gson gson;
     private final UpdateUtil updateUtil;
-    private List<String> restApis;
     private final EntityRelationChecker relationChecker;
     private final ResourceBundleMessageSource messageSource;
 
     /******************************************************************************************************************/
     /******************************************************************************************************************/
 
-    @PostConstruct
-    private void initial() throws IOException {
-
-        restApis = apiService.getRestApisFromFile();
-    }
 
     private void deleteContractDetailValueExtras(ContractDetailValue contractDetailValue) {
 
@@ -658,8 +650,9 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     }
 
     @Override
-    public List<String> getRestApis() {
-        return restApis;
+    public List<String> getRestApis() throws IOException {
+
+        return apiService.getRestApisFromFile();
     }
 
     /******************************************************************************************************************/

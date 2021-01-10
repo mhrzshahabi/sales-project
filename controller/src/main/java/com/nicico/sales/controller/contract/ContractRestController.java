@@ -14,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -129,7 +130,7 @@ public class ContractRestController {
     }
 
     @GetMapping(value = "/entities")
-    public ResponseEntity<List<String>> entityList() {
+    public ResponseEntity<List<String>> entityList() throws IOException {
 
         return new ResponseEntity<>(contractService.getRestApis(), HttpStatus.OK);
     }
