@@ -20,4 +20,6 @@ public interface IContractService extends IGenericService<Contract, Long, Contra
     List<String> findAllByContractDetailTypeId(Long typeId);
 
     List<Object> getOperationalDataOfContractArticle(Long contractId, String articleCode, String articleKey);
+
+    List<String> getRestApis();
 }

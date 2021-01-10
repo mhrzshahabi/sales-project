@@ -1,31 +1,39 @@
 package com.nicico.sales.service.contract;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicico.sales.dto.report.ReportMethodDTO;
 import lombok.RequiredArgsConstructor;
-import org.reflections.Reflections;
-import org.reflections.scanners.*;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.lang.reflect.Method;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class ApiService {
 
-    public List<String> getRestApis() {
+    private final ObjectMapper objectMapper;
 
-        Reflections reflections = new Reflections(new ConfigurationBuilder()
-                .setUrls(ClasspathHelper.forPackage("com.nicico.sales.controller"))
-                .setScanners(new SubTypesScanner(), new FieldAnnotationsScanner(), new MethodAnnotationsScanner(), new TypeAnnotationsScanner(), new MethodParameterScanner()));
+    public List<String> getRestApisFromFile() throws IOException {
 
-        final Set<Method> restControllers = reflections.getMethodsMatchParams(MultiValueMap.class);
-        return restControllers.stream().map(q -> q.getDeclaringClass().getAnnotation(RequestMapping.class).value()[0] + q.getAnnotation(GetMapping.class).value()[0]).collect(Collectors.toList());
+        byte[] readAllBytes = readFile("restUrls.txt");
+        return objectMapper.readValue(readAllBytes, new TypeReference<List<String>>() {
+        });
+    }
+
+    public List<ReportMethodDTO> getReportMethod() throws IOException {
+
+        byte[] readAllBytes = readFile("reportMethods.txt");
+        return objectMapper.readValue(readAllBytes, new TypeReference<List<ReportMethodDTO>>() {
+        });
+    }
+
+    private byte[] readFile(String fileName) throws IOException {
+
+        File file = new File(fileName);
+        return Files.readAllBytes(file.toPath());
     }
 }
