@@ -25,28 +25,28 @@ public class ContractDetailTypeRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ContractDetailTypeDTO.Info> get(@PathVariable Long id) {
+    public ResponseEntity<ContractDetailTypeDTO.InfoWithoutDetail> get(@PathVariable Long id) {
 
         return new ResponseEntity<>(contractDetailTypeService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-    public ResponseEntity<List<ContractDetailTypeDTO.Info>> list() {
+    public ResponseEntity<List<ContractDetailTypeDTO.InfoWithoutDetail>> list() {
 
         return new ResponseEntity<>(contractDetailTypeService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-    public ResponseEntity<ContractDetailTypeDTO.Info> create(@Validated @RequestBody ContractDetailTypeDTO.Create request) {
+    public ResponseEntity<ContractDetailTypeDTO.InfoWithoutDetail> create(@Validated @RequestBody ContractDetailTypeDTO.Create request) {
 
         return new ResponseEntity<>(contractDetailTypeService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-    public ResponseEntity<ContractDetailTypeDTO.Info> update(@Validated @RequestBody ContractDetailTypeDTO.Update request) {
+    public ResponseEntity<ContractDetailTypeDTO.InfoWithoutDetail> update(@Validated @RequestBody ContractDetailTypeDTO.Update request) {
 
         return new ResponseEntity<>(contractDetailTypeService.update(request.getId(), request), HttpStatus.OK);
     }
@@ -69,21 +69,29 @@ public class ContractDetailTypeRestController {
 
     @Loggable
     @GetMapping(value = "/spec-list")
-    public ResponseEntity<TotalResponse<ContractDetailTypeDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
+    public ResponseEntity<TotalResponse<ContractDetailTypeDTO.InfoWithoutDetail>> list(@RequestParam MultiValueMap<String, String> criteria) {
 
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractDetailTypeService.search(nicicoCriteria), HttpStatus.OK);
     }
 
     @Loggable
+    @GetMapping(value = "/spec-list-contract")
+    public ResponseEntity<TotalResponse<ContractDetailTypeDTO.Info>> completeList(@RequestParam MultiValueMap<String, String> criteria) {
+
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(contractDetailTypeService.completeSearch(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
     @PostMapping(value = "/activate/{id}")
-    public ResponseEntity<ContractDetailTypeDTO.Info> activate(@PathVariable Long id) {
+    public ResponseEntity<ContractDetailTypeDTO.InfoWithoutDetail> activate(@PathVariable Long id) {
         return new ResponseEntity<>(contractDetailTypeService.activate(id), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping(value = "/deactivate/{id}")
-    public ResponseEntity<ContractDetailTypeDTO.Info> deactivate(@PathVariable Long id) {
+    public ResponseEntity<ContractDetailTypeDTO.InfoWithoutDetail> deactivate(@PathVariable Long id) {
         return new ResponseEntity<>(contractDetailTypeService.deactivate(id), HttpStatus.OK);
     }
 

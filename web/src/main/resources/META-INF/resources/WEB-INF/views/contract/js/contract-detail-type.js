@@ -1092,11 +1092,44 @@ contractDetailTypeTab.method.editData = function () {
                 contractDetailTypeTab.dynamicForm.detailType.getField(contractDetailTypeTab.dynamicForm.fields.material.name).setCanEdit(!JSON.parse(data.httpResponseText));
 
                 contractDetailTypeTab.variable.method = "PUT";
-                contractDetailTypeTab.listGrid.param.setData(clone(record.contractDetailTypeParams));
-                contractDetailTypeTab.listGrid.template.setData(clone(record.contractDetailTypeTemplates));
-                contractDetailTypeTab.dynamicForm.detailType.editRecord(clone(record));
-                contractDetailTypeTab.window.detailType.setTitle("<spring:message code='contract-detail-type.window.title.edit'/>");
-                contractDetailTypeTab.window.detailType.show();
+                contractDetailTypeTab.method.jsonRPCManagerRequest({
+                    httpMethod: "GET",
+                    actionURL: contractDetailTypeTab.variable.templateUrl + "spec-list",
+                    params: {
+                        criteria: {
+                            operator: "and",
+                            criteria: [{fieldName: "contractDetailTypeId", operator: "equals", value: record.id}]
+                        }
+                    },
+                    callback: function (templateResp) {
+
+                        contractDetailTypeTab.method.jsonRPCManagerRequest({
+                            httpMethod: "GET",
+                            actionURL: contractDetailTypeTab.variable.paramUrl + "spec-list",
+                            params: {
+                                criteria: {
+                                    operator: "and",
+                                    criteria: [{
+                                        fieldName: "contractDetailTypeId",
+                                        operator: "equals",
+                                        value: record.id
+                                    }]
+                                }
+                            },
+                            callback: function (paramResp) {
+
+                                let templateValues = JSON.parse(templateResp.httpResponseText).response.data;
+                                let paramValues = JSON.parse(paramResp.httpResponseText).response.data;
+
+                                contractDetailTypeTab.listGrid.param.setData(paramValues);
+                                contractDetailTypeTab.listGrid.template.setData(templateValues);
+                                contractDetailTypeTab.dynamicForm.detailType.editRecord(clone(record));
+                                contractDetailTypeTab.window.detailType.setTitle("<spring:message code='contract-detail-type.window.title.edit'/>");
+                                contractDetailTypeTab.window.detailType.show();
+                            }
+                        });
+                    }
+                });
             }
         });
     }

@@ -23,6 +23,6 @@ public interface ContractDAO extends JpaRepository<Contract, Long>, JpaSpecifica
 
     List<Contract> findAllByParentId(Long parentId);
 
-    @Query("select cdt.contract from ContractDetail cdt where cdt.contractDetailTypeId=:typeId")
-    List<Contract> findAllByContractDetailTypeId(@Param("typeId") Long typeId);
+    @Query("select cdt.contract.no from ContractDetail cdt where cdt.contractDetailTypeId=:typeId")
+    List<String> findAllByContractDetailTypeId(@Param("typeId") Long typeId);
 }

@@ -627,8 +627,8 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     @Override
     @Transactional(readOnly = true)
     @Action(value = ActionType.List)
-    public List<ContractDTO.Info> findAllByContractDetailTypeId(Long typeId) {
-        return ((ContractDAO) repository).findAllByContractDetailTypeId(typeId).stream().map(contract -> modelMapper.map(contract, ContractDTO.Info.class)).collect(Collectors.toList());
+    public List<String> findAllByContractDetailTypeId(Long typeId) {
+        return ((ContractDAO) repository).findAllByContractDetailTypeId(typeId);
     }
 
     @Override
