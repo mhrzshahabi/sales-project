@@ -19,7 +19,7 @@ public interface IReportService extends IGenericService<Report, Long, ReportDTO.
 
     List<ReportDTO.SourceData> getSourceData(ReportSource reportSource);
 
-    List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source);
+    List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source) throws ClassNotFoundException;
 
     TotalResponse<Map<String, Object>> getReportData(Long reportId, String baseUrl, MultiValueMap<String, String> criteria) throws IOException;
 
@@ -29,5 +29,5 @@ public interface IReportService extends IGenericService<Report, Long, ReportDTO.
 
     ReportDTO.Info update(List<MultipartFile> files, String fileMetaData, String request) throws Exception;
 
-    Class<?> getReturnType(ReportDTO.Info report);
+    Class<?> getReturnType(ReportDTO.Info report) throws ClassNotFoundException;
 }
