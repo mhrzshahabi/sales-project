@@ -25,7 +25,7 @@ contractTab.restDataSource.contractDetailType = isc.MyRestDataSource.create({
         {name: "titleEN"}
     ],
     addDataURL: null,
-    fetchDataURL: contractTab.variable.contractDetailTypeUrl + "spec-list"
+    fetchDataURL: contractTab.variable.contractDetailTypeUrl + "spec-list-contract"
 });
 
 //******************************************************* FORMITEMS ****************************************************
@@ -344,7 +344,8 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(BaseFor
     }]
 }, {
     width: "30%",
-    sortField: 1,
+    sortField: "title",
+    sortDirection: "ascending",
     showResizeBar: true,
     showFilterEditor: false,
     showRecordComponents: true,
@@ -1426,6 +1427,30 @@ contractTab.method.setDisplayData = function (grid, isDynamicGrid) {
 
     return data;
 };
+contractTab.method.prepareForDisableDetailAddButton = function (sectionStackSectionObj) {
+
+    let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
+    if (contractDetailTypeData && !(contractDetailTypeData instanceof Array))
+        contractDetailTypeData = contractDetailTypeData.localData;
+    if (contractDetailTypeData && contractDetailTypeData.length) {
+
+        let detailTypeRecord = contractDetailTypeData.filter(q => q.id === sectionStackSectionObj.data.contractDetailType.id).first();
+        let recordIndex = contractTab.listGrid.contractDetailType.getRecordIndex(detailTypeRecord);
+        if (recordIndex >= 0) {
+
+            let addButton = contractTab.listGrid.contractDetailType.getRecordComponent(recordIndex);
+            if (addButton) {
+
+                if (addButton.pressed)
+                    return false;
+
+                addButton.pressed = true;
+            }
+        }
+    }
+
+    return true;
+};
 contractTab.method.disableDetailAddButton = function (sectionStackSectionObj) {
 
     let contractDetailTypeData = contractTab.listGrid.contractDetailType.getOriginalData();
@@ -1438,8 +1463,11 @@ contractTab.method.disableDetailAddButton = function (sectionStackSectionObj) {
         if (recordIndex >= 0) {
 
             let addButton = contractTab.listGrid.contractDetailType.getRecordComponent(recordIndex);
-            if (addButton)
+            if (addButton) {
+
                 addButton.disable();
+                addButton.pressed = false;
+            }
         }
     }
 };
@@ -1781,7 +1809,8 @@ contractTab.method.createArticle = async function (data) {
         }
     };
 
-    await contractTab.method.createArticleBody(sectionStackSectionObj);
+    if (contractTab.method.prepareForDisableDetailAddButton(sectionStackSectionObj))
+        await contractTab.method.createArticleBody(sectionStackSectionObj);
 };
 contractTab.method.createArticleBody = async function (sectionStackSectionObj) {
 
