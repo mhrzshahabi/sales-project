@@ -500,6 +500,30 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
     }
 
     @Override
+    @Transactional
+    @Action(ActionType.Delete)
+    public void forceDelete(Long id) {
+
+        com.nicico.sales.model.entities.report.Report report = repository.findById(id).orElseThrow(() -> new NotFoundException(Report.class));
+        super.delete(id);
+
+        try {
+            deleteReportPermission(report.getPermissionBaseKey());
+        } catch (Exception e) {
+            // ignore
+        }
+        try {
+
+            List<FileDTO.FileMetaData> files = fileService.getFiles(id, Report.class.getSimpleName());
+            for (FileDTO.FileMetaData q : files) {
+                fileService.delete(q.getFileKey());
+            }
+        } catch (Exception e) {
+            // ignore
+        }
+    }
+
+    @Override
     @Transactional(readOnly = true)
     @Action(value = ActionType.Search)
     public TotalResponse<ReportDTO.InfoWithAccess> searchWithAccess(NICICOCriteria request) {
