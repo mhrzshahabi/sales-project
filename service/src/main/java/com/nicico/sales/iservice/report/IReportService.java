@@ -29,5 +29,7 @@ public interface IReportService extends IGenericService<Report, Long, ReportDTO.
 
     ReportDTO.Info update(List<MultipartFile> files, String fileMetaData, String request) throws Exception;
 
+    void forceDelete(Long id);
+
     Class<?> getReturnType(ReportDTO.Info report) throws ClassNotFoundException, IOException;
 }

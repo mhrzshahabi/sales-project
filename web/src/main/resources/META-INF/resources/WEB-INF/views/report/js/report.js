@@ -646,3 +646,45 @@ nicico.BasicFormUtil.createListGrid = function () {
 };
 nicico.BasicFormUtil.getDefaultBasicForm(reportGeneratorTab, "api/report/");
 nicico.BasicFormUtil.removeExtraGridMenuActions(reportGeneratorTab);
+// <c:if test = "${d_entity}">
+let forceDeleteAction = isc.ToolStripButton.create({
+    visibility: "visible",
+    icon: "[SKIN]/actions/remove.png",
+    title: "<spring:message code='global.form.force-remove'/>",
+    click: function () {
+
+        let record = reportGeneratorTab.listGrid.main.getSelectedRecord();
+        if (record == null || record["id"] == null)
+            reportGeneratorTab.dialog.notSelected();
+        else if (record.editable == false)
+            reportGeneratorTab.dialog.notEditable();
+        else {
+
+            reportGeneratorTab.variable.method = "DELETE";
+            reportGeneratorTab.dialog.question(() => {
+
+                let rpcRequest = {};
+                rpcRequest.httpMethod = reportGeneratorTab.variable.method;
+                rpcRequest.actionURL = reportGeneratorTab.variable.url + "force/" + record["id"];
+                rpcRequest.callback = function (response) {
+
+                    if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
+
+                        reportGeneratorTab.dialog.ok();
+                        reportGeneratorTab.method.refresh(reportGeneratorTab.listGrid.main);
+                    } else
+                        reportGeneratorTab.dialog.error(response);
+                };
+                reportGeneratorTab.method.jsonRPCManagerRequest(rpcRequest);
+            });
+        }
+    }
+});
+reportGeneratorTab.toolStrip.main.addMember(forceDeleteAction, 3);
+reportGeneratorTab.menu.main.data.add({
+    icon: "[SKIN]/actions/remove.png",
+    title: "<spring:message code='global.form.force-remove'/>",
+    click: () => forceDeleteAction.click()
+});
+reportGeneratorTab.menu.main.initWidget();
+// </c:if>

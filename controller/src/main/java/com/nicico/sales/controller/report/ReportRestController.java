@@ -85,6 +85,13 @@ public class ReportRestController {
     }
 
     @Loggable
+    @DeleteMapping(value = "/force/{id}")
+    public ResponseEntity<Void> forceDelete(@PathVariable Long id) {
+        reportService.forceDelete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Loggable
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<ReportDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
