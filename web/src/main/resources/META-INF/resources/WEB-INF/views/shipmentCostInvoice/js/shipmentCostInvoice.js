@@ -1156,6 +1156,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         type: "float",
         width: "400",
         //editorType: "staticText",
+        keyPressFilter: "[0-9|.]",
         validators: [
             {
                 type: "required",
@@ -1170,6 +1171,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         width: "400",
         type: "float",
         //editorType: "staticText",
+        keyPressFilter: "[0-9|.]",
         validators: [
             {
                 type: "required",
@@ -1422,6 +1424,7 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
         width: "400",
         wrapTitle: false,
         colSpan: 4,
+        keyPressFilter: "[0-9|.]",
         formatValue: function (value, record, form, item) {
 
             if (value)
@@ -1477,6 +1480,7 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
         hint: "for 20% Just Enter 20",
         showHintInField: true,
         colSpan: 4,
+        keyPressFilter: "[0-9|.]",
         validators: [
             {
                 type: "required",

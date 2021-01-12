@@ -18,7 +18,7 @@ const rdTab = {
             requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 2,
             colWidths: ["30%", "*"],
-            titleAlign: "right",
+            titleAlign: nicico.CommonUtil.getAlignByLangReverse(),
         },
         defaultWindowConfig: {
             width: .8 * window.innerWidth,
@@ -543,7 +543,7 @@ const rdTab = {
                                     //    </sec:authorize>
                                     isc.ToolStrip.create({
                                         width: "100%",
-                                        align: "left",
+                                        align: nicico.CommonUtil.getAlignByLang(),
                                         border: '0px',
                                         members: [
                                             isc.ToolStripButtonRefresh.create({
@@ -1097,7 +1097,7 @@ isc.VLayout.create({
                 rdTab.Layouts.ToolStripButtons.New,
                 isc.ToolStrip.create({
                     width: "100%",
-                    align: "left",
+                    align: nicico.CommonUtil.getAlignByLang(),
                     border: '0px',
                     members: [
                         isc.ToolStripButtonRefresh.create({

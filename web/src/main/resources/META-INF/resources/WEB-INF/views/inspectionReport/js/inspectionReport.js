@@ -1236,6 +1236,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         length: 11,
         required: true,
         wrapTitle: false,
+        keyPressFilter: "[0-9|.]",
         validators: [
             {
                 type: "required",

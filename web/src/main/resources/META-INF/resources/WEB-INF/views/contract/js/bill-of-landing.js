@@ -18,7 +18,7 @@ const BlTab = {
             requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 2,
             colWidths: ["30%", "*"],
-            titleAlign: "right",
+            titleAlign: nicico.CommonUtil.getAlignByLangReverse(),
         },
         DefaultWindowConfig: {
             width: .8 * window.innerWidth,
@@ -1679,17 +1679,31 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
     {name: 'billOfLandingId', required: true, hidden: true},
     {
         name: 'containerType', required: true,
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }],
         title: "<spring:message code='billOfLanding.container.type'/>",
     },
     {
         name: 'containerNo', required: true,
         title: "<spring:message code='billOfLanding.container.no'/>",
         summaryFunction: "count",
-
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }],
     },
     {
         name: 'sealNo', required: true,
         title: "<spring:message code='billOfLanding.seal.no'/>",
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }],
     },
     {
         name: 'quantity', required: true,
@@ -1697,11 +1711,21 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
         keyPressFilter: "[0-9]",
         title: "<spring:message code='global.quantity'/>",
         summaryFunction: "sum",
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }],
     },
     {
         required: true,
         name: 'quantityType',
         title: "<spring:message code='billOfLanding.quantity.type'/>",
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }],
     },
     {
         name: 'weight', required: false,
@@ -1709,7 +1733,11 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
         keyPressFilter: "[0-9]",
         title: "<spring:message code='Tozin.vazn'/>",
         summaryFunction: "sum",
-
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }],
     },
     {
         name: 'unit', hidden: true, required: true,
@@ -1721,6 +1749,11 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
         valueField: "id",
         title: "<spring:message code='global.unit'/>",
         type: "long",
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }],
         optionDataSource: isc.MyRestDataSource.create({
             fields:
                 [

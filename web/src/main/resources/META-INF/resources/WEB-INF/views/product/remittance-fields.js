@@ -295,6 +295,8 @@ function getRemittanceFields(objTab) {
                 title: "<spring:message code='Tozin.vazn'/>",
                 // align: "center",
                 showHover: true,
+                keyPressFilter: "[0-9|.]",
+                type: 'float',
                 // width: "10%"
             },
             {
@@ -386,7 +388,7 @@ function getRemittanceFields(objTab) {
                 title: "<spring:message code='Tozin.containerNo3'/> - <spring:message code='shipment.type'/>",
                 align: "center",
                 formatCellValue(value, record, rowNum, colNum, grid) {
-                    return (value ? "ریلی  " + value : "جاده‌ای"
+                    return (value ? "<spring:message code='remittance.railwise'/>" + value : "<spring:message code='remittance.roadwise'/>"
                     )
                 },
                 validOperators: ["equals", "isNull", "notNull"],
@@ -398,7 +400,7 @@ function getRemittanceFields(objTab) {
                         backgroundColor: "white",
                         items: [{
                             showTitle: false, type: "radioGroup",
-                            valueMap: {notNull: "ریلی", isNull: "جاده‌ای"},
+                            valueMap: {notNull: "<spring:message code='remittance.railwise'/>", isNull: "<spring:message code='remittance.roadwise'/>"},
                             change: function (f, i, value) {
                                 const criteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
                                 criteria.criteria = criteria.criteria.filter(c => c.fieldName !== 'containerNo3');
@@ -1780,9 +1782,9 @@ function newOutRemittance(objTab, selectedData, materialItemId) {
         showErrorStyle: true,
         validateOnExit: true,
         errorOrientation: "bottom",
-        align: "right",
-        textAlign: "right",
-        titleAlign: "right",
+        align: nicico.CommonUtil.getAlignByLangReverse(),
+        textAlign: nicico.CommonUtil.getAlignByLangReverse(),
+        titleAlign: nicico.CommonUtil.getAlignByLangReverse(),
         numCols: 6,
         wrapItemTitles: false,
         fields: [
@@ -1835,9 +1837,9 @@ function newOutRemittance(objTab, selectedData, materialItemId) {
         validateOnExit: true,
         errorOrientation: "bottom",
         wrapItemTitles: false,
-        align: "right",
-        textAlign: "right",
-        titleAlign: "right",
+        align: nicico.CommonUtil.getAlignByLangReverse(),
+        textAlign: nicico.CommonUtil.getAlignByLangReverse(),
+        titleAlign: nicico.CommonUtil.getAlignByLangReverse(),
         numCols: 6,
         fields: objTab.Fields.TozinTable().map(a => {
             const oldChanged = a.changed;
@@ -2099,8 +2101,8 @@ function newOutRemittance(objTab, selectedData, materialItemId) {
                     objTab.DynamicForms.Forms.OutRemittance,
                     isc.Label.create({
                         height: .06 * innerHeight,
-                        align: "right",
-                        contents: "<h3 style='text-align: right;padding-right:20px'>"
+                        align: nicico.CommonUtil.getAlignByLangReverse(),
+                        contents: "<h3 style='text-align: " + nicico.CommonUtil.getAlignByLangReverse() + ";padding-" + nicico.CommonUtil.getAlignByLangReverse() + ":20px'>"
                             + "<spring:message code='remittance.dest.info'/>" +
                             "</h3>"
                     }),
@@ -2132,9 +2134,9 @@ function newOutRemittance(objTab, selectedData, materialItemId) {
                     }),
                     isc.Label.create({
                         height: .06 * innerHeight,
-                        align: "right",
-                        contents: "<h3 style='text-align: right;padding-right:20px'>"
-                            + "پکیج‌ها" +
+                        align: nicico.CommonUtil.getAlignByLangReverse(),
+                        contents: "<h3 style='text-align: " + nicico.CommonUtil.getAlignByLangReverse() + ";padding-" + nicico.CommonUtil.getAlignByLangReverse() + ":20px'>"
+                            + "<spring:message code='remittance.packages'/>" +
                             "</h3>"
                     }),
                     objTab.Grids.RemittanceDetailOutRemittance,
@@ -2256,9 +2258,9 @@ function newOutRamittanceWeight(objTab) {
         showErrorStyle: true,
         validateOnExit: true,
         errorOrientation: "bottom",
-        align: "right",
-        textAlign: "right",
-        titleAlign: "right",
+        align: nicico.CommonUtil.getAlignByLangReverse(),
+        textAlign: nicico.CommonUtil.getAlignByLangReverse(),
+        titleAlign: nicico.CommonUtil.getAlignByLangReverse(),
         numCols: 6,
         wrapItemTitles: false,
         fields: [
@@ -2269,7 +2271,7 @@ function newOutRamittanceWeight(objTab) {
                 textMatchStyle: "substring",
                 addUnknownValues: false,
                 defaultValue: 8,
-                valueMap: {8: "کنسانتره مس"},
+                valueMap: {8: "<spring:message code='Tozin.copper.concentrate'/>"},
             },
             ...objTab.Fields.Remittance().filter(_ => !["date", "hasRemainedInventory".toLowerCase()].includes(_.name.toLowerCase())).map(_ => {
                 if (['shipmentId'.toLowerCase(), "packingContainerId".toLowerCase()]
@@ -2299,9 +2301,9 @@ function newOutRamittanceWeight(objTab) {
         validateOnExit: true,
         errorOrientation: "bottom",
         wrapItemTitles: false,
-        align: "right",
-        textAlign: "right",
-        titleAlign: "right",
+        align: nicico.CommonUtil.getAlignByLangReverse(),
+        textAlign: nicico.CommonUtil.getAlignByLangReverse(),
+        titleAlign: nicico.CommonUtil.getAlignByLangReverse(),
         numCols: 6,
         fields: objTab.Fields.TozinTable().map(a => {
             const oldChanged = a.changed;
@@ -2410,8 +2412,8 @@ function newOutRamittanceWeight(objTab) {
                     objTab.DynamicForms.Forms.OutRemittance,
                     isc.Label.create({
                         height: .06 * innerHeight,
-                        align: "right",
-                        contents: "<h3 style='text-align: right;padding-right:20px'>"
+                        align: nicico.CommonUtil.getAlignByLangReverse(),
+                        contents: "<h3 style='text-align: " + nicico.CommonUtil.getAlignByLangReverse() + ";padding-" + nicico.CommonUtil.getAlignByLangReverse() + ":20px'>"
                             + "<spring:message code='remittance.dest.info'/>" +
                             "</h3>"
                     }),
