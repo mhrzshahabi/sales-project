@@ -567,12 +567,22 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
             fileService.createFiles(report.getId(), files, fileData);
         } catch (ErrorResponseException e) {
 
-            deleteReportPermission(report.getPermissionBaseKey());
-            throw new SalesException2(e, ErrorType.InternalServerError, null, e.errorResponse().message());
+            try {
+
+                deleteReportPermission(report.getPermissionBaseKey());
+                throw new SalesException2(e, ErrorType.InternalServerError, null, e.errorResponse().message());
+            } catch (Exception e2) {
+                throw new SalesException2(e2, ErrorType.InternalServerError, null, "Store file:<br>" + e.errorResponse().message() + "<br>Delete permission:<br>"+ report.getPermissionBaseKey() + "<br>" + e2.getMessage());
+            }
         } catch (Exception e) {
 
-            deleteReportPermission(report.getPermissionBaseKey());
-            throw new SalesException2(e);
+            try {
+
+                deleteReportPermission(report.getPermissionBaseKey());
+                throw new SalesException2(e);
+            } catch (Exception e2) {
+                throw new SalesException2(e2, ErrorType.InternalServerError, null, "Store file:<br>" + e.getMessage() + "<br>Delete permission:<br>" + report.getPermissionBaseKey() + "<br>" + e2.getMessage());
+            }
         }
 
         return report;
