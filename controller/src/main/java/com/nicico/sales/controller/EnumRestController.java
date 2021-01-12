@@ -2,7 +2,10 @@ package com.nicico.sales.controller;
 
 import com.nicico.copper.common.Loggable;
 import com.nicico.sales.model.enumeration.*;
+import com.nicico.sales.utility.SpecListUtil;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,69 +24,78 @@ import java.util.ArrayList;
 @RequestMapping(value = "/api/enum")
 public class EnumRestController {
 
-    private Object createEnumObject(String value) {
+    private final SpecListUtil specListUtil;
 
-        return new Object() {{
+    @Getter
+    @Setter
+    private class EnumObject {
 
-            final String id = value;
-            final String name = value;
-        }};
+        private String id;
+        private String name;
     }
 
-    private ArrayList<Object> createEnumList(Enum[] enums) {
+    private Object createEnumObject(String value) {
+
+        EnumObject enumObject = new EnumObject();
+        enumObject.setId(value);
+        enumObject.setName(value);
+        return enumObject;
+    }
+
+    private Map<String, Object> createEnumList(Enum[] enums) {
 
         ArrayList<Object> array = new ArrayList<>();
         for (Enum value : enums)
             array.add(createEnumObject(value.name()));
 
-        return array;
+        return specListUtil.getCoveredByResponse(array);
     }
 
     @Loggable
     @GetMapping(value = "/priceBaseReference")
-    public ResponseEntity<ArrayList<Object>> getPriceBaseReference(@RequestParam MultiValueMap<String, String> criteria) {
+    public ResponseEntity<Map<String, Object>> getPriceBaseReference(@RequestParam MultiValueMap<String, String> criteria) {
 
         return new ResponseEntity<>(createEnumList(PriceBaseReference.values()), HttpStatus.OK);
     }
 
 //    @Loggable
 //    @GetMapping(value = "/dataType")
-//    public ResponseEntity<ArrayList<Object>> getDataType(@RequestParam MultiValueMap<String, String> criteria) {
+//    public ResponseEntity<Map<String, Object>> getDataType(@RequestParam MultiValueMap<String, String> criteria) {
 //
 //        return new ResponseEntity<>(createEnumList(DataType.values()), HttpStatus.OK);
 //    }
 
     @Loggable
     @GetMapping(value = "/rateReference")
-    public ResponseEntity<ArrayList<Object>> getRateReference(@RequestParam MultiValueMap<String, String> criteria) {
+    public ResponseEntity<Map<String, Object>> getRateReference(@RequestParam MultiValueMap<String, String> criteria) {
 
         return new ResponseEntity<>(createEnumList(RateReference.values()), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/commercialRole")
-    public ResponseEntity<ArrayList<Object>> getCommercialRole(@RequestParam MultiValueMap<String, String> criteria) {
+    public ResponseEntity<Map<String, Object>> getCommercialRole(@RequestParam MultiValueMap<String, String> criteria) {
 
         return new ResponseEntity<>(createEnumList(CommercialRole.values()), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/categoryUnit")
-    public ResponseEntity<ArrayList<Object>> getCategoryUnit(@RequestParam MultiValueMap<String, String> criteria) {
+    public ResponseEntity<Map<String, Object>> getCategoryUnit(@RequestParam MultiValueMap<String, String> criteria) {
 
         return new ResponseEntity<>(createEnumList(CategoryUnit.values()), HttpStatus.OK);
     }
 
 //    @Loggable
 //    @GetMapping(value = "/contractDetailTypeReference")
-//    public ResponseEntity<ArrayList<Object>> getContractDetailTypeReference(@RequestParam MultiValueMap<String, String> criteria) {
+//    public ResponseEntity<Map<String, Object>> getContractDetailTypeReference(@RequestParam MultiValueMap<String, String> criteria) {
 //
 //        return new ResponseEntity<>(createEnumList(ContractDetailTypeReference.values()), HttpStatus.OK);
 //    }
 
     @Loggable
     @GetMapping(value = "/symbolUnit")
-    public ResponseEntity<ArrayList<Object>> getSymbolUnit(@RequestParam MultiValueMap<String, String> criteria) {
+    public ResponseEntity<Map<String, Object>> getSymbolUnit(@RequestParam MultiValueMap<String, String> criteria) {
 
         return new ResponseEntity<>(createEnumList(SymbolUnit.values()), HttpStatus.OK);
     }

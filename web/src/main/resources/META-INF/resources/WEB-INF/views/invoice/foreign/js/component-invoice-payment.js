@@ -12,6 +12,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
     parentId: false,
     delayData: null,
     paymentSumPrice: 0,
+    premiumValue: null,
     conversionRef: null,
     paymentValues: null,
     conversionDate: null,
@@ -46,7 +47,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
             actionURL: "${contextPath}/api/foreign-invoice/get-by-shipment",
             callback: function (resp) {
 
-                let unitPrice = This.invoiceCalculationComponent.getCalculationSubTotal() - This.invoiceDeductionComponent.getDeductionSubTotal();
+                let unitPrice = This.invoiceCalculationComponent.getCalculationSubTotal() - This.invoiceDeductionComponent.getDeductionSubTotal() + This.premiumValue;
                 let sumFIPrice = unitPrice * This.invoiceBaseWeightComponent.getValues().weightND.getValues().value;
 
                 This.addMember(isc.Unit.create({

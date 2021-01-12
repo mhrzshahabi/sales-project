@@ -40,4 +40,10 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-106">
+        <addColumn tableName="AUD_TBL_FOREIGN_INVOICE">
+            <column name="N_PREMIUM_VALUE" type="NUMBER" defaultValueNumeric="0"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

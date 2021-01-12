@@ -8,11 +8,11 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "auto",
     contract: null,
+    shipment: null,
     billLadings: null,
     invoiceNo: null,
     invoiceDate: null,
     invoiceType: null,
-    contractDetailDataIncoterm: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -21,7 +21,7 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
         let result = '';
 
         let material = This.contract.material;
-        let incoterm = This.contractDetailDataIncoterm;
+        let incotermRules = This.shipment.incotermRules;
         let buyer = This.contract.contractContacts.filter(q => q.commercialRole === JSON.parse('${Enum_CommercialRole}').Buyer).first().contact;
 
         this.addMember(isc.Label.create({
@@ -114,8 +114,8 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
                   <tr>
                     <td class="table-td">DELIVERY TERMS:&nbsp;</td>
                     <td class="table-td-value">
-                        <div>` + incoterm.incotermRules[0].incotermRule.titleEn + `</div>
-                        <div>` + incoterm.incotermVersion.incotermVersion + `</div>
+                        <div>` + incotermRules.incotermRule.titleEn + `</div>
+                        <!--<div>` + incotermRules.incoterm.title + `</div>-->
                     </td>
                   </tr>
                 </table>`

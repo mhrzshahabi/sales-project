@@ -9,7 +9,6 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "visible",
     percent: null,
-    shipment: null,
     isClicked: true,
     remainingPercent: false,
     inspectionWeightData: null,

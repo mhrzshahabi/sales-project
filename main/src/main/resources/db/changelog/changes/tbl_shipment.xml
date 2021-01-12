@@ -1,0 +1,29 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+	<changeSet author="MShahabi" id="1799887766554-102">
+		<addColumn tableName="TBL_SHIPMENT">
+			<column name="F_INCOTERM_RULES_ID" type="NUMBER(19, 0)"/>
+		</addColumn>
+	</changeSet>
+
+	<changeSet author="MShahabi" id="1799887766554-103">
+	<addForeignKeyConstraint baseColumnNames="F_INCOTERM_RULES_ID"
+							 baseTableName="TBL_SHIPMENT"
+							 constraintName="fk_shipment2incotermRulesByIncotermRulesId"
+							 deferrable="false"
+							 initiallyDeferred="false"
+							 referencedColumnNames="id"
+							 referencedTableName="TBL_CNTR_INCOTERM_RULES"
+							 validate="true"/>
+	</changeSet>
+
+	<changeSet author="MShahabi" id="1799887766554-104">
+		<addColumn tableName="AUD_TBL_SHIPMENT">
+			<column name="F_INCOTERM_RULES_ID" type="NUMBER(19, 0)"/>
+		</addColumn>
+	</changeSet>
+
+</databaseChangeLog>

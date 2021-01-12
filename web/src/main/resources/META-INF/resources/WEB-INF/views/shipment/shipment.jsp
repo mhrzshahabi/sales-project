@@ -1,8 +1,6 @@
-<%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page import="com.nicico.copper.core.SecurityUtil" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="../common/ts/FileUtil.js" %>
 
@@ -20,6 +18,7 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
     var contractId;
+    var materialId;
     var printTemplateList;
     var oldPrintTemplateList;
     var attachFileList = [];
@@ -190,6 +189,7 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "name", title: "<spring:message code='unit.name'/>"},
                 {name: "nameFA", title: "<spring:message code='unit.nameFa'/>"},
                 {name: "nameEN", title: "<spring:message code='unit.nameEN'/>"},
             ],
@@ -257,6 +257,17 @@
 
             ],
         fetchDataURL: "${contextPath}/api/g-contract/spec-list"
+    });
+
+    var RestDataSource_incotermRules = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "incoterm.title", title: "<spring:message code='entity.incoterm'/>"},
+                {name: "incotermRule.titleEn", title: "<spring:message code='entity.incoterm-rule'/>"},
+
+            ],
+        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list"
     });
 
     var RestDataSource_Shipment__SHIPMENT = isc.MyRestDataSource.create({
@@ -484,12 +495,15 @@
                     }
                 ],
                 changed: function (form, item, value) {
-                    let record = DynamicForm_Shipment.getItem("contractId").getSelectedRecord();
+                    let record = item.getSelectedRecord();
+                    materialId = record.materialId;
+                    contractId = value;
                     let buyerId = record.contractContacts.filter(c => (c.commercialRole === 'Buyer'))[0].contactId;
                     setBuyerName(buyerId);
                     DynamicForm_Shipment.setValue("material.desc", record.material.desc);
                     DynamicForm_Shipment.setValue("contactId", buyerId);
-                    DynamicForm_Shipment.setValue("materialId", record.materialId);
+                    DynamicForm_Shipment.setValue("materialId", materialId);
+                    DynamicForm_Shipment.getItem("showArticle").setDisabled(false);
                 }
             },
             {
@@ -536,6 +550,65 @@
                 type: "staticText"
             },
             {
+                name: "incotermRulesId",
+                title: "<spring:message code='entity.incoterm'/>",
+                required: true,
+                width: "100%",
+                displayField: "id",
+                valueField: "id",
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_incotermRules,
+                pickListProperties: {showFilterEditor: true},
+                pickListHeight: "500",
+                pickListFields: [
+                    {
+                        name: "id",
+                        hidden: true
+                    }, {
+                        name: "incoterm.title",
+                        width: "10%",
+                        align: "center",
+                        sortNormalizer: function (recordObject) {
+                            return recordObject.incoterm.title;
+                        }
+                    }, {
+                        name: "incotermRule.titleEn",
+                        width: "10%",
+                        align: "center",
+                        sortNormalizer: function (recordObject) {
+                            return recordObject.incotermRule.titleEn;
+                        }
+                    }],
+                mapValueToDisplay: function (value) {
+
+                    let selectedRecord = this.getSelectedRecord();
+                    if (!selectedRecord) return '';
+                    return selectedRecord.incoterm.title + " (" + selectedRecord.incotermRule.titleEn + ")";
+                },
+            },
+            {
+                name: "showArticle",
+                title: "<spring:message code='shipment.showArticle'/>",
+                type: "button",
+                endRow: false, startRow: false,
+                icon: "pieces/16/icon_add.png",
+                disabled: true,
+                click: function (form, item) {
+
+                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                        actionURL: "${contextPath}/api/g-contract/get-delivery-article/" + materialId + "/" + contractId,
+                        httpMethod: "GET",
+                        callback: function (RpcResponse_o) {
+                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+
+                                articleElement.setContents("<span style='display: block; text-align: left'>" + RpcResponse_o.httpResponseText + "</span>");
+                                Window_Article.show();
+                            } else isc.say("<spring:message code='shipment.show.article.empty'/>");
+                        }
+                    }));
+                }
+            },
+            {
                 name: "sendDate",
                 type: "date",
                 title: "<spring:message code='global.sendDate'/>",
@@ -544,13 +617,13 @@
                 name: "automationLetterDate",
                 title: "<spring:message code='shipment.bDate'/>",
                 ID: "automationLetterDateId",
+                width: 200,
                 icons: [{
                     src: "pieces/pcal.png",
                     click: function () {
                         displayDatePicker('automationLetterDateId', this, 'ymd', '/');
                     }
                 }],
-// defaultValue: "1399/01/01",
             },
             {
                 name: "automationLetterNo",
@@ -608,16 +681,11 @@
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {
-                        name: "nameFA",
-                        width: "10%",
-                        align: "center"
-                    },
-                    {
-                        name: "nameEN",
+                        name: "name",
                         width: "10%",
                         align: "center"
                     }
-                ],
+                ]
             },
             {
                 name: "noBLs",
@@ -867,12 +935,26 @@
         }
     });
 
+    let articleElement = isc.HTMLFlow.create({
+        width: "100%",
+        padding: 10
+    });
+
     var ShipmentCancelBtn = isc.IButtonCancel.create({
         layoutMargin: 5,
         membersMargin: 5,
         width: 120,
         click: function () {
             Window_Shipment.close();
+        }
+    });
+
+    var ArticleCancelBtn = isc.IButtonCancel.create({
+        layoutMargin: 5,
+        membersMargin: 5,
+        width: 120,
+        click: function () {
+            Window_Article.close();
         }
     });
 
@@ -883,6 +965,15 @@
         members: [
             IButton_Shipment_Save,
             ShipmentCancelBtn
+        ]
+    });
+
+    var hLayout_buttonArticle = isc.HLayout.create({
+        height: "100%",
+        layoutMargin: 10,
+        membersMargin: 5,
+        members: [
+            ArticleCancelBtn
         ]
     });
 
@@ -903,6 +994,26 @@
         items: [
             DynamicForm_Shipment,
             hLayout_saveButton
+        ]
+    });
+
+    var Window_Article = isc.Window.create({
+        title: "<spring:message code='shipment.showArticle'/>",
+        width: 1000,
+        autoSize: true,
+        autoCenter: true,
+        isModal: true,
+        showModalMask: true,
+        align: "center",
+        autoDraw: false,
+        dismissOnEscape: true,
+        margin: '10px',
+        closeClick: function () {
+            this.Super("closeClick", arguments)
+        },
+        items: [
+            articleElement,
+            hLayout_buttonArticle
         ]
     });
 
@@ -956,6 +1067,7 @@
         abal.enable();
         abal.fetchData();
         shipment.enable();
+        DynamicForm_Shipment.getItem("showArticle").setDisabled(true);
         DynamicForm_Shipment.getItem("contractShipmentId").show();
         DynamicForm_Shipment.getItem("shipmentSendDate").hide();
         Window_Shipment.animateShow();
@@ -974,12 +1086,14 @@
                 }
             });
         } else {
+            contractId = record.contractShipment.contractId;
+            materialId = record.materialId;
             DynamicForm_Shipment.clearValues();
-//DynamicForm_Shipment.setValue("contractId", record.contractShipment.contractId);
-// DynamicForm_Shipment.getItem("contractShipmentId").setOptionDataSource(null);
+            //DynamicForm_Shipment.setValue("contractId", record.contractShipment.contractId);
+            // DynamicForm_Shipment.getItem("contractShipmentId").setOptionDataSource(null);
             DynamicForm_Shipment.editRecord(record);
-            DynamicForm_Shipment.setValue("contractId", record.contractShipment.contractId);
-//DynamicForm_Shipment.getItem("contractShipmentId").setValue(record.contractShipment.sendDate);
+            DynamicForm_Shipment.setValue("contractId", contractId);
+            //DynamicForm_Shipment.getItem("contractShipmentId").setValue(record.contractShipment.sendDate);
             DynamicForm_Shipment.setValue("automationLetterDate", new Date(parseInt(record.automationLetterDate)).toLocaleDateString('fa-IR'));
             DynamicForm_Shipment.setValue("arrivalDateTo", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().arrivalDateTo)));
             DynamicForm_Shipment.setValue("arrivalDateFrom", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().arrivalDateFrom)));
@@ -994,6 +1108,7 @@
             DynamicForm_Shipment.getItem("shipmentSendDate").show();
             let displayValue = ListGrid_Shipment.getSelectedRecord().contractShipment.loadPort.port + "&nbsp&nbsp&nbsp(" + ListGrid_Shipment.getSelectedRecord().contractShipment.sendDate + ")&nbsp";
             DynamicForm_Shipment.getItem("shipmentSendDate").setValue(displayValue);
+            DynamicForm_Shipment.getItem("showArticle").setDisabled(false);
         }
     }
 

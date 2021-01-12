@@ -5,6 +5,7 @@ import com.nicico.sales.annotation.report.ReportField;
 import com.nicico.sales.annotation.report.ReportModel;
 import com.nicico.sales.dto.contract.BillOfLandingDTO;
 import com.nicico.sales.dto.contract.ContractShipmentDTO;
+import com.nicico.sales.dto.contract.IncotermRulesDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -54,6 +55,16 @@ public class ShipmentDTO {
     private Date arrivalDateTo;
     private Long noPallet;
     private Date lastDeliveryLetterDate;
+    private Long incotermRulesId;
+
+    public BigDecimal getMoisture() {
+        BigDecimal weightGW = getWeightGW();
+        BigDecimal weightND = getWeightND();
+        if (weightGW == null) weightGW = BigDecimal.ZERO;
+        if (weightND == null) weightND = BigDecimal.ZERO;
+
+        return weightGW.subtract(weightND);
+    }
 
     @Getter
     @Setter
@@ -134,6 +145,7 @@ public class ShipmentDTO {
         private List<EStatus> eStatus;
 
         private MaterialDTO.Info material;
+        private IncotermRulesDTO.Info incotermRules;
         private ContractShipmentDTO.ContractShipmentFIInfo contractShipment;
     }
 
@@ -186,6 +198,14 @@ public class ShipmentDTO {
         private Integer version;
     }
 
+//    @Getter
+//    @Setter
+//    @Accessors(chain = true)
+//    @ApiModel("ShipmentInfoWithContract")
+//    public static class InfoWithInvoice extends ShipmentDTO {
+//        private List<InvoiceDTO.Info> invoices;
+//    }
+
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -195,22 +215,5 @@ public class ShipmentDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
-    }
-
-//    @Getter
-//    @Setter
-//    @Accessors(chain = true)
-//    @ApiModel("ShipmentInfoWithContract")
-//    public static class InfoWithInvoice extends ShipmentDTO {
-//        private List<InvoiceDTO.Info> invoices;
-//    }
-
-    public BigDecimal getMoisture() {
-        BigDecimal weightGW = getWeightGW();
-        BigDecimal weightND = getWeightND();
-        if (weightGW == null) weightGW = BigDecimal.ZERO;
-        if (weightND == null) weightND = BigDecimal.ZERO;
-
-        return weightGW.subtract(weightND);
     }
 }

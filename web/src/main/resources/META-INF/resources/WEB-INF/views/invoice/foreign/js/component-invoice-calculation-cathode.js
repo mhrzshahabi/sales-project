@@ -12,6 +12,7 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
     currency: null,
     percent: null,
     basePriceData: false,
+    premiumValueData: false,
     remainingPercent: false,
     contractDetailData: null,
     inspectionWeightData: null,
@@ -23,16 +24,17 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
         let This = this;
         let sendDate = new Date(This.shipment.sendDate);
 
+        let premiumValue = This.contractDetailData.premium.filter(q => q.incotermRules.id === This.shipment.incotermRulesId).first().premiumValue;
+
         let QPArticleElement = isc.HTMLFlow.create({
             width: "100%",
         });
 
-        // let priceArticleElement = isc.HTMLFlow.create({
-        //     width: "100%",
-        // });
+        let priceArticleElement = isc.HTMLFlow.create({
+            width: "100%",
+        });
 
         this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
-            shipment: This.shipment,
             percent: This.percent,
             remainingPercent: This.remainingPercent,
             inspectionWeightData: This.inspectionWeightData,
@@ -83,11 +85,34 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
                         }
                     });
 
+                    This.addMember(isc.Unit.create({
+                        name: "premiumValue",
+                        unitCategory: This.currency.categoryUnit,
+                        disabledUnitField: true,
+                        disabledValueField: false,
+                        showValueFieldTitle: true,
+                        showUnitFieldTitle: false,
+                        showUnitField: true,
+                        fieldValueTitle: '<spring:message code="foreign-invoice.form.premium-value"/>',
+                    }));
+
+                    This.getMembers().last().setValue(premiumValue);
+                    This.getMembers().last().setUnitId(This.currency.id);
+
+                    if (This.premiumValueData) {
+                        This.getMembers().last().setValue(This.premiumValueData);
+                    }
+
                     QPArticleElement.setContents("<span style='display: block; text-align: left'>" + This.contractDetailData.quotationalPeriodContent + "</span>");
                     This.addMember(QPArticleElement);
 
-                    // priceArticleElement.setContents("<span style='display: block; text-align: left'>" + This.contractDetailData.priceContent + "</span>");
-                    // This.addMember(priceArticleElement);
+                    This.addMember(isc.HTMLFlow.create({
+                        width: "100%",
+                        contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                    }));
+
+                    priceArticleElement.setContents("<span style='display: block; text-align: left'>" + This.contractDetailData.priceContent + "</span>");
+                    This.addMember(priceArticleElement);
 
                     This.addMember(isc.HTMLFlow.create({
                         width: "100%",
@@ -142,6 +167,11 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
                 isValid = false;
         });
 
+        let premiumMember = this.getMembers().filter(q => q.name === "premiumValue").first();
+        premiumMember.validate();
+        if (premiumMember.hasErrors())
+            isValid = false;
+
         if (!isValid)
             isc.warn("<spring:message code='global.message.data.not.complete'/>");
 
@@ -155,7 +185,11 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
     },
     getCalculationSubTotal: function () {
 
-        return this.getMembers()[2].getValues().value;
+        return this.getMembers().filter(q => q.name === "unitPrice").first().getValues().value;
+    },
+    getPremiumValue: function () {
+
+        return this.getMembers().filter(q => q.name === "premiumValue").first().getValues().value;
     },
     getForeignInvoiceItems: function () {
 

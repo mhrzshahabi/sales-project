@@ -103,6 +103,13 @@
             dsRequest.httpHeaders = {
                 "Authorization": "Bearer <%= accessToken %>"
             };
+
+            if(Number.isNaN(dsRequest.endRow))
+                dsRequest.endRow = 500;
+
+            if(Number.isNaN(dsRequest.startRow))
+                dsRequest.startRow = 0;
+
             return this.Super("transformRequest", arguments);
         },
 

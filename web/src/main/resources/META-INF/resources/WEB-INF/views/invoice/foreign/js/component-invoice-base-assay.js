@@ -8,7 +8,6 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
     layoutMargin: 2,
     membersMargin: 2,
     overflow: "visible",
-    shipment: null,
     inspectionAssayData: null,
     initWidget: function () {
 

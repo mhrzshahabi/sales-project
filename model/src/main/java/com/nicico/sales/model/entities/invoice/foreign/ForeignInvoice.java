@@ -85,6 +85,9 @@ public class ForeignInvoice extends BaseEntity {
     @Column(name = "N_DELAY_PENALTY")
     private BigDecimal delayPenalty;
 
+    @Column(name = "N_PREMIUM_VALUE")
+    private BigDecimal premiumValue;
+
     // *****************************************************************************************************************
 
     @Column(name = "C_DOCUMENT_ID")
