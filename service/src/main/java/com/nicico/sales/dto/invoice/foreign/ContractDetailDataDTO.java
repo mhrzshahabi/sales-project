@@ -5,6 +5,7 @@ import com.nicico.sales.dto.MaterialElementDTO;
 import com.nicico.sales.dto.UnitDTO;
 import com.nicico.sales.dto.contract.ContractDiscountDTO;
 import com.nicico.sales.dto.contract.IncotermDTO;
+import com.nicico.sales.dto.contract.IncotermRulesDTO;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
@@ -76,6 +77,6 @@ public class ContractDetailDataDTO {
     public static class PREMIUMData {
 
         private BigDecimal premiumValue;
-        private IncotermDTO.Info incoterm;
+        private IncotermRulesDTO.Info incotermRules;
     }
 }

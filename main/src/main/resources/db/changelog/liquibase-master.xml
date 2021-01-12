@@ -126,6 +126,7 @@
     <include file="classpath:/db/changelog/changes/tbl_cntr_cdtp_dynamic_table2.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_contract_shipment.xml"/>
     <include file="classpath:/db/changelog/changes/aud_tbl_contact.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_shipment.xml"/>
     <!-- CHANGES -->
 
 </databaseChangeLog>

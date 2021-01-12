@@ -12,6 +12,10 @@ public interface IShipmentService extends IGenericService<Shipment, Long, Shipme
 
     List<Object[]> pickListShipment();
 
+    TotalResponse<ShipmentDTO.ShipmentLightFIInfo> foreignSearch(NICICOCriteria request);
+
+    SearchDTO.SearchRs<ShipmentDTO.ShipmentLightFIInfo> foreignSearch(SearchDTO.SearchRq request);
+
     TotalResponse<ShipmentDTO.ReportInfo> reportSearch(NICICOCriteria nicicoCriteria);
 
     SearchDTO.SearchRs<ShipmentDTO.ReportInfo> reportSearch(SearchDTO.SearchRq request);

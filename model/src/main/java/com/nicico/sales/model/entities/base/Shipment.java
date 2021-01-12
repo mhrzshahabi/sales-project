@@ -3,6 +3,7 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.contract.BillOfLanding;
 import com.nicico.sales.model.entities.contract.ContractShipment;
+import com.nicico.sales.model.entities.contract.IncotermRules;
 import com.nicico.sales.model.entities.warehouse.Remittance;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -130,9 +131,6 @@ public class Shipment extends BaseEntity {
     @Column(name = "C_CONTAINER_TYPE")
     private String containerType;
 
-//    @Column(name = "STATUS", length = 20)
-//    private String status;
-
     @Column(name = "C_AUTOMATION_LETTER_NO")
     private String automationLetterNo;
 
@@ -143,25 +141,12 @@ public class Shipment extends BaseEntity {
     @Column(name = "D_SEND_DATE")
     private Date sendDate;
 
-//    @Column(name = "FILE_NAME")
-//    private String fileName;
-//
-//    @Column(name = "NEW_FILE_NAME")
-//    private String newFileName;
-
-//    @Column(name = "SHIPMENT_TYPE")
-//    private String shipmentType;
-//
-//    @Column(name = "SHIPMENT_METHOD")
-//    private String shipmentMethod;
-
     //@NotNull
     @Column(name = "N_NO_BLS")
     private Long noBLs;
 
     @NotAudited
-    @Formula("( select N_NO_BLS - (select count(TBL_CNTR_BILL_OF_LANDING.ID) " +
-            "from TBL_CNTR_BILL_OF_LANDING where TBL_CNTR_BILL_OF_LANDING.F_SHIPMENT_ID = id) from dual)")
+    @Formula("( select N_NO_BLS - (select count(TBL_CNTR_BILL_OF_LANDING.ID) " + "from TBL_CNTR_BILL_OF_LANDING where TBL_CNTR_BILL_OF_LANDING.F_SHIPMENT_ID = id) from dual)")
     private Long remainedBLs;
 
     @OneToMany(mappedBy = "shipmentId", fetch = FetchType.LAZY)
@@ -172,22 +157,11 @@ public class Shipment extends BaseEntity {
     @Column(name = "N_NO_PACKAGES")
     private Long noPackages;
 
-//    @Setter(AccessLevel.NONE)
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "AGENT", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "shipmnt2contactAgent"))
-//    private Contact contactByAgent;
-//
-//    @Column(name = "AGENT")
-//    private Long contactByAgentId;
-
     @Column(name = "N_NO_PALLET")
     private Long noPallet;
 
     @Column(name = "BOOKING_NO_CAT")
     private String bookingCat;
-
-//    @OneToMany(mappedBy = "shipment", fetch = FetchType.LAZY)
-//    private Set<Invoice> invoices;
 
     @Column(name = "N_WEIGHT_G_W", scale = 5, precision = 10)
     private BigDecimal weightGW;
@@ -198,18 +172,26 @@ public class Shipment extends BaseEntity {
     @Column(name = "VGM")
     private Double vgm;
 
-     @Column(name = "D_ARRIVAL_DATE_FROM")
-     private Date arrivalDateFrom;
+    @Column(name = "D_ARRIVAL_DATE_FROM")
+    private Date arrivalDateFrom;
 
-     @Column(name = "D_ARRIVAL_DATE_TO")
-     private Date arrivalDateTo;
-
+    @Column(name = "D_ARRIVAL_DATE_TO")
+    private Date arrivalDateTo;
 
     @OneToMany(mappedBy = "shipmentId", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Remittance> remittances;
 
-
     @Column(name = "D_LAST_DELIVERY_LETTER_DATE")
     private Date lastDeliveryLetterDate;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Audited(targetAuditMode = NOT_AUDITED)
+    @JoinColumn(name = "F_INCOTERM_RULES_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2incotermRulesByIncotermRulesId"))
+    private IncotermRules incotermRules;
+
+    @NotNull
+    @Column(name = "F_INCOTERM_RULES_ID", nullable = false)
+    private Long incotermRulesId;
 
 }

@@ -42,6 +42,7 @@ public class ForeignInvoiceDTO {
     private Long parentId;
     private Double percent;
     private BigDecimal delayPenalty;
+    private BigDecimal premiumValue;
     private Long inspectionWeightReportId;
     private Long inspectionAssayReportId;
 

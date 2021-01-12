@@ -1,6 +1,7 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.entities.contract.Incoterm;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -29,6 +30,7 @@ public class IncotermRulesDTO {
     public static class Info extends IncotermRulesDTO {
 
         private Long id;
+        private IncotermDTO incoterm;
         private IncotermRuleDTO.Info incotermRule;
         private List<IncotermFormsDTO.Info> incotermForms;
 

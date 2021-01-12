@@ -71,6 +71,13 @@ public class ShipmentRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/spec-list-foreign-invoice")
+    public ResponseEntity<TotalResponse<ShipmentDTO.ShipmentLightFIInfo>> foreignList(@RequestParam MultiValueMap<String, String> criteria) {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(shipmentService.foreignSearch(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
     @Report(nameKey = "entity.shipment", returnType = ShipmentDTO.ReportInfo.class)
     @GetMapping(value = "/spec-list-report")
     public ResponseEntity<TotalResponse<ShipmentDTO.ReportInfo>> report(@RequestParam MultiValueMap<String, String> criteria) {
@@ -80,12 +87,7 @@ public class ShipmentRestController {
 
     @Loggable
     @GetMapping(value = "/pick-list")
-    public ResponseEntity<String> pickList(
-            @RequestParam(value = "_startRow", required = false) Integer startRow,
-            @RequestParam(value = "_endRow", required = false) Integer endRow,
-            @RequestParam(value = "operator", required = false) String operator,
-            @RequestParam(value = "criteria", required = false) String criteria
-    ) {
+    public ResponseEntity<String> pickList(@RequestParam(value = "_startRow", required = false) Integer startRow, @RequestParam(value = "_endRow", required = false) Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
         String body = "";
         startRow = (startRow == null ? 0 : startRow);
         endRow = (endRow == null ? 50 : endRow);
@@ -101,8 +103,7 @@ public class ShipmentRestController {
                 totalRows++;
             }
             body = "{ \"response\": {\"data\": [ " + (body.isEmpty() ? " " : body.substring(1)) + " ], \"startRow\": " + startRow + " , \"endRow\": " + endRow + " , \"totalRows\": " + totalRows + "  } } ";
-        } else
-            body = "{ \"response\": {\"data\": [ ], \"startRow\": 0, \"endRow\": 50 , \"totalRows\": 0  } } ";
+        } else body = "{ \"response\": {\"data\": [ ], \"startRow\": 0, \"endRow\": 50 , \"totalRows\": 0  } } ";
 
         ResponseEntity responseEntity = new ResponseEntity(body, HttpStatus.OK);
         return responseEntity;

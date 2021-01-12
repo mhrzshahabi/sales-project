@@ -53,7 +53,6 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                 contents: "<spring:message code='foreign-invoice.form.base.assay'/>"
             }));
             this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
-                shipment: This.shipment,
                 inspectionAssayData: This.inspectionAssayData,
             });
             this.addMember(this.invoiceBaseAssayComponent);
@@ -69,7 +68,6 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                 contents: "<spring:message code='foreign-invoice.form.base.weight'/>"
             }));
             this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
-                shipment: This.shipment,
                 percent: This.percent,
                 remainingPercent: This.remainingPercent,
                 inspectionWeightData: This.inspectionWeightData,

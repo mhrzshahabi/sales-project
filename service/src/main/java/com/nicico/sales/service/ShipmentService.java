@@ -29,6 +29,42 @@ public class ShipmentService extends GenericService<Shipment, Long, ShipmentDTO.
         return ((ShipmentDAO) repository).pickListShipment();
     }
 
+
+    @Override
+    @CheckCriteria
+    @Transactional(readOnly = true)
+    @Action(value = ActionType.Search)
+    public TotalResponse<ShipmentDTO.ShipmentLightFIInfo> foreignSearch(NICICOCriteria request) {
+
+        List<Shipment> entities = new ArrayList<>();
+        TotalResponse<ShipmentDTO.ShipmentLightFIInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
+
+            ShipmentDTO.ShipmentLightFIInfo eResult = modelMapper.map(entity, ShipmentDTO.ShipmentLightFIInfo.class);
+            validation(entity, eResult);
+            entities.add(entity);
+            return eResult;
+        });
+
+        validationAll(entities, result);
+        return result;
+    }
+
+    @Override
+    public SearchDTO.SearchRs<ShipmentDTO.ShipmentLightFIInfo> foreignSearch(SearchDTO.SearchRq request) {
+
+        List<Shipment> entities = new ArrayList<>();
+        SearchDTO.SearchRs<ShipmentDTO.ShipmentLightFIInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
+
+            ShipmentDTO.ShipmentLightFIInfo eResult = modelMapper.map(entity, ShipmentDTO.ShipmentLightFIInfo.class);
+            validation(entity, eResult);
+            entities.add(entity);
+            return eResult;
+        });
+
+        validationAll(entities, result);
+        return result;
+    }
+
     @Override
     @Action(value = ActionType.Search)
     @Transactional(readOnly = true)
