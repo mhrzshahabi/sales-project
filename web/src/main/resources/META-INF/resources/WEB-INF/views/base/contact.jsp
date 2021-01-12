@@ -717,6 +717,7 @@
                 width: 500,
                 length: 15,
                 wrapTitle: false,
+                keyPressFilter: "[0-9]",
                 validators: [
                     {
                         type: "regexp",
@@ -737,6 +738,7 @@
                 width: 500,
                 length: 15,
                 wrapTitle: false,
+                keyPressFilter: "[0-9]",
                 validators: [
                     {
                         type: "regexp",
@@ -758,6 +760,7 @@
                 length: 15,
                 wrapTitle: false,
                 textAlign: "left",
+                keyPressFilter: "[0-9]",
                 validators: [
                     {
                         type: "regexp",
@@ -1304,6 +1307,7 @@
                 width: 300,
                 colSpan: "2",
                 required: true,
+                errorOrientation: "bottom",
                 validators: [{
                     type: "isInteger",
                     validateOnChange: true,
@@ -1350,6 +1354,8 @@
                 width: 300,
                 colSpan: "2",
                 required: true,
+                errorOrientation: "bottom",
+                keyPressFilter: "[0-9]",
                 validators: [{
                     type: "isInteger",
                     validateOnChange: true,
@@ -1370,6 +1376,7 @@
                 required: true,
                 width: 300,
                 colSpan: "2",
+                errorOrientation: "bottom",
                 validators: [
                     {
                         type: "regexp",
@@ -1381,9 +1388,15 @@
             {
                 name: "bankSwift",
                 title: "<spring:message code='contactAccount.bankSwift'/>",
+                errorOrientation: "bottom",
                 required: true,
                 width: 300,
                 colSpan: "2",
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "accountOwner",
@@ -1441,6 +1454,7 @@
                     colSpan: "2",
                     required: true,
                     width: 300,
+                    errorOrientation: "bottom",
                     validators: [
                         {
                             type: "isInteger",
@@ -1488,17 +1502,18 @@
                     width: 300,
                     colSpan: "2",
                     required: true,
-                    validators: [
-                        {
-                            type: "isInteger",
-                            validateOnChange: true,
-                            stopOnError: true,
-                            errorMessage: "<spring:message code='global.form.correctType'/>"
-                        },
+                    errorOrientation: "bottom",
+                    validators: [{
+                        type: "isInteger",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>",
+                    },
                         {
                             type: "required",
                             validateOnChange: true
-                        }],
+                        }
+                    ],
                     textAlign: "left"
                 },
                 {
@@ -1508,6 +1523,7 @@
                     required: true,
                     width: 300,
                     colSpan: "2",
+                    errorOrientation: "bottom",
                     validators: [
                         {
                             type: "required",
@@ -1526,13 +1542,20 @@
                     required: true,
                     width: 300,
                     colSpan: "2",
+                    errorOrientation: "bottom",
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "accountOwner",
                     title: "<spring:message code='contactAccount.accountOwner'/>",
                     type: 'text',
                     width: 300,
-                    colSpan: "2"
+                    colSpan: "2",
+                    errorOrientation: "bottom",
                 },
                 {
                     name: "status",
@@ -1776,7 +1799,7 @@
 
     var bodyVLayout = isc.VLayout.create({
         width: "100%",
-        height: 340,
+        height: 400,
         border: "0px solid blue",
         autoDraw: false,
         layoutMargin: 5,

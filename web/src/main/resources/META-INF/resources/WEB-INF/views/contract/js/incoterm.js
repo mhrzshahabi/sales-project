@@ -135,7 +135,12 @@ incotermTab.dynamicForm.fields = BaseFormItems.concat([{
     name: "title",
     width: "100%",
     required: true,
-    title: "<spring:message code='global.title'/>"
+    title: "<spring:message code='global.title'/>",
+    validators: [
+        {
+            type: "required",
+            validateOnChange: true
+        }]
 },
     {
         type: 'number',
@@ -148,6 +153,11 @@ incotermTab.dynamicForm.fields = BaseFormItems.concat([{
         valueField: "id",
         displayField: "incotermVersion",
         pickListHeight: "300",
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }],
         optionDataSource: isc.MyRestDataSource.create({
             fields: BaseFormItems.concat([
                 {name: "id"},

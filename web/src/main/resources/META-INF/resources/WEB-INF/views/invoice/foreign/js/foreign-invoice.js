@@ -195,6 +195,11 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         width: "100%",
         valueField: "id",
         displayField: "no",
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }],
         optionCriteria: {
             operator: "and",
             criteria: [
@@ -776,7 +781,8 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
     width: 150,
     title: "<spring:message code='global.form.add.detail'/>",
     click: function () {
-
+        let validateForm = foreignInvoiceTab.dynamicForm.baseData.Super("validate", arguments);
+        if(!validateForm) return;
         let contractId;
         if (!foreignInvoiceTab.variable.completionInvoice)
             contractId = foreignInvoiceTab.dynamicForm.baseData.getValue("contractId");

@@ -253,6 +253,7 @@
                 title: "<spring:message code='person.jobTitle'/>",
                 required: true,
                 length: "200",
+                errorOrientation: "bottom",
                 type: 'text',
                 width: 500,
                 wrapTitle: false,

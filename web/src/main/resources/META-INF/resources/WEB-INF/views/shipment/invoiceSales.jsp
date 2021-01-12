@@ -191,23 +191,23 @@
             fetchDataURL: "${contextPath}/api/invoiceNosaSales/spec-list"
         });
 
-        var RestDataSource_accDepartment = isc.MyRestDataSource.create(
-            {
-                fields: [
-                    {
-                        name: "id"
-                    },
-                    {
-                        name: "departmentCode"
-                    },
-                    {
-                        name: "departmentName"
-                    },
-                    {
-                        name: "departmentNameLatin"
-                    }
-                ],
-                fetchDataURL: "${contextPath}/api/accDepartment/spec-list"
+    var RestDataSource_accDepartment = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id"
+                },
+                {
+                    name: "departmentCode"
+                },
+                {
+                    name: "departmentName"
+                },
+                {
+                    name: "departmentNameLatin"
+                }
+            ],
+            fetchDataURL: "${contextPath}/api/accDepartment/spec-list"
         });
 
     var RestDataSource_salesType = isc.MyRestDataSource.create(
@@ -223,7 +223,7 @@
             fetchDataURL: "${contextPath}/api/salesType/spec-list"
         });
 
- var RestDataSource_paymentType = isc.MyRestDataSource.create(
+    var RestDataSource_paymentType = isc.MyRestDataSource.create(
         {
             fields: [
                 {
@@ -242,7 +242,7 @@
             fetchDataURL: "${contextPath}/api/paymentType/spec-list"
         });
 
- var RestDataSource_percentPerYear = isc.MyRestDataSource.create(
+    var RestDataSource_percentPerYear = isc.MyRestDataSource.create(
         {
             fields: [
                 {
@@ -261,7 +261,7 @@
             fetchDataURL: "${contextPath}/api/percentPerYear/spec-list"
         });
 
- var RestDataSource_Unit_IN_invoiceSales = isc.MyRestDataSource.create(
+    var RestDataSource_Unit_IN_invoiceSales = isc.MyRestDataSource.create(
         {
             fields: [
                 {
@@ -290,7 +290,7 @@
             fetchDataURL: "${contextPath}/api/unit/spec-list"
         });
 
- var RestDataSource_MaterialItem_IN_invoiceSales = isc.MyRestDataSource.create(
+    var RestDataSource_MaterialItem_IN_invoiceSales = isc.MyRestDataSource.create(
         {
             fields: [
                 {
@@ -312,7 +312,7 @@
                     name: "materialId",
                     hidden: true
                 },
-                ],
+            ],
             fetchDataURL: "${contextPath}/api/materialItem/spec-list"
         });
 
@@ -338,8 +338,7 @@
                         this.hide();
                     }
                 });
-        }
-        else {
+        } else {
             DynamicForm_invoiceSales.clearValues();
             DynamicForm_invoiceSales.editRecord(record);
             Window_invoiceSales.show();
@@ -348,58 +347,58 @@
 
 
     function ListGrid_InvoiceSales_remove() {
-    var record = ListGrid_invoiceSales.getSelectedRecord();
+        var record = ListGrid_invoiceSales.getSelectedRecord();
 
-    if (record == null || record.id == null) {
-        isc.Dialog.create({
-            message: "<spring:message code='global.grid.record.not.selected'/>",
-            icon: "[SKIN]ask.png",
-            title: "<spring:message code='global.message'/>",
-            buttons: [
-                isc.Button.create({
-                    title: "<spring:message code='global.ok'/>",
-                }),
-            ],
-            buttonClick: function () {
-                this.hide();
-            },
-        });
-    } else {
-        isc.Dialog.create({
-            message: "<spring:message code='global.grid.record.remove.ask'/>",
-            icon: "[SKIN]ask.png",
-            title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-            buttons: [
-                isc.Button.create({
-                    title: "<spring:message code='global.yes'/>",
-                }),
-                isc.Button.create({
-                    title: "<spring:message code='global.no'/>",
-                }),
-            ],
-            buttonClick: function (button, index) {
-                this.hide();
-                if (index == 0) {
-                    var invoiceSalesId = record.id;
-                    isc.RPCManager.sendRequest(
-                        Object.assign(BaseRPCRequest, {
-                            actionURL: "${contextPath}/api/invoiceSales/" + invoiceSalesId,
-                            httpMethod: "DELETE",
-                            callback: function (resp) {
-                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                    ListGrid_InvoiceSales_refresh();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                } else {
-                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                }
-                            },
-                        })
-                    );
-                }
-            },
-        });
+        if (record == null || record.id == null) {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.not.selected'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.message'/>",
+                buttons: [
+                    isc.Button.create({
+                        title: "<spring:message code='global.ok'/>",
+                    }),
+                ],
+                buttonClick: function () {
+                    this.hide();
+                },
+            });
+        } else {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.remove.ask'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                buttons: [
+                    isc.Button.create({
+                        title: "<spring:message code='global.yes'/>",
+                    }),
+                    isc.Button.create({
+                        title: "<spring:message code='global.no'/>",
+                    }),
+                ],
+                buttonClick: function (button, index) {
+                    this.hide();
+                    if (index == 0) {
+                        var invoiceSalesId = record.id;
+                        isc.RPCManager.sendRequest(
+                            Object.assign(BaseRPCRequest, {
+                                actionURL: "${contextPath}/api/invoiceSales/" + invoiceSalesId,
+                                httpMethod: "DELETE",
+                                callback: function (resp) {
+                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                        ListGrid_InvoiceSales_refresh();
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                    } else {
+                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                    }
+                                },
+                            })
+                        );
+                    }
+                },
+            });
+        }
     }
-}
 
     var Menu_ListGrid_InvoiceSales = isc.Menu.create(
         {
@@ -477,17 +476,18 @@
                     hidden: true
                 },
                 {
-                   type: "RowSpacerItem"
+                    type: "RowSpacerItem"
                 },
                 {
                     name: "serial",
                     title: "<spring:message code='invoiceSales.serial'/>",
                     required: true,
+                    errorOrientation: "bottom",
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }],
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
                 },
                 {
                     name: "invoiceNo",
@@ -500,7 +500,13 @@
                     title: "<spring:message code='invoiceSales.invoiceDate'/>",
                     ID: "invoiceDateId",
                     type: 'text',
-                    required: true ,
+                    required: true,
+                    errorOrientation: "bottom",
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
                     icons: [{
                         src: "pieces/pcal.png",
                         click: function () {
@@ -516,12 +522,13 @@
                     optionDataSource: RestDataSource_accDepartment,
                     displayField: "departmentName",
                     valueField: "departmentName",
-                    required: true ,
+                    required: true,
+                    errorOrientation: "bottom",
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }],
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
                     pickListProperties: {
                         showFilterEditor: true
                     },
@@ -544,42 +551,42 @@
                     optionCriteria: optionCriteria__Customer,
                     displayField: "code",
                     valueField: "id",
-                    required: true ,
+                    required: true,
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }],
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
+                    errorOrientation: "bottom",
                     pickListProperties: {
                         showFilterEditor: true
                     },
                     pickListFields: [
-                    {
-                        name: "detailName",
-                        title: "<spring:message code='invoiceSales.detailCode'/>",
-                        showHover: true
-                    },
-                    {
-                        name: "code",
-                        title: "<spring:message code='invoiceSales.code'/>",
-                        showHover: true
-                    },
+                        {
+                            name: "detailName",
+                            title: "<spring:message code='invoiceSales.detailCode'/>",
+                            showHover: true
+                        },
+                        {
+                            name: "code",
+                            title: "<spring:message code='invoiceSales.code'/>",
+                            showHover: true
+                        },
                     ],
                     changed: function (form, item, value) {
 
-                    if (value != null && value != 'undefined') {
-                        var detName =(form.getItem("customerId")).getSelectedRecord().detailName;
-                        (form.getItem("customerName")).setValue(detName);
-                    }
-                    else
-                        (form.getItem("customerName")).setValue("");
+                        if (value != null && value != 'undefined') {
+                            var detName = (form.getItem("customerId")).getSelectedRecord().detailName;
+                            (form.getItem("customerName")).setValue(detName);
+                        } else
+                            (form.getItem("customerName")).setValue("");
                     },
                 },
                 {
                     name: "customerName",
                     title: "<spring:message code='invoiceSales.customerName'/>",
                     type: "staticText",
-                    Value : ""
+                    Value: ""
                 },
                 {
                     name: "salesTypeName",
@@ -590,19 +597,20 @@
                     valueField: "salesType",
                     required: true,
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }],
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
+                    errorOrientation: "bottom",
                     pickListFields: [
-                    {
-                        name: "id",
-                        hidden: true
-                    },
-                    {
-                        name: "salesType",
-                        title: "<spring:message code='invoiceSales.salesTypeName'/>"
-                    }
+                        {
+                            name: "id",
+                            hidden: true
+                        },
+                        {
+                            name: "salesType",
+                            title: "<spring:message code='invoiceSales.salesTypeName'/>"
+                        }
                     ],
                 },
                 {
@@ -610,14 +618,15 @@
                     title: "<spring:message code='invoiceSales.contaminationTaxesName'/>",
                     required: true,
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }],
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
+                    errorOrientation: "bottom",
                     valueMap:
                         {
-                            "ندارد" : "ندارد",
-                            "دارد" : "دارد"
+                            "ندارد": "ندارد",
+                            "دارد": "دارد"
                         },
                     colSpan: 4
                 },
@@ -631,36 +640,37 @@
                     colSpan: 4,
                     required: true,
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }],
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
+                    errorOrientation: "bottom",
                     pickListProperties: {
                         showFilterEditor: true
                     },
                     pickListFields: [
-                    {
-                        name: "id",
-                        hidden: true
-                    },
-                    {
-                        name: "code",
-                        title: "<spring:message code='invoiceSales.paymentCode'/>"
-                    },
-                    {
-                        name: "paymentType",
-                        title: "<spring:message code='invoiceSales.paymentTypeName'/>",
-                        showHover: true
-                    },
-                    {
-                        name: "nonCash",
-                        title: "<spring:message code='invoiceSales.paymentNonCash'/>",
-                        valueMap:
                         {
-                            true : "بلی",
-                            false : "<spring:message code='global.no'/>",
+                            name: "id",
+                            hidden: true
                         },
-                    }
+                        {
+                            name: "code",
+                            title: "<spring:message code='invoiceSales.paymentCode'/>"
+                        },
+                        {
+                            name: "paymentType",
+                            title: "<spring:message code='invoiceSales.paymentTypeName'/>",
+                            showHover: true
+                        },
+                        {
+                            name: "nonCash",
+                            title: "<spring:message code='invoiceSales.paymentNonCash'/>",
+                            valueMap:
+                                {
+                                    true: "بلی",
+                                    false: "<spring:message code='global.no'/>",
+                                },
+                        }
                     ],
                 },
                 {
@@ -673,39 +683,39 @@
                     valueField: "id",
                     required: true,
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }],
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
+                    errorOrientation: "bottom",
                     // autoFetchData: false,
                     pickListProperties: {
                         showFilterEditor: true
                     },
                     pickListFields: [
-                    {
-                        name: "detailName",
-                        title: "<spring:message code='invoiceSales.detailCode'/>"
-                    },
-                    {
-                        name: "code",
-                        title: "<spring:message code='invoiceSales.code'/>"
-                    }
+                        {
+                            name: "detailName",
+                            title: "<spring:message code='invoiceSales.detailCode'/>"
+                        },
+                        {
+                            name: "code",
+                            title: "<spring:message code='invoiceSales.code'/>"
+                        }
                     ],
                     changed: function (form, item, value) {
 
-                    if (value != null && value != 'undefined') {
-                        var detName =(form.getItem("lcNoId")).getSelectedRecord().detailName;
-                        (form.getItem("lcNoName")).setValue(detName);
-                    }
-                    else
-                        (form.getItem("lcNoName")).setValue("");
+                        if (value != null && value != 'undefined') {
+                            var detName = (form.getItem("lcNoId")).getSelectedRecord().detailName;
+                            (form.getItem("lcNoName")).setValue(detName);
+                        } else
+                            (form.getItem("lcNoName")).setValue("");
                     },
                 },
                 {
                     name: "lcNoName",
                     title: "<spring:message code='invoiceSales.lcNoName'/>",
                     type: "staticText",
-                    Value : ""
+                    Value: ""
                 },
                 {
                     name: "preInvoiceId",
@@ -730,10 +740,11 @@
                     title: "<spring:message code='invoiceSales.issueId'/>",
                     required: true,
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }],
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
+                    errorOrientation: "bottom",
                     keyPressFilter: "[0-9.]"
                 },
                 {
@@ -742,6 +753,12 @@
                     ID: "issueDateId",
                     type: 'text',
                     required: true,
+                    errorOrientation: "bottom",
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
                     icons: [{
                         src: "pieces/pcal.png",
                         click: function () {
@@ -759,7 +776,7 @@
                 {
                     name: "firstContractNo",
                     title: "<spring:message code='invoiceSales.firstContractNo'/>",
-                    colSpan: 4 ,
+                    colSpan: 4,
                     keyPressFilter: "[0-9.]"
                 },
                 {
@@ -774,36 +791,35 @@
                         showFilterEditor: true
                     },
                     pickListFields: [
-                    {
-                        name: "detailName",
-                        title: "<spring:message code='invoiceSales.detailCode'/>"
-                    },
-                    {
-                        name: "code",
-                        title: "<spring:message code='invoiceSales.code'/>"
-                    }
+                        {
+                            name: "detailName",
+                            title: "<spring:message code='invoiceSales.detailCode'/>"
+                        },
+                        {
+                            name: "code",
+                            title: "<spring:message code='invoiceSales.code'/>"
+                        }
                     ],
                     changed: function (form, item, value) {
 
-                    if (value != null && value != 'undefined') {
-                        var detName =(form.getItem("secondContractNo")).getSelectedRecord().detailName;
-                        (form.getItem("secondContractName")).setValue(detName);
-                    }
-                    else
-                        (form.getItem("secondContractName")).setValue("");
+                        if (value != null && value != 'undefined') {
+                            var detName = (form.getItem("secondContractNo")).getSelectedRecord().detailName;
+                            (form.getItem("secondContractName")).setValue(detName);
+                        } else
+                            (form.getItem("secondContractName")).setValue("");
                     },
                 },
                 {
                     name: "secondContractName",
                     title: "<spring:message code='invoiceSales.secondContractName'/>",
                     type: "staticText",
-                    Value : ""
+                    Value: ""
                 },
 
             ]
         });
 
-     var ToolStripButton_InvoiceSales_Refresh = isc.ToolStripButtonRefresh.create({
+    var ToolStripButton_InvoiceSales_Refresh = isc.ToolStripButtonRefresh.create({
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_InvoiceSales_refresh();
@@ -900,8 +916,7 @@
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_InvoiceSales_refresh();
                                 Window_invoiceSales.close();
-                            }
-                            else
+                            } else
                                 isc.say(RpcResponse_o.data);
                         }
                     }));
@@ -1118,51 +1133,51 @@
                 }
             ],
             getExpansionComponent: function (record) {
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "invoiceSalesId", operator: "equals", value: record.id}]
-            };
+                var criteria1 = {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [{fieldName: "invoiceSalesId", operator: "equals", value: record.id}]
+                };
 
-            ListGrid_InvoiceSalesItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                if (data.length == 0) {
-                    recordNotFound.show();
-                    ListGrid_InvoiceSalesItem.hide()
-                } else {
-                    recordNotFound.hide();
-                    ListGrid_InvoiceSalesItem.setData(data);
-                    ListGrid_InvoiceSalesItem.setAutoFitMaxRecords(1);
-                    ListGrid_InvoiceSalesItem.show();
-                }
-            }, {operationId: "00"});
+                ListGrid_InvoiceSalesItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+                    if (data.length == 0) {
+                        recordNotFound.show();
+                        ListGrid_InvoiceSalesItem.hide()
+                    } else {
+                        recordNotFound.hide();
+                        ListGrid_InvoiceSalesItem.setData(data);
+                        ListGrid_InvoiceSalesItem.setAutoFitMaxRecords(1);
+                        ListGrid_InvoiceSalesItem.show();
+                    }
+                }, {operationId: "00"});
 
 
-            var hLayout = isc.HLayout.create({
-                align: "center", padding: 5,
-                membersMargin: 20,
-                members: [
-                    <sec:authorize access="hasAuthority('C_INVOICE_SALES_ITEM')">
-                        ToolStripButton_InvoiceSalesItem_Add ,
-                    </sec:authorize>
-                    //TODO ADD authorize !important
-                    ToolStripButton_InvoiceSales_Pdf
-                ]
-            });
+                var hLayout = isc.HLayout.create({
+                    align: "center", padding: 5,
+                    membersMargin: 20,
+                    members: [
+                        <sec:authorize access="hasAuthority('C_INVOICE_SALES_ITEM')">
+                        ToolStripButton_InvoiceSalesItem_Add,
+                        </sec:authorize>
+                        //TODO ADD authorize !important
+                        ToolStripButton_InvoiceSales_Pdf
+                    ]
+                });
 
-            var layoutInvoiceSales = isc.VLayout.create({
-                styleName: "expand-layout",
-                padding: 5,
-                membersMargin: 10,
-                members: [
-                    ListGrid_InvoiceSalesItem,
-                    recordNotFound,
-                    hLayout
-                ]
-            });
+                var layoutInvoiceSales = isc.VLayout.create({
+                    styleName: "expand-layout",
+                    padding: 5,
+                    membersMargin: 10,
+                    members: [
+                        ListGrid_InvoiceSalesItem,
+                        recordNotFound,
+                        hLayout
+                    ]
+                });
 
-            return layoutInvoiceSales;
-        }
-    });
+                return layoutInvoiceSales;
+            }
+        });
 
     var HLayout_InvoiceSales_Grid = isc.HLayout.create({
         width: "100%",
@@ -1234,8 +1249,7 @@
                         this.hide();
                     }
                 });
-        }
-        else {
+        } else {
             isc.Dialog.create(
                 {
                     message: "<spring:message code='global.grid.record.remove.ask'/>",
@@ -1261,8 +1275,7 @@
                                         if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_InvoiceSalesItem_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                        }
-                                        else {
+                                        } else {
                                             isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                         }
                                     },
@@ -1284,36 +1297,36 @@
                     ListGrid_InvoiceSalesItem_refresh();
                 }
             },
-<sec:authorize access="hasAuthority('C_INVOICE_SALES_ITEM')">
-    {
-    title: "<spring:message code='global.form.new'/>",
-    icon: "pieces/16/icon_add.png",
-    click: function () {
-    DynamicForm_InvoiceSalesItem.clearValues();
-    Window_InvoiceSalesItem.show();
-    }
-    },
-</sec:authorize>
+            <sec:authorize access="hasAuthority('C_INVOICE_SALES_ITEM')">
+            {
+                title: "<spring:message code='global.form.new'/>",
+                icon: "pieces/16/icon_add.png",
+                click: function () {
+                    DynamicForm_InvoiceSalesItem.clearValues();
+                    Window_InvoiceSalesItem.show();
+                }
+            },
+            </sec:authorize>
 
-<sec:authorize access="hasAuthority('U_INVOICE_SALES_ITEM')">
-    {
-    title: "<spring:message code='global.form.edit'/>",
-    icon: "pieces/16/icon_edit.png",
-    click: function () {
-    ListGrid_InvoiceSalesItem_edit();
-    }
-    },
-</sec:authorize>
+            <sec:authorize access="hasAuthority('U_INVOICE_SALES_ITEM')">
+            {
+                title: "<spring:message code='global.form.edit'/>",
+                icon: "pieces/16/icon_edit.png",
+                click: function () {
+                    ListGrid_InvoiceSalesItem_edit();
+                }
+            },
+            </sec:authorize>
 
-<sec:authorize access="hasAuthority('D_INVOICE_SALES_ITEM')">
-    {
-    title: "<spring:message code='global.form.remove'/>",
-    icon: "pieces/16/icon_delete.png",
-    click: function () {
-    ListGrid_InvoiceSalesItem_remove();
-    }
-    }
-</sec:authorize>
+            <sec:authorize access="hasAuthority('D_INVOICE_SALES_ITEM')">
+            {
+                title: "<spring:message code='global.form.remove'/>",
+                icon: "pieces/16/icon_delete.png",
+                click: function () {
+                    ListGrid_InvoiceSalesItem_remove();
+                }
+            }
+            </sec:authorize>
         ]
     });
 
@@ -1341,17 +1354,17 @@
                     valueField: "id",
                     required: true,
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }],
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
                     pickListFields: [
-                    {
-                        name: "gdsCode"
-                    },
-                    {
-                        name: "gdsName"
-                    }
+                        {
+                            name: "gdsCode"
+                        },
+                        {
+                            name: "gdsName"
+                        }
                     ],
                     changed: function (form, item, value) {
                         var prodRecord = DynamicForm_InvoiceSalesItem.getItem("productCode").getSelectedRecord()
@@ -1372,17 +1385,17 @@
                     valueField: "nameFA",
                     required: true,
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }],
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
                     pickListFields: [
-                    {
-                        name: "nameFA"
-                    },
-                    {
-                        name: "nameEN"
-                    }
+                        {
+                            name: "nameFA"
+                        },
+                        {
+                            name: "nameEN"
+                        }
                     ]
                 },
                 {
@@ -1446,7 +1459,7 @@
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }],
-                    changed: function(){
+                    changed: function () {
                         updatePrice();
                     }
                 },
@@ -1491,9 +1504,9 @@
     });
 
     var criteria1 = {
-            _constructor: "AdvancedCriteria",
-            operator: "and",
-            criteria: [{fieldName: "year", operator: "equals", value: year}]
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "year", operator: "equals", value: year}]
     };
 
     RestDataSource_percentPerYear.fetchData(criteria1, function (dsResponse, data, dsRequest) {
@@ -1501,9 +1514,9 @@
         vatTotal = data[0].tvat;
     });
 
-    function updatePrice(){
-        var net =(DynamicForm_InvoiceSalesItem.getItem("netAmount")).getValue();
-        var unit =(DynamicForm_InvoiceSalesItem.getItem("unitPrice")).getValue();
+    function updatePrice() {
+        var net = (DynamicForm_InvoiceSalesItem.getItem("netAmount")).getValue();
+        var unit = (DynamicForm_InvoiceSalesItem.getItem("unitPrice")).getValue();
         DynamicForm_InvoiceSalesItem.getItem("linePrice").setValue(net * unit);
 
         var line = DynamicForm_InvoiceSalesItem.getItem("linePrice").getValue();
@@ -1511,11 +1524,11 @@
         var lineAfterDisc = line - disc;
         DynamicForm_InvoiceSalesItem.getItem("linePriceAfterDiscount").setValue(lineAfterDisc);
 
-        DynamicForm_InvoiceSalesItem.getItem("legalFees").setValue( line*legTotal );
-        DynamicForm_InvoiceSalesItem.getItem("vat").setValue( line* vatTotal);
+        DynamicForm_InvoiceSalesItem.getItem("legalFees").setValue(line * legTotal);
+        DynamicForm_InvoiceSalesItem.getItem("vat").setValue(line * vatTotal);
 
         DynamicForm_InvoiceSalesItem.getItem("totalPrice").setValue(
-            lineAfterDisc+DynamicForm_InvoiceSalesItem.getItem("legalFees").getValue()+
+            lineAfterDisc + DynamicForm_InvoiceSalesItem.getItem("legalFees").getValue() +
             DynamicForm_InvoiceSalesItem.getItem("vat").getValue()
         );
     }
@@ -1527,17 +1540,17 @@
         }
     });
 
-<sec:authorize access="hasAuthority('C_INVOICE_SALES_ITEM')">
+    <sec:authorize access="hasAuthority('C_INVOICE_SALES_ITEM')">
     var ToolStripButton_InvoiceSalesItem_Add = isc.ToolStripButtonAddLarge.create({
-    title: "<spring:message code='global.form.new.subInvoice'/>",
-    click: function () {
-    var record = ListGrid_invoiceSales.getSelectedRecord();
+        title: "<spring:message code='global.form.new.subInvoice'/>",
+        click: function () {
+            var record = ListGrid_invoiceSales.getSelectedRecord();
 
-    if (record == null || record.id == null) {
-    isc.Dialog.create({
-    message: "<spring:message code='global.grid.record.not.selected'/>",
-    icon: "[SKIN]ask.png",
-    title: "<spring:message code='global.message'/>",
+            if (record == null || record.id == null) {
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                     buttonClick: function () {
                         this.hide();
@@ -1552,31 +1565,31 @@
     });
     </sec:authorize>
 
-<sec:authorize access="hasAuthority('U_INVOICE_SALES_ITEM')">
+    <sec:authorize access="hasAuthority('U_INVOICE_SALES_ITEM')">
     var ToolStripButton_InvoiceSalesItem_Edit = isc.ToolStripButtonEdit.create({
-    title: "<spring:message code='global.form.edit'/>",
-    click: function () {
-    DynamicForm_InvoiceSalesItem.clearValues();
-    ListGrid_InvoiceSalesItem_edit();
-    }
+        title: "<spring:message code='global.form.edit'/>",
+        click: function () {
+            DynamicForm_InvoiceSalesItem.clearValues();
+            ListGrid_InvoiceSalesItem_edit();
+        }
     });
-</sec:authorize>
+    </sec:authorize>
 
-<sec:authorize access="hasAuthority('D_INVOICE_SALES_ITEM')">
+    <sec:authorize access="hasAuthority('D_INVOICE_SALES_ITEM')">
     var ToolStripButton_InvoiceSalesItem_Remove = isc.ToolStripButtonRemove.create({
-    title: "<spring:message code='global.form.remove'/>",
-    click: function () {
-    ListGrid_InvoiceSalesItem_remove();
-    }
+        title: "<spring:message code='global.form.remove'/>",
+        click: function () {
+            ListGrid_InvoiceSalesItem_remove();
+        }
     });
-</sec:authorize>
+    </sec:authorize>
 
 
     function ToolStripButton_InvoiceSales_Pdf_F() {
         ListGrid_InvoiceSalesItem.selectAllRecords();
         var itemsLength = ListGrid_InvoiceSalesItem.getSelectionLength();
         ListGrid_InvoiceSalesItem.deselectAllRecords();
-        if (itemsLength > 0 ) {
+        if (itemsLength > 0) {
             var rowId = ListGrid_invoiceSales.getSelectedRecord().id;
             window.open("invoiceSales/print/pdf/" + rowId);
         } else {
@@ -1596,17 +1609,17 @@
         width: "100%",
         members:
             [
-<sec:authorize access="hasAuthority('C_INVOICE_SALES_ITEM')">
-    ToolStripButton_InvoiceSalesItem_Add,
-</sec:authorize>
+                <sec:authorize access="hasAuthority('C_INVOICE_SALES_ITEM')">
+                ToolStripButton_InvoiceSalesItem_Add,
+                </sec:authorize>
 
-<sec:authorize access="hasAuthority('U_INVOICE_SALES_ITEM')">
-    ToolStripButton_InvoiceSalesItem_Edit,
-</sec:authorize>
+                <sec:authorize access="hasAuthority('U_INVOICE_SALES_ITEM')">
+                ToolStripButton_InvoiceSalesItem_Edit,
+                </sec:authorize>
 
-<sec:authorize access="hasAuthority('D_INVOICE_SALES_ITEM')">
-    ToolStripButton_InvoiceSalesItem_Remove,
-</sec:authorize>
+                <sec:authorize access="hasAuthority('D_INVOICE_SALES_ITEM')">
+                ToolStripButton_InvoiceSalesItem_Remove,
+                </sec:authorize>
                 ToolStripButton_InvoiceSales_Pdf,
 
                 isc.ToolStrip.create({
@@ -1626,7 +1639,7 @@
         members:
             [
                 ToolStrip_Actions_InvoiceSalesItem
-]
+            ]
     });
 
     function setCriteria_ListGrid(recordId) {
@@ -1667,8 +1680,7 @@
                                 ListGrid_InvoiceSalesItem.invalidateCache();
                                 setCriteria_ListGrid(data.invoiceSalesId);
                                 Window_InvoiceSalesItem.close();
-                            }
-                            else
+                            } else
                                 isc.say(RpcResponse_o.data);
                         },
 
@@ -1835,7 +1847,7 @@
                         align: "center"
                     });
                 if (fieldName == "editIcon" &&
-"${SecurityUtil.hasAuthority('U_INVOICE_SALES_ITEM')}".toString() === "true") {
+                    "${SecurityUtil.hasAuthority('U_INVOICE_SALES_ITEM')}".toString() === "true") {
                     var editImg = isc.ImgButton.create(
                         {
                             showDown: false,
@@ -1852,9 +1864,8 @@
                             }
                         });
                     return editImg;
-                }
-                else if (fieldName == "removeIcon" &&
-"${SecurityUtil.hasAuthority('D_INVOICE_SALES_ITEM')}".toString() === "true") {
+                } else if (fieldName == "removeIcon" &&
+                    "${SecurityUtil.hasAuthority('D_INVOICE_SALES_ITEM')}".toString() === "true") {
                     var removeImg = isc.ImgButton.create(
                         {
                             showDown: false,
@@ -1871,8 +1882,7 @@
                             }
                         });
                     return removeImg;
-                }
-                else {
+                } else {
                     return null;
                 }
             }
