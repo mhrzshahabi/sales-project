@@ -1,5 +1,7 @@
 package com.nicico.sales.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.core.SecurityUtil;
 import com.nicico.copper.core.service.minio.EFileAccessLevel;
 import com.nicico.sales.dto.FileDTO;
@@ -17,15 +19,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.validation.constraints.NotNull;
+import java.io.*;
+import java.nio.file.Files;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,6 +38,7 @@ import java.util.stream.Collectors;
 public class FileService implements IFileService {
 
     private final ModelMapper modelMapper;
+    private final ObjectMapper objectMapper;
     private final IStorageApiService storageApiService;
 
     private final FileDAO fileDAO;
@@ -42,6 +47,9 @@ public class FileService implements IFileService {
 
     @Value("${spring.application.name}")
     private String appId;
+    @Value("${nicico.upload.dir}")
+    private String uploadDir;
+    private final String localFileDir = "/minio";
 
     @Override
     @Transactional(readOnly = true)
@@ -52,7 +60,7 @@ public class FileService implements IFileService {
 
     @Override
     @Transactional
-    public void createFiles(Long recordId, List<MultipartFile> files, List<FileDTO.FileData> fileData) throws Exception {
+    public void createFiles(Long recordId, List<MultipartFile> files, List<FileDTO.FileData> fileData) throws IOException {
         int bound = fileData.size();
         for (int index = 0; index < bound; index++) {
             try {
@@ -67,7 +75,7 @@ public class FileService implements IFileService {
 
     @Override
     @Transactional
-    public void updateFiles(Long recordId, String entityName, List<MultipartFile> files, List<FileDTO.FileData> fileData) throws Exception {
+    public void updateFiles(Long recordId, String entityName, List<MultipartFile> files, List<FileDTO.FileData> fileData) throws IOException {
         final List<FileDTO.FileMetaData> savedFileData = getFiles(recordId, entityName);
         if (fileData.size() == 0 && savedFileData.size() == 0) return;
 
@@ -94,16 +102,25 @@ public class FileService implements IFileService {
 
     @Override
     @Transactional
-    public String store(FileDTO.Request request) throws Exception {
-        final StorageDTO.StoreResponse storeResponse = storageApiService.store(request.getFile(), request.getTags());
-        if (storeResponse.getStatus() != 200) {
+    public String store(FileDTO.Request request) throws IOException {
+
+        String fileKey;
+        StorageDTO.StoreResponse storeResponse = null;
+        try {
+            storeResponse = storageApiService.store(request.getFile(), request.getTags());
+            fileKey = storeResponse.getKey();
+        } catch (Exception e) {
+            fileKey = storeFileInApp(request.getFile(), request.getTags());
+        }
+
+        if (storeResponse != null && storeResponse.getStatus() != 200) {
             throw new SalesException2(ErrorType.InternalServerError, null, storeResponse.getMessage());
         }
 
         final File file = new File()
                 .setEntityName(request.getEntityName())
                 .setRecordId(request.getRecordId())
-                .setFileKey(storeResponse.getKey())
+                .setFileKey(fileKey)
                 .setFileStatus(EFileStatus.NORMAL)
                 .setAccessLevel(request.getAccessLevel())
                 .setPermissions(request.getPermissions())
@@ -111,22 +128,32 @@ public class FileService implements IFileService {
 
         fileDAO.saveAndFlush(file);
 
-        return storeResponse.getKey();
+        return fileKey;
     }
 
     @Override
-    public FileDTO.Response retrieve(String key) {
+    public FileDTO.Response retrieve(String key) throws IOException {
+
+        List<StorageDTO.Tag> tagsResponse;
+        StorageDTO.InfoResponse infoResponse = null;
+        StorageDTO.RetrieveResponse retrieveResponse;
         final File file = accessCheck(key, EFileStatus.NORMAL);
+        try {
+            retrieveResponse = storageApiService.retrieve(key);
+            infoResponse = storageApiService.info(key);
+            tagsResponse = infoResponse.getTags();
 
-        final StorageDTO.RetrieveResponse retrieveResponse = storageApiService.retrieve(key);
+        } catch (Exception e) {
+            StorageDTO.RetrieveResponseInApp retrieveResponseInApp = retrieveFileInApp(key);
+            tagsResponse = retrieveResponseInApp.getTagsResponse();
+            retrieveResponse = retrieveResponseInApp;
+        }
 
-        final StorageDTO.InfoResponse infoResponse = storageApiService.info(key);
         final Map<String, Object> tags = new HashMap<>();
+        if (tagsResponse != null)
+            tagsResponse.forEach(tag -> tags.put(tag.getKey(), tag.getValue()));
 
-        if (infoResponse.getTags() != null)
-            infoResponse.getTags().forEach(tag -> tags.put(tag.getKey(), tag.getValue()));
-
-        if (infoResponse.getStatus() == 100)
+        if (infoResponse != null && infoResponse.getStatus() == 100)
             throw new SalesException2(ErrorType.InternalServerError, null, infoResponse.getMessage());
 
         return new FileDTO.Response()
@@ -198,5 +225,104 @@ public class FileService implements IFileService {
         }
 
         return file;
+    }
+
+    private byte[] readFile(String fileName) throws IOException {
+
+        java.io.File file = new java.io.File(uploadDir + localFileDir + "/" + fileName);
+        if (!file.exists())
+            return new byte[0];
+
+        return Files.readAllBytes(file.toPath());
+    }
+
+    private List<StorageDTO.Tag> readTag(String fileName) throws IOException {
+
+        java.io.File file = new java.io.File(uploadDir + localFileDir + "/" + fileName);
+        if (!file.exists())
+            return null;
+
+        byte[] readAllBytes = Files.readAllBytes(file.toPath());
+        return objectMapper.readValue(readAllBytes, new TypeReference<List<StorageDTO.Tag>>() {
+        });
+    }
+
+    private Map<String, String> readData(String fileName) throws IOException {
+
+        java.io.File file = new java.io.File(uploadDir + localFileDir + "/" + fileName);
+        if (!file.exists())
+            return new HashMap<>();
+
+        byte[] readAllBytes = Files.readAllBytes(file.toPath());
+        return objectMapper.readValue(readAllBytes, new TypeReference<Map<String, String>>() {
+        });
+    }
+
+    private void writeFile(String fileName, String content) throws IOException {
+
+        java.io.File fileDir = new java.io.File(uploadDir + localFileDir);
+        if (!fileDir.exists())
+            fileDir.mkdirs();
+
+        FileWriter writer = new FileWriter(uploadDir + localFileDir + "/" + fileName);
+        writer.write(content);
+        writer.close();
+    }
+
+    private void writeFile(String fileName, InputStream stream) throws IOException {
+
+        byte[] buffer = new byte[stream.available()];
+        stream.read(buffer);
+
+        java.io.File fileDir = new java.io.File(uploadDir + localFileDir);
+        if (!fileDir.exists())
+            fileDir.mkdirs();
+
+        java.io.File targetFile = new java.io.File(uploadDir + localFileDir + "/" + fileName);
+        OutputStream outStream = new FileOutputStream(targetFile);
+        outStream.write(buffer);
+    }
+
+    private String generateFileKey() {
+
+        String saltChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 36) {
+            int index = (int) (rnd.nextFloat() * saltChars.length());
+            salt.append(saltChars.charAt(index));
+        }
+        return salt.toString();
+    }
+
+    private String storeFileInApp(@NotNull MultipartFile file, String tags) throws IOException {
+
+        String fileKey = generateFileKey();
+        while (fileDAO.findByFileKey(fileKey).isPresent())
+            fileKey = generateFileKey();
+
+        writeFile(fileKey, file.getInputStream());
+        if (tags != null)
+            writeFile(fileKey + ".tag", tags);
+        writeFile(fileKey + ".data", "{\"" + file.getOriginalFilename() + "\":\"" + file.getContentType() + "\"}");
+
+        return fileKey;
+    }
+
+    private StorageDTO.RetrieveResponseInApp retrieveFileInApp(String key) throws IOException {
+
+        byte[] content = readFile(key);
+        List<StorageDTO.Tag> tags = readTag(key + ".tag");
+        Map<String, String> data = readData(key + ".data");
+
+        StorageDTO.RetrieveResponseInApp retrieveResponseInApp = new StorageDTO.RetrieveResponseInApp();
+        retrieveResponseInApp.
+                setTagsResponse(tags).
+                setContent(content).
+                setContentLength((long) content.length).
+                setContentType(MediaType.parseMediaType(data.values().iterator().next())).
+                setContentDisposition(ContentDisposition.parse("attachment; filename=" + data.keySet().iterator().next()));
+
+        return retrieveResponseInApp;
     }
 }
