@@ -434,10 +434,11 @@ reportGeneratorTab.window.report.getButtonLayout = function () {
                         nicico.FilterFormUtil.show(null,
                             '<spring:message code="global.form.filter"/>',
                             reportGeneratorTab.restDataSource.filterReport,
-                            criteria1);
+                            criteria1,"70%","300");
                         nicico.FilterFormUtil.okCallBack = function (criteria) {
 
-                            reportGeneratorTab.dynamicForm.report.setValue("criteria", JSON.stringify(criteria));
+                            if(!JSON.stringify(criteria).contains("[]"))
+                                reportGeneratorTab.dynamicForm.report.setValue("criteria", JSON.stringify(criteria));
                         }
                     }
                 })

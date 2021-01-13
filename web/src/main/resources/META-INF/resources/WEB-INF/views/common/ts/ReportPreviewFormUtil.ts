@@ -448,7 +448,7 @@ namespace nicico {
                     creator.listGrid.main.setCriteria(criteria);
                 };
                 // @ts-ignore
-                FilterFormUtil.show(null, '<spring:message code="global.form.filter"/>' + " - " + report.title, dataSource, creator.listGrid.main.getCriteria());
+                FilterFormUtil.show(null, '<spring:message code="global.form.filter"/>' + " - " + report.title, dataSource, creator.listGrid.main.getCriteria(),"70%", "300");
             };
             BasicFormUtil.createDynamicForm = function (c) {
                 // @ts-ignore
