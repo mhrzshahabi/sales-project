@@ -33,12 +33,13 @@ contractTab.restDataSource.contractDetailType = isc.MyRestDataSource.create({
 contractTab.method.getDynamicFormFields = function () {
 
     return BaseFormItems.concat([
-        // {
-        //     useInGrid: true,
-        //     name: "content",
-        //     width: "100%",
-        //     hidden: true
-        // },
+        {
+            useInGrid: true,
+            name: "parentId",
+            width: "100%",
+            hidden: true,
+            title: "<spring:message code='contract.id'/>"
+        },
         {
             useInGrid: true,
             name: "no",
@@ -1170,7 +1171,7 @@ if (contractTab.variable.contractType === "1") {
                                 fieldName: 'parentId',
                                 operator: 'equals',
                                 value: crt
-                            },
+                            }
                         ]
                     }
                 ]
@@ -1358,7 +1359,11 @@ contractTab.method.editForm = function () {
                         contractTab.listGrid.contractDetailType.appendixMode = null;
                     });
 
-                    contractTab.window.main.setTitle("<spring:message code='contract.window.title.edit'/>" + "\t" + listGridRecord.material.descEN);
+                    if (contractTab.listGrid.contractDetailType.appendixMode)
+                        contractTab.window.main.setTitle("<spring:message code='contract.appendix'/>");
+                    else
+                        contractTab.window.main.setTitle("<spring:message code='contract.window.title.edit'/>" + "\t" + listGridRecord.material.descEN);
+
                     contractTab.window.main.show();
                 } else
                     contractTab.dialog.error(resp);
