@@ -461,6 +461,7 @@
         wrapItemTitles: false,
         cellPadding: "10",
         dataSource: RestDataSource_Shipment__SHIPMENT,
+        errorOrientation: "bottom",
         fields: [
             {type: "header"},
             {name: "id", hidden: true},
@@ -560,6 +561,11 @@
                 optionDataSource: RestDataSource_incotermRules,
                 pickListProperties: {showFilterEditor: true},
                 pickListHeight: "500",
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }],
                 pickListFields: [
                     {
                         name: "id",
@@ -693,6 +699,12 @@
                 type: 'long',
                 width: "100%",
                 keyPressFilter: "[0-9]",
+                required: true,
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }],
             },
             {
                 name: "shipmentTypeId",
