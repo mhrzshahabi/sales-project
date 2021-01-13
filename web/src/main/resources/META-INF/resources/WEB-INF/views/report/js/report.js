@@ -430,10 +430,11 @@ reportGeneratorTab.window.report.getButtonLayout = function () {
                                 title: p["title" + nicico.CommonUtil.getLang().toUpperCase()]
                             }
                         }));
+                        let criteria1 = (reportGeneratorTab.dynamicForm.report.getValue("criteria") ? JSON.parse(reportGeneratorTab.dynamicForm.report.getValue("criteria")) : null);
                         nicico.FilterFormUtil.show(null,
                             '<spring:message code="global.form.filter"/>',
                             reportGeneratorTab.restDataSource.filterReport,
-                            JSON.parse(reportGeneratorTab.dynamicForm.report.getValue("criteria")));
+                            criteria1);
                         nicico.FilterFormUtil.okCallBack = function (criteria) {
 
                             reportGeneratorTab.dynamicForm.report.setValue("criteria", JSON.stringify(criteria));
