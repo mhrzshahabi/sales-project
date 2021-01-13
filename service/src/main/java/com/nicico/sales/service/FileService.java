@@ -143,6 +143,13 @@ public class FileService implements IFileService {
             infoResponse = storageApiService.info(key);
             tagsResponse = infoResponse.getTags();
 
+            if (retrieveResponse != null && retrieveResponse.getContentLength() < 0) {
+
+                StorageDTO.RetrieveResponseInApp retrieveResponseInApp = retrieveFileInApp(key);
+                tagsResponse = retrieveResponseInApp.getTagsResponse();
+                retrieveResponse = retrieveResponseInApp;
+            }
+
         } catch (Exception e) {
             StorageDTO.RetrieveResponseInApp retrieveResponseInApp = retrieveFileInApp(key);
             tagsResponse = retrieveResponseInApp.getTagsResponse();
@@ -153,7 +160,7 @@ public class FileService implements IFileService {
         if (tagsResponse != null)
             tagsResponse.forEach(tag -> tags.put(tag.getKey(), tag.getValue()));
 
-        if (infoResponse != null && infoResponse.getStatus() == 100)
+        if (retrieveResponse.getContentLength() < 0 && infoResponse != null && infoResponse.getStatus() == 100)
             throw new SalesException2(ErrorType.InternalServerError, null, infoResponse.getMessage());
 
         return new FileDTO.Response()
@@ -285,7 +292,7 @@ public class FileService implements IFileService {
 
     private String generateFileKey() {
 
-        String saltChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+        String saltChars = "-abcdefghijklmnopqrstuvwxyz1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
         while (salt.length() < 36) {
