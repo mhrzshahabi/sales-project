@@ -777,11 +777,12 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
     width: 150,
     title: "<spring:message code='global.form.add.detail'/>",
     click: function () {
-        let validateForm = foreignInvoiceTab.dynamicForm.baseData.Super("validate", arguments);
-        if(!validateForm) return;
+
         let contractId;
-        if (!foreignInvoiceTab.variable.completionInvoice)
+        if (!foreignInvoiceTab.variable.completionInvoice) {
+            if (!foreignInvoiceTab.dynamicForm.baseData.validate()) return;
             contractId = foreignInvoiceTab.dynamicForm.baseData.getValue("contractId");
+        }
         else
             contractId = foreignInvoiceTab.listGrid.main.getSelectedRecord().shipment.contractShipment.contract.id;
 
@@ -796,8 +797,6 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
 
                 foreignInvoiceTab.variable.contractDetailData = JSON.parse(resp.data);
                 if (!foreignInvoiceTab.variable.completionInvoice) {
-
-                    if (!foreignInvoiceTab.dynamicForm.baseData.validate()) return;
 
                     foreignInvoiceTab.tab.invoice.removeTabs(foreignInvoiceTab.tab.invoice.tabs);
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue(
@@ -825,6 +824,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
 
                     foreignInvoiceTab.method.continueTab();
                 } else {
+
 
                     let recordId = foreignInvoiceTab.listGrid.main.getSelectedRecord().id;
                     foreignInvoiceTab.method.jsonRPCManagerRequest({

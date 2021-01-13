@@ -61,6 +61,26 @@ public class InspectionReportDTO {
         private List<EStatus> eStatus;
     }
 
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("InspectionReportFIInfo")
+    public static class FIInfo extends InspectionReportDTO {
+
+        private Long id;
+
+        // Auditing
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
+    }
+
 
     @Getter
     @Setter
