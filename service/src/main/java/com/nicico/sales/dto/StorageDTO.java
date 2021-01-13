@@ -1,17 +1,13 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.copper.core.service.minio.EFileAccessLevel;
-import com.nicico.sales.model.enumeration.EFileStatus;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.MediaType;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +87,7 @@ public class StorageDTO {
     @ApiModel("RetrieveResponseInApp")
     public static class RetrieveResponseInApp extends RetrieveResponse {
         private String name;
+        private String contentTypeName;
         List<StorageDTO.Tag> tagsResponse;
     }
 }

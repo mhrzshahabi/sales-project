@@ -21,7 +21,6 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.MediaType;
-import org.springframework.lang.NonNullApi;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -47,7 +46,7 @@ public class FileService implements IFileService {
     // ---------------
 
     @RequiredArgsConstructor
-    public class MyMultipartFile implements MultipartFile {
+    private static class MyMultipartFile implements MultipartFile {
 
         private final String name;
         private final String contentType;
@@ -203,7 +202,7 @@ public class FileService implements IFileService {
 
                     String tags = null;
                     if (tagsResponse != null) tags = objectMapper.writeValueAsString(tagsResponse);
-                    MyMultipartFile fileToStore = new MyMultipartFile(retrieveResponseInApp.getName(), retrieveResponseInApp.getContentType().getType(), retrieveResponseInApp.getContent());
+                    MyMultipartFile fileToStore = new MyMultipartFile(retrieveResponseInApp.getName(), retrieveResponseInApp.getContentTypeName(), retrieveResponseInApp.getContent());
                     StorageDTO.StoreResponse store = storageApiService.store(fileToStore, tags);
 
                     file.setFileKey(store.getKey());
@@ -387,6 +386,7 @@ public class FileService implements IFileService {
         retrieveResponseInApp.
                 setTagsResponse(tags).
                 setName(data.keySet().iterator().next()).
+                setContentTypeName(data.values().iterator().next()).
                 setContent(content).
                 setContentLength((long) content.length).
                 setContentType(MediaType.parseMediaType(data.values().iterator().next())).
