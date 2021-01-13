@@ -90,6 +90,7 @@ public class StorageDTO {
     @Accessors(chain = true)
     @ApiModel("RetrieveResponseInApp")
     public static class RetrieveResponseInApp extends RetrieveResponse {
+        private String name;
         List<StorageDTO.Tag> tagsResponse;
     }
 }

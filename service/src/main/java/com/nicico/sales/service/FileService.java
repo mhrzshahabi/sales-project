@@ -21,6 +21,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.MediaType;
+import org.springframework.lang.NonNullApi;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -42,6 +43,56 @@ public class FileService implements IFileService {
     private final IStorageApiService storageApiService;
 
     private final FileDAO fileDAO;
+
+    // ---------------
+
+    @RequiredArgsConstructor
+    public class MyMultipartFile implements MultipartFile {
+
+        private final String name;
+        private final String contentType;
+        private final byte[] content;
+
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public String getOriginalFilename() {
+            return name;
+        }
+
+        @Override
+        public String getContentType() {
+            return contentType;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return content == null || content.length == 0;
+        }
+
+        @Override
+        public long getSize() {
+            return content.length;
+        }
+
+        @Override
+        public byte[] getBytes() {
+            return content;
+        }
+
+        @Override
+        public InputStream getInputStream() {
+            return new ByteArrayInputStream(content);
+        }
+
+        @Override
+        public void transferTo(java.io.File dest) throws IOException, IllegalStateException {
+            new FileOutputStream(dest).write(content);
+        }
+    }
 
     // ---------------
 
@@ -143,11 +194,20 @@ public class FileService implements IFileService {
             infoResponse = storageApiService.info(key);
             tagsResponse = infoResponse.getTags();
 
-            if (retrieveResponse != null && retrieveResponse.getContentLength() < 0) {
+            if (infoResponse.getStatus() == 100) {
 
                 StorageDTO.RetrieveResponseInApp retrieveResponseInApp = retrieveFileInApp(key);
                 tagsResponse = retrieveResponseInApp.getTagsResponse();
                 retrieveResponse = retrieveResponseInApp;
+                try {
+
+                    String tags = null;
+                    if (tagsResponse != null) tags = objectMapper.writeValueAsString(tagsResponse);
+                    MyMultipartFile fileToStore = new MyMultipartFile(retrieveResponseInApp.getName(), retrieveResponseInApp.getContentType().getType(), retrieveResponseInApp.getContent());
+                    storageApiService.store(fileToStore, tags);
+                } catch (Exception e) {
+                    // ignore
+                }
             }
 
         } catch (Exception e) {
@@ -159,9 +219,6 @@ public class FileService implements IFileService {
         final Map<String, Object> tags = new HashMap<>();
         if (tagsResponse != null)
             tagsResponse.forEach(tag -> tags.put(tag.getKey(), tag.getValue()));
-
-        if (retrieveResponse.getContentLength() < 0 && infoResponse != null && infoResponse.getStatus() == 100)
-            throw new SalesException2(ErrorType.InternalServerError, null, infoResponse.getMessage());
 
         return new FileDTO.Response()
                 .setContent(retrieveResponse.getContent())
@@ -292,7 +349,7 @@ public class FileService implements IFileService {
 
     private String generateFileKey() {
 
-        String saltChars = "-abcdefghijklmnopqrstuvwxyz1234567890";
+        String saltChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
         while (salt.length() < 36) {
@@ -325,6 +382,7 @@ public class FileService implements IFileService {
         StorageDTO.RetrieveResponseInApp retrieveResponseInApp = new StorageDTO.RetrieveResponseInApp();
         retrieveResponseInApp.
                 setTagsResponse(tags).
+                setName(data.keySet().iterator().next()).
                 setContent(content).
                 setContentLength((long) content.length).
                 setContentType(MediaType.parseMediaType(data.values().iterator().next())).
