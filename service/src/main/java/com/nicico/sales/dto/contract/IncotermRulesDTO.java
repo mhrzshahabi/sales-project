@@ -1,7 +1,6 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.contract.Incoterm;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -33,6 +32,22 @@ public class IncotermRulesDTO {
         private IncotermDTO incoterm;
         private IncotermRuleDTO.Info incotermRule;
         private List<IncotermFormsDTO.Info> incotermForms;
+
+        public String getIncotermRuleTitleFa() {
+
+            if (this.incotermRule == null)
+                return null;
+
+            return this.incotermRule.getTitleFa();
+        }
+
+        public String getIncotermRuleTitleEn() {
+
+            if (this.incotermRule == null)
+                return null;
+
+            return this.incotermRule.getTitleEn();
+        }
 
         // Auditing
         private Date createdDate;

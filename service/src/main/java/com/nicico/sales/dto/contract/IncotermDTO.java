@@ -36,6 +36,30 @@ public class IncotermDTO {
         private List<IncotermRulesDTO.Info> incotermRules;
         private List<IncotermStepsDTO.Info> incotermSteps;
 
+        public Integer getIncotermVersionValue() {
+
+            if (this.incotermVersion == null)
+                return null;
+
+            return this.incotermVersion.getIncotermVersion();
+        }
+
+        public String getIncotermRuleTitleFas() {
+
+            if (this.incotermRules == null)
+                return null;
+
+            return this.incotermRules.stream().map(q -> q.getIncotermRule().getTitleFa()).collect(Collectors.joining());
+        }
+
+        public String getIncotermRuleTitleEns() {
+
+            if (this.incotermRules == null)
+                return null;
+
+            return this.incotermRules.stream().map(q -> q.getIncotermRule().getTitleEn()).collect(Collectors.joining());
+        }
+
         // Auditing
         private Date createdDate;
         private String createdBy;
