@@ -122,6 +122,7 @@ public class ShipmentDTO {
         private MaterialDTO.Info material;
         private ShipmentTypeDTO.Info shipmentType;
         private ShipmentMethodDTO.Info shipmentMethod;
+        private IncotermRulesDTO.Info incotermRules;
         private ContractShipmentDTO.ContractShipmentFIInfo contractShipment;
     }
 

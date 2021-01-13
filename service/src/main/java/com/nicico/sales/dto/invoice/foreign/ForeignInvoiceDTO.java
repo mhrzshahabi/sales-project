@@ -108,8 +108,8 @@ public class ForeignInvoiceDTO {
         private InvoiceTypeDTO.Info invoiceType;
         private ShipmentDTO.ShipmentFIInfo shipment;
         private PersonDTO.Info creator;
-        private InspectionReportDTO inspectionWeightReport;
-        private InspectionReportDTO inspectionAssayReport;
+        private InspectionReportDTO.FIInfo inspectionWeightReport;
+        private InspectionReportDTO.FIInfo inspectionAssayReport;
         private List<ForeignInvoiceItemDTO.Info> foreignInvoiceItems;
         private List<ForeignInvoiceBillOfLandingDTO.Info> billLadings;
 
