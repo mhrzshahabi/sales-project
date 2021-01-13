@@ -188,7 +188,7 @@ public class FileService implements IFileService {
         List<StorageDTO.Tag> tagsResponse;
         StorageDTO.InfoResponse infoResponse = null;
         StorageDTO.RetrieveResponse retrieveResponse;
-        final File file = accessCheck(key, EFileStatus.NORMAL);
+        File file = accessCheck(key, EFileStatus.NORMAL);
         try {
             retrieveResponse = storageApiService.retrieve(key);
             infoResponse = storageApiService.info(key);
@@ -204,7 +204,11 @@ public class FileService implements IFileService {
                     String tags = null;
                     if (tagsResponse != null) tags = objectMapper.writeValueAsString(tagsResponse);
                     MyMultipartFile fileToStore = new MyMultipartFile(retrieveResponseInApp.getName(), retrieveResponseInApp.getContentType().getType(), retrieveResponseInApp.getContent());
-                    storageApiService.store(fileToStore, tags);
+                    StorageDTO.StoreResponse store = storageApiService.store(fileToStore, tags);
+
+                    file.setFileKey(store.getKey());
+                    file = fileDAO.saveAndFlush(file);
+
                 } catch (Exception e) {
                     // ignore
                 }
