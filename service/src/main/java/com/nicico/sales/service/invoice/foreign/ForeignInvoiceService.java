@@ -213,22 +213,6 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
                     contractDetailData.setPriceContent(priceDetail.getContent());
                 }
 
-
-                // ---- INCOTERMS ARTICLE
-                Map<String, List<Object>> incotermOfIncotermsArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Incoterms, EContractDetailValueKey.INCOTERM, true);
-                if (incotermOfIncotermsArticle.size() != 0) {
-
-                    Object incoterms = incotermOfIncotermsArticle.get(EContractDetailValueKey.INCOTERM.getId()).get(0);
-                    Map<String, Object> incotermItem = (Map<String, Object>) incoterms;
-                    Long incotermId = Long.valueOf(incotermItem.get("incoterm").toString());
-                    Incoterm incoterm = incotermDAO.findById(incotermId).orElseThrow(() -> new NotFoundException(Incoterm.class));
-                    contractDetailData.setIncoterm(modelMapper.map(incoterm, IncotermDTO.Info.class));
-                } else {
-                    String message = messageSource.getMessage("foreign-invoice.contract.article.incoterms.incoterm.not.found", null, locale);
-                    throw new SalesException2(ErrorType.NotFound, "incoterms", message);
-                }
-
-
                 // ---- SHIPMENT ARTICLE -> PAYMENT_PERCENTAGE_OF_PROVISIONAL_INVOICE
                 Map<String, List<Object>> percentageOfShipmentArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Shipment, EContractDetailValueKey.PAYMENT_PERCENTAGE_OF_PROVISIONAL_INVOICE, true);
                 contractDetailData.setPaymentPercentage(new BigDecimal(percentageOfShipmentArticle.get(EContractDetailValueKey.PAYMENT_PERCENTAGE_OF_PROVISIONAL_INVOICE.getId()).get(0).toString()));
