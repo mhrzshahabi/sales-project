@@ -23,7 +23,6 @@ public class ContractDTO {
     private Date date;
     private Date affectFrom;
     private Date affectUpTo;
-    //    private String content;
     private String description;
 
     private Long parentId;
@@ -72,7 +71,7 @@ public class ContractDTO {
     @Accessors(chain = true)
     @ApiModel("ContractCreateRq")
     public static class Create extends ContractDTO {
-
+        private String content;
         private List<ContractDetailDTO.Create> contractDetails;
     }
 
@@ -81,7 +80,7 @@ public class ContractDTO {
     @Accessors(chain = true)
     @ApiModel("ContractUpdateRq")
     public static class Update extends ContractDTO {
-
+        private String content;
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;

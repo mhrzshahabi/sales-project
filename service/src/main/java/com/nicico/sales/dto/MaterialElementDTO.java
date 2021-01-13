@@ -34,7 +34,15 @@ public class MaterialElementDTO {
         private MaterialDTO.Info material;
         private ElementDTO.Info element;
         private UnitDTO.Info unit;
-        private String elementName;
+
+        public String getElementName() {
+
+            if (this.element == null)
+                return null;
+
+            return this.element.getName();
+        }
+
         // Auditing
         private Date createdDate;
         private String createdBy;
@@ -44,10 +52,6 @@ public class MaterialElementDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
-
-        public String getElementName() {
-            return this.element.getName();
-        }
     }
 
     @Getter
