@@ -1583,10 +1583,16 @@ inspectionReportTab.toolStrip.weightRemoveAll = isc.ToolStrip.create({
                                     let gridData = JSON.parse(request.response);
                                     for (let i = 0; i < gridData.length; i++) {
 
-                                        inspectionReportTab.listGrid.weightElement.startEditing(i);
-                                        gridData[i].inventoryId = inspectionReportTab.listGrid.weightElement.getEditValue(i, 1);
-                                        inspectionReportTab.listGrid.weightElement.setEditValues(i, gridData[i]);
-                                        inspectionReportTab.listGrid.weightElement.endEditing();
+                                        let grid = inspectionReportTab.listGrid.weightElement;
+                                        grid.startEditing(i);
+                                        gridData[i].inventoryId = grid.getEditValue(i, 1);
+                                        grid.setEditValues(i, gridData[i]);
+                                        if (gridData[i].weighingType !== "WeighBridge" && gridData[i].weighingType !== "DraftSurvey") {
+
+                                            let colNum = grid.fields.indexOf(grid.fields.filter(q => q.name === "weighingType").first());
+                                            grid.setEditValue(i, colNum, "WeighBridge");
+                                        }
+                                        grid.endEditing();
                                     }
                                 }
                             }
