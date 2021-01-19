@@ -14,6 +14,7 @@ import com.nicico.sales.model.enumeration.ReportType;
 import com.nicico.sales.service.report.MappingUtil;
 import com.nicico.sales.service.report.ReportService;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
+import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.data.JsonDataSource;
 import org.modelmapper.ModelMapper;
@@ -50,8 +51,8 @@ public class ReportExecuteFormController {
         request.setAttribute("Report_Criteria", report.getCriteria());
         report.setCriteria(null);
         request.setAttribute("Data_Report", objectMapper.writeValueAsString(report));
-        request.setAttribute("Excel_Access", SecurityUtil.hasAuthority("RG_E_" + report.getPermissionBaseKey()));
-        request.setAttribute("Print_Access", SecurityUtil.hasAuthority("RG_P_" + report.getPermissionBaseKey()));
+        request.setAttribute("Excel_Access", SecurityChecker.check("hasAuthority('RG_E_" + report.getPermissionBaseKey() + "')"));
+        request.setAttribute("Print_Access", SecurityChecker.check("hasAuthority('RG_P_" + report.getPermissionBaseKey() + "')"));
 
         return "common/ReportPreviewFormUtil";
     }
