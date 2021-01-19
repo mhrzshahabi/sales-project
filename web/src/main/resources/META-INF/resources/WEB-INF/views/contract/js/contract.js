@@ -1702,7 +1702,7 @@ contractTab.method.createArticle = async function (data) {
                     let data = dynamicGrid.getData();
 
                     var correspondingNameTitle = {};
-                    dynamicGrid.getFields().filter(field => !field.isBaseItem && !field.hidden && !field.isRemoveField && field.rowNumberStart === undefined).forEach(field => correspondingNameTitle[field.name] = field.title);
+                    dynamicGrid.getFields().filter(field => !field.isBaseItem && !field.hidden && !field.isRemoveField && field.rowNumberStart === undefined).forEach(field => correspondingNameTitle[field.name] = dynamicGrid.getFieldTitle(field.name));
 
                     tableHeader += "<tr>";
                     Object.values(correspondingNameTitle).forEach(header => tableHeader +=
@@ -1716,10 +1716,12 @@ contractTab.method.createArticle = async function (data) {
                         tableRows += "<tr>";
                         Object.keys(correspondingNameTitle).forEach(name => {
 
-                            let displayField = dynamicGrid.getField(name).displayField;
+                            let value = record[name];
+                            if (dynamicGrid.getField(name).displayField)
+                                value = dynamicGrid.getDisplayValue(dynamicGrid.getField(name), record[name], record);
                             tableRows +=
                                 "<td  style='padding: 10px; border: 1px solid #000000;'>" +
-                                (displayField ? displayField.split('.').evalPropertyPath(record) : record[name]) +
+                                value +
                                 "</td>";
                         });
                         tableRows += "</tr>";
