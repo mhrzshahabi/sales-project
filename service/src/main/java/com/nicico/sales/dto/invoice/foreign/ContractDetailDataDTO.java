@@ -38,6 +38,7 @@ public class ContractDetailDataDTO {
         private String packingContent;
         private String quotationalPeriodContent;
 
+        private List<QPData> QP;
         private List<MOASData> MOAS;
         private List<PREMIUMData> premium;
         private IncotermDTO.Info incoterm;
@@ -73,10 +74,20 @@ public class ContractDetailDataDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("MOASDataRq")
+    @ApiModel("PREMIUMDataRq")
     public static class PREMIUMData {
 
         private BigDecimal premiumValue;
+        private IncotermRulesDTO.Info incotermRules;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("QPDataRq")
+    public static class QPData {
+
+        private BigDecimal moasValue;
         private IncotermRulesDTO.Info incotermRules;
     }
 }

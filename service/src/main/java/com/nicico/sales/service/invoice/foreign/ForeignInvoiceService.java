@@ -9,7 +9,10 @@ import com.nicico.sales.dto.AccountingDTO;
 import com.nicico.sales.dto.InvoiceTypeDTO;
 import com.nicico.sales.dto.MaterialElementDTO;
 import com.nicico.sales.dto.UnitDTO;
-import com.nicico.sales.dto.contract.*;
+import com.nicico.sales.dto.contract.ContractDTO;
+import com.nicico.sales.dto.contract.ContractDetailDTO;
+import com.nicico.sales.dto.contract.ContractDiscountDTO;
+import com.nicico.sales.dto.contract.IncotermRulesDTO;
 import com.nicico.sales.dto.invoice.foreign.*;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
@@ -23,7 +26,6 @@ import com.nicico.sales.iservice.contract.IContractDetailValueService2;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
 import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.entities.contract.Contract;
-import com.nicico.sales.model.entities.contract.Incoterm;
 import com.nicico.sales.model.entities.contract.IncotermRules;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceBillOfLading;
@@ -174,6 +176,27 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
                         premiumData.add(objectMapper.convertValue(premiumItems, ContractDetailDataDTO.PREMIUMData.class));
                     });
                     contractDetailData.setPremium(premiumData);
+
+                } else {
+                    String message = messageSource.getMessage("foreign-invoice.contract.article.price.premium.not.found", null, locale);
+                    throw new SalesException2(ErrorType.NotFound, "PREMIUM", message);
+                }
+
+                // ---- QuotationalPeriod ARTICLE
+                Map<String, List<Object>> moasOfQuotationalPeriodArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
+                if (moasOfQuotationalPeriodArticle.size() != 0) {
+
+                    List<Object> moas = moasOfQuotationalPeriodArticle.get(EContractDetailValueKey.MOAS.getId());
+                    List<ContractDetailDataDTO.QPData> moasData = new ArrayList<>();
+                    if (moas != null) moas.stream().forEach(moasItem -> {
+
+                        Map<String, Object> moasItems = (Map<String, Object>) moasItem;
+                        Long incotermRulesId = Long.valueOf(moasItems.get("incotermRules").toString());
+                        IncotermRules incotermRules = incotermRulesDAO.findById(incotermRulesId).orElseThrow(() -> new NotFoundException(IncotermRules.class));
+                        moasItems.put("incotermRules", modelMapper.map(incotermRules, IncotermRulesDTO.Info.class));
+                        moasData.add(objectMapper.convertValue(moasItems, ContractDetailDataDTO.QPData.class));
+                    });
+                    contractDetailData.setQP(moasData);
 
                 } else {
                     String message = messageSource.getMessage("foreign-invoice.contract.article.price.premium.not.found", null, locale);

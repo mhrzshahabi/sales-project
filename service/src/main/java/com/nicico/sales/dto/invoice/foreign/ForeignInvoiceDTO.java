@@ -102,17 +102,17 @@ public class ForeignInvoiceDTO {
     public static class HeavyInfo extends ForeignInvoiceDTO {
 
         private Long id;
-        private CurrencyRateDTO.Info conversionRef;
         private UnitDTO.Info currency;
         private ContactDTO.Info buyer;
-        private InvoiceTypeDTO.Info invoiceType;
-        private ShipmentDTO.ShipmentFIInfo shipment;
         private PersonDTO.Info creator;
-        private InspectionReportDTO.FIInfo inspectionWeightReport;
+        private InvoiceTypeDTO.Info invoiceType;
+        private CurrencyRateDTO.Info conversionRef;
+        private ShipmentDTO.ShipmentFIInfo shipment;
         private InspectionReportDTO.FIInfo inspectionAssayReport;
+        private InspectionReportDTO.FIInfo inspectionWeightReport;
         private List<ForeignInvoiceItemDTO.Info> foreignInvoiceItems;
         private List<ForeignInvoiceBillOfLandingDTO.Info> billLadings;
-
+        private List<ForeignInvoicePaymentDTO.Info> foreignInvoicePayments;
 
         // Auditing
         private Date createdDate;

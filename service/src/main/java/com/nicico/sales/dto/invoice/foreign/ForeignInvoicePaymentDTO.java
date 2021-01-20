@@ -1,7 +1,7 @@
 package com.nicico.sales.dto.invoice.foreign;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.dto.CurrencyRateDTO;
+import com.nicico.sales.dto.ShipmentCostInvoiceDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -39,6 +39,8 @@ public class ForeignInvoicePaymentDTO {
     public static class Info extends ForeignInvoicePaymentDTO {
 
         private Long id;
+        private ShipmentCostInvoiceDTO.Info shipmentCostInvoice;
+
 
         // Auditing
         private Date createdDate;

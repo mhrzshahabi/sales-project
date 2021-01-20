@@ -2266,7 +2266,7 @@ foreignInvoiceTab.method.print = function (listgrid) {
     let record = listgrid.getSelectedRecord();
     if (!record || !record.id)
         foreignInvoiceTab.dialog.notSelected();
-    else if (record.shipment.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
+    else if (record.shipment.materialId !== ImportantIDs.material.MOLYBDENUM_OXIDE) {
         window.open('${printUrl}' + record.id);
     }
 };
